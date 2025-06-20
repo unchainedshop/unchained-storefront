@@ -16,7 +16,7 @@ export const SET_ORDER_PAYMENT_PROVIDER_MUTATION = gql`
         _id
         fee {
           amount
-          currency
+          currencyCode
         }
         provider {
           _id

@@ -27,13 +27,13 @@ const OrderItemFragment = gql`
       amount
       isTaxable
       isNetPrice
-      currency
+      currencyCode
     }
     total {
       amount
       isTaxable
       isNetPrice
-      currency
+      currencyCode
     }
   }
 `;

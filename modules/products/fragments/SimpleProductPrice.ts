@@ -6,7 +6,7 @@ const SimpleProductPrice = gql`
       isTaxable
       isNetPrice
       amount
-      currency
+      currencyCode
     }
   }
 `;

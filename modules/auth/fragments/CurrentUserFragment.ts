@@ -56,18 +56,18 @@ const CurrentUserFragment = gql`
       }
       itemsTotal: total(category: ITEMS) {
         amount
-        currency
+        currencyCode
       }
       items {
         _id
         quantity
         unitPrice {
           amount
-          currency
+          currencyCode
         }
         total {
           amount
-          currency
+          currencyCode
         }
         product {
           ...ProductDetails
@@ -92,15 +92,15 @@ const CurrentUserFragment = gql`
       }
       taxes: total(category: TAXES) {
         amount
-        currency
+        currencyCode
       }
       delivery: total(category: DELIVERY) {
         amount
-        currency
+        currencyCode
       }
       payment: total(category: PAYMENT) {
         amount
-        currency
+        currencyCode
       }
       deliveryInfo: delivery {
         _id
@@ -115,7 +115,7 @@ const CurrentUserFragment = gql`
       }
       total {
         amount
-        currency
+        currencyCode
       }
       currency {
         _id
@@ -140,7 +140,7 @@ const CurrentUserFragment = gql`
         }
         simulatedPrice {
           amount
-          currency
+          currencyCode
         }
       }
     }

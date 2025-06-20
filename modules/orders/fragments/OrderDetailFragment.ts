@@ -6,24 +6,24 @@ const OrderDetailFragment = gql`
     _id
     totalTax: total(category: TAXES) {
       amount
-      currency
+      currencyCode
     }
     itemsTotal: total(category: ITEMS) {
       amount
-      currency
+      currencyCode
     }
     totalDiscount: total(category: DISCOUNTS) {
       amount
-      currency
+      currencyCode
     }
 
     totalPayment: total(category: PAYMENT) {
       amount
-      currency
+      currencyCode
     }
     totalDelivery: total(category: DELIVERY) {
       amount
-      currency
+      currencyCode
     }
 
     user {
@@ -46,7 +46,7 @@ const OrderDetailFragment = gql`
       }
       total {
         amount
-        currency
+        currencyCode
         isTaxable
         isNetPrice
       }
@@ -56,14 +56,14 @@ const OrderDetailFragment = gql`
           _id
           total {
             amount
-            currency
+            currencyCode
             isTaxable
             isNetPrice
           }
         }
         total {
           amount
-          currency
+          currencyCode
           isTaxable
           isNetPrice
         }
@@ -82,7 +82,7 @@ const OrderDetailFragment = gql`
       }
       status
       fee {
-        currency
+        currencyCode
         amount
       }
       paid
@@ -143,7 +143,7 @@ const OrderDetailFragment = gql`
         isTaxable
         isNetPrice
         amount
-        currency
+        currencyCode
       }
       discounts {
         _id
@@ -164,7 +164,7 @@ const OrderDetailFragment = gql`
             isTaxable
             isNetPrice
             amount
-            currency
+            currencyCode
           }
           discounted {
             _id
@@ -185,7 +185,7 @@ const OrderDetailFragment = gql`
                 isTaxable
                 isNetPrice
                 amount
-                currency
+                currencyCode
               }
             }
           }
@@ -195,7 +195,7 @@ const OrderDetailFragment = gql`
     total {
       isTaxable
       amount
-      currency
+      currencyCode
     }
     items {
       _id

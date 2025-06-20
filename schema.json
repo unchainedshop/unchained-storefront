@@ -246,9 +246,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Locale",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Locale",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -371,7 +375,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -602,7 +606,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -914,7 +918,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -1261,9 +1265,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Locale",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Locale",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1518,7 +1526,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -1848,7 +1856,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2268,9 +2276,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Locale",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Locale",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2335,7 +2347,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -2433,7 +2445,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -2880,7 +2892,7 @@
             "deprecationReason": null
           },
           {
-            "name": "currency",
+            "name": "currencyCode",
             "description": null,
             "args": [],
             "type": {
@@ -3296,7 +3308,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3375,7 +3387,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Link",
+        "name": "AdminUiLink",
         "description": null,
         "fields": [
           {
@@ -3491,6 +3503,42 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "externalLinks",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "AdminUiLink",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "singleSignOnURL",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -3573,26 +3621,6 @@
                     "name": "String",
                     "ofType": null
                   }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "externalLinks",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Link",
-                  "ofType": null
                 }
               }
             },
@@ -3734,6 +3762,18 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "impersonate",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopImpersonation",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "viewEvent",
             "description": null,
@@ -4630,7 +4670,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6400,7 +6440,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -6530,9 +6570,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Locale",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Locale",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -6645,7 +6689,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -6691,9 +6735,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Locale",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Locale",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -6914,7 +6962,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -7633,22 +7681,6 @@
         "description": null,
         "fields": [
           {
-            "name": "_id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "isTaxable",
             "description": null,
             "args": [],
@@ -7795,9 +7827,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Locale",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Locale",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -7862,7 +7898,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -7924,7 +7960,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -8279,7 +8315,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -8525,7 +8561,7 @@
                 "defaultValue": "false"
               },
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -8586,7 +8622,7 @@
                 "defaultValue": "false"
               },
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -8911,7 +8947,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -8940,7 +8976,7 @@
                 "defaultValue": "1"
               },
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -8963,7 +8999,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -8998,7 +9034,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -9600,7 +9636,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -10291,7 +10327,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -10320,7 +10356,7 @@
                 "defaultValue": "1"
               },
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -10343,7 +10379,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -10378,7 +10414,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -10443,7 +10479,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -11030,7 +11066,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -11059,7 +11095,7 @@
                 "defaultValue": "1"
               },
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -11082,7 +11118,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -11117,7 +11153,7 @@
             "description": null,
             "args": [
               {
-                "name": "currency",
+                "name": "currencyCode",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -11213,7 +11249,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Locale",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -18508,6 +18544,18 @@
             "deprecationReason": null
           },
           {
+            "name": "impersonator",
+            "description": "User impersonating currently logged in user",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "users",
             "description": "Get list of users, by default sorted by creation date (ascending) unless a queryString is set",
             "args": [
@@ -22219,9 +22267,13 @@
                 "name": "oldPassword",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },
@@ -22229,9 +22281,13 @@
                 "name": "newPassword",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               }
@@ -22279,9 +22335,13 @@
                 "name": "newPassword",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },
@@ -22315,6 +22375,49 @@
             "type": {
               "kind": "OBJECT",
               "name": "SuccessResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "impersonate",
+            "description": "Impersonate a user",
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "LoginMethodResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopImpersonation",
+            "description": "End customer impersonated user session and resume the impersonator session",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "LoginMethodResponse",
               "ofType": null
             },
             "isDeprecated": false,
@@ -24186,9 +24289,13 @@
                 "name": "newPassword",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },

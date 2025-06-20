@@ -13,11 +13,11 @@ export const UPDATE_CART_PAYMENT_PROVIDER_MUTATION = gql`
       status
       taxes: total(category: TAXES) {
         amount
-        currency
+        currencyCode
       }
       total {
         amount
-        currency
+        currencyCode
       }
     }
   }

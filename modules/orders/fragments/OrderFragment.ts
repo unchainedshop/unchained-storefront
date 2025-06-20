@@ -18,19 +18,19 @@ const OrderFragment = gql`
         type
         simulatedPrice {
           amount
-          currency
+          currencyCode
         }
       }
       status
       fee {
         amount
-        currency
+        currencyCode
       }
     }
     orderNumber
     total {
       amount
-      currency
+      currencyCode
     }
     supportedPaymentProviders {
       _id
@@ -41,7 +41,7 @@ const OrderFragment = gql`
       type
       simulatedPrice {
         amount
-        currency
+        currencyCode
       }
     }
 
@@ -51,7 +51,7 @@ const OrderFragment = gql`
       paid
       fee {
         amount
-        currency
+        currencyCode
       }
       provider {
         _id

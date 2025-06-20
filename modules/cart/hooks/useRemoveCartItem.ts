@@ -10,32 +10,32 @@ export const REMOVE_CART_ITEM_MUTATION = gql`
           _id
           total {
             amount
-            currency
+            currencyCode
           }
           unitPrice {
             amount
-            currency
+            currencyCode
           }
         }
         itemsTotal: total(category: ITEMS) {
           amount
-          currency
+          currencyCode
         }
         taxes: total(category: TAXES) {
           amount
-          currency
+          currencyCode
         }
         delivery: total(category: DELIVERY) {
           amount
-          currency
+          currencyCode
         }
         payment: total(category: PAYMENT) {
           amount
-          currency
+          currencyCode
         }
         total {
           amount
-          currency
+          currencyCode
         }
       }
     }

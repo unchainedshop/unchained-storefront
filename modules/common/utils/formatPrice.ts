@@ -6,7 +6,7 @@ export const roundUp = (amount, decimals) => {
 };
 
 const formatPrice = (rawPrice) => {
-  const { amount, currency, decimals = 2, hack = true } = rawPrice || {};
+  const { amount, currencyCode, decimals = 2, hack = true } = rawPrice || {};
   if (amount === undefined || amount === null) return "N/A";
 
   let fixedAmount = amount;
@@ -17,7 +17,7 @@ const formatPrice = (rawPrice) => {
 
   // Simplify presentation of crypto prices (round up to 7 decimals)
   const roundedUpAmount = roundUp(fixedAmount, decimals);
-  return formatCurrency(roundedUpAmount, currency);
+  return formatCurrency(roundedUpAmount, currencyCode);
 };
 
 export default formatPrice;

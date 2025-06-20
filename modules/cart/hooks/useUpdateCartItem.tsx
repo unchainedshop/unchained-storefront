@@ -7,29 +7,29 @@ export const UPDATE_CART_ITEM_MUTATION = gql`
       quantity
       total {
         amount
-        currency
+        currencyCode
       }
       order {
         _id
         itemsTotal: total(category: ITEMS) {
           amount
-          currency
+          currencyCode
         }
         taxes: total(category: TAXES) {
           amount
-          currency
+          currencyCode
         }
         delivery: total(category: DELIVERY) {
           amount
-          currency
+          currencyCode
         }
         payment: total(category: PAYMENT) {
           amount
-          currency
+          currencyCode
         }
         total {
           amount
-          currency
+          currencyCode
         }
       }
     }

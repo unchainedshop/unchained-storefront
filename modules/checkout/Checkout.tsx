@@ -14,13 +14,13 @@ export const CART_CHECKOUT_QUERY = gql`
         _id
         total(category: ITEMS) {
           amount
-          currency
+          currencyCode
         }
         payment {
           _id
           fee {
             amount
-            currency
+            currencyCode
           }
           provider {
             _id
