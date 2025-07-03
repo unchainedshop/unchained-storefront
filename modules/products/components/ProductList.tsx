@@ -8,38 +8,34 @@ const ProductList = ({ products, totalProducts, onLoadMore }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="mt-4 bg-white dark:bg-slate-600">
-      <div className="mx-auto max-w-full overflow-hidden ">
+    <div className="bg-white dark:bg-gray-900">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="sr-only">
           {formatMessage({ id: "products", defaultMessage: "Products" })}
         </h2>
 
-        <div className="-mx-px grid rounded-lg border-l border-slate-200 dark:border-slate-500 sm:mx-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <div
-              key={product?._id}
-              className="group relative rounded-lg border-y border-r border-b border-slate-200 p-4 dark:border-slate-500 sm:p-6"
-            >
-              <ProductListItem product={product} />
-            </div>
+            <ProductListItem key={product?._id} product={product} />
           ))}
         </div>
+
         {totalProducts > products?.length && (
-          <div className="items-center py-6 text-center">
-            <Button
-              icon={<ChevronDoubleDownIcon className="mr-2 h-6 w-6" />}
-              text={formatMessage({
-                id: "load_more",
-                defaultMessage: "Load More",
-              })}
-              aria-label={formatMessage({
-                id: "load_more",
-                defaultMessage: "Load More",
-              })}
+          <div className="mt-12 flex items-center justify-center">
+            <button
               type="button"
-              className="dark:text-white"
               onClick={onLoadMore}
-            />
+              className="inline-flex items-center rounded-md bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <ChevronDoubleDownIcon
+                className="-ml-1 mr-2 h-5 w-5"
+                aria-hidden="true"
+              />
+              {formatMessage({
+                id: "load_more",
+                defaultMessage: "Load More",
+              })}
+            </button>
           </div>
         )}
       </div>

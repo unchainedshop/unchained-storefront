@@ -32,67 +32,72 @@ const Header = () => {
     router.events.on("routeChangeStart", () => setNavOpen(false));
   }
   return (
-    <header className="sticky top-0 z-[1020] overflow-visible bg-white text-black opacity-100 dark:bg-slate-600 dark:text-white print:hidden">
+    <header className="bg-white shadow-sm dark:bg-gray-900 print:hidden">
       <div className="relative">
         <SideCart isOpen={isCartOpen} />
-        <div className="container relative mx-auto hidden w-full sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:py-2">
-          <div className="flex items-center justify-start">
-            <DesktopNavigation />
-            <Link href="/" className="relative ml-4 h-10 w-36 rounded">
-              <Image
-                src={theme.assets.logo}
-                alt={formatMessage({
-                  id: "shop_logo",
-                  defaultMessage: "Shop logo",
-                })}
-                fill
-                style={{ objectFit: "contain", objectPosition: "left" }}
-                placeholder="blur"
-                blurDataURL="/placeholder.png"
-                className="rounded"
-                loader={defaultNextImageLoader}
-              />
-            </Link>
-          </div>
-          <div className="mr-10 flex">
-            <LoginCart />
+
+        {/* Desktop navigation */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Link href="/" className="relative block h-8 w-32">
+                  <Image
+                    src={theme.assets.logo}
+                    alt={formatMessage({
+                      id: "shop_logo",
+                      defaultMessage: "Shop logo",
+                    })}
+                    fill
+                    style={{ objectFit: "contain", objectPosition: "left" }}
+                    placeholder="blur"
+                    blurDataURL="/placeholder.png"
+                    className="h-8 w-auto"
+                    loader={defaultNextImageLoader}
+                  />
+                </Link>
+              </div>
+              <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-4">
+                  <DesktopNavigation />
+                </div>
+              </div>
+            </div>
+
+            <div className="hidden md:block">
+              <div className="ml-4 flex items-center md:ml-6">
+                <LoginCart />
+              </div>
+            </div>
+
+            <div className="-mr-2 flex md:hidden">
+              <button
+                type="button"
+                onClick={() => setNavOpen(true)}
+                className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+              >
+                <span className="absolute -inset-0.5" />
+                <span className="sr-only">Open main menu</span>
+                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </div>
-        <div className="container flex flex-wrap items-center justify-between px-4 py-2 sm:hidden">
-          <div className="flex items-center">
-            <button
-              type="button"
-              aria-label="menu"
-              className="mr-4 flex cursor-pointer appearance-none items-center border-0 bg-transparent p-0 py-1 text-left text-inherit"
-              onClick={() => setNavOpen(true)}
-            >
-              <Bars3Icon className="h-6 w-6 text-slate-900 dark:text-slate-100" />
-            </button>
 
+        {/* Mobile menu */}
+        <div className="md:hidden">
+          <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <MobileNavigation
               isNavOpen={isNavOpen}
               doClose={() => setNavOpen(false)}
             />
-
-            <Link href="/" className="relative h-7 w-24 rounded">
-              <Image
-                src={theme.assets.logo}
-                alt={formatMessage({
-                  id: "shop_logo_mobile",
-                  defaultMessage: "Shop logo",
-                })}
-                fill
-                style={{ objectFit: "contain", objectPosition: "left" }}
-                placeholder="blur"
-                blurDataURL="/placeholder.png"
-                className="rounded"
-                loader={defaultNextImageLoader}
-              />
-            </Link>
           </div>
-
-          <div className="mr-8 flex">
-            <LoginCart />
+          <div className="border-t border-gray-700 pb-3 pt-4">
+            <div className="flex items-center px-5">
+              <LoginCart />
+            </div>
           </div>
         </div>
       </div>
