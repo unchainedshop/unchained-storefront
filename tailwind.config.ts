@@ -56,9 +56,6 @@ const tailwindConfig = {
       },
     },
   },
-  corePlugins: {
-    aspectRatio: false,
-  },
   plugins: [aspectRatio, typography, forms],
 } satisfies Config;
 

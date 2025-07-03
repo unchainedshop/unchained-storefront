@@ -110,7 +110,7 @@ const ChangePassword = () => {
       />
       <div className="bg-slate-100 dark:bg-slate-600">
         <div className="mx-auto mt-5 w-full p-10 sm:max-w-md md:max-w-lg lg:max-w-xl">
-          <div className="rounded-lg border bg-white p-4 shadow-sm dark:bg-slate-500">
+          <div className="rounded-lg border bg-white p-4 shadow-xs dark:bg-slate-500">
             <div>
               <KeyIcon className="mx-auto h-24 w-24 text-slate-600 dark:text-white" />
             </div>

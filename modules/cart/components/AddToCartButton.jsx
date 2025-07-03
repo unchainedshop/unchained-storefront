@@ -136,7 +136,7 @@ const AddToCartButton = ({ productId, ...product }) => {
         </div>
 
         <button
-          className="w-full inline-flex items-center rounded-b-md border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
+          className="w-full inline-flex items-center rounded-b-md border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
           aria-label="add-to-cart"
           type="submit"
         >

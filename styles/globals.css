@@ -1,7 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import '~react-image-gallery/styles/css/image-gallery.css';
+@import 'tailwindcss';
+@import 'react-image-gallery/styles/css/image-gallery.css' layer(utilities);
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-dark-gray: #495057;
+  --color-color-light-dark: #454545;
+  --color-light-black: #ced4da;
+  --color-light-blue: #80bdff;
+  --color-color-brand: #232323;
+  --color-color-brand-lightest: #e7e7e7;
+  --color-color-brand-darker: #121212;
+  --color-color-dark: #232323;
+  --color-color-grey-lightest: #ececec;
+  --color-color-danger-100: #fee2e2;
+  --color-color-danger-200: #fecaca;
+  --color-color-danger-600: #dc2626;
+  --color-color-danger-900: #7f1d1d;
+  --color-color-warning-100: #fef3c7;
+  --color-color-warning-200: #fde68a;
+  --color-color-warning-900: #78350f;
+  --color-color-success-100: #d1fae5;
+  --color-color-success-200: #a7f3d0;
+  --color-color-success-900: #064e3b;
+
+  --shadow-0: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+
+  --flex-2: 0 0 50%;
+  --flex-3: 0 0 100%;
+  --flex-4: 0 0 33.333333%;
+  --flex-5: 0 0 25%;
+  --flex-6: 0 0 66.666667%%;
+  --flex-7: 0 0 75%;
+
+  --container-1\/2: 50%;
+  --container-1\/3: 33.333333%;
+  --container-1\/4: 25%;
+  --container-2\/3: 66.666667%%;
+  --container-3\/4: 75%;
+
+  --content-star: url('/storefront/public/static/img/icon-streamline/arrow-button-down.svg');
+
+  --spacing-sp: calc(1em - 5px);
+  --spacing-sp-1: calc(100% + 3em);
+}
+
+/* Border color compatibility styles for Tailwind CSS v4 */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  border-color: var(--color-gray-200, currentcolor);
+}
 
 .isOpen {
   right: 0 !important;

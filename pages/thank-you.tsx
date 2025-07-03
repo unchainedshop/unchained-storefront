@@ -136,7 +136,7 @@ const ThankYou = () => {
                 </div>
               </div>
               <div className="text-slate-700 dark:text-slate-300">
-                <div className="mt-4 rounded-lg border border-slate-300 bg-white shadow-sm dark:bg-slate-500">
+                <div className="mt-4 rounded-lg border border-slate-300 bg-white shadow-xs dark:bg-slate-500">
                   <ul className="divide-y divide-slate-300">
                     {(order?.items || []).map((item) => (
                       <CartItem key={item._id} {...item} enableUpdate={false} />

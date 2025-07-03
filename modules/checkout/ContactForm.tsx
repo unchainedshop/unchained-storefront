@@ -36,7 +36,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
             value={emailAddress}
             onChange={(e) => setEmailAddress(e.target.value)}
             required={!emailSupportDisabled || !isSubscribed}
-            className="relative mt-1 block w-full dark:focus:autofill dark:hover:autofill dark:autofill dark:placeholder:text-white dark:bg-slate-900 dark:text-slate-200 appearance-none rounded-md border-2  dark:border-slate-700 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
+            className="relative mt-1 block w-full dark:focus:autofill dark:hover:autofill dark:autofill dark:placeholder:text-white dark:bg-slate-900 dark:text-slate-200 appearance-none rounded-md border-2  dark:border-slate-700 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-xs placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
             name="emailAddress"
             id="emailAddress"
           />
@@ -57,7 +57,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
             id="telNumber"
             name="telNumber"
             onChange={(e) => setTelNumber(e.target.value)}
-            className="relative mt-1 block w-full dark:focus:autofill dark:hover:autofill dark:autofill dark:placeholder:text-white dark:bg-slate-900 dark:text-slate-200 appearance-none rounded-md border-2  dark:border-slate-700 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
+            className="relative mt-1 block w-full dark:focus:autofill dark:hover:autofill dark:autofill dark:placeholder:text-white dark:bg-slate-900 dark:text-slate-200 appearance-none rounded-md border-2  dark:border-slate-700 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-xs placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
           />
         </label>
       </div>
@@ -87,7 +87,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
               defaultMessage: "Save Contact Data",
             })}
             className={classNames(
-              "flex w-full justify-center rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2",
+              "flex w-full justify-center rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2",
               {
                 "bg-slate-400": isDisabled,
                 "bg-slate-800": !isDisabled,
@@ -102,7 +102,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
           })}
           type="button"
           className={classNames(
-            "inline-flex justify-center mt-2 mr-1 rounded-md border border-transparent py-2 px-4 text-sm font-medium  bg-black slate-800 shadow-sm hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 focus:ring-offset-2",
+            "inline-flex justify-center mt-2 mr-1 rounded-md border border-transparent py-2 px-4 text-sm font-medium  bg-black slate-800 shadow-xs hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 focus:ring-offset-2",
           )}
           onClick={onCancel}
         />

@@ -15,7 +15,7 @@ const SelectField = ({ ...props }) => {
     <FieldWrapper {...props} error={error}>
       <select
         className={classNames(
-          "mt-1 block w-full appearance-none rounded-md border focus:outline-none px-3 py-2 text-slate-900 placeholder-slate-400 shadow-sm dark:bg-slate-300 sm:text-sm",
+          "mt-1 block w-full appearance-none rounded-md border focus:outline-none px-3 py-2 text-slate-900 placeholder-slate-400 shadow-xs dark:bg-slate-300 sm:text-sm",
           {
             "border-slate-300 focus:border-slate-900 focus:ring-slate-900":
               !props.error,

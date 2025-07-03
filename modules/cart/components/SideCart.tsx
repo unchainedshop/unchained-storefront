@@ -119,7 +119,7 @@ const SideCart = ({ isOpen }) => {
             <Link
               href={{ pathname: "/checkout" }}
               type="button"
-              className="mb-4 block w-full rounded-md border border-transparent bg-slate-600 py-2 px-4 text-base font-medium uppercase text-white shadow-sm hover:bg-slate-700 hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              className="mb-4 block w-full rounded-md border border-transparent bg-slate-600 py-2 px-4 text-base font-medium uppercase text-white shadow-xs hover:bg-slate-700 hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               onClick={() => toggleCart(false)}
             >
               {intl.formatMessage({

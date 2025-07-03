@@ -15,7 +15,7 @@ const ContactPanel = ({ contact, onEdit }) => {
           defaultMessage: "Edit Contact Data",
         })}
         type="button"
-        className="inline-flex justify-center mt-2 rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+        className="inline-flex justify-center mt-2 rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
         onClick={onEdit}
       />
     </div>

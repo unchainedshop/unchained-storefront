@@ -64,7 +64,7 @@ const OrderDetailComponent = ({ order }) => {
               <Link
                 key={item._id}
                 href={`/product/${item?.product?.texts?.slug}`}
-                className="rounded-lg w-50 border border-t border-b border-slate-200 bg-white shadow-sm transition-transform hover:scale-105 hover:border-slate-600 dark:bg-slate-600 dark:hover:border-dslate-400 md:px-0"
+                className="rounded-lg w-50 border border-t border-b border-slate-200 bg-white shadow-xs transition-transform hover:scale-105 hover:border-slate-600 dark:bg-slate-600 dark:hover:border-dslate-400 md:px-0"
               >
                 <div className="flex w-full justify-between p-4">
                   <div className="flex">

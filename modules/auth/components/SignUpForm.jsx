@@ -105,7 +105,7 @@ const SignUpForm = () => {
           name="signUpForm"
         >
           <input type="hidden" name="remember" value="true" />
-          <div className="space-y-6 rounded-md shadow-sm">
+          <div className="space-y-6 rounded-md shadow-xs">
             <TextField
               id="username"
               name="username"

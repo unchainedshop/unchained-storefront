@@ -70,7 +70,7 @@ const MetamaskButton = ({ onClick }) => (
     type="button"
     onClick={onClick}
     style={{ backgroundColor: "#f6851a" }}
-    className="inline-flex items-center rounded-md border border-transparent px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+    className="inline-flex items-center rounded-md border border-transparent px-3 py-2 text-sm font-medium leading-4 text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
   >
     <span className="mr-2 rounded-full p-1.5 bg-white d-flex items-center justify-center">
       <svg
@@ -136,7 +136,7 @@ const PayWithCryptoButton = ({ sign }) => (
   <button
     type="button"
     onClick={sign}
-    className="mt-6 w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2 focus:ring-offset-slate-50"
+    className="mt-6 w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium text-white shadow-xs hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2 focus:ring-offset-slate-50"
   >
     Pay with Crypto
   </button>
@@ -305,7 +305,7 @@ const CryptopayCheckoutButton = ({ order }) => {
                       <button
                         onClick={cancel}
                         type="button"
-                        className="inline-flex items-center rounded border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-brown-600 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
+                        className="inline-flex items-center rounded border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-brown-600 shadow-xs hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
                       >
                         Cancel
                       </button>

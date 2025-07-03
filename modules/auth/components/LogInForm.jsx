@@ -41,7 +41,7 @@ const GetCurrentStep = ({
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
+              className="bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-xs focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
             />
           </div>
         </div>
@@ -67,7 +67,7 @@ const GetCurrentStep = ({
             <input
               id="username-or-email"
               name="usernameOrEmail"
-              className="bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
+              className="bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-xs focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
               type="text"
               autoComplete="email username"
               required
@@ -277,7 +277,7 @@ const LogInForm = () => {
                       id: "continue",
                       defaultMessage: "Continue",
                     })}
-                    className="flex w-full justify-center rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
                   />
                 </div>
               </form>
