@@ -43,85 +43,41 @@ const Detail = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="bg-white dark:bg-gray-900">
-          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-            <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-              {/* Image gallery */}
-              <div className="flex flex-col-reverse">
-                <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-                  <ImageGallery
-                    lazyLoad
-                    onErrorImageURL="/static/img/sun-glass-placeholder.jpeg"
-                    useBrowserFullscreen
-                    items={getMediaUrls(product).map((image) => ({
-                      original: image,
-                      thumbnail: image,
-                    }))}
-                    showPlayButton={false}
-                    showBullets={true}
-                    renderThumbInner={(item) => (
-                      <div className="aspect-w-1 aspect-h-1 w-full">
-                        <img
-                          src={item.thumbnail}
-                          alt=""
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </div>
-                    )}
-                  />
-                </div>
+        <div className="container mt-1 p-4">
+          <div className="row">
+            <div className="col-12">
+              <AssortmentBreadcrumbs
+                paths={productPath}
+                currentAssortment={product?.texts}
+              />
+            </div>
+            <div className="col-md-8" style={{ maxWidth: "50vh" }}>
+              <ImageGallery
+                lazyLoad
+                onErrorImageURL="/static/img/sun-glass-placeholder.jpeg"
+                useBrowserFullscreen
+                items={getMediaUrls(product).map((image) => ({
+                  original: image,
+                  thumbnail: image,
+                }))}
+              />
+            </div>
+            <div className="col-md-4">
+              <h2
+                className="mt-md-0 px-2"
+                dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
+              />
+              <div className="p-2">
+                <h3 className="my-0">
+                  <FormattedPrice price={product?.simulatedPrice} />
+                </h3>
+                <h4
+                  className="mb-3"
+                  dangerouslySetInnerHTML={{ __html: product?.texts?.subtitle }}
+                />
+                <Markdown>{product?.texts?.description}</Markdown>
               </div>
-
-              {/* Product info */}
-              <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                <nav aria-label="Breadcrumb" className="mb-6">
-                  <AssortmentBreadcrumbs
-                    paths={productPath}
-                    currentAssortment={product?.texts}
-                  />
-                </nav>
-
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {product?.texts?.title}
-                </h1>
-
-                <div className="mt-3">
-                  <h2 className="sr-only">Product information</h2>
-                  <p className="text-3xl tracking-tight text-gray-900 dark:text-white">
-                    <FormattedPrice price={product?.simulatedPrice} />
-                  </p>
-                </div>
-
-                {product?.texts?.subtitle && (
-                  <div className="mt-4">
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                      {product?.texts?.subtitle}
-                    </h3>
-                  </div>
-                )}
-
-                <div className="mt-6">
-                  <h3 className="sr-only">Description</h3>
-                  <div className="prose prose-sm text-gray-700 dark:text-gray-300">
-                    <Markdown>{product?.texts?.description}</Markdown>
-                  </div>
-                </div>
-
-                <div className="mt-10">
-                  <AddToCartButton productId={product?._id} {...product} />
-                </div>
-
-                {/* Product details */}
-                <section aria-labelledby="details-heading" className="mt-12">
-                  <h2 id="details-heading" className="sr-only">
-                    Additional details
-                  </h2>
-
-                  <div className="divide-y divide-gray-200 border-t dark:divide-gray-700 dark:border-gray-700">
-                    {/* Add any additional product details here */}
-                  </div>
-                </section>
-              </div>
+              <AddToCartButton productId={product?._id} {...product} />
             </div>
           </div>
         </div>

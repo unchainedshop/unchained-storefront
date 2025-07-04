@@ -101,66 +101,72 @@ const AddToCartButton = ({ productId, ...product }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="mt-10">
-      {/* Options */}
-      <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-white">
-          {formatMessage({ id: "quantity", defaultMessage: "Quantity" })}
-        </h3>
-        <div className="mt-2 flex items-center">
-          <div className="flex items-center rounded-md border border-gray-300 dark:border-gray-600">
-            <button
-              type="button"
-              onClick={decreaseQuantity}
-              disabled={quantity <= 1}
-              className="flex h-10 w-10 items-center justify-center rounded-l-md border-r border-gray-300 bg-white text-gray-400 hover:bg-gray-50 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-            >
-              <span className="sr-only">Decrease quantity</span>
-              <MinusIcon className="h-4 w-4" />
-            </button>
-            <input
-              type="text"
-              min={1}
-              max={maxQuantity}
-              value={quantity}
-              onChange={changeQuantity}
-              className="h-10 w-16 border-0 text-center text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-white"
-            />
-            <button
-              type="button"
-              onClick={increaseQuantity}
-              disabled={quantity >= maxQuantity}
-              className="flex h-10 w-10 items-center justify-center rounded-r-md border-l border-gray-300 bg-white text-gray-400 hover:bg-gray-50 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-            >
-              <span className="sr-only">Increase quantity</span>
-              <PlusIcon className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </div>
+    <form onSubmit={onSubmit}>
+      <fieldset disabled={isAddInProgress}>
+        <div className="flex items-center border-slate-300 border rounded-t-md">
+          <button
+            aria-label="decrease"
+            type="button"
+            onClick={decreaseQuantity}
+            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tl-md flex items-center justify-center"
+          >
+            <span aria-label="minus icon">
+              <MinusIcon className="h-5 w-5" />
+            </span>
+          </button>
 
-      <button
-        type="submit"
-        disabled={isAddInProgress}
-        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {isAddInProgress ? (
-          <CogIcon className="h-5 w-5 animate-spin" />
-        ) : isAddedToCart ? (
-          <>
-            <CheckCircleIcon className="-ml-1 mr-2 h-5 w-5" />
-            {formatMessage({ id: "added", defaultMessage: "Added!" })}
-          </>
-        ) : (
-          <>
-            <ShoppingCartIcon className="-ml-1 mr-2 h-5 w-5" />
-            {formatMessage({
-              id: "add-to-cart",
-              defaultMessage: "Add to Cart",
-            })}
-          </>
-        )}
-      </button>
+          <input
+            className="text-center block w-full -my-px mx-[2px] border-slate-300 focus:ring-slate-800 sm:text-sm bg-white"
+            type="text"
+            min={1}
+            max={maxQuantity}
+            value={quantity}
+            onChange={changeQuantity}
+          />
+          <button
+            aria-label="increase"
+            type="button"
+            onClick={increaseQuantity}
+            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tr-md flex items-center justify-center"
+          >
+            <span aria-label="plus icon">
+              <PlusIcon className="h-5 w-5" />
+            </span>
+          </button>
+        </div>
+
+        <button
+          className="w-full inline-flex items-center rounded-b-md border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
+          aria-label="add-to-cart"
+          type="submit"
+        >
+          {!isAddInProgress && !isAddedToCart && (
+            <span aria-label="ok icon" className="flex justify-center w-full">
+              <ShoppingCartIcon className="inline-block -ml-1 mr-2 h-5 w-5" />
+              {formatMessage({
+                id: "add-to-cart",
+                defaultMessage: "Add to Cart",
+              })}
+            </span>
+          )}
+          {isAddedToCart && !isAddInProgress && (
+            <span
+              aria-label="success icon"
+              className="flex justify-center w-full"
+            >
+              <CheckCircleIcon className="h-5 w-5" />
+            </span>
+          )}
+          {isAddInProgress && (
+            <span
+              aria-label="loading icon"
+              className="flex justify-center w-full"
+            >
+              <CogIcon className="h-5 w-5" />
+            </span>
+          )}
+        </button>
+      </fieldset>
     </form>
   );
 };

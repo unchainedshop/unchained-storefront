@@ -8,34 +8,38 @@ const ProductList = ({ products, totalProducts, onLoadMore }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="bg-white dark:bg-gray-900">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div className="mt-4 bg-white dark:bg-slate-600">
+      <div className="mx-auto max-w-full overflow-hidden ">
         <h2 className="sr-only">
           {formatMessage({ id: "products", defaultMessage: "Products" })}
         </h2>
 
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <div className="-mx-px grid rounded-lg border-l border-slate-200 dark:border-slate-500 sm:mx-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
-            <ProductListItem key={product?._id} product={product} />
+            <div
+              key={product?._id}
+              className="group relative rounded-lg border-y border-r border-b border-slate-200 p-4 dark:border-slate-500 sm:p-6"
+            >
+              <ProductListItem product={product} />
+            </div>
           ))}
         </div>
-
         {totalProducts > products?.length && (
-          <div className="mt-12 flex items-center justify-center">
-            <button
-              type="button"
-              onClick={onLoadMore}
-              className="inline-flex items-center rounded-md bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <ChevronDoubleDownIcon
-                className="-ml-1 mr-2 h-5 w-5"
-                aria-hidden="true"
-              />
-              {formatMessage({
+          <div className="items-center py-6 text-center">
+            <Button
+              icon={<ChevronDoubleDownIcon className="mr-2 h-6 w-6" />}
+              text={formatMessage({
                 id: "load_more",
                 defaultMessage: "Load More",
               })}
-            </button>
+              aria-label={formatMessage({
+                id: "load_more",
+                defaultMessage: "Load More",
+              })}
+              type="button"
+              className="dark:text-white"
+              onClick={onLoadMore}
+            />
           </div>
         )}
       </div>

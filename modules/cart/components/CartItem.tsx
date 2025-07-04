@@ -62,8 +62,8 @@ const CartItem = ({
   };
 
   return (
-    <div className="flex">
-      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700">
+    <li className="flex py-6 px-4 sm:px-6" key={_id}>
+      <div className="relative h-20 w-20 flex-shrink-0 rounded-md">
         {getMediaUrl(product) ? (
           <Image
             src={getMediaUrl(product)}
@@ -73,92 +73,98 @@ const CartItem = ({
             blurDataURL="/placeholder.png"
             objectFit="cover"
             loader={defaultNextImageLoader}
-            className="h-full w-full object-cover object-center"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-gray-700">
-            <PhotoIcon className="h-8 w-8 text-gray-400 dark:text-gray-500" />
+          <div className="relative h-full w-full">
+            <PhotoIcon className="absolute inset-0 h-full w-full text-slate-200  dark:text-slate-500" />
           </div>
         )}
       </div>
 
-      <div className="ml-4 flex flex-1 flex-col">
-        <div>
-          <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white">
-            <h3>
-              <Link href={`/product/${product?.texts?.slug}`}>
-                {product?.texts?.title}
+      <div className="ml-6 flex flex-1 flex-col">
+        <div className="flex">
+          <div className="min-w-0 flex-1">
+            <h4 className="text-sm">
+              <Link
+                href={`/product/${product?.texts?.slug}`}
+                className="font-medium text-slate-700 hover:text-slate-800 dark:text-slate-100 dark:hover:text-slate-400"
+              >
+                {product?.texts && product?.texts.title}
               </Link>
-            </h3>
-            <p className="ml-4">
-              <FormattedPrice price={unitPrice} />
-            </p>
+            </h4>
           </div>
-          {product?.texts?.subtitle && (
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              {product?.texts?.subtitle}
-            </p>
-          )}
-        </div>
-        <div className="flex flex-1 items-end justify-between text-sm">
           {enableUpdate ? (
-            <div className="flex items-center">
+            <div className="ml-4 flow-root flex-shrink-0">
               <button
                 type="button"
-                onClick={() =>
-                  updateCartItem({
-                    itemId: _id,
-                    quantity: Math.max(quantity - 1, 1),
-                  })
-                }
-                disabled={currentQuantity === 1}
-                className="flex h-8 w-8 items-center justify-center rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-              >
-                <span className="sr-only">Decrease quantity</span>
-                <MinusIcon className="h-4 w-4" />
-              </button>
-              <input
-                type="text"
-                pattern="\d+"
-                className="h-8 w-12 border-y border-gray-300 text-center text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={currentQuantity}
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  updateCartItem({
-                    itemId: _id,
-                    quantity: quantity + 1,
-                  })
-                }
-                className="flex h-8 w-8 items-center justify-center rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-              >
-                <span className="sr-only">Increase quantity</span>
-                <PlusIcon className="h-4 w-4" />
-              </button>
-            </div>
-          ) : (
-            <p className="text-gray-500">
-              {formatMessage({ id: "qty", defaultMessage: "Qty" })} {quantity}
-            </p>
-          )}
-
-          {enableUpdate && (
-            <div className="flex">
-              <button
-                type="button"
+                className="-m-2.5 flex items-center justify-center p-2.5 text-slate-400 hover:text-slate-500 dark:text-slate-100"
                 onClick={() => removeCartItem({ itemId: _id })}
-                className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                {formatMessage({ id: "remove", defaultMessage: "Remove" })}
+                <span className="sr-only">
+                  {formatMessage({ id: "remove", defaultMessage: "Remove" })}
+                </span>
+                <TrashIcon className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
-          )}
+          ) : null}
+        </div>
+
+        <div className="flex flex-1 items-end justify-between pt-2">
+          <p className="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+            <FormattedPrice price={unitPrice} />
+          </p>
+
+          <div className="ml-4">
+            <label htmlFor="quantity" className="sr-only">
+              {formatMessage({ id: "quantity", defaultMessage: "Quantity" })}
+            </label>
+            {enableUpdate ? (
+              <div className="flex flex-wrap items-end justify-between">
+                <div className="flex items-end justify-center gap-1">
+                  <button
+                    type="button"
+                    className="rounded-md border border-slate-300 text-left text-base font-medium text-slate-700 shadow-xs focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:text-slate-200 dark:shadow-white sm:text-sm"
+                    aria-label="Increase cart item"
+                    disabled={currentQuantity === 1}
+                    onClick={() =>
+                      updateCartItem({
+                        itemId: _id,
+                        quantity: Math.max(quantity - 1, 1),
+                      })
+                    }
+                  >
+                    <MinusIcon className="h-6 w-6" />
+                  </button>
+                  <input
+                    type="text"
+                    pattern="\d+"
+                    className="h-8 w-14 border-0 p-1 pb-0 text-center placeholder:font-bold placeholder:opacity-100 dark:bg-inherit dark:text-slate-100"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={currentQuantity}
+                  />
+                  <button
+                    className="rounded-md border border-slate-300 text-left text-base font-medium text-slate-700 shadow-xs focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:text-slate-200 dark:shadow-white sm:text-sm"
+                    aria-label="Decrease cart item"
+                    type="button"
+                    onClick={() =>
+                      updateCartItem({
+                        itemId: _id,
+                        quantity: quantity + 1,
+                      })
+                    }
+                  >
+                    <PlusIcon className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <span>{quantity}</span>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 
