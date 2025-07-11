@@ -29,15 +29,15 @@ const Footer = () => {
         {formatMessage({ id: "footer", defaultMessage: "Footer" })}
       </h2>
 
-      <div className="max-w-full px-1">
+      <div className="max-w-full px-6 lg:px-8 mx-auto">
         <div className="pt-8">
-          <div className="border-t border-gray-200">
+          <div className="border-t border-slate-200">
             <div className="flex max-w-full space-x-6">
               {footerNavigation.social.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-gray-400 hover:text-gray-500"
+                  className="text-slate-400 hover:text-slate-500"
                 >
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="h-6 w-6" aria-hidden="true" />
@@ -90,7 +90,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="py-10  md:flex md:items-center md:justify-between">
+        <div className="py-10 md:flex md:items-center md:justify-between">
           <div className="text-center md:text-left">
             <p className="text-base text-slate-400 dark:text-slate-200">
               <span>&copy;</span>
@@ -117,7 +117,7 @@ const Footer = () => {
               ))}
             </div>
 
-            <div className="ml-6 border-gray-200 pl-6">
+            <div className="border-slate-200">
               <div className="flex items-center text-base text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200">
                 <LanguageSwitch />
               </div>
