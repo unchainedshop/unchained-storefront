@@ -103,7 +103,7 @@ const ThankYou = () => {
               </FadeInSection>
 
               <FadeInSection delay={400}>
-                <p className="mt-2 text-4xl font-light tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                <p className="mt-2 text-4xl tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                   {formatMessage({
                     id: "thank_you_header",
                     defaultMessage: "Thank You for Placing this Order with Us!",

@@ -14,6 +14,11 @@ import getMediaUrls from "../../modules/common/utils/getMediaUrls";
 import NotFound from "../404";
 import Loading from "../../modules/common/components/Loading";
 import FormattedPrice from "../../modules/common/components/FormattedPrice";
+import { BookmarkIcon } from "@heroicons/react/20/solid";
+import classNames from "classnames";
+import useUser from "../../modules/auth/hooks/useUser";
+import useConditionalBookmarkProduct from "../../modules/cart/hooks/useConditionalBookmarkProduct";
+import useRemoveBookmark from "../../modules/common/hooks/useRemoveBookmark";
 
 const Detail = () => {
   const router = useRouter();
@@ -21,6 +26,14 @@ const Detail = () => {
   const { product, paths, loading } = useProductDetail({
     slug: router.query.slug,
   });
+  const { conditionalBookmarkProduct } = useConditionalBookmarkProduct();
+  const { removeBookmark } = useRemoveBookmark();
+  const { user } = useUser();
+
+  const [filteredBookmark] =
+    user?.bookmarks?.filter(
+      (bookmark) => bookmark?.product?._id === product?._id,
+    ) || [];
 
   const productPath = getAssortmentPath(paths);
 
@@ -68,14 +81,42 @@ const Detail = () => {
             {/* Product Details */}
             <div className="flex flex-col space-y-6">
               <div>
-                <h1
-                  className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2"
-                  dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
-                />
-                <h2
-                  className="text-lg text-slate-600 dark:text-slate-300 mb-4"
-                  dangerouslySetInnerHTML={{ __html: product?.texts?.subtitle }}
-                />
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <h1
+                      className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2"
+                      dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
+                    />
+                    <h2
+                      className="text-lg text-slate-600 dark:text-slate-300 mb-4"
+                      dangerouslySetInnerHTML={{ __html: product?.texts?.subtitle }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="rounded-full bg-white/90 p-3 shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-lg dark:bg-slate-800/90"
+                    onClick={() =>
+                      filteredBookmark
+                        ? removeBookmark({
+                            bookmarkId: filteredBookmark?._id,
+                          })
+                        : conditionalBookmarkProduct({
+                            productId: product?._id,
+                          })
+                    }
+                    aria-label={
+                      filteredBookmark ? "Remove from bookmarks" : "Add to bookmarks"
+                    }
+                  >
+                    <BookmarkIcon
+                      className={classNames("h-5 w-5 transition-colors", {
+                        "text-amber-500 hover:text-amber-600": filteredBookmark,
+                        "text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white":
+                          !filteredBookmark,
+                      })}
+                    />
+                  </button>
+                </div>
                 <div className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-6">
                   <FormattedPrice price={product?.simulatedPrice} />
                 </div>

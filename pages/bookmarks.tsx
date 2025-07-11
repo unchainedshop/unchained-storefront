@@ -18,7 +18,7 @@ const Bookmarks = () => {
       <div className="min-h-screen bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-light tracking-tight text-slate-900 dark:text-white">
+            <h1 className="text-3xl tracking-tight text-slate-900 dark:text-white">
               {formatMessage({
                 id: "bookmarks_title",
                 defaultMessage: "Bookmarks",

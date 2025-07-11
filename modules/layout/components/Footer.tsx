@@ -48,7 +48,7 @@ const Footer = () => {
               <div className="grid grid-cols-2 gap-8 xl:col-span-2">
                 <div className="space-y-12 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
                   <div>
-                    <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">
+                    <h3 className="text-sm text-slate-500 dark:text-slate-50">
                       {formatMessage({
                         id: "company",
                         defaultMessage: "Company",
@@ -56,10 +56,10 @@ const Footer = () => {
                     </h3>
                     <ul className="mt-6 space-y-6">
                       {footerNavigation.company.map((item) => (
-                        <li key={item.name} className="text-base">
+                        <li key={item.name} className="text-sm">
                           <Link
                             href={item.href}
-                            className="text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                            className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
                           >
                             {item.name}
                           </Link>
@@ -68,7 +68,7 @@ const Footer = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">
+                    <h3 className="text-sm text-slate-500 dark:text-slate-50">
                       {formatMessage({ id: "legal", defaultMessage: "Legal" })}
                     </h3>
                     <ul className="mt-6 space-y-6">
@@ -76,7 +76,7 @@ const Footer = () => {
                         <li key={item.name} className="text-sm">
                           <Link
                             href={item.href}
-                            className="text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                            className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
                           >
                             {item.name}
                           </Link>

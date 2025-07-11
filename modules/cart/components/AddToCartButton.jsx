@@ -108,15 +108,18 @@ const AddToCartButton = ({ productId, ...product }) => {
             aria-label="decrease"
             type="button"
             onClick={decreaseQuantity}
-            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tl-md flex items-center justify-center"
+            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tl-md flex items-center justify-center transition-all duration-200 ease-in-out"
           >
-            <span aria-label="minus icon">
+            <span
+              aria-label="minus icon"
+              className="transition-transform duration-200 ease-in-out"
+            >
               <MinusIcon className="h-5 w-5" />
             </span>
           </button>
 
           <input
-            className="text-center block w-full -my-px mx-[2px] border-slate-300 focus:ring-slate-800 sm:text-sm bg-white"
+            className="text-center block w-full -my-px mx-[2px] border-slate-300 focus:ring-slate-800 sm:text-sm bg-white transition-all duration-200 ease-in-out"
             type="text"
             min={1}
             max={maxQuantity}
@@ -127,22 +130,34 @@ const AddToCartButton = ({ productId, ...product }) => {
             aria-label="increase"
             type="button"
             onClick={increaseQuantity}
-            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tr-md flex items-center justify-center"
+            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tr-md flex items-center justify-center transition-all duration-200 ease-in-out"
           >
-            <span aria-label="plus icon">
+            <span
+              aria-label="plus icon"
+              className="transition-transform duration-200 ease-in-out"
+            >
               <PlusIcon className="h-5 w-5" />
             </span>
           </button>
         </div>
 
         <button
-          className="w-full inline-flex items-center rounded-b-md border border-transparent bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+          className={`w-full inline-flex items-center rounded-b-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-all duration-300 ease-in-out ${
+            isAddInProgress
+              ? "bg-slate-600"
+              : isAddedToCart
+                ? "bg-green-600 hover:bg-green-700"
+                : "bg-slate-900 hover:bg-slate-800"
+          }`}
           aria-label="add-to-cart"
           type="submit"
         >
           {!isAddInProgress && !isAddedToCart && (
-            <span aria-label="ok icon" className="flex justify-center w-full">
-              <ShoppingCartIcon className="inline-block -ml-1 mr-2 h-5 w-5" />
+            <span
+              aria-label="ok icon"
+              className="flex justify-center w-full transition-all duration-300 ease-in-out"
+            >
+              <ShoppingCartIcon className="inline-block -ml-1 mr-2 h-5 w-5 transition-transform duration-200 ease-in-out" />
               {formatMessage({
                 id: "add-to-cart",
                 defaultMessage: "Add to Cart",
@@ -152,9 +167,9 @@ const AddToCartButton = ({ productId, ...product }) => {
           {isAddedToCart && !isAddInProgress && (
             <span
               aria-label="success icon"
-              className="flex justify-center w-full"
+              className="flex justify-center w-full animate-pulse"
             >
-              <CheckCircleIcon className="h-5 w-5" />
+              <CheckCircleIcon className="h-5 w-5 transition-all duration-300 ease-in-out animate-bounce" />
             </span>
           )}
           {isAddInProgress && (
@@ -162,7 +177,7 @@ const AddToCartButton = ({ productId, ...product }) => {
               aria-label="loading icon"
               className="flex justify-center w-full"
             >
-              <CogIcon className="h-5 w-5" />
+              <CogIcon className="h-5 w-5 animate-spin transition-all duration-300 ease-in-out" />
             </span>
           )}
         </button>
