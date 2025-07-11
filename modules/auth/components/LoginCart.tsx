@@ -28,64 +28,37 @@ const LoginCart = () => {
 
   return user ? (
     <div className="flex items-center gap-x-3">
-      {Boolean(user?.bookmarks?.length) && (
-        <Link href="/bookmarks" className="flex items-center gap-x-3">
-          <BookmarkIcon className="h-6 w-6" />
-          <span>{user?.bookmarks?.length}</span>
-          <span className="hidden lg:block">
-            {formatMessage({
-              id: "bookmarks",
-              defaultMessage: "Bookmarks",
-            })}
-          </span>
+      {/* Account Link */}
+      {!user?.isGuest && (
+        <Link href="/account" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2">
+          <UserCircleIcon className="h-6 w-6" />
         </Link>
       )}
-      <a
-        className="flex cursor-pointer items-center gap-x-3"
+      
+      {/* Cart Button */}
+      <button
+        className="relative text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
         onClick={() => toggleCart(!isCartOpen)}
       >
-        <ShoppingCartIcon className="inline-flex h-6 w-6 select-none items-center justify-center dark:text-white" />
-
+        <ShoppingCartIcon className="h-6 w-6" />
         {user?.cart?.items?.length ? (
-          <span className="inline-block rounded-[50%] text-center font-bold leading-relaxed text-slate-900 dark:text-slate-300">
+          <span className="absolute -top-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-950 text-xs font-bold text-white">
             {user?.cart?.items.reduce((acc, item) => acc + item.quantity, 0)}
           </span>
-        ) : (
-          ""
-        )}
-        <span className="hidden lg:block">
-          {formatMessage({ id: "cart", defaultMessage: "Cart" })}
-        </span>
-      </a>
-      {!user?.isGuest && (
-        <>
-          <OrderButton />
-          <Link href="/account" className="flex items-center gap-x-3">
-            <UserCircleIcon className="inline-flex h-6 w-6 select-none items-center justify-center dark:text-white" />
-            <span className="hidden lg:block">
-              {formatMessage({ id: "account", defaultMessage: "Account" })}
-            </span>
-          </Link>
-
-          <a
-            className="flex cursor-pointer items-center gap-x-3"
-            onClick={async () => {
-              await onLogout();
-            }}
-          >
-            <ArrowRightOnRectangleIcon className="inline-flex h-6 w-6 select-none items-center justify-center dark:text-white" />
-            <span className="hidden lg:block">
-              {formatMessage({ id: "log-out", defaultMessage: "Logout" })}
-            </span>
-          </a>
-        </>
-      )}
+        ) : null}
+      </button>
     </div>
   ) : (
     <div className="flex items-center gap-x-3">
-      <Link href="/login">
-        {formatMessage({ id: "log_in", defaultMessage: "Log In" })}
+      <Link href="/login" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2">
+        <UserCircleIcon className="h-6 w-6" />
       </Link>
+      <button
+        className="relative text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+        onClick={() => toggleCart(!isCartOpen)}
+      >
+        <ShoppingCartIcon className="h-6 w-6" />
+      </button>
     </div>
   );
 };

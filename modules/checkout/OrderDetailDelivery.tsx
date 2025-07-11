@@ -15,8 +15,8 @@ const OrderDetailDelivery = ({ order }) => {
   const { formatDateTime } = useFormatDateTime();
 
   return (
-    <div className="bg-white dark:bg-slate-800 shadow dark:shadow-none sm:rounded-lg">
-      <div className="flex items-center justify-between px-4 sm:px-6">
+    <div>
+      <div className="flex items-center justify-between">
         <h2 className="py-4 text-lg font-medium">
           {formatMessage({
             id: "delivered",

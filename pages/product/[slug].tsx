@@ -43,15 +43,17 @@ const Detail = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="container mt-1 p-4">
-          <div className="row">
-            <div className="col-12">
-              <AssortmentBreadcrumbs
-                paths={productPath}
-                currentAssortment={product?.texts}
-              />
-            </div>
-            <div className="col-md-8" style={{ maxWidth: "50vh" }}>
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-6">
+            <AssortmentBreadcrumbs
+              paths={productPath}
+              currentAssortment={product?.texts}
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Product Images */}
+            <div className="w-full">
               <ImageGallery
                 lazyLoad
                 onErrorImageURL="/static/img/sun-glass-placeholder.jpeg"
@@ -62,22 +64,30 @@ const Detail = () => {
                 }))}
               />
             </div>
-            <div className="col-md-4">
-              <h2
-                className="mt-md-0 px-2"
-                dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
-              />
-              <div className="p-2">
-                <h3 className="my-0">
-                  <FormattedPrice price={product?.simulatedPrice} />
-                </h3>
-                <h4
-                  className="mb-3"
+            
+            {/* Product Details */}
+            <div className="flex flex-col space-y-6">
+              <div>
+                <h1
+                  className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2"
+                  dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
+                />
+                <h2
+                  className="text-lg text-gray-600 dark:text-gray-300 mb-4"
                   dangerouslySetInnerHTML={{ __html: product?.texts?.subtitle }}
                 />
+                <div className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                  <FormattedPrice price={product?.simulatedPrice} />
+                </div>
+              </div>
+              
+              <div className="prose prose-gray dark:prose-invert max-w-none">
                 <Markdown>{product?.texts?.description}</Markdown>
               </div>
-              <AddToCartButton productId={product?._id} {...product} />
+              
+              <div className="pt-4">
+                <AddToCartButton productId={product?._id} {...product} />
+              </div>
             </div>
           </div>
         </div>

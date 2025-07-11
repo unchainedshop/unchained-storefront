@@ -38,36 +38,38 @@ const CheckoutContact = ({ cart, isInitial }) => {
   const toggleEditMode = () => setEditMode(!editMode);
 
   return (
-    <div className="mt-6">
-      <h2 className="text-lg font-medium ">
+    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-600">
+      <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
         {formatMessage({
           id: "contact-info",
           defaultMessage: "Contact info",
         })}
       </h2>
+      
       {showLogin && editMode && (
-        <div className="text-red-500">
-          {formatMessage({
-            id: "email-not-available",
-            defaultMessage: "E-Mail address is not available, please",
-          })}
-          <Link
-            href="/login"
-            className="inline-flex  items-center justify-center text-center text-sm font-medium leading-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-800 text-red-700 hover:text-red-500"
-          >
-            <span className="ml-2">
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md dark:bg-red-900/20 dark:border-red-800">
+          <p className="text-red-600 dark:text-red-400 text-sm">
+            {formatMessage({
+              id: "email-not-available",
+              defaultMessage: "E-Mail address is not available, please",
+            })}{" "}
+            <Link
+              href="/login"
+              className="font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
               {formatMessage({
                 id: "sign-in",
                 defaultMessage: "Sign in",
               })}
-            </span>
-          </Link>{" "}
-          {formatMessage({
-            id: "or-choose-another",
-            defaultMessage: "or choose another one",
-          })}
+            </Link>{" "}
+            {formatMessage({
+              id: "or-choose-another",
+              defaultMessage: "or choose another one",
+            })}
+          </p>
         </div>
       )}
+      
       {editMode ? (
         <ContactForm
           contact={contact}

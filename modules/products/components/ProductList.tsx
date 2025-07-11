@@ -1,31 +1,94 @@
 import { useIntl } from "react-intl";
-import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDoubleDownIcon, PhotoIcon } from "@heroicons/react/20/solid";
+import Image from "next/legacy/image";
+import Link from "next/link";
 
 import ProductListItem from "./ProductListItem";
 import Button from "../../common/components/Button";
+import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
+import FormattedPrice from "../../common/components/FormattedPrice";
 
-const ProductList = ({ products, totalProducts, onLoadMore }) => {
+const ProductList = ({ products, totalProducts, onLoadMore, viewMode = "grid" }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="mt-4 bg-white dark:bg-slate-600">
-      <div className="mx-auto max-w-full overflow-hidden ">
+    <div className="bg-white dark:bg-slate-900">
+      <div className="mx-auto max-w-full">
         <h2 className="sr-only">
           {formatMessage({ id: "products", defaultMessage: "Products" })}
         </h2>
 
-        <div className="-mx-px grid rounded-lg border-l border-slate-200 dark:border-slate-500 sm:mx-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => (
-            <div
-              key={product?._id}
-              className="group relative rounded-lg border-y border-r border-b border-slate-200 p-4 dark:border-slate-500 sm:p-6"
-            >
-              <ProductListItem product={product} />
-            </div>
-          ))}
-        </div>
+        {viewMode === "grid" ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {products.map((product) => (
+              <div key={product?._id} className="group relative">
+                <ProductListItem product={product} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {products.map((product) => (
+              <div key={product?._id} className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-800 dark:border-gray-700">
+                <div className="flex">
+                  <div className="w-48 h-36 flex-shrink-0 relative overflow-hidden bg-gray-50 dark:bg-slate-700">
+                    <Link href={`/product/${product?.texts?.slug}`}>
+                      {product?.media?.[0]?.file?.url ? (
+                        <Image
+                          src={product.media[0].file.url}
+                          alt={product?.texts?.title}
+                          layout="fill"
+                          objectFit="cover"
+                          className="transition-all duration-300 group-hover:scale-105"
+                          loader={defaultNextImageLoader}
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <PhotoIcon className="h-8 w-8 text-gray-400 dark:text-slate-500" />
+                        </div>
+                      )}
+                    </Link>
+                  </div>
+                  
+                  <div className="flex-1 p-6 flex flex-col justify-between">
+                    <div>
+                      <Link href={`/product/${product?.texts?.slug}`}>
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 transition-colors duration-200 hover:text-gray-700 dark:hover:text-gray-200">
+                          {product?.texts?.title}
+                        </h3>
+                      </Link>
+                      {product?.texts?.subtitle && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                          {product?.texts?.subtitle}
+                        </p>
+                      )}
+                      {product?.texts?.description && (
+                        <p className="text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                          {product?.texts?.description}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="text-xl font-bold text-gray-900 dark:text-white">
+                        <FormattedPrice price={product?.simulatedPrice} />
+                      </div>
+                      <Link
+                        href={`/product/${product?.texts?.slug}`}
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 transition-colors duration-200 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
+                      >
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {totalProducts > products?.length && (
-          <div className="items-center py-6 text-center">
+          <div className="items-center py-8 text-center">
             <Button
               icon={<ChevronDoubleDownIcon className="mr-2 h-6 w-6" />}
               text={formatMessage({

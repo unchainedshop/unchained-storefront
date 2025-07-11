@@ -27,8 +27,10 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
       onSubmit={submitHandler}
       onSubmitError={onSubmitError}
       defaultValues={{ ...address }}
+      className="space-y-6"
     >
-      <div className="mb-3">
+      {/* Name Fields - Grouped */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextField
           label={formatMessage({
             id: "first_name",
@@ -37,8 +39,6 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           name="firstName"
           required
         />
-      </div>
-      <div className="mb-3">
         <TextField
           label={formatMessage({
             id: "last-name",
@@ -48,27 +48,39 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           required
         />
       </div>
-      <div className="mb-3">
+
+      {/* Company Field */}
+      <div>
         <TextField
           label={`${formatMessage({
             id: "company-name",
             defaultMessage: "Company Name",
-          })}   ${formatMessage({
+          })} ${formatMessage({
             id: "optional",
             defaultMessage: "(Optional)",
           })}`}
           name="company"
         />
       </div>
-      <div className="mb-3">
+
+      {/* Address Fields - Grouped */}
+      <div className="space-y-4">
         <TextField
           label={formatMessage({ id: "address", defaultMessage: "Address" })}
           name="addressLine"
           required
         />
-        <TextField name="addressLine2" />
+        <TextField
+          name="addressLine2"
+          placeholder={formatMessage({
+            id: "address_line_2",
+            defaultMessage: "Apartment, suite, etc. (optional)",
+          })}
+        />
       </div>
-      <div className="mb-3">
+
+      {/* Location Fields - Grouped */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <TextField
           label={formatMessage({
             id: "postal-code-or-zip",
@@ -77,8 +89,6 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           name="postalCode"
           required
         />
-      </div>
-      <div className="mb-3">
         <TextField
           label={formatMessage({
             id: "city",
@@ -87,18 +97,19 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           name="city"
           required
         />
-      </div>
-      <div className="mb-3">
         <TextField
-          label={`${formatMessage({ id: "region", defaultMessage: "Region" })} 
-          ${formatMessage({
-            id: "optional",
-            defaultMessage: "(Optional)",
-          })}`}
+          label={`${formatMessage({ id: "region", defaultMessage: "Region" })} ${formatMessage(
+            {
+              id: "optional",
+              defaultMessage: "(Optional)",
+            },
+          )}`}
           name="regionCode"
         />
       </div>
-      <div className="mb-3">
+
+      {/* Country Field */}
+      <div>
         <SelectField
           label={formatMessage({ id: "country", defaultMessage: "Country" })}
           name="countryCode"
@@ -107,29 +118,32 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           <option value=""> - </option>
           {COUNTRIES.map((c) => (
             <option key={c.code} value={c.code}>
-              {" "}
-              {c.name}{" "}
+              {c.name}
             </option>
           ))}
         </SelectField>
       </div>
+
       <FormErrors />
 
-      <div className="pt-3">
+      <div className="flex gap-4 pt-4">
         <Button
           text={formatMessage({
             id: "save_address",
             defaultMessage: "Save Address",
           })}
           type="submit"
+          variant="primary"
+          className="flex-[2]"
         />
         <Button
           text={formatMessage({
             id: "cancel",
             defaultMessage: "Cancel",
           })}
-          className=" bg-white sm:text-black text-black hover:bg-slate-200"
+          variant="secondary"
           type="button"
+          className="flex-1"
           onClick={onCancel}
         />
       </div>

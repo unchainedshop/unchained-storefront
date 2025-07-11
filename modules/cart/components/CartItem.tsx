@@ -62,7 +62,7 @@ const CartItem = ({
   };
 
   return (
-    <li className="flex py-6 px-4 sm:px-6" key={_id}>
+    <li className="flex pb-3" key={_id}>
       <div className="relative h-20 w-20 flex-shrink-0 rounded-md">
         {getMediaUrl(product) ? (
           <Image

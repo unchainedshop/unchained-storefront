@@ -11,6 +11,10 @@ import CartItem from "../modules/cart/components/CartItem";
 import useFormatDateTime from "../modules/common/utils/useFormatDateTime";
 import defaultNextImageLoader from "../modules/common/utils/defaultNextImageLoader";
 import FormattedPrice from "../modules/common/components/FormattedPrice";
+import ConfettiCelebration from "../modules/common/components/ConfettiCelebration";
+import AnimatedCheckmark from "../modules/common/components/AnimatedCheckmark";
+import CountUpAnimation from "../modules/common/components/CountUpAnimation";
+import FadeInSection from "../modules/common/components/FadeInSection";
 
 const {
   publicRuntimeConfig: { theme },
@@ -48,10 +52,17 @@ const ThankYou = () => {
         })}
       />
 
+      <ConfettiCelebration 
+        trigger={!!order} 
+        duration={4000}
+        particleCount={100}
+        colors={['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#f59e0b', '#fbbf24']}
+      />
+      
       {order && (
         <div className="relative lg:min-h-full">
           <div className="mx-auto max-w-2xl py-8 px-4 sm:px-6 sm:py-12 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-16 xl:gap-x-24">
-            <div className="relative hidden lg:block lg:h-1/6 lg:w-full lg:pr-4 xl:pr-12">
+            <FadeInSection delay={500} className="relative hidden lg:block lg:h-1/6 lg:w-full lg:pr-4 xl:pr-12">
               <Image
                 src={theme.assets.logo}
                 alt={formatMessage({
@@ -64,88 +75,123 @@ const ThankYou = () => {
                 className="w-full rounded"
                 loader={defaultNextImageLoader}
               />
-            </div>
+            </FadeInSection>
+            
             <div className="lg:col-start-2">
-              <h1 className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                {formatMessage({
-                  id: "thank_you",
-                  defaultMessage: "Thank you!",
-                })}
-              </h1>
-              <p className="mt-2 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-                {formatMessage({
-                  id: "thank_you_header",
-                  defaultMessage: "Thank You for Placing this Order with Us!",
-                })}
-              </p>
-              <p className="mt-2 text-base text-slate-500 dark:text-slate-400">
-                {formatMessage({
-                  id: "thank_you_description",
-                  defaultMessage:
-                    "It has reached us and an email with the order placement  confirmation is on its way. To avoid any potential  miscommunication, please check your spam, perhaps the email landed  there.",
-                })}
-              </p>
-              <div className="md:grid md:grid-cols-2 md:gap-2">
-                <div>
-                  <FormattedMessage
-                    tagName="dl"
-                    id="thank_you_order_number"
-                    defaultMessage="<dl> <dt> Your Order Number is: </dt> <dd>
-                            {orderNumber}
-                          </dd> </dl> "
-                    values={{
-                      dl: (chunks) => (
-                        <dl className="mt-8 text-sm font-medium">{chunks}</dl>
-                      ),
-                      dt: (chunks) => (
-                        <dt className="text-slate-900 dark:text-white">
-                          {chunks}
-                        </dt>
-                      ),
-                      dd: (chunks) => (
-                        <dd className="mt-2 text-slate-600 dark:text-slate-400">
-                          {chunks}
-                        </dd>
-                      ),
-                      orderNumber: order.orderNumber,
-                    }}
-                  />
-                  <FormattedMessage
-                    tagName="dl"
-                    id="thank_you_order_date"
-                    defaultMessage="<dl> <dt> The Date you placed the order is: </dt> <dd>
-                          {orderDate}
-                          </dd> </dl> "
-                    values={{
-                      dl: (chunks) => (
-                        <dl className="mt-8 text-sm font-medium">{chunks}</dl>
-                      ),
-                      dt: (chunks) => (
-                        <dt className="text-slate-900 dark:text-white">
-                          {chunks}
-                        </dt>
-                      ),
-                      dd: (chunks) => (
-                        <dd className="mt-2 text-slate-600 dark:text-slate-400">
-                          {chunks}
-                        </dd>
-                      ),
-                      orderDate: formatDateTime(order.created),
-                    }}
-                  />
+              <FadeInSection delay={200} className="flex items-center gap-3 mb-4">
+                <AnimatedCheckmark size="lg" delay={800} />
+                <h1 className="text-sm font-medium text-green-600 dark:text-green-400">
+                  {formatMessage({
+                    id: "thank_you",
+                    defaultMessage: "Thank you!",
+                  })}
+                </h1>
+              </FadeInSection>
+              
+              <FadeInSection delay={400}>
+                <p className="mt-2 text-4xl font-light tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                  {formatMessage({
+                    id: "thank_you_header",
+                    defaultMessage: "Thank You for Placing this Order with Us!",
+                  })}
+                </p>
+              </FadeInSection>
+              
+              <FadeInSection delay={600}>
+                <p className="mt-6 text-base text-slate-500 dark:text-slate-400 leading-relaxed">
+                  {formatMessage({
+                    id: "thank_you_description",
+                    defaultMessage:
+                      "It has reached us and an email with the order placement  confirmation is on its way. To avoid any potential  miscommunication, please check your spam, perhaps the email landed  there.",
+                  })}
+                </p>
+              </FadeInSection>
+              <FadeInSection delay={800}>
+                <div className="mt-8 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-green-200 dark:border-green-800">
+                  <div className="md:grid md:grid-cols-2 md:gap-6">
+                    <div>
+                      <FormattedMessage
+                        tagName="dl"
+                        id="thank_you_order_number"
+                        defaultMessage="<dl> <dt> Your Order Number is: </dt> <dd>
+                                {orderNumber}
+                              </dd> </dl> "
+                        values={{
+                          dl: (chunks) => (
+                            <dl className="text-sm font-medium">{chunks}</dl>
+                          ),
+                          dt: (chunks) => (
+                            <dt className="text-slate-900 dark:text-white font-semibold">
+                              {chunks}
+                            </dt>
+                          ),
+                          dd: (chunks) => (
+                            <dd className="mt-2 text-lg font-bold text-green-700 dark:text-green-400">
+                              <CountUpAnimation 
+                                end={parseInt(order.orderNumber?.replace(/[^0-9]/g, '') || '0') || 1000} 
+                                delay={1000}
+                                duration={1500}
+                                prefix={order.orderNumber?.replace(/[0-9]/g, '') || '#'}
+                              />
+                            </dd>
+                          ),
+                          orderNumber: order.orderNumber,
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <FormattedMessage
+                        tagName="dl"
+                        id="thank_you_order_date"
+                        defaultMessage="<dl> <dt> The Date you placed the order is: </dt> <dd>
+                              {orderDate}
+                              </dd> </dl> "
+                        values={{
+                          dl: (chunks) => (
+                            <dl className="mt-4 md:mt-0 text-sm font-medium">{chunks}</dl>
+                          ),
+                          dt: (chunks) => (
+                            <dt className="text-slate-900 dark:text-white font-semibold">
+                              {chunks}
+                            </dt>
+                          ),
+                          dd: (chunks) => (
+                            <dd className="mt-2 text-slate-700 dark:text-slate-300 font-medium">
+                              {chunks}
+                            </dd>
+                          ),
+                          orderDate: formatDateTime(order.created),
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-slate-700 dark:text-slate-300">
-                <div className="mt-4 rounded-lg border border-slate-300 bg-white shadow-xs dark:bg-slate-500">
-                  <ul className="divide-y divide-slate-300">
-                    {(order?.items || []).map((item) => (
-                      <CartItem key={item._id} {...item} enableUpdate={false} />
-                    ))}
-                  </ul>
+              </FadeInSection>
+              <FadeInSection delay={1000}>
+                <div className="mt-8 text-slate-700 dark:text-slate-300">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+                    Order Summary
+                  </h3>
+                  <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:bg-slate-800 dark:border-slate-700 overflow-hidden">
+                    <ul className="divide-y divide-slate-200 dark:divide-slate-700">
+                      {(order?.items || []).map((item, index) => (
+                        <FadeInSection key={item._id} delay={1200 + (index * 100)}>
+                          <CartItem {...item} enableUpdate={false} />
+                        </FadeInSection>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              </FadeInSection>
 
-              <dl className="mt-8 grid grid-cols-2 gap-x-4 text-sm text-slate-600">
+              <FadeInSection delay={1400}>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
+                  Delivery & Payment Details
+                </h3>
+              </FadeInSection>
+              
+              <FadeInSection delay={1500}>
+                <dl className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-600">
                 <div>
                   <dt className="font-medium text-slate-900 dark:text-white">
                     {formatMessage({
@@ -219,41 +265,40 @@ const ThankYou = () => {
                     <div className="ml-4 mt-4">
                       <p>
                         {order?.payment?.paid ? (
-                          <>
-                            <CheckCircleIcon
-                              className="h-5 w-5 text-green-500"
-                              aria-hidden="true"
-                            />
-                            <span className="mx-2">
+                          <div className="flex items-center">
+                            <AnimatedCheckmark size="sm" delay={1500} />
+                            <span className="mx-2 text-green-700 dark:text-green-400 font-medium">
                               {formatMessage({
                                 id: "paid_on",
                                 defaultMessage: "paid on",
                               })}
                             </span>
-                            <time dateTime={order?.paid}>
+                            <time dateTime={order?.paid} className="text-slate-600 dark:text-slate-300">
                               {formatDateTime(order?.payment?.paid)}
                             </time>
-                          </>
+                          </div>
                         ) : null}
                       </p>
                     </div>
                   </dd>
                 </div>
               </dl>
+              </FadeInSection>
 
-              <div className="mt-8 border-t border-slate-200 py-6 text-center">
-                <Link
-                  href="/shop"
-                  className="text-sm font-medium text-slate-600 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-500"
-                >
-                  {formatMessage({
-                    id: "continue_shopping",
-                    defaultMessage: "Continue Shopping",
-                  })}
-
-                  <span aria-hidden="true"> &rarr;</span>
-                </Link>
-              </div>
+              <FadeInSection delay={1600}>
+                <div className="mt-8 border-t border-slate-200 dark:border-slate-700 py-8 text-center">
+                  <Link
+                    href="/shop"
+                    className="inline-flex items-center px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+                  >
+                    {formatMessage({
+                      id: "continue_shopping",
+                      defaultMessage: "Continue Shopping",
+                    })}
+                    <span aria-hidden="true" className="ml-2">&rarr;</span>
+                  </Link>
+                </div>
+              </FadeInSection>
             </div>
           </div>
         </div>

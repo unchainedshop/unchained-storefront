@@ -129,6 +129,20 @@
   "footer": "Footer",
   "footer-heading": "All Rights Reserved",
   "right": "All Rights Reserved",
-  "legal": "Legal stuff"
-
+  "legal": "Legal stuff",
+  "shop_title": "UNCHAINED SHOP",
+  "view_all": "Alle anzeigen",
+  "nav_home": "Startseite",
+  "nav_store": "Shop",
+  "nav_bookmarks": "Lesezeichen",
+  "nav_account": "Konto",
+  "remove": "Entfernen",
+  "quantity": "Anzahl",
+  "latest_drops": "Neueste Artikel",
+  "featured_products": "Empfohlene Produkte",
+  "weekly_picks": "Wöchentliche Auswahl",
+  "hero_title": "Entdecken Sie erstaunliche Produkte",
+  "hero_subtitle": "Kuratierte Sammlung der besten Artikel",
+  "bookmarks": "Lesezeichen",
+  "bookmarks_title": "Lesezeichen"
 }

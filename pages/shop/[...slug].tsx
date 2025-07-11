@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
-import Markdown from "react-markdown";
+import { useState } from "react";
+import { Squares2X2Icon, Bars3Icon } from "@heroicons/react/24/outline";
 
-import CategoriesList from "../../modules/assortment/components/CategoriesList";
 import useAssortmentProducts from "../../modules/assortment/hooks/useAssortmentProducts";
-import getAssortmentPath from "../../modules/assortment/utils/getAssortmentPath";
-import AssortmentBreadcrumbs from "../../modules/assortment/components/AssortmentBreadcrumbs";
 import ProductList from "../../modules/products/components/ProductList";
 import MetaTags from "../../modules/common/components/MetaTags";
-import useCategoriesTree from "../../modules/assortment/hooks/useCategoriesTree";
 import getMediaUrl from "../../modules/common/utils/getMediaUrl";
 import Loading from "../../modules/common/components/Loading";
 
@@ -15,16 +12,11 @@ const CategoryDetail = () => {
   const router = useRouter();
   const { slug: slugs } = router.query;
   const slug = slugs?.length ? slugs[(slugs?.length || 0) - 1] : "";
-
-  const { assortmentTree, loading: categoryTreeLoading } = useCategoriesTree({
-    slugs: [slug],
-    includeLeaves: true,
-  });
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
 
   const {
     assortment: { texts, media } = {},
     products,
-    paths,
     loadMore,
     filteredProducts,
     loading: productsLoading,
@@ -33,15 +25,6 @@ const CategoryDetail = () => {
     includeLeaves: true,
   });
 
-  const assortmentPaths = getAssortmentPath(paths);
-
-  let currentPath;
-  if (typeof slugs === "string") {
-    currentPath = slugs;
-  } else {
-    currentPath = slugs?.join("/");
-  }
-
   return (
     <>
       <MetaTags
@@ -49,31 +32,50 @@ const CategoryDetail = () => {
         description={texts?.description}
         imageUrl={getMediaUrl({ media })}
       />
-      <div className="flex flex-wrap px-4 sm:px-0">
-        <div className="relative w-full flex-3 pl-1">
-          <AssortmentBreadcrumbs
-            paths={assortmentPaths}
-            currentAssortment={texts}
-          />
-        </div>
-        <div className="relative w-full p-4 pl-1 md:max-w-1/3 md:flex-4 lg:max-w-1/4 lg:flex-5">
-          {categoryTreeLoading ? (
-            <Loading />
-          ) : (
-            <CategoriesList
-              assortment={assortmentTree.children}
-              currentPath={currentPath}
-            />
-          )}
-        </div>
-        <div className="relative w-full px-4 md:max-w-2/3 md:flex-6 lg:max-w-3/4 lg:flex-7">
-          <div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
+      <div className="min-h-screen bg-white dark:bg-slate-900">
+        <div className="container mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
               {texts?.title}
             </h1>
-            <h2>{texts?.subtitle}</h2>
-            <Markdown>{texts?.description}</Markdown>
+            {texts?.subtitle && (
+              <p className="text-lg text-slate-600 dark:text-slate-300">
+                {texts?.subtitle}
+              </p>
+            )}
           </div>
+
+          {/* View Toggle */}
+          <div className="mb-6 flex items-center justify-between">
+            <div className="text-sm text-slate-600 dark:text-slate-300">
+              {filteredProducts} products
+            </div>
+            <div className="flex rounded-lg border border-slate-300 dark:border-slate-600">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`flex items-center px-3 py-2 text-sm font-medium transition-colors ${
+                  viewMode === "grid"
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+                    : "text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                }`}
+              >
+                <Squares2X2Icon className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`flex items-center px-3 py-2 text-sm font-medium transition-colors ${
+                  viewMode === "list"
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+                    : "text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                }`}
+              >
+                <Bars3Icon className="h-4 w-4 " />
+              </button>
+            </div>
+          </div>
+
+          {/* Products */}
           {productsLoading ? (
             <Loading />
           ) : (
@@ -81,6 +83,7 @@ const CategoryDetail = () => {
               onLoadMore={loadMore}
               totalProducts={filteredProducts}
               products={products}
+              viewMode={viewMode}
             />
           )}
         </div>

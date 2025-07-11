@@ -16,7 +16,7 @@ const AccordionItem = ({
         type="button"
         onClick={() => setShow(!show)}
         className={classNames(
-          "relative w-full cursor-pointer border bg-white text-slate-500 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:hover:bg-slate-500",
+          "relative w-full cursor-pointer border bg-white text-slate-500 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800",
           headerCSS,
         )}
       >

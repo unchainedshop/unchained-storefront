@@ -44,7 +44,7 @@ const Subtree = ({
       <button
         aria-label="Expand"
         type="button"
-        className="flex w-full cursor-pointer appearance-none items-center justify-between border-0 bg-transparent p-0 text-left uppercase text-inherit hover:bg-slate-100 dark:hover:bg-slate-500"
+        className="flex w-full cursor-pointer appearance-none items-center justify-between border-0 bg-transparent p-0 text-left uppercase text-inherit hover:bg-slate-100 dark:hover:bg-slate-800"
         onClick={() => setShowSubtree(!showSubtree)}
       >
         <div className={`${levelClassMap[level]}`}>
@@ -93,7 +93,7 @@ const Subtree = ({
   ) : (
     <Link
       href={createPathFromArray(path)}
-      className={`block border-t border-color-slate-300 uppercase hover:bg-slate-100 dark:hover:bg-slate-500 ${levelClassMap[level]}`}
+      className={`block border-t border-color-slate-300 uppercase hover:bg-slate-100 dark:hover:bg-slate-800 ${levelClassMap[level]}`}
     >
       <Thumbnail media={media} />
       {navigationTitle}
@@ -118,7 +118,7 @@ const MobileNavigation = ({ doClose, isNavOpen }) => {
       </button>
       <nav
         id="menu"
-        className="mobile-menu bg-white dark:bg-slate-600 dark:text-white"
+        className="mobile-menu bg-white dark:bg-slate-900 dark:text-white"
       >
         <div className="relative">
           <button

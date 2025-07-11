@@ -5,7 +5,7 @@ import formatUsername from "../common/utils/formatUsername";
 
 const FallbackAvatar = ({ username }) => {
   return (
-    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
+    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white border-2 border-slate-900">
       <span className="text font-medium leading-none text-white">
         {username?.slice(0, 2)}
       </span>
@@ -70,7 +70,7 @@ const DetailHeader = ({ user, contact }) => {
               </dt>
               <dd className="flex items-center text-sm font-medium capitalize text-slate-500 sm:mr-6">
                 <DevicePhoneMobileIcon
-                  className="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
+                  className="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-800"
                   aria-hidden="true"
                 />
                 {contact.telNumber}

@@ -2,18 +2,27 @@ import classNames from "classnames";
 
 const Button = ({
   type,
+  variant = "primary",
   icon = null,
   text = "",
   disabled = false,
   className = "",
   onClick = (value) => value,
 }) => {
+  const baseClasses = "flex w-full justify-center rounded-md py-3 px-6 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200";
+  
+  const variantClasses = {
+    primary: "bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-500 border border-transparent",
+    secondary: "bg-white text-slate-900 hover:bg-gray-50 hover:border-gray-300 focus:ring-slate-500 border-2 border-gray-200 dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 dark:hover:bg-slate-600"
+  };
+
   return (
     <button
       className={classNames(
-        "flex w-full justify-center rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium  shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2 text-white",
+        baseClasses,
+        variantClasses[variant],
         {
-          "cursor-not-allowed opacity-30 outline-none": disabled,
+          "cursor-not-allowed opacity-30": disabled,
         },
         className,
       )}

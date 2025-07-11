@@ -12,7 +12,44 @@ export const CART_CHECKOUT_QUERY = gql`
       _id
       cart {
         _id
-        total(category: ITEMS) {
+        items {
+          _id
+          quantity
+          unitPrice {
+            amount
+            currencyCode
+          }
+          total {
+            amount
+            currencyCode
+          }
+          product {
+            _id
+            texts {
+              title
+              subtitle
+            }
+            media {
+              _id
+              file {
+                url
+              }
+            }
+          }
+        }
+        itemsTotal: total(category: ITEMS) {
+          amount
+          currencyCode
+        }
+        taxesTotal: total(category: TAXES) {
+          amount
+          currencyCode
+        }
+        deliveryTotal: total(category: DELIVERY) {
+          amount
+          currencyCode
+        }
+        grandTotal: total {
           amount
           currencyCode
         }
@@ -91,40 +128,156 @@ const Checkout = () => {
   const isContactDataMissing =
     !data.me.cart.contact?.emailAddress && !emailSupportDisabled;
 
+  // Extract different total categories using aliases
+  const itemsTotal = data.me.cart.itemsTotal;
+  const taxesTotal = data.me.cart.taxesTotal;
+  const deliveryTotal = data.me.cart.deliveryTotal;
+  const grandTotal = data.me.cart.grandTotal;
+
   return (
     <>
-      <div
-        data-loading={loading}
-        className={`mt-5 lg:grid lg:items-start lg:gap-x-12 ${
-          isAddressesMissing ? "lg:grid-cols-2" : "lg:grid-cols-2"
-        }`}
-      >
-        <CheckoutAddresses cart={data.me.cart} isInitial={isAddressesMissing} />
-        {!isAddressesMissing && (
-          <CheckoutContact
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Checkout Forms - Left Side */}
+        <div className="lg:col-span-2 space-y-8">
+          <CheckoutAddresses
             cart={data.me.cart}
-            isInitial={isContactDataMissing}
+            isInitial={isAddressesMissing}
           />
-        )}
-        {!isAddressesMissing && !isContactDataMissing && (
-          <CheckoutPaymentMethod
-            cart={data.me.cart}
-            disabled={isContactDataMissing}
-          />
-        )}
-      </div>
-      {isContactDataMissing && !isSubscribed && (
-        <div className="bg-white p-8 rounded-lg text-center print:hidden">
-          <h1 className="text-2xl font-semibold text-red-500">
-            Contact address is require
-          </h1>
-          <p className="text-gray-600">
-            You have not selected any method we can use to contact you. please
-            select atleast one medium we can you send you information about your
-            order status in order to complete your order
-          </p>
+          {!isAddressesMissing && (
+            <CheckoutContact
+              cart={data.me.cart}
+              isInitial={isContactDataMissing}
+            />
+          )}
+          {!isAddressesMissing && !isContactDataMissing && (
+            <CheckoutPaymentMethod
+              cart={data.me.cart}
+              disabled={isContactDataMissing}
+            />
+          )}
         </div>
-      )}
+
+        {/* Cart Summary - Right Side */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-8">
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
+              <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+                Order Summary
+              </h2>
+
+              {/* Cart Items */}
+              <div className="space-y-4 mb-6">
+                {data.me.cart.items?.length > 0 ? (
+                  data.me.cart.items.map((item) => (
+                    <div key={item._id} className="flex gap-4">
+                      {/* Product Image */}
+                      <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-md overflow-hidden flex-shrink-0">
+                        {item.product.media?.[0]?.file?.url ? (
+                          <img
+                            src={item.product.media[0].file.url}
+                            alt={item.product.texts.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="text-slate-400 text-xs">
+                              No image
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Product Details */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                          {item.product.texts.title}
+                        </h3>
+                        {item.product.texts.subtitle && (
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                            {item.product.texts.subtitle}
+                          </p>
+                        )}
+                        <div className="flex justify-between items-center mt-2">
+                          <span className="text-sm text-slate-600 dark:text-slate-300">
+                            Qty: {item.quantity}
+                          </span>
+                          <span className="text-sm font-medium text-slate-900 dark:text-white">
+                            {item.total?.amount} {item.total?.currencyCode}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-slate-500 dark:text-slate-400">
+                      Your cart is empty
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Order Totals */}
+              {data.me.cart.items?.length > 0 && (
+                <>
+                  <div className="border-t border-slate-200 dark:border-slate-600 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                      <span>Zwischensumme</span>
+                      <span>
+                        {itemsTotal?.currencyCode || "CHF"}{" "}
+                        {itemsTotal?.amount || "0.00"}
+                      </span>
+                    </div>
+
+                    {/* Versandgebühren (Delivery/Shipping) */}
+                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                      <span>Versandgebühren</span>
+                      <span>
+                        {deliveryTotal?.currencyCode ||
+                          itemsTotal?.currencyCode ||
+                          "CHF"}{" "}
+                        {deliveryTotal?.amount || "0.00"}
+                      </span>
+                    </div>
+
+                    {/* MwSt (Taxes) */}
+                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                      <span>MwSt</span>
+                      <span>
+                        {taxesTotal?.currencyCode ||
+                          itemsTotal?.currencyCode ||
+                          "CHF"}{" "}
+                        {taxesTotal?.amount || "0.00"}
+                      </span>
+                    </div>
+
+                    {data.me.cart.payment?.fee && (
+                      <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                        <span>Zahlungsgebühr</span>
+                        <span>
+                          {data.me.cart.payment.fee.currencyCode}{" "}
+                          {data.me.cart.payment.fee.amount}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="border-t border-slate-200 dark:border-slate-600 pt-4 mt-4">
+                    <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
+                      <span>Gesamtsumme</span>
+                      <span>
+                        {grandTotal?.currencyCode ||
+                          itemsTotal?.currencyCode ||
+                          "CHF"}{" "}
+                        {grandTotal?.amount || itemsTotal?.amount || "0.00"}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

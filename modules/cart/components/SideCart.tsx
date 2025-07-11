@@ -13,23 +13,21 @@ const SideCart = ({ isOpen }) => {
   const intl = useIntl();
   const { isCartOpen, toggleCart } = useAppContext();
 
+  if (!isOpen) return null;
+
   return (
     <>
       <div
-        className={classNames({
-          "fixed top-0 right-0 bottom-0 left-0 z-50 cursor-pointer bg-black opacity-0":
-            isOpen,
-        })}
+        className={`fixed inset-0 z-[1050] bg-black/50 transition-opacity duration-500 ease-out ${
+          isOpen ? "opacity-100" : "opacity-0"
+        }`}
         onClick={() => toggleCart(false)}
       />
       {!user?.cart?.items.length ? (
         <div
-          className={classNames(
-            "fixed top-0 -right-80 z-50 flex h-full w-[300px] flex-col items-center justify-center overflow-y-auto bg-white py-3 px-2 text-center opacity-100 shadow-md transition dark:bg-slate-600 lg:-right-[450px] lg:w-[400px]",
-            {
-              "right-0 lg:right-0": isOpen,
-            },
-          )}
+          className={`fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-500 ease-out dark:bg-slate-800/95 ${
+            isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+          } flex flex-col items-center justify-center text-center`}
         >
           <ShoppingBagIcon className="h-6 w-6" />
           <p>
@@ -48,37 +46,32 @@ const SideCart = ({ isOpen }) => {
         </div>
       ) : (
         <div
-          className={classNames(
-            "fixed top-0 -right-80 z-50 flex h-full w-[300px] flex-col overflow-y-auto bg-white  bg-opacity-100 px-1 shadow-md transition dark:bg-slate-600 dark:opacity-100 lg:-right-[450px] lg:w-[400px]",
-            {
-              "isOpen lg:right-0": isOpen,
-            },
-          )}
+          className={`fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-500 ease-out dark:bg-slate-800/95 ${
+            isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+          } flex flex-col overflow-y-auto`}
         >
-          <div>
-            <div className="relative">
-              <button
-                aria-label={intl.formatMessage({
-                  id: "close",
-                  defaultMessage: "Close",
-                })}
-                type="button"
-                className="absolute cursor-pointer appearance-none p-2 text-left text-inherit opacity-100"
-                onClick={() => toggleCart(!isCartOpen)}
-              >
-                <XMarkIcon className="h-5 w-5" />
-              </button>
-            </div>
-            <h3 className="m-0 block p-4 text-center text-lg">
+          <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
               {intl.formatMessage({
                 id: "in_cart",
                 defaultMessage: "Cart",
               })}
             </h3>
+            <button
+              aria-label={intl.formatMessage({
+                id: "close",
+                defaultMessage: "Close",
+              })}
+              type="button"
+              className="rounded-lg p-2 text-gray-600 hover:text-gray-900 transition-colors dark:text-gray-400 dark:hover:text-white"
+              onClick={() => toggleCart(!isCartOpen)}
+            >
+              <XMarkIcon className="h-6 w-6" />
+            </button>
           </div>
-          <div className="px-2">
+          <div className="flex-1 overflow-y-auto p-6">
             {user?.cart?.items.length === 0 ? (
-              <p>
+              <p className="text-center text-gray-600 dark:text-gray-300">
                 {intl.formatMessage({
                   id: "no_product_in_cart",
                   defaultMessage:
@@ -87,44 +80,40 @@ const SideCart = ({ isOpen }) => {
                 <Link
                   href="/shop"
                   onClick={() => toggleCart(false)}
-                  className="cursor-pointer font-normal underline"
+                  className="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline"
                 >
                   {intl.formatMessage({
                     id: "shop",
                     defaultMessage: "Shop",
                   })}
-                  .
                 </Link>
               </p>
             ) : (
-              (user?.cart?.items || []).map((item) => (
-                <CartItem key={item._id} {...item} />
-              ))
+              <div className="space-y-4">
+                {(user?.cart?.items || []).map((item) => (
+                  <CartItem key={item._id} {...item} />
+                ))}
+              </div>
             )}
           </div>
-          <div className="p-2 text-center text-slate-900 dark:text-slate-100">
-            <div className="my-0 mb-4 border-t border-b-0 border-solid py-4">
-              <div className="flex flex-wrap items-center justify-between">
-                <div className="mr-2">
-                  {intl.formatMessage({
-                    id: "subtotal",
-                    defaultMessage: "Subtotal",
-                  })}{" "}
-                </div>
-                <div>
-                  <FormattedPrice price={user?.cart?.itemsTotal} />
-                </div>
-              </div>
+          <div className="border-t border-gray-200 p-6 dark:border-gray-600">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-base font-medium text-gray-900 dark:text-white">
+                {intl.formatMessage({
+                  id: "subtotal",
+                  defaultMessage: "Subtotal",
+                })}
+              </span>
+              <FormattedPrice price={user?.cart?.itemsTotal} />
             </div>
             <Link
               href={{ pathname: "/checkout" }}
-              type="button"
-              className="mb-4 block w-full rounded-md border border-transparent bg-slate-600 py-2 px-4 text-base font-medium uppercase text-white shadow-xs hover:bg-slate-700 hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              className="block w-full rounded-md bg-slate-900 py-3 px-4 text-center text-base font-medium text-white transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
               onClick={() => toggleCart(false)}
             >
               {intl.formatMessage({
                 id: "to_checkout",
-                defaultMessage: "To checkout",
+                defaultMessage: "Checkout",
               })}
             </Link>
           </div>

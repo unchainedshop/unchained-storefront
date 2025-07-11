@@ -23,66 +23,61 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
   const firstMediaUrl = product?.media?.[0]?.file?.url;
 
   return (
-    <>
-      <div className="relative">
-        <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg  text-slate-200 group-hover:opacity-75 dark:bg-slate-500">
-          <Link
-            href={`/product/${product?.texts?.slug}`}
-            className="h-full py-5 text-center"
+    <div className="group relative">
+      <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-50 dark:bg-slate-800">
+        <Link href={`/product/${product?.texts?.slug}`}>
+          {firstMediaUrl ? (
+            <Image
+              src={firstMediaUrl}
+              alt={product?.texts?.title}
+              layout="fill"
+              objectFit="cover"
+              className="transition-all duration-300 group-hover:opacity-75"
+              loader={defaultNextImageLoader}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <PhotoIcon className="h-12 w-12 text-gray-400 dark:text-slate-500" />
+            </div>
+          )}
+        </Link>
+        
+        {!disableBookmark && (
+          <button
+            type="button"
+            className="absolute top-3 right-3 rounded-full bg-white/90 p-2 shadow-sm backdrop-blur-sm transition-all duration-200 opacity-0 group-hover:opacity-100 hover:scale-110 hover:shadow-md dark:bg-slate-800/90"
+            onClick={() =>
+              filteredBookmark
+                ? removeBookmark({
+                    bookmarkId: filteredBookmark?._id,
+                  })
+                : conditionalBookmarkProduct({
+                    productId: product?._id,
+                  })
+            }
           >
-            {firstMediaUrl ? (
-              <Image
-                src={firstMediaUrl}
-                alt={product?.texts?.title}
-                layout="fill"
-                placeholder="blur"
-                blurDataURL="placeholder.png"
-                objectFit="cover"
-                className="h-full w-full"
-                loader={defaultNextImageLoader}
-              />
-            ) : (
-              <div className="relative h-full w-full">
-                <PhotoIcon className="absolute inset-0 h-full w-full  dark:text-slate-500" />
-              </div>
-            )}
-          </Link>
+            <BookmarkIcon
+              className={classNames("h-4 w-4", {
+                "text-red-500 hover:text-red-600": filteredBookmark,
+                "text-gray-600 hover:text-gray-800 dark:text-slate-300 dark:hover:text-white":
+                  !filteredBookmark,
+              })}
+            />
+          </button>
+        )}
+      </div>
+
+      <div className="mt-4 space-y-2">
+        <Link href={`/product/${product?.texts?.slug}`}>
+          <h3 className="text-sm font-medium text-gray-900 transition-colors duration-200 hover:text-gray-700 dark:text-white dark:hover:text-gray-200">
+            {product?.texts?.title}
+          </h3>
+        </Link>
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          <FormattedPrice price={product?.simulatedPrice} />
         </div>
       </div>
-      {!disableBookmark && (
-        <button
-          type="button"
-          className="bg-white absolute top-1 right-1 dark:text-white"
-          onClick={() =>
-            filteredBookmark
-              ? removeBookmark({
-                  bookmarkId: filteredBookmark?._id,
-                })
-              : conditionalBookmarkProduct({
-                  productId: product?._id,
-                })
-          }
-        >
-          <BookmarkIcon
-            className={classNames("h-6 w-6", {
-              "text-purple-600 hover:text-purple-700 dark:text-yellow-500 dark:hover:text-yellow-700":
-                filteredBookmark,
-              "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300":
-                !filteredBookmark,
-            })}
-          />
-        </button>
-      )}
-
-      <div className="pt-4 text-center">
-        <h3 className="text-sm font-medium text-slate-900 dark:text-white">
-          {product?.texts?.title}
-        </h3>
-        <span className="ml-1">
-          <FormattedPrice price={product?.simulatedPrice} />
-        </span>
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -10,6 +10,7 @@ import OrderDetailHeader from "./OrderDetailHeader";
 import useOrderStatusTypes from "../orders/hooks/useOrderStatusTypes";
 import StatusProgress from "./StatusProgress";
 import Button from "../common/components/Button";
+import FadeInSection from "../common/components/FadeInSection";
 
 const OrderDetail = ({ order }) => {
   const { orderStatusType } = useOrderStatusTypes();
@@ -38,49 +39,103 @@ const OrderDetail = ({ order }) => {
   };
 
   return (
-    <>
-      <div className="print:hidden w-52  m-auto text-center">
-        <Button
-          text={formatMessage({
-            id: "print",
-            defaultMessage: "Print",
-          })}
-          className=" bg-black  sm:text-white text-white hover:bg-slate-700"
-          type="button"
-          onClick={onPrint}
-          icon={<PrinterIcon className="h-5 w-5" />}
-        />
+    <div className="max-w-6xl mx-auto mt-12">
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* Left Column - Order Info & Items */}
+        <div className="lg:col-span-8 space-y-8">
+          
+          {/* Order Header */}
+          <FadeInSection delay={100}>
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
+              <OrderDetailHeader order={order} />
+            </div>
+          </FadeInSection>
+
+          {/* Order Items */}
+          <FadeInSection delay={200}>
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+                Order Items
+              </h3>
+              <div className="space-y-4">
+                {order?.items.map((item, index) => (
+                  <FadeInSection key={item._id} delay={300 + (index * 50)}>
+                    <OrderDetailItem item={item} />
+                  </FadeInSection>
+                ))}
+              </div>
+            </div>
+          </FadeInSection>
+
+          {/* Status Progress */}
+          <FadeInSection delay={400}>
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+                Order Status
+              </h3>
+              <StatusProgress
+                data={order}
+                statusTypes={orderStatusType}
+                timeline={timeline}
+              />
+            </div>
+          </FadeInSection>
+        </div>
+
+        {/* Right Column - Summary & Details */}
+        <div className="lg:col-span-4 space-y-8">
+          
+          {/* Print Button */}
+          <FadeInSection className="print:hidden">
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 text-center">
+              <Button
+                text={formatMessage({
+                  id: "print",
+                  defaultMessage: "Print Order",
+                })}
+                variant="secondary"
+                type="button"
+                onClick={onPrint}
+                icon={<PrinterIcon className="h-4 w-4" />}
+                className="inline-flex items-center gap-2 px-6 py-2"
+              />
+            </div>
+          </FadeInSection>
+          
+          {/* Order Summary */}
+          <FadeInSection delay={300}>
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+                Order Summary
+              </h3>
+              <OrderDetailBilling order={order} />
+            </div>
+          </FadeInSection>
+
+          {/* Delivery Information */}
+          <FadeInSection delay={400}>
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+                Delivery
+              </h3>
+              <OrderDetailDelivery order={order} />
+            </div>
+          </FadeInSection>
+
+          {/* Payment Information */}
+          <FadeInSection delay={500}>
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+                Payment
+              </h3>
+              <OrderDetailPayment order={order} />
+            </div>
+          </FadeInSection>
+        </div>
       </div>
-
-      <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-10 md:mt-10 dark:text-slate-200">
-        <div>
-          <OrderDetailHeader order={order} />
-        </div>
-        <div className="lg:col-span-2">
-          <OrderDetailBilling order={order} />
-        </div>
-
-        <div className="lg:col-span-2 bg-white dark:bg-slate-800 p-4 shadow dark:shadow-none rounded-md">
-          <StatusProgress
-            data={order}
-            statusTypes={orderStatusType}
-            timeline={timeline}
-          />
-        </div>
-
-        <div>
-          {order?.items.map((item) => {
-            return <OrderDetailItem key={item._id} item={item} />;
-          })}
-        </div>
-        <div>
-          <OrderDetailDelivery order={order} />
-        </div>
-        <div>
-          <OrderDetailPayment order={order} />
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 

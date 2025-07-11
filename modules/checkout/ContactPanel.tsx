@@ -7,15 +7,19 @@ const formatContact = ({ emailAddress, telNumber }) =>
 const ContactPanel = ({ contact, onEdit }) => {
   const { formatMessage } = useIntl();
   return (
-    <div className="mt-4">
-      <div style={{ whiteSpace: "pre-wrap" }}>{formatContact(contact)}</div>
+    <div className="space-y-4">
+      <div className="bg-gray-50 dark:bg-slate-700 rounded-md p-4">
+        <div className="text-sm text-gray-900 dark:text-white whitespace-pre-wrap">
+          {formatContact(contact)}
+        </div>
+      </div>
       <Button
         text={formatMessage({
           id: "edit-contact-data",
           defaultMessage: "Edit Contact Data",
         })}
         type="button"
-        className="inline-flex justify-center mt-2 rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+        variant="secondary"
         onClick={onEdit}
       />
     </div>

@@ -150,9 +150,10 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
     setBillingAddressEditMode(!billingAddressEditMode);
 
   return (
-    <>
-      <div className="mb-6">
-        <h2 className="text-lg font-medium">
+    <div className="space-y-8">
+      {/* Delivery Address Section */}
+      <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-600">
+        <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
           {formatMessage({
             id: "delivery-address",
             defaultMessage: "Delivery address",
@@ -166,41 +167,45 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
         />
       </div>
 
-      <div className="mb-6" hidden={isInitial}>
-        <h2 className="text-lg font-medium  mb-4">
-          {formatMessage({
-            id: "billing-address",
-            defaultMessage: "Billing address",
-          })}
-        </h2>
-        <div className="flex items-center">
-          <input
-            id="isBillingAddressDifferent"
-            type="checkbox"
-            defaultChecked={!isBillingAddressDifferent}
-            onChange={toggleBillingAddress}
-            className="h-4 w-4 rounded border-slate-300 text-red-600 focus:ring-red-800"
-          />
-          <label
-            htmlFor="isBillingAddressDifferent"
-            className="ml-3 block text-sm font-medium text-brown-600"
-          >
+      {/* Billing Address Section */}
+      {!isInitial && (
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-600">
+          <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
             {formatMessage({
-              id: "billing-same-as-delivery",
-              defaultMessage: "Billing Address Same as Delivery",
+              id: "billing-address",
+              defaultMessage: "Billing address",
             })}
-          </label>
+          </h2>
+          
+          <div className="mb-4">
+            <label className="flex items-center">
+              <input
+                id="isBillingAddressDifferent"
+                type="checkbox"
+                defaultChecked={!isBillingAddressDifferent}
+                onChange={toggleBillingAddress}
+                className="h-4 w-4 rounded border-gray-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-slate-600 dark:bg-slate-700"
+              />
+              <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                {formatMessage({
+                  id: "billing-same-as-delivery",
+                  defaultMessage: "Billing Address Same as Delivery",
+                })}
+              </span>
+            </label>
+          </div>
+          
+          {isBillingAddressDifferent && (
+            <EditableAddressPanel
+              editing={billingAddressEditMode}
+              address={billingAddress}
+              onSubmit={updateBillingAddress}
+              onToggle={toggleBillingAddressEditMode}
+            />
+          )}
         </div>
-        {isBillingAddressDifferent && (
-          <EditableAddressPanel
-            editing={billingAddressEditMode}
-            address={billingAddress}
-            onSubmit={updateBillingAddress}
-            onToggle={toggleBillingAddressEditMode}
-          />
-        )}
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 

@@ -7,61 +7,44 @@ const OrderDetailItem = ({ item }) => {
   const { formatMessage } = useIntl();
   const { formatPrice } = useFormatPrice();
   return (
-    <section aria-labelledby="products-heading">
-      <Link href={`/product/${item.product.texts.slug}`}>
-        <h2 id="products-heading" className="sr-only">
-          {formatMessage({
-            id: "purchased_products",
-            defaultMessage: "Purchased products",
-          })}
-        </h2>
-
-        <div className="space-y-8">
-          <div className="mb-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow dark:shadow-none dark:text-slate-200 hover:border hover:border-solid hover:border-slate-600">
-            <div className="px-2 py-1">
-              <div className="flex items-center flex-wrap">
-                <div className="flex flex-shrink-0 overflow-hidden rounded-lg sm:mx-0 ">
-                  {item.product?.media?.length ? (
-                    <ImageWithFallback
-                      src={`${item.product?.media[0].file.url}`}
-                      alt={
-                        item?.product?.texts?.title ||
-                        item?.product?.texts?.subtitle
-                      }
-                      className="object-cover object-center"
-                      width={80}
-                      height={80}
-                    />
-                  ) : null}
-                </div>
-
-                <div className="w-1/2 flex flex-col justify-center sm:mt-0 ml-3 sm:flex-auto">
-                  <h3
-                    className="text-base font-medium text-slate-900 dark:text-slate-200 truncate"
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        item?.product?.texts?.title ||
-                        item?.product?.texts?.subtitle,
-                    }}
-                  />
-                  <div className="mt-1 text-sm font-medium">
-                    {formatPrice(item?.unitPrice)}
-                  </div>
-                  <div className="mt-2 text-xs">
-                    {formatMessage({
-                      id: "item_quantity",
-                      defaultMessage: "Quantity:",
-                    })}
-                    <span className="ml-2 font-bold">{item?.quantity}</span>
-                  </div>
-                </div>
-              </div>
+    <Link href={`/product/${item.product.texts.slug}`} className="block group">
+      <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-200">
+        {/* Product Image */}
+        <div className="flex-shrink-0">
+          {item.product?.media?.length ? (
+            <ImageWithFallback
+              src={`${item.product?.media[0].file.url}`}
+              alt={
+                item?.product?.texts?.title ||
+                item?.product?.texts?.subtitle
+              }
+              className="object-cover object-center rounded"
+              width={48}
+              height={48}
+            />
+          ) : (
+            <div className="w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded flex items-center justify-center">
+              <span className="text-slate-400 text-xs">No image</span>
             </div>
+          )}
+        </div>
+
+        {/* Product Details */}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
+            {item?.product?.texts?.title || item?.product?.texts?.subtitle}
+          </h3>
+          <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            Qty: {item?.quantity}
           </div>
         </div>
-      </Link>
-    </section>
+
+        {/* Price */}
+        <div className="text-sm font-medium text-slate-900 dark:text-white">
+          {formatPrice(item?.unitPrice)}
+        </div>
+      </div>
+    </Link>
   );
 };
 

@@ -37,7 +37,7 @@ const AddToCartButton = ({ productId, ...product }) => {
       <div
         className={`${
           t.visible ? "animate-enter" : "animate-leave"
-        } max-w-lg w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 animate-enter`}
+        } max-w-lg w-full bg-white shadow-lg rounded-lg pointer-events-auto flex animate-enter`}
       >
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
@@ -63,14 +63,14 @@ const AddToCartButton = ({ productId, ...product }) => {
             </div>
           </div>
         </div>
-        <div className="flex border-l border-slate-200">
+        <div className="flex">
           <button
             type="button"
             onClick={() => {
               toast.dismiss(t.id);
               router.push("/checkout");
             }}
-            className="bg-white border border-transparent rounded-none rounded-r-lg p-4 justify-center flex-col align-middle text-sm font-medium text-slate-600 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-800"
+            className="bg-white rounded-none rounded-r-lg p-4 justify-center flex-col align-middle text-sm font-medium text-slate-600 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-800"
           >
             <svg
               className="h-6 w-6 inline"
@@ -136,7 +136,7 @@ const AddToCartButton = ({ productId, ...product }) => {
         </div>
 
         <button
-          className="w-full inline-flex items-center rounded-b-md border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
+          className="w-full inline-flex items-center rounded-b-md border border-transparent bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
           aria-label="add-to-cart"
           type="submit"
         >

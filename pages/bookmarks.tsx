@@ -15,21 +15,24 @@ const Bookmarks = () => {
       <MetaTags
         title={formatMessage({ id: "bookmarks", defaultMessage: "Bookmarks" })}
       />
-      <div className="flex flex-wrap justify-center">
-        <div className="relative w-full px-4 md:max-w-2/3 md:flex-6 lg:max-w-3/4 lg:flex-7">
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
-            {formatMessage({
-              id: "bookmarks_title",
-              defaultMessage: "Bookmarks",
-            })}
-          </h1>
+      <div className="min-h-screen bg-white dark:bg-slate-900">
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-light tracking-tight text-gray-900 dark:text-white">
+              {formatMessage({
+                id: "bookmarks_title",
+                defaultMessage: "Bookmarks",
+              })}
+            </h1>
+          </div>
+          
           {loading ? (
             <Loading />
           ) : (
             <ProductList
               onLoadMore={undefined}
-              totalProducts={bookmarkedProducts.length}
-              products={bookmarkedProducts}
+              totalProducts={bookmarkedProducts?.length || 0}
+              products={bookmarkedProducts || []}
             />
           )}
         </div>

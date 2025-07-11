@@ -17,25 +17,47 @@ const Categories = () => {
           defaultMessage: "Product Categories",
         })}
       />
-      <div className="relative w-full bg-white dark:bg-slate-600">
+      <div className="min-h-screen bg-white dark:bg-slate-900">
         {loading ? (
-          <Loading />
+          <div className="flex min-h-screen items-center justify-center">
+            <Loading />
+          </div>
         ) : (
-          <section aria-labelledby="favorites-heading">
-            <div className="max-w-full pl-4 pt-16 sm:pl-6 sm:pt-24 lg:pl-8">
-              <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-slate-100">
-                {formatMessage({
-                  id: "shop_by_category",
-                  defaultMessage: "Shop by Category",
-                })}
-              </h2>
-              <div className="mt-10 space-y-12 divide-gray-200 lg:grid lg:grid-cols-3 lg:gap-x-5  lg:space-y-0">
-                {assortments.map((category) => (
-                  <CategoryListItem key={category._id} category={category} />
-                ))}
+          <>
+            {/* Hero Section */}
+            <section className="w-full bg-gradient-to-br from-gray-50 to-gray-100 py-16 dark:from-slate-800 dark:to-slate-900">
+              <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
+                <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+                  {formatMessage({
+                    id: "shop_by_category",
+                    defaultMessage: "Shop by Category",
+                  })}
+                </h1>
+                <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+                  {formatMessage({
+                    id: "categories_description",
+                    defaultMessage: "Discover our carefully curated collections designed to meet all your needs",
+                  })}
+                </p>
               </div>
-            </div>
-          </section>
+            </section>
+
+            {/* Categories Grid */}
+            <section className="py-16">
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {assortments.map((category) => (
+                    <div
+                      key={category._id}
+                      className="group transform transition-transform duration-300 hover:scale-105"
+                    >
+                      <CategoryListItem category={category} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
         )}
       </div>
     </>

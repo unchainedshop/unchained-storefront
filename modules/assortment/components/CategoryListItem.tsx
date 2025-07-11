@@ -6,61 +6,61 @@ import getMediaUrl from "../../common/utils/getMediaUrl";
 
 const CategoryListItem = ({ category }) => {
   const mediaUrl = getMediaUrl(category);
+  
   return (
     <Link href={`shop/${category.texts.slug}`} className="group block">
-      {mediaUrl ? (
-        <>
-          <div
-            aria-hidden="true"
-            className="aspect-w-3 aspect-h-2 relative overflow-hidden rounded-lg  group-hover:opacity-75 lg:aspect-w-5 lg:aspect-h-6"
-          >
+      <div className="relative overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:bg-slate-800">
+        {mediaUrl ? (
+          <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 dark:bg-slate-800">
             <Image
               src={mediaUrl}
               alt={category?.texts.title}
               layout="fill"
-              placeholder="blur"
-              blurDataURL="/placeholder.png"
               objectFit="cover"
               objectPosition="center"
-              className="h-full w-full"
+              className="transition-transform duration-300 group-hover:scale-105"
               loader={defaultNextImageLoader}
             />
-          </div>
-          <h3 className="mt-4 text-base font-semibold text-slate-900 dark:text-slate-100">
-            {category.texts?.title}
-          </h3>
-          <p className="mt-1 text-center text-sm text-slate-500 dark:text-slate-400">
-            {category.texts?.subtitle}
-          </p>
-        </>
-      ) : (
-        <div className="group relative m-2 rounded-tl-lg rounded-tr-lg  border-2  p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-slate-500 sm:rounded-tr-none ">
-          <div className="mt-8">
-            <h3 className="text-lg font-medium">
-              <span className="absolute inset-0" aria-hidden="true" />
-              <h3 className="mt-4 text-base font-semibold text-slate-900 dark:text-slate-100">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4">
+              <h3 className="text-lg font-semibold text-white">
                 {category.texts?.title}
               </h3>
-              <p className="mt-1 text-center text-sm text-slate-500 dark:text-slate-400">
-                {category.texts?.subtitle}
-              </p>
-            </h3>
+              {category.texts?.subtitle && (
+                <p className="mt-1 text-sm text-gray-200">
+                  {category.texts.subtitle}
+                </p>
+              )}
+            </div>
           </div>
-          <span
-            className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
-            aria-hidden="true"
-          >
-            <svg
-              className="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-            </svg>
-          </span>
-        </div>
-      )}
+        ) : (
+          <div className="flex aspect-[4/3] flex-col items-center justify-center bg-gray-50 p-6 dark:bg-slate-800">
+            <div className="mb-4 rounded-full bg-gray-200 p-3 dark:bg-slate-700">
+              <svg
+                className="h-8 w-8 text-gray-400 dark:text-slate-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
+              </svg>
+            </div>
+            <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-white">
+              {category.texts?.title}
+            </h3>
+            {category.texts?.subtitle && (
+              <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
+                {category.texts.subtitle}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </Link>
   );
 };

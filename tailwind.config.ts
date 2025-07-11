@@ -9,6 +9,7 @@ const tailwindConfig = {
   theme: {
     extend: {
       colors: {
+        // Legacy colors (preserved for compatibility)
         "dark-gray": "#495057",
         "color-light-dark": "#454545",
         "light-black": "#ced4da",
@@ -28,9 +29,50 @@ const tailwindConfig = {
         "color-success-100": "#D1FAE5",
         "color-success-200": "#A7F3D0",
         "color-success-900": "#064E3B",
+        
+        // Modern color palette
+        primary: {
+          50: "#f8fafc",
+          100: "#f1f5f9",
+          200: "#e2e8f0",
+          300: "#cbd5e1",
+          400: "#94a3b8",
+          500: "#64748b",
+          600: "#475569",
+          700: "#334155",
+          800: "#1e293b",
+          900: "#0f172a",
+        },
+        accent: {
+          50: "#fef2f2",
+          100: "#fee2e2",
+          200: "#fecaca",
+          300: "#fca5a5",
+          400: "#f87171",
+          500: "#ef4444",
+          600: "#dc2626",
+          700: "#b91c1c",
+          800: "#991b1b",
+          900: "#7f1d1d",
+        },
       },
       boxShadow: {
         0: "0 0 0 0.2rem rgba(0, 123, 255, 0.25)",
+        "soft": "0 2px 8px -2px rgba(0, 0, 0, 0.1)",
+        "soft-lg": "0 4px 16px -4px rgba(0, 0, 0, 0.1)",
+        "soft-xl": "0 8px 32px -8px rgba(0, 0, 0, 0.1)",
+      },
+      borderRadius: {
+        "2xl": "1rem",
+        "3xl": "1.5rem",
+      },
+      spacing: {
+        sp: "calc(1em - 5px)",
+        "sp-1": "calc(100% + 3em)",
+        18: "4.5rem",
+        88: "22rem",
+        92: "23rem",
+        96: "24rem",
       },
       flex: {
         2: "0 0 50%",
@@ -46,13 +88,45 @@ const tailwindConfig = {
         "1/4": "25%",
         "2/3": "66.666667%%",
         "3/4": "75%",
+        "8xl": "88rem",
+        "9xl": "96rem",
       },
-      content: {
-        star: 'url("/storefront/public/static/img/icon-streamline/arrow-button-down.svg")',
+      fontFamily: {
+        sans: [
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
       },
-      spacing: {
-        sp: "calc(1em - 5px)",
-        "sp-1": "calc(100% + 3em)",
+      transitionTimingFunction: {
+        "smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
+      },
+      animation: {
+        "fade-in": "fadeIn 0.5s ease-in-out",
+        "slide-up": "slideUp 0.3s ease-out",
+        "scale": "scale 0.2s ease-out",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        slideUp: {
+          "0%": { transform: "translateY(16px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        scale: {
+          "0%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
+        },
+      },
+      backdropBlur: {
+        xs: "2px",
       },
     },
   },
