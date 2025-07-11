@@ -62,7 +62,10 @@ const MegaDropdown = ({ dataInHoverPath, ...rest }) => {
           <div className="hidden" />
         )}
         {thirdColumnNode?.children ? (
-          <MegaDropdownColumn {...thirdColumnNode} key="mega-dropdown-column-3" />
+          <MegaDropdownColumn
+            {...thirdColumnNode}
+            key="mega-dropdown-column-3"
+          />
         ) : (
           <div className="hidden" />
         )}

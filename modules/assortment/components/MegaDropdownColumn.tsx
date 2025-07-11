@@ -49,7 +49,7 @@ const MegaDropdownItem = ({
           "hover:bg-slate-50 dark:hover:bg-slate-700": type === "default",
           "font-semibold text-slate-900 dark:text-white": type === "show_all",
           "text-slate-700 dark:text-slate-300": type === "default",
-        }
+        },
       )}
       onMouseEnter={handleMouseEnter}
       onClick={handleClick}
@@ -63,13 +63,12 @@ const MegaDropdownItem = ({
           </div>
         )}
         <div className="flex-1">
-          <div className={classNames(
-            "text-sm",
-            {
+          <div
+            className={classNames("text-sm", {
               "font-semibold": type === "show_all",
               "font-medium": type === "default",
-            }
-          )}>
+            })}
+          >
             {navigationTitle}
           </div>
           {type === "show_all" && (
@@ -82,8 +81,18 @@ const MegaDropdownItem = ({
           )}
         </div>
         {type === "default" && Object.keys(children || {}).length > 0 && (
-          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg
+            className="w-4 h-4 text-slate-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         )}
       </div>
@@ -97,7 +106,7 @@ const MegaDropdownColumn = ({
   return (
     <div className="space-y-2">
       <MegaDropdownItem {...rest} type="show_all" />
-      
+
       <div className="space-y-1">
         {rest.children &&
           Object.entries(rest.children)

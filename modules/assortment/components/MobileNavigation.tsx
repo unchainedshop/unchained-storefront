@@ -34,20 +34,25 @@ const Subtree = ({
 
   const levelPadding = {
     0: "pl-4",
-    1: "pl-8", 
+    1: "pl-8",
     2: "pl-12",
     3: "pl-16",
   };
 
   return Object.keys(children).length ? (
-    <div key={pageId} className="border-b border-slate-200 dark:border-slate-700">
+    <div
+      key={pageId}
+      className="border-b border-slate-200 dark:border-slate-700"
+    >
       <button
         aria-label="Expand"
         type="button"
         className="flex w-full items-center justify-between p-4 text-left transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800"
         onClick={() => setShowSubtree(!showSubtree)}
       >
-        <div className={`flex items-center gap-3 ${levelPadding[level] || 'pl-4'}`}>
+        <div
+          className={`flex items-center gap-3 ${levelPadding[level] || "pl-4"}`}
+        >
           {media?.length > 0 && (
             <div className="flex-shrink-0">
               <Thumbnail media={media} className="w-8 h-8 rounded-lg" />
@@ -69,7 +74,7 @@ const Subtree = ({
         <div className="bg-slate-50 dark:bg-slate-800/50">
           <Link
             href={createPathFromArray(path)}
-            className={`block p-3 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-200 ${levelPadding[level + 1] || 'pl-8'}`}
+            className={`block p-3 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-200 ${levelPadding[level + 1] || "pl-8"}`}
           >
             {intl.formatMessage({
               id: "show_all",
@@ -97,7 +102,7 @@ const Subtree = ({
   ) : (
     <Link
       href={createPathFromArray(path)}
-      className={`flex items-center gap-3 p-4 transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-200 dark:border-slate-700 ${levelPadding[level] || 'pl-4'}`}
+      className={`flex items-center gap-3 p-4 transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-200 dark:border-slate-700 ${levelPadding[level] || "pl-4"}`}
     >
       {media?.length > 0 && (
         <div className="flex-shrink-0">
@@ -147,7 +152,7 @@ const MobileNavigation = ({ doClose, isNavOpen }) => {
               </span>
             </button>
           </div>
-          
+
           <div className="max-h-96 overflow-y-auto">
             {Object.entries(assortmentTree.children).map(
               ([pageId, node]: any) => (

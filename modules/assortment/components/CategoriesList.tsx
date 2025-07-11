@@ -23,9 +23,9 @@ const CategoriesList = ({
       {tree?.children && (
         <div className="space-y-2">
           {Object.entries(tree?.children).map(([, { texts, _id }]) => (
-            <Link 
-              key={_id} 
-              href={`${currentPath}/${texts.slug}`} 
+            <Link
+              key={_id}
+              href={`${currentPath}/${texts.slug}`}
               className="block p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
             >
               <div className="flex items-center gap-3">
