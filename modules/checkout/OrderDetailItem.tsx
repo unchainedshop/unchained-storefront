@@ -1,11 +1,10 @@
 import { useIntl } from "react-intl";
 import Link from "next/link";
-import { useFormatPrice } from "../common/utils/utils";
+import FormattedPrice from "../common/components/FormattedPrice";
 import ImageWithFallback from "../common/components/ImageWithFallback";
 
 const OrderDetailItem = ({ item }) => {
   const { formatMessage } = useIntl();
-  const { formatPrice } = useFormatPrice();
   return (
     <Link href={`/product/${item.product.texts.slug}`} className="block group">
       <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-200">
@@ -40,7 +39,7 @@ const OrderDetailItem = ({ item }) => {
 
         {/* Price */}
         <div className="text-sm font-medium text-slate-900 dark:text-white">
-          {formatPrice(item?.unitPrice)}
+          <FormattedPrice price={item?.unitPrice} />
         </div>
       </div>
     </Link>

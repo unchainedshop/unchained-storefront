@@ -97,13 +97,13 @@ const CartItem = ({
             <div className="ml-4 flow-root flex-shrink-0">
               <button
                 type="button"
-                className="-m-2.5 flex items-center justify-center p-2.5 text-slate-400 hover:text-slate-500 dark:text-slate-100"
+                className="-m-2.5 flex items-center justify-center p-2.5 text-slate-600 hover:text-slate-600 dark:text-slate-100"
                 onClick={() => removeCartItem({ itemId: _id })}
               >
                 <span className="sr-only">
                   {formatMessage({ id: "remove", defaultMessage: "Remove" })}
                 </span>
-                <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                <TrashIcon className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           ) : null}

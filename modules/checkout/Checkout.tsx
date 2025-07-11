@@ -5,6 +5,7 @@ import CheckoutAddresses from "./CheckoutAddresses";
 import CheckoutPaymentMethod from "./CheckoutPaymentMethod";
 import { useAppContext } from "../common/components/AppContextWrapper";
 import usePushNotification from "../context/push-notification/usePushNotification";
+import FormattedPrice from "../common/components/FormattedPrice";
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -159,7 +160,7 @@ const Checkout = () => {
 
         {/* Cart Summary - Right Side */}
         <div className="lg:col-span-1">
-          <div className="sticky top-8">
+          <div className="sticky top-16">
             <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
               <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
                 Order Summary
@@ -202,7 +203,7 @@ const Checkout = () => {
                             Qty: {item.quantity}
                           </span>
                           <span className="text-sm font-medium text-slate-900 dark:text-white">
-                            {item.total?.amount} {item.total?.currencyCode}
+                            <FormattedPrice price={item.total} />
                           </span>
                         </div>
                       </div>
@@ -224,8 +225,7 @@ const Checkout = () => {
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                       <span>Zwischensumme</span>
                       <span>
-                        {itemsTotal?.currencyCode || "CHF"}{" "}
-                        {itemsTotal?.amount || "0.00"}
+                        <FormattedPrice price={itemsTotal} />
                       </span>
                     </div>
 
@@ -233,10 +233,14 @@ const Checkout = () => {
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                       <span>Versandgebühren</span>
                       <span>
-                        {deliveryTotal?.currencyCode ||
-                          itemsTotal?.currencyCode ||
-                          "CHF"}{" "}
-                        {deliveryTotal?.amount || "0.00"}
+                        <FormattedPrice
+                          price={
+                            deliveryTotal || {
+                              amount: 0,
+                              currencyCode: itemsTotal?.currencyCode || "CHF",
+                            }
+                          }
+                        />
                       </span>
                     </div>
 
@@ -244,10 +248,14 @@ const Checkout = () => {
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                       <span>MwSt</span>
                       <span>
-                        {taxesTotal?.currencyCode ||
-                          itemsTotal?.currencyCode ||
-                          "CHF"}{" "}
-                        {taxesTotal?.amount || "0.00"}
+                        <FormattedPrice
+                          price={
+                            taxesTotal || {
+                              amount: 0,
+                              currencyCode: itemsTotal?.currencyCode || "CHF",
+                            }
+                          }
+                        />
                       </span>
                     </div>
 
@@ -255,8 +263,7 @@ const Checkout = () => {
                       <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                         <span>Zahlungsgebühr</span>
                         <span>
-                          {data.me.cart.payment.fee.currencyCode}{" "}
-                          {data.me.cart.payment.fee.amount}
+                          <FormattedPrice price={data.me.cart.payment.fee} />
                         </span>
                       </div>
                     )}
@@ -265,10 +272,7 @@ const Checkout = () => {
                     <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
                       <span>Gesamtsumme</span>
                       <span>
-                        {grandTotal?.currencyCode ||
-                          itemsTotal?.currencyCode ||
-                          "CHF"}{" "}
-                        {grandTotal?.amount || itemsTotal?.amount || "0.00"}
+                        <FormattedPrice price={grandTotal || itemsTotal} />
                       </span>
                     </div>
                   </div>

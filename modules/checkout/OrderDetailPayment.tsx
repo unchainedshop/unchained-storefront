@@ -3,15 +3,14 @@ import { useIntl } from "react-intl";
 import usePaymentStatusTypes from "../orders/hooks/usePaymentStatusTypes";
 import usePaymentProviderTypes from "../orders/hooks/usePaymentProviderTypes";
 import useFormatDateTime from "../common/utils/useFormatDateTime";
-import { getInterfaceLabel, useFormatPrice } from "../common/utils/utils";
+import { getInterfaceLabel } from "../common/utils/utils";
+import FormattedPrice from "../common/components/FormattedPrice";
 import StatusInformation from "../common/components/StatusInformation";
 
 const OrderDetailPayment = ({ order }) => {
   const { paymentProviderType } = usePaymentProviderTypes();
   const { paymentStatusTypes } = usePaymentStatusTypes();
   const { formatDateTime } = useFormatDateTime();
-  const { formatPrice } = useFormatPrice();
-
   const { formatMessage } = useIntl();
 
   return (
@@ -24,7 +23,7 @@ const OrderDetailPayment = ({ order }) => {
           })}
         </h2>
         <span className="mr-2 block rounded-full py-1 text-xs font-semibold leading-5">
-          {formatPrice(order.payment.fee)}
+          <FormattedPrice price={order.payment.fee} />
         </span>
         <span className="font-medium">
           {formatDateTime(order.payment.paid, {

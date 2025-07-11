@@ -1,6 +1,7 @@
 import { useIntl } from "react-intl";
 
-import { getInterfaceLabel, useFormatPrice } from "../common/utils/utils";
+import { getInterfaceLabel } from "../common/utils/utils";
+import FormattedPrice from "../common/components/FormattedPrice";
 import useDeliveryProviderTypes from "../orders/hooks/useDeliveryProviderTypes";
 import useFormatDateTime from "../common/utils/useFormatDateTime";
 import useDeliveryStatusTypes from "../orders/hooks/useDeliveryStatusTypes";
@@ -10,7 +11,6 @@ const OrderDetailDelivery = ({ order }) => {
   const { deliveryProviderType } = useDeliveryProviderTypes();
   const { deliveryStatusType } = useDeliveryStatusTypes();
 
-  const { formatPrice } = useFormatPrice();
   const { formatMessage } = useIntl();
   const { formatDateTime } = useFormatDateTime();
 
@@ -24,7 +24,7 @@ const OrderDetailDelivery = ({ order }) => {
           })}
         </h2>
         <span className="mr-2 block rounded-full py-1 text-xs font-semibold leading-5">
-          {formatPrice(order?.delivery.fee)}
+          <FormattedPrice price={order?.delivery.fee} />
         </span>
         <span className="font-medium">
           {formatDateTime(order?.delivery?.delivered, {

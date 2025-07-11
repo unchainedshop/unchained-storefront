@@ -37,11 +37,11 @@ const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
               <div className="flex justify-center">
                 <Link
                   href="/"
-                  className="text-xl font-bold text-gray-900 dark:text-white"
+                  className="text-xl font-semibold text-gray-900 dark:text-white"
                 >
                   {formatMessage({
                     id: "shop_title",
-                    defaultMessage: "UNCHAINED SHOP",
+                    defaultMessage: "Unchained Store",
                   })}
                 </Link>
               </div>
@@ -70,11 +70,11 @@ const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
             <div className="flex justify-center">
               <Link
                 href="/"
-                className="text-md font-medium text-gray-900 dark:text-white"
+                className="text-md font-semibold text-gray-900 dark:text-white"
               >
                 {formatMessage({
                   id: "shop_title",
-                  defaultMessage: "UNCHAINED SHOP",
+                  defaultMessage: "Unchained Store",
                 })}
               </Link>
             </div>

@@ -1,15 +1,6 @@
-const useFormatPrice = () => {
-  const formatPrice = (price: { currency: string; amount: number }) => {
-    if (!price?.currency || !price?.amount) return "";
-    const { amount, currency } = price || {};
-    return new Intl.NumberFormat(navigator.language, {
-      style: "currency",
-      currency,
-    }).format(amount / 100);
-  };
-
-  return { formatPrice };
-};
+// DEPRECATED: Use FormattedPrice component instead
+// This function has been removed to prevent formatting inconsistencies
+// All price formatting should use the FormattedPrice component
 
 const getInterfaceLabel = (obj: { label?: string; version?: string }) => {
   return obj?.label && obj?.version ? `${obj.label} ${obj.version}` : "";
@@ -114,7 +105,6 @@ const getContent = (content) => {
 };
 
 export {
-  useFormatPrice,
   getInterfaceLabel,
   classNames,
   normalizeCurrencyISOCode,

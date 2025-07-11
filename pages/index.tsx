@@ -61,7 +61,7 @@ const Home = () => {
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-12 flex items-center justify-between">
-              <h2 className="text-2xl font-light tracking-tight text-gray-900 dark:text-white">
+              <h2 className="text-2xl tracking-tight text-gray-900 dark:text-white">
                 {formatMessage({
                   id: "latest_drops",
                   defaultMessage: "Latest Drops",
@@ -102,7 +102,7 @@ const Home = () => {
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-12 flex items-center justify-between">
-              <h2 className="text-2xl font-light tracking-tight text-gray-900 dark:text-white">
+              <h2 className="text-2xl tracking-tight text-gray-900 dark:text-white">
                 {formatMessage({
                   id: "featured_products",
                   defaultMessage: "Featured Products",
@@ -143,7 +143,7 @@ const Home = () => {
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-12 flex items-center justify-between">
-              <h2 className="text-2xl font-light tracking-tight text-gray-900 dark:text-white">
+              <h2 className="text-2xl tracking-tight text-gray-900 dark:text-white">
                 {formatMessage({
                   id: "weekly_picks",
                   defaultMessage: "Weekly Picks",
