@@ -22,9 +22,9 @@ const Privacy = () => {
           <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
             This privacy policy explains how we collect, use, and protect your
             personal information, assuming we figure out how to do any of those
-            things properly. We take your privacy seriously, which is why we've
-            written this document that nobody will read to explain policies that
-            we're still making up as we go along.
+            things properly. We take your privacy seriously, which is why
+            we&apos;ve written this document that nobody will read to explain
+            policies that we&apos;re still making up as we go along.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -35,10 +35,10 @@ const Privacy = () => {
             limited to: your name, email address, shopping preferences, browsing
             habits, favorite color, childhood fears, and the name of your first
             pet. We also accidentally collect information about what you had for
-            breakfast, though we're not sure why our system does that or how to
-            make it stop. Sometimes we collect information we didn't even know
-            we were collecting, which surprises us as much as it probably
-            surprises you.
+            breakfast, though we&apos;re not sure why our system does that or
+            how to make it stop. Sometimes we collect information we didn&apos;t
+            even know we were collecting, which surprises us as much as it
+            probably surprises you.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -63,8 +63,8 @@ const Privacy = () => {
                 the cat insists)
               </li>
               <li>
-                Create targeted advertising that's so off-target it's almost
-                impressive
+                Create targeted advertising that&apos;s so off-target it&apos;s
+                almost impressive
               </li>
               <li>
                 Generate reports that nobody reads but make us feel productive
@@ -91,9 +91,9 @@ const Privacy = () => {
           <p className="text-slate-600 dark:text-slate-300">
             Our website uses cookies, not the delicious kind but the digital
             ones that follow you around the internet. These cookies help us
-            remember who you are, what you like, and where you've been on our
-            site. We also use tracking pixels, which are like digital Post-it
-            notes that stick to your browser. Some of these cookies are
+            remember who you are, what you like, and where you&apos;ve been on
+            our site. We also use tracking pixels, which are like digital
+            Post-it notes that stick to your browser. Some of these cookies are
             essential, others are just nosy. You can disable cookies in your
             browser, but then our website might forget who you are and treat you
             like a stranger at a party.
@@ -104,12 +104,13 @@ const Privacy = () => {
           </h2>
           <p className="text-slate-600 dark:text-slate-300">
             We protect your data using industry-standard security measures,
-            which is business speak for "we installed some software and hope it
-            works." Our security measures include encryption, firewalls, secure
-            servers, and a very aggressive security guard (actually just the
-            office cat, but it's surprisingly effective). While we cannot
-            guarantee absolute security, we can guarantee that we'll be just as
-            surprised as you if something goes wrong.
+            which is business speak for &quot;we installed some software and
+            hope it works.&quot; Our security measures include encryption,
+            firewalls, secure servers, and a very aggressive security guard
+            (actually just the office cat, but it&apos;s surprisingly
+            effective). While we cannot guarantee absolute security, we can
+            guarantee that we&apos;ll be just as surprised as you if something
+            goes wrong.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -123,15 +124,15 @@ const Privacy = () => {
               <li>Access your personal data (once we find it)</li>
               <li>
                 Correct inaccurate information (assuming we can figure out
-                what's wrong)
+                what&apos;s wrong)
               </li>
               <li>
-                Delete your data (the "right to be forgotten," though we might
-                forget to forget)
+                Delete your data (the &quot;right to be forgotten,&quot; though
+                we might forget to forget)
               </li>
               <li>Object to processing (we might object to your objection)</li>
               <li>
-                Data portability (we'll pack your data in a nice digital
+                Data portability (we&apos;ll pack your data in a nice digital
                 suitcase)
               </li>
               <li>Withdraw consent (though we might cry a little)</li>
@@ -156,10 +157,10 @@ const Privacy = () => {
           <p className="text-slate-600 dark:text-slate-300">
             We may update this privacy policy from time to time, usually when
             someone points out something we forgot or when new laws require us
-            to pretend we understand them. We'll notify you of significant
+            to pretend we understand them. We&apos;ll notify you of significant
             changes by email, website banner, or interpretive dance, depending
             on our mood and budget. Continued use of our services after changes
-            means you accept the new policy, even if you didn't read it.
+            means you accept the new policy, even if you didn&apos;t read it.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -170,7 +171,7 @@ const Privacy = () => {
             your rights, or just want to chat about data protection over coffee,
             you can contact us at privacy@definitely-real-commerce.example. We
             promise to respond within a reasonable time, which we define as
-            "eventually, maybe."
+            &quot;eventually, maybe.&quot;
           </p>
 
           <p className="text-sm text-slate-500 dark:text-slate-400 italic mt-8">

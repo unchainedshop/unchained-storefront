@@ -44,10 +44,11 @@ const AboutPage = () => {
           <p className="text-slate-600 dark:text-slate-300">
             To be the leading provider of comprehensive solutions that nobody
             really needs but everyone thinks they want, while simultaneously
-            disrupting industries we've never worked in and revolutionizing
-            processes we don't fully comprehend, all in pursuit of achieving
-            sustainable growth metrics that sound impressive in quarterly
-            reports but mean absolutely nothing to actual human beings.
+            disrupting industries we&apos;ve never worked in and revolutionizing
+            processes we don&apos;t fully comprehend, all in pursuit of
+            achieving sustainable growth metrics that sound impressive in
+            quarterly reports but mean absolutely nothing to actual human
+            beings.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -56,7 +57,7 @@ const AboutPage = () => {
           <ul className="list-disc pl-6 space-y-2 text-slate-600 dark:text-slate-300">
             <li>
               <strong>Transparency:</strong> We believe in being completely open
-              about how little we actually know about what we're doing.
+              about how little we actually know about what we&apos;re doing.
             </li>
             <li>
               <strong>Innovation:</strong> Constantly finding new ways to make
@@ -83,10 +84,10 @@ const AboutPage = () => {
             Our diverse team consists of visionary thought leaders, strategic
             innovators, and dynamic change agents who collectively possess over
             200 years of experience in fields that may or may not be relevant to
-            what we're supposedly doing. Each team member brings a unique
+            what we&apos;re supposedly doing. Each team member brings a unique
             perspective shaped by their extensive background in industries we
-            can't specifically name due to confidentiality agreements that
-            probably don't exist.
+            can&apos;t specifically name due to confidentiality agreements that
+            probably don&apos;t exist.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -108,10 +109,10 @@ const AboutPage = () => {
           <p className="text-slate-600 dark:text-slate-300">
             Because we wrote this page and you read it all the way down here,
             which demonstrates either remarkable dedication or concerning
-            amounts of free time. Either way, we respect that. Plus, we're
-            probably the only company honest enough to admit that most "About
-            Us" pages are just elaborate word salads designed to make
-            organizations sound more important than they actually are.
+            amounts of free time. Either way, we respect that. Plus, we&apos;re
+            probably the only company honest enough to admit that most
+            &quot;About Us&quot; pages are just elaborate word salads designed
+            to make organizations sound more important than they actually are.
           </p>
 
           <p className="text-sm text-slate-500 dark:text-slate-400 italic mt-8">

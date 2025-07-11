@@ -70,9 +70,6 @@ const formatPrice = (rawPrice) => {
       });
 
       const result = chfFormatter.format(chfAmount);
-      console.log(
-        `FORCE CHF FORMAT: ${amount} rappen -> ${chfAmount} CHF -> ${result}`,
-      );
       return result;
     } catch (error) {
       console.error("CHF formatting failed, using fallback:", error);

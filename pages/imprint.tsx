@@ -19,8 +19,8 @@ const Imprint = () => {
           <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
             According to various international laws that we may or may not fully
             understand, we are required to provide you with some information
-            about who we are, where we are, and what we're supposedly doing.
-            Consider this your official heads-up about our existence.
+            about who we are, where we are, and what we&apos;re supposedly
+            doing. Consider this your official heads-up about our existence.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -61,11 +61,11 @@ const Imprint = () => {
           </h2>
           <p className="text-slate-600 dark:text-slate-300">
             This company is managed by a board of directors consisting entirely
-            of people who are excellent at making decisions they don't
-            understand about things they've never seen. Our CEO is rumored to be
-            either a very sophisticated chatbot or three cats in a business
-            suit. The CFO is definitely a golden retriever with an MBA from an
-            unaccredited online university.
+            of people who are excellent at making decisions they don&apos;t
+            understand about things they&apos;ve never seen. Our CEO is rumored
+            to be either a very sophisticated chatbot or three cats in a
+            business suit. The CFO is definitely a golden retriever with an MBA
+            from an unaccredited online university.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -95,8 +95,8 @@ const Imprint = () => {
                   Business Hours:
                 </span>
                 <span className="ml-2 text-slate-600 dark:text-slate-300">
-                  Monday-Friday, 9:00-17:00 (Swiss time, but we're often running
-                  late)
+                  Monday-Friday, 9:00-17:00 (Swiss time, but we&apos;re often
+                  running late)
                 </span>
               </div>
             </div>
@@ -116,11 +116,11 @@ const Imprint = () => {
             Professional Liability Insurance
           </h2>
           <p className="text-slate-600 dark:text-slate-300">
-            We are insured by the "Fictional Insurance Company for Imaginary
-            Businesses," policy number 404-NOT-FOUND. Coverage includes
-            protection against acts of digital vandalism, spontaneous website
-            combustion, and angry customers who realize our business might not
-            actually exist.
+            We are insured by the &quot;Fictional Insurance Company for
+            Imaginary Businesses,&quot; policy number 404-NOT-FOUND. Coverage
+            includes protection against acts of digital vandalism, spontaneous
+            website combustion, and angry customers who realize our business
+            might not actually exist.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -128,7 +128,7 @@ const Imprint = () => {
           </h2>
           <p className="text-slate-600 dark:text-slate-300">
             This website is subject to Swiss law, international internet
-            regulations, and the laws of physics (though we're working on
+            regulations, and the laws of physics (though we&apos;re working on
             exemptions for the latter). Any disputes arising from the use of
             this website will be resolved through interpretive dance or a
             strongly worded letter, whichever seems more appropriate at the
@@ -143,7 +143,7 @@ const Imprint = () => {
             team, which consists of one overworked intern, a magic 8-ball, and
             occasionally input from the office cat. We strive for accuracy but
             make no promises. If you find factual errors, please let us
-            know—we'll add them to our collection.
+            know&mdash;we&apos;ll add them to our collection.
           </p>
 
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
@@ -159,8 +159,8 @@ const Imprint = () => {
 
           <p className="text-sm text-slate-500 dark:text-slate-400 italic mt-8">
             *This imprint contains all the legal information required by law,
-            plus several things that definitely aren't. Use at your own risk and
-            sense of humor.*
+            plus several things that definitely aren&apos;t. Use at your own
+            risk and sense of humor.*
           </p>
         </div>
       </div>
