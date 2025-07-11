@@ -24,7 +24,7 @@ const ProductList = ({
         </h2>
 
         {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {products.map((product) => (
               <div key={product?._id} className="group relative">
                 <ProductListItem product={product} />

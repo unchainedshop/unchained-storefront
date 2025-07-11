@@ -67,9 +67,9 @@ const Home = () => {
         </section>
 
         {/* Categories Section */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
+        <section className="py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div className="text-center">
               <h2 className="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
                   id: "browse_categories",
@@ -84,22 +84,26 @@ const Home = () => {
                 })}
               </p>
             </div>
+          </div>
 
-            {assortmentsLoading ? (
+          {assortmentsLoading ? (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <Loading />
-            ) : (
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            </div>
+          ) : (
+            <div className="w-screen ml-[calc(-50vw+50%)] overflow-x-auto scrollbar-hide pb-4">
+              <div className="flex gap-6 scroll-smooth pl-4 xl:pl-[max(calc((100vw-80rem)/2))] pr-4 sm:pr-6 lg:pr-8">
                 {assortments.map((category) => (
                   <div
                     key={category._id}
-                    className="group transform transition-transform duration-300 hover:scale-105"
+                    className="group flex-none w-64 sm:w-72 transform transition-transform duration-300 hover:scale-105"
                   >
                     <CategoryListItem category={category} />
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </section>
 
         {/* Products Section */}

@@ -45,6 +45,40 @@
   --spacing-sp-1: calc(100% + 3em);
 }
 
+/* Hide scrollbar while maintaining scrollability */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Image Gallery Controls - Hide by default, show on hover */
+.image-gallery .image-gallery-play-button,
+.image-gallery .image-gallery-fullscreen-button,
+.image-gallery .image-gallery-left-nav,
+.image-gallery .image-gallery-right-nav {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-gallery:hover .image-gallery-play-button,
+.image-gallery:hover .image-gallery-fullscreen-button,
+.image-gallery:hover .image-gallery-left-nav,
+.image-gallery:hover .image-gallery-right-nav {
+  opacity: 1;
+}
+
+/* Control hover SVG styling */
+.image-gallery .image-gallery-play-button:hover svg,
+.image-gallery .image-gallery-fullscreen-button:hover svg,
+.image-gallery .image-gallery-left-nav:hover svg,
+.image-gallery .image-gallery-right-nav:hover svg {
+  stroke: rgb(2, 6, 23) !important; /* slate-950 */
+}
+
 /* Border color compatibility styles for Tailwind CSS v4 */
 *,
 ::after,
