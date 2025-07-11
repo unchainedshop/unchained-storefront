@@ -210,5 +210,19 @@
   "username-or-email": "Username / Email",
   "verification-failed": "Verification Failed",
   "verification-token-expired": "Verification token expired",
-  "webauthn-brief-description": "Authenticator give you a simple and secure way to sign in without passwords by relying on Face ID or Touch ID using your phone or external Passkeys eg. Apple passkey to identify you when you sign in."
+  "webauthn-brief-description": "Authenticator give you a simple and secure way to sign in without passwords by relying on Face ID or Touch ID using your phone or external Passkeys eg. Apple passkey to identify you when you sign in.",
+  "hero_title": "Discover Amazing Products",
+  "hero_subtitle": "Curated collection of the finest items",
+  "browse_categories": "Browse Categories",
+  "categories_subtitle": "Explore our wide range of product categories",
+  "all_products": "All Products",
+  "products_subtitle": "Discover our complete collection",
+  "no_products": "No products available",
+  "categories_description": "Discover our carefully curated collections designed to meet all your needs",
+  "search_products": "Search Products",
+  "search_description": "Find exactly what you're looking for",
+  "search_placeholder": "Search for products...",
+  "search_results_for": "Results for '{query}'",
+  "no_search_results": "No products found matching your search.",
+  "search_instruction": "Enter a search term to find products."
 }

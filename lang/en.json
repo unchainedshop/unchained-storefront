@@ -613,5 +613,47 @@
   },
   "verification-token-expired": {
     "defaultMessage": "Verification token expired"
+  },
+  "hero_title": {
+    "defaultMessage": "Discover Amazing Products"
+  },
+  "hero_subtitle": {
+    "defaultMessage": "Curated collection of the finest items"
+  },
+  "browse_categories": {
+    "defaultMessage": "Browse Categories"
+  },
+  "categories_subtitle": {
+    "defaultMessage": "Explore our wide range of product categories"
+  },
+  "all_products": {
+    "defaultMessage": "All Products"
+  },
+  "products_subtitle": {
+    "defaultMessage": "Discover our complete collection"
+  },
+  "no_products": {
+    "defaultMessage": "No products available"
+  },
+  "categories_description": {
+    "defaultMessage": "Discover our carefully curated collections designed to meet all your needs"
+  },
+  "search_products": {
+    "defaultMessage": "Search Products"
+  },
+  "search_description": {
+    "defaultMessage": "Find exactly what you're looking for"
+  },
+  "search_placeholder": {
+    "defaultMessage": "Search for products..."
+  },
+  "search_results_for": {
+    "defaultMessage": "Results for '{query}'"
+  },
+  "no_search_results": {
+    "defaultMessage": "No products found matching your search."
+  },
+  "search_instruction": {
+    "defaultMessage": "Enter a search term to find products."
   }
 }

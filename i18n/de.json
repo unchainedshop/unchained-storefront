@@ -144,5 +144,17 @@
   "hero_title": "Entdecken Sie erstaunliche Produkte",
   "hero_subtitle": "Kuratierte Sammlung der besten Artikel",
   "bookmarks": "Lesezeichen",
-  "bookmarks_title": "Lesezeichen"
+  "bookmarks_title": "Lesezeichen",
+  "browse_categories": "Kategorien durchsuchen",
+  "categories_subtitle": "Entdecken Sie unser breites Sortiment an Produktkategorien",
+  "all_products": "Alle Produkte",
+  "products_subtitle": "Entdecken Sie unsere komplette Kollektion",
+  "no_products": "Keine Produkte verfügbar",
+  "categories_description": "Entdecken Sie unsere sorgfältig kuratierten Kollektionen, die alle Ihre Bedürfnisse erfüllen",
+  "search_products": "Produkte suchen",
+  "search_description": "Finden Sie genau das, wonach Sie suchen",
+  "search_placeholder": "Nach Produkten suchen...",
+  "search_results_for": "Ergebnisse für '{query}'",
+  "no_search_results": "Keine Produkte gefunden, die Ihrer Suche entsprechen.",
+  "search_instruction": "Geben Sie einen Suchbegriff ein, um Produkte zu finden."
 }
