@@ -4,8 +4,8 @@ import SimpleProductPrice from "../fragments/SimpleProductPrice";
 import { ProductAssortmentPathFragment } from "../../assortment/fragments/AssortmentPath";
 
 export const PRODUCTS_QUERY = gql`
-  query Products($tags: [LowerCaseString!]) {
-    products(tags: $tags) {
+  query Products($tags: [LowerCaseString!], $limit: Int) {
+    products(tags: $tags, limit: $limit) {
       _id
       assortmentPaths {
         ...ProductAssortmentPathFragment
@@ -19,10 +19,11 @@ export const PRODUCTS_QUERY = gql`
   ${ProductAssortmentPathFragment}
 `;
 
-const useProducts = ({ tags = [] } = {}) => {
+const useProducts = ({ tags = [], limit = 50 } = {}) => {
   const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
     variables: {
-      tags,
+      tags: tags.length > 0 ? tags : undefined,
+      limit,
     },
   });
 

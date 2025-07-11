@@ -69,14 +69,14 @@ const Detail = () => {
             <div className="flex flex-col space-y-6">
               <div>
                 <h1
-                  className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2"
+                  className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2"
                   dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
                 />
                 <h2
-                  className="text-lg text-gray-600 dark:text-gray-300 mb-4"
+                  className="text-lg text-slate-600 dark:text-slate-300 mb-4"
                   dangerouslySetInnerHTML={{ __html: product?.texts?.subtitle }}
                 />
-                <div className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                <div className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-6">
                   <FormattedPrice price={product?.simulatedPrice} />
                 </div>
               </div>

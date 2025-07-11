@@ -17,7 +17,7 @@ const ProductList = ({
   const { formatMessage } = useIntl();
 
   return (
-    <div className="bg-white dark:bg-slate-900">
+    <div>
       <div className="mx-auto max-w-full">
         <h2 className="sr-only">
           {formatMessage({ id: "products", defaultMessage: "Products" })}
@@ -36,10 +36,10 @@ const ProductList = ({
             {products.map((product) => (
               <div
                 key={product?._id}
-                className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-800 dark:border-gray-700"
+                className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-800 dark:border-slate-700"
               >
                 <div className="flex">
-                  <div className="w-48 h-36 flex-shrink-0 relative overflow-hidden bg-gray-50 dark:bg-slate-700">
+                  <div className="w-48 h-36 flex-shrink-0 relative overflow-hidden bg-slate-50 dark:bg-slate-700">
                     <Link href={`/product/${product?.texts?.slug}`}>
                       {product?.media?.[0]?.file?.url ? (
                         <Image
@@ -52,7 +52,7 @@ const ProductList = ({
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center">
-                          <PhotoIcon className="h-8 w-8 text-gray-400 dark:text-slate-500" />
+                          <PhotoIcon className="h-8 w-8 text-slate-400 dark:text-slate-500" />
                         </div>
                       )}
                     </Link>
@@ -61,24 +61,24 @@ const ProductList = ({
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <Link href={`/product/${product?.texts?.slug}`}>
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 transition-colors duration-200 hover:text-gray-700 dark:hover:text-gray-200">
+                        <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2 transition-colors duration-200 hover:text-slate-700 dark:hover:text-slate-200">
                           {product?.texts?.title}
                         </h3>
                       </Link>
                       {product?.texts?.subtitle && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
                           {product?.texts?.subtitle}
                         </p>
                       )}
                       {product?.texts?.description && (
-                        <p className="text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                        <p className="text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                           {product?.texts?.description}
                         </p>
                       )}
                     </div>
 
                     <div className="flex items-center justify-between mt-4">
-                      <div className="text-xl font-bold text-gray-900 dark:text-white">
+                      <div className="text-xl font-bold text-slate-900 dark:text-white">
                         <FormattedPrice price={product?.simulatedPrice} />
                       </div>
                       <Link

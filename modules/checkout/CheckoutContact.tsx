@@ -38,8 +38,8 @@ const CheckoutContact = ({ cart, isInitial }) => {
   const toggleEditMode = () => setEditMode(!editMode);
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-600">
-      <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+      <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
         {formatMessage({
           id: "contact-info",
           defaultMessage: "Contact info",

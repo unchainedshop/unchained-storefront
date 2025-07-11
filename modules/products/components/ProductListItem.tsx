@@ -24,7 +24,7 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
 
   return (
     <div className="group relative">
-      <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-50 dark:bg-slate-800">
+      <div className="relative aspect-square overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800">
         <Link href={`/product/${product?.texts?.slug}`}>
           {firstMediaUrl ? (
             <Image
@@ -37,7 +37,7 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">
-              <PhotoIcon className="h-12 w-12 text-gray-400 dark:text-slate-500" />
+              <PhotoIcon className="h-12 w-12 text-slate-400 dark:text-slate-500" />
             </div>
           )}
         </Link>
@@ -58,8 +58,8 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
           >
             <BookmarkIcon
               className={classNames("h-4 w-4", {
-                "text-red-500 hover:text-red-600": filteredBookmark,
-                "text-gray-600 hover:text-gray-800 dark:text-slate-300 dark:hover:text-white":
+                "text-amber-500 hover:text-amber-600": filteredBookmark,
+                "text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white":
                   !filteredBookmark,
               })}
             />
@@ -69,11 +69,11 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
 
       <div className="mt-4 space-y-2">
         <Link href={`/product/${product?.texts?.slug}`}>
-          <h3 className="text-sm font-medium text-gray-900 transition-colors duration-200 hover:text-gray-700 dark:text-white dark:hover:text-gray-200">
+          <h3 className="text-sm font-medium text-slate-900 transition-colors duration-200 hover:text-slate-700 dark:text-white dark:hover:text-slate-200">
             {product?.texts?.title}
           </h3>
         </Link>
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="text-sm text-slate-600 dark:text-slate-400">
           <FormattedPrice price={product?.simulatedPrice} />
         </div>
       </div>

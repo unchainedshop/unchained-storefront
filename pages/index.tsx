@@ -7,7 +7,9 @@ import Image from "next/image";
 import MetaTags from "../modules/common/components/MetaTags";
 import defaultNextImageLoader from "../modules/common/utils/defaultNextImageLoader";
 import useProducts from "../modules/products/hooks/useProducts";
-import ProductListItem from "../modules/products/components/ProductListItem";
+import useAssortments from "../modules/assortment/hooks/useAssortments";
+import ProductList from "../modules/products/components/ProductList";
+import CategoryListItem from "../modules/assortment/components/CategoryListItem";
 import Loading from "../modules/common/components/Loading";
 
 const {
@@ -15,7 +17,14 @@ const {
 } = getConfig();
 
 const Home = () => {
-  const { products, loading } = useProducts({ tags: ["featured"] });
+  const {
+    products,
+    loading: productsLoading,
+    error: productsError,
+  } = useProducts({ limit: 20 });
+  const { assortments, loading: assortmentsLoading } = useAssortments({
+    includeLeaves: true,
+  });
   const { formatMessage } = useIntl();
 
   return (
@@ -39,7 +48,7 @@ const Home = () => {
             />
             <div className="absolute inset-0 bg-black bg-opacity-30" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="container mx-auto px-4 text-center text-white sm:px-6 lg:px-8">
+              <div className="container mx-auto px-2 text-center text-white">
                 <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
                   {formatMessage({
                     id: "hero_title",
@@ -57,125 +66,90 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Latest Drops Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 flex items-center justify-between">
-              <h2 className="text-2xl tracking-tight text-gray-900 dark:text-white">
+        {/* Categories Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
-                  id: "latest_drops",
-                  defaultMessage: "Latest Drops",
+                  id: "browse_categories",
+                  defaultMessage: "Browse Categories",
                 })}
               </h2>
-              <Link
-                href="/shop"
-                className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-              >
+              <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
                 {formatMessage({
-                  id: "view_all",
-                  defaultMessage: "View all",
-                })}{" "}
-                →
-              </Link>
+                  id: "categories_subtitle",
+                  defaultMessage:
+                    "Explore our wide range of product categories",
+                })}
+              </p>
             </div>
 
-            {loading ? (
+            {assortmentsLoading ? (
               <Loading />
             ) : (
-              products.length !== 0 && (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {products.slice(0, 3).map((product) => (
-                    <div
-                      key={product?._id}
-                      className="group relative transform transition-transform duration-300 hover:scale-105"
-                    >
-                      <ProductListItem product={product} disableBookmark />
-                    </div>
-                  ))}
-                </div>
-              )
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {assortments.map((category) => (
+                  <div
+                    key={category._id}
+                    className="group transform transition-transform duration-300 hover:scale-105"
+                  >
+                    <CategoryListItem category={category} />
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </section>
 
-        {/* Featured Products Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 flex items-center justify-between">
-              <h2 className="text-2xl tracking-tight text-gray-900 dark:text-white">
+        {/* Products Section */}
+        <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-800">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
-                  id: "featured_products",
-                  defaultMessage: "Featured Products",
+                  id: "all_products",
+                  defaultMessage: "All Products",
                 })}
               </h2>
-              <Link
-                href="/shop"
-                className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-              >
+              <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
                 {formatMessage({
-                  id: "view_all",
-                  defaultMessage: "View all",
-                })}{" "}
-                →
-              </Link>
-            </div>
-
-            {loading ? (
-              <Loading />
-            ) : (
-              products.length !== 0 && (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {products.slice(0, 4).map((product) => (
-                    <div
-                      key={product?._id}
-                      className="group relative transform transition-transform duration-300 hover:scale-105"
-                    >
-                      <ProductListItem product={product} disableBookmark />
-                    </div>
-                  ))}
-                </div>
-              )
-            )}
-          </div>
-        </section>
-
-        {/* Weekly Picks Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 flex items-center justify-between">
-              <h2 className="text-2xl tracking-tight text-gray-900 dark:text-white">
-                {formatMessage({
-                  id: "weekly_picks",
-                  defaultMessage: "Weekly Picks",
+                  id: "products_subtitle",
+                  defaultMessage: "Discover our complete collection",
                 })}
-              </h2>
-              <Link
-                href="/shop"
-                className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-              >
-                {formatMessage({
-                  id: "view_all",
-                  defaultMessage: "View all",
-                })}{" "}
-                →
-              </Link>
+              </p>
             </div>
 
-            {loading ? (
+            {productsLoading ? (
               <Loading />
+            ) : productsError ? (
+              <div className="text-center py-12">
+                <p className="text-red-600 dark:text-red-400">
+                  Error loading products: {productsError.message}
+                </p>
+              </div>
+            ) : products.length > 0 ? (
+              <ProductList
+                products={products}
+                totalProducts={products.length}
+                viewMode="grid"
+                onLoadMore={() => {
+                  // Load more functionality would be implemented here
+                  // For now, this is a placeholder since the home page shows a fixed set
+                }}
+              />
             ) : (
-              products.length !== 0 && (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {products.slice(0, 3).map((product) => (
-                    <div
-                      key={product?._id}
-                      className="group relative transform transition-transform duration-300 hover:scale-105"
-                    >
-                      <ProductListItem product={product} disableBookmark />
-                    </div>
-                  ))}
-                </div>
-              )
+              <div className="text-center py-12">
+                <p className="text-slate-600 dark:text-slate-400">
+                  {formatMessage({
+                    id: "no_products",
+                    defaultMessage: "No products available",
+                  })}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-500 mt-2">
+                  Debug: Products array length: {products.length}
+                </p>
+              </div>
             )}
           </div>
         </section>

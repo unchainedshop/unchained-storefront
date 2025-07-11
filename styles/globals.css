@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'react-image-gallery/styles/css/image-gallery.css' layer(utilities);
+@import "tailwindcss";
+@import "react-image-gallery/styles/css/image-gallery.css" layer(utilities);
 
 @custom-variant dark (&:is(.dark *));
 
@@ -39,7 +39,7 @@
   --container-2\/3: 66.666667%%;
   --container-3\/4: 75%;
 
-  --content-star: url('/storefront/public/static/img/icon-streamline/arrow-button-down.svg');
+  --content-star: url("/storefront/public/static/img/icon-streamline/arrow-button-down.svg");
 
   --spacing-sp: calc(1em - 5px);
   --spacing-sp-1: calc(100% + 3em);
@@ -51,7 +51,7 @@
 ::before,
 ::backdrop,
 ::file-selector-button {
-  border-color: var(--color-gray-200, currentcolor);
+  border-color: var(--color-slate-200, currentcolor);
 }
 
 .isOpen {
@@ -70,7 +70,7 @@
   transition-delay: 150ms;
 }
 
-.nav--main__item[data-in-hover-path='true'] + .nav--main__mega {
+.nav--main__item[data-in-hover-path="true"] + .nav--main__mega {
   visibility: visible;
   opacity: 1;
   overflow: visible;
@@ -96,7 +96,7 @@
   position: absolute;
   right: 1em;
   top: calc(1em - 5px);
-  content: '';
+  content: "";
   background-image: url(/static/img/icon-streamline/arrow-button-right.svg);
   display: block;
   width: 8px;
@@ -114,7 +114,7 @@
 }
 
 .mega-link:hover,
-.mega-link[data-in-hover-path='true'],
+.mega-link[data-in-hover-path="true"],
 .mega-link:focus {
   text-decoration: underline;
 }
@@ -132,7 +132,7 @@
   }
 }
 
-.mobile-menu-holder[data-is-open='true'] {
+.mobile-menu-holder[data-is-open="true"] {
   visibility: visible;
   position: fixed;
   top: 0;
@@ -155,7 +155,7 @@
   z-index: 1070;
 }
 
-.mobile-menu-holder[data-is-open='true'] .mobile-menu {
+.mobile-menu-holder[data-is-open="true"] .mobile-menu {
   visibility: visible;
   transform: translate3d(0, 0, 0);
   width: 300px;
@@ -173,7 +173,7 @@
   transition: opacity 0.36s cubic-bezier(0.61, 0.01, 0.42, 1);
 }
 
-.mobile-menu-holder[data-is-open='true'] .mobile-menu-close {
+.mobile-menu-holder[data-is-open="true"] .mobile-menu-close {
   overflow: hidden;
   visibility: visible;
   position: fixed;

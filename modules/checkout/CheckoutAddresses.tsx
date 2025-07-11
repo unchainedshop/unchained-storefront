@@ -152,8 +152,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
   return (
     <div className="space-y-8">
       {/* Delivery Address Section */}
-      <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-600">
-        <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+        <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
           {formatMessage({
             id: "delivery-address",
             defaultMessage: "Delivery address",
@@ -169,8 +169,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
 
       {/* Billing Address Section */}
       {!isInitial && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-600">
-          <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+          <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
             {formatMessage({
               id: "billing-address",
               defaultMessage: "Billing address",
@@ -184,9 +184,9 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
                 type="checkbox"
                 defaultChecked={!isBillingAddressDifferent}
                 onChange={toggleBillingAddress}
-                className="h-4 w-4 rounded border-gray-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-slate-600 dark:bg-slate-700"
+                className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-slate-600 dark:bg-slate-700"
               />
-              <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 {formatMessage({
                   id: "billing-same-as-delivery",
                   defaultMessage: "Billing Address Same as Delivery",

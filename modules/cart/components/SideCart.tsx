@@ -50,8 +50,8 @@ const SideCart = ({ isOpen }) => {
             isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
           } flex flex-col overflow-y-auto`}
         >
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-600">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               {intl.formatMessage({
                 id: "in_cart",
                 defaultMessage: "Cart",
@@ -63,7 +63,7 @@ const SideCart = ({ isOpen }) => {
                 defaultMessage: "Close",
               })}
               type="button"
-              className="rounded-lg p-2 text-gray-600 hover:text-gray-900 transition-colors dark:text-gray-400 dark:hover:text-white"
+              className="rounded-lg p-2 text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
               onClick={() => toggleCart(!isCartOpen)}
             >
               <XMarkIcon className="h-6 w-6" />
@@ -71,7 +71,7 @@ const SideCart = ({ isOpen }) => {
           </div>
           <div className="flex-1 overflow-y-auto p-6">
             {user?.cart?.items.length === 0 ? (
-              <p className="text-center text-gray-600 dark:text-gray-300">
+              <p className="text-center text-slate-600 dark:text-slate-300">
                 {intl.formatMessage({
                   id: "no_product_in_cart",
                   defaultMessage:
@@ -96,9 +96,9 @@ const SideCart = ({ isOpen }) => {
               </div>
             )}
           </div>
-          <div className="border-t border-gray-200 p-6 dark:border-gray-600">
+          <div className="border-t border-slate-200 p-6 dark:border-slate-600">
             <div className="mb-4 flex items-center justify-between">
-              <span className="text-base font-medium text-gray-900 dark:text-white">
+              <span className="text-base font-medium text-slate-900 dark:text-white">
                 {intl.formatMessage({
                   id: "subtotal",
                   defaultMessage: "Subtotal",

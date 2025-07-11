@@ -32,7 +32,7 @@ const LoginCart = () => {
       {!user?.isGuest && (
         <Link
           href="/account"
-          className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+          className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
         >
           <UserCircleIcon className="h-6 w-6" />
         </Link>
@@ -40,7 +40,7 @@ const LoginCart = () => {
 
       {/* Cart Button */}
       <button
-        className="relative text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+        className="relative text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
         onClick={() => toggleCart(!isCartOpen)}
       >
         <ShoppingCartIcon className="h-6 w-6" />
@@ -55,12 +55,12 @@ const LoginCart = () => {
     <div className="flex items-center gap-x-3">
       <Link
         href="/login"
-        className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+        className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
       >
         <UserCircleIcon className="h-6 w-6" />
       </Link>
       <button
-        className="relative text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+        className="relative text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
         onClick={() => toggleCart(!isCartOpen)}
       >
         <ShoppingCartIcon className="h-6 w-6" />
