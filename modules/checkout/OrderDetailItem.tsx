@@ -15,8 +15,7 @@ const OrderDetailItem = ({ item }) => {
             <ImageWithFallback
               src={`${item.product?.media[0].file.url}`}
               alt={
-                item?.product?.texts?.title ||
-                item?.product?.texts?.subtitle
+                item?.product?.texts?.title || item?.product?.texts?.subtitle
               }
               className="object-cover object-center rounded"
               width={48}

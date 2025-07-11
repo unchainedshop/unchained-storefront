@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface CountUpAnimationProps {
   end: number;
@@ -16,18 +16,20 @@ const CountUpAnimation = ({
   start = 0,
   duration = 2000,
   delay = 0,
-  className = '',
-  prefix = '',
-  suffix = '',
-  decimals = 0
+  className = "",
+  prefix = "",
+  suffix = "",
+  decimals = 0,
 }: CountUpAnimationProps) => {
   const [count, setCount] = useState(start);
   const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
     // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     if (prefersReducedMotion) {
       const timer = setTimeout(() => {
         setCount(end);
@@ -40,7 +42,7 @@ const CountUpAnimation = ({
       setHasStarted(true);
       const increment = (end - start) / (duration / 16); // 60fps
       let current = start;
-      
+
       const counter = setInterval(() => {
         current += increment;
         if (current >= end) {
@@ -57,13 +59,15 @@ const CountUpAnimation = ({
     return () => clearTimeout(timer);
   }, [end, start, duration, delay]);
 
-  const displayValue = hasStarted 
+  const displayValue = hasStarted
     ? count.toFixed(decimals)
     : start.toFixed(decimals);
 
   return (
     <span className={className}>
-      {prefix}{displayValue}{suffix}
+      {prefix}
+      {displayValue}
+      {suffix}
     </span>
   );
 };

@@ -32,38 +32,44 @@ const Subtree = ({
 
   const level = path.length - 2;
 
-  const levelClassMap = [
-    "text-xl p-3",
-    "pl-8 text-base py-3",
-    "pl-12 text-base py-3",
-    "pl-16 text-base py-3",
-  ];
+  const levelPadding = {
+    0: "pl-4",
+    1: "pl-8", 
+    2: "pl-12",
+    3: "pl-16",
+  };
 
   return Object.keys(children).length ? (
-    <div key={pageId} className="border-t border-color-slate-300">
+    <div key={pageId} className="border-b border-slate-200 dark:border-slate-700">
       <button
         aria-label="Expand"
         type="button"
-        className="flex w-full cursor-pointer appearance-none items-center justify-between border-0 bg-transparent p-0 text-left uppercase text-inherit hover:bg-slate-100 dark:hover:bg-slate-800"
+        className="flex w-full items-center justify-between p-4 text-left transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800"
         onClick={() => setShowSubtree(!showSubtree)}
       >
-        <div className={`${levelClassMap[level]}`}>
-          <Thumbnail media={media} />
-          {navigationTitle}
+        <div className={`flex items-center gap-3 ${levelPadding[level] || 'pl-4'}`}>
+          {media?.length > 0 && (
+            <div className="flex-shrink-0">
+              <Thumbnail media={media} className="w-8 h-8 rounded-lg" />
+            </div>
+          )}
+          <span className="font-medium text-slate-900 dark:text-white">
+            {navigationTitle}
+          </span>
         </div>
-        {showSubtree ? (
-          <ArrowUpIcon className="justify-canter items-align mr-3 inline-flex h-4 w-5 select-none align-middle" />
-        ) : (
-          <ArrowDownIcon className="justify-canter items-align mr-3 inline-flex h-4 w-5 select-none align-middle" />
-        )}
+        <div className="flex-shrink-0 pr-2">
+          {showSubtree ? (
+            <ArrowUpIcon className="h-5 w-5 text-slate-400" />
+          ) : (
+            <ArrowDownIcon className="h-5 w-5 text-slate-400" />
+          )}
+        </div>
       </button>
-      {showSubtree ? (
-        <div>
+      {showSubtree && (
+        <div className="bg-slate-50 dark:bg-slate-800/50">
           <Link
             href={createPathFromArray(path)}
-            className={`link block border-t border-color-slate-300 uppercase text-slate-600 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-500 ${
-              levelClassMap[level + 1]
-            }`}
+            className={`block p-3 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-200 ${levelPadding[level + 1] || 'pl-8'}`}
           >
             {intl.formatMessage({
               id: "show_all",
@@ -86,17 +92,21 @@ const Subtree = ({
               />
             ))}
         </div>
-      ) : (
-        ""
       )}
     </div>
   ) : (
     <Link
       href={createPathFromArray(path)}
-      className={`block border-t border-color-slate-300 uppercase hover:bg-slate-100 dark:hover:bg-slate-800 ${levelClassMap[level]}`}
+      className={`flex items-center gap-3 p-4 transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-200 dark:border-slate-700 ${levelPadding[level] || 'pl-4'}`}
     >
-      <Thumbnail media={media} />
-      {navigationTitle}
+      {media?.length > 0 && (
+        <div className="flex-shrink-0">
+          <Thumbnail media={media} className="w-8 h-8 rounded-lg" />
+        </div>
+      )}
+      <span className="font-medium text-slate-900 dark:text-white">
+        {navigationTitle}
+      </span>
     </Link>
   );
 };
@@ -118,52 +128,65 @@ const MobileNavigation = ({ doClose, isNavOpen }) => {
       </button>
       <nav
         id="menu"
-        className="mobile-menu bg-white dark:bg-slate-900 dark:text-white"
+        className="bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden"
       >
         <div className="relative">
-          <button
-            aria-label="close"
-            type="button"
-            className="hover:bg-red-60 absolute top-0 -right-0 flex cursor-pointer appearance-none items-center rounded-full border-0 bg-transparent p-1 hover:bg-red-200 hover:text-red-400 active:text-red-600"
-            onClick={doClose}
-          >
-            <XMarkIcon className="h-5 w-5 select-none" />
-            <small className="sr-only">
-              {intl.formatMessage({ id: "close", defaultMessage: "Close" })}
-            </small>
-          </button>
-          {Object.entries(assortmentTree.children).map(
-            ([pageId, node]: any) => (
-              <Subtree
-                path={node?.path}
-                navigationTitle={node?.navigationTitle}
-                subtree={node?.children}
-                key={pageId}
-                pageId={pageId}
-                {...node}
-              />
-            ),
-          )}
+          <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+              Categories
+            </h2>
+            <button
+              aria-label="close"
+              type="button"
+              className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
+              onClick={doClose}
+            >
+              <XMarkIcon className="h-5 w-5 text-slate-500 dark:text-slate-400" />
+              <span className="sr-only">
+                {intl.formatMessage({ id: "close", defaultMessage: "Close" })}
+              </span>
+            </button>
+          </div>
+          
+          <div className="max-h-96 overflow-y-auto">
+            {Object.entries(assortmentTree.children).map(
+              ([pageId, node]: any) => (
+                <Subtree
+                  path={node?.path}
+                  navigationTitle={node?.navigationTitle}
+                  subtree={node?.children}
+                  key={pageId}
+                  pageId={pageId}
+                  {...node}
+                />
+              ),
+            )}
+          </div>
         </div>
 
-        <div className="my-3 border-t border-color-slate-300 pl-3 pt-3">
-          {Object.entries(theme.locales)?.map(([lang]) => (
-            <button
-              key={lang}
-              aria-label={intl.formatMessage({
-                id: `language_${lang}`,
-                defaultMessage: "Language X",
-              })}
-              type="button"
-              className="mb-3 block cursor-pointer appearance-none border-0 bg-transparent p-0 text-left text-inherit"
-              onClick={() => changeLanguage(lang)}
-            >
-              {intl.formatMessage({
-                id: `language_${lang}`,
-                defaultMessage: "Language X",
-              })}
-            </button>
-          ))}
+        <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+          <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+            Languages
+          </h3>
+          <div className="space-y-2">
+            {Object.entries(theme.locales)?.map(([lang]) => (
+              <button
+                key={lang}
+                aria-label={intl.formatMessage({
+                  id: `language_${lang}`,
+                  defaultMessage: "Language X",
+                })}
+                type="button"
+                className="block w-full text-left px-3 py-2 text-sm rounded-md text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
+                onClick={() => changeLanguage(lang)}
+              >
+                {intl.formatMessage({
+                  id: `language_${lang}`,
+                  defaultMessage: "Language X",
+                })}
+              </button>
+            ))}
+          </div>
         </div>
       </nav>
     </div>

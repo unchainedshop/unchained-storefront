@@ -70,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
             <div className="flex justify-center">
               <Link
                 href="/"
-                className="text-lg font-bold text-gray-900 dark:text-white"
+                className="text-md font-medium text-gray-900 dark:text-white"
               >
                 {formatMessage({
                   id: "shop_title",

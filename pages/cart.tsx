@@ -28,7 +28,8 @@ const Cart = () => {
             <p className="mb-6 text-gray-600 dark:text-gray-300">
               {formatMessage({
                 id: "cart_page_note",
-                defaultMessage: "Cart functionality is available in the side panel. Click the cart icon in the header to view your items.",
+                defaultMessage:
+                  "Cart functionality is available in the side panel. Click the cart icon in the header to view your items.",
               })}
             </p>
             <Link

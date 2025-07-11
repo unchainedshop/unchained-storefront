@@ -30,11 +30,14 @@ const LoginCart = () => {
     <div className="flex items-center gap-x-3">
       {/* Account Link */}
       {!user?.isGuest && (
-        <Link href="/account" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2">
+        <Link
+          href="/account"
+          className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+        >
           <UserCircleIcon className="h-6 w-6" />
         </Link>
       )}
-      
+
       {/* Cart Button */}
       <button
         className="relative text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
@@ -50,7 +53,10 @@ const LoginCart = () => {
     </div>
   ) : (
     <div className="flex items-center gap-x-3">
-      <Link href="/login" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2">
+      <Link
+        href="/login"
+        className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors p-2"
+      >
         <UserCircleIcon className="h-6 w-6" />
       </Link>
       <button

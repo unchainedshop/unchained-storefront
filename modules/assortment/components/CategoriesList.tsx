@@ -15,17 +15,27 @@ const CategoriesList = ({
   const [tree]: categoryItem[] =
     Object.entries(assortment).map(([, assort]) => assort) || [];
   return (
-    <div className="mb-5">
-      <div className="mb-3 bold">{tree?.navigationTitle}</div>
+    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+        {tree?.navigationTitle}
+      </h3>
 
-      {tree?.children &&
-        Object.entries(tree?.children).map(([, { texts, _id }]) => (
-          <div key={_id} className="mb-2 ml-2">
-            <Link href={`${currentPath}/${texts.slug}`} className="mr-2">
-              {texts?.title}
+      {tree?.children && (
+        <div className="space-y-2">
+          {Object.entries(tree?.children).map(([, { texts, _id }]) => (
+            <Link 
+              key={_id} 
+              href={`${currentPath}/${texts.slug}`} 
+              className="block p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-slate-400 dark:bg-slate-500 rounded-full flex-shrink-0" />
+                <span className="font-medium">{texts?.title}</span>
+              </div>
             </Link>
-          </div>
-        ))}
+          ))}
+        </div>
+      )}
     </div>
   );
 };

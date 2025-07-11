@@ -35,16 +35,18 @@ const OrderDetailBilling = ({ order }) => {
               <FormattedPrice price={order?.itemsTotal} />
             </span>
           </div>
-          
+
           {order?.totalDelivery && order?.totalDelivery?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">Shipping</span>
+              <span className="text-slate-600 dark:text-slate-400">
+                Shipping
+              </span>
               <span className="text-slate-900 dark:text-white font-medium">
                 <FormattedPrice price={order?.totalDelivery} />
               </span>
             </div>
           )}
-          
+
           {order?.totalTax && order?.totalTax?.amount > 0 && (
             <div className="flex justify-between">
               <span className="text-slate-600 dark:text-slate-400">Tax</span>
@@ -53,7 +55,7 @@ const OrderDetailBilling = ({ order }) => {
               </span>
             </div>
           )}
-          
+
           {order?.totalPayment && order?.totalPayment?.amount > 0 && (
             <div className="flex justify-between">
               <span className="text-slate-600 dark:text-slate-400">Fees</span>
@@ -62,19 +64,23 @@ const OrderDetailBilling = ({ order }) => {
               </span>
             </div>
           )}
-          
+
           {order?.totalDiscount && order?.totalDiscount?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">Discount</span>
+              <span className="text-slate-600 dark:text-slate-400">
+                Discount
+              </span>
               <span className="text-slate-900 dark:text-white font-medium">
                 -<FormattedPrice price={order?.totalDiscount} />
               </span>
             </div>
           )}
-          
+
           <div className="border-t border-slate-200 dark:border-slate-700 pt-3 mt-4">
             <div className="flex justify-between items-center">
-              <span className="font-medium text-slate-900 dark:text-white">Total</span>
+              <span className="font-medium text-slate-900 dark:text-white">
+                Total
+              </span>
               <span className="font-bold text-xl text-slate-900 dark:text-white">
                 <FormattedPrice price={order?.total} />
               </span>

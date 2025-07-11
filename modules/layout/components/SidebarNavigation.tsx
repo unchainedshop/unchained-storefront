@@ -29,7 +29,10 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     },
     {
       id: "bookmarks",
-      label: formatMessage({ id: "nav_bookmarks", defaultMessage: "Bookmarks" }),
+      label: formatMessage({
+        id: "nav_bookmarks",
+        defaultMessage: "Bookmarks",
+      }),
       href: "/bookmarks",
     },
     {
@@ -60,7 +63,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
       {/* Drawer - Even higher z-index */}
       <div
-        className={`fixed top-5 bottom-5 left-5 z-[1040] w-80 transform rounded-lg bg-slate-100/80 backdrop-blur-md shadow-2xl transition-all duration-500 ease-out dark:bg-slate-800/80 ${
+        className={`fixed top-5 bottom-5 left-5 z-[1040] w-80 transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-500 ease-out dark:bg-slate-800/80 ${
           isOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
         }`}
       >

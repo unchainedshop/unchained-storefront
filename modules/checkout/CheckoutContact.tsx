@@ -45,7 +45,7 @@ const CheckoutContact = ({ cart, isInitial }) => {
           defaultMessage: "Contact info",
         })}
       </h2>
-      
+
       {showLogin && editMode && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md dark:bg-red-900/20 dark:border-red-800">
           <p className="text-red-600 dark:text-red-400 text-sm">
@@ -69,7 +69,7 @@ const CheckoutContact = ({ cart, isInitial }) => {
           </p>
         </div>
       )}
-      
+
       {editMode ? (
         <ContactForm
           contact={contact}

@@ -25,9 +25,9 @@ const SideCart = ({ isOpen }) => {
       />
       {!user?.cart?.items.length ? (
         <div
-          className={`fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-500 ease-out dark:bg-slate-800/95 ${
+          className={`px-4 fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-500 ease-out dark:bg-slate-800/95 ${
             isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-          } flex flex-col items-center justify-center text-center`}
+          } flex flex-col gap-4 items-center justify-center text-center`}
         >
           <ShoppingBagIcon className="h-6 w-6" />
           <p>

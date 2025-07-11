@@ -29,7 +29,7 @@ const tailwindConfig = {
         "color-success-100": "#D1FAE5",
         "color-success-200": "#A7F3D0",
         "color-success-900": "#064E3B",
-        
+
         // Modern color palette
         primary: {
           50: "#f8fafc",
@@ -58,7 +58,7 @@ const tailwindConfig = {
       },
       boxShadow: {
         0: "0 0 0 0.2rem rgba(0, 123, 255, 0.25)",
-        "soft": "0 2px 8px -2px rgba(0, 0, 0, 0.1)",
+        soft: "0 2px 8px -2px rgba(0, 0, 0, 0.1)",
         "soft-lg": "0 4px 16px -4px rgba(0, 0, 0, 0.1)",
         "soft-xl": "0 8px 32px -8px rgba(0, 0, 0, 0.1)",
       },
@@ -104,12 +104,12 @@ const tailwindConfig = {
         ],
       },
       transitionTimingFunction: {
-        "smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
+        smooth: "cubic-bezier(0.4, 0, 0.2, 1)",
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",
         "slide-up": "slideUp 0.3s ease-out",
-        "scale": "scale 0.2s ease-out",
+        scale: "scale 0.2s ease-out",
       },
       keyframes: {
         fadeIn: {

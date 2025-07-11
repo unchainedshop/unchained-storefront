@@ -50,7 +50,7 @@ const Detail = () => {
               currentAssortment={product?.texts}
             />
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Product Images */}
             <div className="w-full">
@@ -64,7 +64,7 @@ const Detail = () => {
                 }))}
               />
             </div>
-            
+
             {/* Product Details */}
             <div className="flex flex-col space-y-6">
               <div>
@@ -80,11 +80,11 @@ const Detail = () => {
                   <FormattedPrice price={product?.simulatedPrice} />
                 </div>
               </div>
-              
+
               <div className="prose prose-gray dark:prose-invert max-w-none">
                 <Markdown>{product?.texts?.description}</Markdown>
               </div>
-              
+
               <div className="pt-4">
                 <AddToCartButton productId={product?._id} {...product} />
               </div>

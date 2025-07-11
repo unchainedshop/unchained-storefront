@@ -52,17 +52,28 @@ const ThankYou = () => {
         })}
       />
 
-      <ConfettiCelebration 
-        trigger={!!order} 
+      <ConfettiCelebration
+        trigger={!!order}
         duration={4000}
         particleCount={100}
-        colors={['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#f59e0b', '#fbbf24']}
+        colors={[
+          "#059669",
+          "#10b981",
+          "#34d399",
+          "#6ee7b7",
+          "#a7f3d0",
+          "#f59e0b",
+          "#fbbf24",
+        ]}
       />
-      
+
       {order && (
         <div className="relative lg:min-h-full">
           <div className="mx-auto max-w-2xl py-8 px-4 sm:px-6 sm:py-12 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-16 xl:gap-x-24">
-            <FadeInSection delay={500} className="relative hidden lg:block lg:h-1/6 lg:w-full lg:pr-4 xl:pr-12">
+            <FadeInSection
+              delay={500}
+              className="relative hidden lg:block lg:h-1/6 lg:w-full lg:pr-4 xl:pr-12"
+            >
               <Image
                 src={theme.assets.logo}
                 alt={formatMessage({
@@ -76,9 +87,12 @@ const ThankYou = () => {
                 loader={defaultNextImageLoader}
               />
             </FadeInSection>
-            
+
             <div className="lg:col-start-2">
-              <FadeInSection delay={200} className="flex items-center gap-3 mb-4">
+              <FadeInSection
+                delay={200}
+                className="flex items-center gap-3 mb-4"
+              >
                 <AnimatedCheckmark size="lg" delay={800} />
                 <h1 className="text-sm font-medium text-green-600 dark:text-green-400">
                   {formatMessage({
@@ -87,7 +101,7 @@ const ThankYou = () => {
                   })}
                 </h1>
               </FadeInSection>
-              
+
               <FadeInSection delay={400}>
                 <p className="mt-2 text-4xl font-light tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                   {formatMessage({
@@ -96,7 +110,7 @@ const ThankYou = () => {
                   })}
                 </p>
               </FadeInSection>
-              
+
               <FadeInSection delay={600}>
                 <p className="mt-6 text-base text-slate-500 dark:text-slate-400 leading-relaxed">
                   {formatMessage({
@@ -127,11 +141,19 @@ const ThankYou = () => {
                           ),
                           dd: (chunks) => (
                             <dd className="mt-2 text-lg font-bold text-green-700 dark:text-green-400">
-                              <CountUpAnimation 
-                                end={parseInt(order.orderNumber?.replace(/[^0-9]/g, '') || '0') || 1000} 
+                              <CountUpAnimation
+                                end={
+                                  parseInt(
+                                    order.orderNumber?.replace(/[^0-9]/g, "") ||
+                                      "0",
+                                  ) || 1000
+                                }
                                 delay={1000}
                                 duration={1500}
-                                prefix={order.orderNumber?.replace(/[0-9]/g, '') || '#'}
+                                prefix={
+                                  order.orderNumber?.replace(/[0-9]/g, "") ||
+                                  "#"
+                                }
                               />
                             </dd>
                           ),
@@ -148,7 +170,9 @@ const ThankYou = () => {
                               </dd> </dl> "
                         values={{
                           dl: (chunks) => (
-                            <dl className="mt-4 md:mt-0 text-sm font-medium">{chunks}</dl>
+                            <dl className="mt-4 md:mt-0 text-sm font-medium">
+                              {chunks}
+                            </dl>
                           ),
                           dt: (chunks) => (
                             <dt className="text-slate-900 dark:text-white font-semibold">
@@ -175,7 +199,10 @@ const ThankYou = () => {
                   <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:bg-slate-800 dark:border-slate-700 overflow-hidden">
                     <ul className="divide-y divide-slate-200 dark:divide-slate-700">
                       {(order?.items || []).map((item, index) => (
-                        <FadeInSection key={item._id} delay={1200 + (index * 100)}>
+                        <FadeInSection
+                          key={item._id}
+                          delay={1200 + index * 100}
+                        >
                           <CartItem {...item} enableUpdate={false} />
                         </FadeInSection>
                       ))}
@@ -189,100 +216,105 @@ const ThankYou = () => {
                   Delivery & Payment Details
                 </h3>
               </FadeInSection>
-              
+
               <FadeInSection delay={1500}>
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-600">
-                <div>
-                  <dt className="font-medium text-slate-900 dark:text-white">
-                    {formatMessage({
-                      id: "shipping_address",
-                      defaultMessage: "Shipping Address",
-                    })}
-                  </dt>
-                  <dd className="mt-2">
-                    {order?.delivery?.provider?.type === "SHIPPING" ? (
-                      <address className="mt-3 not-italic text-slate-500 dark:text-slate-300">
-                        <span className="block">
-                          {order?.delivery?.address?.firstName}&nbsp;
-                          {order?.delivery?.address?.lastName}
-                        </span>
-                        <span className="block">
-                          {order?.delivery?.address?.addressLine}
-                        </span>
-                        <span className="block">
-                          {order?.profile?.address?.city}&nbsp;&nbsp;
-                          {getFlagEmoji(order?.delivery?.address?.countryCode)}
-                          &nbsp;
-                          {order?.delivery?.address?.countryCode}
-                        </span>
-                      </address>
-                    ) : (
-                      <div>
-                        <span className="block">
-                          {formatMessage({
-                            id: "order_pickup",
-                            defaultMessage: "Order is pick up",
-                          })}
-                        </span>
-                      </div>
-                    )}
-                  </dd>
-                </div>
+                  <div>
+                    <dt className="font-medium text-slate-900 dark:text-white">
+                      {formatMessage({
+                        id: "shipping_address",
+                        defaultMessage: "Shipping Address",
+                      })}
+                    </dt>
+                    <dd className="mt-2">
+                      {order?.delivery?.provider?.type === "SHIPPING" ? (
+                        <address className="mt-3 not-italic text-slate-500 dark:text-slate-300">
+                          <span className="block">
+                            {order?.delivery?.address?.firstName}&nbsp;
+                            {order?.delivery?.address?.lastName}
+                          </span>
+                          <span className="block">
+                            {order?.delivery?.address?.addressLine}
+                          </span>
+                          <span className="block">
+                            {order?.profile?.address?.city}&nbsp;&nbsp;
+                            {getFlagEmoji(
+                              order?.delivery?.address?.countryCode,
+                            )}
+                            &nbsp;
+                            {order?.delivery?.address?.countryCode}
+                          </span>
+                        </address>
+                      ) : (
+                        <div>
+                          <span className="block">
+                            {formatMessage({
+                              id: "order_pickup",
+                              defaultMessage: "Order is pick up",
+                            })}
+                          </span>
+                        </div>
+                      )}
+                    </dd>
+                  </div>
 
-                <div>
-                  <dt className="font-medium text-slate-900 dark:text-white">
-                    {formatMessage({
-                      id: "payment-information",
-                      defaultMessage: "Payment Information",
-                    })}
-                  </dt>
-                  <dd className="-ml-4 -mt-1">
-                    <div className="ml-4 mt-4">
-                      <p className="sr-only">
-                        {order?.payment?.provider?.interface?.label}
-                      </p>
-                    </div>
-                    <div className="ml-4 mt-4">
-                      <p className="text-slate-500 dark:text-slate-300">
-                        {order?.payment?.provider?.interface?.label}
-                        &nbsp;&nbsp;
-                        {order?.payment?.provider?.interface?.version}
-                      </p>
-                    </div>
-                    <div className="ml-4 mt-4">
-                      <p className="text-slate-500 dark:text-slate-300">
-                        <span>{order?.payment?.provider?.type}</span>
-                        <span className="mx-2 inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
-                          {order?.payment?.status}
-                        </span>
-                      </p>
-                    </div>
-                    <div className="ml-4 mt-4">
-                      <p className="text-slate-600 dark:text-slate-300">
-                        <FormattedPrice price={order?.payment?.fee} />
-                      </p>
-                    </div>
-                    <div className="ml-4 mt-4">
-                      <p>
-                        {order?.payment?.paid ? (
-                          <div className="flex items-center">
-                            <AnimatedCheckmark size="sm" delay={1500} />
-                            <span className="mx-2 text-green-700 dark:text-green-400 font-medium">
-                              {formatMessage({
-                                id: "paid_on",
-                                defaultMessage: "paid on",
-                              })}
-                            </span>
-                            <time dateTime={order?.paid} className="text-slate-600 dark:text-slate-300">
-                              {formatDateTime(order?.payment?.paid)}
-                            </time>
-                          </div>
-                        ) : null}
-                      </p>
-                    </div>
-                  </dd>
-                </div>
-              </dl>
+                  <div>
+                    <dt className="font-medium text-slate-900 dark:text-white">
+                      {formatMessage({
+                        id: "payment-information",
+                        defaultMessage: "Payment Information",
+                      })}
+                    </dt>
+                    <dd className="-ml-4 -mt-1">
+                      <div className="ml-4 mt-4">
+                        <p className="sr-only">
+                          {order?.payment?.provider?.interface?.label}
+                        </p>
+                      </div>
+                      <div className="ml-4 mt-4">
+                        <p className="text-slate-500 dark:text-slate-300">
+                          {order?.payment?.provider?.interface?.label}
+                          &nbsp;&nbsp;
+                          {order?.payment?.provider?.interface?.version}
+                        </p>
+                      </div>
+                      <div className="ml-4 mt-4">
+                        <p className="text-slate-500 dark:text-slate-300">
+                          <span>{order?.payment?.provider?.type}</span>
+                          <span className="mx-2 inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
+                            {order?.payment?.status}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="ml-4 mt-4">
+                        <p className="text-slate-600 dark:text-slate-300">
+                          <FormattedPrice price={order?.payment?.fee} />
+                        </p>
+                      </div>
+                      <div className="ml-4 mt-4">
+                        <p>
+                          {order?.payment?.paid ? (
+                            <div className="flex items-center">
+                              <AnimatedCheckmark size="sm" delay={1500} />
+                              <span className="mx-2 text-green-700 dark:text-green-400 font-medium">
+                                {formatMessage({
+                                  id: "paid_on",
+                                  defaultMessage: "paid on",
+                                })}
+                              </span>
+                              <time
+                                dateTime={order?.paid}
+                                className="text-slate-600 dark:text-slate-300"
+                              >
+                                {formatDateTime(order?.payment?.paid)}
+                              </time>
+                            </div>
+                          ) : null}
+                        </p>
+                      </div>
+                    </dd>
+                  </div>
+                </dl>
               </FadeInSection>
 
               <FadeInSection delay={1600}>
@@ -295,7 +327,9 @@ const ThankYou = () => {
                       id: "continue_shopping",
                       defaultMessage: "Continue Shopping",
                     })}
-                    <span aria-hidden="true" className="ml-2">&rarr;</span>
+                    <span aria-hidden="true" className="ml-2">
+                      &rarr;
+                    </span>
                   </Link>
                 </div>
               </FadeInSection>

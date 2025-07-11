@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import confetti from 'canvas-confetti';
+import { useEffect, useRef } from "react";
+import confetti from "canvas-confetti";
 
 interface ConfettiCelebrationProps {
   trigger?: boolean;
@@ -15,8 +15,8 @@ const ConfettiCelebration = ({
   duration = 3000,
   particleCount = 50,
   spread = 70,
-  colors = ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0'],
-  className = ''
+  colors = ["#059669", "#10b981", "#34d399", "#6ee7b7", "#a7f3d0"],
+  className = "",
 }: ConfettiCelebrationProps) => {
   const animationEnd = useRef<number | null>(null);
 
@@ -29,7 +29,9 @@ const ConfettiCelebration = ({
 
   const fireConfetti = () => {
     // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (prefersReducedMotion) return;
 
     const animationEndTime = Date.now() + duration;
@@ -42,13 +44,13 @@ const ConfettiCelebration = ({
         spread,
         origin: {
           x: Math.random() * 0.6 + 0.2, // Random x between 0.2 and 0.8
-          y: Math.random() * 0.2 + 0.1  // Random y between 0.1 and 0.3
+          y: Math.random() * 0.2 + 0.1, // Random y between 0.1 and 0.3
         },
         colors,
         gravity: 0.6,
         scalar: 0.8,
         drift: 0,
-        ticks: 200
+        ticks: 200,
       });
 
       if (Date.now() < animationEndTime) {

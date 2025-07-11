@@ -74,10 +74,11 @@ const Home = () => {
                 {formatMessage({
                   id: "view_all",
                   defaultMessage: "View all",
-                })} →
+                })}{" "}
+                →
               </Link>
             </div>
-            
+
             {loading ? (
               <Loading />
             ) : (
@@ -114,10 +115,11 @@ const Home = () => {
                 {formatMessage({
                   id: "view_all",
                   defaultMessage: "View all",
-                })} →
+                })}{" "}
+                →
               </Link>
             </div>
-            
+
             {loading ? (
               <Loading />
             ) : (
@@ -154,10 +156,11 @@ const Home = () => {
                 {formatMessage({
                   id: "view_all",
                   defaultMessage: "View all",
-                })} →
+                })}{" "}
+                →
               </Link>
             </div>
-            
+
             {loading ? (
               <Loading />
             ) : (

@@ -14,7 +14,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
   const { formatMessage } = useIntl();
   const { isSubscribed, subscribe, unsubscribe } = usePushNotification();
   const { emailSupportDisabled } = useAppContext();
-  
+
   const submitHandler = async (data) => {
     await onSubmit(data);
   };
@@ -43,7 +43,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
         type="email"
         required={!emailSupportDisabled || !isSubscribed}
       />
-      
+
       <TextField
         label={formatMessage({
           id: "telNumber",
@@ -52,7 +52,7 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
         name="telNumber"
         type="tel"
       />
-      
+
       <Toggle
         className=""
         onToggle={async () => {

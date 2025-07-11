@@ -41,7 +41,7 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
             </div>
           )}
         </Link>
-        
+
         {!disableBookmark && (
           <button
             type="button"

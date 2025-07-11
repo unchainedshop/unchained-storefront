@@ -8,7 +8,12 @@ import Button from "../../common/components/Button";
 import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
 import FormattedPrice from "../../common/components/FormattedPrice";
 
-const ProductList = ({ products, totalProducts, onLoadMore, viewMode = "grid" }) => {
+const ProductList = ({
+  products,
+  totalProducts,
+  onLoadMore,
+  viewMode = "grid",
+}) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -29,7 +34,10 @@ const ProductList = ({ products, totalProducts, onLoadMore, viewMode = "grid" })
         ) : (
           <div className="space-y-6">
             {products.map((product) => (
-              <div key={product?._id} className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-800 dark:border-gray-700">
+              <div
+                key={product?._id}
+                className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-800 dark:border-gray-700"
+              >
                 <div className="flex">
                   <div className="w-48 h-36 flex-shrink-0 relative overflow-hidden bg-gray-50 dark:bg-slate-700">
                     <Link href={`/product/${product?.texts?.slug}`}>
@@ -49,7 +57,7 @@ const ProductList = ({ products, totalProducts, onLoadMore, viewMode = "grid" })
                       )}
                     </Link>
                   </div>
-                  
+
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <Link href={`/product/${product?.texts?.slug}`}>
@@ -68,7 +76,7 @@ const ProductList = ({ products, totalProducts, onLoadMore, viewMode = "grid" })
                         </p>
                       )}
                     </div>
-                    
+
                     <div className="flex items-center justify-between mt-4">
                       <div className="text-xl font-bold text-gray-900 dark:text-white">
                         <FormattedPrice price={product?.simulatedPrice} />

@@ -176,7 +176,7 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
               defaultMessage: "Billing address",
             })}
           </h2>
-          
+
           <div className="mb-4">
             <label className="flex items-center">
               <input
@@ -194,7 +194,7 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
               </span>
             </label>
           </div>
-          
+
           {isBillingAddressDifferent && (
             <EditableAddressPanel
               editing={billingAddressEditMode}

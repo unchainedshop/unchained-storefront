@@ -25,7 +25,7 @@ const Bookmarks = () => {
               })}
             </h1>
           </div>
-          
+
           {loading ? (
             <Loading />
           ) : (

@@ -42,10 +42,8 @@ const OrderDetail = ({ order }) => {
     <div className="max-w-6xl mx-auto mt-12">
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
         {/* Left Column - Order Info & Items */}
         <div className="lg:col-span-8 space-y-8">
-          
           {/* Order Header */}
           <FadeInSection delay={100}>
             <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">
@@ -61,7 +59,7 @@ const OrderDetail = ({ order }) => {
               </h3>
               <div className="space-y-4">
                 {order?.items.map((item, index) => (
-                  <FadeInSection key={item._id} delay={300 + (index * 50)}>
+                  <FadeInSection key={item._id} delay={300 + index * 50}>
                     <OrderDetailItem item={item} />
                   </FadeInSection>
                 ))}
@@ -86,7 +84,6 @@ const OrderDetail = ({ order }) => {
 
         {/* Right Column - Summary & Details */}
         <div className="lg:col-span-4 space-y-8">
-          
           {/* Print Button */}
           <FadeInSection className="print:hidden">
             <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 text-center">
@@ -103,7 +100,7 @@ const OrderDetail = ({ order }) => {
               />
             </div>
           </FadeInSection>
-          
+
           {/* Order Summary */}
           <FadeInSection delay={300}>
             <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8">

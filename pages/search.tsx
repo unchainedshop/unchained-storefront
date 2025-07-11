@@ -11,7 +11,7 @@ const Search = () => {
   const { formatMessage } = useIntl();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
-  
+
   // You can implement actual search logic here
   const { products, loading } = useProducts({
     // Add search parameters when implementing backend search
@@ -83,12 +83,12 @@ const Search = () => {
                         id: "search_results_for",
                         defaultMessage: "Results for '{query}'",
                       },
-                      { query: searchQuery }
+                      { query: searchQuery },
                     )}
                   </h2>
                 </div>
               )}
-              
+
               {products.length > 0 ? (
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {products.map((product) => (

@@ -6,38 +6,26 @@ import getMediaUrl from "../../common/utils/getMediaUrl";
 
 const CategoryListItem = ({ category }) => {
   const mediaUrl = getMediaUrl(category);
-  
+
   return (
     <Link href={`shop/${category.texts.slug}`} className="group block">
-      <div className="relative overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:bg-slate-800">
-        {mediaUrl ? (
-          <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 dark:bg-slate-800">
+      <div className="bg-white dark:bg-slate-800 transition-all duration-300">
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 dark:bg-slate-800 rounded-md mb-4">
+          {mediaUrl ? (
             <Image
               src={mediaUrl}
               alt={category?.texts.title}
               layout="fill"
               objectFit="cover"
               objectPosition="center"
-              className="transition-transform duration-300 group-hover:scale-105"
+              className="transition-transform duration-300 rounded-md"
               loader={defaultNextImageLoader}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4">
-              <h3 className="text-lg font-semibold text-white">
-                {category.texts?.title}
-              </h3>
-              {category.texts?.subtitle && (
-                <p className="mt-1 text-sm text-gray-200">
-                  {category.texts.subtitle}
-                </p>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="flex aspect-[4/3] flex-col items-center justify-center bg-gray-50 p-6 dark:bg-slate-800">
-            <div className="mb-4 rounded-full bg-gray-200 p-3 dark:bg-slate-700">
+          ) : (
+            <div className="flex items-center justify-center h-full bg-gray-100 dark:bg-slate-700 rounded-md">
               <svg
-                className="h-8 w-8 text-gray-400 dark:text-slate-500"
+                className="h-12 w-12 text-gray-400 dark:text-slate-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -50,16 +38,20 @@ const CategoryListItem = ({ category }) => {
                 />
               </svg>
             </div>
-            <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-white">
-              {category.texts?.title}
-            </h3>
-            {category.texts?.subtitle && (
-              <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
-                {category.texts.subtitle}
-              </p>
-            )}
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* Content Below Image */}
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white leading-tight">
+            {category.texts?.title}
+          </h3>
+          {category.texts?.subtitle && (
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {category.texts.subtitle}
+            </p>
+          )}
+        </div>
       </div>
     </Link>
   );

@@ -17,7 +17,7 @@ const Categories = () => {
           defaultMessage: "Product Categories",
         })}
       />
-      <div className="min-h-screen bg-white dark:bg-slate-900">
+      <div className="min-h-screen w-screen ml-[calc(-50vw+50%)] bg-white dark:bg-slate-900">
         {loading ? (
           <div className="flex min-h-screen items-center justify-center">
             <Loading />
@@ -36,7 +36,8 @@ const Categories = () => {
                 <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
                   {formatMessage({
                     id: "categories_description",
-                    defaultMessage: "Discover our carefully curated collections designed to meet all your needs",
+                    defaultMessage:
+                      "Discover our carefully curated collections designed to meet all your needs",
                   })}
                 </p>
               </div>
