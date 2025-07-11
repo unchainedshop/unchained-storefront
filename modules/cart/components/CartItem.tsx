@@ -62,8 +62,8 @@ const CartItem = ({
   };
 
   return (
-    <li className="flex pb-3" key={_id}>
-      <div className="relative h-20 w-20 flex-shrink-0 rounded-md">
+    <li className="flex pb-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 transition-all duration-200 hover:bg-slate-100 hover:scale-[1.01] dark:hover:bg-slate-700" key={_id}>
+      <div className="relative h-20 w-20 flex-shrink-0 rounded-md overflow-hidden shadow-sm">
         {getMediaUrl(product) ? (
           <Image
             src={getMediaUrl(product)}
@@ -73,10 +73,11 @@ const CartItem = ({
             blurDataURL="/placeholder.png"
             objectFit="cover"
             loader={defaultNextImageLoader}
+            className="transition-transform duration-300 hover:scale-105"
           />
         ) : (
-          <div className="relative h-full w-full">
-            <PhotoIcon className="absolute inset-0 h-full w-full text-slate-200  dark:text-slate-500" />
+          <div className="relative h-full w-full flex items-center justify-center bg-slate-100 dark:bg-slate-600">
+            <PhotoIcon className="h-8 w-8 text-slate-300 dark:text-slate-500" />
           </div>
         )}
       </div>
@@ -87,7 +88,7 @@ const CartItem = ({
             <h4 className="text-sm">
               <Link
                 href={`/product/${product?.texts?.slug}`}
-                className="font-medium text-slate-700 hover:text-slate-800 dark:text-slate-100 dark:hover:text-slate-400"
+                className="font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 dark:text-slate-100 dark:hover:text-slate-300"
               >
                 {product?.texts && product?.texts.title}
               </Link>
@@ -97,7 +98,7 @@ const CartItem = ({
             <div className="ml-4 flow-root flex-shrink-0">
               <button
                 type="button"
-                className="-m-2.5 flex items-center justify-center p-2.5 text-slate-600 hover:text-slate-600 dark:text-slate-100"
+                className="-m-2.5 flex items-center justify-center p-2.5 text-slate-400 hover:text-red-500 transition-all duration-200 hover:scale-110 hover:bg-red-50 rounded-md dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-900/20"
                 onClick={() => removeCartItem({ itemId: _id })}
               >
                 <span className="sr-only">
@@ -123,8 +124,8 @@ const CartItem = ({
                 <div className="flex items-end justify-center gap-1">
                   <button
                     type="button"
-                    className="rounded-md border border-slate-300 text-left text-base font-medium text-slate-700 shadow-xs focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:text-slate-200 dark:shadow-white sm:text-sm"
-                    aria-label="Increase cart item"
+                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-600"
+                    aria-label="Decrease cart item"
                     disabled={currentQuantity === 1}
                     onClick={() =>
                       updateCartItem({
@@ -133,19 +134,19 @@ const CartItem = ({
                       })
                     }
                   >
-                    <MinusIcon className="h-6 w-6" />
+                    <MinusIcon className="h-4 w-4" />
                   </button>
                   <input
                     type="text"
                     pattern="\d+"
-                    className="h-8 w-14 border-0 p-1 pb-0 text-center placeholder:font-bold placeholder:opacity-100 dark:bg-inherit dark:text-slate-100"
+                    className="h-8 w-12 border border-slate-300 rounded-md text-center text-sm font-medium transition-all duration-200 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     value={currentQuantity}
                   />
                   <button
-                    className="rounded-md border border-slate-300 text-left text-base font-medium text-slate-700 shadow-xs focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:text-slate-200 dark:shadow-white sm:text-sm"
-                    aria-label="Decrease cart item"
+                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-600"
+                    aria-label="Increase cart item"
                     type="button"
                     onClick={() =>
                       updateCartItem({
@@ -154,7 +155,7 @@ const CartItem = ({
                       })
                     }
                   >
-                    <PlusIcon className="h-6 w-6" />
+                    <PlusIcon className="h-4 w-4" />
                   </button>
                 </div>
               </div>
