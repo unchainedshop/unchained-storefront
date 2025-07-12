@@ -259,7 +259,7 @@ const LogInForm = () => {
                 />
                 {error && <div className="mt-3 text-red-600">{error}</div>}
                 {showPasswordNav && (
-                  <p className="text-center font-extrabold text-red-700 cursor-pointer">
+                  <p className="text-center font-semibold text-red-700 cursor-pointer">
                     <button type="button" onClick={nextStep}>
                       {formatMessage({
                         id: "use-password-to-authenticate",

@@ -53,7 +53,7 @@ const EmailAddresses = ({ emails }) => {
           <div className="gap-2 md:grid md:grid-cols-2">
             {emails?.map((e) => (
               <div key={e.address} className="mb-1 flex flex-wrap items-center">
-                <span className="text-lg font-extrabold dark:text-slate-100">
+                <span className="text-lg font-semibold dark:text-slate-100">
                   {e.address}
                 </span>
                 <VerifiedStatus isActive={e.verified} />

@@ -90,7 +90,7 @@ const SignUpForm = () => {
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 text-center">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-slate-200">
+          <h2 className="mt-6 text-center text-3xl font-semibold text-slate-900 dark:text-slate-200">
             {formatMessage({
               id: "sign_up_header",
               defaultMessage: "Create new account",
