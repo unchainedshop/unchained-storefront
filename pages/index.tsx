@@ -96,7 +96,7 @@ const Home = () => {
                 {assortments.map((category) => (
                   <div
                     key={category._id}
-                    className="group flex-none w-64 sm:w-72 transform transition-transform duration-300 hover:scale-105"
+                    className="group flex-none w-64 sm:w-72 transition-all duration-300"
                   >
                     <CategoryListItem category={category} />
                   </div>

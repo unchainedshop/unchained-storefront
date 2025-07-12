@@ -19,7 +19,7 @@ const CategoryListItem = ({ category }) => {
               layout="fill"
               objectFit="cover"
               objectPosition="center"
-              className="transition-transform duration-300 rounded-md"
+              className="transition-all duration-300 rounded-md group-hover:opacity-75"
               loader={defaultNextImageLoader}
             />
           ) : (
@@ -43,7 +43,7 @@ const CategoryListItem = ({ category }) => {
 
         {/* Content Below Image */}
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white leading-tight">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white leading-tight transition-colors duration-200 group-hover:text-slate-700 dark:group-hover:text-slate-200">
             {category.texts?.title}
           </h3>
           {category.texts?.subtitle && (

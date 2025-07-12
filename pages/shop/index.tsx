@@ -50,7 +50,7 @@ const Categories = () => {
                   {assortments.map((category) => (
                     <div
                       key={category._id}
-                      className="group transform transition-transform duration-300 hover:scale-105"
+                      className="group transition-all duration-300"
                     >
                       <CategoryListItem category={category} />
                     </div>
