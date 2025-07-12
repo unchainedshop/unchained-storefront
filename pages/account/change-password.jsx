@@ -114,7 +114,7 @@ const ChangePassword = () => {
             <div>
               <KeyIcon className="mx-auto h-24 w-24 text-slate-600 dark:text-white" />
             </div>
-            <h1 className="text-center text-6xl font-semibold text-slate-600 dark:text-slate-300">
+            <h1 className="text-center text-3xl font-semibold text-slate-600 dark:text-slate-300">
               {formatMessage({
                 id: "change_password",
                 defaultMessage: "Change Password",
@@ -133,20 +133,12 @@ const ChangePassword = () => {
                   id: "current_password",
                   defaultMessage: "Current password",
                 })}
-                placeholder={formatMessage({
-                  id: "current_password",
-                  defaultMessage: "Current password",
-                })}
                 name="oldPassword"
                 id="oldPassword"
               />
               <PasswordField
                 required
                 label={formatMessage({
-                  id: "new_password",
-                  defaultMessage: "New password",
-                })}
-                placeholder={formatMessage({
                   id: "new_password",
                   defaultMessage: "New password",
                 })}
@@ -157,10 +149,6 @@ const ChangePassword = () => {
               <PasswordField
                 required
                 label={formatMessage({
-                  id: "confirm-password",
-                  defaultMessage: "Confirm password",
-                })}
-                placeholder={formatMessage({
                   id: "confirm-password",
                   defaultMessage: "Confirm password",
                 })}

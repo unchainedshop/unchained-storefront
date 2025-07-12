@@ -51,10 +51,6 @@ const ForgotPasswordForm = () => {
         name="email"
         id="email-address"
         type="email"
-        placeholder={formatMessage({
-          id: "email_address",
-          defaultMessage: "Email Address",
-        })}
         label={formatMessage({
           id: "email_address",
           defaultMessage: "Email Address",

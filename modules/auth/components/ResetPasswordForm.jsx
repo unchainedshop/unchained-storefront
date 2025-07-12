@@ -57,14 +57,11 @@ const ResetPasswordForm = ({ token }) => {
       onSubmit={onSubmit}
       onSubmitError={onSubmitError}
       onBeforeSubmitValidator={beforeSubmitValidator}
+      className="flex flex-col gap-4"
     >
       <PasswordField
         name="newPassword"
         id="new-password"
-        placeholder={formatMessage({
-          id: "new_password",
-          defaultMessage: "New password",
-        })}
         label={formatMessage({
           id: "new_password",
           defaultMessage: "New password",
@@ -76,19 +73,13 @@ const ResetPasswordForm = ({ token }) => {
         required
         name="confirmPassword"
         id="confirm-password"
-        placeholder={formatMessage({
-          id: "confirm_password",
-          defaultMessage: "Confirm password",
-        })}
         label={formatMessage({
           id: "confirm_password",
           defaultMessage: "Confirm password",
         })}
       />
 
-      <div className="mt-2 mb-2 ">
-        <FormErrors />
-      </div>
+      <FormErrors />
       <SubmitButton className="w-full">
         {formatMessage({
           id: "rest_password",
