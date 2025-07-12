@@ -110,13 +110,6 @@ const colorUsageData = {
   customProperties: {
     // Legacy custom properties (now removed)
   },
-  hexColors: {
-    "#ffffff": 12,
-    "#0f172a": 8,
-    "#f8fafc": 5,
-    "#1e293b": 4,
-    "#22c55e": 3,
-  },
 };
 
 // Typography usage data - based on common Tailwind text classes
@@ -1018,29 +1011,6 @@ const StyleguidePage = () => {
         </div>
       )}
 
-      <div>
-        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
-          Hex Colors
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {Object.entries(colorUsageData.hexColors).map(([hex, count]) => (
-            <div key={hex} className="flex items-center space-x-2">
-              <div
-                className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
-                style={{ backgroundColor: hex }}
-              ></div>
-              <div>
-                <div className="text-sm font-mono text-slate-900 dark:text-white">
-                  {hex}
-                </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">
-                  {count} uses
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
@@ -1053,14 +1023,6 @@ const StyleguidePage = () => {
             </div>
             <div className="text-slate-600 dark:text-slate-400">
               520+ usages
-            </div>
-          </div>
-          <div>
-            <div className="font-medium text-slate-900 dark:text-white">
-              Hex Colors
-            </div>
-            <div className="text-slate-600 dark:text-slate-400">
-              5 legacy colors
             </div>
           </div>
           <div>

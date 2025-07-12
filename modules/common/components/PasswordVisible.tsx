@@ -21,7 +21,7 @@ const PasswordVisible = ({ isPasswordVisible, setIsPasswordVisible }) => {
           className="h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="#0f172a"
+          stroke="currentColor"
         >
           <path
             strokeLinecap="round"
@@ -42,7 +42,7 @@ const PasswordVisible = ({ isPasswordVisible, setIsPasswordVisible }) => {
           className="h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="#0f172a"
+          stroke="currentColor"
         >
           <path
             strokeLinecap="round"
