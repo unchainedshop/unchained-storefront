@@ -1,24 +1,11 @@
-import { BookmarkIcon, PhotoIcon } from "@heroicons/react/20/solid";
-import classNames from "classnames";
+import { PhotoIcon } from "@heroicons/react/20/solid";
 import Image from "next/legacy/image";
 import Link from "next/link";
 
-import useUser from "../../auth/hooks/useUser";
-import useConditionalBookmarkProduct from "../../cart/hooks/useConditionalBookmarkProduct";
-import useRemoveBookmark from "../../common/hooks/useRemoveBookmark";
 import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
 import FormattedPrice from "../../common/components/FormattedPrice";
 
-const ProductListItem = ({ product, disableBookmark = false }) => {
-  const { conditionalBookmarkProduct } = useConditionalBookmarkProduct();
-  const { removeBookmark } = useRemoveBookmark();
-
-  const { user } = useUser();
-
-  const [filteredBookmark] =
-    user?.bookmarks?.filter(
-      (bookmark) => bookmark?.product?._id === product?._id,
-    ) || [];
+const ProductListItem = ({ product }) => {
 
   const firstMediaUrl = product?.media?.[0]?.file?.url;
 
@@ -42,29 +29,6 @@ const ProductListItem = ({ product, disableBookmark = false }) => {
           )}
         </Link>
 
-        {!disableBookmark && (
-          <button
-            type="button"
-            className="absolute top-3 right-3 rounded-full bg-white/90 p-2 shadow-sm backdrop-blur-sm transition-all duration-200 opacity-0 group-hover:opacity-100 hover:scale-110 hover:shadow-md dark:bg-slate-800/90"
-            onClick={() =>
-              filteredBookmark
-                ? removeBookmark({
-                    bookmarkId: filteredBookmark?._id,
-                  })
-                : conditionalBookmarkProduct({
-                    productId: product?._id,
-                  })
-            }
-          >
-            <BookmarkIcon
-              className={classNames("h-4 w-4", {
-                "text-amber-500 hover:text-amber-600": filteredBookmark,
-                "text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white":
-                  !filteredBookmark,
-              })}
-            />
-          </button>
-        )}
       </div>
 
       <div className="mt-4 space-y-2">

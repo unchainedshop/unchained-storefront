@@ -32,7 +32,7 @@ const Toggle = ({
           " relative inline-flex h-4 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2",
           {
             "bg-slate-200 dark:bg-slate-700": !toggleState,
-            "bg-slate-500": toggleState,
+            "bg-blue-500": toggleState,
           },
         )}
         role="switch"

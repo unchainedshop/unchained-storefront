@@ -12,8 +12,9 @@ import usePushNotification from "../context/push-notification/usePushNotificatio
 
 const ContactForm = ({ contact, onSubmit, onCancel }) => {
   const { formatMessage } = useIntl();
-  const { isSubscribed, subscribe, unsubscribe } = usePushNotification();
+  const { isSubscribed, subscribe, unsubscribe, disabledForCurrentBrowser } = usePushNotification();
   const { emailSupportDisabled } = useAppContext();
+  const [localNotificationSubscribed, setLocalNotificationSubscribed] = useState(false);
 
   const submitHandler = async (data) => {
     await onSubmit(data);
@@ -55,16 +56,13 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
 
       <Toggle
         className=""
-        onToggle={async () => {
-          if (isSubscribed) {
-            await unsubscribe();
-          } else {
-            await subscribe();
-          }
+        onToggle={() => {
+          setLocalNotificationSubscribed(!localNotificationSubscribed);
         }}
         toggleText="Receive order confirmation / order status update"
         toggleKey=""
-        active={isSubscribed}
+        active={localNotificationSubscribed}
+        disabled={false}
       />
 
       <FormErrors />

@@ -39,12 +39,26 @@ const CheckoutContact = ({ cart, isInitial }) => {
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
-      <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
-        {formatMessage({
-          id: "contact-info",
-          defaultMessage: "Contact info",
-        })}
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-medium text-slate-900 dark:text-white">
+          {formatMessage({
+            id: "contact-info",
+            defaultMessage: "Contact info",
+          })}
+        </h2>
+        {!editMode && (
+          <button
+            type="button"
+            onClick={toggleEditMode}
+            className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+          >
+            {formatMessage({
+              id: "edit-contact-data",
+              defaultMessage: "Edit Contact Data",
+            })}
+          </button>
+        )}
+      </div>
 
       {showLogin && editMode && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md dark:bg-red-900/20 dark:border-red-800">

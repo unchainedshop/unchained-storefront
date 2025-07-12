@@ -1,5 +1,4 @@
 import { useIntl } from "react-intl";
-import Button from "../common/components/Button";
 
 const formatContact = ({ emailAddress, telNumber }) =>
   [emailAddress, telNumber].filter(Boolean).join("\n");
@@ -13,15 +12,6 @@ const ContactPanel = ({ contact, onEdit }) => {
           {formatContact(contact)}
         </div>
       </div>
-      <Button
-        text={formatMessage({
-          id: "edit-contact-data",
-          defaultMessage: "Edit Contact Data",
-        })}
-        type="button"
-        variant="secondary"
-        onClick={onEdit}
-      />
     </div>
   );
 };

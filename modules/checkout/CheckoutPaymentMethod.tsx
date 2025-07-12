@@ -61,14 +61,14 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
   const CheckoutButton = CheckoutButtons[interfaceId] ?? (() => null);
 
   return (
-    <div className="mt-6">
+    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+      <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
+        {formatMessage({
+          id: "payment-method",
+          defaultMessage: "Payment method",
+        })}
+      </h2>
       <form>
-        <h2 className="text-lg font-medium  mb-4">
-          {formatMessage({
-            id: "payment-method",
-            defaultMessage: "Payment method",
-          })}
-        </h2>
         <div className="space-y-4">
           {cart.supportedPaymentProviders.map((provider) => (
             <div className="flex items-center" key={provider._id}>
@@ -79,11 +79,11 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
                 value={provider._id}
                 defaultChecked={cart.payment?.provider?._id === provider._id}
                 onChange={setPaymentProvider}
-                className="h-4 w-4 border-slate-300 text-red-600 focus:ring-red-800"
+                className="h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500"
               />
               <label
                 htmlFor={provider._id}
-                className="ml-3 block text-sm font-medium text-brown-600"
+                className="ml-3 block text-sm font-medium text-slate-900 dark:text-white"
               >
                 <FormattedMessage {...PaymentLabels[provider.interface._id]} />
               </label>

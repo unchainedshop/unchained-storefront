@@ -153,12 +153,26 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
     <div className="space-y-8">
       {/* Delivery Address Section */}
       <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
-        <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
-          {formatMessage({
-            id: "delivery-address",
-            defaultMessage: "Delivery address",
-          })}
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-medium text-slate-900 dark:text-white">
+            {formatMessage({
+              id: "delivery-address",
+              defaultMessage: "Delivery address",
+            })}
+          </h2>
+          {!deliveryAddressEditMode && (
+            <button
+              type="button"
+              onClick={toggleDeliveryAddressEditMode}
+              className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+            >
+              {formatMessage({
+                id: "edit-address",
+                defaultMessage: "Edit Address",
+              })}
+            </button>
+          )}
+        </div>
         <EditableAddressPanel
           editing={deliveryAddressEditMode}
           address={deliveryAddress}
@@ -170,12 +184,26 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
       {/* Billing Address Section */}
       {!isInitial && (
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
-          <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
-            {formatMessage({
-              id: "billing-address",
-              defaultMessage: "Billing address",
-            })}
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-medium text-slate-900 dark:text-white">
+              {formatMessage({
+                id: "billing-address",
+                defaultMessage: "Billing address",
+              })}
+            </h2>
+            {isBillingAddressDifferent && !billingAddressEditMode && (
+              <button
+                type="button"
+                onClick={toggleBillingAddressEditMode}
+                className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+              >
+                {formatMessage({
+                  id: "edit-address",
+                  defaultMessage: "Edit Address",
+                })}
+              </button>
+            )}
+          </div>
 
           <div className="mb-4">
             <label className="flex items-center">
