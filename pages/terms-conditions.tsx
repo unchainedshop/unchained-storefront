@@ -14,7 +14,7 @@ const Conditions = () => {
         })}
       />
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-8">
+        <h1 className="text-4xl font-semibold text-slate-900 dark:text-white mb-8">
           Terms & Conditions: The Legal Fiction
         </h1>
 

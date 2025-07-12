@@ -36,7 +36,7 @@ const CategoryDetail = () => {
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">
               {texts?.title}
             </h1>
             {texts?.subtitle && (

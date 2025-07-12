@@ -49,7 +49,7 @@ const Home = () => {
             <div className="absolute inset-0 bg-slate-950 bg-opacity-30" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="container mx-auto px-2 text-center text-white">
-                <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+                <h1 className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                   {formatMessage({
                     id: "hero_title",
                     defaultMessage: "Discover Amazing Products",
@@ -70,7 +70,7 @@ const Home = () => {
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
                   id: "browse_categories",
                   defaultMessage: "Browse Categories",
@@ -110,7 +110,7 @@ const Home = () => {
         <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
                   id: "all_products",
                   defaultMessage: "All Products",

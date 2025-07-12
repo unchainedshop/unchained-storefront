@@ -53,14 +53,6 @@ const colorUsageData = {
       "text-yellow-600": 5,
     },
   },
-  customProperties: {
-    "--color-brand": "#232323",
-    "--color-brand-lightest": "#e7e7e7",
-    "--color-brand-darker": "#121212",
-    "--color-danger-600": "#DC2626",
-    "--color-success-100": "#D1FAE5",
-    "--color-warning-200": "#FDE68A",
-  },
   hexColors: {
     "#232323": 15,
     "#495057": 8,
@@ -88,12 +80,12 @@ const typographyData = {
     "font-normal": { count: 180, example: "Normal weight" },
     "font-medium": { count: 95, example: "Medium weight" },
     "font-semibold": { count: 45, example: "Semibold weight" },
-    "font-bold": { count: 25, example: "Bold weight" },
+    "font-semibold": { count: 25, example: "Bold weight" },
   },
   elements: {
     h1: {
       count: 8,
-      classes: "text-4xl font-bold",
+      classes: "text-4xl font-semibold",
       example: "Main page heading",
     },
     h2: {
@@ -1498,7 +1490,7 @@ const StyleguidePage = () => {
         <div className="mb-8">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
+              <h1 className="text-4xl font-semibold mb-2 text-slate-900 dark:text-white">
                 Design System Styleguide
               </h1>
               <p className="text-slate-600 dark:text-slate-400">

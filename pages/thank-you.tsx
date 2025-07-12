@@ -140,7 +140,7 @@ const ThankYou = () => {
                             </dt>
                           ),
                           dd: (chunks) => (
-                            <dd className="mt-2 text-lg font-bold text-green-700 dark:text-green-400">
+                            <dd className="mt-2 text-lg font-semibold text-green-700 dark:text-green-400">
                               <CountUpAnimation
                                 end={
                                   parseInt(

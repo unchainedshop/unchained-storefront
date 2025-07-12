@@ -27,7 +27,7 @@ const Categories = () => {
             {/* Hero Section */}
             <section className="w-full bg-gradient-to-br from-slate-50 to-slate-100 py-16 dark:from-slate-800 dark:to-slate-900">
               <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
-                <h1 className="mb-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                   {formatMessage({
                     id: "shop_by_category",
                     defaultMessage: "Shop by Category",

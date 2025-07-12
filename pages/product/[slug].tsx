@@ -84,7 +84,7 @@ const Detail = () => {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <h1
-                      className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2"
+                      className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-2"
                       dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
                     />
                     <h2
@@ -117,7 +117,7 @@ const Detail = () => {
                     />
                   </button>
                 </div>
-                <div className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-6">
+                <div className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-6">
                   <FormattedPrice price={product?.simulatedPrice} />
                 </div>
               </div>

@@ -81,7 +81,7 @@ const OrderDetailBilling = ({ order }) => {
               <span className="font-medium text-slate-900 dark:text-white">
                 Total
               </span>
-              <span className="font-bold text-xl text-slate-900 dark:text-white">
+              <span className="font-semibold text-xl text-slate-900 dark:text-white">
                 <FormattedPrice price={order?.total} />
               </span>
             </div>

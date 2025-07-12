@@ -78,7 +78,7 @@ const ProductList = ({
                     </div>
 
                     <div className="flex items-center justify-between mt-4">
-                      <div className="text-xl font-bold text-slate-900 dark:text-white">
+                      <div className="text-xl font-semibold text-slate-900 dark:text-white">
                         <FormattedPrice price={product?.simulatedPrice} />
                       </div>
                       <Link

@@ -45,7 +45,7 @@ const LoginCart = () => {
       >
         <ShoppingCartIcon className="h-6 w-6" />
         {user?.cart?.items?.length ? (
-          <span className="absolute -top-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-950 text-xs font-bold text-white">
+          <span className="absolute -top-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
             {user?.cart?.items.reduce((acc, item) => acc + item.quantity, 0)}
           </span>
         ) : null}

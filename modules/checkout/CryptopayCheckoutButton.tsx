@@ -258,11 +258,11 @@ const CryptopayCheckoutButton = ({ order }) => {
                       )}
                       <div className="text-center pt-3">
                         <span>Send exactly</span>
-                        <span className="font-bold sm:font-normal sm:text-2xl mx-3">
+                        <span className="font-semibold sm:font-normal sm:text-2xl mx-3">
                           {formattedPrice}
                         </span>
                         <span className="my-3">to</span>
-                        <div className="font-bold sm:font-normal sm:text-2xl mt-2 break-all px-5">
+                        <div className="font-semibold sm:font-normal sm:text-2xl mt-2 break-all px-5">
                           {contractAddress}
                         </div>
                       </div>

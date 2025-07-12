@@ -44,7 +44,7 @@ const DetailHeader = ({ user, contact }) => {
             )}
           </span>
           <span className="flex items-center">
-            <h3 className="ml-3 text-xl font-bold capitalize">
+            <h3 className="ml-3 text-xl font-semibold capitalize">
               <span className="text-slate-500 dark:text-slate-400  hover:text-slate-600 dark:hover:text-slate-300">
                 {formatUsername(user)}
               </span>

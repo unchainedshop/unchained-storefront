@@ -16,7 +16,7 @@ const OrderDetailHeader = ({ order }) => {
         <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
           Order Number
         </div>
-        <div className="text-xl font-bold text-slate-900 dark:text-white">
+        <div className="text-xl font-semibold text-slate-900 dark:text-white">
           {order?.orderNumber || "N/A"}
         </div>
       </div>

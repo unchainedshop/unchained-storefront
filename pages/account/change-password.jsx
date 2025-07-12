@@ -114,7 +114,7 @@ const ChangePassword = () => {
             <div>
               <KeyIcon className="mx-auto h-24 w-24 text-slate-600 dark:text-white" />
             </div>
-            <h1 className="text-center text-6xl font-bold text-slate-600 dark:text-slate-300">
+            <h1 className="text-center text-6xl font-semibold text-slate-600 dark:text-slate-300">
               {formatMessage({
                 id: "change_password",
                 defaultMessage: "Change Password",
