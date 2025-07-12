@@ -3,23 +3,41 @@ import { useIntl } from "react-intl";
 
 import LanguageSwitch from "../../common/components/LanguageSwitch";
 
-const footerNavigation = {
+const getFooterNavigation = (formatMessage) => ({
   products: [],
-  customerService: [{ name: "Contact", href: "#" }],
+  customerService: [
+    { 
+      name: formatMessage({ id: "contact", defaultMessage: "Contact" }), 
+      href: "#" 
+    }
+  ],
   company: [
-    { name: "About", href: "/about" },
-    { name: "Imprint", href: "/imprint" },
+    { 
+      name: formatMessage({ id: "about", defaultMessage: "About" }), 
+      href: "/about" 
+    },
+    { 
+      name: formatMessage({ id: "imprint", defaultMessage: "Imprint" }), 
+      href: "/imprint" 
+    },
   ],
   legal: [
-    { name: "Terms & Conditions", href: "/terms-conditions" },
-    { name: "Privacy", href: "/privacy-policy" },
+    { 
+      name: formatMessage({ id: "terms_conditions", defaultMessage: "Terms & Conditions" }), 
+      href: "/terms-conditions" 
+    },
+    { 
+      name: formatMessage({ id: "privacy_policy", defaultMessage: "Privacy Policy" }), 
+      href: "/privacy-policy" 
+    },
   ],
   bottomLinks: [],
   social: [],
-};
+});
 
 const Footer = () => {
   const { formatMessage } = useIntl();
+  const footerNavigation = getFooterNavigation(formatMessage);
   return (
     <footer
       aria-labelledby="footer-heading"

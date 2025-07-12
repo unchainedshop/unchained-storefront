@@ -8,7 +8,6 @@ import Layout from "../modules/layout/components/Layout";
 import getMessages from "../modules/i18n/utils/getMessages";
 import { AppContextWrapper } from "../modules/common/components/AppContextWrapper";
 
-import "../public/static/css/all.css";
 import "../styles/globals.css";
 import PushNotificationWrapper from "../modules/context/push-notification/PushNotificationWrapper";
 
