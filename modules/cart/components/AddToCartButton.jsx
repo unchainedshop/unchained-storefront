@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useIntl } from "react-intl";
 import useUnchainedAddToCartButton from "../hooks/useUnchainedAddToCartButton";
+import Button from "../../common/components/Button";
 
 const AddToCartButton = ({ productId, ...product }) => {
   const { formatMessage } = useIntl();
@@ -141,46 +142,31 @@ const AddToCartButton = ({ productId, ...product }) => {
           </button>
         </div>
 
-        <button
-          className={`w-full inline-flex items-center rounded-b-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-all duration-300 ease-in-out ${
-            isAddInProgress
-              ? "bg-slate-600"
-              : isAddedToCart
-                ? "bg-green-600 hover:bg-green-700"
-                : "bg-slate-900 hover:bg-slate-800"
-          }`}
-          aria-label="add-to-cart"
+        <Button
           type="submit"
+          variant={isAddedToCart ? "success" : "primary"}
+          size="small"
+          disabled={isAddInProgress}
+          className="rounded-b-md shadow-xs transition-all duration-300 ease-in-out"
+          aria-label="add-to-cart"
+          fullWidth={true}
         >
           {!isAddInProgress && !isAddedToCart && (
-            <span
-              aria-label="ok icon"
-              className="flex justify-center w-full transition-all duration-300 ease-in-out"
-            >
-              <ShoppingCartIcon className="inline-block -ml-1 mr-2 h-5 w-5 transition-transform duration-200 ease-in-out" />
+            <>
+              <ShoppingCartIcon className="h-5 w-5 mr-2" />
               {formatMessage({
                 id: "add-to-cart",
                 defaultMessage: "Add to Cart",
               })}
-            </span>
+            </>
           )}
           {isAddedToCart && !isAddInProgress && (
-            <span
-              aria-label="success icon"
-              className="flex justify-center w-full animate-pulse"
-            >
-              <CheckCircleIcon className="h-5 w-5 transition-all duration-300 ease-in-out animate-bounce" />
-            </span>
+            <CheckCircleIcon className="h-5 w-5 animate-bounce" />
           )}
           {isAddInProgress && (
-            <span
-              aria-label="loading icon"
-              className="flex justify-center w-full"
-            >
-              <CogIcon className="h-5 w-5 animate-spin transition-all duration-300 ease-in-out" />
-            </span>
+            <CogIcon className="h-5 w-5 animate-spin" />
           )}
-        </button>
+        </Button>
       </fieldset>
     </form>
   );

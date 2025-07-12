@@ -2,6 +2,7 @@ import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import Button from "./Button";
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
@@ -44,14 +45,14 @@ const ThemeToggle = () => {
 
   return (
     <div className="absolute right-0 top-2 mx-2 flex items-center sm:top-5">
-      <button
+      <Button
         type="button"
-        className="hover:cursor-pointer"
-        id="theme-toggle"
-        title="Toggles light & dark"
-        aria-label="auto"
-        aria-live="polite"
+        variant="link"
         onClick={handleToggleTheme}
+        aria-label="Toggle theme"
+        title="Toggles light & dark"
+        className="hover:cursor-pointer p-0"
+        fullWidth={false}
       >
         <SunIcon
           className={classNames(
@@ -71,7 +72,7 @@ const ThemeToggle = () => {
             },
           )}
         />
-      </button>
+      </Button>
     </div>
   );
 };

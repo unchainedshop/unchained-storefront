@@ -47,14 +47,6 @@ const ForgotPasswordForm = () => {
 
   return (
     <Form onSubmit={onSubmit} onSubmitError={onSubmitError} className="form">
-      <p className="py-4">
-        {formatMessage({
-          id: "forgot_password_header_description",
-          defaultMessage:
-            "Enter your email address below and we'll send you a link to reset your password!",
-        })}
-      </p>
-
       <EmailField
         name="email"
         id="email-address"
@@ -86,7 +78,7 @@ const ForgotPasswordForm = () => {
         })}
         <Link
           href="/sign-up"
-          className="font-semibold text-slate-500 dark:text-slate-400 focus:text-slate-600 dark:hover:text-slate-300 focus:underline focus:outline-none"
+          className="ml-1 font-semibold text-slate-500 dark:text-slate-400 focus:text-slate-600 dark:hover:text-slate-300 focus:underline focus:outline-none"
         >
           {formatMessage({ id: "sign_up", defaultMessage: "Sign up" })}
         </Link>

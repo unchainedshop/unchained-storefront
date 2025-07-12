@@ -19,24 +19,26 @@ const SaveAndCancelButtons = ({
       )}
     >
       {showCancel ? (
-        <button
+        <Button
           onClick={onCancel}
-          data-id="cancel_update"
+          variant="secondary"
+          size="small"
           type="button"
-          className={classNames(
-            "focus:ring-indigo-400",
-            "inline-flex items-center rounded-md border dark:text-indigo-400 border-slate-300 dark:border-0 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-medium text-slate-700 shadow-xs hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2",
-          )}
-        >
-          {cancelText ||
+          text={cancelText ||
             formatMessage({
               id: "cancel",
               defaultMessage: "Cancel",
             })}
-        </button>
+          fullWidth={false}
+          className="focus:ring-indigo-400"
+        />
       ) : null}
       {showSubmit ? (
         <Button
+          variant="primary"
+          size="small"
+          type="submit"
+          fullWidth={false}
           text={
             submitText ||
             formatMessage({

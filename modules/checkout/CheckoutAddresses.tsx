@@ -3,6 +3,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useIntl } from "react-intl";
 import AddressForm from "./AddressForm";
 import AddressPanel from "./AddressPanel";
+import Button from "../common/components/Button";
 
 export const UPDATE_CART_BILLING_ADDRESS_MUTATION = gql`
   mutation UpdateCartBillingAddress($billingAddress: AddressInput) {
@@ -161,16 +162,17 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
             })}
           </h2>
           {!deliveryAddressEditMode && (
-            <button
+            <Button
               type="button"
+              variant="link"
               onClick={toggleDeliveryAddressEditMode}
-              className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
-            >
-              {formatMessage({
+              text={formatMessage({
                 id: "edit-address",
                 defaultMessage: "Edit Address",
               })}
-            </button>
+              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              fullWidth={false}
+            />
           )}
         </div>
         <EditableAddressPanel
@@ -192,16 +194,17 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
               })}
             </h2>
             {isBillingAddressDifferent && !billingAddressEditMode && (
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={toggleBillingAddressEditMode}
-                className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
-              >
-                {formatMessage({
+                text={formatMessage({
                   id: "edit-address",
                   defaultMessage: "Edit Address",
                 })}
-              </button>
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                fullWidth={false}
+              />
             )}
           </div>
 

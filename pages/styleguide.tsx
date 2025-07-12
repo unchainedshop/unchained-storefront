@@ -1767,9 +1767,9 @@ const StyleguidePage = () => {
         Accordion: "large",
         FadeInSection: "large",
         CategoryListItem: "large",
+        Button: "large",
 
         // Wide (2x1) - Horizontally oriented components
-        Button: "wide",
         Badge: "wide",
         SearchField: "wide",
         TextField: "wide",

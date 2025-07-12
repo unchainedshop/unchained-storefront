@@ -6,6 +6,7 @@ import ContactForm from "./ContactForm";
 import ContactPanel from "./ContactPanel";
 import useAddEmail from "../cart/hooks/useAddEmail";
 import useUpdateCartContact from "../cart/hooks/useUpdateCartContact";
+import Button from "../common/components/Button";
 
 const CheckoutContact = ({ cart, isInitial }) => {
   const { updateCartContact } = useUpdateCartContact();
@@ -47,16 +48,17 @@ const CheckoutContact = ({ cart, isInitial }) => {
           })}
         </h2>
         {!editMode && (
-          <button
+          <Button
             type="button"
+            variant="link"
             onClick={toggleEditMode}
-            className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
-          >
-            {formatMessage({
+            text={formatMessage({
               id: "edit-contact-data",
               defaultMessage: "Edit Contact Data",
             })}
-          </button>
+            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            fullWidth={false}
+          />
         )}
       </div>
 
