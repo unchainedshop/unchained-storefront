@@ -33,7 +33,7 @@ const CategoryDetail = () => {
         imageUrl={getMediaUrl({ media })}
       />
       <div className="min-h-screen bg-white dark:bg-slate-950">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-8">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">

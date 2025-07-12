@@ -56,7 +56,7 @@ const Detail = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-8">
           <div className="mb-6">
             <AssortmentBreadcrumbs
               paths={productPath}
@@ -85,11 +85,15 @@ const Detail = () => {
                   <div className="flex-1">
                     <h1
                       className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-2"
-                      dangerouslySetInnerHTML={{ __html: product?.texts?.title }}
+                      dangerouslySetInnerHTML={{
+                        __html: product?.texts?.title,
+                      }}
                     />
                     <h2
                       className="text-lg text-slate-600 dark:text-slate-300 mb-4"
-                      dangerouslySetInnerHTML={{ __html: product?.texts?.subtitle }}
+                      dangerouslySetInnerHTML={{
+                        __html: product?.texts?.subtitle,
+                      }}
                     />
                   </div>
                   <button
@@ -105,7 +109,9 @@ const Detail = () => {
                           })
                     }
                     aria-label={
-                      filteredBookmark ? "Remove from bookmarks" : "Add to bookmarks"
+                      filteredBookmark
+                        ? "Remove from bookmarks"
+                        : "Add to bookmarks"
                     }
                   >
                     <BookmarkIcon

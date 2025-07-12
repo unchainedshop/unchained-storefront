@@ -6,29 +6,35 @@ import LanguageSwitch from "../../common/components/LanguageSwitch";
 const getFooterNavigation = (formatMessage) => ({
   products: [],
   customerService: [
-    { 
-      name: formatMessage({ id: "contact", defaultMessage: "Contact" }), 
-      href: "#" 
-    }
+    {
+      name: formatMessage({ id: "contact", defaultMessage: "Contact" }),
+      href: "#",
+    },
   ],
   company: [
-    { 
-      name: formatMessage({ id: "about", defaultMessage: "About" }), 
-      href: "/about" 
+    {
+      name: formatMessage({ id: "about", defaultMessage: "About" }),
+      href: "/about",
     },
-    { 
-      name: formatMessage({ id: "imprint", defaultMessage: "Imprint" }), 
-      href: "/imprint" 
+    {
+      name: formatMessage({ id: "imprint", defaultMessage: "Imprint" }),
+      href: "/imprint",
     },
   ],
   legal: [
-    { 
-      name: formatMessage({ id: "terms_conditions", defaultMessage: "Terms & Conditions" }), 
-      href: "/terms-conditions" 
+    {
+      name: formatMessage({
+        id: "terms_conditions",
+        defaultMessage: "Terms & Conditions",
+      }),
+      href: "/terms-conditions",
     },
-    { 
-      name: formatMessage({ id: "privacy_policy", defaultMessage: "Privacy Policy" }), 
-      href: "/privacy-policy" 
+    {
+      name: formatMessage({
+        id: "privacy_policy",
+        defaultMessage: "Privacy Policy",
+      }),
+      href: "/privacy-policy",
     },
   ],
   bottomLinks: [],
@@ -110,7 +116,7 @@ const Footer = () => {
 
         <div className="py-10 md:flex md:items-center md:justify-between">
           <div className="text-center md:text-left">
-            <p className="text-base text-slate-400 dark:text-slate-200">
+            <p className="text-sm text-slate-400 dark:text-slate-200">
               <span>&copy;</span>
               <span className="mx-2">{new Date().getFullYear()}</span>
               <span>

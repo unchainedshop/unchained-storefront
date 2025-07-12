@@ -89,12 +89,15 @@ const DesktopNavigation = () => {
             />
           )}
         </div>
-        
+
         <Link
           href="/styleguide"
           className="py-4 text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100 transition-colors"
         >
-          {formatMessage({ id: "nav_styleguide", defaultMessage: "Styleguide" })}
+          {formatMessage({
+            id: "nav_styleguide",
+            defaultMessage: "Styleguide",
+          })}
         </Link>
       </nav>
     </DesktopNavigationContext.Provider>

@@ -1,7 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { useIntl } from "react-intl";
 import { useForm, FormProvider } from "react-hook-form";
-import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
+import {
+  MoonIcon,
+  SunIcon,
+  BookmarkIcon,
+  CheckCircleIcon,
+  ChevronDoubleDownIcon,
+  MagnifyingGlassIcon,
+  MinusIcon,
+  NoSymbolIcon,
+  PaperClipIcon,
+  PhotoIcon,
+  PlusIcon,
+  PrinterIcon,
+  TrashIcon,
+  XCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
+import {
+  ArrowRightOnRectangleIcon,
+  Bars3Icon as Bars3OutlineIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  RectangleStackIcon,
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+  Squares2X2Icon,
+  UserCircleIcon as UserCircleOutlineIcon,
+  XMarkIcon as XMarkOutlineIcon,
+} from "@heroicons/react/24/outline";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  Bars3Icon,
+  CheckBadgeIcon,
+  CheckIcon,
+  DevicePhoneMobileIcon,
+  IdentificationIcon,
+  KeyIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/solid";
 import Button from "../modules/common/components/Button";
 import Badge from "../modules/common/components/Badge";
 import Loading from "../modules/common/components/Loading";
@@ -26,61 +65,78 @@ import StatusInformation from "../modules/common/components/StatusInformation";
 import CategoryListItem from "../modules/assortment/components/CategoryListItem";
 import AssortmentBreadcrumbs from "../modules/assortment/components/AssortmentBreadcrumbs";
 
-// Color usage data from analysis
+// Color usage data from real codebase analysis
 const colorUsageData = {
   tailwindClasses: {
-    "Slate Colors": {
-      "bg-slate-900": 45,
-      "text-slate-900": 40,
-      "text-slate-600": 35,
-      "text-slate-300": 30,
-      "bg-slate-50": 25,
-      "border-slate-200": 40,
-      "border-slate-700": 25,
-      "bg-slate-100": 20,
-      "hover:bg-slate-800": 20,
-      "bg-slate-800": 15,
+    "Background Colors": {
+      "bg-white": 47,
+      "bg-slate-900": 39,
+      "bg-slate-50": 32,
+      "bg-slate-950": 22,
+      "bg-green-500": 6,
+      "bg-red-500": 4,
     },
-    "Base Colors": {
-      "bg-white": 50,
-      "text-white": 45,
-      "bg-transparent": 15,
-      "bg-slate-950": 8,
+    "Text Colors": {
+      "text-white": 59,
+      "text-slate-600": 40,
+      "text-slate-900": 35,
+      "text-slate-300": 28,
+      "text-slate-400": 20,
+      "text-red-600": 8,
+      "text-green-600": 5,
+      "text-yellow-600": 3,
     },
-    "Status Colors": {
-      "text-red-600": 10,
-      "bg-green-500": 8,
-      "text-yellow-600": 5,
+    "Border Colors": {
+      "border-slate-200": 25,
+      "border-slate-700": 15,
+      "border-slate-300": 12,
+    },
+    "Dark Mode Backgrounds": {
+      "dark:bg-slate-950": 35,
+      "dark:bg-slate-900": 28,
+      "dark:bg-slate-800": 12,
+    },
+    "Dark Mode Text": {
+      "dark:text-white": 45,
+      "dark:text-slate-300": 25,
+      "dark:text-slate-400": 15,
+      "dark:hover:text-white": 10,
+    },
+    "Dark Mode Borders": {
+      "dark:border-slate-700": 18,
+      "dark:border-slate-800": 8,
     },
   },
+  customProperties: {
+    // Legacy custom properties (now removed)
+  },
   hexColors: {
-    "#232323": 15,
-    "#495057": 8,
-    "#ffffff": 10,
-    "#121212": 5,
-    "#e7e7e7": 5,
+    "#ffffff": 12,
+    "#0f172a": 8,
+    "#f8fafc": 5,
+    "#1e293b": 4,
+    "#22c55e": 3,
   },
 };
 
 // Typography usage data - based on common Tailwind text classes
 const typographyData = {
   headings: {
-    "text-xs": { count: 45, example: "Extra small text" },
-    "text-sm": { count: 120, example: "Small text" },
-    "text-base": { count: 85, example: "Base text (16px)" },
-    "text-lg": { count: 35, example: "Large text" },
-    "text-xl": { count: 28, example: "Extra large text" },
-    "text-2xl": { count: 15, example: "Double extra large" },
+    "text-xs": { count: 65, example: "Extra small text" },
+    "text-sm": { count: 85, example: "Small text" },
+    "text-base": { count: 45, example: "Base text (16px)" },
+    "text-lg": { count: 27, example: "Large text" },
+    "text-xl": { count: 9, example: "Extra large text" },
+    "text-2xl": { count: 12, example: "Double extra large" },
     "text-3xl": { count: 8, example: "3x large heading" },
-    "text-4xl": { count: 5, example: "4x large heading" },
-    "text-5xl": { count: 2, example: "5x large heading" },
-    "text-6xl": { count: 1, example: "6x large heading" },
+    "text-4xl": { count: 6, example: "4x large heading" },
+    "text-5xl": { count: 3, example: "5x large heading" },
+    "text-6xl": { count: 2, example: "6x large heading" },
   },
   weights: {
-    "font-normal": { count: 180, example: "Normal weight" },
-    "font-medium": { count: 95, example: "Medium weight" },
-    "font-semibold": { count: 45, example: "Semibold weight" },
-    "font-semibold": { count: 25, example: "Bold weight" },
+    "font-normal": { count: 35, example: "Normal weight" },
+    "font-medium": { count: 48, example: "Medium weight" },
+    "font-semibold": { count: 32, example: "Semibold weight" },
   },
   elements: {
     h1: {
@@ -123,43 +179,138 @@ const typographyData = {
   },
 };
 
-// Spacing scale data - Tailwind spacing values
+// Icons usage data - based on real codebase analysis of heroicons
+const iconsData = {
+  "@heroicons/react/20/solid": {
+    description: "20px solid icons - primary icon set",
+    totalFiles: 18,
+    icons: {
+      BookmarkIcon: { files: 2, usage: "Product bookmarking, favorites" },
+      CheckCircleIcon: { files: 4, usage: "Success states, completed status" },
+      ChevronDoubleDownIcon: { files: 1, usage: "Load more, expand all" },
+      MagnifyingGlassIcon: { files: 1, usage: "Search functionality" },
+      MinusIcon: { files: 1, usage: "Quantity decrease, remove" },
+      MoonIcon: { files: 2, usage: "Dark theme toggle" },
+      NoSymbolIcon: { files: 1, usage: "Empty states, not found" },
+      PaperClipIcon: { files: 1, usage: "File attachments" },
+      PhotoIcon: { files: 3, usage: "Image placeholders" },
+      PlusIcon: { files: 1, usage: "Add items, quantity increase" },
+      PrinterIcon: { files: 1, usage: "Print functionality" },
+      SunIcon: { files: 2, usage: "Light theme toggle" },
+      TrashIcon: { files: 1, usage: "Delete, remove items" },
+      XCircleIcon: { files: 2, usage: "Error states, close with status" },
+      XMarkIcon: { files: 3, usage: "Close, dismiss" },
+    },
+  },
+  "@heroicons/react/24/outline": {
+    description: "24px outline icons - secondary icon set",
+    totalFiles: 7,
+    icons: {
+      ArrowRightOnRectangleIcon: { files: 1, usage: "Login, sign in" },
+      Bars3Icon: { files: 1, usage: "Menu toggle (outline variant)" },
+      ChevronDownIcon: { files: 1, usage: "Dropdown, accordion expand" },
+      ChevronUpIcon: { files: 1, usage: "Dropdown, accordion collapse" },
+      RectangleStackIcon: { files: 1, usage: "Orders, stack of items" },
+      ShoppingBagIcon: { files: 1, usage: "Shopping, cart alternative" },
+      ShoppingCartIcon: { files: 1, usage: "Shopping cart" },
+      Squares2X2Icon: { files: 1, usage: "Grid view toggle" },
+      UserCircleIcon: { files: 1, usage: "User profile (outline)" },
+      XMarkIcon: { files: 1, usage: "Close (outline variant)" },
+    },
+  },
+  "@heroicons/react/24/solid": {
+    description: "24px solid icons - accent icon set",
+    totalFiles: 6,
+    icons: {
+      ArrowDownIcon: { files: 1, usage: "Sort descending, move down" },
+      ArrowUpIcon: { files: 1, usage: "Sort ascending, move up" },
+      Bars3Icon: { files: 2, usage: "Menu toggle, navigation" },
+      CheckBadgeIcon: { files: 1, usage: "Verified status, trusted" },
+      CheckIcon: { files: 1, usage: "Completed, confirmed" },
+      DevicePhoneMobileIcon: { files: 1, usage: "Mobile device, responsive" },
+      IdentificationIcon: { files: 1, usage: "ID, profile information" },
+      KeyIcon: { files: 1, usage: "Password, security" },
+      UserCircleIcon: { files: 1, usage: "User profile (solid)" },
+    },
+  },
+};
+
+// Spacing scale data - Real usage from codebase analysis
 const spacingData = {
   padding: {
-    "p-0": { value: "0px", description: "No padding" },
-    "p-0.5": { value: "2px", description: "Extra tiny padding" },
-    "p-1": { value: "4px", description: "Tiny padding" },
-    "p-1.5": { value: "6px", description: "Small padding" },
-    "p-2": { value: "8px", description: "Base padding" },
-    "p-3": { value: "12px", description: "Medium padding" },
-    "p-4": { value: "16px", description: "Large padding" },
-    "p-5": { value: "20px", description: "Extra large padding" },
-    "p-6": { value: "24px", description: "2x large padding" },
-    "p-8": { value: "32px", description: "3x large padding" },
-    "p-10": { value: "40px", description: "4x large padding" },
-    "p-12": { value: "48px", description: "5x large padding" },
-    "p-16": { value: "64px", description: "6x large padding" },
-    "p-20": { value: "80px", description: "7x large padding" },
-    "p-24": { value: "96px", description: "8x large padding" },
+    "p-2": { value: "8px", description: "Base padding", count: 51 },
+    "p-4": { value: "16px", description: "Large padding", count: 42 },
+    "p-6": { value: "24px", description: "2x large padding", count: 28 },
+    "py-2": {
+      value: "8px vertical",
+      description: "Vertical padding",
+      count: 35,
+    },
+    "py-4": {
+      value: "16px vertical",
+      description: "Large vertical padding",
+      count: 45,
+    },
+    "py-8": {
+      value: "32px vertical",
+      description: "Extra large vertical",
+      count: 22,
+    },
+    "px-4": {
+      value: "16px horizontal",
+      description: "Horizontal padding",
+      count: 48,
+    },
+    "px-6": {
+      value: "24px horizontal",
+      description: "Large horizontal",
+      count: 32,
+    },
+    "p-3": { value: "12px", description: "Medium padding", count: 18 },
+    "p-8": { value: "32px", description: "3x large padding", count: 15 },
   },
   margin: {
-    "m-0": { value: "0px", description: "No margin" },
-    "m-1": { value: "4px", description: "Tiny margin" },
-    "m-2": { value: "8px", description: "Base margin" },
-    "m-3": { value: "12px", description: "Medium margin" },
-    "m-4": { value: "16px", description: "Large margin" },
-    "m-6": { value: "24px", description: "Extra large margin" },
-    "m-8": { value: "32px", description: "2x large margin" },
-    "m-12": { value: "48px", description: "3x large margin" },
-    "m-16": { value: "64px", description: "4x large margin" },
+    "mx-auto": {
+      value: "auto horizontal",
+      description: "Center alignment",
+      count: 45,
+    },
+    "mt-4": { value: "16px top", description: "Top margin", count: 38 },
+    "mb-4": { value: "16px bottom", description: "Bottom margin", count: 32 },
+    "mt-8": { value: "32px top", description: "Large top margin", count: 25 },
+    "mb-8": {
+      value: "32px bottom",
+      description: "Large bottom margin",
+      count: 20,
+    },
+    "my-4": {
+      value: "16px vertical",
+      description: "Vertical margin",
+      count: 18,
+    },
+    "mt-2": { value: "8px top", description: "Small top margin", count: 15 },
+    "mb-2": {
+      value: "8px bottom",
+      description: "Small bottom margin",
+      count: 12,
+    },
   },
   gap: {
-    "gap-0": { value: "0px", description: "No gap" },
-    "gap-1": { value: "4px", description: "Tiny gap" },
-    "gap-2": { value: "8px", description: "Base gap" },
-    "gap-4": { value: "16px", description: "Medium gap" },
-    "gap-6": { value: "24px", description: "Large gap" },
-    "gap-8": { value: "32px", description: "Extra large gap" },
+    "gap-4": { value: "16px", description: "Medium gap", count: 35 },
+    "gap-6": { value: "24px", description: "Large gap", count: 28 },
+    "gap-8": { value: "32px", description: "Extra large gap", count: 22 },
+    "gap-2": { value: "8px", description: "Base gap", count: 18 },
+    "space-y-4": {
+      value: "16px vertical",
+      description: "Vertical spacing",
+      count: 25,
+    },
+    "space-x-4": {
+      value: "16px horizontal",
+      description: "Horizontal spacing",
+      count: 20,
+    },
+    "gap-3": { value: "12px", description: "Medium-small gap", count: 15 },
   },
 };
 
@@ -168,45 +319,123 @@ const designTokensData = {
   borderRadius: {
     "rounded-none": { value: "0px", description: "No border radius" },
     "rounded-sm": { value: "2px", description: "Small border radius" },
-    "rounded": { value: "4px", description: "Default border radius" },
+    rounded: { value: "4px", description: "Default border radius" },
     "rounded-md": { value: "6px", description: "Medium border radius" },
     "rounded-lg": { value: "8px", description: "Large border radius" },
     "rounded-xl": { value: "12px", description: "Extra large border radius" },
-    "rounded-2xl": { value: "16px", description: "2x large border radius" },
-    "rounded-3xl": { value: "24px", description: "3x large border radius" },
     "rounded-full": { value: "9999px", description: "Full border radius" },
   },
   boxShadow: {
     "shadow-none": { value: "none", description: "No shadow" },
-    "shadow-sm": { value: "0 1px 2px 0 rgb(0 0 0 / 0.05)", description: "Small shadow" },
-    "shadow": { value: "0 1px 3px 0 rgb(0 0 0 / 0.1)", description: "Default shadow" },
-    "shadow-md": { value: "0 4px 6px -1px rgb(0 0 0 / 0.1)", description: "Medium shadow" },
-    "shadow-lg": { value: "0 10px 15px -3px rgb(0 0 0 / 0.1)", description: "Large shadow" },
-    "shadow-xl": { value: "0 20px 25px -5px rgb(0 0 0 / 0.1)", description: "Extra large shadow" },
-    "shadow-2xl": { value: "0 25px 50px -12px rgb(0 0 0 / 0.25)", description: "2x large shadow" },
+    "shadow-sm": {
+      value: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      description: "Small shadow",
+    },
+    shadow: {
+      value: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
+      description: "Default shadow",
+    },
+    "shadow-md": {
+      value: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+      description: "Medium shadow",
+    },
+    "shadow-lg": {
+      value: "0 10px 15px -3px rgb(0 0 0 / 0.1)",
+      description: "Large shadow",
+    },
+    "shadow-xl": {
+      value: "0 20px 25px -5px rgb(0 0 0 / 0.1)",
+      description: "Extra large shadow",
+    },
+    "shadow-2xl": {
+      value: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+      description: "2x large shadow",
+    },
   },
 };
 
 // Interactive states data
 const interactiveStatesData = {
   buttons: [
-    { state: "default", classes: "bg-slate-900 text-white px-4 py-2 rounded-lg", description: "Default state" },
-    { state: "hover", classes: "bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors", description: "Hover state" },
-    { state: "focus", classes: "bg-slate-900 focus:bg-slate-800 focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 text-white px-4 py-2 rounded-lg transition-all", description: "Focus state" },
-    { state: "active", classes: "bg-slate-900 active:bg-slate-950 text-white px-4 py-2 rounded-lg transition-colors", description: "Active/pressed state" },
-    { state: "disabled", classes: "bg-slate-300 text-slate-500 px-4 py-2 rounded-lg cursor-not-allowed", description: "Disabled state" },
+    {
+      state: "default",
+      classes: "bg-slate-900 text-white px-4 py-2 rounded-lg",
+      description: "Default state",
+    },
+    {
+      state: "hover",
+      classes:
+        "bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors",
+      description: "Hover state",
+    },
+    {
+      state: "focus",
+      classes:
+        "bg-slate-900 focus:bg-slate-800 focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 text-white px-4 py-2 rounded-lg transition-all",
+      description: "Focus state",
+    },
+    {
+      state: "active",
+      classes:
+        "bg-slate-900 active:bg-slate-950 text-white px-4 py-2 rounded-lg transition-colors",
+      description: "Active/pressed state",
+    },
+    {
+      state: "disabled",
+      classes:
+        "bg-slate-300 text-slate-500 px-4 py-2 rounded-lg cursor-not-allowed",
+      description: "Disabled state",
+    },
   ],
   links: [
-    { state: "default", classes: "text-slate-900 underline", description: "Default link" },
-    { state: "hover", classes: "text-slate-900 hover:text-slate-700 underline transition-colors", description: "Hover state" },
-    { state: "visited", classes: "text-purple-600 visited:text-purple-800 underline", description: "Visited state" },
-    { state: "focus", classes: "text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 underline rounded transition-all", description: "Focus state" },
+    {
+      state: "default",
+      classes: "text-slate-900 underline",
+      description: "Default link",
+    },
+    {
+      state: "hover",
+      classes:
+        "text-slate-900 hover:text-slate-700 underline transition-colors",
+      description: "Hover state",
+    },
+    {
+      state: "visited",
+      classes: "text-purple-600 visited:text-purple-800 underline",
+      description: "Visited state",
+    },
+    {
+      state: "focus",
+      classes:
+        "text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 underline rounded transition-all",
+      description: "Focus state",
+    },
   ],
   inputs: [
-    { state: "default", classes: "border border-slate-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent", description: "Default input" },
-    { state: "focus", classes: "border border-slate-300 px-3 py-2 rounded-lg outline-none ring-2 ring-slate-900 border-transparent", description: "Focus state" },
-    { state: "error", classes: "border border-red-500 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent", description: "Error state" },
-    { state: "disabled", classes: "border border-slate-200 bg-slate-50 text-slate-400 px-3 py-2 rounded-lg cursor-not-allowed", description: "Disabled state" },
+    {
+      state: "default",
+      classes:
+        "border border-slate-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent",
+      description: "Default input",
+    },
+    {
+      state: "focus",
+      classes:
+        "border border-slate-300 px-3 py-2 rounded-lg outline-none ring-2 ring-slate-900 border-transparent",
+      description: "Focus state",
+    },
+    {
+      state: "error",
+      classes:
+        "border border-red-500 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent",
+      description: "Error state",
+    },
+    {
+      state: "disabled",
+      classes:
+        "border border-slate-200 bg-slate-50 text-slate-400 px-3 py-2 rounded-lg cursor-not-allowed",
+      description: "Disabled state",
+    },
   ],
 };
 
@@ -259,7 +488,8 @@ const sampleCartItem = {
       title: "Organic Cotton T-Shirt",
       subtitle: "Sustainable fashion",
       slug: "organic-cotton-tshirt",
-      description: "Soft, breathable organic cotton t-shirt in premium quality.",
+      description:
+        "Soft, breathable organic cotton t-shirt in premium quality.",
     },
     media: [], // Empty to show fallback design
     simulatedPrice: {
@@ -276,7 +506,7 @@ const sampleCartItem = {
         texts: { title: "Medium" },
       },
       {
-        _id: "color-variation", 
+        _id: "color-variation",
         key: "color",
         value: "navy",
         texts: { title: "Navy Blue" },
@@ -306,7 +536,7 @@ const sampleCartItem = {
       value: "M",
     },
     {
-      key: "color", 
+      key: "color",
       value: "navy",
     },
   ],
@@ -319,7 +549,8 @@ const sampleProduct = {
     title: "Premium Wireless Headphones",
     subtitle: "High-quality audio experience",
     slug: "premium-wireless-headphones",
-    description: "Professional-grade wireless headphones with active noise cancellation and superior sound quality.",
+    description:
+      "Professional-grade wireless headphones with active noise cancellation and superior sound quality.",
   },
   media: [], // Empty to show the PhotoIcon fallback which looks cleaner
   simulatedPrice: {
@@ -675,6 +906,44 @@ const StyleguidePage = () => {
     },
   ];
 
+  // Function to get actual color value for display
+  const getColorValue = (colorClass) => {
+    const colorMap = {
+      // Background colors
+      "bg-white": "#ffffff",
+      "bg-slate-50": "#f8fafc",
+      "bg-slate-900": "#0f172a",
+      "bg-slate-950": "#020617",
+      "bg-green-500": "#22c55e",
+      "bg-red-500": "#ef4444",
+
+      // Text colors (show as background for visibility)
+      "text-white": "#ffffff",
+      "text-slate-900": "#0f172a",
+      "text-slate-600": "#475569",
+      "text-slate-300": "#cbd5e1",
+      "text-slate-400": "#94a3b8",
+      "text-red-600": "#dc2626",
+      "text-green-600": "#16a34a",
+      "text-yellow-600": "#ca8a04",
+
+      // Border colors
+      "border-slate-200": "#e2e8f0",
+      "border-slate-700": "#334155",
+
+      // Dark mode colors
+      "dark:bg-slate-950": "#020617",
+      "dark:bg-slate-900": "#0f172a",
+      "dark:bg-slate-800": "#1e293b",
+      "dark:text-white": "#ffffff",
+      "dark:text-slate-300": "#cbd5e1",
+      "dark:text-slate-400": "#94a3b8",
+      "dark:border-slate-700": "#334155",
+      "dark:hover:text-white": "#ffffff",
+    };
+    return colorMap[colorClass] || "#e5e7eb"; // fallback gray
+  };
+
   const renderColorPalette = () => (
     <div className="space-y-8">
       <div>
@@ -688,52 +957,66 @@ const StyleguidePage = () => {
                 {category}
               </h4>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {Object.entries(colors).map(([colorClass, count]) => (
-                  <div key={colorClass} className="flex items-center space-x-2">
+                {Object.entries(colors).map(([colorClass, count]) => {
+                  const colorValue = getColorValue(colorClass);
+                  const isLight =
+                    colorValue === "#ffffff" ||
+                    colorValue.includes("f8fafc") ||
+                    colorValue.includes("e2e8f0");
+
+                  return (
                     <div
-                      className={`w-6 h-6 rounded border border-slate-300 dark:border-0 ${colorClass}`}
-                    ></div>
-                    <div className="flex-1">
-                      <div className="text-sm font-mono text-slate-900 dark:text-white">
-                        {colorClass}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400">
-                        {count} uses
+                      key={colorClass}
+                      className="flex items-center space-x-2"
+                    >
+                      <div
+                        className={`w-6 h-6 rounded border-2 ${isLight ? "border-slate-300" : "border-slate-200"}`}
+                        style={{ backgroundColor: colorValue }}
+                      ></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-mono text-slate-900 dark:text-white">
+                          {colorClass}
+                        </div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">
+                          {count} uses
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ),
         )}
       </div>
 
-      <div>
-        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
-          Custom CSS Properties
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {Object.entries(colorUsageData.customProperties).map(
-            ([property, value]) => (
-              <div key={property} className="flex items-center space-x-2">
-                <div
-                  className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
-                  style={{ backgroundColor: value }}
-                ></div>
-                <div>
-                  <div className="text-sm font-mono text-slate-900 dark:text-white">
-                    {property}
-                  </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
-                    {value}
+      {Object.keys(colorUsageData.customProperties).length > 0 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
+            Custom CSS Properties
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {Object.entries(colorUsageData.customProperties).map(
+              ([property, value]) => (
+                <div key={property} className="flex items-center space-x-2">
+                  <div
+                    className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
+                    style={{ backgroundColor: value }}
+                  ></div>
+                  <div>
+                    <div className="text-sm font-mono text-slate-900 dark:text-white">
+                      {property}
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      {value}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ),
-          )}
+              ),
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       <div>
         <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
@@ -763,28 +1046,22 @@ const StyleguidePage = () => {
         <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
           Color Usage Summary
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>
             <div className="font-medium text-slate-900 dark:text-white">
               Tailwind Classes
             </div>
             <div className="text-slate-600 dark:text-slate-400">
-              ~800+ usages
-            </div>
-          </div>
-          <div>
-            <div className="font-medium text-slate-900 dark:text-white">
-              Custom Properties
-            </div>
-            <div className="text-slate-600 dark:text-slate-400">
-              15 variables
+              520+ usages
             </div>
           </div>
           <div>
             <div className="font-medium text-slate-900 dark:text-white">
               Hex Colors
             </div>
-            <div className="text-slate-600 dark:text-slate-400">25+ unique</div>
+            <div className="text-slate-600 dark:text-slate-400">
+              5 legacy colors
+            </div>
           </div>
           <div>
             <div className="font-medium text-slate-900 dark:text-white">
@@ -957,7 +1234,7 @@ const StyleguidePage = () => {
         <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
           Spacing Scale
         </h3>
-        
+
         {/* Padding */}
         <div className="mb-8">
           <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
@@ -974,15 +1251,24 @@ const StyleguidePage = () => {
                     <code className="text-sm font-mono text-slate-900 dark:text-white">
                       {className}
                     </code>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">
-                      {data.value}
-                    </span>
+                    <div className="text-right">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 block">
+                        {data.value}
+                      </span>
+                      {data.count && (
+                        <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded">
+                          {data.count} uses
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
                     {data.description}
                   </p>
                   <div className="bg-slate-100 dark:bg-slate-800 rounded">
-                    <div className={`bg-blue-200 dark:bg-blue-900 ${className}`}>
+                    <div
+                      className={`bg-blue-200 dark:bg-blue-900 ${className}`}
+                    >
                       <div className="bg-blue-500 dark:bg-blue-600 text-white text-xs text-center py-1">
                         Content
                       </div>
@@ -1017,7 +1303,9 @@ const StyleguidePage = () => {
                   {data.description}
                 </p>
                 <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded">
-                  <div className={`bg-green-500 dark:bg-green-600 text-white text-xs text-center py-1 ${className}`}>
+                  <div
+                    className={`bg-green-500 dark:bg-green-600 text-white text-xs text-center py-1 ${className}`}
+                  >
                     Element
                   </div>
                 </div>
@@ -1049,9 +1337,15 @@ const StyleguidePage = () => {
                   {data.description}
                 </p>
                 <div className={`flex ${className}`}>
-                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">1</div>
-                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">2</div>
-                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">3</div>
+                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                    1
+                  </div>
+                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                    2
+                  </div>
+                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                    3
+                  </div>
                 </div>
               </div>
             ))}
@@ -1065,27 +1359,31 @@ const StyleguidePage = () => {
           Border Radius
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.entries(designTokensData.borderRadius).map(([className, data]) => (
-            <div
-              key={className}
-              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
-            >
-              <div className="flex justify-between items-center mb-3">
-                <code className="text-sm font-mono text-slate-900 dark:text-white">
-                  {className}
-                </code>
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  {data.value}
-                </span>
+          {Object.entries(designTokensData.borderRadius).map(
+            ([className, data]) => (
+              <div
+                key={className}
+                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                    {className}
+                  </code>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                    {data.value}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                  {data.description}
+                </p>
+                <div
+                  className={`bg-indigo-500 dark:bg-indigo-600 text-white text-center py-4 ${className}`}
+                >
+                  Example
+                </div>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
-                {data.description}
-              </p>
-              <div className={`bg-indigo-500 dark:bg-indigo-600 text-white text-center py-4 ${className}`}>
-                Example
-              </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
 
@@ -1095,27 +1393,31 @@ const StyleguidePage = () => {
           Box Shadows
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Object.entries(designTokensData.boxShadow).map(([className, data]) => (
-            <div
-              key={className}
-              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
-            >
-              <div className="flex justify-between items-center mb-3">
-                <code className="text-sm font-mono text-slate-900 dark:text-white">
-                  {className}
-                </code>
+          {Object.entries(designTokensData.boxShadow).map(
+            ([className, data]) => (
+              <div
+                key={className}
+                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                    {className}
+                  </code>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+                  {data.description}
+                </p>
+                <div
+                  className={`bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-center py-6 rounded-lg ${className}`}
+                >
+                  Shadow Example
+                </div>
+                <div className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 break-all">
+                  {data.value}
+                </div>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
-                {data.description}
-              </p>
-              <div className={`bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-center py-6 rounded-lg ${className}`}>
-                Shadow Example
-              </div>
-              <div className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 break-all">
-                {data.value}
-              </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
     </div>
@@ -1136,22 +1438,25 @@ const StyleguidePage = () => {
             >
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                  {button.state.charAt(0).toUpperCase() + button.state.slice(1)} State
+                  {button.state.charAt(0).toUpperCase() + button.state.slice(1)}{" "}
+                  State
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
                   {button.description}
                 </p>
               </div>
-              
+
               <div className="mb-4 flex justify-center">
                 <button
                   className={button.classes}
                   disabled={button.state === "disabled"}
                 >
-                  {button.state === "disabled" ? "Disabled Button" : "Sample Button"}
+                  {button.state === "disabled"
+                    ? "Disabled Button"
+                    : "Sample Button"}
                 </button>
               </div>
-              
+
               <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
                 {button.classes}
               </div>
@@ -1173,19 +1478,24 @@ const StyleguidePage = () => {
             >
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                  {link.state.charAt(0).toUpperCase() + link.state.slice(1)} State
+                  {link.state.charAt(0).toUpperCase() + link.state.slice(1)}{" "}
+                  State
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
                   {link.description}
                 </p>
               </div>
-              
+
               <div className="mb-4 flex justify-center">
-                <a href="#" className={link.classes} onClick={(e) => e.preventDefault()}>
+                <a
+                  href="#"
+                  className={link.classes}
+                  onClick={(e) => e.preventDefault()}
+                >
                   Sample Link Text
                 </a>
               </div>
-              
+
               <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
                 {link.classes}
               </div>
@@ -1207,13 +1517,14 @@ const StyleguidePage = () => {
             >
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                  {input.state.charAt(0).toUpperCase() + input.state.slice(1)} State
+                  {input.state.charAt(0).toUpperCase() + input.state.slice(1)}{" "}
+                  State
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
                   {input.description}
                 </p>
               </div>
-              
+
               <div className="mb-4">
                 <input
                   type="text"
@@ -1222,7 +1533,7 @@ const StyleguidePage = () => {
                   disabled={input.state === "disabled"}
                 />
               </div>
-              
+
               <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
                 {input.classes}
               </div>
@@ -1248,16 +1559,31 @@ const StyleguidePage = () => {
               Standard loading component with spinner
             </div>
           </div>
-          
+
           <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
             <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
               Button Loading
             </h4>
             <div className="flex justify-center mb-4">
               <button className="bg-slate-900 text-white px-4 py-2 rounded-lg flex items-center space-x-2 cursor-not-allowed">
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 <span>Loading...</span>
               </button>
@@ -1284,6 +1610,142 @@ const StyleguidePage = () => {
       </div>
     </div>
   );
+
+  const renderIcons = () => {
+    // Helper function to get icon component
+    const getIconComponent = (iconName, packageName) => {
+      const iconComponents = {
+        // 20/solid icons
+        BookmarkIcon: BookmarkIcon,
+        CheckCircleIcon: CheckCircleIcon,
+        ChevronDoubleDownIcon: ChevronDoubleDownIcon,
+        MagnifyingGlassIcon: MagnifyingGlassIcon,
+        MinusIcon: MinusIcon,
+        MoonIcon: MoonIcon,
+        NoSymbolIcon: NoSymbolIcon,
+        PaperClipIcon: PaperClipIcon,
+        PhotoIcon: PhotoIcon,
+        PlusIcon: PlusIcon,
+        PrinterIcon: PrinterIcon,
+        SunIcon: SunIcon,
+        TrashIcon: TrashIcon,
+        XCircleIcon: XCircleIcon,
+        XMarkIcon: packageName.includes("20/solid")
+          ? XMarkIcon
+          : XMarkOutlineIcon,
+        // 24/outline icons
+        ArrowRightOnRectangleIcon: ArrowRightOnRectangleIcon,
+        Bars3Icon: packageName.includes("24/outline")
+          ? Bars3OutlineIcon
+          : Bars3Icon,
+        ChevronDownIcon: ChevronDownIcon,
+        ChevronUpIcon: ChevronUpIcon,
+        RectangleStackIcon: RectangleStackIcon,
+        ShoppingBagIcon: ShoppingBagIcon,
+        ShoppingCartIcon: ShoppingCartIcon,
+        Squares2X2Icon: Squares2X2Icon,
+        UserCircleIcon: packageName.includes("24/outline")
+          ? UserCircleOutlineIcon
+          : UserCircleIcon,
+        // 24/solid icons
+        ArrowDownIcon: ArrowDownIcon,
+        ArrowUpIcon: ArrowUpIcon,
+        CheckBadgeIcon: CheckBadgeIcon,
+        CheckIcon: CheckIcon,
+        DevicePhoneMobileIcon: DevicePhoneMobileIcon,
+        IdentificationIcon: IdentificationIcon,
+        KeyIcon: KeyIcon,
+      };
+      return iconComponents[iconName];
+    };
+
+    return (
+      <div className="space-y-12">
+        <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
+          <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
+            Icons Library Overview
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <div className="font-medium text-slate-900 dark:text-white">
+                Total Icons
+              </div>
+              <div className="text-slate-600 dark:text-slate-400">
+                29 unique heroicons
+              </div>
+            </div>
+            <div>
+              <div className="font-medium text-slate-900 dark:text-white">
+                Files Using Icons
+              </div>
+              <div className="text-slate-600 dark:text-slate-400">28 files</div>
+            </div>
+            <div>
+              <div className="font-medium text-slate-900 dark:text-white">
+                Icon Packages
+              </div>
+              <div className="text-slate-600 dark:text-slate-400">
+                3 heroicons variants
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {Object.entries(iconsData).map(([packageName, packageData]) => (
+          <div key={packageName}>
+            <div className="mb-6">
+              <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">
+                {packageName}
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-1">
+                {packageData.description}
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-500">
+                Used in {packageData.totalFiles} files
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Object.entries(packageData.icons).map(([iconName, iconInfo]) => {
+                const IconComponent = getIconComponent(iconName, packageName);
+
+                return (
+                  <div
+                    key={iconName}
+                    className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+                  >
+                    <div className="flex items-center mb-3">
+                      <div className="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg mr-3">
+                        {IconComponent && (
+                          <IconComponent className="w-6 h-6 text-slate-700 dark:text-slate-300" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-semibold text-slate-900 dark:text-white">
+                          {iconName}
+                        </h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          {iconInfo.files} file{iconInfo.files > 1 ? "s" : ""}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                      {iconInfo.usage}
+                    </p>
+
+                    <div className="text-xs font-mono bg-slate-50 dark:bg-slate-800 p-2 rounded text-slate-700 dark:text-slate-300">
+                      import {`{ ${iconName} }`} from &quot;{packageName}&quot;
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   const renderComponents = () => {
     // Flatten all components into a single array for bento grid
@@ -1393,7 +1855,14 @@ const StyleguidePage = () => {
 
     // Sort components for better visual flow
     const sortedComponents = allComponents.sort((a, b) => {
-      const sizeOrder = { hero: 0, large: 1, wide: 2, medium: 3, tall: 4, regular: 5 };
+      const sizeOrder = {
+        hero: 0,
+        large: 1,
+        wide: 2,
+        medium: 3,
+        tall: 4,
+        regular: 5,
+      };
       const aSize = getComponentSize(a.name);
       const bSize = getComponentSize(b.name);
       return sizeOrder[aSize] - sizeOrder[bSize];
@@ -1425,14 +1894,18 @@ const StyleguidePage = () => {
             >
               <div className="flex-shrink-0 mb-3">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className={`font-semibold text-slate-900 dark:text-white ${isHero ? "text-base" : "text-sm"}`}>
+                  <h4
+                    className={`font-semibold text-slate-900 dark:text-white ${isHero ? "text-base" : "text-sm"}`}
+                  >
                     {component.name}
                   </h4>
                   <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">
                     {component.category.split(" ")[0]}
                   </span>
                 </div>
-                <p className={`text-slate-500 dark:text-slate-400 line-clamp-2 ${isHero ? "text-sm" : "text-xs"}`}>
+                <p
+                  className={`text-slate-500 dark:text-slate-400 line-clamp-2 ${isHero ? "text-sm" : "text-xs"}`}
+                >
                   {component.description}
                 </p>
               </div>
@@ -1452,11 +1925,20 @@ const StyleguidePage = () => {
                           : 1,
                   )}
                 </div>
-                {component.examples.length > 
-                  (isHero ? 0 : isLarge ? 0 : size === "wide" || size === "medium" ? 2 : 1) &&
-                  !isHero && !isLarge && (
+                {component.examples.length >
+                  (isHero
+                    ? 0
+                    : isLarge
+                      ? 0
+                      : size === "wide" || size === "medium"
+                        ? 2
+                        : 1) &&
+                  !isHero &&
+                  !isLarge && (
                     <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 text-center">
-                      +{component.examples.length - (size === "wide" || size === "medium" ? 2 : 1)}{" "}
+                      +
+                      {component.examples.length -
+                        (size === "wide" || size === "medium" ? 2 : 1)}{" "}
                       more variants
                     </div>
                   )}
@@ -1468,7 +1950,9 @@ const StyleguidePage = () => {
                       Usage Examples:
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-3 overflow-x-auto">
-                      <code className={`font-mono text-slate-700 dark:text-slate-300 whitespace-pre leading-relaxed ${isHero ? "text-sm" : "text-xs"}`}>
+                      <code
+                        className={`font-mono text-slate-700 dark:text-slate-300 whitespace-pre leading-relaxed ${isHero ? "text-sm" : "text-xs"}`}
+                      >
                         {isHero || isLarge
                           ? codeExamples.slice(0, isHero ? 4 : 3).join("\n")
                           : codeExamples[0]}
@@ -1486,7 +1970,7 @@ const StyleguidePage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-8">
         <div className="mb-8">
           <div className="flex justify-between items-start">
             <div>
@@ -1562,6 +2046,16 @@ const StyleguidePage = () => {
                 Spacing & Layout
               </button>
               <button
+                onClick={() => setSelectedTab("icons")}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  selectedTab === "icons"
+                    ? "border-slate-500 dark:border-0 text-slate-900 dark:text-white"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                }`}
+              >
+                Icons
+              </button>
+              <button
                 onClick={() => setSelectedTab("interactive")}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === "interactive"
@@ -1579,6 +2073,7 @@ const StyleguidePage = () => {
         {selectedTab === "typography" && renderTypography()}
         {selectedTab === "colors" && renderColorPalette()}
         {selectedTab === "spacing" && renderSpacingAndLayout()}
+        {selectedTab === "icons" && renderIcons()}
         {selectedTab === "interactive" && renderInteractiveStates()}
       </div>
     </div>

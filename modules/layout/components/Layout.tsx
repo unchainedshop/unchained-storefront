@@ -11,10 +11,10 @@ interface LayoutProps {
   heroSectionId?: string;
 }
 
-const Layout: React.FC<LayoutProps> = ({ 
-  children, 
+const Layout: React.FC<LayoutProps> = ({
+  children,
   hasHeroSection = false,
-  heroSectionId = "hero-section"
+  heroSectionId = "hero-section",
 }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const { isCartOpen } = useAppContext();
@@ -29,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({
 
   return (
     <>
-      <Header 
+      <Header
         onSidebarToggle={handleSidebarToggle}
         hasHeroSection={hasHeroSection}
         heroSectionId={heroSectionId}

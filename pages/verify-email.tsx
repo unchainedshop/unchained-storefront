@@ -47,7 +47,7 @@ const VerifyEmail = () => {
     <div className="flex items-center justify-center min-h-screen p-5 dark:bg-slate-500 min-w-screen">
       <div
         className={classNames(
-          "max-w-xl p-8 text-center  bg-white shadow-xl lg:max-w-3xl rounded-3xl lg:p-12 ",
+          "max-w-xl p-8 text-center  bg-white shadow-xl lg:max-w-3xl rounded-xl lg:p-12 ",
           {
             "text-stone-800": result.success,
             "text-red-800": !result.success,

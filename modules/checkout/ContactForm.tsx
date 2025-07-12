@@ -12,9 +12,11 @@ import usePushNotification from "../context/push-notification/usePushNotificatio
 
 const ContactForm = ({ contact, onSubmit, onCancel }) => {
   const { formatMessage } = useIntl();
-  const { isSubscribed, subscribe, unsubscribe, disabledForCurrentBrowser } = usePushNotification();
+  const { isSubscribed, subscribe, unsubscribe, disabledForCurrentBrowser } =
+    usePushNotification();
   const { emailSupportDisabled } = useAppContext();
-  const [localNotificationSubscribed, setLocalNotificationSubscribed] = useState(false);
+  const [localNotificationSubscribed, setLocalNotificationSubscribed] =
+    useState(false);
 
   const submitHandler = async (data) => {
     await onSubmit(data);

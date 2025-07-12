@@ -16,7 +16,7 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
   const messages = getMessages(router.locale);
 
   // Check if the current page has hero section based on route
-  const hasHeroSection = router.pathname === '/';
+  const hasHeroSection = router.pathname === "/";
 
   return (
     <IntlWrapper locale={router.locale} messages={messages} key="intl-provider">

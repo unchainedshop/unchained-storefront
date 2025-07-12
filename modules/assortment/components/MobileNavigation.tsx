@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import getConfig from "next/config";
 import { useIntl } from "react-intl";
 import {
   ArrowDownIcon,
@@ -14,10 +13,6 @@ import changeLanguage from "../../common/utils/changeLanguage";
 const createPathFromArray = (path = []) => {
   return `/${(path || []).join("/")}`;
 };
-
-const {
-  publicRuntimeConfig: { theme },
-} = getConfig();
 
 const Subtree = ({
   pageId,
@@ -40,10 +35,7 @@ const Subtree = ({
   };
 
   return Object.keys(children).length ? (
-    <div
-      key={pageId}
-      className="border-b border-slate-200 dark:border-0"
-    >
+    <div key={pageId} className="border-b border-slate-200 dark:border-0">
       <button
         aria-label="Expand"
         type="button"
@@ -174,7 +166,7 @@ const MobileNavigation = ({ doClose, isNavOpen }) => {
             Languages
           </h3>
           <div className="space-y-2">
-            {Object.entries(theme.locales)?.map(([lang]) => (
+            {["en", "de"].map((lang) => (
               <button
                 key={lang}
                 aria-label={intl.formatMessage({

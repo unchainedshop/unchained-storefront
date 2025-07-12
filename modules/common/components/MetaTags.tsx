@@ -1,10 +1,5 @@
 import Head from "next/head";
-import getConfig from "next/config";
 import { useRouter } from "next/router";
-
-const {
-  publicRuntimeConfig: { theme },
-} = getConfig();
 
 const MetaTags = ({
   imageUrl = "https://unchained.shop/img/unchained-commerce-snake.svg",
@@ -12,10 +7,12 @@ const MetaTags = ({
   description = "",
 }) => {
   const { asPath } = useRouter();
+  const locales = ["en", "de"]; // Hardcoded supported locales
+  
   return (
     <Head>
       <title>{title || " "}</title>
-      {Object.entries(theme.locales)?.map(([lang]) => (
+      {locales.map((lang) => (
         <link
           key={`${lang}${asPath}`}
           rel="alternate"

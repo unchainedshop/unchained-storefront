@@ -3,7 +3,6 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import Link from "next/link";
 import Image from "next/legacy/image";
-import getConfig from "next/config";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import useOrderDetail from "../modules/orders/hooks/useOrderDetail";
 import MetaTags from "../modules/common/components/MetaTags";
@@ -15,10 +14,6 @@ import ConfettiCelebration from "../modules/common/components/ConfettiCelebratio
 import AnimatedCheckmark from "../modules/common/components/AnimatedCheckmark";
 import CountUpAnimation from "../modules/common/components/CountUpAnimation";
 import FadeInSection from "../modules/common/components/FadeInSection";
-
-const {
-  publicRuntimeConfig: { theme },
-} = getConfig();
 
 function getFlagEmoji(countryCode) {
   const codePoints = countryCode
@@ -70,24 +65,6 @@ const ThankYou = () => {
       {order && (
         <div className="relative lg:min-h-full">
           <div className="mx-auto max-w-2xl py-8 px-4 sm:px-6 sm:py-12 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-16 xl:gap-x-24">
-            <FadeInSection
-              delay={500}
-              className="relative hidden lg:block lg:h-1/6 lg:w-full lg:pr-4 xl:pr-12"
-            >
-              <Image
-                src={theme.assets.logo}
-                alt={formatMessage({
-                  id: "shop_logo",
-                  defaultMessage: "Shop logo",
-                })}
-                layout="fill"
-                placeholder="blur"
-                blurDataURL="/placeholder.png"
-                className="w-full rounded"
-                loader={defaultNextImageLoader}
-              />
-            </FadeInSection>
-
             <div className="lg:col-start-2">
               <FadeInSection
                 delay={200}
@@ -121,7 +98,7 @@ const ThankYou = () => {
                 </p>
               </FadeInSection>
               <FadeInSection delay={800}>
-                <div className="mt-8 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-green-200 dark:border-green-800">
+                <div className="mt-8 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
                   <div className="md:grid md:grid-cols-2 md:gap-6">
                     <div>
                       <FormattedMessage

@@ -1,4 +1,3 @@
-import getConfig from "next/config";
 import { useIntl } from "react-intl";
 import Link from "next/link";
 
@@ -11,10 +10,6 @@ import useAssortments from "../modules/assortment/hooks/useAssortments";
 import ProductList from "../modules/products/components/ProductList";
 import CategoryListItem from "../modules/assortment/components/CategoryListItem";
 import Loading from "../modules/common/components/Loading";
-
-const {
-  publicRuntimeConfig: { theme },
-} = getConfig();
 
 const Home = () => {
   const {
@@ -32,10 +27,13 @@ const Home = () => {
       <MetaTags title={formatMessage({ id: "home", defaultMessage: "Home" })} />
       <div className="min-h-screen bg-white dark:bg-slate-950">
         {/* Hero Section */}
-        <section id="hero-section" className="relative w-screen ml-[calc(-50vw+50%)]">
+        <section
+          id="hero-section"
+          className="relative w-screen ml-[calc(-50vw+50%)]"
+        >
           <div className="relative h-[60vh] w-full">
             <Image
-              src={theme.assets.hero}
+              src="/static/img/hero.png"
               fill
               style={{
                 objectFit: "cover",

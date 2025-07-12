@@ -81,7 +81,8 @@ const AnimatedBookmarkButton = ({
     "text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white":
       !isBookmarked,
     "opacity-50 cursor-not-allowed": disabled,
-    "filter drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]": isBookmarked && isAnimating,
+    "filter drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]":
+      isBookmarked && isAnimating,
   });
 
   const buttonClasses = classNames(
@@ -92,8 +93,10 @@ const AnimatedBookmarkButton = ({
       "hover:scale-110 hover:shadow-xl": !disabled && !isPressed,
       "scale-95": isPressed,
       "cursor-not-allowed": disabled,
-      "bg-amber-50/95 dark:bg-amber-950/95 shadow-amber-200/50 dark:shadow-amber-800/50": isBookmarked,
-      "shadow-xl ring-2 ring-amber-300/50 dark:ring-amber-600/50": isBookmarked && isAnimating,
+      "bg-amber-50/95 dark:bg-amber-950/95 shadow-amber-200/50 dark:shadow-amber-800/50":
+        isBookmarked,
+      "shadow-xl ring-2 ring-amber-300/50 dark:ring-amber-600/50":
+        isBookmarked && isAnimating,
     },
     className,
   );
@@ -125,7 +128,7 @@ const AnimatedBookmarkButton = ({
                     left: `${50 + (Math.random() - 0.5) * 60}%`,
                     top: `${50 + (Math.random() - 0.5) * 60}%`,
                     animationDelay: `${i * 100}ms`,
-                    animationDuration: '800ms',
+                    animationDuration: "800ms",
                   }}
                 />
               ))}

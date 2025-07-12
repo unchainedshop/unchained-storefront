@@ -1,11 +1,6 @@
 import React from "react";
 import { useIntl } from "react-intl";
-import getConfig from "next/config";
 import changeLanguage from "../utils/changeLanguage";
-
-const {
-  publicRuntimeConfig: { theme },
-} = getConfig();
 
 const LanguageSwitch = () => {
   const intl = useIntl();
@@ -26,7 +21,7 @@ const LanguageSwitch = () => {
         onChange={(e) => changeLanguage(e.target.value)}
         id="language-switcher"
       >
-        {Object.entries(theme.locales)?.map(([lang]) => (
+        {["en", "de"].map((lang) => (
           <option key={lang} value={lang}>
             {intl.formatMessage({
               id: `language_${lang}`,
