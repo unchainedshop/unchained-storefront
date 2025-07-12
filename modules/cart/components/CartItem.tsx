@@ -62,7 +62,10 @@ const CartItem = ({
   };
 
   return (
-    <li className="flex pb-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 transition-all duration-200 hover:bg-slate-100 hover:scale-[1.01] dark:hover:bg-slate-700" key={_id}>
+    <li
+      className="flex pb-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 transition-all duration-200 hover:bg-slate-100 hover:scale-[1.01] dark:hover:bg-slate-700"
+      key={_id}
+    >
       <div className="relative h-20 w-20 flex-shrink-0 rounded-md overflow-hidden shadow-sm">
         {getMediaUrl(product) ? (
           <Image
@@ -110,12 +113,12 @@ const CartItem = ({
           ) : null}
         </div>
 
-        <div className="flex flex-1 items-end justify-between pt-2">
+        <div className="flex flex-wrap flex-1 lg:items-end lg:justify-between pt-2">
           <p className="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
             <FormattedPrice price={unitPrice} />
           </p>
 
-          <div className="ml-4">
+          <div>
             <label htmlFor="quantity" className="sr-only">
               {formatMessage({ id: "quantity", defaultMessage: "Quantity" })}
             </label>

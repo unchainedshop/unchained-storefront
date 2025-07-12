@@ -70,8 +70,8 @@ const Header: React.FC<HeaderProps> = ({
                   aria-label="menu"
                   className={`rounded-md p-2 transition-all duration-200 ${
                     isHeroMode
-                      ? "text-white/80 hover:bg-white/10 hover:text-white"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                      ? "text-white"
+                      : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
                   }`}
                   onClick={onSidebarToggle}
                 >

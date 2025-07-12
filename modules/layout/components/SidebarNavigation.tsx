@@ -45,7 +45,10 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     },
     {
       id: "styleguide",
-      label: formatMessage({ id: "nav_styleguide", defaultMessage: "Styleguide" }),
+      label: formatMessage({
+        id: "nav_styleguide",
+        defaultMessage: "Styleguide",
+      }),
       href: "/styleguide",
     },
     {
@@ -84,7 +87,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
       {/* Drawer - Even higher z-index */}
       <div
-        className={`fixed top-5 bottom-5 left-5 z-[1040] w-80 transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
+        className={`fixed top-5 bottom-5 left-5 z-[1040] w-80 lg:w-96 transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
           isAnimating
             ? "translate-x-0 opacity-100 scale-100"
             : "-translate-x-16 opacity-0 scale-95 pointer-events-none"

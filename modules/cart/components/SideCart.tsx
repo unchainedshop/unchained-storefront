@@ -43,7 +43,7 @@ const SideCart = ({ isOpen }) => {
       />
       {!user?.cart?.items.length ? (
         <div
-          className={`px-4 fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
+          className={`px-4 fixed top-5 bottom-5 right-5 z-[1060] w-80 lg:w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
             isAnimating
               ? "translate-x-0 opacity-100 scale-100"
               : "translate-x-16 opacity-0 scale-95 pointer-events-none"
@@ -70,7 +70,7 @@ const SideCart = ({ isOpen }) => {
         </div>
       ) : (
         <div
-          className={`fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
+          className={`fixed top-5 bottom-5 right-5 z-[1060] w-80 lg:w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
             isAnimating
               ? "translate-x-0 opacity-100 scale-100"
               : "translate-x-16 opacity-0 scale-95 pointer-events-none"
