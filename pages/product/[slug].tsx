@@ -71,6 +71,8 @@ const Detail = () => {
                 lazyLoad
                 onErrorImageURL="/static/img/sun-glass-placeholder.jpeg"
                 useBrowserFullscreen
+                showThumbnails={getMediaUrls(product).length > 1}
+                showPlayButton={getMediaUrls(product).length > 1}
                 items={getMediaUrls(product).map((image) => ({
                   original: image,
                   thumbnail: image,
