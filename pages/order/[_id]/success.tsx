@@ -50,7 +50,7 @@ const OrderSuccessTankYouPage = () => {
             colors={["#059669", "#10b981", "#34d399", "#6ee7b7"]}
           />
 
-          <FadeInSection className="mt-10 mx-auto max-w-6xl bg-white dark:bg-slate-800 p-8 rounded-lg border border-slate-200 dark:border-slate-700 print:hidden">
+          <FadeInSection className="mt-10 mx-auto max-w-6xl bg-white dark:bg-slate-900 p-8 rounded-lg border border-slate-200 dark:border-0 print:hidden">
             <div className="flex items-center gap-4 mb-6">
               <AnimatedCheckmark size="lg" delay={500} />
               <h1 className="text-2xl text-slate-900 dark:text-white">

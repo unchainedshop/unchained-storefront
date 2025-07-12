@@ -56,7 +56,7 @@ const DesktopNavigation = () => {
   return (
     <DesktopNavigationContext.Provider value={navContext}>
       <nav
-        className="hidden sm:flex"
+        className="hidden sm:flex items-center space-x-6"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -89,6 +89,13 @@ const DesktopNavigation = () => {
             />
           )}
         </div>
+        
+        <Link
+          href="/styleguide"
+          className="py-4 text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100 transition-colors"
+        >
+          {formatMessage({ id: "nav_styleguide", defaultMessage: "Styleguide" })}
+        </Link>
       </nav>
     </DesktopNavigationContext.Provider>
   );

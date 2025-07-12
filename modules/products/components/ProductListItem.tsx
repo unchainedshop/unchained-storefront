@@ -6,12 +6,11 @@ import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
 import FormattedPrice from "../../common/components/FormattedPrice";
 
 const ProductListItem = ({ product }) => {
-
   const firstMediaUrl = product?.media?.[0]?.file?.url;
 
   return (
     <div className="group relative">
-      <div className="relative aspect-square overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800">
+      <div className="relative aspect-square overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900">
         <Link href={`/product/${product?.texts?.slug}`}>
           {firstMediaUrl ? (
             <Image
@@ -28,7 +27,6 @@ const ProductListItem = ({ product }) => {
             </div>
           )}
         </Link>
-
       </div>
 
       <div className="mt-4 space-y-2">

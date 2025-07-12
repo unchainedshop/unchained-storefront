@@ -5,7 +5,17 @@ import SidebarNavigation from "./SidebarNavigation";
 import SideCart from "../../cart/components/SideCart";
 import { useAppContext } from "../../common/components/AppContextWrapper";
 
-const Layout = ({ children }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+  hasHeroSection?: boolean;
+  heroSectionId?: string;
+}
+
+const Layout: React.FC<LayoutProps> = ({ 
+  children, 
+  hasHeroSection = false,
+  heroSectionId = "hero-section"
+}) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const { isCartOpen } = useAppContext();
 
@@ -19,7 +29,11 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Header onSidebarToggle={handleSidebarToggle} />
+      <Header 
+        onSidebarToggle={handleSidebarToggle}
+        hasHeroSection={hasHeroSection}
+        heroSectionId={heroSectionId}
+      />
       <main className="container mx-auto mb-6 sm:mb-16 px-4 sm:px-6 lg:px-8">
         {children}
       </main>

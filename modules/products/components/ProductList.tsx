@@ -36,7 +36,7 @@ const ProductList = ({
             {products.map((product) => (
               <div
                 key={product?._id}
-                className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-800 dark:border-slate-700"
+                className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-900 dark:border-0"
               >
                 <div className="flex">
                   <div className="w-48 h-36 flex-shrink-0 relative overflow-hidden bg-slate-50 dark:bg-slate-700">

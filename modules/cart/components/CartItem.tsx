@@ -76,7 +76,7 @@ const CartItem = ({
             className="transition-transform duration-300 hover:scale-105"
           />
         ) : (
-          <div className="relative h-full w-full flex items-center justify-center bg-slate-100 dark:bg-slate-600">
+          <div className="relative h-full w-full flex items-center justify-center bg-slate-100 dark:bg-slate-950">
             <PhotoIcon className="h-8 w-8 text-slate-300 dark:text-slate-500" />
           </div>
         )}
@@ -124,7 +124,7 @@ const CartItem = ({
                 <div className="flex items-end justify-center gap-1">
                   <button
                     type="button"
-                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-600"
+                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-0 dark:text-slate-200 dark:hover:bg-slate-600"
                     aria-label="Decrease cart item"
                     disabled={currentQuantity === 1}
                     onClick={() =>
@@ -139,13 +139,13 @@ const CartItem = ({
                   <input
                     type="text"
                     pattern="\d+"
-                    className="h-8 w-12 border border-slate-300 rounded-md text-center text-sm font-medium transition-all duration-200 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
+                    className="h-8 w-12 border border-slate-300 rounded-md text-center text-sm font-medium transition-all duration-200 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 dark:bg-slate-950 dark:border-0 dark:text-slate-100"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     value={currentQuantity}
                   />
                   <button
-                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-600"
+                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:text-slate-200 dark:hover:bg-slate-600"
                     aria-label="Increase cart item"
                     type="button"
                     onClick={() =>

@@ -30,9 +30,9 @@ const Home = () => {
   return (
     <>
       <MetaTags title={formatMessage({ id: "home", defaultMessage: "Home" })} />
-      <div className="min-h-screen bg-white dark:bg-slate-900">
+      <div className="min-h-screen bg-white dark:bg-slate-950">
         {/* Hero Section */}
-        <section className="relative w-screen ml-[calc(-50vw+50%)]">
+        <section id="hero-section" className="relative w-screen ml-[calc(-50vw+50%)]">
           <div className="relative h-[60vh] w-full">
             <Image
               src={theme.assets.hero}
@@ -46,7 +46,7 @@ const Home = () => {
               loader={defaultNextImageLoader}
               priority
             />
-            <div className="absolute inset-0 bg-black bg-opacity-30" />
+            <div className="absolute inset-0 bg-slate-950 bg-opacity-30" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="container mx-auto px-2 text-center text-white">
                 <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
@@ -107,7 +107,7 @@ const Home = () => {
         </section>
 
         {/* Products Section */}
-        <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-800">
+        <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">

@@ -26,7 +26,7 @@ const Imprint = () => {
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
             Company Information
           </h2>
-          <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
+          <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
             <div className="space-y-3">
               <div>
                 <span className="font-medium text-slate-900 dark:text-white">
@@ -71,7 +71,7 @@ const Imprint = () => {
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
             Contact Information
           </h2>
-          <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
+          <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
             <div className="space-y-3">
               <div>
                 <span className="font-medium text-slate-900 dark:text-white">

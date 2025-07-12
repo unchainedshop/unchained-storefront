@@ -152,7 +152,7 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
   return (
     <div className="space-y-8">
       {/* Delivery Address Section */}
-      <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+      <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-medium text-slate-900 dark:text-white">
             {formatMessage({
@@ -183,7 +183,7 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
 
       {/* Billing Address Section */}
       {!isInitial && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+        <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-medium text-slate-900 dark:text-white">
               {formatMessage({
@@ -212,7 +212,7 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
                 type="checkbox"
                 defaultChecked={!isBillingAddressDifferent}
                 onChange={toggleBillingAddress}
-                className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-slate-600 dark:bg-slate-700"
+                className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-0 dark:bg-slate-700"
               />
               <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 {formatMessage({

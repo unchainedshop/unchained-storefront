@@ -108,7 +108,7 @@ const ChangePassword = () => {
           defaultMessage: "Update Password",
         })}
       />
-      <div className="bg-slate-100 dark:bg-slate-600">
+      <div className="bg-slate-100 dark:bg-slate-950">
         <div className="mx-auto mt-5 w-full p-10 sm:max-w-md md:max-w-lg lg:max-w-xl">
           <div className="rounded-lg border bg-white p-4 shadow-xs dark:bg-slate-500">
             <div>

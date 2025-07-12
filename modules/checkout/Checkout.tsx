@@ -161,7 +161,7 @@ const Checkout = () => {
         {/* Cart Summary - Right Side */}
         <div className="lg:col-span-1">
           <div className="sticky top-16">
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
+            <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
               <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
                 Order Summary
               </h2>
@@ -221,7 +221,7 @@ const Checkout = () => {
               {/* Order Totals */}
               {data.me.cart.items?.length > 0 && (
                 <>
-                  <div className="border-t border-slate-200 dark:border-slate-600 pt-4 space-y-2">
+                  <div className="border-t border-slate-200 dark:border-0 pt-4 space-y-2">
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                       <span>Zwischensumme</span>
                       <span>
@@ -268,7 +268,7 @@ const Checkout = () => {
                       </div>
                     )}
                   </div>
-                  <div className="border-t border-slate-200 dark:border-slate-600 pt-4 mt-4">
+                  <div className="border-t border-slate-200 dark:border-0 pt-4 mt-4">
                     <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
                       <span>Gesamtsumme</span>
                       <span>

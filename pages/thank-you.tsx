@@ -196,7 +196,7 @@ const ThankYou = () => {
                   <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                     Order Summary
                   </h3>
-                  <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:bg-slate-800 dark:border-slate-700 overflow-hidden">
+                  <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:bg-slate-900 dark:border-0 overflow-hidden">
                     <ul className="divide-y divide-slate-200 dark:divide-slate-700">
                       {(order?.items || []).map((item, index) => (
                         <FadeInSection
@@ -318,7 +318,7 @@ const ThankYou = () => {
               </FadeInSection>
 
               <FadeInSection delay={1600}>
-                <div className="mt-8 border-t border-slate-200 dark:border-slate-700 py-8 text-center">
+                <div className="mt-8 border-t border-slate-200 dark:border-0 py-8 text-center">
                   <Link
                     href="/shop"
                     className="inline-flex items-center px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"

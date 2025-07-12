@@ -51,7 +51,7 @@ const Account = () => {
           formatMessage({ id: "account", defaultMessage: "Account" })
         }
       />
-      <div className="max-w-full bg-slate-100 pb-10 dark:bg-slate-600 lg:py-12 lg:px-8">
+      <div className="max-w-full bg-slate-100 pb-10 dark:bg-slate-950 lg:py-12 lg:px-8">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
           <aside className="h-fit py-6 px-2 sm:px-6 lg:sticky lg:top-24 lg:col-span-3 lg:py-0 lg:px-0">
             <nav className="space-y-1 lg:sticky lg:top-24">
@@ -60,7 +60,7 @@ const Account = () => {
                   href={item.href}
                   key={item.name}
                   className={classNames(
-                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 hover:text-slate-400 dark:bg-slate-600 dark:text-white dark:hover:text-slate-400",
+                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 hover:text-slate-400 dark:bg-slate-950 dark:text-white dark:hover:text-slate-400",
                     {
                       "bg-slate-50 text-slate-600 hover:bg-white dark:bg-slate-500 dark:text-slate-400":
                         item.name.toLowerCase() ===

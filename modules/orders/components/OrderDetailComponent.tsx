@@ -24,7 +24,7 @@ const OrderDetailComponent = ({ order }) => {
   const { user } = useUser();
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-600">
+    <div className="bg-slate-50 dark:bg-slate-950">
       <div className="mx-auto max-w-full px-4 pt-16 sm:py-24 sm:px-6 lg:max-w-full lg:px-8">
         <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex sm:items-baseline sm:space-x-4">
@@ -64,7 +64,7 @@ const OrderDetailComponent = ({ order }) => {
               <Link
                 key={item._id}
                 href={`/product/${item?.product?.texts?.slug}`}
-                className="rounded-lg w-50 border border-t border-b border-slate-200 bg-white shadow-xs transition-transform hover:scale-105 hover:border-slate-600 dark:bg-slate-600 dark:hover:border-dslate-400 md:px-0"
+                className="rounded-lg w-50 border border-t border-b border-slate-200 bg-white shadow-xs transition-transform hover:scale-105 hover:border-slate-600 dark:bg-slate-950 dark:hover:border-dslate-400 md:px-0"
               >
                 <div className="flex w-full justify-between p-4">
                   <div className="flex">
@@ -251,7 +251,7 @@ const OrderDetailComponent = ({ order }) => {
             })}
           </h2>
 
-          <div className="bg-slate-100 py-6 px-4 dark:bg-slate-600 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
+          <div className="bg-slate-100 py-6 px-4 dark:bg-slate-950 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
             <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
               <div>
                 <dt className="text-lg font-medium text-slate-900 dark:text-slate-100">

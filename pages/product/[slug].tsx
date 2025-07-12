@@ -94,7 +94,7 @@ const Detail = () => {
                   </div>
                   <button
                     type="button"
-                    className="rounded-full bg-white/90 p-3 shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-lg dark:bg-slate-800/90"
+                    className="rounded-full bg-white/90 p-3 shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-lg dark:bg-slate-900/90"
                     onClick={() =>
                       filteredBookmark
                         ? removeBookmark({

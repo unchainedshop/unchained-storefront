@@ -44,7 +44,7 @@ const Privacy = () => {
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
             How We Use Your Information
           </h2>
-          <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
+          <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
               We use your information to:
             </h3>
@@ -116,7 +116,7 @@ const Privacy = () => {
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
             Your Rights (The Fine Print)
           </h2>
-          <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6">
+          <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
               Under various privacy laws, you have the right to:
             </h3>

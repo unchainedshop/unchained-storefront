@@ -27,7 +27,7 @@ const OrderDetailBilling = ({ order }) => {
       </div>
 
       {/* Order Total */}
-      <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
+      <div className="border-t border-slate-200 dark:border-0 pt-6">
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-slate-600 dark:text-slate-400">Subtotal</span>
@@ -76,7 +76,7 @@ const OrderDetailBilling = ({ order }) => {
             </div>
           )}
 
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-3 mt-4">
+          <div className="border-t border-slate-200 dark:border-0 pt-3 mt-4">
             <div className="flex justify-between items-center">
               <span className="font-medium text-slate-900 dark:text-white">
                 Total

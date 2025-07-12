@@ -32,7 +32,7 @@ const CategoryDetail = () => {
         description={texts?.description}
         imageUrl={getMediaUrl({ media })}
       />
-      <div className="min-h-screen bg-white dark:bg-slate-900">
+      <div className="min-h-screen bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">
@@ -51,7 +51,7 @@ const CategoryDetail = () => {
             <div className="text-sm text-slate-600 dark:text-slate-300">
               {filteredProducts} products
             </div>
-            <div className="flex rounded-lg border border-slate-300 dark:border-slate-600">
+            <div className="flex rounded-lg border border-slate-300 dark:border-0">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`flex items-center px-3 py-2 text-sm font-medium transition-colors ${

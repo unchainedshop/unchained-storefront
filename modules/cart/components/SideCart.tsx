@@ -36,14 +36,14 @@ const SideCart = ({ isOpen }) => {
     <>
       {/* Backdrop with smooth fade */}
       <div
-        className={`fixed inset-0 z-[1050] bg-black/50 backdrop-blur-sm transition-all duration-300 ease-out ${
+        className={`fixed inset-0 z-[1050] bg-slate-950/50 backdrop-blur-sm transition-all duration-300 ease-out ${
           isAnimating ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => toggleCart(false)}
       />
       {!user?.cart?.items.length ? (
         <div
-          className={`px-4 fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-800/95 ${
+          className={`px-4 fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
             isAnimating
               ? "translate-x-0 opacity-100 scale-100"
               : "translate-x-16 opacity-0 scale-95 pointer-events-none"
@@ -70,7 +70,7 @@ const SideCart = ({ isOpen }) => {
         </div>
       ) : (
         <div
-          className={`fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-800/95 ${
+          className={`fixed top-5 bottom-5 right-5 z-[1060] w-96 transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
             isAnimating
               ? "translate-x-0 opacity-100 scale-100"
               : "translate-x-16 opacity-0 scale-95 pointer-events-none"
@@ -78,7 +78,7 @@ const SideCart = ({ isOpen }) => {
         >
           {/* Header with staggered animation */}
           <div
-            className={`flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-600 transition-all duration-300 delay-100 ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
+            className={`flex items-center justify-between p-6 border-b border-slate-200 dark:border-0 transition-all duration-300 delay-100 ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
           >
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               {intl.formatMessage({
@@ -142,7 +142,7 @@ const SideCart = ({ isOpen }) => {
           </div>
           {/* Footer with checkout button */}
           <div
-            className={`border-t border-slate-200 p-6 dark:border-slate-600 transition-all duration-300 delay-300 ${isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+            className={`border-t border-slate-200 p-6 dark:border-0 transition-all duration-300 delay-300 ${isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
           >
             <div className="mb-4 flex items-center justify-between">
               <span className="text-base font-medium text-slate-900 dark:text-white">

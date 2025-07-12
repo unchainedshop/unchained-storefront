@@ -33,7 +33,7 @@ const OrderDetailDelivery = ({ order }) => {
           })}
         </span>
       </div>
-      <div className="border-t border-slate-50 dark:border-slate-700 px-4 py-4 sm:px-6">
+      <div className="border-t border-slate-50 dark:border-0 px-4 py-4 sm:px-6">
         <span className="mb-5 block">
           <span className="font-medium text-slate-600 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300">
             {getInterfaceLabel(order?.delivery?.provider?.interface)}

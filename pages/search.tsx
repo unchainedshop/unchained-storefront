@@ -31,7 +31,7 @@ const Search = () => {
       <MetaTags
         title={formatMessage({ id: "search", defaultMessage: "Search" })}
       />
-      <div className="min-h-screen bg-white dark:bg-slate-900">
+      <div className="min-h-screen bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
           {/* Search Header */}
           <div className="mb-12 text-center">
@@ -63,7 +63,7 @@ const Search = () => {
                   id: "search_placeholder",
                   defaultMessage: "Search for products...",
                 })}
-                className="block w-full rounded-xl border border-slate-300 bg-white py-4 pl-12 pr-4 text-slate-900 placeholder-slate-500 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-slate-400"
+                className="block w-full rounded-xl border border-slate-300 bg-white py-4 pl-12 pr-4 text-slate-900 placeholder-slate-500 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:bg-slate-900 dark:text-white dark:placeholder-slate-400"
               />
             </div>
           </form>

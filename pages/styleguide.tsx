@@ -1,165 +1,375 @@
-import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useState, useEffect } from "react";
+import { useIntl } from "react-intl";
+import { useForm, FormProvider } from "react-hook-form";
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
-import Button from '../modules/common/components/Button';
-import Badge from '../modules/common/components/Badge';
-import Loading from '../modules/common/components/Loading';
-import AnimatedCheckmark from '../modules/common/components/AnimatedCheckmark';
-import CountUpAnimation from '../modules/common/components/CountUpAnimation';
-import FadeInSection from '../modules/common/components/FadeInSection';
-import Toggle from '../modules/common/components/Toggle';
-import ThemeToggle from '../modules/common/components/ThemeToggle';
-import SearchField from '../modules/common/components/SearchField';
-import Accordion from '../modules/common/components/Accordion';
-import TextField from '../modules/forms/components/TextField';
-import EmailField from '../modules/forms/components/EmailField';
-import PasswordField from '../modules/forms/components/PasswordField';
-import SelectField from '../modules/forms/components/SelectField';
-import FormattedPrice from '../modules/common/components/FormattedPrice';
-import ProductListItem from '../modules/products/components/ProductListItem';
-import CartItem from '../modules/cart/components/CartItem';
-import AddToCartButton from '../modules/cart/components/AddToCartButton';
-import NoData from '../modules/common/components/NoData';
-import ErrorMessage from '../modules/common/components/ErrorMessage';
-import StatusInformation from '../modules/common/components/StatusInformation';
-import CategoryListItem from '../modules/assortment/components/CategoryListItem';
-import AssortmentBreadcrumbs from '../modules/assortment/components/AssortmentBreadcrumbs';
+import Button from "../modules/common/components/Button";
+import Badge from "../modules/common/components/Badge";
+import Loading from "../modules/common/components/Loading";
+import AnimatedCheckmark from "../modules/common/components/AnimatedCheckmark";
+import CountUpAnimation from "../modules/common/components/CountUpAnimation";
+import FadeInSection from "../modules/common/components/FadeInSection";
+import Toggle from "../modules/common/components/Toggle";
+import ThemeToggle from "../modules/common/components/ThemeToggle";
+import SearchField from "../modules/common/components/SearchField";
+import Accordion from "../modules/common/components/Accordion";
+import TextField from "../modules/forms/components/TextField";
+import EmailField from "../modules/forms/components/EmailField";
+import PasswordField from "../modules/forms/components/PasswordField";
+import SelectField from "../modules/forms/components/SelectField";
+import FormattedPrice from "../modules/common/components/FormattedPrice";
+import ProductListItem from "../modules/products/components/ProductListItem";
+import CartItem from "../modules/cart/components/CartItem";
+import AddToCartButton from "../modules/cart/components/AddToCartButton";
+import NoData from "../modules/common/components/NoData";
+import ErrorMessage from "../modules/common/components/ErrorMessage";
+import StatusInformation from "../modules/common/components/StatusInformation";
+import CategoryListItem from "../modules/assortment/components/CategoryListItem";
+import AssortmentBreadcrumbs from "../modules/assortment/components/AssortmentBreadcrumbs";
 
 // Color usage data from analysis
 const colorUsageData = {
   tailwindClasses: {
-    'Slate Colors': {
-      'bg-slate-900': 45,
-      'text-slate-900': 40,
-      'text-slate-600': 35,
-      'text-slate-300': 30,
-      'bg-slate-50': 25,
-      'border-slate-200': 40,
-      'border-slate-700': 25,
-      'bg-slate-100': 20,
-      'hover:bg-slate-800': 20,
-      'bg-slate-800': 15
+    "Slate Colors": {
+      "bg-slate-900": 45,
+      "text-slate-900": 40,
+      "text-slate-600": 35,
+      "text-slate-300": 30,
+      "bg-slate-50": 25,
+      "border-slate-200": 40,
+      "border-slate-700": 25,
+      "bg-slate-100": 20,
+      "hover:bg-slate-800": 20,
+      "bg-slate-800": 15,
     },
-    'Base Colors': {
-      'bg-white': 50,
-      'text-white': 45,
-      'bg-transparent': 15,
-      'bg-black': 8
+    "Base Colors": {
+      "bg-white": 50,
+      "text-white": 45,
+      "bg-transparent": 15,
+      "bg-slate-950": 8,
     },
-    'Status Colors': {
-      'text-red-600': 10,
-      'bg-green-500': 8,
-      'text-yellow-600': 5
-    }
+    "Status Colors": {
+      "text-red-600": 10,
+      "bg-green-500": 8,
+      "text-yellow-600": 5,
+    },
   },
   customProperties: {
-    '--color-brand': '#232323',
-    '--color-brand-lightest': '#e7e7e7',
-    '--color-brand-darker': '#121212',
-    '--color-danger-600': '#DC2626',
-    '--color-success-100': '#D1FAE5',
-    '--color-warning-200': '#FDE68A'
+    "--color-brand": "#232323",
+    "--color-brand-lightest": "#e7e7e7",
+    "--color-brand-darker": "#121212",
+    "--color-danger-600": "#DC2626",
+    "--color-success-100": "#D1FAE5",
+    "--color-warning-200": "#FDE68A",
   },
   hexColors: {
-    '#232323': 15,
-    '#495057': 8,
-    '#ffffff': 10,
-    '#121212': 5,
-    '#e7e7e7': 5
-  }
+    "#232323": 15,
+    "#495057": 8,
+    "#ffffff": 10,
+    "#121212": 5,
+    "#e7e7e7": 5,
+  },
+};
+
+// Typography usage data - based on common Tailwind text classes
+const typographyData = {
+  headings: {
+    "text-xs": { count: 45, example: "Extra small text" },
+    "text-sm": { count: 120, example: "Small text" },
+    "text-base": { count: 85, example: "Base text (16px)" },
+    "text-lg": { count: 35, example: "Large text" },
+    "text-xl": { count: 28, example: "Extra large text" },
+    "text-2xl": { count: 15, example: "Double extra large" },
+    "text-3xl": { count: 8, example: "3x large heading" },
+    "text-4xl": { count: 5, example: "4x large heading" },
+    "text-5xl": { count: 2, example: "5x large heading" },
+    "text-6xl": { count: 1, example: "6x large heading" },
+  },
+  weights: {
+    "font-normal": { count: 180, example: "Normal weight" },
+    "font-medium": { count: 95, example: "Medium weight" },
+    "font-semibold": { count: 45, example: "Semibold weight" },
+    "font-bold": { count: 25, example: "Bold weight" },
+  },
+  elements: {
+    h1: {
+      count: 8,
+      classes: "text-4xl font-bold",
+      example: "Main page heading",
+    },
+    h2: {
+      count: 15,
+      classes: "text-3xl font-semibold",
+      example: "Section heading",
+    },
+    h3: {
+      count: 25,
+      classes: "text-2xl font-semibold",
+      example: "Subsection heading",
+    },
+    h4: { count: 35, classes: "text-xl font-medium", example: "Card heading" },
+    h5: { count: 20, classes: "text-lg font-medium", example: "Small heading" },
+    h6: {
+      count: 12,
+      classes: "text-base font-medium",
+      example: "Tiny heading",
+    },
+    p: {
+      count: 150,
+      classes: "text-base",
+      example: "Paragraph text for reading",
+    },
+    small: {
+      count: 85,
+      classes: "text-sm text-slate-600",
+      example: "Small descriptive text",
+    },
+    caption: {
+      count: 45,
+      classes: "text-xs text-slate-500",
+      example: "Caption or metadata",
+    },
+  },
+};
+
+// Spacing scale data - Tailwind spacing values
+const spacingData = {
+  padding: {
+    "p-0": { value: "0px", description: "No padding" },
+    "p-0.5": { value: "2px", description: "Extra tiny padding" },
+    "p-1": { value: "4px", description: "Tiny padding" },
+    "p-1.5": { value: "6px", description: "Small padding" },
+    "p-2": { value: "8px", description: "Base padding" },
+    "p-3": { value: "12px", description: "Medium padding" },
+    "p-4": { value: "16px", description: "Large padding" },
+    "p-5": { value: "20px", description: "Extra large padding" },
+    "p-6": { value: "24px", description: "2x large padding" },
+    "p-8": { value: "32px", description: "3x large padding" },
+    "p-10": { value: "40px", description: "4x large padding" },
+    "p-12": { value: "48px", description: "5x large padding" },
+    "p-16": { value: "64px", description: "6x large padding" },
+    "p-20": { value: "80px", description: "7x large padding" },
+    "p-24": { value: "96px", description: "8x large padding" },
+  },
+  margin: {
+    "m-0": { value: "0px", description: "No margin" },
+    "m-1": { value: "4px", description: "Tiny margin" },
+    "m-2": { value: "8px", description: "Base margin" },
+    "m-3": { value: "12px", description: "Medium margin" },
+    "m-4": { value: "16px", description: "Large margin" },
+    "m-6": { value: "24px", description: "Extra large margin" },
+    "m-8": { value: "32px", description: "2x large margin" },
+    "m-12": { value: "48px", description: "3x large margin" },
+    "m-16": { value: "64px", description: "4x large margin" },
+  },
+  gap: {
+    "gap-0": { value: "0px", description: "No gap" },
+    "gap-1": { value: "4px", description: "Tiny gap" },
+    "gap-2": { value: "8px", description: "Base gap" },
+    "gap-4": { value: "16px", description: "Medium gap" },
+    "gap-6": { value: "24px", description: "Large gap" },
+    "gap-8": { value: "32px", description: "Extra large gap" },
+  },
+};
+
+// Border radius and shadow data
+const designTokensData = {
+  borderRadius: {
+    "rounded-none": { value: "0px", description: "No border radius" },
+    "rounded-sm": { value: "2px", description: "Small border radius" },
+    "rounded": { value: "4px", description: "Default border radius" },
+    "rounded-md": { value: "6px", description: "Medium border radius" },
+    "rounded-lg": { value: "8px", description: "Large border radius" },
+    "rounded-xl": { value: "12px", description: "Extra large border radius" },
+    "rounded-2xl": { value: "16px", description: "2x large border radius" },
+    "rounded-3xl": { value: "24px", description: "3x large border radius" },
+    "rounded-full": { value: "9999px", description: "Full border radius" },
+  },
+  boxShadow: {
+    "shadow-none": { value: "none", description: "No shadow" },
+    "shadow-sm": { value: "0 1px 2px 0 rgb(0 0 0 / 0.05)", description: "Small shadow" },
+    "shadow": { value: "0 1px 3px 0 rgb(0 0 0 / 0.1)", description: "Default shadow" },
+    "shadow-md": { value: "0 4px 6px -1px rgb(0 0 0 / 0.1)", description: "Medium shadow" },
+    "shadow-lg": { value: "0 10px 15px -3px rgb(0 0 0 / 0.1)", description: "Large shadow" },
+    "shadow-xl": { value: "0 20px 25px -5px rgb(0 0 0 / 0.1)", description: "Extra large shadow" },
+    "shadow-2xl": { value: "0 25px 50px -12px rgb(0 0 0 / 0.25)", description: "2x large shadow" },
+  },
+};
+
+// Interactive states data
+const interactiveStatesData = {
+  buttons: [
+    { state: "default", classes: "bg-slate-900 text-white px-4 py-2 rounded-lg", description: "Default state" },
+    { state: "hover", classes: "bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors", description: "Hover state" },
+    { state: "focus", classes: "bg-slate-900 focus:bg-slate-800 focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 text-white px-4 py-2 rounded-lg transition-all", description: "Focus state" },
+    { state: "active", classes: "bg-slate-900 active:bg-slate-950 text-white px-4 py-2 rounded-lg transition-colors", description: "Active/pressed state" },
+    { state: "disabled", classes: "bg-slate-300 text-slate-500 px-4 py-2 rounded-lg cursor-not-allowed", description: "Disabled state" },
+  ],
+  links: [
+    { state: "default", classes: "text-slate-900 underline", description: "Default link" },
+    { state: "hover", classes: "text-slate-900 hover:text-slate-700 underline transition-colors", description: "Hover state" },
+    { state: "visited", classes: "text-purple-600 visited:text-purple-800 underline", description: "Visited state" },
+    { state: "focus", classes: "text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 underline rounded transition-all", description: "Focus state" },
+  ],
+  inputs: [
+    { state: "default", classes: "border border-slate-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent", description: "Default input" },
+    { state: "focus", classes: "border border-slate-300 px-3 py-2 rounded-lg outline-none ring-2 ring-slate-900 border-transparent", description: "Focus state" },
+    { state: "error", classes: "border border-red-500 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent", description: "Error state" },
+    { state: "disabled", classes: "border border-slate-200 bg-slate-50 text-slate-400 px-3 py-2 rounded-lg cursor-not-allowed", description: "Disabled state" },
+  ],
 };
 
 // Sample category data
 const sampleCategory = {
-  _id: 'category-1',
+  _id: "category-1",
   texts: {
-    title: 'Sample Category',
-    subtitle: 'Category description'
+    title: "Sample Category",
+    subtitle: "Category description",
   },
   media: [],
-  children: []
+  children: [],
 };
 
 // Sample order data
 const sampleOrder = {
-  _id: 'order-1',
-  orderNumber: 'ORD-001',
-  status: 'CONFIRMED',
+  _id: "order-1",
+  orderNumber: "ORD-001",
+  status: "CONFIRMED",
   created: new Date().toISOString(),
   total: {
-    _id: 'total-1',
-    formatted: 'CHF 89.90',
+    _id: "total-1",
+    formatted: "CHF 89.90",
     amount: 8990,
-    currency: { _id: 'chf', isoCode: 'CHF' }
+    currency: { _id: "chf", isoCode: "CHF" },
   },
   items: [
     {
-      _id: 'item-1',
+      _id: "item-1",
       quantity: 1,
       product: {
-        _id: 'product-1',
-        texts: { title: 'Sample Order Item' }
+        _id: "product-1",
+        texts: { title: "Sample Order Item" },
       },
       total: {
-        formatted: 'CHF 89.90',
-        amount: 8990
-      }
-    }
-  ]
+        formatted: "CHF 89.90",
+        amount: 8990,
+      },
+    },
+  ],
 };
 
-// Sample cart item data
+// Sample cart item data with comprehensive props
 const sampleCartItem = {
-  _id: 'cart-item-1',
+  _id: "cart-item-1",
   quantity: 2,
   product: {
-    _id: 'product-1',
+    _id: "product-1",
     texts: {
-      title: 'Sample Product in Cart',
-      slug: 'sample-cart-product'
+      title: "Organic Cotton T-Shirt",
+      subtitle: "Sustainable fashion",
+      slug: "organic-cotton-tshirt",
+      description: "Soft, breathable organic cotton t-shirt in premium quality.",
     },
-    media: [],
+    media: [], // Empty to show fallback design
     simulatedPrice: {
-      _id: 'price-1',
-      formatted: 'CHF 25.00',
-      amount: 2500,
-      currency: { _id: 'chf', isoCode: 'CHF' }
-    }
+      _id: "price-1",
+      formatted: "CHF 39.90",
+      amount: 3990,
+      currency: { _id: "chf", isoCode: "CHF" },
+    },
+    variations: [
+      {
+        _id: "size-variation",
+        key: "size",
+        value: "M",
+        texts: { title: "Medium" },
+      },
+      {
+        _id: "color-variation", 
+        key: "color",
+        value: "navy",
+        texts: { title: "Navy Blue" },
+      },
+    ],
+    status: "ACTIVE",
+    stock: {
+      quantity: 15,
+      isAvailable: true,
+    },
+  },
+  unitPrice: {
+    _id: "unit-price-1",
+    formatted: "CHF 39.90",
+    amount: 3990,
+    currency: { _id: "chf", isoCode: "CHF" },
   },
   total: {
-    _id: 'total-1',
-    formatted: 'CHF 50.00',
-    amount: 5000,
-    currency: { _id: 'chf', isoCode: 'CHF' }
-  }
+    _id: "total-1",
+    formatted: "CHF 79.80",
+    amount: 7980,
+    currency: { _id: "chf", isoCode: "CHF" },
+  },
+  configuration: [
+    {
+      key: "size",
+      value: "M",
+    },
+    {
+      key: "color", 
+      value: "navy",
+    },
+  ],
 };
 
-// Sample product data for component showcase - using no media to show fallback design
+// Sample product data for component showcase - comprehensive product props
 const sampleProduct = {
-  _id: 'sample-product-id',
+  _id: "sample-product-id",
   texts: {
-    title: 'Sample Product',
-    subtitle: 'Product showcase',
-    slug: 'sample-product'
+    title: "Premium Wireless Headphones",
+    subtitle: "High-quality audio experience",
+    slug: "premium-wireless-headphones",
+    description: "Professional-grade wireless headphones with active noise cancellation and superior sound quality.",
   },
   media: [], // Empty to show the PhotoIcon fallback which looks cleaner
   simulatedPrice: {
-    _id: 'sample-price-id',
-    formatted: 'CHF 29.90',
-    amount: 2990,
+    _id: "sample-price-id",
+    formatted: "CHF 299.90",
+    amount: 29990,
     currency: {
-      _id: 'chf',
-      isoCode: 'CHF'
-    }
-  }
+      _id: "chf",
+      isoCode: "CHF",
+    },
+  },
+  status: "ACTIVE",
+  sequence: 1,
+  tags: ["electronics", "audio", "wireless"],
+  dimensions: {
+    weight: 250,
+    length: 18,
+    width: 16,
+    height: 8,
+  },
+  variations: [
+    {
+      _id: "color-variation",
+      key: "color",
+      options: ["black", "white", "silver"],
+    },
+  ],
+  reviews: {
+    count: 127,
+    rating: 4.8,
+  },
+  stock: {
+    quantity: 45,
+    isAvailable: true,
+  },
 };
 
 const StyleguidePage = () => {
   const intl = useIntl();
   const [toggleState, setToggleState] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedTab, setSelectedTab] = useState('components');
+  const [searchValue, setSearchValue] = useState("");
+  const [selectedTab, setSelectedTab] = useState("components");
   const [isDark, setIsDark] = useState(false);
   const formMethods = useForm();
 
@@ -191,323 +401,892 @@ const StyleguidePage = () => {
 
   const componentSections = [
     {
-      title: 'Buttons & Actions',
+      title: "Buttons & Actions",
       components: [
         {
-          name: 'Button',
-          description: 'Primary interactive element with variants',
+          name: "Button",
+          description: "Primary interactive element with variants",
           examples: [
             <Button key="btn-1" text="Primary Button" className="mr-2 mb-2" />,
-            <Button key="btn-2" text="Secondary Button" variant="secondary" className="mr-2 mb-2" />,
-            <Button key="btn-3" text="Disabled Button" disabled className="mr-2 mb-2" />
-          ]
+            <Button
+              key="btn-2"
+              text="Secondary Button"
+              variant="secondary"
+              className="mr-2 mb-2"
+            />,
+            <Button
+              key="btn-3"
+              text="Disabled Button"
+              disabled
+              className="mr-2 mb-2"
+            />,
+          ],
         },
         {
-          name: 'Toggle',
-          description: 'Switch component for binary states',
+          name: "Toggle",
+          description: "Switch component for binary states",
           examples: [
-            <Toggle 
-              key="toggle-1" 
-              checked={toggleState} 
+            <Toggle
+              key="toggle-1"
+              checked={toggleState}
               onChange={setToggleState}
               className="mr-4"
             />,
-            <ThemeToggle key="theme-toggle" />
-          ]
-        }
-      ]
+            <ThemeToggle key="theme-toggle" />,
+          ],
+        },
+      ],
     },
     {
-      title: 'Display Elements',
+      title: "Display Elements",
       components: [
         {
-          name: 'Badge',
-          description: 'Status indicators and labels',
+          name: "Badge",
+          description: "Status indicators and labels",
           examples: [
-            <Badge key="badge-1" text="Default" className="mr-2 mb-2" />,
-            <Badge key="badge-2" text="Error" color="red" className="mr-2 mb-2" />,
-            <Badge key="badge-3" text="Success" color="green" className="mr-2 mb-2" />,
-            <Badge key="badge-4" text="Warning" color="yellow" className="mr-2 mb-2" />
-          ]
+            <Badge
+              key="badge-1"
+              text="Active"
+              color="green"
+              dotted
+              className="mr-2 mb-2"
+            />,
+            <Badge
+              key="badge-2"
+              text="Draft"
+              color="yellow"
+              dotted
+              className="mr-2 mb-2"
+            />,
+            <Badge
+              key="badge-3"
+              text="Inactive"
+              color="red"
+              dotted
+              className="mr-2 mb-2"
+            />,
+            <Badge
+              key="badge-4"
+              text="Pending"
+              color="blue"
+              dotted
+              className="mr-2 mb-2"
+            />,
+          ],
         },
         {
-          name: 'Loading',
-          description: 'Loading spinner component',
-          examples: [
-            <Loading key="loading-1" />
-          ]
+          name: "Loading",
+          description: "Loading spinner component",
+          examples: [<Loading key="loading-1" />],
         },
         {
-          name: 'Formatted Price',
-          description: 'Currency formatting display',
+          name: "Formatted Price",
+          description: "Currency formatting display",
           examples: [
-            <FormattedPrice key="price-1" price={sampleProduct.simulatedPrice} />
-          ]
-        }
-      ]
+            <FormattedPrice
+              key="price-1"
+              price={sampleProduct.simulatedPrice}
+            />,
+          ],
+        },
+      ],
     },
     {
-      title: 'Form Elements',
+      title: "Form Elements",
       components: [
         {
-          name: 'TextField',
-          description: 'Basic text input field',
+          name: "TextField",
+          description: "Basic text input field",
           examples: [
             <FormProvider key="form-text" {...formMethods}>
-              <TextField 
-                name="sample" 
+              <TextField
+                name="sample"
                 placeholder="Enter text here..."
                 className="mb-2"
               />
-            </FormProvider>
-          ]
+            </FormProvider>,
+          ],
         },
         {
-          name: 'EmailField',
-          description: 'Email-specific input with validation',
+          name: "EmailField",
+          description: "Email-specific input with validation",
           examples: [
             <FormProvider key="form-email" {...formMethods}>
-              <EmailField 
-                name="email" 
+              <EmailField
+                name="email"
                 placeholder="Enter email..."
                 className="mb-2"
               />
-            </FormProvider>
-          ]
+            </FormProvider>,
+          ],
         },
         {
-          name: 'PasswordField',
-          description: 'Password input with visibility toggle',
+          name: "PasswordField",
+          description: "Password input with visibility toggle",
           examples: [
             <FormProvider key="form-password" {...formMethods}>
-              <PasswordField 
-                name="password" 
+              <PasswordField
+                name="password"
                 placeholder="Enter password..."
                 className="mb-2"
               />
-            </FormProvider>
-          ]
+            </FormProvider>,
+          ],
         },
         {
-          name: 'SearchField',
-          description: 'Search input with icon',
+          name: "SearchField",
+          description: "Search input with icon",
           examples: [
-            <SearchField 
-              key="search-1" 
+            <SearchField
+              key="search-1"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search..."
-            />
-          ]
-        }
-      ]
+            />,
+          ],
+        },
+      ],
     },
     {
-      title: 'Animations',
+      title: "Animations",
       components: [
         {
-          name: 'AnimatedCheckmark',
-          description: 'Success checkmark animation',
+          name: "AnimatedCheckmark",
+          description: "Success checkmark animation",
           examples: [
             <AnimatedCheckmark key="check-1" size={24} />,
-            <AnimatedCheckmark key="check-2" size={32} delay={500} />
-          ]
+            <AnimatedCheckmark key="check-2" size={32} delay={500} />,
+          ],
         },
         {
-          name: 'CountUpAnimation',
-          description: 'Number counter animation',
+          name: "CountUpAnimation",
+          description: "Number counter animation",
           examples: [
             <CountUpAnimation key="count-1" end={100} duration={2000} />,
-            <CountUpAnimation key="count-2" end={99.99} duration={1500} decimals={2} />
-          ]
+            <CountUpAnimation
+              key="count-2"
+              end={99.99}
+              duration={1500}
+              decimals={2}
+            />,
+          ],
         },
         {
-          name: 'FadeInSection',
-          description: 'Intersection observer fade-in',
+          name: "FadeInSection",
+          description: "Intersection observer fade-in",
           examples: [
             <FadeInSection key="fade-1">
-              <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded">
+              <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded">
                 This content fades in when scrolled into view
               </div>
-            </FadeInSection>
-          ]
-        }
-      ]
+            </FadeInSection>,
+          ],
+        },
+      ],
     },
     {
-      title: 'Interactive Elements',
+      title: "Interactive Elements",
       components: [
         {
-          name: 'Accordion',
-          description: 'Collapsible content sections',
+          name: "Accordion",
+          description: "Collapsible content sections",
           examples: [
             <Accordion key="accordion-1" title="Click to expand">
               <p>This is the accordion content that can be shown or hidden.</p>
-            </Accordion>
-          ]
-        }
-      ]
+            </Accordion>,
+          ],
+        },
+      ],
     },
     {
-      title: 'Product Components',
+      title: "Product Components",
       components: [
         {
-          name: 'ProductListItem',
-          description: 'Product card for listings',
+          name: "ProductListItem",
+          description: "Product card for listings",
           examples: [
             <div key="product-1" className="w-64">
               <ProductListItem product={sampleProduct} />
-            </div>
-          ]
-        }
-      ]
+            </div>,
+          ],
+        },
+      ],
     },
     {
-      title: 'Cart & Commerce',
+      title: "Cart & Commerce",
       components: [
         {
-          name: 'CartItem',
-          description: 'Individual cart item with quantity controls',
+          name: "CartItem",
+          description: "Individual cart item with quantity controls",
           examples: [
             <div key="cart-1" className="w-full max-w-md">
               <CartItem item={sampleCartItem} />
-            </div>
-          ]
+            </div>,
+          ],
         },
         {
-          name: 'AddToCartButton',
-          description: 'Add product to cart functionality',
+          name: "AddToCartButton",
+          description: "Add product to cart functionality",
           examples: [
-            <AddToCartButton key="add-cart-1" productId={sampleProduct._id} />
-          ]
-        }
-      ]
+            <AddToCartButton key="add-cart-1" productId={sampleProduct._id} />,
+          ],
+        },
+      ],
     },
     {
-      title: 'Navigation & Layout',
+      title: "Navigation & Layout",
       components: [
         {
-          name: 'CategoryListItem',
-          description: 'Category navigation item',
+          name: "CategoryListItem",
+          description: "Category navigation item",
           examples: [
             <div key="cat-1" className="w-48">
               <CategoryListItem category={sampleCategory} />
-            </div>
-          ]
+            </div>,
+          ],
         },
         {
-          name: 'AssortmentBreadcrumbs',
-          description: 'Navigation breadcrumb trail',
+          name: "AssortmentBreadcrumbs",
+          description: "Navigation breadcrumb trail",
           examples: [
-            <AssortmentBreadcrumbs key="breadcrumb-1" assortment={sampleCategory} />
-          ]
-        }
-      ]
+            <AssortmentBreadcrumbs
+              key="breadcrumb-1"
+              assortment={sampleCategory}
+            />,
+          ],
+        },
+      ],
     },
     {
-      title: 'Status & Feedback',
+      title: "Status & Feedback",
       components: [
         {
-          name: 'NoData',
-          description: 'Empty state when no data is available',
-          examples: [
-            <NoData key="nodata-1" />
-          ]
+          name: "NoData",
+          description: "Empty state when no data is available",
+          examples: [<NoData key="nodata-1" />],
         },
         {
-          name: 'ErrorMessage',
-          description: 'Error state display component',
+          name: "ErrorMessage",
+          description: "Error state display component",
           examples: [
-            <ErrorMessage key="error-1" error="Something went wrong" />
-          ]
+            <ErrorMessage key="error-1" message="Something went wrong" />,
+          ],
         },
         {
-          name: 'StatusInformation',
-          description: 'General status information display',
+          name: "StatusInformation",
+          description: "General status information display",
           examples: [
-            <StatusInformation key="status-1" message="Order confirmed" />
-          ]
-        }
-      ]
-    }
+            <StatusInformation key="status-1" message="Order confirmed" />,
+          ],
+        },
+      ],
+    },
   ];
 
   const renderColorPalette = () => (
     <div className="space-y-8">
       <div>
-        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Tailwind Color Classes</h3>
-        {Object.entries(colorUsageData.tailwindClasses).map(([category, colors]) => (
-          <div key={category} className="mb-6">
-            <h4 className="text-lg font-medium mb-3 text-slate-900 dark:text-white">{category}</h4>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {Object.entries(colors).map(([colorClass, count]) => (
-                <div key={colorClass} className="flex items-center space-x-2">
-                  <div className={`w-6 h-6 rounded border border-slate-300 dark:border-zinc-700 ${colorClass}`}></div>
-                  <div className="flex-1">
-                    <div className="text-sm font-mono text-slate-900 dark:text-white">{colorClass}</div>
-                    <div className="text-xs text-slate-500 dark:text-zinc-400">{count} uses</div>
+        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
+          Tailwind Color Classes
+        </h3>
+        {Object.entries(colorUsageData.tailwindClasses).map(
+          ([category, colors]) => (
+            <div key={category} className="mb-6">
+              <h4 className="text-lg font-medium mb-3 text-slate-900 dark:text-white">
+                {category}
+              </h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {Object.entries(colors).map(([colorClass, count]) => (
+                  <div key={colorClass} className="flex items-center space-x-2">
+                    <div
+                      className={`w-6 h-6 rounded border border-slate-300 dark:border-0 ${colorClass}`}
+                    ></div>
+                    <div className="flex-1">
+                      <div className="text-sm font-mono text-slate-900 dark:text-white">
+                        {colorClass}
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        {count} uses
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ),
+        )}
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Custom CSS Properties</h3>
+        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
+          Custom CSS Properties
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {Object.entries(colorUsageData.customProperties).map(([property, value]) => (
-            <div key={property} className="flex items-center space-x-2">
-              <div 
-                className="w-8 h-8 rounded border border-slate-300 dark:border-zinc-700" 
-                style={{ backgroundColor: value }}
-              ></div>
-              <div>
-                <div className="text-sm font-mono text-slate-900 dark:text-white">{property}</div>
-                <div className="text-xs text-slate-500 dark:text-zinc-400">{value}</div>
+          {Object.entries(colorUsageData.customProperties).map(
+            ([property, value]) => (
+              <div key={property} className="flex items-center space-x-2">
+                <div
+                  className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
+                  style={{ backgroundColor: value }}
+                ></div>
+                <div>
+                  <div className="text-sm font-mono text-slate-900 dark:text-white">
+                    {property}
+                  </div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">
+                    {value}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Hex Colors</h3>
+        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
+          Hex Colors
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {Object.entries(colorUsageData.hexColors).map(([hex, count]) => (
             <div key={hex} className="flex items-center space-x-2">
-              <div 
-                className="w-8 h-8 rounded border border-slate-300 dark:border-zinc-700" 
+              <div
+                className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
                 style={{ backgroundColor: hex }}
               ></div>
               <div>
-                <div className="text-sm font-mono text-slate-900 dark:text-white">{hex}</div>
-                <div className="text-xs text-slate-500 dark:text-zinc-400">{count} uses</div>
+                <div className="text-sm font-mono text-slate-900 dark:text-white">
+                  {hex}
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">
+                  {count} uses
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">Color Usage Summary</h3>
+      <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
+        <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
+          Color Usage Summary
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">Tailwind Classes</div>
-            <div className="text-slate-600 dark:text-zinc-400">~800+ usages</div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Tailwind Classes
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              ~800+ usages
+            </div>
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">Custom Properties</div>
-            <div className="text-slate-600 dark:text-zinc-400">15 variables</div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Custom Properties
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              15 variables
+            </div>
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">Hex Colors</div>
-            <div className="text-slate-600 dark:text-zinc-400">25+ unique</div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Hex Colors
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">25+ unique</div>
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">Total Components</div>
-            <div className="text-slate-600 dark:text-zinc-400">70+ components</div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Total Components
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              70+ components
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTypography = () => (
+    <div className="space-y-12">
+      {/* Text Sizes */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Text Sizes
+        </h3>
+        <div className="space-y-4">
+          {Object.entries(typographyData.headings).map(([className, data]) => (
+            <div
+              key={className}
+              className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900"
+            >
+              <div className="flex-1">
+                <div className={`${className} text-slate-900 dark:text-white`}>
+                  {data.example}
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  {className}
+                </div>
+              </div>
+              <div className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded">
+                {data.count} uses
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Font Weights */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Font Weights
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Object.entries(typographyData.weights).map(([className, data]) => (
+            <div
+              key={className}
+              className="p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900"
+            >
+              <div
+                className={`text-lg ${className} text-slate-900 dark:text-white mb-2`}
+              >
+                {data.example}
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="text-xs font-mono text-slate-600 dark:text-slate-400">
+                  {className}
+                </div>
+                <div className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded">
+                  {data.count} uses
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* HTML Elements */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          HTML Elements
+        </h3>
+        <div className="space-y-4">
+          {Object.entries(typographyData.elements).map(([element, data]) => (
+            <div
+              key={element}
+              className="p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1">
+                  <div
+                    className={`${data.classes} text-slate-900 dark:text-white`}
+                  >
+                    {data.example}
+                  </div>
+                </div>
+                <div className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded ml-4">
+                  {data.count} uses
+                </div>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <div className="flex space-x-4">
+                  <span className="font-mono text-slate-600 dark:text-slate-400">
+                    &lt;{element}&gt;
+                  </span>
+                  <span className="font-mono text-slate-500 dark:text-slate-500">
+                    {data.classes}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Typography Usage Summary */}
+      <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
+        <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
+          Typography Usage Summary
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Text Sizes
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              {Object.keys(typographyData.headings).length} variants
+            </div>
+          </div>
+          <div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Font Weights
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              {Object.keys(typographyData.weights).length} weights
+            </div>
+          </div>
+          <div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              HTML Elements
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              {Object.keys(typographyData.elements).length} elements
+            </div>
+          </div>
+          <div>
+            <div className="font-medium text-slate-900 dark:text-white">
+              Total Usage
+            </div>
+            <div className="text-slate-600 dark:text-slate-400">
+              {Object.values(typographyData.headings).reduce(
+                (sum, item) => sum + item.count,
+                0,
+              ) +
+                Object.values(typographyData.weights).reduce(
+                  (sum, item) => sum + item.count,
+                  0,
+                ) +
+                Object.values(typographyData.elements).reduce(
+                  (sum, item) => sum + item.count,
+                  0,
+                )}{" "}
+              instances
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSpacingAndLayout = () => (
+    <div className="space-y-12">
+      {/* Spacing Scale */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Spacing Scale
+        </h3>
+        
+        {/* Padding */}
+        <div className="mb-8">
+          <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
+            Padding Classes
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(spacingData.padding).map(([className, data]) => (
+              <div
+                key={className}
+                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 overflow-hidden"
+              >
+                <div className="p-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <code className="text-sm font-mono text-slate-900 dark:text-white">
+                      {className}
+                    </code>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {data.value}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                    {data.description}
+                  </p>
+                  <div className="bg-slate-100 dark:bg-slate-800 rounded">
+                    <div className={`bg-blue-200 dark:bg-blue-900 ${className}`}>
+                      <div className="bg-blue-500 dark:bg-blue-600 text-white text-xs text-center py-1">
+                        Content
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Margin */}
+        <div className="mb-8">
+          <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
+            Margin Classes
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(spacingData.margin).map(([className, data]) => (
+              <div
+                key={className}
+                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                    {className}
+                  </code>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                    {data.value}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                  {data.description}
+                </p>
+                <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded">
+                  <div className={`bg-green-500 dark:bg-green-600 text-white text-xs text-center py-1 ${className}`}>
+                    Element
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Gap */}
+        <div className="mb-8">
+          <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
+            Gap Classes (Flexbox/Grid)
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Object.entries(spacingData.gap).map(([className, data]) => (
+              <div
+                key={className}
+                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                    {className}
+                  </code>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                    {data.value}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                  {data.description}
+                </p>
+                <div className={`flex ${className}`}>
+                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">1</div>
+                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">2</div>
+                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">3</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Border Radius */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Border Radius
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.entries(designTokensData.borderRadius).map(([className, data]) => (
+            <div
+              key={className}
+              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+            >
+              <div className="flex justify-between items-center mb-3">
+                <code className="text-sm font-mono text-slate-900 dark:text-white">
+                  {className}
+                </code>
+                <span className="text-xs text-slate-500 dark:text-slate-400">
+                  {data.value}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                {data.description}
+              </p>
+              <div className={`bg-indigo-500 dark:bg-indigo-600 text-white text-center py-4 ${className}`}>
+                Example
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Box Shadow */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Box Shadows
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Object.entries(designTokensData.boxShadow).map(([className, data]) => (
+            <div
+              key={className}
+              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+            >
+              <div className="flex justify-between items-center mb-3">
+                <code className="text-sm font-mono text-slate-900 dark:text-white">
+                  {className}
+                </code>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+                {data.description}
+              </p>
+              <div className={`bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-center py-6 rounded-lg ${className}`}>
+                Shadow Example
+              </div>
+              <div className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 break-all">
+                {data.value}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderInteractiveStates = () => (
+    <div className="space-y-12">
+      {/* Button States */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Button States
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {interactiveStatesData.buttons.map((button, index) => (
+            <div
+              key={button.state}
+              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+            >
+              <div className="mb-4">
+                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                  {button.state.charAt(0).toUpperCase() + button.state.slice(1)} State
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  {button.description}
+                </p>
+              </div>
+              
+              <div className="mb-4 flex justify-center">
+                <button
+                  className={button.classes}
+                  disabled={button.state === "disabled"}
+                >
+                  {button.state === "disabled" ? "Disabled Button" : "Sample Button"}
+                </button>
+              </div>
+              
+              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
+                {button.classes}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Link States */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Link States
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {interactiveStatesData.links.map((link, index) => (
+            <div
+              key={link.state}
+              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+            >
+              <div className="mb-4">
+                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                  {link.state.charAt(0).toUpperCase() + link.state.slice(1)} State
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  {link.description}
+                </p>
+              </div>
+              
+              <div className="mb-4 flex justify-center">
+                <a href="#" className={link.classes} onClick={(e) => e.preventDefault()}>
+                  Sample Link Text
+                </a>
+              </div>
+              
+              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
+                {link.classes}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Input States */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Input States
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {interactiveStatesData.inputs.map((input, index) => (
+            <div
+              key={input.state}
+              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+            >
+              <div className="mb-4">
+                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                  {input.state.charAt(0).toUpperCase() + input.state.slice(1)} State
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  {input.description}
+                </p>
+              </div>
+              
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder={`${input.state} input example`}
+                  className={input.classes}
+                  disabled={input.state === "disabled"}
+                />
+              </div>
+              
+              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
+                {input.classes}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Loading States */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+          Loading States
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
+              Spinner Loading
+            </h4>
+            <div className="flex justify-center mb-4">
+              <Loading />
+            </div>
+            <div className="text-xs text-slate-600 dark:text-slate-400">
+              Standard loading component with spinner
+            </div>
+          </div>
+          
+          <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
+              Button Loading
+            </h4>
+            <div className="flex justify-center mb-4">
+              <button className="bg-slate-900 text-white px-4 py-2 rounded-lg flex items-center space-x-2 cursor-not-allowed">
+                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Loading...</span>
+              </button>
+            </div>
+            <div className="text-xs text-slate-600 dark:text-slate-400">
+              Button with inline loading spinner
+            </div>
+          </div>
+
+          <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
+              Skeleton Loading
+            </h4>
+            <div className="space-y-3 mb-4">
+              <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 rounded"></div>
+              <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 rounded w-3/4"></div>
+              <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 rounded w-1/2"></div>
+            </div>
+            <div className="text-xs text-slate-600 dark:text-slate-400">
+              Skeleton placeholder for content loading
+            </div>
           </div>
         </div>
       </div>
@@ -516,176 +1295,195 @@ const StyleguidePage = () => {
 
   const renderComponents = () => {
     // Flatten all components into a single array for bento grid
-    const allComponents = componentSections.flatMap(section => 
-      section.components.map(component => ({
+    const allComponents = componentSections.flatMap((section) =>
+      section.components.map((component) => ({
         ...component,
-        category: section.title
-      }))
+        category: section.title,
+      })),
     );
 
-    // Define optimal sizes for each component based on content needs
+    // Define optimal sizes for each component based on content needs and visual hierarchy
     const getComponentSize = (componentName) => {
       const sizeMap = {
+        // Hero (3x2) - Most important/complex components
+        ProductListItem: "hero",
+        CartItem: "hero",
+
         // Large (2x2) - Complex components that need space
-        'ProductListItem': 'large',
-        'CartItem': 'large', 
-        'Accordion': 'large',
-        'FadeInSection': 'large',
+        Accordion: "large",
+        FadeInSection: "large",
+        CategoryListItem: "large",
 
         // Wide (2x1) - Horizontally oriented components
-        'Button': 'wide',
-        'Badge': 'wide',
-        'SearchField': 'wide',
-        'TextField': 'wide',
-        'EmailField': 'wide', 
-        'PasswordField': 'wide',
-        'AssortmentBreadcrumbs': 'wide',
+        Button: "wide",
+        Badge: "wide",
+        SearchField: "wide",
+        TextField: "wide",
+        EmailField: "wide",
+        PasswordField: "wide",
+        AssortmentBreadcrumbs: "wide",
+        AddToCartButton: "wide",
 
         // Tall (1x2) - Vertically oriented components
-        'Toggle': 'tall',
-        'CategoryListItem': 'tall',
-        'AddToCartButton': 'tall',
-        'StatusInformation': 'tall',
+        Toggle: "tall",
+        StatusInformation: "tall",
+        NoData: "tall",
+
+        // Medium (1.5x1.5) - Moderately complex
+        ThemeToggle: "medium",
+        SelectField: "medium",
 
         // Regular (1x1) - Simple components
-        'Loading': 'regular',
-        'AnimatedCheckmark': 'regular',
-        'CountUpAnimation': 'regular',
-        'NoData': 'regular',
-        'ErrorMessage': 'regular',
-        'Formatted Price': 'regular'
+        Loading: "regular",
+        AnimatedCheckmark: "regular",
+        CountUpAnimation: "regular",
+        ErrorMessage: "regular",
+        "Formatted Price": "regular",
       };
-      return sizeMap[componentName] || 'regular';
+      return sizeMap[componentName] || "regular";
     };
 
     // Component code examples
     const getCodeExamples = (componentName) => {
       const codeMap = {
-        'Button': [
+        Button: [
           '<Button text="Primary Button" />',
           '<Button text="Secondary" variant="secondary" />',
-          '<Button text="Disabled" disabled />'
+          '<Button text="Disabled" disabled />',
         ],
-        'Badge': [
-          '<Badge text="Default" />',
-          '<Badge text="Error" color="red" />',
-          '<Badge text="Success" color="green" />',
-          '<Badge text="Warning" color="yellow" />'
+        Badge: [
+          '<Badge text="Active" color="green" dotted />',
+          '<Badge text="Draft" color="yellow" dotted />',
+          '<Badge text="Inactive" color="red" dotted />',
+          '<Badge text="Pending" color="blue" dotted />',
         ],
-        'Toggle': [
-          '<Toggle checked={state} onChange={setState} />',
-          '<ThemeToggle />'
+        Toggle: [
+          "<Toggle checked={state} onChange={setState} />",
+          "<ThemeToggle />",
         ],
-        'Loading': [
-          '<Loading />'
+        Loading: ["<Loading />"],
+        TextField: ['<TextField name="sample" placeholder="Enter text..." />'],
+        EmailField: [
+          '<EmailField name="email" placeholder="Enter email..." />',
         ],
-        'TextField': [
-          '<TextField name="sample" placeholder="Enter text..." />'
+        PasswordField: [
+          '<PasswordField name="password" placeholder="Enter password..." />',
         ],
-        'EmailField': [
-          '<EmailField name="email" placeholder="Enter email..." />'
+        SearchField: ["<SearchField value={value} onChange={onChange} />"],
+        AnimatedCheckmark: [
+          "<AnimatedCheckmark size={24} />",
+          "<AnimatedCheckmark size={32} delay={500} />",
         ],
-        'PasswordField': [
-          '<PasswordField name="password" placeholder="Enter password..." />'
+        CountUpAnimation: [
+          "<CountUpAnimation end={100} duration={2000} />",
+          "<CountUpAnimation end={99.99} decimals={2} />",
         ],
-        'SearchField': [
-          '<SearchField value={value} onChange={onChange} />'
+        FadeInSection: [
+          "<FadeInSection>\n  <div>Content</div>\n</FadeInSection>",
         ],
-        'AnimatedCheckmark': [
-          '<AnimatedCheckmark size={24} />',
-          '<AnimatedCheckmark size={32} delay={500} />'
+        Accordion: [
+          '<Accordion title="Click to expand">\n  Content\n</Accordion>',
         ],
-        'CountUpAnimation': [
-          '<CountUpAnimation end={100} duration={2000} />',
-          '<CountUpAnimation end={99.99} decimals={2} />'
+        ProductListItem: ["<ProductListItem product={productData} />"],
+        CartItem: ["<CartItem item={cartItemData} />"],
+        AddToCartButton: ["<AddToCartButton productId={productId} />"],
+        CategoryListItem: ["<CategoryListItem category={categoryData} />"],
+        AssortmentBreadcrumbs: [
+          "<AssortmentBreadcrumbs assortment={assortmentData} />",
         ],
-        'FadeInSection': [
-          '<FadeInSection>\n  <div>Content</div>\n</FadeInSection>'
-        ],
-        'Accordion': [
-          '<Accordion title="Click to expand">\n  Content\n</Accordion>'
-        ],
-        'ProductListItem': [
-          '<ProductListItem product={productData} />'
-        ],
-        'CartItem': [
-          '<CartItem item={cartItemData} />'
-        ],
-        'AddToCartButton': [
-          '<AddToCartButton productId={productId} />'
-        ],
-        'CategoryListItem': [
-          '<CategoryListItem category={categoryData} />'
-        ],
-        'AssortmentBreadcrumbs': [
-          '<AssortmentBreadcrumbs assortment={assortmentData} />'
-        ],
-        'NoData': [
-          '<NoData />'
-        ],
-        'ErrorMessage': [
-          '<ErrorMessage error="Something went wrong" />'
-        ],
-        'StatusInformation': [
-          '<StatusInformation message="Order confirmed" />'
-        ],
-        'Formatted Price': [
-          '<FormattedPrice price={priceObject} />'
-        ]
+        NoData: ["<NoData />"],
+        ErrorMessage: ['<ErrorMessage message="Something went wrong" />'],
+        StatusInformation: ['<StatusInformation message="Order confirmed" />'],
+        "Formatted Price": ["<FormattedPrice price={priceObject} />"],
       };
-      return codeMap[componentName] || ['<' + componentName + ' />'];
+      return codeMap[componentName] || ["<" + componentName + " />"];
     };
 
+    // Sort components for better visual flow
+    const sortedComponents = allComponents.sort((a, b) => {
+      const sizeOrder = { hero: 0, large: 1, wide: 2, medium: 3, tall: 4, regular: 5 };
+      const aSize = getComponentSize(a.name);
+      const bSize = getComponentSize(b.name);
+      return sizeOrder[aSize] - sizeOrder[bSize];
+    });
+
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-max">
-        {allComponents.map((component, index) => {
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 auto-rows-max">
+        {sortedComponents.map((component, index) => {
           const size = getComponentSize(component.name);
-          
-          // Apply grid classes based on component content needs
+
+          // Apply grid classes based on component content needs with enhanced sizing
           const gridClasses = {
-            'large': 'md:col-span-2 md:row-span-2',
-            'wide': 'md:col-span-2',
-            'tall': 'md:row-span-2',
-            'regular': ''
+            hero: "md:col-span-2 lg:col-span-3 md:row-span-2",
+            large: "md:col-span-2 md:row-span-2",
+            wide: "md:col-span-2 lg:col-span-2",
+            medium: "md:col-span-1 lg:col-span-2 md:row-span-1",
+            tall: "md:row-span-2",
+            regular: "",
           }[size];
 
-          const isLarge = size === 'large';
+          const isLarge = size === "large" || size === "hero";
+          const isHero = size === "hero";
           const codeExamples = getCodeExamples(component.name);
 
           return (
-            <div 
-              key={`${component.category}-${component.name}`} 
-              className={`border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 rounded-lg p-4 ${gridClasses} flex flex-col`}
+            <div
+              key={`${component.category}-${component.name}`}
+              className={`border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg ${isHero ? "p-6" : "p-4"} ${gridClasses} flex flex-col transition-all duration-200 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700`}
             >
               <div className="flex-shrink-0 mb-3">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-sm font-semibold text-slate-900 dark:text-white">{component.name}</h4>
-                  <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 rounded-full">
-                    {component.category.split(' ')[0]}
+                  <h4 className={`font-semibold text-slate-900 dark:text-white ${isHero ? "text-base" : "text-sm"}`}>
+                    {component.name}
+                  </h4>
+                  <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">
+                    {component.category.split(" ")[0]}
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-zinc-400 line-clamp-2">{component.description}</p>
+                <p className={`text-slate-500 dark:text-slate-400 line-clamp-2 ${isHero ? "text-sm" : "text-xs"}`}>
+                  {component.description}
+                </p>
               </div>
-              
+
               <div className="flex-1 flex flex-col justify-center">
-                <div className={`flex flex-wrap items-center gap-2 mb-3 ${isLarge ? 'justify-center' : 'justify-start'}`}>
-                  {component.examples.slice(0, isLarge ? component.examples.length : (size === 'wide' ? 3 : 2))}
+                <div
+                  className={`flex flex-wrap items-center gap-3 mb-4 ${isLarge ? "justify-center" : "justify-start"} ${isHero ? "min-h-[120px]" : ""}`}
+                >
+                  {component.examples.slice(
+                    0,
+                    isHero
+                      ? component.examples.length
+                      : isLarge
+                        ? component.examples.length
+                        : size === "wide" || size === "medium"
+                          ? 2
+                          : 1,
+                  )}
                 </div>
-                {component.examples.length > (size === 'wide' ? 3 : 2) && !isLarge && (
-                  <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
-                    +{component.examples.length - (size === 'wide' ? 3 : 2)} more variants
+                {component.examples.length > 
+                  (isHero ? 0 : isLarge ? 0 : size === "wide" || size === "medium" ? 2 : 1) &&
+                  !isHero && !isLarge && (
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 text-center">
+                      +{component.examples.length - (size === "wide" || size === "medium" ? 2 : 1)}{" "}
+                      more variants
+                    </div>
+                  )}
+
+                {/* Code Examples - Only show for larger components */}
+                {(isHero || isLarge || size === "wide") && (
+                  <div className="mt-auto">
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">
+                      Usage Examples:
+                    </div>
+                    <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-3 overflow-x-auto">
+                      <code className={`font-mono text-slate-700 dark:text-slate-300 whitespace-pre leading-relaxed ${isHero ? "text-sm" : "text-xs"}`}>
+                        {isHero || isLarge
+                          ? codeExamples.slice(0, isHero ? 4 : 3).join("\n")
+                          : codeExamples[0]}
+                      </code>
+                    </div>
                   </div>
                 )}
-                
-                {/* Code Examples */}
-                <div className="mt-auto">
-                  <div className="text-xs text-slate-500 dark:text-zinc-400 mb-1">Usage:</div>
-                  <div className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded p-3 overflow-x-auto">
-                    <code className="text-xs font-mono text-slate-700 dark:text-zinc-300 whitespace-pre leading-relaxed">
-                      {isLarge ? codeExamples.slice(0, 3).join('\n') : codeExamples[0]}
-                    </code>
-                  </div>
-                </div>
               </div>
             </div>
           );
@@ -695,21 +1493,26 @@ const StyleguidePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">Design System Styleguide</h1>
-              <p className="text-slate-600 dark:text-zinc-400">
-                Complete overview of components and colors used in the Unchained Storefront
+              <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
+                Design System Styleguide
+              </h1>
+              <p className="text-slate-600 dark:text-slate-400">
+                Complete overview of components and colors used in the Unchained
+                Storefront
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-slate-600 dark:text-zinc-400">Theme:</span>
+              <span className="text-sm text-slate-600 dark:text-slate-400">
+                Theme:
+              </span>
               <button
                 type="button"
-                className="p-2 rounded-lg border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors"
+                className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 onClick={handleThemeToggle}
                 title="Toggle theme"
               >
@@ -724,37 +1527,70 @@ const StyleguidePage = () => {
         </div>
 
         <div className="mb-8">
-          <div className="border-b border-slate-200 dark:border-zinc-800">
+          <div className="border-b border-slate-200 dark:border-slate-800">
             <nav className="-mb-px flex space-x-8">
               <button
-                onClick={() => setSelectedTab('components')}
+                onClick={() => setSelectedTab("components")}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  selectedTab === 'components'
-                    ? 'border-slate-500 dark:border-zinc-400 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-300'
+                  selectedTab === "components"
+                    ? "border-slate-500 dark:border-0 text-slate-900 dark:text-white"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
                 }`}
               >
                 Components
               </button>
               <button
-                onClick={() => setSelectedTab('colors')}
+                onClick={() => setSelectedTab("typography")}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  selectedTab === 'colors'
-                    ? 'border-slate-500 dark:border-zinc-400 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-300'
+                  selectedTab === "typography"
+                    ? "border-slate-500 dark:border-0 text-slate-900 dark:text-white"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                }`}
+              >
+                Typography
+              </button>
+              <button
+                onClick={() => setSelectedTab("colors")}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  selectedTab === "colors"
+                    ? "border-slate-500 dark:border-0 text-slate-900 dark:text-white"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
                 }`}
               >
                 Colors & Usage
+              </button>
+              <button
+                onClick={() => setSelectedTab("spacing")}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  selectedTab === "spacing"
+                    ? "border-slate-500 dark:border-0 text-slate-900 dark:text-white"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                }`}
+              >
+                Spacing & Layout
+              </button>
+              <button
+                onClick={() => setSelectedTab("interactive")}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  selectedTab === "interactive"
+                    ? "border-slate-500 dark:border-0 text-slate-900 dark:text-white"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                }`}
+              >
+                Interactive States
               </button>
             </nav>
           </div>
         </div>
 
-        {selectedTab === 'components' ? renderComponents() : renderColorPalette()}
+        {selectedTab === "components" && renderComponents()}
+        {selectedTab === "typography" && renderTypography()}
+        {selectedTab === "colors" && renderColorPalette()}
+        {selectedTab === "spacing" && renderSpacingAndLayout()}
+        {selectedTab === "interactive" && renderInteractiveStates()}
       </div>
     </div>
   );
 };
-
 
 export default StyleguidePage;

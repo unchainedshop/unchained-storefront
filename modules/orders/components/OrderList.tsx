@@ -6,7 +6,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="bg-white dark:bg-slate-600">
+    <div className="bg-white dark:bg-slate-950">
       <div className="mx-4 max-w-full px-4 pt-16 sm:px-6 lg:px-8">
         <div className="max-w-full">
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">

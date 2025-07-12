@@ -22,12 +22,12 @@ const OrderDetailHeader = ({ order }) => {
       </div>
 
       {/* Customer Details */}
-      <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+      <div className="pt-4 border-t border-slate-200 dark:border-0">
         <DetailHeader user={order?.user} contact={order?.contact} />
       </div>
 
       {/* Order Date & Currency */}
-      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-0">
         <div>
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
             Order Date

@@ -9,9 +9,9 @@ const CategoryListItem = ({ category }) => {
 
   return (
     <Link href={`shop/${category.texts.slug}`} className="group block">
-      <div className="bg-white dark:bg-slate-800 transition-all duration-300">
+      <div className="bg-white dark:bg-slate-950 transition-all duration-300">
         {/* Image Container */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-slate-50 dark:bg-slate-800 rounded-md mb-4">
+        <div className="relative aspect-[4/3] overflow-hidden bg-slate-50 dark:bg-slate-900 rounded-md mb-4">
           {mediaUrl ? (
             <Image
               src={mediaUrl}

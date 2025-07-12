@@ -250,7 +250,7 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
       </div>
 
-      <div className="border-t border-t-slate-50 dark:border-t-slate-700 mt-3 -mx-6 -mb-6 bg-slate-50 dark:bg-slate-800 flex flex-shrink-0 items-center justify-end space-x-4 pr-5">
+      <div className="border-t border-t-slate-50 dark:border-t-slate-700 mt-3 -mx-6 -mb-6 bg-slate-50 dark:bg-slate-900 flex flex-shrink-0 items-center justify-end space-x-4 pr-5">
         {isEdit ? (
           <SaveAndCancelButtons onCancel={() => setIsEdit(!isEdit)} />
         ) : null}

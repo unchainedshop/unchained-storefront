@@ -38,7 +38,7 @@ const CheckoutContact = ({ cart, isInitial }) => {
   const toggleEditMode = () => setEditMode(!editMode);
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-600">
+    <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-medium text-slate-900 dark:text-white">
           {formatMessage({

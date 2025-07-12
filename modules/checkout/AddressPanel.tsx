@@ -24,7 +24,7 @@ const formatAddress = ({
 const AddressPanel = ({ address, onEdit }) => {
   const { formatMessage } = useIntl();
   return (
-    <div className="mt-4">
+    <div className="mt-4 dark:text-slate-200">
       <div style={{ whiteSpace: "pre-wrap" }}>{formatAddress(address)}</div>
     </div>
   );

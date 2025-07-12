@@ -15,7 +15,7 @@ const CategoriesList = ({
   const [tree]: categoryItem[] =
     Object.entries(assortment).map(([, assort]) => assort) || [];
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-6 shadow-sm">
       <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
         {tree?.navigationTitle}
       </h3>

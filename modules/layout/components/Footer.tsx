@@ -23,7 +23,7 @@ const Footer = () => {
   return (
     <footer
       aria-labelledby="footer-heading"
-      className="container mx-auto bg-white dark:bg-slate-600 print:hidden"
+      className="container mx-auto bg-white dark:bg-slate-950 print:hidden"
     >
       <h2 id="footer-heading" className="sr-only">
         {formatMessage({ id: "footer", defaultMessage: "Footer" })}
@@ -118,7 +118,7 @@ const Footer = () => {
             </div>
 
             <div className="border-slate-200">
-              <div className="flex items-center text-base text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200">
+              <div className="flex items-center text-base text-slate-400 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-200">
                 <LanguageSwitch />
               </div>
             </div>

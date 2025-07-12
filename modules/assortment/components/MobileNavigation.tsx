@@ -42,7 +42,7 @@ const Subtree = ({
   return Object.keys(children).length ? (
     <div
       key={pageId}
-      className="border-b border-slate-200 dark:border-slate-700"
+      className="border-b border-slate-200 dark:border-0"
     >
       <button
         aria-label="Expand"
@@ -71,7 +71,7 @@ const Subtree = ({
         </div>
       </button>
       {showSubtree && (
-        <div className="bg-slate-50 dark:bg-slate-800/50">
+        <div className="bg-slate-50 dark:bg-slate-900/50">
           <Link
             href={createPathFromArray(path)}
             className={`block p-3 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-200 ${levelPadding[level + 1] || "pl-8"}`}
@@ -102,7 +102,7 @@ const Subtree = ({
   ) : (
     <Link
       href={createPathFromArray(path)}
-      className={`flex items-center gap-3 p-4 transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-200 dark:border-slate-700 ${levelPadding[level] || "pl-4"}`}
+      className={`flex items-center gap-3 p-4 transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-200 dark:border-0 ${levelPadding[level] || "pl-4"}`}
     >
       {media?.length > 0 && (
         <div className="flex-shrink-0">
@@ -133,10 +133,10 @@ const MobileNavigation = ({ doClose, isNavOpen }) => {
       </button>
       <nav
         id="menu"
-        className="bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+        className="bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-0 overflow-hidden"
       >
         <div className="relative">
-          <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+          <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-0 bg-slate-50 dark:bg-slate-900">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
               Categories
             </h2>
@@ -169,7 +169,7 @@ const MobileNavigation = ({ doClose, isNavOpen }) => {
           </div>
         </div>
 
-        <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+        <div className="p-4 border-t border-slate-200 dark:border-0 bg-slate-50 dark:bg-slate-900">
           <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
             Languages
           </h3>
