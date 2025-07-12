@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({
         hasHeroSection={hasHeroSection}
         heroSectionId={heroSectionId}
       />
-      <main className="container mx-auto mb-6 sm:mb-16 px-4 sm:px-6 lg:px-8">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8">
         {children}
       </main>
       <Footer />

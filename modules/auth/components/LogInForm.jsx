@@ -286,13 +286,11 @@ const LogInForm = () => {
                   id: "dont-have-account",
                   defaultMessage: `Don't have an account?`,
                 })}
-                <Link href="/sign-up">
-                  <a className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-slate-800 ">
-                    {formatMessage({
-                      id: "join-now",
-                      defaultMessage: "Join now",
-                    })}
-                  </a>
+                <Link href="/sign-up" className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-slate-800 ">
+                  {formatMessage({
+                    id: "join-now",
+                    defaultMessage: "Join now",
+                  })}
                 </Link>
               </div>
             </div>

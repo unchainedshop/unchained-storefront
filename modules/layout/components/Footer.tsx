@@ -24,14 +24,14 @@ const getFooterNavigation = (formatMessage) => ({
   legal: [
     {
       name: formatMessage({
-        id: "terms_conditions",
+        id: "terms_and_conditions",
         defaultMessage: "Terms & Conditions",
       }),
       href: "/terms-conditions",
     },
     {
       name: formatMessage({
-        id: "privacy_policy",
+        id: "privacy",
         defaultMessage: "Privacy Policy",
       }),
       href: "/privacy-policy",
@@ -47,15 +47,15 @@ const Footer = () => {
   return (
     <footer
       aria-labelledby="footer-heading"
-      className="container mx-auto bg-white dark:bg-slate-950 print:hidden"
+      className="border-slate-200 border-t my-16 container mx-auto bg-white dark:bg-slate-950 print:hidden"
     >
       <h2 id="footer-heading" className="sr-only">
         {formatMessage({ id: "footer", defaultMessage: "Footer" })}
       </h2>
 
       <div className="max-w-full px-6 lg:px-8 mx-auto">
-        <div className="pt-8">
-          <div className="border-t border-slate-200">
+        <div className="pt-16">
+          <div className="">
             <div className="flex max-w-full space-x-6">
               {footerNavigation.social.map((item) => (
                 <a
