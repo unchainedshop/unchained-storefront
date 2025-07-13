@@ -2,10 +2,11 @@
 import Link from "next/link";
 import { useIntl } from "react-intl";
 import {
-  IdentificationIcon,
-  KeyIcon,
   UserCircleIcon,
-} from "@heroicons/react/20/solid";
+  KeyIcon,
+  EnvelopeIcon,
+  MapPinIcon,
+} from "@heroicons/react/24/outline";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import useUser from "../../modules/auth/hooks/useUser";
@@ -18,18 +19,25 @@ import Loading from "../../modules/common/components/Loading";
 import EmailAddresses from "../../modules/auth/components/EmailAddresses";
 
 const subNavigation = [
-  { name: "General", href: "#profileview", icon: UserCircleIcon },
+  {
+    name: "General",
+    href: "#profileview",
+    icon: UserCircleIcon,
+    id: "profileview",
+  },
   {
     name: "Address",
     href: "#address",
-    icon: IdentificationIcon,
+    icon: MapPinIcon,
+    id: "address",
   },
   {
     name: "Emails",
     href: "#email",
-    icon: IdentificationIcon,
+    icon: EnvelopeIcon,
+    id: "email",
   },
-  { name: "Password", href: "#password", icon: KeyIcon },
+  { name: "Password", href: "#password", icon: KeyIcon, id: "password" },
 ];
 
 const Account = () => {
@@ -51,7 +59,7 @@ const Account = () => {
           formatMessage({ id: "account", defaultMessage: "Account" })
         }
       />
-      <div className="max-w-full bg-slate-100 pb-10 dark:bg-slate-950 lg:py-12 lg:px-8">
+      <div className="max-w-full bg-white pb-10 dark:bg-slate-950 lg:py-12 lg:px-8">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
           <aside className="h-fit py-6 px-2 sm:px-6 lg:sticky lg:top-24 lg:col-span-3 lg:py-0 lg:px-0">
             <nav className="space-y-1 lg:sticky lg:top-24">
@@ -60,25 +68,25 @@ const Account = () => {
                   href={item.href}
                   key={item.name}
                   className={classNames(
-                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 hover:text-slate-400 dark:bg-slate-950 dark:text-white dark:hover:text-slate-400",
+                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 hover:text-slate-600 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors",
                     {
-                      "bg-slate-50 text-slate-600 hover:bg-white dark:bg-slate-500 dark:text-slate-400":
-                        item.name.toLowerCase() ===
+                      "bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-white":
+                        item.id ===
                         (router.asPath.includes("#")
                           ? router.asPath.split("#")[1]
-                          : "general"),
+                          : "profileview"),
                     },
                   )}
                 >
                   <item.icon
                     className={classNames(
-                      "-ml-1 mr-3 h-6 w-6 flex-shrink-0 text-slate-400 group-hover:text-slate-400 dark:group-hover:text-slate-500",
+                      "-ml-1 mr-3 h-6 w-6 flex-shrink-0 text-slate-900 group-hover:text-slate-700 dark:text-slate-300 dark:group-hover:text-white",
                       {
-                        "text-slate-600 dark:text-slate-400":
-                          item.name.toLowerCase() ===
+                        "text-slate-900 dark:text-white":
+                          item.id ===
                           (router.asPath.includes("#")
                             ? router.asPath.split("#")[1]
-                            : "general"),
+                            : "profileview"),
                       },
                     )}
                     aria-hidden="true"
@@ -99,28 +107,47 @@ const Account = () => {
           {/* Password */}
           <section
             id="password"
-            aria-labelledby="password"
-            className="lg:col-span-9 lg:col-start-4"
+            aria-labelledby="password-heading"
+            className="space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
           >
-            <div className="mt-6 bg-white pt-6 shadow dark:bg-slate-500 sm:overflow-hidden sm:rounded-md">
-              <div className="px-4 sm:px-6">
-                <h2
-                  id="password"
-                  className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-100"
-                >
-                  {formatMessage({
-                    id: "password",
-                    defaultMessage: "Password",
-                  })}
-                </h2>
-              </div>
-              <div className="mt-6 flex flex-col">
-                <div className="overflow-x-auto">
-                  <div className="inline-block min-w-full align-middle sm:px-6 lg:px-8">
-                    <div className="overflow-hidden border-t border-slate-200 py-8">
+            <div className="shadow sm:overflow-hidden sm:rounded-md">
+              <div className="bg-white py-6 px-4 dark:bg-slate-900 dark:text-slate-200 sm:p-6">
+                <div>
+                  <h3
+                    id="password-heading"
+                    className="text-lg font-medium leading-6 text-slate-900 dark:text-white"
+                  >
+                    {formatMessage({
+                      id: "password",
+                      defaultMessage: "Password",
+                    })}
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                    {formatMessage({
+                      id: "password_description",
+                      defaultMessage:
+                        "Manage your account password and security settings.",
+                    })}
+                  </p>
+                </div>
+
+                <div className="mt-6">
+                  <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">
+                          {formatMessage({
+                            id: "current_password",
+                            defaultMessage: "Current Password",
+                          })}
+                        </p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          ••••••••••
+                        </p>
+                      </div>
                       <Link
                         href="account/change-password"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+                        className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
                       >
                         {formatMessage({
                           id: "change_password",

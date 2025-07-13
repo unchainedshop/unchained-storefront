@@ -108,13 +108,13 @@ const ChangePassword = () => {
           defaultMessage: "Update Password",
         })}
       />
-      <div className="bg-slate-100 dark:bg-slate-950">
+      <div className="bg-white dark:bg-slate-950">
         <div className="mx-auto mt-5 w-full p-10 sm:max-w-md md:max-w-lg lg:max-w-xl">
-          <div className="rounded-lg border bg-white p-4 shadow-xs dark:bg-slate-500">
+          <div className="rounded-lg p-4 shadow-xs dark:bg-slate-500">
             <div>
-              <KeyIcon className="mx-auto h-24 w-24 text-slate-600 dark:text-white" />
+              <KeyIcon className="mx-auto mb-3 h-8 w-8 text-slate-900 dark:text-white" />
             </div>
-            <h1 className="text-center text-3xl font-semibold text-slate-600 dark:text-slate-300">
+            <h1 className="text-center text-3xl font-semibold text-slate-900 dark:text-slate-300">
               {formatMessage({
                 id: "change_password",
                 defaultMessage: "Change Password",

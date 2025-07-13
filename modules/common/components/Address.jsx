@@ -64,7 +64,7 @@ const Address = ({ user }) => {
         <Form onSubmit={onSubmit}>
           <div className="shadow sm:overflow-hidden sm:rounded-md">
             <div className="bg-white py-6 px-4 dark:bg-slate-500 dark:text-slate-200 sm:p-6">
-              <div>
+              <div className="flex items-center justify-between">
                 <h1
                   id="address-heading"
                   className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-100"
@@ -74,6 +74,18 @@ const Address = ({ user }) => {
                     defaultMessage: "Address",
                   })}
                 </h1>
+                {!updateProfile && (
+                  <Button
+                    text={formatMessage({
+                      id: "update",
+                      defaultMessage: "Update",
+                    })}
+                    type="button"
+                    onClick={() => setUpdateProfile(true)}
+                    variant="secondary"
+                    className="text-xs px-3 py-1.5 w-min"
+                  />
+                )}
               </div>
 
               <div className="mt-6 grid grid-cols-4 gap-6">
@@ -247,9 +259,9 @@ const Address = ({ user }) => {
                 </div>
               </div>
             </div>
-            <div className="bg-slate-50 px-4 py-3 text-right dark:bg-slate-400 sm:px-6">
-              {updateProfile ? (
-                <div className="flex ">
+            {updateProfile && (
+              <div className="bg-slate-50 px-4 py-3 text-right dark:bg-slate-800 sm:px-6">
+                <div className="flex justify-end space-x-3">
                   <Button
                     type="button"
                     text={formatMessage({
@@ -257,26 +269,18 @@ const Address = ({ user }) => {
                       defaultMessage: "Cancel",
                     })}
                     onClick={onProfileUpdateComplete}
-                    className=" bg-white sm:text-black text-black hover:bg-slate-200"
+                    variant="secondary"
+                    className="text-sm px-3 py-1.5"
                   />
-                  <SubmitButton>
+                  <SubmitButton className="text-sm px-3 py-1.5">
                     {formatMessage({
                       id: "save",
                       defaultMessage: "Save",
                     })}
                   </SubmitButton>
                 </div>
-              ) : (
-                <Button
-                  text={formatMessage({
-                    id: "update",
-                    defaultMessage: "update",
-                  })}
-                  type="button"
-                  onClick={() => setUpdateProfile(true)}
-                />
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </Form>
       </div>
