@@ -74,8 +74,8 @@ const Footer = () => {
         {formatMessage({ id: "footer", defaultMessage: "Footer" })}
       </h2>
 
-      <div className="max-w-full px-6 lg:px-8 mx-auto">
-        <div className="flex max-w-full space-x-6">
+      <div className="px-6 lg:px-8 mx-auto">
+        <div className="flex space-x-6">
           {footerNavigation.social.map((item) => (
             <a
               key={item.name}
@@ -251,7 +251,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
       </div>
     </footer>
   );

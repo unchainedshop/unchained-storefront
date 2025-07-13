@@ -77,7 +77,7 @@ const Home = () => {
 
         {/* Categories Section */}
         <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <div className="px-4 sm:px-6 lg:px-8 mb-12">
             <div className="text-center">
               <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
@@ -96,12 +96,12 @@ const Home = () => {
           </div>
 
           {assortmentsLoading ? (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="px-4 sm:px-6 lg:px-8">
               <Loading />
             </div>
           ) : (
             <div className="w-screen ml-[calc(-50vw+50%)] overflow-x-auto scrollbar-hide pb-4">
-              <div className="flex gap-6 scroll-smooth pl-4 xl:pl-[max(calc((100vw-80rem)/2))] pr-4 sm:pr-6 lg:pr-8">
+              <div className="flex gap-6 scroll-smooth pl-4 pr-4 sm:pr-6 lg:pr-8">
                 {assortments.map((category) => (
                   <div
                     key={category._id}
@@ -117,7 +117,7 @@ const Home = () => {
 
         {/* Products Section */}
         <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900">
-          <div className="max-w-7xl mx-auto">
+          <div className="container px-6 lg:px-8 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({

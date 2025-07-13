@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
           : "border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-900 dark:bg-slate-950/95"
       }`}
     >
-      <div className="relative">
+      <div className="relative container mx-auto">
         <div className="grid h-16 grid-cols-3 items-center px-4">
           <div className="flex justify-start">
             <button
