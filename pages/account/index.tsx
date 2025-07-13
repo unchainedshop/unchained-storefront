@@ -59,7 +59,7 @@ const Account = () => {
           formatMessage({ id: "account", defaultMessage: "Account" })
         }
       />
-      <div className="max-w-full bg-white pb-10 dark:bg-slate-950 lg:py-12 lg:px-8">
+      <div className="max-w-full bg-white pb-10 dark:bg-slate-950 lg:py-12">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
           <aside className="h-fit py-6 px-2 sm:px-6 lg:sticky lg:top-24 lg:col-span-3 lg:py-0 lg:px-0">
             <nav className="space-y-1 lg:sticky lg:top-24">
@@ -108,7 +108,7 @@ const Account = () => {
           <section
             id="password"
             aria-labelledby="password-heading"
-            className="space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+            className="mt-10 space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
           >
             <div className="shadow sm:overflow-hidden sm:rounded-md">
               <div className="bg-white py-6 px-4 dark:bg-slate-900 dark:text-slate-200 sm:p-6">

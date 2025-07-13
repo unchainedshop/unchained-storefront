@@ -39,7 +39,7 @@ const EmailAddresses = ({ emails }) => {
   return (
     <section
       id="email"
-      className="space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="mt-10 space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
       aria-labelledby="email-addresses-heading"
     >
       <div className="shadow sm:overflow-hidden sm:rounded-md">

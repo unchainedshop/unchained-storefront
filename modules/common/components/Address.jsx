@@ -58,7 +58,7 @@ const Address = ({ user }) => {
     <section
       id="address"
       aria-labelledby="address"
-      className="pt-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="mt-10 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
     >
       <div className="space-y-6 ">
         <Form onSubmit={onSubmit}>
