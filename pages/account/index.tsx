@@ -41,7 +41,7 @@ const subNavigation = [
 ];
 
 const Account = () => {
-  const { user, loading } = useUser();
+  const { user, loading, error } = useUser();
   const router = useRouter();
   const { formatMessage } = useIntl();
 
@@ -49,6 +49,28 @@ const Account = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (error) {
+    console.error('Account page error:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">
+        <div className="max-w-md w-full text-center">
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+            {formatMessage({ id: "error_loading_account", defaultMessage: "Error Loading Account" })}
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            {error.message || formatMessage({ id: "generic_error", defaultMessage: "Something went wrong. Please try again." })}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
+          >
+            {formatMessage({ id: "reload_page", defaultMessage: "Reload Page" })}
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

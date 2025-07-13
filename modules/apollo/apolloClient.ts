@@ -16,14 +16,21 @@ export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient;
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  if (graphQLErrors) {
+    console.error('[GraphQL Errors]:', graphQLErrors);
+    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)}, Extensions: ${JSON.stringify(extensions)}`,
+      );
+      console.error('Operation:', operation.operationName, operation.query.loc?.source?.body);
+    });
+  }
+  if (networkError) {
+    console.error(`[Network error]:`, networkError);
+    console.error('Operation:', operation.operationName);
+    console.error('Variables:', operation.variables);
+  }
 });
 
 const uri =
