@@ -47,13 +47,13 @@ const Home = () => {
             <div className="absolute inset-0 bg-slate-950 bg-opacity-30" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="container mx-auto px-2 text-center text-white">
-                <h1 className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+                <h1 className="mb-4 text-4xl text-white/50 font-semibold tracking-tight sm:text-5xl">
                   {formatMessage({
                     id: "hero_title",
                     defaultMessage: "Ecommerce Starter Template",
                   })}
                 </h1>
-                <p className="mb-8 text-lg sm:text-xl">
+                <p className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl">
                   {formatMessage({
                     id: "hero_subtitle",
                     defaultMessage: "Powered by Unchained and Next.js",
@@ -63,7 +63,7 @@ const Home = () => {
                   href="https://github.com/unchainedshop/storefront"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-slate-900 bg-white hover:bg-slate-50 transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  className="mt-4 inline-flex items-center px-3 py-1.5 text-base font-medium rounded-md text-slate-50 hover:text-white border-2 border-slate-800 hover:border-slate-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
                 >
                   {formatMessage({
                     id: "view_on_github",

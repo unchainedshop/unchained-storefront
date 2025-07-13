@@ -63,7 +63,7 @@ const CartItem = ({
 
   return (
     <li
-      className="flex pb-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 transition-all duration-200 hover:bg-slate-100 hover:scale-[1.01] dark:hover:bg-slate-700"
+      className="flex pb-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 transition-all duration-200 hover:scale-[1.01]"
       key={_id}
     >
       <div className="relative h-20 w-20 flex-shrink-0 rounded-md overflow-hidden shadow-sm">
@@ -127,7 +127,7 @@ const CartItem = ({
                 <div className="flex items-end justify-center gap-1">
                   <button
                     type="button"
-                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-0 dark:text-slate-200 dark:hover:bg-slate-600"
+                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-0 dark:text-slate-200"
                     aria-label="Decrease cart item"
                     disabled={currentQuantity === 1}
                     onClick={() =>
@@ -148,7 +148,7 @@ const CartItem = ({
                     value={currentQuantity}
                   />
                   <button
-                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:text-slate-200 dark:hover:bg-slate-600"
+                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:text-slate-200 dark:hover:bg-slate-600"
                     aria-label="Increase cart item"
                     type="button"
                     onClick={() =>

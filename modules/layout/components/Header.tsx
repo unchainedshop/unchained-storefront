@@ -60,96 +60,45 @@ const Header: React.FC<HeaderProps> = ({
       }`}
     >
       <div className="relative">
-        {/* Desktop Header */}
-        <div className="hidden lg:block">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid h-16 grid-cols-3 items-center">
-              <div className="flex justify-start">
-                <button
-                  type="button"
-                  aria-label="menu"
-                  className={`rounded-md p-2 transition-all duration-200 ${
-                    isHeroMode
-                      ? "text-white"
-                      : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
-                  }`}
-                  onClick={onSidebarToggle}
-                >
-                  <Bars3Icon className="h-6 w-6" />
-                </button>
-              </div>
-
-              <div className="flex justify-center uppercase">
-                <Link
-                  href="/"
-                  className={`text-xl font-semibold transition-colors duration-200 ${
-                    isHeroMode ? "text-white" : "text-slate-900 dark:text-white"
-                  }`}
-                >
-                  {formatMessage({
-                    id: "shop_title",
-                    defaultMessage: "Unchained Store",
-                  })}
-                </Link>
-              </div>
-
-              <div className="flex justify-end">
-                <div
-                  className={
-                    isHeroMode
-                      ? "text-white [&_*]:text-white [&_button]:text-white/80 [&_button:hover]:text-white [&_a]:text-white/80 [&_a:hover]:text-white"
-                      : ""
-                  }
-                >
-                  <LoginCart />
-                </div>
-              </div>
-            </div>
+        <div className="grid h-16 grid-cols-3 items-center px-4">
+          <div className="flex justify-start">
+            <button
+              type="button"
+              aria-label="menu"
+              className={`rounded-md p-2 transition-all duration-200 ${
+                isHeroMode
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+              }`}
+              onClick={onSidebarToggle}
+            >
+              <Bars3Icon className="h-6 w-6" />
+            </button>
           </div>
-        </div>
 
-        {/* Mobile Header */}
-        <div className="lg:hidden">
-          <div className="grid h-16 grid-cols-3 items-center px-4">
-            <div className="flex justify-start">
-              <button
-                type="button"
-                aria-label="menu"
-                className={`rounded-md p-2 transition-all duration-200 ${
-                  isHeroMode
-                    ? "text-white/80 hover:bg-white/10 hover:text-white"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
-                }`}
-                onClick={onSidebarToggle}
-              >
-                <Bars3Icon className="h-6 w-6" />
-              </button>
-            </div>
+          <div className="flex justify-center uppercase">
+            <Link
+              href="/"
+              className={`text-md font-semibold tracking-tight transition-colors duration-200 ${
+                isHeroMode ? "text-white" : "text-slate-900 dark:text-white"
+              }`}
+            >
+              {formatMessage({
+                id: "shop_title",
+                defaultMessage: "Unchained Store",
+              })}
+            </Link>
+          </div>
 
-            <div className="flex justify-center uppercase">
-              <Link
-                href="/"
-                className={`text-md font-semibold transition-colors duration-200 ${
-                  isHeroMode ? "text-white" : "text-slate-900 dark:text-white"
-                }`}
-              >
-                {formatMessage({
-                  id: "shop_title",
-                  defaultMessage: "Unchained Store",
-                })}
-              </Link>
-            </div>
-
-            <div className="flex justify-end">
-              <div
-                className={
-                  isHeroMode
-                    ? "text-white [&_*]:text-white [&_button]:text-white/80 [&_button:hover]:text-white [&_a]:text-white/80 [&_a:hover]:text-white"
-                    : ""
-                }
-              >
-                <LoginCart />
-              </div>
+          <div className="flex justify-end">
+            <div
+              className={
+                isHeroMode
+                  ? "text-white [&_*]:text-white [&_button]:text-white/80 [&_button:hover]:text-white [&_a]:text-white/80 [&_a:hover]:text-white"
+                  : ""
+              }
+            >
+              <LoginCart />
             </div>
           </div>
         </div>
