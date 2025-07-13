@@ -37,15 +37,6 @@
   stroke: rgb(2, 6, 23) !important; /* slate-950 */
 }
 
-/* Border color compatibility styles for Tailwind CSS v4 */
-*,
-::after,
-::before,
-::backdrop,
-::file-selector-button {
-  border-color: var(--color-slate-200, currentcolor);
-}
-
 .isOpen {
   right: 0 !important;
 }

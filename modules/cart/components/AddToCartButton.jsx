@@ -103,13 +103,13 @@ const AddToCartButton = ({ productId, ...product }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <fieldset disabled={isAddInProgress}>
-        <div className="flex items-center border-slate-300 border rounded-t-md">
+      <fieldset className="flex gap-3" disabled={isAddInProgress}>
+        <div className="flex items-center border-slate-300 dark:border-slate-800 border rounded-md">
           <button
             aria-label="decrease"
             type="button"
             onClick={decreaseQuantity}
-            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tl-md flex items-center justify-center transition-all duration-200 ease-in-out"
+            className="w-20 h-9 hover:bg-white dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-md flex items-center justify-center transition-all duration-200 ease-in-out"
           >
             <span
               aria-label="minus icon"
@@ -120,7 +120,7 @@ const AddToCartButton = ({ productId, ...product }) => {
           </button>
 
           <input
-            className="text-center block w-full -my-px mx-[2px] border-slate-300 focus:ring-slate-800 sm:text-sm bg-white transition-all duration-200 ease-in-out"
+            className="rounded-md text-center block w-full py-2 -my-px mx-[2px] border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800 sm:text-sm bg-white dark:bg-slate-950 dark:text-white transition-all duration-200 ease-in-out"
             type="text"
             min={1}
             max={maxQuantity}
@@ -131,7 +131,7 @@ const AddToCartButton = ({ productId, ...product }) => {
             aria-label="increase"
             type="button"
             onClick={increaseQuantity}
-            className="w-20 h-9 hover:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-tr-md flex items-center justify-center transition-all duration-200 ease-in-out"
+            className="w-20 h-9 hover:bg-white dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-md flex items-center justify-center transition-all duration-200 ease-in-out"
           >
             <span
               aria-label="plus icon"
@@ -163,9 +163,7 @@ const AddToCartButton = ({ productId, ...product }) => {
           {isAddedToCart && !isAddInProgress && (
             <CheckCircleIcon className="h-5 w-5 animate-bounce" />
           )}
-          {isAddInProgress && (
-            <CogIcon className="h-5 w-5 animate-spin" />
-          )}
+          {isAddInProgress && <CogIcon className="h-5 w-5 animate-spin" />}
         </Button>
       </fieldset>
     </form>

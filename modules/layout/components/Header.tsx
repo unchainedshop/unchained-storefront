@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({
       className={`sticky top-0 z-[1020] transition-all duration-300 ease-in-out print:hidden ${
         isHeroMode
           ? "bg-slate-950 backdrop-blur-sm"
-          : "border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-950/95"
+          : "border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-900 dark:bg-slate-950/95"
       }`}
     >
       <div className="relative">
