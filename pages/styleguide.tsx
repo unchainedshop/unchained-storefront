@@ -1850,10 +1850,14 @@ const StyleguidePage = () => {
           const codeExamples = getCodeExamples(component.name);
 
           return (
-            <div
+            <FadeInSection
               key={`${component.category}-${component.name}`}
-              className={`border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg ${isHero ? "p-6" : "p-4"} ${gridClasses} flex flex-col transition-all duration-200 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700`}
+              delay={index * 50}
+              className={gridClasses}
             >
+              <div
+                className={`border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg ${isHero ? "p-6" : "p-4"} flex flex-col transition-all duration-200 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700 h-full`}
+              >
               <div className="flex-shrink-0 mb-3">
                 <div className="flex items-center justify-between mb-2">
                   <h4
@@ -1923,7 +1927,8 @@ const StyleguidePage = () => {
                   </div>
                 )}
               </div>
-            </div>
+              </div>
+            </FadeInSection>
           );
         })}
       </div>
