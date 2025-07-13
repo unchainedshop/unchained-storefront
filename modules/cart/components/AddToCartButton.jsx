@@ -38,7 +38,7 @@ const AddToCartButton = ({ productId, ...product }) => {
       <div
         className={`${
           t.visible ? "animate-enter" : "animate-leave"
-        } max-w-lg w-full bg-white shadow-lg rounded-lg pointer-events-auto flex animate-enter`}
+        } max-w-lg w-full bg-white border border-slate-200 dark:border-slate-700 rounded-lg pointer-events-auto flex animate-enter`}
       >
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
