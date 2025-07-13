@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-center uppercase">
                 <Link
                   href="/"
                   className={`text-xl font-semibold transition-colors duration-200 ${
@@ -126,7 +126,7 @@ const Header: React.FC<HeaderProps> = ({
               </button>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center uppercase">
               <Link
                 href="/"
                 className={`text-md font-semibold transition-colors duration-200 ${

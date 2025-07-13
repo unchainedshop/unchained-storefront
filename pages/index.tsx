@@ -50,15 +50,26 @@ const Home = () => {
                 <h1 className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                   {formatMessage({
                     id: "hero_title",
-                    defaultMessage: "Discover Amazing Products",
+                    defaultMessage: "Ecommerce Starter Template",
                   })}
                 </h1>
                 <p className="mb-8 text-lg sm:text-xl">
                   {formatMessage({
                     id: "hero_subtitle",
-                    defaultMessage: "Curated collection of the finest items",
+                    defaultMessage: "Powered by Unchained and Next.js",
                   })}
                 </p>
+                <a
+                  href="https://github.com/unchainedshop/storefront"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-slate-900 bg-white hover:bg-slate-50 transition-colors duration-200 shadow-lg hover:shadow-xl"
+                >
+                  {formatMessage({
+                    id: "view_on_github",
+                    defaultMessage: "View on GitHub",
+                  })}
+                </a>
               </div>
             </div>
           </div>

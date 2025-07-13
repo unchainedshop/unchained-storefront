@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useIntl } from "react-intl";
-import { XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  XMarkIcon,
+  ChevronRightIcon,
+  ArrowLeftIcon,
+} from "@heroicons/react/20/solid";
+import useAssortments from "../../assortment/hooks/useAssortments";
 
 interface SidebarNavigationProps {
   isOpen: boolean;
@@ -17,6 +22,13 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
   const router = useRouter();
   const [shouldRender, setShouldRender] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [currentView, setCurrentView] = useState<
+    "main" | "categories" | "category"
+  >("main");
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const { assortments, loading: assortmentsLoading } = useAssortments({
+    includeLeaves: true,
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -26,6 +38,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       return () => clearTimeout(timer);
     } else {
       setIsAnimating(false);
+      setCurrentView("main");
+      setSelectedCategory(null);
       // Delay hiding the component to allow exit animation
       const timer = setTimeout(() => setShouldRender(false), 300);
       return () => clearTimeout(timer);
@@ -44,12 +58,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       href: "/shop",
     },
     {
-      id: "styleguide",
-      label: formatMessage({
-        id: "nav_styleguide",
-        defaultMessage: "Styleguide",
-      }),
-      href: "/styleguide",
+      id: "categories",
+      label: formatMessage({ id: "categories", defaultMessage: "Categories" }),
+      href: "#",
+      isExpandable: true,
+      onClick: () => setCurrentView("categories"),
     },
     {
       id: "bookmarks",
@@ -64,7 +77,44 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       label: formatMessage({ id: "nav_account", defaultMessage: "Account" }),
       href: "/account",
     },
+    {
+      id: "styleguide",
+      label: formatMessage({
+        id: "nav_styleguide",
+        defaultMessage: "Styleguide",
+      }),
+      href: "/styleguide",
+    },
   ];
+
+  const rootCategories = assortments.filter((assortment) => assortment.isRoot);
+
+  const getChildCategories = (parentSlug: string) => {
+    return assortments.filter(
+      (child) => !child.isRoot && child.texts?.slug?.startsWith(parentSlug),
+    );
+  };
+
+  const handleCategoryClick = (category: any) => {
+    const childCategories = getChildCategories(category.texts?.slug);
+    if (childCategories.length > 0) {
+      setSelectedCategory(category);
+      setCurrentView("category");
+    } else {
+      // Navigate directly if no children
+      router.push(`/shop/${category.texts?.slug}`);
+      onClose();
+    }
+  };
+
+  const handleBackClick = () => {
+    if (currentView === "category") {
+      setCurrentView("categories");
+      setSelectedCategory(null);
+    } else if (currentView === "categories") {
+      setCurrentView("main");
+    }
+  };
 
   const isCurrentPage = (href: string) => {
     if (href === "/") {
@@ -112,39 +162,158 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
           {/* Navigation Items with staggered animation */}
           <nav
-            className={`flex-1 transition-all duration-300 delay-200 ${
+            className={`flex-1 overflow-y-auto transition-all duration-300 delay-200 ${
               isAnimating
                 ? "translate-y-0 opacity-100"
                 : "translate-y-4 opacity-0"
             }`}
           >
-            <ul className="space-y-4">
-              {navigationItems.map((item, index) => (
-                <li key={item.id}>
-                  <Link
-                    href={item.href}
-                    onClick={onClose}
-                    className={`block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out ${
-                      isCurrentPage(item.href)
-                        ? "text-slate-900 dark:text-white"
-                        : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    }`}
-                    style={{
-                      transitionDelay: isAnimating
-                        ? `${300 + index * 50}ms`
-                        : "0ms",
-                    }}
+            <div className="relative h-full">
+              {/* Main Navigation View */}
+              <div
+                className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+                  currentView === "main"
+                    ? "translate-x-0 opacity-100"
+                    : "-translate-x-full opacity-0 pointer-events-none"
+                }`}
+              >
+                <ul className="space-y-4">
+                  {navigationItems.map((item, index) => (
+                    <li key={item.id}>
+                      {item.isExpandable ? (
+                        <button
+                          onClick={item.onClick}
+                          className={`flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left ${"text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"}`}
+                          style={{
+                            transitionDelay: isAnimating
+                              ? `${300 + index * 50}ms`
+                              : "0ms",
+                          }}
+                        >
+                          <span>{item.label}</span>
+                          <ChevronRightIcon className="h-6 w-6" />
+                        </button>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          onClick={onClose}
+                          className={`block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out ${
+                            isCurrentPage(item.href)
+                              ? "text-slate-900 dark:text-white"
+                              : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                          }`}
+                          style={{
+                            transitionDelay: isAnimating
+                              ? `${300 + index * 50}ms`
+                              : "0ms",
+                          }}
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Categories View */}
+              <div
+                className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+                  currentView === "categories"
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-full opacity-0 pointer-events-none"
+                }`}
+              >
+                <div className="flex items-center mb-6">
+                  <button
+                    onClick={handleBackClick}
+                    className="p-2 mr-3 rounded-lg text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
                   >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    <ArrowLeftIcon className="h-6 w-6" />
+                  </button>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                    {formatMessage({
+                      id: "categories",
+                      defaultMessage: "Categories",
+                    })}
+                  </h2>
+                </div>
+                {!assortmentsLoading && (
+                  <ul className="space-y-4">
+                    {rootCategories.map((category, index) => (
+                      <li key={category._id}>
+                        <button
+                          onClick={() => handleCategoryClick(category)}
+                          className="flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        >
+                          <span>{category.texts?.title}</span>
+                          {getChildCategories(category.texts?.slug).length >
+                            0 && <ChevronRightIcon className="h-6 w-6" />}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {/* Child Categories View */}
+              <div
+                className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+                  currentView === "category"
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-full opacity-0 pointer-events-none"
+                }`}
+              >
+                <div className="flex items-center mb-6">
+                  <button
+                    onClick={handleBackClick}
+                    className="p-2 mr-3 rounded-lg text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
+                  >
+                    <ArrowLeftIcon className="h-6 w-6" />
+                  </button>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                    {selectedCategory?.texts?.title}
+                  </h2>
+                </div>
+                {selectedCategory && (
+                  <ul className="space-y-4">
+                    {/* Parent category link */}
+                    <li>
+                      <Link
+                        href={`/shop/${selectedCategory.texts?.slug}`}
+                        onClick={onClose}
+                        className="block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700"
+                      >
+                        {formatMessage({
+                          id: "view_all",
+                          defaultMessage: "View All",
+                        })}{" "}
+                        {selectedCategory.texts?.title}
+                      </Link>
+                    </li>
+                    {/* Child categories */}
+                    {getChildCategories(selectedCategory.texts?.slug).map(
+                      (childCategory, index) => (
+                        <li key={childCategory._id}>
+                          <Link
+                            href={`/shop/${childCategory.texts?.slug}`}
+                            onClick={onClose}
+                            className="block px-4 py-4 text-xl font-medium transition-all duration-300 ease-out text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                          >
+                            {childCategory.texts?.title}
+                          </Link>
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                )}
+              </div>
+            </div>
           </nav>
 
           {/* Footer with staggered animation */}
           <div
-            className={`pt-6 mt-6 transition-all duration-300 delay-300 ${
+            className={`px-4 pt-6 mt-6 transition-all duration-300 delay-300 ${
               isAnimating
                 ? "translate-y-0 opacity-100"
                 : "translate-y-4 opacity-0"
