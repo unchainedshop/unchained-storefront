@@ -206,20 +206,16 @@ const LogInForm = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div>
           <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight dark:text-white ">
-            {formatMessage({ id: "sign_up", defaultMessage: "Register" })}
+            {formatMessage({ id: "log_in", defaultMessage: "Log In" })}
           </h2>
           {!emailSupportDisabled ? (
             <p className="mt-2 text-center text-sm text-slate-600 dark:text-white">
-              {formatMessage({
-                id: "did-you-forget",
-                defaultMessage: "Did you",
-              })}
               <Link
                 href="/forgot-password"
                 className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-white"
               >
                 {formatMessage({
-                  id: "forgot-password",
+                  id: "forgot_password",
                   defaultMessage: "Forgot your password?",
                 })}
               </Link>
@@ -286,7 +282,10 @@ const LogInForm = () => {
                   id: "dont-have-account",
                   defaultMessage: `Don't have an account?`,
                 })}
-                <Link href="/sign-up" className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-slate-800 ">
+                <Link
+                  href="/sign-up"
+                  className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-slate-800 "
+                >
                   {formatMessage({
                     id: "join-now",
                     defaultMessage: "Join now",

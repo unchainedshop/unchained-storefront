@@ -9,7 +9,7 @@ const ForgotPassword = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight ">
           {formatMessage({
-            id: "forgot-password",
+            id: "forgot_password",
             defaultMessage: "Forgot your password?",
           })}
         </h2>
