@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import confetti from "canvas-confetti";
+import { useEffect, useRef } from 'react';
+import confetti from 'canvas-confetti';
 
 interface ConfettiCelebrationProps {
   trigger?: boolean;
@@ -15,8 +15,8 @@ const ConfettiCelebration = ({
   duration = 3000,
   particleCount = 50,
   spread = 70,
-  colors = ["#059669", "#10b981", "#34d399", "#6ee7b7", "#a7f3d0"],
-  className = "",
+  colors = ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0'],
+  className = '',
 }: ConfettiCelebrationProps) => {
   const animationEnd = useRef<number | null>(null);
 
@@ -30,7 +30,7 @@ const ConfettiCelebration = ({
   const fireConfetti = () => {
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+      '(prefers-reduced-motion: reduce)',
     ).matches;
     if (prefersReducedMotion) return;
 

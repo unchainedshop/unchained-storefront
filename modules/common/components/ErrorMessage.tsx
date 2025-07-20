@@ -3,10 +3,10 @@ const ErrorMessage = ({ message }) => {
   return (
     <aside
       style={{
-        padding: "1.5em",
-        fontSize: "14px",
-        color: "white",
-        backgroundColor: "darkred",
+        padding: '1.5em',
+        fontSize: '14px',
+        color: 'white',
+        backgroundColor: 'darkred',
       }}
     >
       {message}

@@ -1,16 +1,16 @@
-import { useRouter } from "next/router";
-import { useIntl } from "react-intl";
+import { useRouter } from 'next/router';
+import { useIntl } from 'react-intl';
 
-import MetaTags from "../../../modules/common/components/MetaTags";
-import useOrderDetail from "../../../modules/orders/hooks/useOrderDetail";
-import NotFound from "../../404";
-import useRedirect from "../../../modules/auth/hooks/useRedirect";
-import Loading from "../../../modules/common/components/Loading";
-import OrderDetail from "../../../modules/checkout/OrderDetail";
-import { useAppContext } from "../../../modules/common/components/AppContextWrapper";
-import ConfettiCelebration from "../../../modules/common/components/ConfettiCelebration";
-import AnimatedCheckmark from "../../../modules/common/components/AnimatedCheckmark";
-import FadeInSection from "../../../modules/common/components/FadeInSection";
+import MetaTags from '../../../modules/common/components/MetaTags';
+import useOrderDetail from '../../../modules/orders/hooks/useOrderDetail';
+import NotFound from '../../404';
+import useRedirect from '../../../modules/auth/hooks/useRedirect';
+import Loading from '../../../modules/common/components/Loading';
+import OrderDetail from '../../../modules/checkout/OrderDetail';
+import { useAppContext } from '../../../modules/common/components/AppContextWrapper';
+import ConfettiCelebration from '../../../modules/common/components/ConfettiCelebration';
+import AnimatedCheckmark from '../../../modules/common/components/AnimatedCheckmark';
+import FadeInSection from '../../../modules/common/components/FadeInSection';
 
 const OrderSuccessTankYouPage = () => {
   const router = useRouter();
@@ -20,12 +20,12 @@ const OrderSuccessTankYouPage = () => {
     orderId: router.query?._id,
   });
 
-  useRedirect({ to: "/login", matchGuests: false, matchAnonymous: true });
+  useRedirect({ to: '/login', matchGuests: false, matchAnonymous: true });
 
   if (!order && !loading)
     return (
       <NotFound
-        page={intl.formatMessage({ id: "order", defaultMessage: "Order" })}
+        page={intl.formatMessage({ id: 'order', defaultMessage: 'Order' })}
       />
     );
 
@@ -33,7 +33,7 @@ const OrderSuccessTankYouPage = () => {
     <>
       <MetaTags
         title={`${intl.formatMessage(
-          { id: "order_numbered", defaultMessage: "Order: {orderNumber}" },
+          { id: 'order_numbered', defaultMessage: 'Order: {orderNumber}' },
           {
             orderNumber: order?.orderNumber,
           },
@@ -47,7 +47,7 @@ const OrderSuccessTankYouPage = () => {
             trigger={!!order}
             duration={3000}
             particleCount={75}
-            colors={["#059669", "#10b981", "#34d399", "#6ee7b7"]}
+            colors={['#059669', '#10b981', '#34d399', '#6ee7b7']}
           />
 
           <FadeInSection className="mt-10 mx-auto max-w-6xl bg-white dark:bg-slate-900 p-8 rounded-lg border border-slate-200 dark:border-0 print:hidden">

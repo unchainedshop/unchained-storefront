@@ -1,5 +1,5 @@
-import getConfig from "next/config";
-import React, { useState, useContext, useMemo } from "react";
+import getConfig from 'next/config';
+import React, { useState, useContext, useMemo } from 'react';
 
 const {
   publicRuntimeConfig: { disableEmailSupport },
@@ -8,7 +8,7 @@ const {
 type AppContextType = {
   isCartOpen: boolean;
   emailSupportDisabled: boolean;
-  toggleCart?: (p: any) => void; // eslint-disable-line
+  toggleCart?: (p: any) => void;
 };
 
 export const AppContext = React.createContext<AppContextType>({

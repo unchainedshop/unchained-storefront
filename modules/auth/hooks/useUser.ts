@@ -1,5 +1,5 @@
-import { useQuery, gql } from "@apollo/client";
-import CurrentUserFragment from "../fragments/CurrentUserFragment";
+import { useQuery, gql } from '@apollo/client';
+import CurrentUserFragment from '../fragments/CurrentUserFragment';
 
 export const USER_QUERY = gql`
   query User {

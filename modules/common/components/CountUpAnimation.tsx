@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface CountUpAnimationProps {
   end: number;
@@ -16,9 +16,9 @@ const CountUpAnimation = ({
   start = 0,
   duration = 2000,
   delay = 0,
-  className = "",
-  prefix = "",
-  suffix = "",
+  className = '',
+  prefix = '',
+  suffix = '',
   decimals = 0,
 }: CountUpAnimationProps) => {
   const [count, setCount] = useState(start);
@@ -27,7 +27,7 @@ const CountUpAnimation = ({
   useEffect(() => {
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+      '(prefers-reduced-motion: reduce)',
     ).matches;
 
     if (prefersReducedMotion) {

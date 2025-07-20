@@ -1,43 +1,42 @@
-/* eslint-disable no-return-assign */
-import Link from "next/link";
-import { useIntl } from "react-intl";
+import Link from 'next/link';
+import { useIntl } from 'react-intl';
 import {
   UserCircleIcon,
   KeyIcon,
   EnvelopeIcon,
   MapPinIcon,
-} from "@heroicons/react/24/outline";
-import classNames from "classnames";
-import { useRouter } from "next/router";
-import useUser from "../../modules/auth/hooks/useUser";
-import MetaTags from "../../modules/common/components/MetaTags";
-import useRedirect from "../../modules/auth/hooks/useRedirect";
-import Address from "../../modules/common/components/Address";
+} from '@heroicons/react/24/outline';
+import classNames from 'classnames';
+import { useRouter } from 'next/router';
+import useUser from '../../modules/auth/hooks/useUser';
+import MetaTags from '../../modules/common/components/MetaTags';
+import useRedirect from '../../modules/auth/hooks/useRedirect';
+import Address from '../../modules/common/components/Address';
 
-import ProfileView from "../../modules/auth/components/ProfileView";
-import Loading from "../../modules/common/components/Loading";
-import EmailAddresses from "../../modules/auth/components/EmailAddresses";
+import ProfileView from '../../modules/auth/components/ProfileView';
+import Loading from '../../modules/common/components/Loading';
+import EmailAddresses from '../../modules/auth/components/EmailAddresses';
 
 const subNavigation = [
   {
-    name: "General",
-    href: "#profileview",
+    name: 'General',
+    href: '#profileview',
     icon: UserCircleIcon,
-    id: "profileview",
+    id: 'profileview',
   },
   {
-    name: "Address",
-    href: "#address",
+    name: 'Address',
+    href: '#address',
     icon: MapPinIcon,
-    id: "address",
+    id: 'address',
   },
   {
-    name: "Emails",
-    href: "#email",
+    name: 'Emails',
+    href: '#email',
     icon: EnvelopeIcon,
-    id: "email",
+    id: 'email',
   },
-  { name: "Password", href: "#password", icon: KeyIcon, id: "password" },
+  { name: 'Password', href: '#password', icon: KeyIcon, id: 'password' },
 ];
 
 const Account = () => {
@@ -45,28 +44,28 @@ const Account = () => {
   const router = useRouter();
   const { formatMessage } = useIntl();
 
-  useRedirect({ to: "/login", matchAnonymous: true, matchGuests: true });
+  useRedirect({ to: '/login', matchAnonymous: true, matchGuests: true });
 
   if (loading) {
     return <Loading />;
   }
 
   if (error) {
-    console.error("Account page error:", error);
+    console.error('Account page error:', error);
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">
         <div className="max-w-md w-full text-center">
           <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
             {formatMessage({
-              id: "error_loading_account",
-              defaultMessage: "Error Loading Account",
+              id: 'error_loading_account',
+              defaultMessage: 'Error Loading Account',
             })}
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-6">
             {error.message ||
               formatMessage({
-                id: "generic_error",
-                defaultMessage: "Something went wrong. Please try again.",
+                id: 'generic_error',
+                defaultMessage: 'Something went wrong. Please try again.',
               })}
           </p>
           <button
@@ -74,8 +73,8 @@ const Account = () => {
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
           >
             {formatMessage({
-              id: "reload_page",
-              defaultMessage: "Reload Page",
+              id: 'reload_page',
+              defaultMessage: 'Reload Page',
             })}
           </button>
         </div>
@@ -88,7 +87,7 @@ const Account = () => {
       <MetaTags
         title={
           user?.username ||
-          formatMessage({ id: "account", defaultMessage: "Account" })
+          formatMessage({ id: 'account', defaultMessage: 'Account' })
         }
       />
       <div className="max-w-full bg-white pb-10 dark:bg-slate-950 lg:py-12">
@@ -100,25 +99,25 @@ const Account = () => {
                   href={item.href}
                   key={item.name}
                   className={classNames(
-                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 hover:text-slate-600 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors",
+                    'group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 hover:text-slate-600 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors',
                     {
-                      "bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-white":
+                      'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-white':
                         item.id ===
-                        (router.asPath.includes("#")
-                          ? router.asPath.split("#")[1]
-                          : "profileview"),
+                        (router.asPath.includes('#')
+                          ? router.asPath.split('#')[1]
+                          : 'profileview'),
                     },
                   )}
                 >
                   <item.icon
                     className={classNames(
-                      "-ml-1 mr-3 h-6 w-6 flex-shrink-0 text-slate-900 group-hover:text-slate-700 dark:text-slate-300 dark:group-hover:text-white",
+                      '-ml-1 mr-3 h-6 w-6 flex-shrink-0 text-slate-900 group-hover:text-slate-700 dark:text-slate-300 dark:group-hover:text-white',
                       {
-                        "text-slate-900 dark:text-white":
+                        'text-slate-900 dark:text-white':
                           item.id ===
-                          (router.asPath.includes("#")
-                            ? router.asPath.split("#")[1]
-                            : "profileview"),
+                          (router.asPath.includes('#')
+                            ? router.asPath.split('#')[1]
+                            : 'profileview'),
                       },
                     )}
                     aria-hidden="true"
@@ -150,15 +149,15 @@ const Account = () => {
                     className="text-lg font-medium leading-6 text-slate-900 dark:text-white"
                   >
                     {formatMessage({
-                      id: "password",
-                      defaultMessage: "Password",
+                      id: 'password',
+                      defaultMessage: 'Password',
                     })}
                   </h3>
                   <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                     {formatMessage({
-                      id: "password_description",
+                      id: 'password_description',
                       defaultMessage:
-                        "Manage your account password and security settings.",
+                        'Manage your account password and security settings.',
                     })}
                   </p>
                 </div>
@@ -169,8 +168,8 @@ const Account = () => {
                       <div>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">
                           {formatMessage({
-                            id: "current_password",
-                            defaultMessage: "Current Password",
+                            id: 'current_password',
+                            defaultMessage: 'Current Password',
                           })}
                         </p>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -182,8 +181,8 @@ const Account = () => {
                         className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
                       >
                         {formatMessage({
-                          id: "change_password",
-                          defaultMessage: "Change Password",
+                          id: 'change_password',
+                          defaultMessage: 'Change Password',
                         })}
                       </Link>
                     </div>

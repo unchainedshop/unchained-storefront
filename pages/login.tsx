@@ -1,4 +1,4 @@
-import LogInForm from "../modules/auth/components/LogInForm";
+import LogInForm from '../modules/auth/components/LogInForm';
 
 const LogInPage = () => {
   return <LogInForm />;

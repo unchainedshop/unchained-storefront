@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
-import { useIntl } from "react-intl";
-import AddressForm from "./AddressForm";
-import AddressPanel from "./AddressPanel";
-import Button from "../common/components/Button";
+import { useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
+import { useIntl } from 'react-intl';
+import AddressForm from './AddressForm';
+import AddressPanel from './AddressPanel';
+import Button from '../common/components/Button';
 
 export const UPDATE_CART_BILLING_ADDRESS_MUTATION = gql`
   mutation UpdateCartBillingAddress($billingAddress: AddressInput) {
@@ -157,8 +157,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-medium text-slate-900 dark:text-white">
             {formatMessage({
-              id: "delivery-address",
-              defaultMessage: "Delivery address",
+              id: 'delivery-address',
+              defaultMessage: 'Delivery address',
             })}
           </h2>
           {!deliveryAddressEditMode && (
@@ -167,8 +167,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
               variant="link"
               onClick={toggleDeliveryAddressEditMode}
               text={formatMessage({
-                id: "edit-address",
-                defaultMessage: "Edit Address",
+                id: 'edit-address',
+                defaultMessage: 'Edit Address',
               })}
               className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               fullWidth={false}
@@ -189,8 +189,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-medium text-slate-900 dark:text-white">
               {formatMessage({
-                id: "billing-address",
-                defaultMessage: "Billing address",
+                id: 'billing-address',
+                defaultMessage: 'Billing address',
               })}
             </h2>
             {isBillingAddressDifferent && !billingAddressEditMode && (
@@ -199,8 +199,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
                 variant="link"
                 onClick={toggleBillingAddressEditMode}
                 text={formatMessage({
-                  id: "edit-address",
-                  defaultMessage: "Edit Address",
+                  id: 'edit-address',
+                  defaultMessage: 'Edit Address',
                 })}
                 className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                 fullWidth={false}
@@ -219,8 +219,8 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
               />
               <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 {formatMessage({
-                  id: "billing-same-as-delivery",
-                  defaultMessage: "Billing Address Same as Delivery",
+                  id: 'billing-same-as-delivery',
+                  defaultMessage: 'Billing Address Same as Delivery',
                 })}
               </span>
             </label>

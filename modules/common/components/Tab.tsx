@@ -1,7 +1,7 @@
-import classNames from "classnames";
-import { useRouter } from "next/router";
-import React from "react";
-import { useIntl } from "react-intl";
+import classNames from 'classnames';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 const TabComponent = ({ children, tabItems, defaultTab }) => {
   const router = useRouter();
@@ -25,8 +25,8 @@ const TabComponent = ({ children, tabItems, defaultTab }) => {
       <div className="lg:hidden">
         <label htmlFor="selected-tab" className="sr-only">
           {formatMessage({
-            id: "select_tab",
-            defaultMessage: "Select a tab",
+            id: 'select_tab',
+            defaultMessage: 'Select a tab',
           })}
         </label>
 
@@ -57,10 +57,10 @@ const TabComponent = ({ children, tabItems, defaultTab }) => {
                 onClick={() => onTabSelected(option.id)}
                 className={classNames(
                   {
-                    "cursor-pointer rounded-t-lg border border-slate-200 border-b-slate-500 bg-slate-100 text-slate-800 dark:bg-slate-500":
+                    'cursor-pointer rounded-t-lg border border-slate-200 border-b-slate-500 bg-slate-100 text-slate-800 dark:bg-slate-500':
                       tab === option.id,
                   },
-                  "relative flex-auto cursor-pointer whitespace-nowrap border border-b-2 border-transparent py-4 px-1 pr-3 pl-2 text-sm font-medium hover:rounded-t-lg hover:border-b-slate-500 dark:text-white dark:hover:bg-slate-500",
+                  'relative flex-auto cursor-pointer whitespace-nowrap border border-b-2 border-transparent py-4 px-1 pr-3 pl-2 text-sm font-medium hover:rounded-t-lg hover:border-b-slate-500 dark:text-white dark:hover:bg-slate-500',
                 )}
               >
                 <div className="flex items-center justify-center space-x-1">

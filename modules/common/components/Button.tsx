@@ -1,10 +1,10 @@
-import classNames from "classnames";
-import { designTokens } from "../constants/designTokens";
+import classNames from 'classnames';
+import { designTokens } from '../constants/designTokens';
 
 interface ButtonProps {
-  type?: "button" | "submit";
-  variant?: "primary" | "secondary" | "success" | "danger" | "link";
-  size?: "small" | "medium" | "large";
+  type?: 'button' | 'submit';
+  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'link';
+  size?: 'small' | 'medium' | 'large';
   icon?: React.ReactNode;
   text?: string;
   children?: React.ReactNode;
@@ -12,31 +12,31 @@ interface ButtonProps {
   className?: string;
   fullWidth?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  "aria-label"?: string;
+  'aria-label'?: string;
 }
 
 const Button = ({
-  type = "button",
-  variant = "primary",
-  size = "medium",
+  type = 'button',
+  variant = 'primary',
+  size = 'medium',
   icon = null,
-  text = "",
+  text = '',
   children,
   disabled = false,
-  className = "",
+  className = '',
   fullWidth = true,
   onClick,
-  "aria-label": ariaLabel,
+  'aria-label': ariaLabel,
   ...props
 }: ButtonProps) => {
   const baseClasses = classNames(
-    "inline-flex items-center justify-center rounded-md text-sm font-medium",
-    "focus:outline-none focus:ring-2 focus:ring-offset-2",
-    "transition-colors duration-200",
-    "dark:focus:ring-offset-slate-900",
+    'inline-flex items-center justify-center rounded-md text-sm font-medium',
+    'focus:outline-none focus:ring-2 focus:ring-offset-2',
+    'transition-colors duration-200',
+    'dark:focus:ring-offset-slate-900',
     {
-      "w-full": fullWidth,
-      "cursor-not-allowed opacity-50": disabled,
+      'w-full': fullWidth,
+      'cursor-not-allowed opacity-50': disabled,
     },
   );
 
@@ -54,7 +54,7 @@ const Button = ({
       designTokens.colors.primary.text,
       designTokens.colors.primary.border,
       designTokens.colors.primary.focusRing,
-      "border",
+      'border',
     ),
     secondary: classNames(
       designTokens.colors.secondary.bg,
@@ -70,7 +70,7 @@ const Button = ({
       designTokens.colors.secondary.darkBgHover,
       designTokens.colors.secondary.darkBorderHover,
       designTokens.colors.secondary.darkBgActive,
-      "border-2",
+      'border-2',
     ),
     success: classNames(
       designTokens.colors.success.bg,
@@ -79,7 +79,7 @@ const Button = ({
       designTokens.colors.success.text,
       designTokens.colors.success.border,
       designTokens.colors.success.focusRing,
-      "border",
+      'border',
     ),
     danger: classNames(
       designTokens.colors.danger.bg,
@@ -88,18 +88,18 @@ const Button = ({
       designTokens.colors.danger.text,
       designTokens.colors.danger.border,
       designTokens.colors.danger.focusRing,
-      "border",
+      'border',
     ),
     link: classNames(
-      "bg-transparent text-blue-500 hover:text-blue-600",
-      "dark:text-slate-400 dark:hover:text-white",
-      "border-none p-0 focus:ring-0",
+      'bg-transparent text-blue-500 hover:text-blue-600',
+      'dark:text-slate-400 dark:hover:text-white',
+      'border-none p-0 focus:ring-0',
     ),
   };
 
   const content = children || (
     <>
-      {icon && <span className={text ? "mr-2" : ""}>{icon}</span>}
+      {icon && <span className={text ? 'mr-2' : ''}>{icon}</span>}
       {text}
     </>
   );

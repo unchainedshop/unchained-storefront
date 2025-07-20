@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client';
 
 export const SUPPORTED_CURRENCIES_QUERY = gql`
   query SupportedCurrencies {

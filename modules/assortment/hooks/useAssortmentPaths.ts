@@ -1,7 +1,7 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client';
 
-import AssortmentFragment from "../fragments/assortment";
-import AssortmentPathFragment from "../fragments/AssortmentPath";
+import AssortmentFragment from '../fragments/assortment';
+import AssortmentPathFragment from '../fragments/AssortmentPath';
 
 export const ASSORTMENT_PATHS_QUERY = gql`
   query AssortmentPathsQuery($assortmentId: ID!) {

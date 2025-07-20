@@ -1,5 +1,5 @@
-import { useIntl } from "react-intl";
-import ForgotPasswordForm from "../modules/auth/components/ForgotPasswordForm";
+import { useIntl } from 'react-intl';
+import ForgotPasswordForm from '../modules/auth/components/ForgotPasswordForm';
 
 const ForgotPassword = () => {
   const { formatMessage } = useIntl();
@@ -9,13 +9,13 @@ const ForgotPassword = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight ">
           {formatMessage({
-            id: "forgot_password",
-            defaultMessage: "Forgot your password?",
+            id: 'forgot_password',
+            defaultMessage: 'Forgot your password?',
           })}
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600 dark:text-white">
           {formatMessage({
-            id: "forgot-password-description",
+            id: 'forgot-password-description',
             defaultMessage:
               "Enter your email address below and we'll send you an email with a link to reset your password!",
           })}

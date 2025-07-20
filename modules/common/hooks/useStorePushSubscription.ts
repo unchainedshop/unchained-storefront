@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 const STORE_SUBSCRIPTION_MUTATION = gql`
   mutation StorePushSubscription($subscription: JSON!) {

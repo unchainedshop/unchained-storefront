@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 const VERIFY_EMAIL_MUTATION = gql`
   mutation VerifyEmail($token: String!) {

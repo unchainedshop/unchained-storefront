@@ -1,6 +1,6 @@
-import { useIntl } from "react-intl";
-import formatPrice from "../utils/formatPrice";
-import useSupportedCurrencies from "../utils/useSupportedCurrencies";
+import { useIntl } from 'react-intl';
+import formatPrice from '../utils/formatPrice';
+import useSupportedCurrencies from '../utils/useSupportedCurrencies';
 
 const FormattedPrice = ({ price }) => {
   const { locale } = useIntl();

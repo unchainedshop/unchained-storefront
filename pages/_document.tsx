@@ -1,5 +1,5 @@
-import React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 class UnchainedDocument extends Document {
   static async getInitialProps(ctx) {
@@ -11,7 +11,6 @@ class UnchainedDocument extends Document {
     return (
       <Html className="scroll-smooth">
         <noscript
-          // eslint-disable-next-line
           dangerouslySetInnerHTML={{
             __html: `
 <!--

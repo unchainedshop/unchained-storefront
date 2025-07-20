@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 export const ADD_EMAIL_MUTATION = gql`
   mutation AddEmail($email: String!) {

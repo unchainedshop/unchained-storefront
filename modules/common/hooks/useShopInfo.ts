@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client';
 
 export const SHOP_INFO_QUERY = gql`
   query ShopInfo {

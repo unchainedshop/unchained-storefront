@@ -1,7 +1,7 @@
-import { useIntl } from "react-intl";
-import { CheckIcon } from "@heroicons/react/24/solid";
-import classNames from "classnames";
-import useFormatDateTime from "../common/utils/useFormatDateTime";
+import { useIntl } from 'react-intl';
+import { CheckIcon } from '@heroicons/react/24/solid';
+import classNames from 'classnames';
+import useFormatDateTime from '../common/utils/useFormatDateTime';
 
 const StatusProgress = ({ data, statusTypes, timeline }) => {
   const { formatMessage } = useIntl();
@@ -21,8 +21,8 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                 {index !== status.length - 1 ? (
                   <span
                     className={classNames(
-                      currentId > index + 1 ? "bg-slate-500" : "bg-slate-200",
-                      "absolute top-2.5 left-2.5 -ml-px h-full w-0.5",
+                      currentId > index + 1 ? 'bg-slate-500' : 'bg-slate-200',
+                      'absolute top-2.5 left-2.5 -ml-px h-full w-0.5',
                     )}
                     aria-hidden="true"
                   />
@@ -31,8 +31,8 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                   <div>
                     <span
                       className={classNames(
-                        currentId > index ? "bg-slate-500" : "bg-slate-600",
-                        "flex h-5 w-5 items-center justify-center rounded-full",
+                        currentId > index ? 'bg-slate-500' : 'bg-slate-600',
+                        'flex h-5 w-5 items-center justify-center rounded-full',
                       )}
                     >
                       {currentId > index ? (
@@ -57,9 +57,9 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                       <div className="whitespace-nowrap text-right text-sm text-slate-500 dark:text-slate-200 ml-4">
                         {data[timeline[value].content]
                           ? formatDateTime(data[timeline[value].content], {
-                              dateStyle: "short",
+                              dateStyle: 'short',
 
-                              timeStyle: "short",
+                              timeStyle: 'short',
                             })
                           : null}
                       </div>
@@ -75,8 +75,8 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
       <div className="hidden py-2 px-2 sm:block sm:px-2 lg:p-2">
         <h4 className="sr-only">
           {formatMessage({
-            id: "status",
-            defaultMessage: "Status",
+            id: 'status',
+            defaultMessage: 'Status',
           })}
         </h4>
         <p className="font-medium flex items-center justify-between">
@@ -87,10 +87,10 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
             &nbsp;on&nbsp;
             {data[content]
               ? formatDateTime(data[content], {
-                  dateStyle: "full",
-                  timeStyle: "medium",
+                  dateStyle: 'full',
+                  timeStyle: 'medium',
                 })
-              : formatMessage({ id: "in_cart", defaultMessage: "In cart" })}
+              : formatMessage({ id: 'in_cart', defaultMessage: 'In cart' })}
           </span>
         </p>
         <div className="mt-2 print:hidden" aria-hidden="true">
@@ -101,9 +101,9 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                   <span
                     className={classNames(
                       currentId >= timeline[value].id
-                        ? "bg-slate-400"
-                        : "bg-slate-200",
-                      "absolute top-0 left-0 -ml-px h-2 w-full",
+                        ? 'bg-slate-400'
+                        : 'bg-slate-200',
+                      'absolute top-0 left-0 -ml-px h-2 w-full',
                     )}
                     aria-hidden="true"
                   />
@@ -111,9 +111,9 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                 <div
                   className={classNames(
                     currentId >= timeline[value].id
-                      ? "text-slate-600"
-                      : "text-slate-600",
-                    "text-center",
+                      ? 'text-slate-600'
+                      : 'text-slate-600',
+                    'text-center',
                   )}
                 >
                   <span className="flex flex-col gap-1 items-center justify-center capitalize">
@@ -124,8 +124,8 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                   <span className="block text-slate-900 dark:text-slate-200">
                     {currentId >= timeline[value].id
                       ? formatDateTime(data[timeline[value].content], {
-                          dateStyle: "short",
-                          timeStyle: "short",
+                          dateStyle: 'short',
+                          timeStyle: 'short',
                         })
                       : null}
                   </span>

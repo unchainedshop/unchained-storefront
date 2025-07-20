@@ -1,5 +1,5 @@
 const supportedLanguages = () => {
-  return ["de", "fr", "it"];
+  return ['de', 'fr', 'it'];
 };
 
 export default supportedLanguages;

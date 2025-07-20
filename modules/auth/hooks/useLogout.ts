@@ -1,4 +1,4 @@
-import { useMutation, useApolloClient, gql } from "@apollo/client";
+import { useMutation, useApolloClient, gql } from '@apollo/client';
 
 export const LOG_OUT_MUTATION = gql`
   mutation Logout {

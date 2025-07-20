@@ -1,5 +1,5 @@
-import { useMutation, gql } from "@apollo/client";
-import { USER_QUERY } from "../../auth/hooks/useUser";
+import { useMutation, gql } from '@apollo/client';
+import { USER_QUERY } from '../../auth/hooks/useUser';
 
 const AddBookmarkMutation = gql`
   mutation Bookmark($productId: ID!) {

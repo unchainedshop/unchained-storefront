@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 const REMOVE_SUBSCRIPTION_MUTATION = gql`
   mutation RemovePushNotificationSubscription($p256dh: String!) {

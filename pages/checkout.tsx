@@ -1,7 +1,7 @@
-import { useIntl } from "react-intl";
-import Checkout from "../modules/checkout/Checkout";
+import { useIntl } from 'react-intl';
+import Checkout from '../modules/checkout/Checkout';
 
-import MetaTags from "../modules/common/components/MetaTags";
+import MetaTags from '../modules/common/components/MetaTags';
 
 const CheckoutPage = () => {
   const intl = useIntl();
@@ -10,8 +10,8 @@ const CheckoutPage = () => {
     <>
       <MetaTags
         title={intl.formatMessage({
-          id: "checkout",
-          defaultMessage: "Checkout",
+          id: 'checkout',
+          defaultMessage: 'Checkout',
         })}
       />
       <div className="min-h-screen bg-white dark:bg-slate-950">
@@ -19,8 +19,8 @@ const CheckoutPage = () => {
           <div className="mb-8">
             <h1 className="text-3xl tracking-tight text-slate-900 dark:text-white">
               {intl.formatMessage({
-                id: "checkout",
-                defaultMessage: "Checkout",
+                id: 'checkout',
+                defaultMessage: 'Checkout',
               })}
             </h1>
           </div>

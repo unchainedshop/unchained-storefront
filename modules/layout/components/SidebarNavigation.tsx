@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useIntl } from "react-intl";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useIntl } from 'react-intl';
 import {
   XMarkIcon,
   ChevronRightIcon,
   ArrowLeftIcon,
-} from "@heroicons/react/20/solid";
-import useAssortments from "../../assortment/hooks/useAssortments";
+} from '@heroicons/react/20/solid';
+import useAssortments from '../../assortment/hooks/useAssortments';
 
 interface SidebarNavigationProps {
   isOpen: boolean;
@@ -23,8 +23,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
   const [shouldRender, setShouldRender] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentView, setCurrentView] = useState<
-    "main" | "categories" | "category"
-  >("main");
+    'main' | 'categories' | 'category'
+  >('main');
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const { assortments, loading: assortmentsLoading } = useAssortments({
     includeLeaves: true,
@@ -38,7 +38,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       return () => clearTimeout(timer);
     } else {
       setIsAnimating(false);
-      setCurrentView("main");
+      setCurrentView('main');
       setSelectedCategory(null);
       // Delay hiding the component to allow exit animation
       const timer = setTimeout(() => setShouldRender(false), 300);
@@ -48,42 +48,42 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
   const navigationItems = [
     {
-      id: "home",
-      label: formatMessage({ id: "nav_home", defaultMessage: "Home" }),
-      href: "/",
+      id: 'home',
+      label: formatMessage({ id: 'nav_home', defaultMessage: 'Home' }),
+      href: '/',
     },
     {
-      id: "store",
-      label: formatMessage({ id: "nav_store", defaultMessage: "Store" }),
-      href: "/shop",
+      id: 'store',
+      label: formatMessage({ id: 'nav_store', defaultMessage: 'Store' }),
+      href: '/shop',
     },
     {
-      id: "categories",
-      label: formatMessage({ id: "categories", defaultMessage: "Categories" }),
-      href: "#",
+      id: 'categories',
+      label: formatMessage({ id: 'categories', defaultMessage: 'Categories' }),
+      href: '#',
       isExpandable: true,
-      onClick: () => setCurrentView("categories"),
+      onClick: () => setCurrentView('categories'),
     },
     {
-      id: "bookmarks",
+      id: 'bookmarks',
       label: formatMessage({
-        id: "nav_bookmarks",
-        defaultMessage: "Bookmarks",
+        id: 'nav_bookmarks',
+        defaultMessage: 'Bookmarks',
       }),
-      href: "/bookmarks",
+      href: '/bookmarks',
     },
     {
-      id: "account",
-      label: formatMessage({ id: "nav_account", defaultMessage: "Account" }),
-      href: "/account",
+      id: 'account',
+      label: formatMessage({ id: 'nav_account', defaultMessage: 'Account' }),
+      href: '/account',
     },
     {
-      id: "styleguide",
+      id: 'styleguide',
       label: formatMessage({
-        id: "nav_styleguide",
-        defaultMessage: "Styleguide",
+        id: 'nav_styleguide',
+        defaultMessage: 'Styleguide',
       }),
-      href: "/styleguide",
+      href: '/styleguide',
     },
   ];
 
@@ -99,7 +99,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     const childCategories = getChildCategories(category.texts?.slug);
     if (childCategories.length > 0) {
       setSelectedCategory(category);
-      setCurrentView("category");
+      setCurrentView('category');
     } else {
       // Navigate directly if no children
       router.push(`/shop/${category.texts?.slug}`);
@@ -108,17 +108,17 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
   };
 
   const handleBackClick = () => {
-    if (currentView === "category") {
-      setCurrentView("categories");
+    if (currentView === 'category') {
+      setCurrentView('categories');
       setSelectedCategory(null);
-    } else if (currentView === "categories") {
-      setCurrentView("main");
+    } else if (currentView === 'categories') {
+      setCurrentView('main');
     }
   };
 
   const isCurrentPage = (href: string) => {
-    if (href === "/") {
-      return router.pathname === "/";
+    if (href === '/') {
+      return router.pathname === '/';
     }
     return router.pathname.startsWith(href);
   };
@@ -130,7 +130,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       {/* Backdrop with smooth fade */}
       <div
         className={`fixed inset-0 z-[1030] bg-slate-950/50 backdrop-blur-sm transition-all duration-300 ease-out ${
-          isAnimating ? "opacity-100" : "opacity-0 pointer-events-none"
+          isAnimating ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
       />
@@ -139,8 +139,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       <div
         className={`fixed top-5 bottom-5 left-5 z-[1040] w-sm lg:w-md xl:w-lg transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
           isAnimating
-            ? "translate-x-0 opacity-100 scale-100"
-            : "-translate-x-16 opacity-0 scale-95 pointer-events-none"
+            ? 'translate-x-0 opacity-100 scale-100'
+            : '-translate-x-16 opacity-0 scale-95 pointer-events-none'
         }`}
       >
         <div className="flex h-full flex-col p-6">
@@ -148,8 +148,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
           <div
             className={`flex justify-end mb-8 transition-all duration-300 delay-100 ${
               isAnimating
-                ? "translate-y-0 opacity-100"
-                : "-translate-y-4 opacity-0"
+                ? 'translate-y-0 opacity-100'
+                : '-translate-y-4 opacity-0'
             }`}
           >
             <button
@@ -164,17 +164,17 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
           <nav
             className={`flex-1 overflow-y-auto transition-all duration-300 delay-200 ${
               isAnimating
-                ? "translate-y-0 opacity-100"
-                : "translate-y-4 opacity-0"
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-4 opacity-0'
             }`}
           >
             <div className="relative h-full">
               {/* Main Navigation View */}
               <div
                 className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-                  currentView === "main"
-                    ? "translate-x-0 opacity-100"
-                    : "-translate-x-full opacity-0 pointer-events-none"
+                  currentView === 'main'
+                    ? 'translate-x-0 opacity-100'
+                    : '-translate-x-full opacity-0 pointer-events-none'
                 }`}
               >
                 <ul className="space-y-4">
@@ -183,11 +183,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                       {item.isExpandable ? (
                         <button
                           onClick={item.onClick}
-                          className={`flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left ${"text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"}`}
+                          className={`flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left ${'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
                           style={{
                             transitionDelay: isAnimating
                               ? `${300 + index * 50}ms`
-                              : "0ms",
+                              : '0ms',
                           }}
                         >
                           <span>{item.label}</span>
@@ -199,13 +199,13 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                           onClick={onClose}
                           className={`block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out ${
                             isCurrentPage(item.href)
-                              ? "text-slate-900 dark:text-white"
-                              : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                              ? 'text-slate-900 dark:text-white'
+                              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                           }`}
                           style={{
                             transitionDelay: isAnimating
                               ? `${300 + index * 50}ms`
-                              : "0ms",
+                              : '0ms',
                           }}
                         >
                           {item.label}
@@ -219,9 +219,9 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
               {/* Categories View */}
               <div
                 className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-                  currentView === "categories"
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-full opacity-0 pointer-events-none"
+                  currentView === 'categories'
+                    ? 'translate-x-0 opacity-100'
+                    : 'translate-x-full opacity-0 pointer-events-none'
                 }`}
               >
                 <div className="flex items-center mb-6">
@@ -233,8 +233,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                   </button>
                   <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
                     {formatMessage({
-                      id: "categories",
-                      defaultMessage: "Categories",
+                      id: 'categories',
+                      defaultMessage: 'Categories',
                     })}
                   </h2>
                 </div>
@@ -259,9 +259,9 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
               {/* Child Categories View */}
               <div
                 className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-                  currentView === "category"
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-full opacity-0 pointer-events-none"
+                  currentView === 'category'
+                    ? 'translate-x-0 opacity-100'
+                    : 'translate-x-full opacity-0 pointer-events-none'
                 }`}
               >
                 <div className="flex items-center mb-6">
@@ -285,9 +285,9 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                         className="block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700"
                       >
                         {formatMessage({
-                          id: "view_all",
-                          defaultMessage: "View All",
-                        })}{" "}
+                          id: 'view_all',
+                          defaultMessage: 'View All',
+                        })}{' '}
                         {selectedCategory.texts?.title}
                       </Link>
                     </li>
@@ -315,22 +315,22 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
           <div
             className={`px-4 pt-6 mt-6 transition-all duration-300 delay-300 ${
               isAnimating
-                ? "translate-y-0 opacity-100"
-                : "translate-y-4 opacity-0"
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-4 opacity-0'
             }`}
           >
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm text-slate-600 dark:text-slate-400">
                 {formatMessage({
-                  id: "shipping_to",
-                  defaultMessage: "Shipping to:",
+                  id: 'shipping_to',
+                  defaultMessage: 'Shipping to:',
                 })}
               </span>
               <span className="text-sm font-medium text-slate-900 dark:text-white flex items-center">
                 <span className="mr-2">🇨🇭</span>
                 {formatMessage({
-                  id: "country_switzerland",
-                  defaultMessage: "Switzerland",
+                  id: 'country_switzerland',
+                  defaultMessage: 'Switzerland',
                 })}
               </span>
             </div>

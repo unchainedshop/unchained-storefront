@@ -1,31 +1,31 @@
-import { useMemo } from "react";
+import { useMemo } from 'react';
 import {
   ApolloClient,
   HttpLink,
   InMemoryCache,
   from,
   ApolloLink,
-} from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
-import merge from "deepmerge";
-import isEqual from "lodash/isEqual";
-import typePolicies from "./typepolicies";
-import possibleTypes from "../../possibleTypes.json";
+} from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
+import merge from 'deepmerge';
+import isEqual from 'lodash/isEqual';
+import typePolicies from './typepolicies';
+import possibleTypes from '../../possibleTypes.json';
 
-export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
+export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient;
 
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
-      console.error("[GraphQL Errors]:", graphQLErrors);
+      console.error('[GraphQL Errors]:', graphQLErrors);
       graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         console.error(
           `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)}, Extensions: ${JSON.stringify(extensions)}`,
         );
         console.error(
-          "Operation:",
+          'Operation:',
           operation.operationName,
           operation.query.loc?.source?.body,
         );
@@ -33,34 +33,34 @@ const errorLink = onError(
     }
     if (networkError) {
       console.error(`[Network error]:`, networkError);
-      console.error("Operation:", operation.operationName);
-      console.error("Variables:", operation.variables);
+      console.error('Operation:', operation.operationName);
+      console.error('Variables:', operation.variables);
     }
   },
 );
 
 const uri =
-  typeof window === "undefined"
-    ? process.env.UNCHAINED_ENDPOINT || "http://localhost:4010/graphql"
+  typeof window === 'undefined'
+    ? process.env.UNCHAINED_ENDPOINT || 'http://localhost:4010/graphql'
     : `${window.origin}/graphql`;
 
 const httpLink = new HttpLink({
   uri,
-  credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+  credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 });
 
 function createApolloClient({ locale }) {
   const middlewareLink = new ApolloLink((operation, forward) => {
     const headers = {};
     if (locale) {
-      headers["accept-language"] = locale;
+      headers['accept-language'] = locale;
     }
     operation.setContext({ headers });
     return forward(operation);
   });
 
   return new ApolloClient({
-    ssrMode: typeof window === "undefined",
+    ssrMode: typeof window === 'undefined',
     link: from([middlewareLink, errorLink, httpLink]),
     cache: new InMemoryCache({
       possibleTypes,
@@ -100,7 +100,7 @@ export function initializeApollo(
     tempApolloClient.cache.restore(data);
   }
   // For SSG and SSR always create a new Apollo Client
-  if (typeof window === "undefined") return tempApolloClient;
+  if (typeof window === 'undefined') return tempApolloClient;
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = tempApolloClient;
 

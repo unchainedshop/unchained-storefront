@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 const SimpleProductPrice = gql`
   fragment SimpleProductPrice on SimpleProduct {

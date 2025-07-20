@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 export const CREATE_USER_MUTATION = gql`
   mutation CreateUser(

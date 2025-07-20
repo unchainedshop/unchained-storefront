@@ -1,11 +1,11 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
-import { getInterfaceLabel } from "../common/utils/utils";
-import FormattedPrice from "../common/components/FormattedPrice";
-import useDeliveryProviderTypes from "../orders/hooks/useDeliveryProviderTypes";
-import useFormatDateTime from "../common/utils/useFormatDateTime";
-import useDeliveryStatusTypes from "../orders/hooks/useDeliveryStatusTypes";
-import StatusInformation from "../common/components/StatusInformation";
+import { getInterfaceLabel } from '../common/utils/utils';
+import FormattedPrice from '../common/components/FormattedPrice';
+import useDeliveryProviderTypes from '../orders/hooks/useDeliveryProviderTypes';
+import useFormatDateTime from '../common/utils/useFormatDateTime';
+import useDeliveryStatusTypes from '../orders/hooks/useDeliveryStatusTypes';
+import StatusInformation from '../common/components/StatusInformation';
 
 const OrderDetailDelivery = ({ order }) => {
   const { deliveryProviderType } = useDeliveryProviderTypes();
@@ -19,8 +19,8 @@ const OrderDetailDelivery = ({ order }) => {
       <div className="flex items-center justify-between">
         <h2 className="py-4 text-lg font-medium">
           {formatMessage({
-            id: "delivered",
-            defaultMessage: "Delivered",
+            id: 'delivered',
+            defaultMessage: 'Delivered',
           })}
         </h2>
         <span className="mr-2 block rounded-full py-1 text-xs font-semibold leading-5">
@@ -28,8 +28,8 @@ const OrderDetailDelivery = ({ order }) => {
         </span>
         <span className="font-medium">
           {formatDateTime(order?.delivery?.delivered, {
-            timeStyle: "short",
-            dateStyle: "medium",
+            timeStyle: 'short',
+            dateStyle: 'medium',
           })}
         </span>
       </div>
@@ -42,8 +42,8 @@ const OrderDetailDelivery = ({ order }) => {
 
         <div className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-200">
           {formatMessage({
-            id: "method",
-            defaultMessage: "Method",
+            id: 'method',
+            defaultMessage: 'Method',
           })}
         </div>
         <span className="mr-2 block rounded-full py-1 text-xs font-semibold leading-5">
@@ -59,8 +59,8 @@ const OrderDetailDelivery = ({ order }) => {
 
         <div className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-200 print:hidden">
           {formatMessage({
-            id: "status",
-            defaultMessage: "Status",
+            id: 'status',
+            defaultMessage: 'Status',
           })}
         </div>
         <span className="mr-2 block rounded-full py-1 text-xs font-semibold leading-5 print:hidden">

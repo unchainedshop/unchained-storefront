@@ -1,17 +1,17 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 const MetaTags = ({
-  imageUrl = "https://unchained.shop/img/unchained-commerce-snake.svg",
+  imageUrl = 'https://unchained.shop/img/unchained-commerce-snake.svg',
   title,
-  description = "",
+  description = '',
 }) => {
   const { asPath } = useRouter();
-  const locales = ["en", "de"]; // Hardcoded supported locales
+  const locales = ['en', 'de']; // Hardcoded supported locales
 
   return (
     <Head>
-      <title>{title || " "}</title>
+      <title>{title || ' '}</title>
       {locales.map((lang) => (
         <link
           key={`${lang}${asPath}`}

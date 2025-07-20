@@ -1,6 +1,6 @@
-import getMediaUrl from "../../common/utils/getMediaUrl";
+import getMediaUrl from '../../common/utils/getMediaUrl';
 
-const childrenArrayToNavigationIdObject = (children, path = ["shop"]) =>
+const childrenArrayToNavigationIdObject = (children, path = ['shop']) =>
   children.reduce(
     (acc, curr, index) => ({
       ...acc,

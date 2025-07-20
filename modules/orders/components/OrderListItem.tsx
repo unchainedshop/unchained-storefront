@@ -1,8 +1,8 @@
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import Link from "next/link";
-import { useIntl } from "react-intl";
-import useFormatDateTime from "../../common/utils/useFormatDateTime";
-import FormattedPrice from "../../common/components/FormattedPrice";
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
+import { useIntl } from 'react-intl';
+import useFormatDateTime from '../../common/utils/useFormatDateTime';
+import FormattedPrice from '../../common/components/FormattedPrice';
 
 const OrderListItem = ({ order }) => {
   const { formatMessage } = useIntl();
@@ -10,25 +10,25 @@ const OrderListItem = ({ order }) => {
 
   const orderStatus = {
     OPEN: {
-      text: formatMessage({ id: "ordered", defaultMessage: "Ordered" }),
-      date: "ordered",
+      text: formatMessage({ id: 'ordered', defaultMessage: 'Ordered' }),
+      date: 'ordered',
     },
     PENDING: {
-      text: formatMessage({ id: "pending", defaultMessage: "Pending" }),
+      text: formatMessage({ id: 'pending', defaultMessage: 'Pending' }),
     },
     CONFIRMED: {
-      text: formatMessage({ id: "confirmed", defaultMessage: "Confirmed" }),
-      date: "confirmed",
+      text: formatMessage({ id: 'confirmed', defaultMessage: 'Confirmed' }),
+      date: 'confirmed',
     },
     FULLFILLED: {
-      text: formatMessage({ id: "fulfilled", defaultMessage: "FulFilled" }),
+      text: formatMessage({ id: 'fulfilled', defaultMessage: 'FulFilled' }),
       icon: (
         <CheckCircleIcon
           className="h-5 w-5 text-green-500"
           aria-hidden="true"
         />
       ),
-      date: "fullfilled",
+      date: 'fullfilled',
     },
   };
 
@@ -38,8 +38,8 @@ const OrderListItem = ({ order }) => {
         <div className="flex justify-between sm:block">
           <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
             {formatMessage({
-              id: "order_date",
-              defaultMessage: "Order date",
+              id: 'order_date',
+              defaultMessage: 'Order date',
             })}
           </dt>
           <dd className="sm:mt-1">
@@ -51,8 +51,8 @@ const OrderListItem = ({ order }) => {
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
           <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
             {formatMessage({
-              id: "order_number",
-              defaultMessage: "Order number",
+              id: 'order_number',
+              defaultMessage: 'Order number',
             })}
           </dt>
           <dd className="sm:mt-1">{order?.orderNumber}</dd>
@@ -60,8 +60,8 @@ const OrderListItem = ({ order }) => {
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
           <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
             {formatMessage({
-              id: "total_amount",
-              defaultMessage: "Total amount",
+              id: 'total_amount',
+              defaultMessage: 'Total amount',
             })}
           </dt>
           <dd className="sm:mt-1">
@@ -71,8 +71,8 @@ const OrderListItem = ({ order }) => {
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
           <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
             {formatMessage({
-              id: "payment_status",
-              defaultMessage: "Payment status",
+              id: 'payment_status',
+              defaultMessage: 'Payment status',
             })}
           </dt>
           <dd className="sm:mt-1">{order?.payment?.status}</dd>
@@ -80,8 +80,8 @@ const OrderListItem = ({ order }) => {
         <div className="flex items-center justify-between pt-6 sm:pt-0">
           <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
             {formatMessage({
-              id: "status",
-              defaultMessage: "Status",
+              id: 'status',
+              defaultMessage: 'Status',
             })}
           </dt>
           <dd className="uppercase sm:mt-1">
@@ -92,8 +92,8 @@ const OrderListItem = ({ order }) => {
               {orderStatus[order?.status]?.date && (
                 <>
                   {formatMessage({
-                    id: "on",
-                    defaultMessage: " on ",
+                    id: 'on',
+                    defaultMessage: ' on ',
                   })}
                   <time dateTime={order.datetime}>
                     {formatDateTime(order[orderStatus[order?.status].date])}
@@ -106,8 +106,8 @@ const OrderListItem = ({ order }) => {
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
           <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
             {formatMessage({
-              id: "delivery_status",
-              defaultMessage: "Delivery status",
+              id: 'delivery_status',
+              defaultMessage: 'Delivery status',
             })}
           </dt>
           <dd className="sm:mt-1">{order?.delivery?.status}</dd>

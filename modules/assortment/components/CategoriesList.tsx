@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 type categoryItem = {
   navigationTitle: string;
@@ -7,7 +7,7 @@ type categoryItem = {
 
 const CategoriesList = ({
   assortment,
-  currentPath = "",
+  currentPath = '',
 }: {
   assortment: categoryItem[];
   currentPath: string;

@@ -1,4 +1,4 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
 const formatAddress = ({
   firstName,
@@ -11,21 +11,21 @@ const formatAddress = ({
   countryCode,
 }) =>
   [
-    [firstName, lastName].filter(Boolean).join(" "),
+    [firstName, lastName].filter(Boolean).join(' '),
     addressLine,
     addressLine2,
-    [postalCode, city].filter(Boolean).join(" "),
+    [postalCode, city].filter(Boolean).join(' '),
     regionCode,
     countryCode,
   ]
     .filter(Boolean)
-    .join("\n");
+    .join('\n');
 
 const AddressPanel = ({ address, onEdit }) => {
   const { formatMessage } = useIntl();
   return (
     <div className="mt-4 dark:text-slate-200">
-      <div style={{ whiteSpace: "pre-wrap" }}>{formatAddress(address)}</div>
+      <div style={{ whiteSpace: 'pre-wrap' }}>{formatAddress(address)}</div>
     </div>
   );
 };

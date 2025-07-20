@@ -1,5 +1,5 @@
-import { useMutation, gql } from "@apollo/client";
-import AddressFragment from "../../common/fragments/AddressFragment";
+import { useMutation, gql } from '@apollo/client';
+import AddressFragment from '../../common/fragments/AddressFragment';
 
 const UPDATE_USER_PROFILE_MUTATION = gql`
   mutation UpdateUserProfile($profile: UserProfileInput!, $userId: ID!) {

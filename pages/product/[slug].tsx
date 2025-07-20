@@ -1,24 +1,23 @@
-/* eslint-disable react/no-danger */
-import { useRouter } from "next/router";
-import ImageGallery from "react-image-gallery";
-import { useIntl } from "react-intl";
+import { useRouter } from 'next/router';
+import ImageGallery from 'react-image-gallery';
+import { useIntl } from 'react-intl';
 
-import Markdown from "react-markdown";
-import useProductDetail from "../../modules/products/hooks/useProductDetail";
-import AddToCartButton from "../../modules/cart/components/AddToCartButton";
-import MetaTags from "../../modules/common/components/MetaTags";
-import getAssortmentPath from "../../modules/assortment/utils/getAssortmentPath";
-import AssortmentBreadcrumbs from "../../modules/assortment/components/AssortmentBreadcrumbs";
-import getMediaUrl from "../../modules/common/utils/getMediaUrl";
-import getMediaUrls from "../../modules/common/utils/getMediaUrls";
-import NotFound from "../404";
-import Loading from "../../modules/common/components/Loading";
-import FormattedPrice from "../../modules/common/components/FormattedPrice";
-import { BookmarkIcon } from "@heroicons/react/20/solid";
-import classNames from "classnames";
-import useUser from "../../modules/auth/hooks/useUser";
-import useConditionalBookmarkProduct from "../../modules/cart/hooks/useConditionalBookmarkProduct";
-import useRemoveBookmark from "../../modules/common/hooks/useRemoveBookmark";
+import Markdown from 'react-markdown';
+import useProductDetail from '../../modules/products/hooks/useProductDetail';
+import AddToCartButton from '../../modules/cart/components/AddToCartButton';
+import MetaTags from '../../modules/common/components/MetaTags';
+import getAssortmentPath from '../../modules/assortment/utils/getAssortmentPath';
+import AssortmentBreadcrumbs from '../../modules/assortment/components/AssortmentBreadcrumbs';
+import getMediaUrl from '../../modules/common/utils/getMediaUrl';
+import getMediaUrls from '../../modules/common/utils/getMediaUrls';
+import NotFound from '../404';
+import Loading from '../../modules/common/components/Loading';
+import FormattedPrice from '../../modules/common/components/FormattedPrice';
+import { BookmarkIcon } from '@heroicons/react/20/solid';
+import classNames from 'classnames';
+import useUser from '../../modules/auth/hooks/useUser';
+import useConditionalBookmarkProduct from '../../modules/cart/hooks/useConditionalBookmarkProduct';
+import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 
 const Detail = () => {
   const router = useRouter();
@@ -41,8 +40,8 @@ const Detail = () => {
     return (
       <NotFound
         page={intl.formatMessage({
-          id: "product",
-          defaultMessage: "Product",
+          id: 'product',
+          defaultMessage: 'Product',
         })}
       />
     );
@@ -112,14 +111,14 @@ const Detail = () => {
                     }
                     aria-label={
                       filteredBookmark
-                        ? "Remove from bookmarks"
-                        : "Add to bookmarks"
+                        ? 'Remove from bookmarks'
+                        : 'Add to bookmarks'
                     }
                   >
                     <BookmarkIcon
-                      className={classNames("h-5 w-5 transition-colors", {
-                        "text-amber-500 hover:text-amber-600": filteredBookmark,
-                        "text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white":
+                      className={classNames('h-5 w-5 transition-colors', {
+                        'text-amber-500 hover:text-amber-600': filteredBookmark,
+                        'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white':
                           !filteredBookmark,
                       })}
                     />

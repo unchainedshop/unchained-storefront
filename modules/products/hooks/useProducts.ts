@@ -1,7 +1,7 @@
-import { useQuery, gql } from "@apollo/client";
-import ProductFragment from "../fragments/ProductFragment";
-import SimpleProductPrice from "../fragments/SimpleProductPrice";
-import { ProductAssortmentPathFragment } from "../../assortment/fragments/AssortmentPath";
+import { useQuery, gql } from '@apollo/client';
+import ProductFragment from '../fragments/ProductFragment';
+import SimpleProductPrice from '../fragments/SimpleProductPrice';
+import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 
 export const PRODUCTS_QUERY = gql`
   query Products($tags: [LowerCaseString!], $limit: Int) {

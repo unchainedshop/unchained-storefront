@@ -1,7 +1,7 @@
-import { useIntl } from "react-intl";
-import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid";
-import ImageWithFallback from "../common/components/ImageWithFallback";
-import formatUsername from "../common/utils/formatUsername";
+import { useIntl } from 'react-intl';
+import { DevicePhoneMobileIcon } from '@heroicons/react/24/solid';
+import ImageWithFallback from '../common/components/ImageWithFallback';
+import formatUsername from '../common/utils/formatUsername';
 
 const FallbackAvatar = ({ username }) => {
   return (
@@ -55,7 +55,7 @@ const DetailHeader = ({ user, contact }) => {
           {contact?.emailAddress && (
             <>
               <dt className="sr-only">
-                {formatMessage({ id: "email", defaultMessage: "Email" })}
+                {formatMessage({ id: 'email', defaultMessage: 'Email' })}
               </dt>
               <dd className="flex items-center text-sm font-medium capitalize sm:mr-6">
                 {contact.emailAddress}
@@ -66,7 +66,7 @@ const DetailHeader = ({ user, contact }) => {
           {contact?.telNumber && (
             <>
               <dt className="sr-only">
-                {formatMessage({ id: "phone", defaultMessage: "Phone" })}
+                {formatMessage({ id: 'phone', defaultMessage: 'Phone' })}
               </dt>
               <dd className="flex items-center text-sm font-medium capitalize text-slate-500 sm:mr-6">
                 <DevicePhoneMobileIcon

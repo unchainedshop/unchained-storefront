@@ -1,6 +1,6 @@
-import { useIntl } from "react-intl";
-import SearchField from "../../common/components/SearchField";
-import OrderListItem from "./OrderListItem";
+import { useIntl } from 'react-intl';
+import SearchField from '../../common/components/SearchField';
+import OrderListItem from './OrderListItem';
 
 const OrderList = ({ orders, queryString, setQueryString }) => {
   const { formatMessage } = useIntl();
@@ -11,15 +11,15 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
         <div className="max-w-full">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
             {formatMessage({
-              id: "order_history",
-              defaultMessage: "Order History",
+              id: 'order_history',
+              defaultMessage: 'Order History',
             })}
           </h1>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
             {formatMessage({
-              id: "manage_orders",
+              id: 'manage_orders',
               defaultMessage:
-                "Check the status of recent orders, manage returns, and download invoices.",
+                'Check the status of recent orders, manage returns, and download invoices.',
             })}
           </p>
         </div>
@@ -34,8 +34,8 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
         <div className="mt-4 sm:mt-8">
           <h2 className="sr-only">
             {formatMessage({
-              id: "recent_orders",
-              defaultMessage: "Recent orders",
+              id: 'recent_orders',
+              defaultMessage: 'Recent orders',
             })}
           </h2>
 
@@ -45,48 +45,48 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
                 <div className="flex justify-between sm:block">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "order_date",
-                      defaultMessage: "Order date",
+                      id: 'order_date',
+                      defaultMessage: 'Order date',
                     })}
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "order_number",
-                      defaultMessage: "Order number",
+                      id: 'order_number',
+                      defaultMessage: 'Order number',
                     })}
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "total_amount",
-                      defaultMessage: "Total amount",
+                      id: 'total_amount',
+                      defaultMessage: 'Total amount',
                     })}
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "payment_status",
-                      defaultMessage: "Payment status",
+                      id: 'payment_status',
+                      defaultMessage: 'Payment status',
                     })}
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "order_status",
-                      defaultMessage: "Order status",
+                      id: 'order_status',
+                      defaultMessage: 'Order status',
                     })}
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "Delivery_status",
-                      defaultMessage: "Delivery status",
+                      id: 'Delivery_status',
+                      defaultMessage: 'Delivery status',
                     })}
                   </dt>
                 </div>

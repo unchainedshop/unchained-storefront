@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode } from "react";
+import { useState, useEffect, useRef, ReactNode } from 'react';
 
 interface FadeInSectionProps {
   children: ReactNode;
@@ -12,7 +12,7 @@ const FadeInSection = ({
   children,
   delay = 0,
   duration = 600,
-  className = "",
+  className = '',
   threshold = 0.1,
 }: FadeInSectionProps) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +22,7 @@ const FadeInSection = ({
   useEffect(() => {
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+      '(prefers-reduced-motion: reduce)',
     ).matches;
 
     if (prefersReducedMotion) {
@@ -56,11 +56,11 @@ const FadeInSection = ({
   }, [delay, threshold, hasAnimated]);
 
   const animationClasses =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ? "opacity-100 translate-y-0"
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'opacity-100 translate-y-0'
       : `transition-all ease-out ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`;
 
   const durationClass = `duration-${Math.min(Math.max(duration, 150), 1000)}`;
@@ -71,9 +71,9 @@ const FadeInSection = ({
       className={`${animationClasses} ${durationClass} ${className}`}
       style={{
         transitionDuration:
-          typeof window !== "undefined" &&
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "0ms"
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? '0ms'
             : `${duration}ms`,
       }}
     >

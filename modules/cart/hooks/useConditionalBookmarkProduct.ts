@@ -1,6 +1,6 @@
-import useLoginAsGuestMutation from "../../auth/hooks/useLoginAsGuest";
-import useUser from "../../auth/hooks/useUser";
-import useBookmarkProduct from "../../common/hooks/useBookmarkProduct";
+import useLoginAsGuestMutation from '../../auth/hooks/useLoginAsGuest';
+import useUser from '../../auth/hooks/useUser';
+import useBookmarkProduct from '../../common/hooks/useBookmarkProduct';
 
 const useConditionalBookmarkProduct = () => {
   const { loginAsGuest } = useLoginAsGuestMutation();

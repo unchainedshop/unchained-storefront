@@ -1,44 +1,44 @@
-import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
-import classNames from "classnames";
-import { useEffect, useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
-import Button from "./Button";
+import { MoonIcon, SunIcon } from '@heroicons/react/20/solid';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+import Button from './Button';
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
-  const [theme, setTheme] = useLocalStorage("theme", "light");
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
 
   useEffect(() => {
     if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
-      document.getElementsByTagName("html")[0].classList.add("dark");
+      document.getElementsByTagName('html')[0].classList.add('dark');
       setIsDark(true);
     } else {
-      document.getElementsByTagName("html")[0].classList.remove("dark");
+      document.getElementsByTagName('html')[0].classList.remove('dark');
       setIsDark(false);
     }
   }, []);
 
   useEffect(() => {
-    if (theme === "dark") {
-      document.getElementsByTagName("html")[0].classList.add("dark");
-      localStorage.theme = "dark";
+    if (theme === 'dark') {
+      document.getElementsByTagName('html')[0].classList.add('dark');
+      localStorage.theme = 'dark';
     } else {
-      document.getElementsByTagName("html")[0].classList.remove("dark");
-      localStorage.theme = "light";
+      document.getElementsByTagName('html')[0].classList.remove('dark');
+      localStorage.theme = 'light';
     }
   }, [theme]);
 
   const handleToggleTheme = () => {
-    if (theme === "dark") {
-      setTheme("light");
+    if (theme === 'dark') {
+      setTheme('light');
       setIsDark(false);
     } else {
-      setTheme("dark");
+      setTheme('dark');
       setIsDark(true);
     }
   };
@@ -55,7 +55,7 @@ const ThemeToggle = () => {
       >
         <SunIcon
           className={classNames(
-            "h-8 w-8 text-black transition-all delay-1000 ease-out",
+            'h-8 w-8 text-black transition-all delay-1000 ease-out',
             {
               hidden: isDark,
               block: !isDark,
@@ -64,7 +64,7 @@ const ThemeToggle = () => {
         />
         <MoonIcon
           className={classNames(
-            "h-8 w-8 text-white transition-all delay-1000 ease-out",
+            'h-8 w-8 text-white transition-all delay-1000 ease-out',
             {
               hidden: !isDark,
               block: isDark,

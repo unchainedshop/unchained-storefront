@@ -1,19 +1,19 @@
-import React from "react";
-import { useIntl } from "react-intl";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import changeLanguage from "../utils/changeLanguage";
+import React from 'react';
+import { useIntl } from 'react-intl';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import changeLanguage from '../utils/changeLanguage';
 
 const LanguageSwitch = () => {
   const intl = useIntl();
-  const currentLang = intl.locale.split("-")[0];
-  intl.formatMessage({ id: "language_en", defaultMessage: "English" });
+  const currentLang = intl.locale.split('-')[0];
+  intl.formatMessage({ id: 'language_en', defaultMessage: 'English' });
 
   return (
     <div className="relative">
       <label htmlFor="language-switcher" className="sr-only">
         {intl.formatMessage({
-          id: "choose_language",
-          defaultMessage: "Choose language",
+          id: 'choose_language',
+          defaultMessage: 'Choose language',
         })}
       </label>
       <select
@@ -22,11 +22,11 @@ const LanguageSwitch = () => {
         onChange={(e) => changeLanguage(e.target.value)}
         id="language-switcher"
       >
-        {["en", "de"].map((lang) => (
+        {['en', 'de'].map((lang) => (
           <option key={lang} value={lang}>
             {intl.formatMessage({
               id: `language_${lang}`,
-              defaultMessage: "Language X",
+              defaultMessage: 'Language X',
             })}
           </option>
         ))}

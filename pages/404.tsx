@@ -1,9 +1,9 @@
-import React from "react";
-import { useIntl } from "react-intl";
+import React from 'react';
+import { useIntl } from 'react-intl';
 
-import MetaTags from "../modules/common/components/MetaTags";
+import MetaTags from '../modules/common/components/MetaTags';
 
-const NotFound = ({ page = "" }) => {
+const NotFound = ({ page = '' }) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -15,21 +15,21 @@ const NotFound = ({ page = "" }) => {
           <h1 className="font-weight-bolder font-dax-ot-regular">
             {formatMessage(
               {
-                id: "404-not-found-header",
+                id: '404-not-found-header',
                 defaultMessage: `404: Requested {page} not found`,
               },
               {
-                page: page || "page",
+                page: page || 'page',
               },
-            )}{" "}
+            )}{' '}
           </h1>
           <div className="mb-5">
             <div className="text-center">
               <p>
                 {formatMessage({
-                  id: "404_not-found-message",
+                  id: '404_not-found-message',
                   defaultMessage:
-                    "Sorry, the page you were looking for was not found!",
+                    'Sorry, the page you were looking for was not found!',
                 })}
               </p>
             </div>

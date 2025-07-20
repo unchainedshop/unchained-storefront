@@ -1,4 +1,4 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
 const Loading = ({ children }: any) => {
   const { formatMessage } = useIntl();
@@ -20,9 +20,9 @@ const Loading = ({ children }: any) => {
         </svg>
 
         <div>
-          {" "}
+          {' '}
           {children ||
-            formatMessage({ id: "loading", defaultMessage: "Loading..." })}
+            formatMessage({ id: 'loading', defaultMessage: 'Loading...' })}
         </div>
       </div>
     </div>

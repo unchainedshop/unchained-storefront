@@ -1,14 +1,14 @@
-import { useIntl } from "react-intl";
-import { useState } from "react";
-import classNames from "classnames";
-import { useAppContext } from "../common/components/AppContextWrapper";
-import Button from "../common/components/Button";
-import Form from "../forms/components/Form";
-import TextField from "../forms/components/TextField";
-import FormErrors from "../forms/components/FormErrors";
+import { useIntl } from 'react-intl';
+import { useState } from 'react';
+import classNames from 'classnames';
+import { useAppContext } from '../common/components/AppContextWrapper';
+import Button from '../common/components/Button';
+import Form from '../forms/components/Form';
+import TextField from '../forms/components/TextField';
+import FormErrors from '../forms/components/FormErrors';
 
-import Toggle from "../common/components/Toggle";
-import usePushNotification from "../context/push-notification/usePushNotification";
+import Toggle from '../common/components/Toggle';
+import usePushNotification from '../context/push-notification/usePushNotification';
 
 const ContactForm = ({ contact, onSubmit, onCancel }) => {
   const { formatMessage } = useIntl();
@@ -39,8 +39,8 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
     >
       <TextField
         label={formatMessage({
-          id: "email-address",
-          defaultMessage: "Email Address",
+          id: 'email-address',
+          defaultMessage: 'Email Address',
         })}
         name="emailAddress"
         type="email"
@@ -49,8 +49,8 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
 
       <TextField
         label={formatMessage({
-          id: "telNumber",
-          defaultMessage: "Mobile Phone",
+          id: 'telNumber',
+          defaultMessage: 'Mobile Phone',
         })}
         name="telNumber"
         type="tel"
@@ -72,8 +72,8 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
       <div className="flex gap-4 pt-4">
         <Button
           text={formatMessage({
-            id: "save_contact",
-            defaultMessage: "Save Contact Data",
+            id: 'save_contact',
+            defaultMessage: 'Save Contact Data',
           })}
           type="submit"
           variant="primary"
@@ -81,8 +81,8 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
         />
         <Button
           text={formatMessage({
-            id: "cancel",
-            defaultMessage: "Cancel",
+            id: 'cancel',
+            defaultMessage: 'Cancel',
           })}
           type="button"
           variant="secondary"

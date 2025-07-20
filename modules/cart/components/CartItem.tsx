@@ -1,20 +1,20 @@
-import Image from "next/legacy/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import Image from 'next/legacy/image';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 import {
   MinusIcon,
   PhotoIcon,
   PlusIcon,
   TrashIcon,
-} from "@heroicons/react/20/solid";
-import { useIntl } from "react-intl";
-import getMediaUrl from "../../common/utils/getMediaUrl";
-import useRemoveCartItem from "../hooks/useRemoveCartItem";
-import useUpdateCartItemMutation from "../hooks/useUpdateCartItem";
-import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
-import FormattedPrice from "../../common/components/FormattedPrice";
-import getProductHref from "../../common/utils/getProductHref";
+} from '@heroicons/react/20/solid';
+import { useIntl } from 'react-intl';
+import getMediaUrl from '../../common/utils/getMediaUrl';
+import useRemoveCartItem from '../hooks/useRemoveCartItem';
+import useUpdateCartItemMutation from '../hooks/useUpdateCartItem';
+import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
+import FormattedPrice from '../../common/components/FormattedPrice';
+import getProductHref from '../../common/utils/getProductHref';
 
 const CartItem = ({
   _id,
@@ -40,7 +40,7 @@ const CartItem = ({
   const handleBlur = (e) => {
     const amount = parseFloat(currentQuantity);
     let newValue = 0;
-    if (Number.isNaN(amount) || amount < 0 || e.target.value === "0") {
+    if (Number.isNaN(amount) || amount < 0 || e.target.value === '0') {
       newValue = 1;
       setCurrentQuantity(1);
     } else {
@@ -106,7 +106,7 @@ const CartItem = ({
                 onClick={() => removeCartItem({ itemId: _id })}
               >
                 <span className="sr-only">
-                  {formatMessage({ id: "remove", defaultMessage: "Remove" })}
+                  {formatMessage({ id: 'remove', defaultMessage: 'Remove' })}
                 </span>
                 <TrashIcon className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -121,7 +121,7 @@ const CartItem = ({
 
           <div>
             <label htmlFor="quantity" className="sr-only">
-              {formatMessage({ id: "quantity", defaultMessage: "Quantity" })}
+              {formatMessage({ id: 'quantity', defaultMessage: 'Quantity' })}
             </label>
             {enableUpdate ? (
               <div className="flex flex-wrap items-end justify-between">

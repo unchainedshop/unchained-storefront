@@ -1,4 +1,4 @@
-const ListItem = ({ title = "", value = "" } = {}) => {
+const ListItem = ({ title = '', value = '' } = {}) => {
   return (
     <div className="text-right">
       <div className="border-top mt-0 py-3">

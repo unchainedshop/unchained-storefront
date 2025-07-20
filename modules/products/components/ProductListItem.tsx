@@ -1,10 +1,10 @@
-import { PhotoIcon } from "@heroicons/react/20/solid";
-import Image from "next/legacy/image";
-import Link from "next/link";
+import { PhotoIcon } from '@heroicons/react/20/solid';
+import Image from 'next/legacy/image';
+import Link from 'next/link';
 
-import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
-import FormattedPrice from "../../common/components/FormattedPrice";
-import getProductHref from "../../common/utils/getProductHref";
+import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
+import FormattedPrice from '../../common/components/FormattedPrice';
+import getProductHref from '../../common/utils/getProductHref';
 
 const ProductListItem = ({ product }) => {
   const firstMediaUrl = product?.media?.[0]?.file?.url;

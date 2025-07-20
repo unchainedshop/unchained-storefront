@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 const UPDATE_CART_CONTACT_MUTATION = gql`
   mutation UpdateCartContact($contact: ContactInput) {

@@ -1,19 +1,19 @@
-import { useIntl } from "react-intl";
-import Link from "next/link";
-import { CheckCircleIcon, PaperClipIcon } from "@heroicons/react/20/solid";
-import Image from "next/legacy/image";
-import useFormatDateTime from "../../common/utils/useFormatDateTime";
-import useUser from "../../auth/hooks/useUser";
+import { useIntl } from 'react-intl';
+import Link from 'next/link';
+import { CheckCircleIcon, PaperClipIcon } from '@heroicons/react/20/solid';
+import Image from 'next/legacy/image';
+import useFormatDateTime from '../../common/utils/useFormatDateTime';
+import useUser from '../../auth/hooks/useUser';
 
-import getMediaUrl from "../../common/utils/getMediaUrl";
-import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
-import FormattedPrice from "../../common/components/FormattedPrice";
-import getProductHref from "../../common/utils/getProductHref";
+import getMediaUrl from '../../common/utils/getMediaUrl';
+import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
+import FormattedPrice from '../../common/components/FormattedPrice';
+import getProductHref from '../../common/utils/getProductHref';
 
 function getFlagEmoji(countryCode) {
   const codePoints = countryCode
     ?.toUpperCase()
-    ?.split("")
+    ?.split('')
     ?.map((char) => 127397 + Number(char?.charCodeAt()));
   return String.fromCodePoint(...(codePoints || []));
 }
@@ -31,7 +31,7 @@ const OrderDetailComponent = ({ order }) => {
           <div className="flex sm:items-baseline sm:space-x-4">
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
               {formatMessage({
-                id: "order_num",
+                id: 'order_num',
                 defaultMessage: `Order #`,
               })}
               <span>{order?.orderNumber}</span>
@@ -39,8 +39,8 @@ const OrderDetailComponent = ({ order }) => {
           </div>
           <p className="text-sm text-slate-600 dark:text-slate-300">
             {formatMessage({
-              id: "order_placed",
-              defaultMessage: "Order placed",
+              id: 'order_placed',
+              defaultMessage: 'Order placed',
             })}
             <time
               dateTime="2021-03-22"
@@ -55,8 +55,8 @@ const OrderDetailComponent = ({ order }) => {
         <div className="mt-6">
           <h2 className="sr-only">
             {formatMessage({
-              id: "Products purchased",
-              defaultMessage: "products_purchased",
+              id: 'Products purchased',
+              defaultMessage: 'products_purchased',
             })}
           </h2>
 
@@ -73,7 +73,7 @@ const OrderDetailComponent = ({ order }) => {
                       <Image
                         src={`${
                           getMediaUrl(item?.product) ||
-                          "/static/img/sun-glass-placeholder.jpeg"
+                          '/static/img/sun-glass-placeholder.jpeg'
                         }`}
                         alt={item?.product?.texts?.title}
                         layout="fill"
@@ -107,8 +107,8 @@ const OrderDetailComponent = ({ order }) => {
         <div className="mt-16">
           <h2 className="sr-only">
             {formatMessage({
-              id: "delivery_summary",
-              defaultMessage: "Delivery Summary",
+              id: 'delivery_summary',
+              defaultMessage: 'Delivery Summary',
             })}
           </h2>
 
@@ -117,8 +117,8 @@ const OrderDetailComponent = ({ order }) => {
               <div>
                 <dt className="text-base font-medium text-slate-900 dark:text-slate-100">
                   {formatMessage({
-                    id: "delivery_address",
-                    defaultMessage: "Delivery address",
+                    id: 'delivery_address',
+                    defaultMessage: 'Delivery address',
                   })}
                 </dt>
                 <dd className="mt-3 text-slate-500 dark:text-slate-300">
@@ -146,8 +146,8 @@ const OrderDetailComponent = ({ order }) => {
               <div>
                 <dt className="text-lg font-medium text-slate-900 dark:text-white">
                   {formatMessage({
-                    id: "delivery_information",
-                    defaultMessage: "Delivery Information",
+                    id: 'delivery_information',
+                    defaultMessage: 'Delivery Information',
                   })}
                 </dt>
                 <dd className="-ml-4 -mt-1">
@@ -180,8 +180,8 @@ const OrderDetailComponent = ({ order }) => {
                           />
                           <span className="mx-2">
                             {formatMessage({
-                              id: "delivered_on",
-                              defaultMessage: "Delivered on",
+                              id: 'delivered_on',
+                              defaultMessage: 'Delivered on',
                             })}
                           </span>
                           <time dateTime={order?.delivery?.delivered}>
@@ -200,8 +200,8 @@ const OrderDetailComponent = ({ order }) => {
                 <div className="flex items-center justify-between pb-4">
                   <dt className="font-medium text-slate-900 dark:text-slate-100">
                     {formatMessage({
-                      id: "document",
-                      defaultMessage: "Document",
+                      id: 'document',
+                      defaultMessage: 'Document',
                     })}
                   </dt>
                 </div>
@@ -228,8 +228,8 @@ const OrderDetailComponent = ({ order }) => {
                               className="font-medium text-blue-600 hover:text-blue-500 dark:text-fuchsia-500 dark:hover:text-fuchsia-600"
                             >
                               {formatMessage({
-                                id: "download",
-                                defaultMessage: "Download",
+                                id: 'download',
+                                defaultMessage: 'Download',
                               })}
                             </a>
                           </div>
@@ -247,8 +247,8 @@ const OrderDetailComponent = ({ order }) => {
         <div className="mt-16">
           <h2 className="sr-only">
             {formatMessage({
-              id: "billing_summary",
-              defaultMessage: "Billing Summary",
+              id: 'billing_summary',
+              defaultMessage: 'Billing Summary',
             })}
           </h2>
 
@@ -257,8 +257,8 @@ const OrderDetailComponent = ({ order }) => {
               <div>
                 <dt className="text-lg font-medium text-slate-900 dark:text-slate-100">
                   {formatMessage({
-                    id: "billing_address",
-                    defaultMessage: "Billing address",
+                    id: 'billing_address',
+                    defaultMessage: 'Billing address',
                   })}
                 </dt>
                 <dd className="mt-3 text-slate-500 dark:text-slate-300">
@@ -285,12 +285,12 @@ const OrderDetailComponent = ({ order }) => {
               <div>
                 <dt className="text-lg font-medium text-slate-900 dark:text-slate-100">
                   {formatMessage({
-                    id: "payment-information",
-                    defaultMessage: "Payment Information",
+                    id: 'payment-information',
+                    defaultMessage: 'Payment Information',
                   })}
                 </dt>
                 <div className="flex items-center gap-2">
-                  {order?.status !== "PENDING" && (
+                  {order?.status !== 'PENDING' && (
                     <dd className="-ml-4 -mt-1">
                       <div className="ml-4 mt-4">
                         <p className="sr-only">
@@ -327,8 +327,8 @@ const OrderDetailComponent = ({ order }) => {
                               />
                               <span className="mx-2">
                                 {formatMessage({
-                                  id: "paid_on",
-                                  defaultMessage: "paid on",
+                                  id: 'paid_on',
+                                  defaultMessage: 'paid on',
                                 })}
                               </span>
                               <time dateTime={order?.paid}>
@@ -348,8 +348,8 @@ const OrderDetailComponent = ({ order }) => {
               <div className="flex items-center justify-between pb-4">
                 <dt className="text-slate-600 dark:text-slate-300">
                   {formatMessage({
-                    id: "subtotal",
-                    defaultMessage: "Subtotal",
+                    id: 'subtotal',
+                    defaultMessage: 'Subtotal',
                   })}
                 </dt>
                 <dd className="font-medium text-slate-900 dark:text-dslate-400">
@@ -360,8 +360,8 @@ const OrderDetailComponent = ({ order }) => {
                 <div className="flex items-center justify-between py-4">
                   <dt className="text-slate-600 dark:text-slate-300">
                     {formatMessage({
-                      id: "shipping",
-                      defaultMessage: "Shipping",
+                      id: 'shipping',
+                      defaultMessage: 'Shipping',
                     })}
                   </dt>
                   <dd className="font-medium text-slate-900 dark:text-slate-100">
@@ -372,8 +372,8 @@ const OrderDetailComponent = ({ order }) => {
               <div className="flex items-center justify-between pt-4">
                 <dt className="font-medium text-slate-900 dark:text-slate-100">
                   {formatMessage({
-                    id: "order_total",
-                    defaultMessage: "Order total",
+                    id: 'order_total',
+                    defaultMessage: 'Order total',
                   })}
                 </dt>
                 <dd className="font-medium text-slate-600 dark:text-dslate-400">

@@ -1,16 +1,16 @@
-import { useIntl } from "react-intl";
-import { PrinterIcon } from "@heroicons/react/20/solid";
-import OrderDetailItem from "./OrderDetailItem";
+import { useIntl } from 'react-intl';
+import { PrinterIcon } from '@heroicons/react/20/solid';
+import OrderDetailItem from './OrderDetailItem';
 
-import OrderDetailBilling from "./OrderDetailBilling";
-import OrderDetailPayment from "./OrderDetailPayment";
-import OrderDetailDelivery from "./OrderDetailDelivery";
+import OrderDetailBilling from './OrderDetailBilling';
+import OrderDetailPayment from './OrderDetailPayment';
+import OrderDetailDelivery from './OrderDetailDelivery';
 
-import OrderDetailHeader from "./OrderDetailHeader";
-import useOrderStatusTypes from "../orders/hooks/useOrderStatusTypes";
-import StatusProgress from "./StatusProgress";
-import Button from "../common/components/Button";
-import FadeInSection from "../common/components/FadeInSection";
+import OrderDetailHeader from './OrderDetailHeader';
+import useOrderStatusTypes from '../orders/hooks/useOrderStatusTypes';
+import StatusProgress from './StatusProgress';
+import Button from '../common/components/Button';
+import FadeInSection from '../common/components/FadeInSection';
 
 const OrderDetail = ({ order }) => {
   const { orderStatusType } = useOrderStatusTypes();
@@ -19,18 +19,18 @@ const OrderDetail = ({ order }) => {
   const timeline = {
     REJECTED: {
       id: 1,
-      content: "rejected",
-      visible: order?.status === "REJECTED",
+      content: 'rejected',
+      visible: order?.status === 'REJECTED',
     },
     CONFIRMED: {
       id: 2,
-      content: "confirmed",
-      visible: order?.status !== "REJECTED",
+      content: 'confirmed',
+      visible: order?.status !== 'REJECTED',
     },
     FULLFILLED: {
       id: 3,
-      content: "fullfilled",
-      visible: order?.status !== "REJECTED",
+      content: 'fullfilled',
+      visible: order?.status !== 'REJECTED',
     },
   };
 
@@ -89,8 +89,8 @@ const OrderDetail = ({ order }) => {
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-6 text-center">
               <Button
                 text={formatMessage({
-                  id: "print",
-                  defaultMessage: "Print Order",
+                  id: 'print',
+                  defaultMessage: 'Print Order',
                 })}
                 variant="secondary"
                 type="button"

@@ -1,5 +1,5 @@
-import { useQuery, gql } from "@apollo/client";
-import OrderDetailFragment from "../fragments/OrderDetailFragment";
+import { useQuery, gql } from '@apollo/client';
+import OrderDetailFragment from '../fragments/OrderDetailFragment';
 
 export const ORDER_DETAIL_QUERY = gql`
   query OrderDetailQuery($orderId: ID!) {
@@ -14,7 +14,7 @@ const useOrderDetail = ({ orderId }) => {
   const { data, loading, error, ...rest } = useQuery(ORDER_DETAIL_QUERY, {
     variables: { orderId },
     notifyOnNetworkStatusChange: true,
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
     ssr: false,
     skip: !orderId,
   });

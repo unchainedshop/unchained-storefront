@@ -1,9 +1,9 @@
-import { useQuery, gql } from "@apollo/client";
-import ProductFragment from "../../products/fragments/ProductFragment";
-import SimpleProductPrice from "../../products/fragments/SimpleProductPrice";
-import AssortmentFragment from "../fragments/assortment";
-import AssortmentMediaFragment from "../fragments/AssortmentMedia";
-import AssortmentPathFragment from "../fragments/AssortmentPath";
+import { useQuery, gql } from '@apollo/client';
+import ProductFragment from '../../products/fragments/ProductFragment';
+import SimpleProductPrice from '../../products/fragments/SimpleProductPrice';
+import AssortmentFragment from '../fragments/assortment';
+import AssortmentMediaFragment from '../fragments/AssortmentMedia';
+import AssortmentPathFragment from '../fragments/AssortmentPath';
 
 export const ASSORTMENT_PRODUCTS_QUERY = gql`
   query AssortmentsProducts($slugs: String!, $offset: Int, $limit: Int) {

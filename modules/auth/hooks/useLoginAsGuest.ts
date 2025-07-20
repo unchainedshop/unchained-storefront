@@ -1,4 +1,4 @@
-import { useMutation, useApolloClient, gql } from "@apollo/client";
+import { useMutation, useApolloClient, gql } from '@apollo/client';
 
 export const LOGIN_AS_GUEST_MUTATION = gql`
   mutation LoginAsGuest {

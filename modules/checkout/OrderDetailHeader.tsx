@@ -1,9 +1,9 @@
-import { useIntl } from "react-intl";
-import Badge from "../common/components/Badge";
-import useFormatDateTime from "../common/utils/useFormatDateTime";
+import { useIntl } from 'react-intl';
+import Badge from '../common/components/Badge';
+import useFormatDateTime from '../common/utils/useFormatDateTime';
 
-import { normalizeCurrencyISOCode } from "../common/utils/utils";
-import DetailHeader from "./DetailHeader";
+import { normalizeCurrencyISOCode } from '../common/utils/utils';
+import DetailHeader from './DetailHeader';
 
 const OrderDetailHeader = ({ order }) => {
   const { formatMessage, locale } = useIntl();
@@ -17,7 +17,7 @@ const OrderDetailHeader = ({ order }) => {
           Order Number
         </div>
         <div className="text-xl font-semibold text-slate-900 dark:text-white">
-          {order?.orderNumber || "N/A"}
+          {order?.orderNumber || 'N/A'}
         </div>
       </div>
 
@@ -33,7 +33,7 @@ const OrderDetailHeader = ({ order }) => {
             Order Date
           </div>
           <div className="text-sm text-slate-900 dark:text-white">
-            {order?.ordered ? formatDateTime(order.ordered) : "N/A"}
+            {order?.ordered ? formatDateTime(order.ordered) : 'N/A'}
           </div>
         </div>
         <div>
@@ -42,7 +42,7 @@ const OrderDetailHeader = ({ order }) => {
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-900 dark:text-white">
             <span>{order?.country?.flagEmoji}</span>
-            <span>{order?.currency?.isoCode || "CHF"}</span>
+            <span>{order?.currency?.isoCode || 'CHF'}</span>
           </div>
         </div>
       </div>

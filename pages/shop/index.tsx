@@ -1,9 +1,9 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
-import CategoryListItem from "../../modules/assortment/components/CategoryListItem";
-import useAssortments from "../../modules/assortment/hooks/useAssortments";
-import Loading from "../../modules/common/components/Loading";
-import MetaTags from "../../modules/common/components/MetaTags";
+import CategoryListItem from '../../modules/assortment/components/CategoryListItem';
+import useAssortments from '../../modules/assortment/hooks/useAssortments';
+import Loading from '../../modules/common/components/Loading';
+import MetaTags from '../../modules/common/components/MetaTags';
 
 const Categories = () => {
   const { assortments, loading } = useAssortments();
@@ -13,8 +13,8 @@ const Categories = () => {
     <>
       <MetaTags
         title={formatMessage({
-          id: "product_categories",
-          defaultMessage: "Product Categories",
+          id: 'product_categories',
+          defaultMessage: 'Product Categories',
         })}
       />
       <div className="min-h-screen w-screen ml-[calc(-50vw+50%)] bg-white dark:bg-slate-900">
@@ -29,15 +29,15 @@ const Categories = () => {
               <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
                 <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                   {formatMessage({
-                    id: "shop_by_category",
-                    defaultMessage: "Shop by Category",
+                    id: 'shop_by_category',
+                    defaultMessage: 'Shop by Category',
                   })}
                 </h1>
                 <p className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300">
                   {formatMessage({
-                    id: "categories_description",
+                    id: 'categories_description',
                     defaultMessage:
-                      "Discover our carefully curated collections designed to meet all your needs",
+                      'Discover our carefully curated collections designed to meet all your needs',
                   })}
                 </p>
               </div>

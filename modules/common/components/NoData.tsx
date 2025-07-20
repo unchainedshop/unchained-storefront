@@ -1,12 +1,12 @@
-import { NoSymbolIcon } from "@heroicons/react/20/solid";
-import classnames from "classnames";
-import { FormattedMessage } from "react-intl";
+import { NoSymbolIcon } from '@heroicons/react/20/solid';
+import classnames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
-const NoData = ({ message, className = "", Icon = null }) => {
+const NoData = ({ message, className = '', Icon = null }) => {
   return (
     <div
       className={classnames(
-        "flex w-full flex-col items-center justify-center bg-white py-8 text-slate-500 dark:bg-slate-500 dark:text-white",
+        'flex w-full flex-col items-center justify-center bg-white py-8 text-slate-500 dark:bg-slate-500 dark:text-white',
         className,
       )}
     >

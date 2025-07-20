@@ -1,15 +1,15 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
-import Image from "next/image";
+import Image from 'next/image';
 
-import MetaTags from "../modules/common/components/MetaTags";
-import defaultNextImageLoader from "../modules/common/utils/defaultNextImageLoader";
-import useProducts from "../modules/products/hooks/useProducts";
-import useAssortments from "../modules/assortment/hooks/useAssortments";
-import ProductList from "../modules/products/components/ProductList";
-import CategoryListItem from "../modules/assortment/components/CategoryListItem";
-import Loading from "../modules/common/components/Loading";
-import ListViewWrapper from "../modules/common/components/ListViewWrapper";
+import MetaTags from '../modules/common/components/MetaTags';
+import defaultNextImageLoader from '../modules/common/utils/defaultNextImageLoader';
+import useProducts from '../modules/products/hooks/useProducts';
+import useAssortments from '../modules/assortment/hooks/useAssortments';
+import ProductList from '../modules/products/components/ProductList';
+import CategoryListItem from '../modules/assortment/components/CategoryListItem';
+import Loading from '../modules/common/components/Loading';
+import ListViewWrapper from '../modules/common/components/ListViewWrapper';
 
 const Home = () => {
   const {
@@ -24,7 +24,7 @@ const Home = () => {
 
   return (
     <>
-      <MetaTags title={formatMessage({ id: "home", defaultMessage: "Home" })} />
+      <MetaTags title={formatMessage({ id: 'home', defaultMessage: 'Home' })} />
       <div className="min-h-screen bg-white dark:bg-slate-950">
         {/* Hero Section */}
         <section
@@ -33,14 +33,14 @@ const Home = () => {
         >
           <div className="relative h-[60vh] w-full">
             <Image
-              src="/static/img/hero.png"
+              src="placeholder.png"
               fill
               style={{
-                objectFit: "cover",
-                objectPosition: "center",
+                objectFit: 'cover',
+                objectPosition: 'center',
               }}
               quality={100}
-              alt={formatMessage({ id: "hero", defaultMessage: "Hero" })}
+              alt={formatMessage({ id: 'hero', defaultMessage: 'Hero' })}
               loader={defaultNextImageLoader}
               priority
             />
@@ -49,14 +49,14 @@ const Home = () => {
               <div className="container mx-auto px-2 text-center text-white">
                 <h1 className="mb-4 text-4xl text-white/50 font-semibold tracking-tight sm:text-5xl">
                   {formatMessage({
-                    id: "hero_title",
-                    defaultMessage: "Ecommerce Starter Template",
+                    id: 'hero_title',
+                    defaultMessage: 'Ecommerce Starter Template',
                   })}
                 </h1>
                 <p className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl">
                   {formatMessage({
-                    id: "hero_subtitle",
-                    defaultMessage: "Powered by Unchained and Next.js",
+                    id: 'hero_subtitle',
+                    defaultMessage: 'Powered by Unchained and Next.js',
                   })}
                 </p>
                 <a
@@ -66,8 +66,8 @@ const Home = () => {
                   className="mt-4 inline-flex items-center px-3 py-1.5 text-base font-medium rounded-md text-slate-50 hover:text-white border-2 border-slate-800 hover:border-slate-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
                 >
                   {formatMessage({
-                    id: "view_on_github",
-                    defaultMessage: "View on GitHub",
+                    id: 'view_on_github',
+                    defaultMessage: 'View on GitHub',
                   })}
                 </a>
               </div>
@@ -81,15 +81,15 @@ const Home = () => {
             <div className="text-center">
               <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
-                  id: "browse_categories",
-                  defaultMessage: "Browse Categories",
+                  id: 'browse_categories',
+                  defaultMessage: 'Browse Categories',
                 })}
               </h2>
               <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
                 {formatMessage({
-                  id: "categories_subtitle",
+                  id: 'categories_subtitle',
                   defaultMessage:
-                    "Explore our wide range of product categories",
+                    'Explore our wide range of product categories',
                 })}
               </p>
             </div>
@@ -121,14 +121,14 @@ const Home = () => {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
-                  id: "all_products",
-                  defaultMessage: "All Products",
+                  id: 'all_products',
+                  defaultMessage: 'All Products',
                 })}
               </h2>
               <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
                 {formatMessage({
-                  id: "products_subtitle",
-                  defaultMessage: "Discover our complete collection",
+                  id: 'products_subtitle',
+                  defaultMessage: 'Discover our complete collection',
                 })}
               </p>
             </div>
@@ -159,8 +159,8 @@ const Home = () => {
               <div className="text-center py-12">
                 <p className="text-slate-600 dark:text-slate-400">
                   {formatMessage({
-                    id: "no_products",
-                    defaultMessage: "No products available",
+                    id: 'no_products',
+                    defaultMessage: 'No products available',
                   })}
                 </p>
               </div>

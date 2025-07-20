@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import useAddCartProduct from "./useAddCartProduct";
+import { useState, useEffect } from 'react';
+import useAddCartProduct from './useAddCartProduct';
 
 const DEFAULT_MAX_QUANTITY = 100;
 

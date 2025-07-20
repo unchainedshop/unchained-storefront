@@ -1,57 +1,57 @@
-import Link from "next/link";
-import { useIntl } from "react-intl";
+import Link from 'next/link';
+import { useIntl } from 'react-intl';
 
-import LanguageSwitch from "../../common/components/LanguageSwitch";
-import useAssortments from "../../assortment/hooks/useAssortments";
+import LanguageSwitch from '../../common/components/LanguageSwitch';
+import useAssortments from '../../assortment/hooks/useAssortments';
 
 const getFooterNavigation = (formatMessage) => ({
   products: [],
   customerService: [
     {
-      name: formatMessage({ id: "contact", defaultMessage: "Contact" }),
-      href: "#",
+      name: formatMessage({ id: 'contact', defaultMessage: 'Contact' }),
+      href: '#',
     },
   ],
   company: [
     {
-      name: formatMessage({ id: "about", defaultMessage: "About us" }),
-      href: "/about",
+      name: formatMessage({ id: 'about', defaultMessage: 'About us' }),
+      href: '/about',
     },
     {
-      name: formatMessage({ id: "imprint", defaultMessage: "Imprint" }),
-      href: "/imprint",
+      name: formatMessage({ id: 'imprint', defaultMessage: 'Imprint' }),
+      href: '/imprint',
     },
   ],
   legal: [
     {
       name: formatMessage({
-        id: "terms_and_conditions",
-        defaultMessage: "Terms & Conditions",
+        id: 'terms_and_conditions',
+        defaultMessage: 'Terms & Conditions',
       }),
-      href: "/terms-conditions",
+      href: '/terms-conditions',
     },
     {
       name: formatMessage({
-        id: "privacy",
-        defaultMessage: "Privacy Policy",
+        id: 'privacy',
+        defaultMessage: 'Privacy Policy',
       }),
-      href: "/privacy-policy",
+      href: '/privacy-policy',
     },
   ],
   unchained: [
     {
-      name: formatMessage({ id: "github", defaultMessage: "GitHub" }),
-      href: "https://github.com/unchainedshop",
+      name: formatMessage({ id: 'github', defaultMessage: 'GitHub' }),
+      href: 'https://github.com/unchainedshop',
       external: true,
     },
     {
-      name: formatMessage({ id: "docs", defaultMessage: "Documentation" }),
-      href: "https://docs.unchained.shop",
+      name: formatMessage({ id: 'docs', defaultMessage: 'Documentation' }),
+      href: 'https://docs.unchained.shop',
       external: true,
     },
     {
-      name: formatMessage({ id: "support", defaultMessage: "Support" }),
-      href: "https://unchained.shop/contact",
+      name: formatMessage({ id: 'support', defaultMessage: 'Support' }),
+      href: 'https://unchained.shop/contact',
       external: true,
     },
   ],
@@ -71,7 +71,7 @@ const Footer = () => {
       className="my-32 container mx-auto bg-white dark:bg-slate-950 print:hidden"
     >
       <h2 id="footer-heading" className="sr-only">
-        {formatMessage({ id: "footer", defaultMessage: "Footer" })}
+        {formatMessage({ id: 'footer', defaultMessage: 'Footer' })}
       </h2>
 
       <div className="px-6 lg:px-8 mx-auto">
@@ -92,8 +92,8 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="uppercase text-lg font-semibold text-slate-900 dark:text-white mb-6">
               {formatMessage({
-                id: "shop_title",
-                defaultMessage: "Unchained Store",
+                id: 'shop_title',
+                defaultMessage: 'Unchained Store',
               })}
             </div>
 
@@ -101,8 +101,8 @@ const Footer = () => {
             <div>
               <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
                 {formatMessage({
-                  id: "categories",
-                  defaultMessage: "Categories",
+                  id: 'categories',
+                  defaultMessage: 'Categories',
                 })}
               </h3>
               {!assortmentsLoading && assortments.length > 0 && (
@@ -150,8 +150,8 @@ const Footer = () => {
               <div>
                 <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
                   {formatMessage({
-                    id: "company",
-                    defaultMessage: "Company",
+                    id: 'company',
+                    defaultMessage: 'Company',
                   })}
                 </h3>
                 <ul className="mt-3 space-y-3">
@@ -170,7 +170,7 @@ const Footer = () => {
 
               <div className="mt-11">
                 <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
-                  {formatMessage({ id: "legal", defaultMessage: "Legal" })}
+                  {formatMessage({ id: 'legal', defaultMessage: 'Legal' })}
                 </h3>
                 <ul className="mt-3 space-y-3">
                   {footerNavigation.legal.map((item) => (
@@ -224,8 +224,8 @@ const Footer = () => {
               <span className="mx-2">{new Date().getFullYear()}</span>
               <span>
                 {formatMessage({
-                  id: "right",
-                  defaultMessage: "All Rights Reserved",
+                  id: 'right',
+                  defaultMessage: 'All Rights Reserved',
                 })}
               </span>
             </p>

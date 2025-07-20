@@ -1,24 +1,24 @@
-import { useRouter } from "next/router";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useRouter } from 'next/router';
+import { FormattedMessage, useIntl } from 'react-intl';
 
-import Link from "next/link";
-import Image from "next/legacy/image";
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import useOrderDetail from "../modules/orders/hooks/useOrderDetail";
-import MetaTags from "../modules/common/components/MetaTags";
-import CartItem from "../modules/cart/components/CartItem";
-import useFormatDateTime from "../modules/common/utils/useFormatDateTime";
-import defaultNextImageLoader from "../modules/common/utils/defaultNextImageLoader";
-import FormattedPrice from "../modules/common/components/FormattedPrice";
-import ConfettiCelebration from "../modules/common/components/ConfettiCelebration";
-import AnimatedCheckmark from "../modules/common/components/AnimatedCheckmark";
-import CountUpAnimation from "../modules/common/components/CountUpAnimation";
-import FadeInSection from "../modules/common/components/FadeInSection";
+import Link from 'next/link';
+import Image from 'next/legacy/image';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import useOrderDetail from '../modules/orders/hooks/useOrderDetail';
+import MetaTags from '../modules/common/components/MetaTags';
+import CartItem from '../modules/cart/components/CartItem';
+import useFormatDateTime from '../modules/common/utils/useFormatDateTime';
+import defaultNextImageLoader from '../modules/common/utils/defaultNextImageLoader';
+import FormattedPrice from '../modules/common/components/FormattedPrice';
+import ConfettiCelebration from '../modules/common/components/ConfettiCelebration';
+import AnimatedCheckmark from '../modules/common/components/AnimatedCheckmark';
+import CountUpAnimation from '../modules/common/components/CountUpAnimation';
+import FadeInSection from '../modules/common/components/FadeInSection';
 
 function getFlagEmoji(countryCode) {
   const codePoints = countryCode
     ?.toUpperCase()
-    ?.split("")
+    ?.split('')
     ?.map((char) => 127397 + Number(char?.charCodeAt() || 0));
   return String.fromCodePoint(...(codePoints || []));
 }
@@ -31,19 +31,19 @@ const ThankYou = () => {
     orderId: router.query?.orderId,
   });
 
-  if (!router.query.orderId) return "";
+  if (!router.query.orderId) return '';
 
   return (
     <>
       <MetaTags
         title={formatMessage({
-          id: "thank_you",
-          defaultMessage: "Thank you!",
+          id: 'thank_you',
+          defaultMessage: 'Thank you!',
         })}
         description={formatMessage({
-          id: "thank_you_description",
+          id: 'thank_you_description',
           defaultMessage:
-            "It has reached us and an email with the order placement  confirmation is on its way. To avoid any potential  miscommunication, please check your spam, perhaps the email landed  there.",
+            'It has reached us and an email with the order placement  confirmation is on its way. To avoid any potential  miscommunication, please check your spam, perhaps the email landed  there.',
         })}
       />
 
@@ -52,13 +52,13 @@ const ThankYou = () => {
         duration={4000}
         particleCount={100}
         colors={[
-          "#059669",
-          "#10b981",
-          "#34d399",
-          "#6ee7b7",
-          "#a7f3d0",
-          "#f59e0b",
-          "#fbbf24",
+          '#059669',
+          '#10b981',
+          '#34d399',
+          '#6ee7b7',
+          '#a7f3d0',
+          '#f59e0b',
+          '#fbbf24',
         ]}
       />
 
@@ -73,8 +73,8 @@ const ThankYou = () => {
                 <AnimatedCheckmark size="lg" delay={800} />
                 <h1 className="text-sm font-medium text-green-600 dark:text-green-400">
                   {formatMessage({
-                    id: "thank_you",
-                    defaultMessage: "Thank you!",
+                    id: 'thank_you',
+                    defaultMessage: 'Thank you!',
                   })}
                 </h1>
               </FadeInSection>
@@ -82,8 +82,8 @@ const ThankYou = () => {
               <FadeInSection delay={400}>
                 <p className="mt-2 text-4xl tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                   {formatMessage({
-                    id: "thank_you_header",
-                    defaultMessage: "Thank You for Placing this Order with Us!",
+                    id: 'thank_you_header',
+                    defaultMessage: 'Thank You for Placing this Order with Us!',
                   })}
                 </p>
               </FadeInSection>
@@ -91,9 +91,9 @@ const ThankYou = () => {
               <FadeInSection delay={600}>
                 <p className="mt-6 text-base text-slate-500 dark:text-slate-400 leading-relaxed">
                   {formatMessage({
-                    id: "thank_you_description",
+                    id: 'thank_you_description',
                     defaultMessage:
-                      "It has reached us and an email with the order placement  confirmation is on its way. To avoid any potential  miscommunication, please check your spam, perhaps the email landed  there.",
+                      'It has reached us and an email with the order placement  confirmation is on its way. To avoid any potential  miscommunication, please check your spam, perhaps the email landed  there.',
                   })}
                 </p>
               </FadeInSection>
@@ -121,15 +121,15 @@ const ThankYou = () => {
                               <CountUpAnimation
                                 end={
                                   parseInt(
-                                    order.orderNumber?.replace(/[^0-9]/g, "") ||
-                                      "0",
+                                    order.orderNumber?.replace(/[^0-9]/g, '') ||
+                                      '0',
                                   ) || 1000
                                 }
                                 delay={1000}
                                 duration={1500}
                                 prefix={
-                                  order.orderNumber?.replace(/[0-9]/g, "") ||
-                                  "#"
+                                  order.orderNumber?.replace(/[0-9]/g, '') ||
+                                  '#'
                                 }
                               />
                             </dd>
@@ -199,12 +199,12 @@ const ThankYou = () => {
                   <div>
                     <dt className="font-medium text-slate-900 dark:text-white">
                       {formatMessage({
-                        id: "shipping_address",
-                        defaultMessage: "Shipping Address",
+                        id: 'shipping_address',
+                        defaultMessage: 'Shipping Address',
                       })}
                     </dt>
                     <dd className="mt-2">
-                      {order?.delivery?.provider?.type === "SHIPPING" ? (
+                      {order?.delivery?.provider?.type === 'SHIPPING' ? (
                         <address className="mt-3 not-italic text-slate-500 dark:text-slate-300">
                           <span className="block">
                             {order?.delivery?.address?.firstName}&nbsp;
@@ -226,8 +226,8 @@ const ThankYou = () => {
                         <div>
                           <span className="block">
                             {formatMessage({
-                              id: "order_pickup",
-                              defaultMessage: "Order is pick up",
+                              id: 'order_pickup',
+                              defaultMessage: 'Order is pick up',
                             })}
                           </span>
                         </div>
@@ -238,8 +238,8 @@ const ThankYou = () => {
                   <div>
                     <dt className="font-medium text-slate-900 dark:text-white">
                       {formatMessage({
-                        id: "payment-information",
-                        defaultMessage: "Payment Information",
+                        id: 'payment-information',
+                        defaultMessage: 'Payment Information',
                       })}
                     </dt>
                     <dd className="-ml-4 -mt-1">
@@ -275,8 +275,8 @@ const ThankYou = () => {
                               <AnimatedCheckmark size="sm" delay={1500} />
                               <span className="mx-2 text-green-700 dark:text-green-400 font-medium">
                                 {formatMessage({
-                                  id: "paid_on",
-                                  defaultMessage: "paid on",
+                                  id: 'paid_on',
+                                  defaultMessage: 'paid on',
                                 })}
                               </span>
                               <time
@@ -301,8 +301,8 @@ const ThankYou = () => {
                     className="inline-flex items-center px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
                   >
                     {formatMessage({
-                      id: "continue_shopping",
-                      defaultMessage: "Continue Shopping",
+                      id: 'continue_shopping',
+                      defaultMessage: 'Continue Shopping',
                     })}
                     <span aria-hidden="true" className="ml-2">
                       &rarr;

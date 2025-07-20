@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useIntl } from "react-intl";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
-import MetaTags from "../modules/common/components/MetaTags";
-import useProducts from "../modules/products/hooks/useProducts";
-import ProductListItem from "../modules/products/components/ProductListItem";
-import Loading from "../modules/common/components/Loading";
+import MetaTags from '../modules/common/components/MetaTags';
+import useProducts from '../modules/products/hooks/useProducts';
+import ProductListItem from '../modules/products/components/ProductListItem';
+import Loading from '../modules/common/components/Loading';
 
 const Search = () => {
   const { formatMessage } = useIntl();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
   // You can implement actual search logic here
@@ -22,14 +22,14 @@ const Search = () => {
     if (searchQuery.trim()) {
       setIsSearching(true);
       // Implement search logic here
-      console.log("Searching for:", searchQuery);
+      console.log('Searching for:', searchQuery);
     }
   };
 
   return (
     <>
       <MetaTags
-        title={formatMessage({ id: "search", defaultMessage: "Search" })}
+        title={formatMessage({ id: 'search', defaultMessage: 'Search' })}
       />
       <div className="min-h-screen bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
@@ -37,13 +37,13 @@ const Search = () => {
           <div className="mb-12 text-center">
             <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
               {formatMessage({
-                id: "search_products",
-                defaultMessage: "Search Products",
+                id: 'search_products',
+                defaultMessage: 'Search Products',
               })}
             </h1>
             <p className="text-lg text-slate-600 dark:text-slate-300">
               {formatMessage({
-                id: "search_description",
+                id: 'search_description',
                 defaultMessage: "Find exactly what you're looking for",
               })}
             </p>
@@ -60,8 +60,8 @@ const Search = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={formatMessage({
-                  id: "search_placeholder",
-                  defaultMessage: "Search for products...",
+                  id: 'search_placeholder',
+                  defaultMessage: 'Search for products...',
                 })}
                 className="block w-full rounded-xl border border-slate-300 bg-white py-4 pl-12 pr-4 text-slate-900 placeholder-slate-500 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:bg-slate-900 dark:text-white dark:placeholder-slate-400"
               />
@@ -80,7 +80,7 @@ const Search = () => {
                   <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
                     {formatMessage(
                       {
-                        id: "search_results_for",
+                        id: 'search_results_for',
                         defaultMessage: "Results for '{query}'",
                       },
                       { query: searchQuery },
@@ -104,8 +104,8 @@ const Search = () => {
                 <div className="text-center">
                   <p className="text-slate-600 dark:text-slate-300">
                     {formatMessage({
-                      id: "no_search_results",
-                      defaultMessage: "No products found matching your search.",
+                      id: 'no_search_results',
+                      defaultMessage: 'No products found matching your search.',
                     })}
                   </p>
                 </div>
@@ -113,8 +113,8 @@ const Search = () => {
                 <div className="text-center">
                   <p className="text-slate-600 dark:text-slate-300">
                     {formatMessage({
-                      id: "search_instruction",
-                      defaultMessage: "Enter a search term to find products.",
+                      id: 'search_instruction',
+                      defaultMessage: 'Enter a search term to find products.',
                     })}
                   </p>
                 </div>

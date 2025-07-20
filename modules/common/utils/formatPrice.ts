@@ -1,4 +1,4 @@
-import { formatCurrency } from "@coingecko/cryptoformat";
+import { formatCurrency } from '@coingecko/cryptoformat';
 
 export const roundUp = (amount, decimals) => {
   if (decimals <= 2) return amount;
@@ -8,24 +8,24 @@ export const roundUp = (amount, decimals) => {
 // Currency configuration
 const CURRENCY_CONFIG = {
   CHF: {
-    locale: "de-CH",
+    locale: 'de-CH',
     decimals: 2,
     isStandardCurrency: true,
   },
   EUR: {
-    locale: "de-DE",
+    locale: 'de-DE',
     decimals: 2,
     isStandardCurrency: true,
   },
   USD: {
-    locale: "en-US",
+    locale: 'en-US',
     decimals: 2,
     isStandardCurrency: true,
   },
 };
 
 // Known cryptocurrency patterns (these use cryptoformat)
-const CRYPTO_PATTERNS = ["BTC", "ETH", "LTC", "XRP", "ADA", "DOT", "SOL"];
+const CRYPTO_PATTERNS = ['BTC', 'ETH', 'LTC', 'XRP', 'ADA', 'DOT', 'SOL'];
 
 const isCryptocurrency = (currencyCode) => {
   if (!currencyCode) return false;
@@ -45,11 +45,11 @@ const formatPrice = (rawPrice) => {
 
   // Handle null/undefined cases
   if (amount === undefined || amount === null || !currencyCode) {
-    return "N/A";
+    return 'N/A';
   }
 
   // FORCE CHF FORMATTING - Override everything for CHF to ensure it works
-  if (currencyCode === "CHF") {
+  if (currencyCode === 'CHF') {
     let chfAmount = amount;
 
     // Always convert from rappen to CHF (divide by 100)
@@ -62,9 +62,9 @@ const formatPrice = (rawPrice) => {
 
     // Force Swiss formatting
     try {
-      const chfFormatter = new Intl.NumberFormat("de-CH", {
-        style: "currency",
-        currency: "CHF",
+      const chfFormatter = new Intl.NumberFormat('de-CH', {
+        style: 'currency',
+        currency: 'CHF',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
@@ -72,14 +72,14 @@ const formatPrice = (rawPrice) => {
       const result = chfFormatter.format(chfAmount);
       return result;
     } catch (error) {
-      console.error("CHF formatting failed, using fallback:", error);
+      console.error('CHF formatting failed, using fallback:', error);
       return `CHF ${chfAmount.toFixed(2)}`;
     }
   }
 
   // Get currency configuration for non-CHF currencies
   const currencyConfig = CURRENCY_CONFIG[currencyCode] || {
-    locale: locale || "en-US",
+    locale: locale || 'en-US',
     decimals: decimals,
     isStandardCurrency: !isCryptocurrency(currencyCode),
   };
@@ -102,10 +102,10 @@ const formatPrice = (rawPrice) => {
     : roundUp(fixedAmount, Math.min(decimals, 8)); // Crypto precision
 
   // Use Intl.NumberFormat for standard currencies
-  if (currencyConfig.isStandardCurrency && typeof Intl !== "undefined") {
+  if (currencyConfig.isStandardCurrency && typeof Intl !== 'undefined') {
     try {
       const formatter = new Intl.NumberFormat(currencyConfig.locale, {
-        style: "currency",
+        style: 'currency',
         currency: currencyCode,
         minimumFractionDigits: currencyConfig.decimals,
         maximumFractionDigits: currencyConfig.decimals,

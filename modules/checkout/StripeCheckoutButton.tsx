@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import getConfig from "next/config";
-import { gql, useMutation } from "@apollo/client";
-import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import StripeCheckoutForm from "./StripeCheckoutForm";
+import { useEffect, useState } from 'react';
+import getConfig from 'next/config';
+import { gql, useMutation } from '@apollo/client';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import StripeCheckoutForm from './StripeCheckoutForm';
 
 const {
   publicRuntimeConfig: { publishableKey },
@@ -24,7 +24,7 @@ export const SIGN_STRIPE_MUTATION = gql`
 `;
 
 const StripeCheckoutButton = ({ order }) => {
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState('');
   const [signStripeMutation] = useMutation(SIGN_STRIPE_MUTATION);
 
   const successUrl = `${window.location.origin}/order/${order._id}/success`;
@@ -52,7 +52,7 @@ const StripeCheckoutButton = ({ order }) => {
   const options: StripeElementsOptions = {
     clientSecret,
     appearance: {
-      theme: "flat",
+      theme: 'flat',
     },
   };
 

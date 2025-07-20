@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 export const SET_USERNAME_MUTATION = gql`
   mutation SetUsername($username: String!, $userId: ID!) {

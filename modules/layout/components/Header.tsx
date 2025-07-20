@@ -1,13 +1,13 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useIntl } from "react-intl";
-import { useState, useEffect } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useIntl } from 'react-intl';
+import { useState, useEffect } from 'react';
 
-import { Bars3Icon } from "@heroicons/react/20/solid";
-import LoginCart from "../../auth/components/LoginCart";
-import SideCart from "../../cart/components/SideCart";
+import { Bars3Icon } from '@heroicons/react/20/solid';
+import LoginCart from '../../auth/components/LoginCart';
+import SideCart from '../../cart/components/SideCart';
 
-import { useAppContext } from "../../common/components/AppContextWrapper";
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 interface HeaderProps {
   onSidebarToggle: () => void;
@@ -18,7 +18,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   onSidebarToggle,
   hasHeroSection = false,
-  heroSectionId = "hero-section",
+  heroSectionId = 'hero-section',
 }) => {
   const { isCartOpen } = useAppContext();
   const router = useRouter();
@@ -45,8 +45,8 @@ const Header: React.FC<HeaderProps> = ({
     // Set initial state
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [hasHeroSection]);
 
   // Simplified styling logic
@@ -55,8 +55,8 @@ const Header: React.FC<HeaderProps> = ({
     <header
       className={`sticky top-0 z-[1020] transition-all duration-300 ease-in-out print:hidden ${
         isHeroMode
-          ? "bg-slate-950 backdrop-blur-sm"
-          : "border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-900 dark:bg-slate-950/95"
+          ? 'bg-slate-950 backdrop-blur-sm'
+          : 'border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-900 dark:bg-slate-950/95'
       }`}
     >
       <div className="relative container mx-auto">
@@ -67,8 +67,8 @@ const Header: React.FC<HeaderProps> = ({
               aria-label="menu"
               className={`rounded-md p-2 transition-all duration-200 ${
                 isHeroMode
-                  ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                  ? 'text-white/80 hover:bg-white/10 hover:text-white'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
               }`}
               onClick={onSidebarToggle}
             >
@@ -80,12 +80,12 @@ const Header: React.FC<HeaderProps> = ({
             <Link
               href="/"
               className={`text-md font-semibold tracking-tight transition-colors duration-200 ${
-                isHeroMode ? "text-white" : "text-slate-900 dark:text-white"
+                isHeroMode ? 'text-white' : 'text-slate-900 dark:text-white'
               }`}
             >
               {formatMessage({
-                id: "shop_title",
-                defaultMessage: "Unchained Store",
+                id: 'shop_title',
+                defaultMessage: 'Unchained Store',
               })}
             </Link>
           </div>
@@ -94,8 +94,8 @@ const Header: React.FC<HeaderProps> = ({
             <div
               className={
                 isHeroMode
-                  ? "text-white [&_*]:text-white [&_button]:text-white/80 [&_button:hover]:text-white [&_a]:text-white/80 [&_a:hover]:text-white"
-                  : ""
+                  ? 'text-white [&_*]:text-white [&_button]:text-white/80 [&_button:hover]:text-white [&_a]:text-white/80 [&_a:hover]:text-white'
+                  : ''
               }
             >
               <LoginCart />

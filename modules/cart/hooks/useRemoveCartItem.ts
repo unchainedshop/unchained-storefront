@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 export const REMOVE_CART_ITEM_MUTATION = gql`
   mutation RemoveCartItem($itemId: ID!) {

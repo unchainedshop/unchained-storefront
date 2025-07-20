@@ -1,4 +1,4 @@
-import { offsetLimitPagination } from "@apollo/client/utilities";
+import { offsetLimitPagination } from '@apollo/client/utilities';
 
 export const keyMappings: any = {
   ProductSearchResult: {
@@ -7,7 +7,7 @@ export const keyMappings: any = {
     },
   },
   ProductTexts: {
-    keyArgs: ["forceLocale"],
+    keyArgs: ['forceLocale'],
   },
 };
 

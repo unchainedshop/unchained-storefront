@@ -1,8 +1,8 @@
-import Image from "next/legacy/image";
-import Link from "next/link";
-import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
+import Image from 'next/legacy/image';
+import Link from 'next/link';
+import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 
-import getMediaUrl from "../../common/utils/getMediaUrl";
+import getMediaUrl from '../../common/utils/getMediaUrl';
 
 const CategoryListItem = ({ category }) => {
   const mediaUrl = getMediaUrl(category);

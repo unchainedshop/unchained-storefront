@@ -1,4 +1,4 @@
-import getMediaUrl from "../utils/getMediaUrl";
+import getMediaUrl from '../utils/getMediaUrl';
 
 const Thumbnail = ({ media = [] }) => {
   return media.length ? (

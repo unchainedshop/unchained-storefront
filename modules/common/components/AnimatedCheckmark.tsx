@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { useState, useEffect } from 'react';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 interface AnimatedCheckmarkProps {
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   delay?: number;
   className?: string;
 }
 
 const sizeClasses = {
-  sm: "h-6 w-6",
-  md: "h-8 w-8",
-  lg: "h-12 w-12",
-  xl: "h-16 w-16",
+  sm: 'h-6 w-6',
+  md: 'h-8 w-8',
+  lg: 'h-12 w-12',
+  xl: 'h-16 w-16',
 };
 
 const AnimatedCheckmark = ({
-  size = "md",
+  size = 'md',
   delay = 0,
-  className = "",
+  className = '',
 }: AnimatedCheckmarkProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -34,16 +34,16 @@ const AnimatedCheckmark = ({
 
   // Check for reduced motion preference
   const prefersReducedMotion =
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
       : false;
 
   const animationClasses = prefersReducedMotion
-    ? "opacity-100 scale-100"
+    ? 'opacity-100 scale-100'
     : `transition-all duration-500 ease-out ${
         isAnimating
-          ? "opacity-100 scale-100 animate-pulse"
-          : "opacity-0 scale-50"
+          ? 'opacity-100 scale-100 animate-pulse'
+          : 'opacity-0 scale-50'
       }`;
 
   if (!isVisible && !prefersReducedMotion) {

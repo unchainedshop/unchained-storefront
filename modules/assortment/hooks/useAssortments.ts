@@ -1,6 +1,6 @@
-import { useQuery, gql } from "@apollo/client";
-import AssortmentFragment from "../fragments/assortment";
-import AssortmentMediaFragment from "../fragments/AssortmentMedia";
+import { useQuery, gql } from '@apollo/client';
+import AssortmentFragment from '../fragments/assortment';
+import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 
 export const ASSORTMENTS_QUERY = gql`
   query AssortmentsQuery($includeLeaves: Boolean = false) {

@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql } from '@apollo/client';
 
 export const LOGOUT_MUTATION = gql`
   mutation Logout {

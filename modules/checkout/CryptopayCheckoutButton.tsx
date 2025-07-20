@@ -1,14 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
-import { useState, useEffect } from "react";
-import { gql, useMutation, useLazyQuery } from "@apollo/client";
-import useQRCodeGenerator from "react-hook-qrcode-svg";
-import { useRouter } from "next/router";
-import Portal from "../common/components/Portal";
-import formatPrice from "../common/utils/formatPrice";
-import Loading from "../common/components/Loading";
+import { useState, useEffect } from 'react';
+import { gql, useMutation, useLazyQuery } from '@apollo/client';
+import useQRCodeGenerator from 'react-hook-qrcode-svg';
+import { useRouter } from 'next/router';
+import Portal from '../common/components/Portal';
+import formatPrice from '../common/utils/formatPrice';
+import Loading from '../common/components/Loading';
 
 const QRCODE_SIZE = 256;
-const QRCODE_LEVEL = "Q";
+const QRCODE_LEVEL = 'Q';
 const QRCODE_BORDER = 4;
 
 export const SIGN_CRYPTOPAY_MUTATION = gql`
@@ -36,12 +35,11 @@ const QRCodeButton = ({ address, value }) => {
 
   const copyToClipboard = () => {
     try {
-      if ("clipboard" in navigator) {
+      if ('clipboard' in navigator) {
         navigator.clipboard.writeText(payload);
       }
-      document.execCommand("copy", true, payload);
+      document.execCommand('copy', true, payload);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -69,7 +67,7 @@ const MetamaskButton = ({ onClick }) => (
   <button
     type="button"
     onClick={onClick}
-    style={{ backgroundColor: "#f6851a" }}
+    style={{ backgroundColor: '#f6851a' }}
     className="inline-flex items-center rounded-md border border-transparent px-3 py-2 text-sm font-medium leading-4 text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
   >
     <span className="mr-2 rounded-full p-1.5 bg-white d-flex items-center justify-center">
@@ -157,8 +155,8 @@ const CryptopayCheckoutButton = ({ order }) => {
   );
   useEffect(() => {
     if (
-      orderData?.order?.status === "CONFIRMED" ||
-      orderData?.order?.status === "FULLFILLED"
+      orderData?.order?.status === 'CONFIRMED' ||
+      orderData?.order?.status === 'FULLFILLED'
     ) {
       router.replace(`/order/${order._id}/success`);
     }
@@ -183,8 +181,8 @@ const CryptopayCheckoutButton = ({ order }) => {
     setShowPaymentInformation(false);
   };
 
-  const pairs = JSON.parse(data?.signPaymentProviderForCheckout || "[]");
-  const signedETHDeal = pairs.find((pair) => pair.currency === "ETH");
+  const pairs = JSON.parse(data?.signPaymentProviderForCheckout || '[]');
+  const signedETHDeal = pairs.find((pair) => pair.currency === 'ETH');
 
   if (!signedETHDeal) return <PayWithCryptoButton sign={sign} />;
 
@@ -195,8 +193,7 @@ const CryptopayCheckoutButton = ({ order }) => {
   // We are loosing the comma stuff for wei... okay for now
   const priceInWei = Number.isNaN(priceInGwei)
     ? 0
-    : // eslint-disable-next-line no-undef
-      BigInt(Math.round(priceInGwei)) * BigInt(10 ** (18 - 9));
+    : BigInt(Math.round(priceInGwei)) * BigInt(10 ** (18 - 9));
 
   const formattedPrice = signedETHDeal.currency
     ? formatPrice({
@@ -205,9 +202,8 @@ const CryptopayCheckoutButton = ({ order }) => {
         decimals: 18,
         hack: true,
       })
-    : "";
+    : '';
 
-  // eslint-disable-next-line no-unused-vars
   const payWithMetaMask = async (orderId, price) => {
     // TODO: DO THIS!
   };
@@ -288,7 +284,7 @@ const CryptopayCheckoutButton = ({ order }) => {
                         />
                         <div className="mb-5 pt-2">
                           <p className="max-w-xs text-xs">
-                            The above price expires{" "}
+                            The above price expires{' '}
                             {expiryDate.toLocaleString()}
                           </p>
 

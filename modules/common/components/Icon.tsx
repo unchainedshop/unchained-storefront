@@ -1,4 +1,4 @@
-const Icon = ({ icon, className = "" }) => {
+const Icon = ({ icon, className = '' }) => {
   return (
     <span className={`icon ${className}`}>
       <img

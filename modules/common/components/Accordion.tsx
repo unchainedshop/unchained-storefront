@@ -1,6 +1,6 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
-import classNames from "classnames";
-import { useState } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames';
+import { useState } from 'react';
 
 const AccordionItem = ({
   header,
@@ -11,12 +11,12 @@ const AccordionItem = ({
 }) => {
   const [show, setShow] = useState(false);
   return (
-    <div className={classNames("mt-3", itemContainerCSS)}>
+    <div className={classNames('mt-3', itemContainerCSS)}>
       <button
         type="button"
         onClick={() => setShow(!show)}
         className={classNames(
-          "relative w-full cursor-pointer border bg-white text-slate-500 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800",
+          'relative w-full cursor-pointer border bg-white text-slate-500 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800',
           headerCSS,
         )}
       >
@@ -43,14 +43,14 @@ const AccordionItem = ({
       {show ? (
         <div
           className={classNames(
-            "rounded-lg p-0 text-slate-400 dark:text-white ",
+            'rounded-lg p-0 text-slate-400 dark:text-white ',
             bodyCSS,
           )}
         >
           {body}
         </div>
       ) : (
-        ""
+        ''
       )}
     </div>
   );
@@ -58,18 +58,17 @@ const AccordionItem = ({
 
 const Accordion = ({
   data = [],
-  containerCSS = "",
-  headerCSS = "",
-  bodyCSS = "",
-  itemContainerCSS = "",
+  containerCSS = '',
+  headerCSS = '',
+  bodyCSS = '',
+  itemContainerCSS = '',
 }) => {
   return (
-    <div className={classNames("my-3", containerCSS)}>
+    <div className={classNames('my-3', containerCSS)}>
       {data.map(({ header, body }, key) => (
         <AccordionItem
           header={header}
           body={body}
-          // eslint-disable-next-line react/no-array-index-key
           key={key}
           headerCSS={headerCSS}
           bodyCSS={bodyCSS}

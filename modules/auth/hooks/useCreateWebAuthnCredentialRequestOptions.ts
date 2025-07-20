@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from '@apollo/client';
 
 export const CREATE_WEB_AUTHN_CREDENTIAL_REQUEST_OPTIONS_MUTATION = gql`
   mutation CreateWebAuthnCredentialRequestOptions($username: String) {

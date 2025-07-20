@@ -1,19 +1,19 @@
-import { useIntl } from "react-intl";
-import { ChevronDoubleDownIcon, PhotoIcon } from "@heroicons/react/20/solid";
-import Image from "next/legacy/image";
-import Link from "next/link";
+import { useIntl } from 'react-intl';
+import { ChevronDoubleDownIcon, PhotoIcon } from '@heroicons/react/20/solid';
+import Image from 'next/legacy/image';
+import Link from 'next/link';
 
-import ProductListItem from "./ProductListItem";
-import Button from "../../common/components/Button";
-import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
-import FormattedPrice from "../../common/components/FormattedPrice";
-import getProductHref from "../../common/utils/getProductHref";
+import ProductListItem from './ProductListItem';
+import Button from '../../common/components/Button';
+import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
+import FormattedPrice from '../../common/components/FormattedPrice';
+import getProductHref from '../../common/utils/getProductHref';
 
 const ProductList = ({
   products,
   totalProducts,
   onLoadMore,
-  viewMode = "grid",
+  viewMode = 'grid',
 }) => {
   const { formatMessage } = useIntl();
 
@@ -21,10 +21,10 @@ const ProductList = ({
     <div>
       <div className="mx-auto max-w-full">
         <h2 className="sr-only">
-          {formatMessage({ id: "products", defaultMessage: "Products" })}
+          {formatMessage({ id: 'products', defaultMessage: 'Products' })}
         </h2>
 
-        {viewMode === "grid" ? (
+        {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {products.map((product) => (
               <div key={`grid-${product?._id}`} className="group relative">
@@ -87,8 +87,8 @@ const ProductList = ({
                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 transition-colors duration-200 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
                       >
                         {formatMessage({
-                          id: "view_product_detail",
-                          defaultMessage: "View Details",
+                          id: 'view_product_detail',
+                          defaultMessage: 'View Details',
                         })}
                       </Link>
                     </div>
@@ -104,12 +104,12 @@ const ProductList = ({
             <Button
               icon={<ChevronDoubleDownIcon className="mr-2 h-6 w-6" />}
               text={formatMessage({
-                id: "load_more",
-                defaultMessage: "Load More",
+                id: 'load_more',
+                defaultMessage: 'Load More',
               })}
               aria-label={formatMessage({
-                id: "load_more",
-                defaultMessage: "Load More",
+                id: 'load_more',
+                defaultMessage: 'Load More',
               })}
               type="button"
               className="dark:text-white"

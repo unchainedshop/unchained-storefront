@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 export const UPDATE_CART_ITEM_MUTATION = gql`
   mutation UpdateCartItem($itemId: ID!, $quantity: Int = 1) {

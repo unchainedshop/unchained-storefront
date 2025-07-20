@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 const ProductFragment = gql`
   fragment ProductDetails on Product {

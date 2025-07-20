@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from '@apollo/client';
 
 export const CHANGE_PASSWORD_MUTATION = gql`
   mutation ChangePassword(

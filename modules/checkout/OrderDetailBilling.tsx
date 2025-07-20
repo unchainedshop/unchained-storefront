@@ -1,5 +1,5 @@
-import { useIntl } from "react-intl";
-import FormattedPrice from "../common/components/FormattedPrice";
+import { useIntl } from 'react-intl';
+import FormattedPrice from '../common/components/FormattedPrice';
 
 const OrderDetailBilling = ({ order }) => {
   const { formatMessage } = useIntl();

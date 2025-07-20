@@ -1,43 +1,43 @@
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
 
-import { FormattedMessage, defineMessages, useIntl } from "react-intl";
-import CryptopayCheckoutButton from "./CryptopayCheckoutButton";
-import InvoiceCheckoutButton from "./InvoiceCheckoutButton";
-import DatatransCheckoutButton from "./DatatransCheckoutButton";
-import useUpdateCartPayment from "../cart/hooks/useUpdateCartPayment";
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
+import CryptopayCheckoutButton from './CryptopayCheckoutButton';
+import InvoiceCheckoutButton from './InvoiceCheckoutButton';
+import DatatransCheckoutButton from './DatatransCheckoutButton';
+import useUpdateCartPayment from '../cart/hooks/useUpdateCartPayment';
 
-const StripeCheckoutButton = dynamic(() => import("./StripeCheckoutButton"), {
+const StripeCheckoutButton = dynamic(() => import('./StripeCheckoutButton'), {
   ssr: false,
 });
 
 const CheckoutButtons = {
-  "shop.unchained.payment.cryptopay": CryptopayCheckoutButton,
-  "shop.unchained.invoice": InvoiceCheckoutButton,
-  "shop.unchained.invoice-prepaid": InvoiceCheckoutButton,
-  "shop.unchained.datatrans": DatatransCheckoutButton,
-  "shop.unchained.payment.stripe": StripeCheckoutButton,
+  'shop.unchained.payment.cryptopay': CryptopayCheckoutButton,
+  'shop.unchained.invoice': InvoiceCheckoutButton,
+  'shop.unchained.invoice-prepaid': InvoiceCheckoutButton,
+  'shop.unchained.datatrans': DatatransCheckoutButton,
+  'shop.unchained.payment.stripe': StripeCheckoutButton,
 };
 
 const PaymentLabels = defineMessages({
-  "shop.unchained.payment.cryptopay": {
-    id: "shop.unchained.payment.cryptopay",
-    defaultMessage: "Cryptocurrencies",
+  'shop.unchained.payment.cryptopay': {
+    id: 'shop.unchained.payment.cryptopay',
+    defaultMessage: 'Cryptocurrencies',
   },
-  "shop.unchained.invoice": {
-    id: "shop.unchained.invoice",
-    defaultMessage: "Invoice Post-Paid",
+  'shop.unchained.invoice': {
+    id: 'shop.unchained.invoice',
+    defaultMessage: 'Invoice Post-Paid',
   },
-  "shop.unchained.invoice-prepaid": {
-    id: "shop.unchained.invoice-prepaid",
-    defaultMessage: "Invoice Pre-Paid",
+  'shop.unchained.invoice-prepaid': {
+    id: 'shop.unchained.invoice-prepaid',
+    defaultMessage: 'Invoice Pre-Paid',
   },
-  "shop.unchained.datatrans": {
-    id: "shop.unchained.datatrans",
-    defaultMessage: "Online Payment Gateway (Datatrans)",
+  'shop.unchained.datatrans': {
+    id: 'shop.unchained.datatrans',
+    defaultMessage: 'Online Payment Gateway (Datatrans)',
   },
-  "shop.unchained.payment.stripe": {
-    id: "shop.unchained.payment.stripe",
-    defaultMessage: "Online Payment Gateway (Stripe)",
+  'shop.unchained.payment.stripe': {
+    id: 'shop.unchained.payment.stripe',
+    defaultMessage: 'Online Payment Gateway (Stripe)',
   },
 });
 
@@ -47,7 +47,7 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
 
   const setPaymentProvider = async (event) => {
     const formData = new FormData(event.target.form);
-    const paymentProviderId = formData.get("paymentProviderId");
+    const paymentProviderId = formData.get('paymentProviderId');
     try {
       await updateCartPayment({
         paymentProviderId,
@@ -64,8 +64,8 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
     <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
       <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
         {formatMessage({
-          id: "payment-method",
-          defaultMessage: "Payment method",
+          id: 'payment-method',
+          defaultMessage: 'Payment method',
         })}
       </h2>
       <form>

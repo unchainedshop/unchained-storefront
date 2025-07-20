@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 
 export const CHECKOUT_CART_BY_INVOICE_MUTATION = gql`
   mutation CheckoutCartByInvoice {

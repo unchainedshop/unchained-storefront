@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import classNames from "classnames";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useIntl } from "react-intl";
-import Loading from "../modules/common/components/Loading";
-import useVerifyEmail from "../modules/auth/hooks/useVerifyEmail";
+import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useIntl } from 'react-intl';
+import Loading from '../modules/common/components/Loading';
+import useVerifyEmail from '../modules/auth/hooks/useVerifyEmail';
 
 const VerifyEmail = () => {
   const { query } = useRouter();
@@ -21,20 +21,20 @@ const VerifyEmail = () => {
           success: true,
         });
       } catch (e) {
-        if ((e as any).message.includes("expired"))
+        if ((e as any).message.includes('expired'))
           setResult({
             success: false,
             message: formatMessage({
-              id: "verification-token-expired",
-              defaultMessage: "Verification token expired",
+              id: 'verification-token-expired',
+              defaultMessage: 'Verification token expired',
             }),
           });
         else
           setResult({
             success: false,
             message: formatMessage({
-              id: "verification-failed",
-              defaultMessage: "Verification Failed",
+              id: 'verification-failed',
+              defaultMessage: 'Verification Failed',
             }),
           });
       }
@@ -47,15 +47,15 @@ const VerifyEmail = () => {
     <div className="flex items-center justify-center min-h-screen p-5 dark:bg-slate-500 min-w-screen">
       <div
         className={classNames(
-          "max-w-xl p-8 text-center  bg-white shadow-xl lg:max-w-3xl rounded-xl lg:p-12 ",
+          'max-w-xl p-8 text-center  bg-white shadow-xl lg:max-w-3xl rounded-xl lg:p-12 ',
           {
-            "text-stone-800": result.success,
-            "text-red-800": !result.success,
+            'text-stone-800': result.success,
+            'text-red-800': !result.success,
           },
         )}
       >
         <h3 className="text-2xl text-slate-800">
-          {result.success ? "Email Verified successfully" : result.message}
+          {result.success ? 'Email Verified successfully' : result.message}
         </h3>
         <div className="flex justify-center">
           {result.success ? (
@@ -94,13 +94,13 @@ const VerifyEmail = () => {
         <p className="text-slate-800">
           {result.success
             ? formatMessage({
-                id: "thank-you-for-verifying",
-                defaultMessage: "Thank you for verifying your email address",
+                id: 'thank-you-for-verifying',
+                defaultMessage: 'Thank you for verifying your email address',
               })
             : formatMessage({
-                id: "resend-another-verification",
+                id: 'resend-another-verification',
                 defaultMessage:
-                  "Please resend another verification email and try to verify again",
+                  'Please resend another verification email and try to verify again',
               })}
         </p>
         <div className="mt-4">
@@ -110,8 +110,8 @@ const VerifyEmail = () => {
               className="px-4 py-2 text-white bg-slate-800 rounded"
             >
               {formatMessage({
-                id: "go-home",
-                defaultMessage: "Go to home",
+                id: 'go-home',
+                defaultMessage: 'Go to home',
               })}
             </a>
           </Link>

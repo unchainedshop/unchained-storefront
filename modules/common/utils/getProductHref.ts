@@ -1,3 +1,3 @@
-const getProductHref = (slug?: string) => (slug ? `/product/${slug}` : "#");
+const getProductHref = (slug?: string) => (slug ? `/product/${slug}` : '#');
 
 export default getProductHref;

@@ -1,6 +1,6 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
-import MetaTags from "../modules/common/components/MetaTags";
+import MetaTags from '../modules/common/components/MetaTags';
 
 const Conditions = () => {
   const intl = useIntl();
@@ -9,8 +9,8 @@ const Conditions = () => {
     <>
       <MetaTags
         title={intl.formatMessage({
-          id: "conditions",
-          defaultMessage: "Terms & Conditions",
+          id: 'conditions',
+          defaultMessage: 'Terms & Conditions',
         })}
       />
       <div className="max-w-4xl mx-auto px-6 py-12">

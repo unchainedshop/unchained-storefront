@@ -1,8 +1,8 @@
-import Link from "next/link";
-import FormattedPrice from "../common/components/FormattedPrice";
-import ImageWithFallback from "../common/components/ImageWithFallback";
-import getProductHref from "../common/utils/getProductHref";
-import { PhotoIcon } from "@heroicons/react/20/solid";
+import Link from 'next/link';
+import FormattedPrice from '../common/components/FormattedPrice';
+import ImageWithFallback from '../common/components/ImageWithFallback';
+import getProductHref from '../common/utils/getProductHref';
+import { PhotoIcon } from '@heroicons/react/20/solid';
 
 const OrderDetailItem = ({ item }) => {
   return (

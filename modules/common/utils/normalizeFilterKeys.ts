@@ -1,5 +1,5 @@
 export const isObject = (obj) => {
-  return Object.prototype.toString.call(obj) === "[object Object]";
+  return Object.prototype.toString.call(obj) === '[object Object]';
 };
 
 export const isTruthy = (val) => {
@@ -14,7 +14,7 @@ export const arrayToBooleanObject = (key, val) => ({ ...key, [val]: true });
 
 export const extractQuery = (query) => {
   return decodeURIComponent(query || [])
-    .split(",")
+    .split(',')
     .filter(Boolean);
 };
 
@@ -23,11 +23,11 @@ const normalizeFilterKeys = (rawFilter) => {
     .filter((key) => isTruthy(rawFilter[key]))
     .map((key) => {
       const valueIsArray = Array.isArray(rawFilter[key])
-        ? rawFilter[key].join(",")
+        ? rawFilter[key].join(',')
         : rawFilter[key];
       return `${encodeURIComponent(key)}=${valueIsArray}`;
     })
-    .join("&");
+    .join('&');
 };
 
 export default normalizeFilterKeys;

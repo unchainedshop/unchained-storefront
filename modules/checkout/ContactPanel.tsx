@@ -1,7 +1,7 @@
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 
 const formatContact = ({ emailAddress, telNumber }) =>
-  [emailAddress, telNumber].filter(Boolean).join("\n");
+  [emailAddress, telNumber].filter(Boolean).join('\n');
 
 const ContactPanel = ({ contact, onEdit }) => {
   const { formatMessage } = useIntl();

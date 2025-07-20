@@ -1,9 +1,9 @@
-import { useState } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
-import SidebarNavigation from "./SidebarNavigation";
-import SideCart from "../../cart/components/SideCart";
-import { useAppContext } from "../../common/components/AppContextWrapper";
+import { useState } from 'react';
+import Footer from './Footer';
+import Header from './Header';
+import SidebarNavigation from './SidebarNavigation';
+import SideCart from '../../cart/components/SideCart';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({
   children,
   hasHeroSection = false,
-  heroSectionId = "hero-section",
+  heroSectionId = 'hero-section',
 }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const { isCartOpen } = useAppContext();

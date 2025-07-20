@@ -1,6 +1,6 @@
-import { useIntl } from "react-intl";
-import formatPrice from "../utils/formatPrice";
-import useSupportedCurrencies from "../utils/useSupportedCurrencies";
+import { useIntl } from 'react-intl';
+import formatPrice from '../utils/formatPrice';
+import useSupportedCurrencies from '../utils/useSupportedCurrencies';
 
 /**
  * Hook for formatting prices consistently across the application
@@ -13,7 +13,7 @@ const useFormattedPrice = () => {
   const formatPriceForDisplay = (price: any) => {
     // Handle null/undefined cases
     if (!price || !price.currencyCode) {
-      return "N/A";
+      return 'N/A';
     }
 
     // Find currency definition from GraphQL

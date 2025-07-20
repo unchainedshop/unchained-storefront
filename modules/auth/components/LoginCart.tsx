@@ -1,18 +1,18 @@
-import Link from "next/link";
-import { useIntl } from "react-intl";
+import Link from 'next/link';
+import { useIntl } from 'react-intl';
 
 import {
   BookmarkIcon,
   ArrowRightOnRectangleIcon,
   ShoppingCartIcon,
   UserCircleIcon,
-} from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
-import OrderButton from "../../orders/components/UserOrderButton";
-import useUser from "../hooks/useUser";
-import { useApollo } from "../../apollo/apolloClient";
-import logOut from "../hooks/logOut";
-import { useAppContext } from "../../common/components/AppContextWrapper";
+} from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
+import OrderButton from '../../orders/components/UserOrderButton';
+import useUser from '../hooks/useUser';
+import { useApollo } from '../../apollo/apolloClient';
+import logOut from '../hooks/logOut';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 const LoginCart = () => {
   const { user } = useUser();
@@ -23,7 +23,7 @@ const LoginCart = () => {
 
   const onLogout = async () => {
     await logOut(apollo);
-    router.push("/login");
+    router.push('/login');
   };
 
   return user ? (

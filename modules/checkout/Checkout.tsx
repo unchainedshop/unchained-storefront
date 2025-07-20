@@ -1,11 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
-import ErrorMessage from "../common/components/ErrorMessage";
-import CheckoutContact from "./CheckoutContact";
-import CheckoutAddresses from "./CheckoutAddresses";
-import CheckoutPaymentMethod from "./CheckoutPaymentMethod";
-import { useAppContext } from "../common/components/AppContextWrapper";
-import usePushNotification from "../context/push-notification/usePushNotification";
-import FormattedPrice from "../common/components/FormattedPrice";
+import { gql, useQuery } from '@apollo/client';
+import ErrorMessage from '../common/components/ErrorMessage';
+import CheckoutContact from './CheckoutContact';
+import CheckoutAddresses from './CheckoutAddresses';
+import CheckoutPaymentMethod from './CheckoutPaymentMethod';
+import { useAppContext } from '../common/components/AppContextWrapper';
+import usePushNotification from '../context/push-notification/usePushNotification';
+import FormattedPrice from '../common/components/FormattedPrice';
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -237,7 +237,7 @@ const Checkout = () => {
                           price={
                             deliveryTotal || {
                               amount: 0,
-                              currencyCode: itemsTotal?.currencyCode || "CHF",
+                              currencyCode: itemsTotal?.currencyCode || 'CHF',
                             }
                           }
                         />
@@ -252,7 +252,7 @@ const Checkout = () => {
                           price={
                             taxesTotal || {
                               amount: 0,
-                              currencyCode: itemsTotal?.currencyCode || "CHF",
+                              currencyCode: itemsTotal?.currencyCode || 'CHF',
                             }
                           }
                         />

@@ -1,5 +1,5 @@
-import base64ToArrayBuffer from "../../common/utils/base64ToArrayBuffer";
-import useCreateWebAuthnCredentialCreationOptions from "./useCreateWebAuthnCredentialCreationOptions";
+import base64ToArrayBuffer from '../../common/utils/base64ToArrayBuffer';
+import useCreateWebAuthnCredentialCreationOptions from './useCreateWebAuthnCredentialCreationOptions';
 
 const useGenerateWebAuthCredentials = () => {
   const { createWebAuthnCredentialCreationOptions } =

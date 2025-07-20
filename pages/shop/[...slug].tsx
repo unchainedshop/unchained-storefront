@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import { Fragment } from "react";
+import { useRouter } from 'next/router';
+import { Fragment } from 'react';
 
-import useAssortmentProducts from "../../modules/assortment/hooks/useAssortmentProducts";
-import ProductList from "../../modules/products/components/ProductList";
-import MetaTags from "../../modules/common/components/MetaTags";
-import getMediaUrl from "../../modules/common/utils/getMediaUrl";
-import Loading from "../../modules/common/components/Loading";
-import ListViewWrapper from "../../modules/common/components/ListViewWrapper";
+import useAssortmentProducts from '../../modules/assortment/hooks/useAssortmentProducts';
+import ProductList from '../../modules/products/components/ProductList';
+import MetaTags from '../../modules/common/components/MetaTags';
+import getMediaUrl from '../../modules/common/utils/getMediaUrl';
+import Loading from '../../modules/common/components/Loading';
+import ListViewWrapper from '../../modules/common/components/ListViewWrapper';
 
 const CategoryDetail = () => {
   const router = useRouter();
   const { slug: slugs } = router.query;
-  const slug = slugs?.length ? slugs[(slugs?.length || 0) - 1] : "";
+  const slug = slugs?.length ? slugs[(slugs?.length || 0) - 1] : '';
 
   const {
     assortment: { texts, media } = {},

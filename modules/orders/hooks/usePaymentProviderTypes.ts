@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client';
 
 const PaymentProvidersTypeQuery = gql`
   query PaymentProvidersType {

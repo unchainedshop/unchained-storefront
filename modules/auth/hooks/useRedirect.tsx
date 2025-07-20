@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import useUser from "./useUser";
+import useUser from './useUser';
 
 const useRedirect = ({
   to,
@@ -15,7 +15,7 @@ const useRedirect = ({
 
   useEffect(() => {
     if (loading) return;
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     const isAnonymousMatched = !user && matchAnonymous;
     const isUserMatched = user && !user.isGuest && matchUsers;
