@@ -34,9 +34,7 @@ const Layout: React.FC<LayoutProps> = ({
         hasHeroSection={hasHeroSection}
         heroSectionId={heroSectionId}
       />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {children}
-      </main>
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8">{children}</main>
       <Footer />
       <SidebarNavigation isOpen={isSidebarOpen} onClose={handleSidebarClose} />
       <SideCart isOpen={isCartOpen} />

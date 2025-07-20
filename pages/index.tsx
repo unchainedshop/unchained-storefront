@@ -1,5 +1,4 @@
 import { useIntl } from "react-intl";
-import Link from "next/link";
 
 import Image from "next/image";
 
@@ -10,6 +9,7 @@ import useAssortments from "../modules/assortment/hooks/useAssortments";
 import ProductList from "../modules/products/components/ProductList";
 import CategoryListItem from "../modules/assortment/components/CategoryListItem";
 import Loading from "../modules/common/components/Loading";
+import ListViewWrapper from "../modules/common/components/ListViewWrapper";
 
 const Home = () => {
   const {
@@ -142,15 +142,19 @@ const Home = () => {
                 </p>
               </div>
             ) : products.length > 0 ? (
-              <ProductList
-                products={products}
-                totalProducts={products.length}
-                viewMode="grid"
-                onLoadMore={() => {
-                  // Load more functionality would be implemented here
-                  // For now, this is a placeholder since the home page shows a fixed set
-                }}
-              />
+              <ListViewWrapper>
+                {(viewMode) => (
+                  <ProductList
+                    products={products}
+                    totalProducts={products.length}
+                    viewMode={viewMode}
+                    onLoadMore={() => {
+                      // Load more functionality would be implemented here
+                      // For now, this is a placeholder since the home page shows a fixed set
+                    }}
+                  />
+                )}
+              </ListViewWrapper>
             ) : (
               <div className="text-center py-12">
                 <p className="text-slate-600 dark:text-slate-400">
@@ -158,9 +162,6 @@ const Home = () => {
                     id: "no_products",
                     defaultMessage: "No products available",
                   })}
-                </p>
-                <p className="text-sm text-slate-500 dark:text-slate-500 mt-2">
-                  Debug: Products array length: {products.length}
                 </p>
               </div>
             )}

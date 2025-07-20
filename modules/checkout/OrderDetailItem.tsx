@@ -1,12 +1,15 @@
-import { useIntl } from "react-intl";
 import Link from "next/link";
 import FormattedPrice from "../common/components/FormattedPrice";
 import ImageWithFallback from "../common/components/ImageWithFallback";
+import getProductHref from "../common/utils/getProductHref";
+import { PhotoIcon } from "@heroicons/react/20/solid";
 
 const OrderDetailItem = ({ item }) => {
-  const { formatMessage } = useIntl();
   return (
-    <Link href={`/product/${item.product.texts.slug}`} className="block group">
+    <Link
+      href={getProductHref(item.product.texts.slug)}
+      className="block group"
+    >
       <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-200">
         {/* Product Image */}
         <div className="flex-shrink-0">
@@ -22,7 +25,7 @@ const OrderDetailItem = ({ item }) => {
             />
           ) : (
             <div className="w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded flex items-center justify-center">
-              <span className="text-slate-400 text-xs">No image</span>
+              <PhotoIcon className="h-12 w-12 text-slate-400 dark:text-slate-500" />
             </div>
           )}
         </div>

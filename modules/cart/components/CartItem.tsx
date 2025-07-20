@@ -14,6 +14,7 @@ import useRemoveCartItem from "../hooks/useRemoveCartItem";
 import useUpdateCartItemMutation from "../hooks/useUpdateCartItem";
 import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
 import FormattedPrice from "../../common/components/FormattedPrice";
+import getProductHref from "../../common/utils/getProductHref";
 
 const CartItem = ({
   _id,
@@ -90,7 +91,7 @@ const CartItem = ({
           <div className="min-w-0 flex-1">
             <h4 className="text-sm">
               <Link
-                href={`/product/${product?.texts?.slug}`}
+                href={getProductHref(product?.texts?.slug)}
                 className="font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 dark:text-slate-100 dark:hover:text-slate-300"
               >
                 {product?.texts && product?.texts.title}

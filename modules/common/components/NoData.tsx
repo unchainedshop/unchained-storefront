@@ -2,7 +2,7 @@ import { NoSymbolIcon } from "@heroicons/react/20/solid";
 import classnames from "classnames";
 import { FormattedMessage } from "react-intl";
 
-const NoData = ({ message, className = "", Icon }) => {
+const NoData = ({ message, className = "", Icon = null }) => {
   return (
     <div
       className={classnames(

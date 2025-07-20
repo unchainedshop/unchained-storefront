@@ -50,7 +50,6 @@ const ThemeToggle = () => {
         variant="link"
         onClick={handleToggleTheme}
         aria-label="Toggle theme"
-        title="Toggles light & dark"
         className="hover:cursor-pointer p-0"
         fullWidth={false}
       >

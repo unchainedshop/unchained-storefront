@@ -8,7 +8,7 @@ const MetaTags = ({
 }) => {
   const { asPath } = useRouter();
   const locales = ["en", "de"]; // Hardcoded supported locales
-  
+
   return (
     <Head>
       <title>{title || " "}</title>

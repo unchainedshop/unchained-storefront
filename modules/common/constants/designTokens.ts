@@ -90,7 +90,8 @@ export const designTokens = {
       base: "w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white placeholder-slate-400 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500",
     },
     overlay: {
-      backdrop: "fixed inset-0 bg-slate-500 bg-opacity-75 dark:bg-slate-900 dark:bg-opacity-75",
+      backdrop:
+        "fixed inset-0 bg-slate-500 bg-opacity-75 dark:bg-slate-900 dark:bg-opacity-75",
     },
   },
 
@@ -103,7 +104,6 @@ export const designTokens = {
   },
 } as const;
 
-// Helper functions for easier token usage
 export const getButtonVariant = (variant: keyof typeof designTokens.colors) => {
   const colorScheme = designTokens.colors[variant];
   const base = "flex justify-center rounded-md text-sm font-medium";
@@ -112,7 +112,7 @@ export const getButtonVariant = (variant: keyof typeof designTokens.colors) => {
   const focus = designTokens.animation.focus;
   const darkFocus = designTokens.animation.darkFocusOffset;
 
-  return [
+  const classes = [
     base,
     spacing,
     animation,
@@ -124,27 +124,39 @@ export const getButtonVariant = (variant: keyof typeof designTokens.colors) => {
     colorScheme.text,
     colorScheme.border,
     colorScheme.focusRing,
-    // Add dark mode classes for secondary variant
-    variant === 'secondary' && colorScheme.darkBg,
-    variant === 'secondary' && colorScheme.darkText,
-    variant === 'secondary' && colorScheme.darkBorder,
-    variant === 'secondary' && colorScheme.darkBgHover,
-    variant === 'secondary' && colorScheme.darkBorderHover,
-    variant === 'secondary' && colorScheme.darkBgActive,
-  ].filter(Boolean).join(' ');
+  ];
+
+  // Type narrowing for secondary variant
+  if (variant === "secondary") {
+    const secondaryScheme = designTokens.colors.secondary;
+    classes.push(
+      secondaryScheme.darkBg,
+      secondaryScheme.darkText,
+      secondaryScheme.darkBorder,
+      secondaryScheme.darkBgHover,
+      secondaryScheme.darkBorderHover,
+      secondaryScheme.darkBgActive,
+    );
+  }
+
+  return classes.filter(Boolean).join(" ");
 };
 
 export const getCardClasses = () => {
   return [
     designTokens.components.card.base,
     designTokens.components.card.padding,
-  ].join(' ');
+  ].join(" ");
 };
 
-export const getHeadingClasses = (level: keyof typeof designTokens.typography.heading) => {
+export const getHeadingClasses = (
+  level: keyof typeof designTokens.typography.heading,
+) => {
   return designTokens.typography.heading[level];
 };
 
-export const getBodyClasses = (size: keyof typeof designTokens.typography.body = 'base') => {
+export const getBodyClasses = (
+  size: keyof typeof designTokens.typography.body = "base",
+) => {
   return designTokens.typography.body[size];
 };

@@ -24,11 +24,13 @@ const SaveAndCancelButtons = ({
           variant="secondary"
           size="small"
           type="button"
-          text={cancelText ||
+          text={
+            cancelText ||
             formatMessage({
               id: "cancel",
               defaultMessage: "Cancel",
-            })}
+            })
+          }
           fullWidth={false}
           className="focus:ring-indigo-400"
         />

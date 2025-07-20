@@ -4,7 +4,7 @@ import { normalizeQuery } from "../utils/utils";
 
 const Toggle = ({
   toggleText = "",
-  toggleKey,
+  toggleKey = "toggle",
   onToggle,
   active,
   className,

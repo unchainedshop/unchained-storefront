@@ -27,6 +27,7 @@ import {
   ShoppingBagIcon,
   ShoppingCartIcon,
   Squares2X2Icon,
+  TvIcon,
   UserCircleIcon as UserCircleOutlineIcon,
   XMarkIcon as XMarkOutlineIcon,
 } from "@heroicons/react/24/outline";
@@ -647,6 +648,9 @@ const StyleguidePage = () => {
               checked={toggleState}
               onChange={setToggleState}
               className="mr-4"
+              toggleKey="styleguide"
+              onToggle={handleThemeToggle}
+              active={toggleState}
             />,
             <ThemeToggle key="theme-toggle" />,
           ],
@@ -755,9 +759,9 @@ const StyleguidePage = () => {
           examples: [
             <SearchField
               key="search-1"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search..."
+              defaultValue={searchValue}
+              onInputChange={(e) => setSearchValue(e.target.value)}
+              inputText="Search..."
             />,
           ],
         },
@@ -770,8 +774,8 @@ const StyleguidePage = () => {
           name: "AnimatedCheckmark",
           description: "Success checkmark animation",
           examples: [
-            <AnimatedCheckmark key="check-1" size={24} />,
-            <AnimatedCheckmark key="check-2" size={32} delay={500} />,
+            <AnimatedCheckmark key="check-1" size="md" />,
+            <AnimatedCheckmark key="check-2" size="xl" delay={500} />,
           ],
         },
         {
@@ -807,9 +811,19 @@ const StyleguidePage = () => {
           name: "Accordion",
           description: "Collapsible content sections",
           examples: [
-            <Accordion key="accordion-1" title="Click to expand">
-              <p>This is the accordion content that can be shown or hidden.</p>
-            </Accordion>,
+            <Accordion
+              key="accordion-1"
+              data={[
+                {
+                  header: "Click to expand",
+                  body: (
+                    <p>
+                      This is the accordion content that can be shown or hidden.
+                    </p>
+                  ),
+                },
+              ]}
+            />,
           ],
         },
       ],
@@ -836,7 +850,7 @@ const StyleguidePage = () => {
           description: "Individual cart item with quantity controls",
           examples: [
             <div key="cart-1" className="w-full max-w-md">
-              <CartItem item={sampleCartItem} />
+              <CartItem {...sampleCartItem} />
             </div>,
           ],
         },
@@ -867,7 +881,7 @@ const StyleguidePage = () => {
           examples: [
             <AssortmentBreadcrumbs
               key="breadcrumb-1"
-              assortment={sampleCategory}
+              currentAssortment={sampleCategory}
             />,
           ],
         },
@@ -879,7 +893,7 @@ const StyleguidePage = () => {
         {
           name: "NoData",
           description: "Empty state when no data is available",
-          examples: [<NoData key="nodata-1" />],
+          examples: [<NoData key={1} message="nodata-1" />],
         },
         {
           name: "ErrorMessage",
@@ -892,7 +906,12 @@ const StyleguidePage = () => {
           name: "StatusInformation",
           description: "General status information display",
           examples: [
-            <StatusInformation key="status-1" message="Order confirmed" />,
+            <StatusInformation
+              key="status-1"
+              label="Order confirmed"
+              currentType="CONFIRMED"
+              enumType="ORDERED"
+            />,
           ],
         },
       ],
@@ -994,14 +1013,14 @@ const StyleguidePage = () => {
                 <div key={property} className="flex items-center space-x-2">
                   <div
                     className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
-                    style={{ backgroundColor: value }}
+                    style={{ backgroundColor: value as string }}
                   ></div>
                   <div>
                     <div className="text-sm font-mono text-slate-900 dark:text-white">
                       {property}
                     </div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">
-                      {value}
+                      {value as string}
                     </div>
                   </div>
                 </div>
@@ -1010,7 +1029,6 @@ const StyleguidePage = () => {
           </div>
         </div>
       )}
-
 
       <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
@@ -1858,75 +1876,75 @@ const StyleguidePage = () => {
               <div
                 className={`border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg ${isHero ? "p-6" : "p-4"} flex flex-col transition-all duration-200 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700 h-full`}
               >
-              <div className="flex-shrink-0 mb-3">
-                <div className="flex items-center justify-between mb-2">
-                  <h4
-                    className={`font-semibold text-slate-900 dark:text-white ${isHero ? "text-base" : "text-sm"}`}
+                <div className="flex-shrink-0 mb-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4
+                      className={`font-semibold text-slate-900 dark:text-white ${isHero ? "text-base" : "text-sm"}`}
+                    >
+                      {component.name}
+                    </h4>
+                    <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">
+                      {component.category.split(" ")[0]}
+                    </span>
+                  </div>
+                  <p
+                    className={`text-slate-500 dark:text-slate-400 line-clamp-2 ${isHero ? "text-sm" : "text-xs"}`}
                   >
-                    {component.name}
-                  </h4>
-                  <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">
-                    {component.category.split(" ")[0]}
-                  </span>
+                    {component.description}
+                  </p>
                 </div>
-                <p
-                  className={`text-slate-500 dark:text-slate-400 line-clamp-2 ${isHero ? "text-sm" : "text-xs"}`}
-                >
-                  {component.description}
-                </p>
-              </div>
 
-              <div className="flex-1 flex flex-col justify-center">
-                <div
-                  className={`flex flex-wrap items-center gap-3 mb-4 ${isLarge ? "justify-center" : "justify-start"} ${isHero ? "min-h-[120px]" : ""}`}
-                >
-                  {component.examples.slice(
-                    0,
-                    isHero
-                      ? component.examples.length
-                      : isLarge
+                <div className="flex-1 flex flex-col justify-center">
+                  <div
+                    className={`flex flex-wrap items-center gap-3 mb-4 ${isLarge ? "justify-center" : "justify-start"} ${isHero ? "min-h-[120px]" : ""}`}
+                  >
+                    {component.examples.slice(
+                      0,
+                      isHero
                         ? component.examples.length
+                        : isLarge
+                          ? component.examples.length
+                          : size === "wide" || size === "medium"
+                            ? 2
+                            : 1,
+                    )}
+                  </div>
+                  {component.examples.length >
+                    (isHero
+                      ? 0
+                      : isLarge
+                        ? 0
                         : size === "wide" || size === "medium"
                           ? 2
-                          : 1,
+                          : 1) &&
+                    !isHero &&
+                    !isLarge && (
+                      <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 text-center">
+                        +
+                        {component.examples.length -
+                          (size === "wide" || size === "medium" ? 2 : 1)}{" "}
+                        more variants
+                      </div>
+                    )}
+
+                  {/* Code Examples - Only show for larger components */}
+                  {(isHero || isLarge || size === "wide") && (
+                    <div className="mt-auto">
+                      <div className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">
+                        Usage Examples:
+                      </div>
+                      <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-3 overflow-x-auto">
+                        <code
+                          className={`font-mono text-slate-700 dark:text-slate-300 whitespace-pre leading-relaxed ${isHero ? "text-sm" : "text-xs"}`}
+                        >
+                          {isHero || isLarge
+                            ? codeExamples.slice(0, isHero ? 4 : 3).join("\n")
+                            : codeExamples[0]}
+                        </code>
+                      </div>
+                    </div>
                   )}
                 </div>
-                {component.examples.length >
-                  (isHero
-                    ? 0
-                    : isLarge
-                      ? 0
-                      : size === "wide" || size === "medium"
-                        ? 2
-                        : 1) &&
-                  !isHero &&
-                  !isLarge && (
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 text-center">
-                      +
-                      {component.examples.length -
-                        (size === "wide" || size === "medium" ? 2 : 1)}{" "}
-                      more variants
-                    </div>
-                  )}
-
-                {/* Code Examples - Only show for larger components */}
-                {(isHero || isLarge || size === "wide") && (
-                  <div className="mt-auto">
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">
-                      Usage Examples:
-                    </div>
-                    <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-3 overflow-x-auto">
-                      <code
-                        className={`font-mono text-slate-700 dark:text-slate-300 whitespace-pre leading-relaxed ${isHero ? "text-sm" : "text-xs"}`}
-                      >
-                        {isHero || isLarge
-                          ? codeExamples.slice(0, isHero ? 4 : 3).join("\n")
-                          : codeExamples[0]}
-                      </code>
-                    </div>
-                  </div>
-                )}
-              </div>
               </div>
             </FadeInSection>
           );

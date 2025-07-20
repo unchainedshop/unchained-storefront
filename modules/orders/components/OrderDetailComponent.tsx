@@ -8,6 +8,7 @@ import useUser from "../../auth/hooks/useUser";
 import getMediaUrl from "../../common/utils/getMediaUrl";
 import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
 import FormattedPrice from "../../common/components/FormattedPrice";
+import getProductHref from "../../common/utils/getProductHref";
 
 function getFlagEmoji(countryCode) {
   const codePoints = countryCode
@@ -63,7 +64,7 @@ const OrderDetailComponent = ({ order }) => {
             {order?.items?.map((item) => (
               <Link
                 key={item._id}
-                href={`/product/${item?.product?.texts?.slug}`}
+                href={getProductHref(item?.product?.texts?.slug)}
                 className="rounded-lg w-50 border border-t border-b border-slate-200 bg-white shadow-xs transition-transform hover:scale-105 hover:border-slate-600 dark:bg-slate-950 dark:hover:border-dslate-400 md:px-0"
               >
                 <div className="flex w-full justify-between p-4">

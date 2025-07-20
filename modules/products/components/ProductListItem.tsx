@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
 import FormattedPrice from "../../common/components/FormattedPrice";
+import getProductHref from "../../common/utils/getProductHref";
 
 const ProductListItem = ({ product }) => {
   const firstMediaUrl = product?.media?.[0]?.file?.url;
@@ -11,7 +12,7 @@ const ProductListItem = ({ product }) => {
   return (
     <div className="group relative">
       <div className="relative aspect-square overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900">
-        <Link href={`/product/${product?.texts?.slug}`}>
+        <Link href={getProductHref(product?.texts?.slug)}>
           {firstMediaUrl ? (
             <Image
               src={firstMediaUrl}
@@ -30,7 +31,7 @@ const ProductListItem = ({ product }) => {
       </div>
 
       <div className="mt-4 space-y-2">
-        <Link href={`/product/${product?.texts?.slug}`}>
+        <Link href={getProductHref(product?.texts?.slug)}>
           <h3 className="text-sm font-medium text-slate-900 transition-colors duration-200 hover:text-slate-700 dark:text-white dark:hover:text-slate-200">
             {product?.texts?.title}
           </h3>
