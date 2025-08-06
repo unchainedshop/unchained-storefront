@@ -11,16 +11,6 @@ const ProductDetailFragment = gql`
         url
       }
     }
-    reviews {
-      _id
-      created
-      deleted
-      updated
-
-      rating
-      title
-      review
-    }
     ... on PlanProduct {
       texts {
         _id
@@ -73,19 +63,6 @@ const ProductDetailFragment = gql`
               name
               url
             }
-          }
-          reviews {
-            _id
-            created
-            deleted
-            updated
-            author {
-              _id
-              username
-            }
-            rating
-            title
-            review
           }
         }
       }
