@@ -54,20 +54,29 @@ const OrderSuccessTankYouPage = () => {
             <div className="flex items-center gap-4 mb-6">
               <AnimatedCheckmark size="lg" delay={500} />
               <h1 className="text-2xl text-slate-900 dark:text-white">
-                Order Confirmation
+                {intl.formatMessage({
+                  id: 'order_confirmation',
+                  defaultMessage: 'Order Confirmation',
+                })}
               </h1>
             </div>
 
             <FadeInSection delay={400}>
               <div className="space-y-3 text-slate-600 dark:text-slate-300">
-                <p>Your order has been received and is being processed.</p>
-                {!emailSupportDisabled && (
-                  <p className="text-sm">
-                    You&apos;ll receive an email confirmation shortly.
-                  </p>
-                )}
-                <p className="text-sm">
-                  You can print this page for your records.
+                <p>
+                  {intl.formatMessage({
+                    id: 'order_received_processing',
+                    defaultMessage: 'Your order has been received and is being processed.',
+                  })}
+                  {!emailSupportDisabled && (
+                    <>
+                      {' '}
+                      {intl.formatMessage({
+                        id: 'email_confirmation_shortly',
+                        defaultMessage: "You'll receive an email confirmation shortly.",
+                      })}
+                    </>
+                  )}
                 </p>
               </div>
             </FadeInSection>
