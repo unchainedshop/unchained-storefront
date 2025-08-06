@@ -34,71 +34,79 @@ const AddToCartButton = ({ productId, ...product }) => {
     e.preventDefault();
     toast.dismiss();
     await submitForm();
-    toast.custom((t) => (
-      <div
-        className={`${
-          t.visible ? "animate-enter" : "animate-leave"
-        } max-w-lg w-full bg-white border border-slate-200 dark:border-slate-700 rounded-lg pointer-events-auto flex animate-enter`}
-      >
-        <div className="flex-1 w-0 p-4">
-          <div className="flex items-start">
-            <div className="flex-shrink-0 pt-0.5">
-              <img
-                className="h-10 w-10 rounded-full"
-                src={coverImageSrc}
-                alt={coverImageTitle}
-              />
-            </div>
-            <div className="ml-3 flex-1">
-              <p className="text-sm font-medium ">
-                {productTitle}
-                <div className="mt-2 text-sm font-medium text-green-600">
-                  {quantity} x{" "}
-                  {formatMessage({
-                    id: "added-to-cart",
-                    defaultMessage: "Added to cart",
-                  })}
+    toast.custom(
+      (t) => (
+        <div className="fixed top-20 left-0 right-0 z-[1060] pointer-events-none">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-end">
+              <div
+                className={`w-full sm:w-96 pointer-events-auto transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
+                  t.visible
+                    ? "translate-x-0 opacity-100 scale-100"
+                    : "translate-x-16 opacity-0 scale-95"
+                }`}
+              >
+                <div className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="h-12 w-12 rounded-md object-cover"
+                        src={coverImageSrc}
+                        alt={coverImageTitle}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-semibold text-slate-900 dark:text-white truncate">
+                        {productTitle}
+                      </p>
+                      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 truncate">
+                        {productSubTitle}
+                      </p>
+                      <div className="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
+                        {quantity} x{" "}
+                        {formatMessage({
+                          id: "added-to-cart",
+                          defaultMessage: "Added to cart",
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => toast.dismiss(t.id)}
+                      className="flex-1 rounded-md border border-slate-200 bg-white py-2 px-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:scale-[1.02] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                    >
+                      {formatMessage({
+                        id: "continue_shopping",
+                        defaultMessage: "Continue Shopping",
+                      })}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        toast.dismiss(t.id);
+                        router.push("/checkout");
+                      }}
+                      className="flex-1 rounded-md bg-slate-900 py-2 px-3 text-sm font-medium text-white transition-all duration-200 hover:bg-slate-800 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
+                    >
+                      {formatMessage({
+                        id: "to_checkout",
+                        defaultMessage: "Checkout",
+                      })}
+                    </button>
+                  </div>
                 </div>
-              </p>
-              <p className="mt-1 text-sm text-slate-500">{productSubTitle}</p>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <button
-            type="button"
-            onClick={() => {
-              toast.dismiss(t.id);
-              router.push("/checkout");
-            }}
-            className="bg-white rounded-none rounded-r-lg p-4 justify-center flex-col align-middle text-sm font-medium text-slate-600 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-800"
-          >
-            <svg
-              className="h-6 w-6 inline"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-              />
-            </svg>
-
-            <div className="w-20">
-              {formatMessage({
-                id: "checkout",
-                defaultMessage: "Checkout",
-              })}
-            </div>
-          </button>
-        </div>
-      </div>
-    ));
+      ),
+      {
+        duration: 4000,
+        position: "top-right",
+      }
+    );
   };
 
   return (
