@@ -6,6 +6,7 @@ import CheckoutPaymentMethod from './CheckoutPaymentMethod';
 import { useAppContext } from '../common/components/AppContextWrapper';
 import usePushNotification from '../context/push-notification/usePushNotification';
 import FormattedPrice from '../common/components/FormattedPrice';
+import { useIntl } from 'react-intl';
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -115,6 +116,7 @@ export const CART_CHECKOUT_QUERY = gql`
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
+  const { formatMessage } = useIntl();
   const { loading, error, data } = useQuery(CART_CHECKOUT_QUERY, {
     notifyOnNetworkStatusChange: true,
   });
@@ -163,7 +165,10 @@ const Checkout = () => {
           <div className="sticky top-16">
             <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
               <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                Order Summary
+                {formatMessage({
+                  id: 'order_summary',
+                  defaultMessage: 'Order Summary',
+                })}
               </h2>
 
               {/* Cart Items */}
@@ -223,7 +228,12 @@ const Checkout = () => {
                 <>
                   <div className="border-t border-slate-200 dark:border-0 pt-4 space-y-2">
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>Zwischensumme</span>
+                      <span>
+                        {formatMessage({
+                          id: 'subtotal',
+                          defaultMessage: 'Subtotal',
+                        })}
+                      </span>
                       <span>
                         <FormattedPrice price={itemsTotal} />
                       </span>
@@ -231,7 +241,12 @@ const Checkout = () => {
 
                     {/* Versandgebühren (Delivery/Shipping) */}
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>Versandgebühren</span>
+                      <span>
+                        {formatMessage({
+                          id: 'shipping',
+                          defaultMessage: 'Shipping',
+                        })}
+                      </span>
                       <span>
                         <FormattedPrice
                           price={
@@ -246,7 +261,12 @@ const Checkout = () => {
 
                     {/* MwSt (Taxes) */}
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>MwSt</span>
+                      <span>
+                        {formatMessage({
+                          id: 'tax',
+                          defaultMessage: 'Tax',
+                        })}
+                      </span>
                       <span>
                         <FormattedPrice
                           price={
@@ -261,7 +281,12 @@ const Checkout = () => {
 
                     {data.me.cart.payment?.fee && (
                       <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                        <span>Zahlungsgebühr</span>
+                        <span>
+                          {formatMessage({
+                            id: 'payment_fee',
+                            defaultMessage: 'Payment Fee',
+                          })}
+                        </span>
                         <span>
                           <FormattedPrice price={data.me.cart.payment.fee} />
                         </span>
@@ -272,7 +297,7 @@ const Checkout = () => {
                     <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
                       <span>Gesamtsumme</span>
                       <span>
-                        <FormattedPrice price={grandTotal || itemsTotal} />
+                        <FormattedPrice price={calculatedTotal} />
                       </span>
                     </div>
                   </div>

@@ -9,7 +9,10 @@ const OrderDetailBilling = ({ order }) => {
       {/* Billing Address */}
       <div>
         <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">
-          Billing Address
+          {formatMessage({
+            id: 'billing_address',
+            defaultMessage: 'Billing Address',
+          })}
         </h4>
         <div className="text-sm text-slate-900 dark:text-white space-y-1">
           <div className="font-medium">
@@ -30,7 +33,12 @@ const OrderDetailBilling = ({ order }) => {
       <div className="border-t border-slate-200 dark:border-0 pt-6">
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-slate-600 dark:text-slate-400">Subtotal</span>
+            <span className="text-slate-600 dark:text-slate-400">
+              {formatMessage({
+                id: 'subtotal',
+                defaultMessage: 'Subtotal',
+              })}
+            </span>
             <span className="text-slate-900 dark:text-white font-medium">
               <FormattedPrice price={order?.itemsTotal} />
             </span>
@@ -49,7 +57,12 @@ const OrderDetailBilling = ({ order }) => {
 
           {order?.totalTax && order?.totalTax?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">Tax</span>
+              <span className="text-slate-600 dark:text-slate-400">
+                {formatMessage({
+                  id: 'tax',
+                  defaultMessage: 'Tax',
+                })}
+              </span>
               <span className="text-slate-900 dark:text-white font-medium">
                 <FormattedPrice price={order?.totalTax} />
               </span>
@@ -79,10 +92,13 @@ const OrderDetailBilling = ({ order }) => {
           <div className="border-t border-slate-200 dark:border-0 pt-3 mt-4">
             <div className="flex justify-between items-center">
               <span className="font-medium text-slate-900 dark:text-white">
-                Total
+                {formatMessage({
+                  id: 'total',
+                  defaultMessage: 'Total',
+                })}
               </span>
               <span className="font-semibold text-xl text-slate-900 dark:text-white">
-                <FormattedPrice price={order?.total} />
+                <FormattedPrice price={calculatedTotal} />
               </span>
             </div>
           </div>

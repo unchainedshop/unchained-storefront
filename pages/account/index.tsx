@@ -17,32 +17,50 @@ import ProfileView from '../../modules/auth/components/ProfileView';
 import Loading from '../../modules/common/components/Loading';
 import EmailAddresses from '../../modules/auth/components/EmailAddresses';
 
-const subNavigation = [
+const getSubNavigation = (formatMessage) => [
   {
-    name: 'General',
+    name: formatMessage({
+      id: 'general',
+      defaultMessage: 'General',
+    }),
     href: '#profileview',
     icon: UserCircleIcon,
     id: 'profileview',
   },
   {
-    name: 'Address',
+    name: formatMessage({
+      id: 'address',
+      defaultMessage: 'Address',
+    }),
     href: '#address',
     icon: MapPinIcon,
     id: 'address',
   },
   {
-    name: 'Emails',
+    name: formatMessage({
+      id: 'emails',
+      defaultMessage: 'Emails',
+    }),
     href: '#email',
     icon: EnvelopeIcon,
     id: 'email',
   },
-  { name: 'Password', href: '#password', icon: KeyIcon, id: 'password' },
+  {
+    name: formatMessage({
+      id: 'password',
+      defaultMessage: 'Password',
+    }),
+    href: '#password',
+    icon: KeyIcon,
+    id: 'password',
+  },
 ];
 
 const Account = () => {
   const { user, loading, error } = useUser();
   const router = useRouter();
   const { formatMessage } = useIntl();
+  const subNavigation = getSubNavigation(formatMessage);
 
   useRedirect({ to: '/login', matchAnonymous: true, matchGuests: true });
 

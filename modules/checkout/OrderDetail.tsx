@@ -55,7 +55,10 @@ const OrderDetail = ({ order }) => {
           <FadeInSection delay={200}>
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                Order Items
+                {formatMessage({
+                  id: 'order_items',
+                  defaultMessage: 'Order Items',
+                })}
               </h3>
               <div className="space-y-4">
                 {order?.items.map((item, index) => (
@@ -71,7 +74,10 @@ const OrderDetail = ({ order }) => {
           <FadeInSection delay={400}>
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                Order Status
+                {formatMessage({
+                  id: 'order_status',
+                  defaultMessage: 'Order Status',
+                })}
               </h3>
               <StatusProgress
                 data={order}
@@ -105,7 +111,10 @@ const OrderDetail = ({ order }) => {
           <FadeInSection delay={300}>
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                Order Summary
+                {formatMessage({
+                  id: 'order_summary',
+                  defaultMessage: 'Order Summary',
+                })}
               </h3>
               <OrderDetailBilling order={order} />
             </div>
@@ -115,7 +124,10 @@ const OrderDetail = ({ order }) => {
           <FadeInSection delay={400}>
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                Delivery
+                {formatMessage({
+                  id: 'delivery',
+                  defaultMessage: 'Delivery',
+                })}
               </h3>
               <OrderDetailDelivery order={order} />
             </div>
@@ -125,7 +137,10 @@ const OrderDetail = ({ order }) => {
           <FadeInSection delay={500}>
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                Payment
+                {formatMessage({
+                  id: 'payment',
+                  defaultMessage: 'Payment',
+                })}
               </h3>
               <OrderDetailPayment order={order} />
             </div>

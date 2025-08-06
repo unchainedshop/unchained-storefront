@@ -14,7 +14,10 @@ const OrderDetailHeader = ({ order }) => {
       {/* Order Number */}
       <div>
         <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
-          Order Number
+          {formatMessage({
+            id: 'order_number_label',
+            defaultMessage: 'Order Number',
+          })}
         </div>
         <div className="text-xl font-semibold text-slate-900 dark:text-white">
           {order?.orderNumber || 'N/A'}
@@ -30,7 +33,10 @@ const OrderDetailHeader = ({ order }) => {
       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-0">
         <div>
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
-            Order Date
+            {formatMessage({
+              id: 'order_date_label',
+              defaultMessage: 'Order Date',
+            })}
           </div>
           <div className="text-sm text-slate-900 dark:text-white">
             {order?.ordered ? formatDateTime(order.ordered) : 'N/A'}
@@ -38,7 +44,10 @@ const OrderDetailHeader = ({ order }) => {
         </div>
         <div>
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
-            Currency
+            {formatMessage({
+              id: 'currency_label',
+              defaultMessage: 'Currency',
+            })}
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-900 dark:text-white">
             <span>{order?.country?.flagEmoji}</span>
