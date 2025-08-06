@@ -377,9 +377,8 @@ Before submitting a PR, please test:
 
 ### Getting Help
 
-- **Discord**: Join our [Discord server](https://discord.gg/unchained)
 - **GitHub Discussions**: Ask questions in [Discussions](https://github.com/unchainedshop/unchained-storefront/discussions)
-- **Email**: Reach out to support@unchained.shop
+- **Email**: Reach out to hello@unchained.shop
 
 ### Stay Updated
 
