@@ -38,8 +38,8 @@ const ConfettiCelebration = ({
     let animationId: number;
 
     const frame = () => {
-      // Use the default confetti function directly
-      confetti({
+      // Use the custom confetti instance
+      confettiInstance({
         particleCount: Math.floor(particleCount / 8),
         spread,
         origin: {
