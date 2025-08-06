@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const ProductFragment = gql`
+const ProductDetailFragment = gql`
   fragment ProductDetails on Product {
     _id
     media {
@@ -124,4 +124,4 @@ const ProductFragment = gql`
   }
 `;
 
-export default ProductFragment;
+export default ProductDetailFragment;
