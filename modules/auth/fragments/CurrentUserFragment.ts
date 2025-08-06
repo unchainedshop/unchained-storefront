@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import AddressFragment from '../../common/fragments/AddressFragment';
 import ProductFragment from '../../products/fragments/ProductFragment';
-import SimpleProductPrice from '../../products/fragments/SimpleProductPrice';
+import SimpleProductPrice from '../../products/fragments/ProductPriceFragment';
 
 const CurrentUserFragment = gql`
   fragment CurrentUser on User {

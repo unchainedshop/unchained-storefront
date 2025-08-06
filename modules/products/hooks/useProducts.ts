@@ -1,6 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import ProductFragment from '../fragments/ProductFragment';
-import SimpleProductPrice from '../fragments/SimpleProductPrice';
+import SimpleProductPrice from '../fragments/ProductPriceFragment';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 
 export const PRODUCTS_QUERY = gql`
