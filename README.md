@@ -1,4 +1,4 @@
-# 🚀 Unchained Storefront
+# Unchained Storefront
 
 <div align="center">
   
@@ -19,7 +19,7 @@
 ## ✨ Features
 
 ### 🛍️ Complete E-commerce Experience
-- **Product Catalog** - Browse products with advanced filtering and search
+- **Product Catalog** - Browse products in different modes
 - **Shopping Cart** - Real-time cart management with persistent state
 - **Multi-step Checkout** - Streamlined checkout flow with guest checkout support
 - **Order Management** - Track orders and view order history
@@ -27,7 +27,7 @@
 
 ### 💳 Payment Integrations
 - **Stripe** - Credit/debit card payments
-- **Datatrans** - Swiss payment methods
+- **Datatrans** - Swiss payment method
 - **Cryptopay** - Cryptocurrency payments
 - **Invoice** - Traditional invoice payment
 
@@ -120,38 +120,9 @@ unchained-storefront/
 ├── 📁 public/                  # Static assets
 ├── 📁 i18n/                    # Translation files
 ├── 📁 styles/                  # Global styles
-└── 📄 theme.json              # Theme configuration
 ```
 
 ## 🎨 Theming & Customization
-
-### Dynamic Theming
-
-The storefront supports runtime theme configuration through `theme.json`:
-
-```json
-{
-  "colors": {
-    "primary": "#1e40af",
-    "secondary": "#64748b",
-    "accent": "#f59e0b"
-  },
-  "fonts": {
-    "body": "Inter, system-ui, sans-serif",
-    "heading": "Cal Sans, sans-serif"
-  }
-}
-```
-
-### Environment-based Theming
-
-You can also configure themes via environment variables:
-
-```env
-THEME_PRIMARY_COLOR=#1e40af
-THEME_SECONDARY_COLOR=#64748b
-THEME_FONT_FAMILY=Inter
-```
 
 ## 🌍 Internationalization
 
@@ -178,24 +149,6 @@ DATATRANS_MERCHANT_ID=your_merchant_id
 DATATRANS_TEST_MODE=true
 ```
 
-## 🧪 Testing
-
-```bash
-# Manual testing checklist
-✅ Test with staging and local Unchained instances
-✅ Verify responsive design
-✅ Check all payment flows in test mode
-✅ Test internationalization with different locales
-✅ Verify dark mode functionality
-```
-
-## 📊 Performance
-
-- **Lighthouse Score**: 95+ Performance
-- **First Contentful Paint**: < 1.5s
-- **Time to Interactive**: < 3.5s
-- **Core Web Vitals**: All green
-
 ## 🤝 Contributing
 
 We love contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
@@ -216,8 +169,7 @@ We love contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for 
 
 ## 💬 Support
 
-- 📧 Email: support@unchained.shop
-- 💬 Discord: [Join our community](https://discord.gg/unchained)
+- 📧 Email: hello@unchained.shop
 - 📖 Docs: [docs.unchained.shop](https://docs.unchained.shop)
 
 ---

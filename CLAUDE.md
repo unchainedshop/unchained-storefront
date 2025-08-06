@@ -68,7 +68,6 @@ The codebase follows a modular architecture in `/modules/`:
 3. **Routing**: File-based routing in `/pages/` with dynamic routes for products and orders
 
 4. **Styling**: Tailwind CSS v4 with custom theme configuration
-   - Theme customizable via `theme.json` or environment variables
    - Dark mode support built-in
 
 5. **Payment Integration**: Multiple providers supported
