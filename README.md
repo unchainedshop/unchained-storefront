@@ -10,7 +10,7 @@
 
   **A blazing-fast, modern e-commerce storefront built with Next.js and powered by Unchained Engine**
 
-  [Demo](https://your-store.com) • [Documentation](https://docs.unchained.shop) • [Report Bug](https://github.com/unchained/storefront/issues) • [Request Feature](https://github.com/unchained/storefront/issues)
+  [Documentation](https://docs.unchained.shop)
 
 </div>
 
@@ -55,7 +55,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-org/unchained-storefront.git
+   git clone https://github.com/unchainedshop/unchained-storefront.git
    cd unchained-storefront
    ```
 
@@ -183,7 +183,7 @@ DATATRANS_TEST_MODE=true
 ```bash
 # Manual testing checklist
 ✅ Test with staging and local Unchained instances
-✅ Verify responsive design (mobile/tablet/desktop)
+✅ Verify responsive design
 ✅ Check all payment flows in test mode
 ✅ Test internationalization with different locales
 ✅ Verify dark mode functionality
@@ -206,9 +206,6 @@ We love contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -229,6 +226,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   
   **Built with ❤️ by the Unchained Team**
   
-  ⭐ Star us on GitHub — it motivates us a lot!
+  ⭐ Star us on GitHub — it motivates us!
   
 </div>
