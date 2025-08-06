@@ -25,6 +25,12 @@ const ConfettiCelebration = ({
       clearTimeout(animationEnd.current);
       animationEnd.current = null;
     }
+    
+    // Clean up the canvas
+    const canvas = document.getElementById('confetti-canvas');
+    if (canvas) {
+      canvas.remove();
+    }
   };
 
   const fireConfetti = () => {
@@ -34,6 +40,23 @@ const ConfettiCelebration = ({
     ).matches;
     if (prefersReducedMotion) return;
 
+    // Create or get the confetti canvas and set high z-index
+    let canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement;
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.id = 'confetti-canvas';
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '9999'; // Higher than header's z-index (1020)
+      document.body.appendChild(canvas);
+    }
+
+    const confettiInstance = confetti.create(canvas, { resize: true });
+    
     const animationEndTime = Date.now() + duration;
     let animationId: number;
 
