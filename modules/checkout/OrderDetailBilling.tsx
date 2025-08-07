@@ -4,6 +4,24 @@ import FormattedPrice from '../common/components/FormattedPrice';
 const OrderDetailBilling = ({ order }) => {
   const { formatMessage } = useIntl();
 
+  // Calculate correct total manually as a workaround for backend calculation issue
+  const calculateTotal = () => {
+    const itemsAmount = order?.itemsTotal?.amount || 0;
+    const taxAmount = order?.totalTax?.amount || 0;
+    const deliveryAmount = order?.totalDelivery?.amount || 0;
+    const paymentAmount = order?.totalPayment?.amount || 0;
+    const discountAmount = order?.totalDiscount?.amount || 0;
+    
+    const calculatedTotal = itemsAmount + taxAmount + deliveryAmount + paymentAmount - discountAmount;
+    
+    return {
+      amount: calculatedTotal,
+      currencyCode: order?.total?.currencyCode || order?.itemsTotal?.currencyCode || 'CHF'
+    };
+  };
+
+  const calculatedTotal = calculateTotal();
+
   return (
     <div className="space-y-6">
       {/* Billing Address */}

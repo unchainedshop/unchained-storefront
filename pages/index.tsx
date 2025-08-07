@@ -100,17 +100,12 @@ const Home = () => {
               <Loading />
             </div>
           ) : (
-            <div className="w-screen ml-[calc(-50vw+50%)] overflow-x-auto scrollbar-hide pb-4">
-              <div className="flex gap-6 scroll-smooth pl-4 pr-4 sm:pr-6 lg:pr-8">
-                {assortments.map((category) => (
-                  <div
-                    key={category._id}
-                    className="group flex-none w-64 sm:w-72 transition-all duration-300"
-                  >
-                    <CategoryListItem category={category} />
-                  </div>
-                ))}
-              </div>
+            <div className="pb-4 grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+              {assortments.map((category) => (
+                <div key={category._id} className="transition-all duration-300">
+                  <CategoryListItem category={category} />
+                </div>
+              ))}
             </div>
           )}
         </section>
@@ -118,7 +113,7 @@ const Home = () => {
         {/* Products Section */}
         <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900">
           <div className="container px-6 lg:px-8 mx-auto">
-            <div className="text-center mb-12">
+            <div className="text-center">
               <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
                 {formatMessage({
                   id: 'all_products',

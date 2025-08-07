@@ -25,7 +25,7 @@ const ProductList = ({
         </h2>
 
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
               <div key={`grid-${product?._id}`} className="group relative">
                 <ProductListItem product={product} />
@@ -39,8 +39,8 @@ const ProductList = ({
                 key={`list-${product?._id}`}
                 className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-900 dark:border-0"
               >
-                <div className="flex">
-                  <div className="w-48 h-36 flex-shrink-0 relative overflow-hidden bg-slate-50 dark:bg-slate-700">
+                <div className="lg:flex gap-5">
+                  <div className="w-full h-100 lg:h-64 lg:w-48 flex-shrink-0 relative overflow-hidden bg-slate-50 dark:bg-slate-700">
                     <Link href={getProductHref(product?.texts?.slug)}>
                       {product?.media?.[0]?.file?.url ? (
                         <Image
@@ -77,21 +77,20 @@ const ProductList = ({
                         </p>
                       )}
                     </div>
-
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="text-xl font-semibold text-slate-900 dark:text-white">
-                        <FormattedPrice price={product?.simulatedPrice} />
-                      </div>
-                      <Link
-                        href={getProductHref(product?.texts?.slug)}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 transition-colors duration-200 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
-                      >
-                        {formatMessage({
-                          id: 'view_product_detail',
-                          defaultMessage: 'View Details',
-                        })}
-                      </Link>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 p-4">
+                    <div className="text-xl font-semibold text-slate-900 dark:text-white">
+                      <FormattedPrice price={product?.simulatedPrice} />
                     </div>
+                    <Link
+                      href={getProductHref(product?.texts?.slug)}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 transition-colors duration-200 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
+                    >
+                      {formatMessage({
+                        id: 'view_product_detail',
+                        defaultMessage: 'View Details',
+                      })}
+                    </Link>
                   </div>
                 </div>
               </div>

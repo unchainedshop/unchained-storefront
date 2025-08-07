@@ -39,7 +39,7 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
             )}
           </div>
         )}
-        <div className="flex justify-end">
+        <div className="flex justify-end mb-4">
           <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
