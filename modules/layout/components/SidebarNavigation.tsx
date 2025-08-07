@@ -6,6 +6,7 @@ import {
   XMarkIcon,
   ChevronRightIcon,
   ArrowLeftIcon,
+  GlobeAltIcon,
 } from '@heroicons/react/20/solid';
 import useAssortments from '../../assortment/hooks/useAssortments';
 
@@ -18,7 +19,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { formatMessage } = useIntl();
+  const { formatMessage, locale } = useIntl();
   const router = useRouter();
   const [shouldRender, setShouldRender] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -122,6 +123,16 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     }
     return router.pathname.startsWith(href);
   };
+
+  const handleLanguageChange = (newLocale: string) => {
+    const { pathname, query, asPath } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  ];
 
   if (!shouldRender) return null;
 
@@ -313,17 +324,47 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
           {/* Footer with staggered animation */}
           <div
-            className={`px-4 pt-6 mt-6 transition-all duration-300 delay-300 ${
+            className={`px-4 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 transition-all duration-300 delay-300 ${
               isAnimating
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-4 opacity-0'
             }`}
           >
+            {/* Language Selector */}
+            <div className="mb-4 flex flex-wrap justify-between items-center">
+              <div className="flex items-center gap-2">
+                <GlobeAltIcon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                  {formatMessage({
+                    id: 'language',
+                    defaultMessage: 'Language',
+                  })}
+                </span>
+              </div>
+              <div className="flex gap-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                      locale === lang.code
+                        ? 'bg-slate-200 text-slate-800 dark:bg-slate-100 dark:text-slate-900'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Shipping Info */}
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm text-slate-600 dark:text-slate-400">
                 {formatMessage({
                   id: 'shipping_to',
-                  defaultMessage: 'Shipping to:',
+                  defaultMessage: 'Shipping to',
                 })}
               </span>
               <span className="text-sm font-medium text-slate-900 dark:text-white flex items-center">
@@ -334,6 +375,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                 })}
               </span>
             </div>
+
+            {/* Copyright */}
             <p className="text-xs text-slate-500 dark:text-slate-400">
               © {new Date().getFullYear()} Store. All rights reserved.
             </p>

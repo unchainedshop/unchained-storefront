@@ -129,15 +129,6 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
       <div className="flex gap-4 pt-4">
         <Button
           text={formatMessage({
-            id: "save_address",
-            defaultMessage: "Save Address",
-          })}
-          type="submit"
-          variant="primary"
-          className="flex-[2]"
-        />
-        <Button
-          text={formatMessage({
             id: "cancel",
             defaultMessage: "Cancel",
           })}
@@ -145,6 +136,15 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           type="button"
           className="flex-1"
           onClick={onCancel}
+        />
+        <Button
+          text={formatMessage({
+            id: "save_address",
+            defaultMessage: "Save Address",
+          })}
+          type="submit"
+          variant="primary"
+          className="flex-[2]"
         />
       </div>
     </Form>

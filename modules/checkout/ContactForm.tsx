@@ -72,15 +72,6 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
       <div className="flex gap-4 pt-4">
         <Button
           text={formatMessage({
-            id: 'save_contact',
-            defaultMessage: 'Save Contact Data',
-          })}
-          type="submit"
-          variant="primary"
-          className="flex-[2]"
-        />
-        <Button
-          text={formatMessage({
             id: 'cancel',
             defaultMessage: 'Cancel',
           })}
@@ -89,6 +80,15 @@ const ContactForm = ({ contact, onSubmit, onCancel }) => {
           className="flex-1"
           onClick={onCancel}
         />
+        <Button
+          text={formatMessage({
+            id: 'save_contact',
+            defaultMessage: 'Save Contact Data',
+          })}
+          type="submit"
+          variant="primary"
+          className="flex-[2]"
+        />{' '}
       </div>
     </Form>
   );
