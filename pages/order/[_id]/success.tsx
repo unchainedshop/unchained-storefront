@@ -66,14 +66,16 @@ const OrderSuccessTankYouPage = () => {
                 <p>
                   {intl.formatMessage({
                     id: 'order_received_processing',
-                    defaultMessage: 'Your order has been received and is being processed.',
+                    defaultMessage:
+                      'Your order has been received and is being processed.',
                   })}
                   {!emailSupportDisabled && (
                     <>
                       {' '}
                       {intl.formatMessage({
                         id: 'email_confirmation_shortly',
-                        defaultMessage: "You'll receive an email confirmation shortly.",
+                        defaultMessage:
+                          "You'll receive an email confirmation shortly.",
                       })}
                     </>
                   )}

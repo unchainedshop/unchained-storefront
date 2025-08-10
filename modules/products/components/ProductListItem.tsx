@@ -3,7 +3,7 @@ import Image from 'next/legacy/image';
 import Link from 'next/link';
 
 import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
-import FormattedPrice from '../../common/components/FormattedPrice';
+import ProductPrice from '../../common/components/ProductPrice';
 import getProductHref from '../../common/utils/getProductHref';
 
 const ProductListItem = ({ product }) => {
@@ -37,7 +37,7 @@ const ProductListItem = ({ product }) => {
           </h3>
         </Link>
         <div className="text-sm text-slate-600 dark:text-slate-400">
-          <FormattedPrice price={product?.simulatedPrice} />
+          <ProductPrice product={product} />
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import getMediaUrl from '../../modules/common/utils/getMediaUrl';
 import getMediaUrls from '../../modules/common/utils/getMediaUrls';
 import NotFound from '../404';
 import Loading from '../../modules/common/components/Loading';
-import FormattedPrice from '../../modules/common/components/FormattedPrice';
+import ProductPrice from '../../modules/common/components/ProductPrice';
 import { BookmarkIcon } from '@heroicons/react/20/solid';
 import classNames from 'classnames';
 import useUser from '../../modules/auth/hooks/useUser';
@@ -125,7 +125,7 @@ const Detail = () => {
                   </button>
                 </div>
                 <div className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-6">
-                  <FormattedPrice price={product?.simulatedPrice} />
+                  <ProductPrice product={product} />
                 </div>
               </div>
 

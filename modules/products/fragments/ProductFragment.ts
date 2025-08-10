@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import ProductPriceFragment from './ProductPriceFragment';
 
 const ProductDetailFragment = gql`
   fragment ProductDetails on Product {
@@ -64,6 +65,7 @@ const ProductDetailFragment = gql`
               url
             }
           }
+          ...ProductPriceFragment
         }
       }
     }
@@ -99,6 +101,7 @@ const ProductDetailFragment = gql`
       }
     }
   }
+  ${ProductPriceFragment}
 `;
 
 export default ProductDetailFragment;

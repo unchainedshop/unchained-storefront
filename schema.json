@@ -3847,6 +3847,12 @@
             "deprecationReason": null
           },
           {
+            "name": "viewUserCount",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "viewProduct",
             "description": null,
             "isDeprecated": false,
@@ -4388,6 +4394,12 @@
           },
           {
             "name": "uploadUserAvatar",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uploadTempFile",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -7164,6 +7176,30 @@
             "deprecationReason": null
           },
           {
+            "name": "proxies",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "ConfigurableOrBundleProduct",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "siblings",
             "description": null,
             "args": [
@@ -7779,6 +7815,27 @@
         "possibleTypes": null
       },
       {
+        "kind": "UNION",
+        "name": "ConfigurableOrBundleProduct",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "BundleProduct",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ConfigurableProduct",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "ENUM",
         "name": "ProductVariationType",
         "description": null,
@@ -8345,6 +8402,30 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "ProductAssortmentPath",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "proxies",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "ConfigurableOrBundleProduct",
                     "ofType": null
                   }
                 }
@@ -9207,6 +9288,30 @@
             "deprecationReason": null
           },
           {
+            "name": "proxies",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "ConfigurableOrBundleProduct",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "siblings",
             "description": null,
             "args": [
@@ -9458,7 +9563,7 @@
       {
         "kind": "OBJECT",
         "name": "BundleProduct",
-        "description": "A Bundle product consists of multiple configured products",
+        "description": "A Bundle product consists of multiple products",
         "fields": [
           {
             "name": "_id",
@@ -9786,6 +9891,30 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "ProductAssortmentPath",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "proxies",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "ConfigurableOrBundleProduct",
                     "ofType": null
                   }
                 }
@@ -10497,6 +10626,30 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "ProductAssortmentPath",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "proxies",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "ConfigurableOrBundleProduct",
                     "ofType": null
                   }
                 }
@@ -11267,6 +11420,30 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "ProductAssortmentPath",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "proxies",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "ConfigurableOrBundleProduct",
                     "ofType": null
                   }
                 }
@@ -14618,7 +14795,19 @@
             "deprecationReason": null
           },
           {
-            "name": "SMS",
+            "name": "TWILIO",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "BULKGATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "BUDGETSMS",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -19663,13 +19852,9 @@
                 "name": "type",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "ENUM",
-                    "name": "DeliveryProviderType",
-                    "ofType": null
-                  }
+                  "kind": "ENUM",
+                  "name": "DeliveryProviderType",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -19791,13 +19976,9 @@
                 "name": "type",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "ENUM",
-                    "name": "WarehousingProviderType",
-                    "ofType": null
-                  }
+                  "kind": "ENUM",
+                  "name": "WarehousingProviderType",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -20028,13 +20209,9 @@
                 "name": "type",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "ENUM",
-                    "name": "PaymentProviderType",
-                    "ofType": null
-                  }
+                  "kind": "ENUM",
+                  "name": "PaymentProviderType",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -20080,6 +20257,70 @@
                   "kind": "SCALAR",
                   "name": "String",
                   "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "paymentProviderIds",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "deliveryProviderIds",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "dateRange",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "DateFilterInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "status",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "OrderStatus",
+                      "ofType": null
+                    }
+                  }
                 },
                 "defaultValue": null
               }
@@ -20173,6 +20414,52 @@
                       "ofType": null
                     }
                   }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "paymentProviderIds",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "deliveryProviderIds",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "dateRange",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "DateFilterInput",
+                  "ofType": null
                 },
                 "defaultValue": null
               }

@@ -11,12 +11,14 @@ const OrderDetailBilling = ({ order }) => {
     const deliveryAmount = order?.totalDelivery?.amount || 0;
     const paymentAmount = order?.totalPayment?.amount || 0;
     const discountAmount = order?.totalDiscount?.amount || 0;
-    
-    const calculatedTotal = itemsAmount + taxAmount + deliveryAmount + paymentAmount - discountAmount;
-    
+
+    const calculatedTotal =
+      itemsAmount + taxAmount + deliveryAmount + paymentAmount - discountAmount;
+
     return {
       amount: calculatedTotal,
-      currencyCode: order?.total?.currencyCode || order?.itemsTotal?.currencyCode || 'CHF'
+      currencyCode:
+        order?.total?.currencyCode || order?.itemsTotal?.currencyCode || 'CHF',
     };
   };
 

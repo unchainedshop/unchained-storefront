@@ -6,8 +6,8 @@ import Link from 'next/link';
 import ProductListItem from './ProductListItem';
 import Button from '../../common/components/Button';
 import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
-import FormattedPrice from '../../common/components/FormattedPrice';
 import getProductHref from '../../common/utils/getProductHref';
+import ProductPrice from '../../common/components/ProductPrice';
 
 const ProductList = ({
   products,
@@ -80,7 +80,7 @@ const ProductList = ({
                   </div>
                   <div className="flex items-center justify-between gap-4 p-4">
                     <div className="text-xl font-semibold text-slate-900 dark:text-white">
-                      <FormattedPrice price={product?.simulatedPrice} />
+                      <ProductPrice product={product} />
                     </div>
                     <Link
                       href={getProductHref(product?.texts?.slug)}

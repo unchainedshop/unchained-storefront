@@ -143,12 +143,14 @@ const Checkout = () => {
     const taxAmount = taxesTotal?.amount || 0;
     const deliveryAmount = deliveryTotal?.amount || 0;
     const paymentAmount = data.me.cart.payment?.fee?.amount || 0;
-    
-    const calculatedTotal = itemsAmount + taxAmount + deliveryAmount + paymentAmount;
-    
+
+    const calculatedTotal =
+      itemsAmount + taxAmount + deliveryAmount + paymentAmount;
+
     return {
       amount: calculatedTotal,
-      currencyCode: grandTotal?.currencyCode || itemsTotal?.currencyCode || 'CHF'
+      currencyCode:
+        grandTotal?.currencyCode || itemsTotal?.currencyCode || 'CHF',
     };
   };
 

@@ -25,7 +25,7 @@ const ConfettiCelebration = ({
       clearTimeout(animationEnd.current);
       animationEnd.current = null;
     }
-    
+
     // Clean up the canvas
     const canvas = document.getElementById('confetti-canvas');
     if (canvas) {
@@ -41,7 +41,9 @@ const ConfettiCelebration = ({
     if (prefersReducedMotion) return;
 
     // Create or get the confetti canvas and set high z-index
-    let canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement;
+    let canvas = document.getElementById(
+      'confetti-canvas',
+    ) as HTMLCanvasElement;
     if (!canvas) {
       canvas = document.createElement('canvas');
       canvas.id = 'confetti-canvas';
@@ -56,7 +58,7 @@ const ConfettiCelebration = ({
     }
 
     const confettiInstance = confetti.create(canvas, { resize: true });
-    
+
     const animationEndTime = Date.now() + duration;
     let animationId: number;
 
