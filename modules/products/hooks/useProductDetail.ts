@@ -9,6 +9,46 @@ const PRODUCT_DETAIL_QUERY = gql`
       assortmentPaths {
         ...ProductAssortmentPathFragment
       }
+      proxies {
+        ... on ConfigurableProduct {
+          _id
+          variations {
+            key
+            texts {
+              _id
+              title
+            }
+            options {
+              value
+              texts {
+                _id
+                title
+              }
+            }
+          }
+          assignments {
+            _id
+            product {
+              _id
+              texts {
+                _id
+                title
+                slug
+              }
+              ...SimpleProductPrice
+            }
+            vectors {
+              _id
+              variation {
+                key
+              }
+              option {
+                value
+              }
+            }
+          }
+        }
+      }
       ...ProductDetails
       ...ProductPriceFragment
     }

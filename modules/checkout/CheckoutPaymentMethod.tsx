@@ -4,6 +4,7 @@ import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
 import CryptopayCheckoutButton from './CryptopayCheckoutButton';
 import InvoiceCheckoutButton from './InvoiceCheckoutButton';
 import DatatransCheckoutButton from './DatatransCheckoutButton';
+import PostfinancenCheckoutButton from "./PostfinancenCheckoutButton";
 import useUpdateCartPayment from '../cart/hooks/useUpdateCartPayment';
 
 const StripeCheckoutButton = dynamic(() => import('./StripeCheckoutButton'), {
@@ -16,6 +17,7 @@ const CheckoutButtons = {
   'shop.unchained.invoice-prepaid': InvoiceCheckoutButton,
   'shop.unchained.datatrans': DatatransCheckoutButton,
   'shop.unchained.payment.stripe': StripeCheckoutButton,
+  "shop.unchained.payment.postfinance-checkout": PostfinancenCheckoutButton,
 };
 
 const PaymentLabels = defineMessages({
@@ -38,6 +40,10 @@ const PaymentLabels = defineMessages({
   'shop.unchained.payment.stripe': {
     id: 'shop.unchained.payment.stripe',
     defaultMessage: 'Online Payment Gateway (Stripe)',
+  },
+  "shop.unchained.payment.postfinance-checkout": {
+    id: "shop.unchained.payment.postfinance-checkout",
+    defaultMessage: "Online Payment Gateway (Postfinance Checkout)",
   },
 });
 
@@ -85,7 +91,11 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
                 htmlFor={provider._id}
                 className="ml-3 block text-sm font-medium text-slate-900 dark:text-white"
               >
-                <FormattedMessage {...PaymentLabels[provider.interface._id]} />
+                <FormattedMessage
+                  {...(PaymentLabels[provider.interface._id] || {
+                    id: provider.interface._id,
+                  })}
+                />
               </label>
             </div>
           ))}

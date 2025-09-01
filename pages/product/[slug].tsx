@@ -18,6 +18,7 @@ import classNames from 'classnames';
 import useUser from '../../modules/auth/hooks/useUser';
 import useConditionalBookmarkProduct from '../../modules/cart/hooks/useConditionalBookmarkProduct';
 import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
+import ProductVariants from "../../modules/products/components/ProductVariants";
 
 const Detail = () => {
   const router = useRouter();
@@ -132,6 +133,14 @@ const Detail = () => {
               <div className="prose prose-gray dark:prose-invert max-w-none">
                 <Markdown>{product?.texts?.description}</Markdown>
               </div>
+
+              {product?.proxies?.map((proxy) => (
+                <ProductVariants
+                  key={proxy._id}
+                  proxy={proxy}
+                  activeProductId={product._id}
+                />
+              ))}
 
               <div className="pt-4">
                 <AddToCartButton productId={product?._id} {...product} />

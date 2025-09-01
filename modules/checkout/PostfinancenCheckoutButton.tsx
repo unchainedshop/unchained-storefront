@@ -1,7 +1,7 @@
-import { gql, useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
-import { useIntl } from 'react-intl';
-import Button from '../common/components/Button';
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+import { useIntl } from "react-intl";
+import Button from "../common/components/Button";
 
 export const SIGN_DATATRANS_MUTATION = gql`
   mutation SignPaymentProviderForCheckout(
@@ -15,8 +15,7 @@ export const SIGN_DATATRANS_MUTATION = gql`
   }
 `;
 
-const DatatransCheckoutButton = ({ order }) => {
-  const router = useRouter();
+const PostfinancenCheckoutButton = ({ order }) => {
   const { formatMessage } = useIntl();
   const [signDatatransMutation] = useMutation(SIGN_DATATRANS_MUTATION);
 
@@ -24,28 +23,20 @@ const DatatransCheckoutButton = ({ order }) => {
     event.preventDefault();
     event.stopPropagation();
     try {
-      const successUrl = `${window.location.origin}/order/${order._id}/success`;
-      const cancelUrl = `${window.location.origin}/checkout`;
-      const errorUrl = `${window.location.origin}/checkout?error=1`;
       const transactionContext = {
-        option: {
-          createAlias: false,
-        },
-        redirect: {
-          successUrl,
-          cancelUrl,
-          errorUrl,
-        },
+        successRedirectUrl: `${window.location.origin}/order/${order._id}/success`,
+        cancelRedirectUrl: `${window.location.origin}/checkout`,
+        failedRedirectUrl: `${window.location.origin}/checkout?error=1`,
       };
       const { data } = await signDatatransMutation({
         variables: { orderPaymentId: order.payment._id, transactionContext },
       });
+      console.log(data);
       if (data?.signPaymentProviderForCheckout) {
-        const { location } = JSON.parse(
-          data.signPaymentProviderForCheckout || {},
-        );
-        if (location) {
-          document.location.href = location;
+        const paymentResponse = JSON.parse(data.signPaymentProviderForCheckout);
+        const paymentLink = paymentResponse?.location;
+        if (paymentLink) {
+          document.location.href = paymentLink;
         }
       }
     } catch (e) {
@@ -66,4 +57,4 @@ const DatatransCheckoutButton = ({ order }) => {
   );
 };
 
-export default DatatransCheckoutButton;
+export default PostfinancenCheckoutButton;

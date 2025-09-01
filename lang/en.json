@@ -405,7 +405,7 @@
     "defaultMessage": "Password changed successfully."
   },
   "pay-with-card": {
-    "defaultMessage": "Pay with card/Twint"
+    "defaultMessage": "Complete Payment"
   },
   "payment-information": {
     "defaultMessage": "Payment Information"

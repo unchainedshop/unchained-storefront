@@ -124,6 +124,17 @@ unchained-storefront/
 
 ## 🎨 Theming & Customization
 
+### Example Storefront Customization
+
+In `storefront/styles/globals.css`:
+```css
+:root {
+  --primary-color: #0070f3;
+  --secondary-color: #ff6b6b;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+}
+```
+
 ## 🌍 Internationalization
 
 The storefront comes with built-in i18n support:
