@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { useIntl } from "react-intl";
-import FormattedPrice from "../../common/components/FormattedPrice";
+import Link from 'next/link';
+import { useIntl } from 'react-intl';
+import FormattedPrice from '../../common/components/FormattedPrice';
 
 const Option = ({
   title,
@@ -42,7 +42,7 @@ const Option = ({
           <Link
             href={`/product/${assignment?.product.texts.slug}`}
             className={
-              assignment.product._id === activeProductId ? "active" : ""
+              assignment.product._id === activeProductId ? 'active' : ''
             }
           >
             {assignment?.product.texts.title}
@@ -66,8 +66,8 @@ const ProductVariants = ({ proxy, activeProductId }) => {
     <div className="product-variants">
       <h2 className="text-lg font-semibold mb-4">
         {formatMessage({
-          id: "product.variants.title",
-          defaultMessage: "Variants",
+          id: 'product.variants.title',
+          defaultMessage: 'Variants',
         })}
       </h2>
 

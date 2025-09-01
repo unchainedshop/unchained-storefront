@@ -18,7 +18,7 @@ import classNames from 'classnames';
 import useUser from '../../modules/auth/hooks/useUser';
 import useConditionalBookmarkProduct from '../../modules/cart/hooks/useConditionalBookmarkProduct';
 import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
-import ProductVariants from "../../modules/products/components/ProductVariants";
+import ProductVariants from '../../modules/products/components/ProductVariants';
 
 const Detail = () => {
   const router = useRouter();

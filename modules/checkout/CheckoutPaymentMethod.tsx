@@ -4,7 +4,7 @@ import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
 import CryptopayCheckoutButton from './CryptopayCheckoutButton';
 import InvoiceCheckoutButton from './InvoiceCheckoutButton';
 import DatatransCheckoutButton from './DatatransCheckoutButton';
-import PostfinancenCheckoutButton from "./PostfinancenCheckoutButton";
+import PostfinancenCheckoutButton from './PostfinancenCheckoutButton';
 import useUpdateCartPayment from '../cart/hooks/useUpdateCartPayment';
 
 const StripeCheckoutButton = dynamic(() => import('./StripeCheckoutButton'), {
@@ -17,7 +17,7 @@ const CheckoutButtons = {
   'shop.unchained.invoice-prepaid': InvoiceCheckoutButton,
   'shop.unchained.datatrans': DatatransCheckoutButton,
   'shop.unchained.payment.stripe': StripeCheckoutButton,
-  "shop.unchained.payment.postfinance-checkout": PostfinancenCheckoutButton,
+  'shop.unchained.payment.postfinance-checkout': PostfinancenCheckoutButton,
 };
 
 const PaymentLabels = defineMessages({
@@ -41,9 +41,9 @@ const PaymentLabels = defineMessages({
     id: 'shop.unchained.payment.stripe',
     defaultMessage: 'Online Payment Gateway (Stripe)',
   },
-  "shop.unchained.payment.postfinance-checkout": {
-    id: "shop.unchained.payment.postfinance-checkout",
-    defaultMessage: "Online Payment Gateway (Postfinance Checkout)",
+  'shop.unchained.payment.postfinance-checkout': {
+    id: 'shop.unchained.payment.postfinance-checkout',
+    defaultMessage: 'Online Payment Gateway (Postfinance Checkout)',
   },
 });
 
