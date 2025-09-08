@@ -138,25 +138,6 @@ const Checkout = () => {
   const deliveryTotal = data.me.cart.deliveryTotal;
   const grandTotal = data.me.cart.grandTotal;
 
-  // Calculate correct total manually as a workaround for backend calculation issue
-  const calculateCheckoutTotal = () => {
-    const itemsAmount = itemsTotal?.amount || 0;
-    const taxAmount = taxesTotal?.amount || 0;
-    const deliveryAmount = deliveryTotal?.amount || 0;
-    const paymentAmount = data.me.cart.payment?.fee?.amount || 0;
-
-    const calculatedTotal =
-      itemsAmount + taxAmount + deliveryAmount + paymentAmount;
-
-    return {
-      amount: calculatedTotal,
-      currencyCode:
-        grandTotal?.currencyCode || itemsTotal?.currencyCode || 'CHF',
-    };
-  };
-
-  const calculatedTotal = calculateCheckoutTotal();
-
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -317,7 +298,7 @@ const Checkout = () => {
                     <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
                       <span>Gesamtsumme</span>
                       <span>
-                        <FormattedPrice price={calculatedTotal} />
+                        <FormattedPrice price={grandTotal} />
                       </span>
                     </div>
                   </div>
