@@ -1,4 +1,6 @@
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client/react';
 
 export const CHANGE_PASSWORD_MUTATION = gql`
   mutation ChangePassword(
@@ -15,7 +17,7 @@ export const CHANGE_PASSWORD_MUTATION = gql`
 `;
 
 const useChangePassword = () => {
-  const [changePasswordMutation, { loading, error }] = useMutation(
+  const [changePasswordMutation, { loading, error }] = useMutation<any>(
     CHANGE_PASSWORD_MUTATION,
   );
 

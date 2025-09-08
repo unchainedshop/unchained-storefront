@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 import ProductFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
@@ -35,7 +36,7 @@ const PRODUCT_DETAIL_QUERY = gql`
                 title
                 slug
               }
-              ...SimpleProductPrice
+              ...ProductPriceFragment
             }
             vectors {
               _id
@@ -59,7 +60,7 @@ const PRODUCT_DETAIL_QUERY = gql`
 `;
 
 const useProductDetail = ({ slug }) => {
-  const { data, loading, error } = useQuery(PRODUCT_DETAIL_QUERY, {
+  const { data, loading, error } = useQuery<any>(PRODUCT_DETAIL_QUERY, {
     variables: { slug },
   });
 

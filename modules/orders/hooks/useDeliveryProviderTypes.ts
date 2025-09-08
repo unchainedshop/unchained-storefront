@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 const DeliveryProvidersTypeQuery = gql`
   query DeliveryProvidersType {
@@ -12,7 +13,7 @@ const DeliveryProvidersTypeQuery = gql`
 `;
 
 const useDeliveryProviderTypes = () => {
-  const { data, loading, error } = useQuery(DeliveryProvidersTypeQuery);
+  const { data, loading, error } = useQuery<any>(DeliveryProvidersTypeQuery);
 
   const deliveryProviderType = data?.deliveryProviderType?.options || [];
 

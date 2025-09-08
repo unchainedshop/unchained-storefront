@@ -1,4 +1,5 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import ErrorMessage from '../common/components/ErrorMessage';
 import CheckoutContact from './CheckoutContact';
 import CheckoutAddresses from './CheckoutAddresses';
@@ -117,7 +118,7 @@ export const CART_CHECKOUT_QUERY = gql`
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
   const { formatMessage } = useIntl();
-  const { loading, error, data } = useQuery(CART_CHECKOUT_QUERY, {
+  const { loading, error, data } = useQuery<any>(CART_CHECKOUT_QUERY, {
     notifyOnNetworkStatusChange: true,
   });
   const { isSubscribed } = usePushNotification();

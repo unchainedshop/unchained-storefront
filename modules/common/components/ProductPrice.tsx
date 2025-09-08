@@ -3,7 +3,6 @@ import FormattedPriceRange from './FormattedPriceRange';
 import calculateBundlePriceRange from '../../products/utils/calculateBundlePriceRange';
 
 const ProductPrice = ({ product }) => {
-  console.log(product);
   if (!product) {
     return <span>N/A</span>;
   }

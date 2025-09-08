@@ -21,7 +21,7 @@ const Search = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       setIsSearching(true);
-      // Implement search logic here
+      // TODO: Implement search logic here
       console.log('Searching for:', searchQuery);
     }
   };

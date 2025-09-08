@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import CurrentUserFragment from '../fragments/CurrentUserFragment';
 
 export const USER_QUERY = gql`
@@ -11,7 +12,7 @@ export const USER_QUERY = gql`
 `;
 
 const useUser = () => {
-  const { data, loading, error, refetch } = useQuery(USER_QUERY);
+  const { data, loading, error, refetch } = useQuery<any>(USER_QUERY);
 
   return {
     loading,

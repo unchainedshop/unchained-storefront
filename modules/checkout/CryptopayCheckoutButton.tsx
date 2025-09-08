@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { gql, useMutation, useLazyQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client/react';
 import useQRCodeGenerator from 'react-hook-qrcode-svg';
 import { useRouter } from 'next/router';
 import Portal from '../common/components/Portal';
@@ -143,11 +144,11 @@ const PayWithCryptoButton = ({ sign }) => (
 const CryptopayCheckoutButton = ({ order }) => {
   const router = useRouter();
   const [showPaymentInformation, setShowPaymentInformation] = useState(false);
-  const [signCryptopayMutation, { data }] = useMutation(
+  const [signCryptopayMutation, { data }] = useMutation<any>(
     SIGN_CRYPTOPAY_MUTATION,
   );
 
-  const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery(
+  const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery<any>(
     CHECK_ORDER_STATUS_QUERY,
     {
       pollInterval: 2000,

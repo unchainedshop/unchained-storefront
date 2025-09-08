@@ -1,4 +1,6 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client/react';
 
 export const CREATE_WEB_AUTHN_CREDENTIAL_CREATION_OPTIONS_MUTATION = gql`
   mutation CreateWebAuthnCredentialCreationOptions($username: String!) {
@@ -7,7 +9,7 @@ export const CREATE_WEB_AUTHN_CREDENTIAL_CREATION_OPTIONS_MUTATION = gql`
 `;
 
 const useCreateWebAuthnCredentialCreationOptions = () => {
-  const [createWebAuthnCredentialCreationOptionsMutation] = useMutation(
+  const [createWebAuthnCredentialCreationOptionsMutation] = useMutation<any>(
     CREATE_WEB_AUTHN_CREDENTIAL_CREATION_OPTIONS_MUTATION,
   );
 

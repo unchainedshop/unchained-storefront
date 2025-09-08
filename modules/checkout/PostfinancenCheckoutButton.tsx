@@ -1,4 +1,5 @@
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import Button from '../common/components/Button';
@@ -17,7 +18,7 @@ export const SIGN_DATATRANS_MUTATION = gql`
 
 const PostfinancenCheckoutButton = ({ order }) => {
   const { formatMessage } = useIntl();
-  const [signDatatransMutation] = useMutation(SIGN_DATATRANS_MUTATION);
+  const [signDatatransMutation] = useMutation<any>(SIGN_DATATRANS_MUTATION);
 
   const sign = async (event) => {
     event.preventDefault();
@@ -31,7 +32,6 @@ const PostfinancenCheckoutButton = ({ order }) => {
       const { data } = await signDatatransMutation({
         variables: { orderPaymentId: order.payment._id, transactionContext },
       });
-      console.log(data);
       if (data?.signPaymentProviderForCheckout) {
         const paymentResponse = JSON.parse(data.signPaymentProviderForCheckout);
         const paymentLink = paymentResponse?.location;

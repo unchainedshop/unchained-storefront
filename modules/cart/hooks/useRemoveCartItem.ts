@@ -1,4 +1,6 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client/react';
 
 export const REMOVE_CART_ITEM_MUTATION = gql`
   mutation RemoveCartItem($itemId: ID!) {
@@ -43,7 +45,7 @@ export const REMOVE_CART_ITEM_MUTATION = gql`
 `;
 
 const useRemoveCartItem = () => {
-  const [removeCartItemMutation] = useMutation(REMOVE_CART_ITEM_MUTATION);
+  const [removeCartItemMutation] = useMutation<any>(REMOVE_CART_ITEM_MUTATION);
 
   const removeCartItem = async ({ itemId }) => {
     await removeCartItemMutation({ variables: { itemId } });

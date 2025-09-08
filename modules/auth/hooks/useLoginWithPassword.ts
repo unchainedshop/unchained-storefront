@@ -1,4 +1,5 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import isEmail from '../../common/utils/isEmail';
 
@@ -27,7 +28,7 @@ const LOG_IN_WITH_PASSWORD_MUTATION = gql`
 
 const useLoginWithPassword = () => {
   const { emailSupportDisabled } = useAppContext();
-  const [logInWithPasswordMutation, { client }] = useMutation(
+  const [logInWithPasswordMutation, { client }] = useMutation<any>(
     LOG_IN_WITH_PASSWORD_MUTATION,
     {
       errorPolicy: 'all',

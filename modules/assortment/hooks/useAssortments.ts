@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import AssortmentFragment from '../fragments/assortment';
 import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 
@@ -16,7 +17,7 @@ export const ASSORTMENTS_QUERY = gql`
 `;
 
 const useAssortments = ({ includeLeaves = false } = {}) => {
-  const { data, loading, error } = useQuery(ASSORTMENTS_QUERY, {
+  const { data, loading, error } = useQuery<any>(ASSORTMENTS_QUERY, {
     variables: {
       includeLeaves,
     },

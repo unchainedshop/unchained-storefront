@@ -1,4 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from '@apollo/client/react';
 
 export const DELIVERY_PROVIDERS_QUERY = gql`
   query DeliveryProvidersQuery($type: DeliveryProviderType) {
@@ -19,7 +21,7 @@ export const DELIVERY_PROVIDERS_QUERY = gql`
 `;
 
 const useDeliveryProviders = ({ type = null } = {}) => {
-  const { data, loading, error } = useQuery(DELIVERY_PROVIDERS_QUERY, {
+  const { data, loading, error } = useQuery<any>(DELIVERY_PROVIDERS_QUERY, {
     variables: { type },
   });
 

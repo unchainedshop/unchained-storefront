@@ -1,4 +1,5 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import AssortmentFragment from '../fragments/assortment';
 import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 import childrenArrayToNavigationIdObject from '../utils/childrenArrayToNavigationIdObject';
@@ -37,7 +38,7 @@ const useCategoriesTree = ({
   includeLeaves?: boolean;
   root?: string;
 }) => {
-  const { loading, error, data } = useQuery(ASSORTMENT_TREE_QUERY, {
+  const { loading, error, data } = useQuery<any>(ASSORTMENT_TREE_QUERY, {
     variables: {
       includeLeaves,
       slugs,

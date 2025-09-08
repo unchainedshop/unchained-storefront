@@ -1,4 +1,6 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client/react';
 
 export const CHECKOUT_CART_BY_INVOICE_MUTATION = gql`
   mutation CheckoutCartByInvoice {
@@ -22,7 +24,7 @@ export const CHECKOUT_CART_BY_INVOICE_MUTATION = gql`
 `;
 
 const useCheckoutByInvoice = () => {
-  const [checkoutByInvoiceMutation] = useMutation(
+  const [checkoutByInvoiceMutation] = useMutation<any>(
     CHECKOUT_CART_BY_INVOICE_MUTATION,
   );
 

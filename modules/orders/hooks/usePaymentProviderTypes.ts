@@ -1,4 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from '@apollo/client/react';
 
 const PaymentProvidersTypeQuery = gql`
   query PaymentProvidersType {
@@ -12,7 +14,7 @@ const PaymentProvidersTypeQuery = gql`
 `;
 
 const usePaymentProviderTypes = () => {
-  const { data, loading, error } = useQuery(PaymentProvidersTypeQuery);
+  const { data, loading, error } = useQuery<any>(PaymentProvidersTypeQuery);
 
   const paymentProviderType = data?.paymentProviderType?.options || [];
 

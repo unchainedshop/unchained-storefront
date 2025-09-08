@@ -1,4 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from '@apollo/client/react';
 
 import OrderFragment from '../fragments/OrderFragment';
 
@@ -15,7 +17,7 @@ export const USER_ORDERS_QUERY = gql`
 `;
 
 const useOrderList = () => {
-  const { data, loading, error } = useQuery(USER_ORDERS_QUERY);
+  const { data, loading, error } = useQuery<any>(USER_ORDERS_QUERY);
 
   return {
     orders: data?.me?.orders || [],

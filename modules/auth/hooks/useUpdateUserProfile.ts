@@ -1,4 +1,5 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import AddressFragment from '../../common/fragments/AddressFragment';
 
 const UPDATE_USER_PROFILE_MUTATION = gql`
@@ -17,7 +18,7 @@ const UPDATE_USER_PROFILE_MUTATION = gql`
 `;
 
 const useUpdateUserProfile = () => {
-  const [updateUserProfileMutation, { error }] = useMutation(
+  const [updateUserProfileMutation, { error }] = useMutation<any>(
     UPDATE_USER_PROFILE_MUTATION,
   );
 

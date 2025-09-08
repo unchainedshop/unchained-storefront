@@ -8,7 +8,7 @@ export const LOGOUT_MUTATION = gql`
   }
 `;
 
-const logOut = async (apollo: ApolloClient<any>) => {
+const logOut = async (apollo: ApolloClient) => {
   await apollo.mutate({
     mutation: LOGOUT_MUTATION,
     awaitRefetchQueries: true,

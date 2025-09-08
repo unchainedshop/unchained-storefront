@@ -3,10 +3,9 @@ import {
   ApolloClient,
   HttpLink,
   InMemoryCache,
-  from,
   ApolloLink,
 } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
+import { LocalState } from '@apollo/client/local-state';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import typePolicies from './typepolicies';
@@ -15,29 +14,6 @@ import possibleTypes from '../../possibleTypes.json';
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient;
-
-const errorLink = onError(
-  ({ graphQLErrors, networkError, operation, forward }) => {
-    if (graphQLErrors) {
-      console.error('[GraphQL Errors]:', graphQLErrors);
-      graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-        console.error(
-          `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)}, Extensions: ${JSON.stringify(extensions)}`,
-        );
-        console.error(
-          'Operation:',
-          operation.operationName,
-          operation.query.loc?.source?.body,
-        );
-      });
-    }
-    if (networkError) {
-      console.error(`[Network error]:`, networkError);
-      console.error('Operation:', operation.operationName);
-      console.error('Variables:', operation.variables);
-    }
-  },
-);
 
 const uri =
   typeof window === 'undefined'
@@ -61,7 +37,7 @@ function createApolloClient({ locale }) {
 
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: from([middlewareLink, errorLink, httpLink]),
+    link: ApolloLink.from([middlewareLink, httpLink]),
     cache: new InMemoryCache({
       possibleTypes,
       typePolicies,

@@ -10,7 +10,7 @@
     "node": "22.x"
   },
   "dependencies": {
-    "@apollo/client": "^3.14.0",
+    "@apollo/client": "^4.0.4",
     "@coingecko/cryptoformat": "^0.8.2",
     "@formatjs/intl-datetimeformat": "^6.18.0",
     "@formatjs/intl-numberformat": "^8.15.4",
@@ -18,7 +18,7 @@
     "@formatjs/intl-relativetimeformat": "^11.4.11",
     "@headlessui/react": "^2.2.7",
     "@heroicons/react": "^2.2.0",
-    "@stripe/react-stripe-js": "^3.9.2",
+    "@stripe/react-stripe-js": "^3.10.0",
     "@stripe/stripe-js": "^5.10.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
@@ -42,16 +42,17 @@
     "react-image-gallery": "^1.4.0",
     "react-intl": "^7.1.11",
     "react-markdown": "^10.1.0",
+    "rxjs": "^7.8.2",
     "validator": "^13.15.15"
   },
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^4.4.0",
     "@svgr/webpack": "^8.1.0",
-    "@tailwindcss/postcss": "^4.1.12",
-    "@types/node": "^24.3.0",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.12",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-config-next": "^15.5.2",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-formatjs": "^5.4.0",

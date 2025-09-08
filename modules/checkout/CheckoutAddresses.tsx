@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { useIntl } from 'react-intl';
 import AddressForm from './AddressForm';
 import AddressPanel from './AddressPanel';
@@ -62,10 +63,10 @@ const CheckoutAddresses = ({ cart, isInitial }) => {
   const [deliveryAddressEditMode, setDeliveryAddressEditMode] =
     useState(isInitial);
 
-  const [updateCartMutation] = useMutation(
+  const [updateCartMutation] = useMutation<any>(
     UPDATE_CART_BILLING_ADDRESS_MUTATION,
   );
-  const [updateOrderDeliveryAddressMutation] = useMutation(
+  const [updateOrderDeliveryAddressMutation] = useMutation<any>(
     UPDATE_ORDER_DELIVERY_ADDRESS_MUTATION,
   );
 

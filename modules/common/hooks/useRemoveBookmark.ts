@@ -1,4 +1,5 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { USER_QUERY } from '../../auth/hooks/useUser';
 
 const RemoveBookmarkMutation = gql`
@@ -10,7 +11,7 @@ const RemoveBookmarkMutation = gql`
 `;
 
 const useRemoveBookmark = () => {
-  const [removeBookmarkMutation] = useMutation(RemoveBookmarkMutation, {
+  const [removeBookmarkMutation] = useMutation<any>(RemoveBookmarkMutation, {
     refetchQueries: [{ query: USER_QUERY }],
     awaitRefetchQueries: true,
   });

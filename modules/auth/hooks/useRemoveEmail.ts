@@ -1,4 +1,6 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client/react';
 
 export const REMOVE_EMAIL_MUTATION = gql`
   mutation RemoveEmail($email: String!) {
@@ -13,7 +15,9 @@ export const REMOVE_EMAIL_MUTATION = gql`
 `;
 
 const useRemoveEmail = () => {
-  const [removeEmailMutation, { error }] = useMutation(REMOVE_EMAIL_MUTATION);
+  const [removeEmailMutation, { error }] = useMutation<any>(
+    REMOVE_EMAIL_MUTATION,
+  );
 
   const removeEmail = async (email) => {
     return removeEmailMutation({

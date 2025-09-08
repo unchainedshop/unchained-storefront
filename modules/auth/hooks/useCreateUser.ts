@@ -1,4 +1,6 @@
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client/react';
 
 export const CREATE_USER_MUTATION = gql`
   mutation CreateUser(
@@ -23,7 +25,7 @@ export const CREATE_USER_MUTATION = gql`
 
 const useCreateUser = () => {
   const [createUserMutation, { data, error, loading }] =
-    useMutation(CREATE_USER_MUTATION);
+    useMutation<any>(CREATE_USER_MUTATION);
 
   const createUser = async ({
     username,

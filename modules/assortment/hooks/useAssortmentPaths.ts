@@ -1,4 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from '@apollo/client/react';
 
 import AssortmentFragment from '../fragments/assortment';
 import AssortmentPathFragment from '../fragments/AssortmentPath';
@@ -17,7 +19,7 @@ export const ASSORTMENT_PATHS_QUERY = gql`
 `;
 
 const useAssortmentPaths = ({ assortmentId }) => {
-  const { data, loading, error } = useQuery(ASSORTMENT_PATHS_QUERY, {
+  const { data, loading, error } = useQuery<any>(ASSORTMENT_PATHS_QUERY, {
     variables: {
       assortmentId,
     },

@@ -1,4 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from '@apollo/client/react';
 
 export const SHOP_INFO_QUERY = gql`
   query ShopInfo {
@@ -11,7 +13,7 @@ export const SHOP_INFO_QUERY = gql`
 `;
 
 const useShopInfo = () => {
-  const { data, loading, error } = useQuery(SHOP_INFO_QUERY);
+  const { data, loading, error } = useQuery<any>(SHOP_INFO_QUERY);
 
   return {
     loading,

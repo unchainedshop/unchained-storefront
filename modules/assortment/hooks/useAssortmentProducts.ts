@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import ProductFragment from '../../products/fragments/ProductFragment';
 import ProductPriceFragment from '../../products/fragments/ProductPriceFragment';
 import AssortmentFragment from '../fragments/assortment';
@@ -41,7 +42,7 @@ const useAssortmentProducts = (
     slugs: [],
   },
 ) => {
-  const { data, loading, error, fetchMore } = useQuery(
+  const { data, loading, error, fetchMore } = useQuery<any>(
     ASSORTMENT_PRODUCTS_QUERY,
     {
       variables: {

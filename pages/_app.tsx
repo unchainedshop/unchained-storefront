@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
 
 import IntlWrapper from '../modules/i18n/components/IntlWrapper';
 import { useApollo } from '../modules/apollo/apolloClient';
