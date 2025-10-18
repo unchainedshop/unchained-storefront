@@ -148,13 +148,13 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
       {/* Drawer - Even higher z-index */}
       <div
-        className={`fixed top-5 bottom-5 left-5 z-[1040] w-sm lg:w-md xl:w-lg transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
+        className={`fixed top-3 sm:top-5 bottom-3 sm:bottom-3 left-3 sm:left-5 z-[1040] w-xs sm:w-sm lg:w-md xl:w-lg transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
           isAnimating
             ? 'translate-x-0 opacity-100 scale-100'
             : '-translate-x-16 opacity-0 scale-95 pointer-events-none'
         }`}
       >
-        <div className="flex h-full flex-col p-6">
+        <div className="flex h-full flex-col p-3 sm:p-6">
           {/* Header with staggered animation */}
           <div
             className={`flex justify-end mb-8 transition-all duration-300 delay-100 ${
@@ -173,7 +173,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
           {/* Navigation Items with staggered animation */}
           <nav
-            className={`flex-1 overflow-y-auto transition-all duration-300 delay-200 ${
+            className={`flex-1 overflow-y-auto overflow-x-hidden transition-all duration-300 delay-200 ${
               isAnimating
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-4 opacity-0'
@@ -331,7 +331,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
             }`}
           >
             {/* Language Selector */}
-            <div className="mb-4 flex flex-wrap justify-between items-center">
+            <div className="mb-4 flex flex-wrap justify-between items-center gap-3">
               <div className="flex items-center gap-2">
                 <GlobeAltIcon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
                 <span className="text-sm font-medium text-slate-600 dark:text-slate-400">

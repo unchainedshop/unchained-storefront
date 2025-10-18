@@ -128,7 +128,7 @@ const AddToCartButton = ({ productId, ...product }) => {
           </button>
 
           <input
-            className="rounded-md text-center block w-full py-2 -my-px mx-[2px] border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800 sm:text-sm bg-white dark:bg-slate-950 dark:text-white transition-all duration-200 ease-in-out"
+            className="rounded-md text-center block w-full py-2 -my-[-2px] mx-[2px] border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800 sm:text-sm bg-white dark:bg-slate-950 dark:text-white transition-all duration-200 ease-in-out"
             type="text"
             min={1}
             max={maxQuantity}
