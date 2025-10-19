@@ -5,6 +5,7 @@ import useUser from '../../auth/hooks/useUser';
 
 export const ADD_CART_PRODUCT_MUTATION = gql`
   mutation AddCartProduct(
+    $orderId: ID
     $productId: ID!
     $quantity: Int
     $configuration: [ProductConfigurationParameterInput!]
@@ -13,6 +14,7 @@ export const ADD_CART_PRODUCT_MUTATION = gql`
       productId: $productId
       quantity: $quantity
       configuration: $configuration
+      orderId: $orderId
     ) {
       _id
       order {
@@ -81,8 +83,12 @@ const useAddCartProduct = () => {
         });
         await client.resetStore();
       }
+      console.log(user)
       await addCartProductMutation({
-        variables,
+        variables: {
+          ...variables,
+          orderId: user?.cart?._id,
+        },
         ...options,
       });
     } catch (err: any) {
