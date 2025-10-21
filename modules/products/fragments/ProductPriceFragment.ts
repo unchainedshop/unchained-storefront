@@ -9,6 +9,22 @@ const ProductPriceFragment = gql`
         amount
         currencyCode
       }
+      catalogPrice {
+        isTaxable
+        isNetPrice
+        amount
+        currencyCode
+      }
+      leveledCatalogPrices {
+        minQuantity
+        maxQuantity
+        price {
+          isTaxable
+          isNetPrice
+          amount
+          currencyCode
+        }
+      }
     }
     ... on PlanProduct {
       simulatedPrice {
@@ -17,6 +33,22 @@ const ProductPriceFragment = gql`
         amount
         currencyCode
       }
+      catalogPrice {
+        isTaxable
+        isNetPrice
+        amount
+        currencyCode
+      }
+      leveledCatalogPrices {
+        minQuantity
+        maxQuantity
+        price {
+          isTaxable
+          isNetPrice
+          amount
+          currencyCode
+        }
+      }
     }
     ... on TokenizedProduct {
       simulatedPrice {
@@ -24,6 +56,22 @@ const ProductPriceFragment = gql`
         isNetPrice
         amount
         currencyCode
+      }
+      catalogPrice {
+        isTaxable
+        isNetPrice
+        amount
+        currencyCode
+      }
+      leveledCatalogPrices {
+        minQuantity
+        maxQuantity
+        price {
+          isTaxable
+          isNetPrice
+          amount
+          currencyCode
+        }
       }
     }
     ... on ConfigurableProduct {

@@ -1,11 +1,19 @@
 import FormattedPrice from './FormattedPrice';
 import FormattedPriceRange from './FormattedPriceRange';
 import calculateBundlePriceRange from '../../products/utils/calculateBundlePriceRange';
+import PriceTiers from '../../products/components/PriceTiers';
 
-const ProductPrice = ({ product }) => {
+const ProductPrice = ({ product, compact = false }) => {
   if (!product) {
     return <span>N/A</span>;
   }
+  if (product?.leveledCatalogPrices?.length > 1)
+    return (
+      <PriceTiers
+        leveledCatalogPrices={product?.leveledCatalogPrices}
+        compact={compact}
+      />
+    );
 
   if (product.__typename === 'BundleProduct') {
     const priceRange = calculateBundlePriceRange(product.bundleItems);

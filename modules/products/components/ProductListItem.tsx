@@ -37,7 +37,7 @@ const ProductListItem = ({ product }) => {
           </h3>
         </Link>
         <div className="text-sm text-slate-600 dark:text-slate-400">
-          <ProductPrice product={product} />
+          <ProductPrice product={product} compact={true} />
         </div>
       </div>
     </div>

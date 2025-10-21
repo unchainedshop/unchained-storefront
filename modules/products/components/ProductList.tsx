@@ -80,7 +80,7 @@ const ProductList = ({
                   </div>
                   <div className="flex items-center justify-between gap-4 p-4">
                     <div className="text-xl font-semibold text-slate-900 dark:text-white">
-                      <ProductPrice product={product} />
+                      <ProductPrice product={product} compact />
                     </div>
                     <Link
                       href={getProductHref(product?.texts?.slug)}
