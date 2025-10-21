@@ -21,16 +21,19 @@ import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 import ProductVariants from '../../modules/products/components/ProductVariants';
 import ProductListItem from '../../modules/products/components/ProductListItem';
 import PriceTiers from '../../modules/products/components/PriceTiers';
+import { useCreateEnrollment } from '../../modules/products/hooks/useCreateEnrollment';
 
 const Detail = () => {
   const router = useRouter();
   const intl = useIntl();
-  const { product, paths, loading } = useProductDetail({
+  const {user} = useUser()
+    const { product, paths, loading } = useProductDetail({
     slug: router.query.slug,
   });
+  const {createEnrollment} = useCreateEnrollment()
   const { conditionalBookmarkProduct } = useConditionalBookmarkProduct();
   const { removeBookmark } = useRemoveBookmark();
-  const { user } = useUser();
+  
 
   const [filteredBookmark] =
     user?.bookmarks?.filter(
@@ -38,6 +41,26 @@ const Detail = () => {
     ) || [];
 
   const productPath = getAssortmentPath(paths);
+
+
+  const handleSubscribe = async () => {
+    try {
+      await createEnrollment({
+        plan: {
+          productId: product?._id,
+          quantity: 1,          
+        },
+        contact: {
+          emailAddress: "test@unchained.local",
+        },        
+      });
+
+      
+    } catch (err) {
+      console.error('Error creating enrollment', err);
+    }
+  };
+
 
   if (!product && !loading)
     return (
@@ -145,10 +168,14 @@ const Detail = () => {
                   activeProductId={product._id}
                 />
               ))}
-
+{product?.__typename !== 'PlanProduct' ?
               <div className="pt-4">
                 <AddToCartButton productId={product?._id} {...product} />
               </div>
+: 
+              <button onClick={handleSubscribe} disabled={loading}>
+      {loading ? 'Processing...' : 'Subscribe'}
+    </button>}
             </div>
           </div>
           {siblings?.length ? (
