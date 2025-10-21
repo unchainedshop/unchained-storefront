@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 import { useIntl } from 'react-intl';
-import classNames from 'classnames';
 import { ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import useUser from '../../auth/hooks/useUser';
 import CartItem from './CartItem';

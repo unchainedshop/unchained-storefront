@@ -42,7 +42,10 @@ const useUpdateCartItem = () => {
   const [updateCartItemMutation] = useMutation<any>(UPDATE_CART_ITEM_MUTATION);
 
   const updateCartItem = async ({ itemId, quantity = 1 }) => {
-    await updateCartItemMutation({ variables: { itemId, quantity } });
+    await updateCartItemMutation({
+      variables: { itemId, quantity },
+      refetchQueries: ['User'],
+    });
   };
 
   return {
