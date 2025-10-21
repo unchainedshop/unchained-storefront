@@ -14,6 +14,16 @@ const PRODUCT_DETAIL_QUERY = gql`
       siblings(limit: 4) {
         ...ProductListItemFragment
       }
+      ...on PlanProduct {
+        plan {
+        usageCalculationType
+        billingInterval
+        billingIntervalCount
+        trialInterval
+        trialIntervalCount
+      }
+      salesUnit
+      }
       proxies {
         ... on ConfigurableProduct {
           _id
