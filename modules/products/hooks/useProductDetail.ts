@@ -3,12 +3,16 @@ import { useQuery } from '@apollo/client/react';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 import ProductFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
+import ProductListItemFragment from '../fragments/ProductListItemFragment';
 
 const PRODUCT_DETAIL_QUERY = gql`
   query ProductDetails($slug: String) {
     product(slug: $slug) {
       assortmentPaths {
         ...ProductAssortmentPathFragment
+      }
+      siblings(limit: 4) {
+        ...ProductListItemFragment
       }
       proxies {
         ... on ConfigurableProduct {
@@ -54,9 +58,11 @@ const PRODUCT_DETAIL_QUERY = gql`
       ...ProductPriceFragment
     }
   }
+
   ${ProductFragment}
   ${ProductPriceFragment}
   ${ProductAssortmentPathFragment}
+  ${ProductListItemFragment}
 `;
 
 const useProductDetail = ({ slug }) => {

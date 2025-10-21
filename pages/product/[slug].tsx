@@ -19,6 +19,7 @@ import useUser from '../../modules/auth/hooks/useUser';
 import useConditionalBookmarkProduct from '../../modules/cart/hooks/useConditionalBookmarkProduct';
 import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 import ProductVariants from '../../modules/products/components/ProductVariants';
+import ProductListItem from '../../modules/products/components/ProductListItem';
 
 const Detail = () => {
   const router = useRouter();
@@ -46,6 +47,8 @@ const Detail = () => {
         })}
       />
     );
+
+  const { siblings } = product || {};
   return (
     <>
       <MetaTags
@@ -147,6 +150,27 @@ const Detail = () => {
               </div>
             </div>
           </div>
+          {siblings?.length ? (
+            <>
+              <div>
+                {' '}
+                <h2 className="text-lg font-semibold mb-4">
+                  {intl.formatMessage({
+                    id: 'similar_products',
+                    defaultMessage: 'Similar products',
+                  })}
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
+                {siblings.map((sibling) => (
+                  <div key={`grid-${sibling?._id}`} className="group relative">
+                    {' '}
+                    <ProductListItem product={sibling} />{' '}
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : null}
         </div>
       )}
     </>

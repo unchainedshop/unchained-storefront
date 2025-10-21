@@ -83,7 +83,6 @@ const useAddCartProduct = () => {
         });
         await client.resetStore();
       }
-      console.log(user)
       await addCartProductMutation({
         variables: {
           ...variables,
