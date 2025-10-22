@@ -18,6 +18,18 @@ const nextJsConfig = {
     UNCHAINED_ENDPOINT,
     disableEmailSupport: !!DISABLE_EMAIL_PROCESSES,
   },
+
+  redirects: async () => {
+
+
+    return [
+      {
+        source: "/enroll-account",
+        destination: "/reset-password",
+        permanent: true,
+      }
+    ]
+  },
   i18n: {
     locales: ["en", "de"],
     defaultLocale: "en",
