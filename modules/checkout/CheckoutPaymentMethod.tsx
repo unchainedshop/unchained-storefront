@@ -101,6 +101,7 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
           ))}
         </div>
       </form>
+
       {!disabled && <CheckoutButton order={cart} />}
     </div>
   );

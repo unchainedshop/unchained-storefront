@@ -165,15 +165,10 @@ const Detail = () => {
                   activeProductId={product._id}
                 />
               ))}
-              {product?.__typename !== 'PlanProduct' ? (
-                <div className="pt-4">
-                  <AddToCartButton productId={product?._id} {...product} />
-                </div>
-              ) : (
-                <button onClick={handleSubscribe} disabled={loading}>
-                  {loading ? 'Processing...' : 'Subscribe'}
-                </button>
-              )}
+
+              <div className="pt-4">
+                <AddToCartButton productId={product?._id} {...product} />
+              </div>
             </div>
           </div>
           {siblings?.length ? (

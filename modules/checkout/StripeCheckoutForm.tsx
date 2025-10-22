@@ -4,10 +4,12 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import useCheckoutSubscriptions from '../products/hooks/useCheckoutSubscriptions';
 
 export default function StripeCheckoutForm({ returnUrl }) {
   const stripe = useStripe();
   const elements = useElements();
+  const { checkoutSubscriptions } = useCheckoutSubscriptions();
 
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -48,7 +50,7 @@ export default function StripeCheckoutForm({ returnUrl }) {
     }
 
     setIsLoading(true);
-
+    await checkoutSubscriptions();
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {

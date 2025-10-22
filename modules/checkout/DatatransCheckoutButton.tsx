@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
-import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import Button from '../common/components/Button';
+import useCheckoutSubscriptions from '../products/hooks/useCheckoutSubscriptions';
 
 export const SIGN_DATATRANS_MUTATION = gql`
   mutation SignPaymentProviderForCheckout(
@@ -17,13 +17,14 @@ export const SIGN_DATATRANS_MUTATION = gql`
 `;
 
 const DatatransCheckoutButton = ({ order }) => {
-  const router = useRouter();
   const { formatMessage } = useIntl();
+  const { checkoutSubscriptions } = useCheckoutSubscriptions();
   const [signDatatransMutation] = useMutation<any>(SIGN_DATATRANS_MUTATION);
 
   const sign = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    await checkoutSubscriptions();
     try {
       const successUrl = `${window.location.origin}/order/${order._id}/success`;
       const cancelUrl = `${window.location.origin}/checkout`;
