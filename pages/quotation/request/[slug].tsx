@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 const QuotationRequestPage = () => {
   const router = useRouter();
   const { formatMessage } = useIntl();
-  const { product, paths, loading } = useProductDetail({
+  const { product, loading } = useProductDetail({
     slug: router.query.slug,
   });
   if (loading) return <Loading />;
