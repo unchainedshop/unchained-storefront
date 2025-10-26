@@ -20,17 +20,17 @@ import useConditionalBookmarkProduct from '../../modules/cart/hooks/useCondition
 import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 import ProductVariants from '../../modules/products/components/ProductVariants';
 import ProductListItem from '../../modules/products/components/ProductListItem';
-import PriceTiers from '../../modules/products/components/PriceTiers';
 
 const Detail = () => {
   const router = useRouter();
   const intl = useIntl();
+  const { user } = useUser();
   const { product, paths, loading } = useProductDetail({
     slug: router.query.slug,
   });
+
   const { conditionalBookmarkProduct } = useConditionalBookmarkProduct();
   const { removeBookmark } = useRemoveBookmark();
-  const { user } = useUser();
 
   const [filteredBookmark] =
     user?.bookmarks?.filter(

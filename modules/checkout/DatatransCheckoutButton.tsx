@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
-import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import Button from '../common/components/Button';
 
@@ -17,7 +16,6 @@ export const SIGN_DATATRANS_MUTATION = gql`
 `;
 
 const DatatransCheckoutButton = ({ order }) => {
-  const router = useRouter();
   const { formatMessage } = useIntl();
   const [signDatatransMutation] = useMutation<any>(SIGN_DATATRANS_MUTATION);
 

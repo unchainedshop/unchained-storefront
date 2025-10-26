@@ -28,7 +28,9 @@ const useCheckoutByInvoice = () => {
     CHECKOUT_CART_BY_INVOICE_MUTATION,
   );
 
-  const checkoutByInvoice = async () => checkoutByInvoiceMutation();
+  const checkoutByInvoice = async () => {
+    return checkoutByInvoiceMutation();
+  };
 
   return {
     checkoutByInvoice,

@@ -1,14 +1,11 @@
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
-
 import {
-  BookmarkIcon,
   ArrowRightOnRectangleIcon,
   ShoppingCartIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
-import OrderButton from '../../orders/components/UserOrderButton';
 import useUser from '../hooks/useUser';
 import { useApollo } from '../../apollo/apolloClient';
 import logOut from '../hooks/logOut';
@@ -22,8 +19,12 @@ const LoginCart = () => {
   const apollo = useApollo({ locale: router.locale }, {});
 
   const onLogout = async () => {
-    await logOut(apollo);
-    router.push('/login');
+    try {
+      await logOut(apollo);
+      router.push('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return user ? (
@@ -49,6 +50,15 @@ const LoginCart = () => {
             {user?.cart?.items.reduce((acc, item) => acc + item.quantity, 0)}
           </span>
         ) : null}
+      </button>
+
+      {/* Logout Button */}
+      <button
+        onClick={onLogout}
+        title={formatMessage({ id: 'logout', defaultMessage: 'Logout' })}
+        className="text-slate-600 hover:text-red-600 dark:text-slate-300 dark:hover:text-red-400 transition-colors p-2"
+      >
+        <ArrowRightOnRectangleIcon className="h-6 w-6" />
       </button>
     </div>
   ) : (
