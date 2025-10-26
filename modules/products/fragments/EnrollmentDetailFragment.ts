@@ -94,6 +94,7 @@ const EnrollmentDetailFragment = gql`
         texts {
           _id
           title
+          slug
         }
       }
       quantity

@@ -14,7 +14,6 @@ const EnrollmentQuery = gql`
 
 const useEnrollment = ({ enrollmentId = null }) => {
   const { data, loading, error } = useQuery<any>(EnrollmentQuery, {
-    skip: !enrollmentId,
     variables: { enrollmentId },
   });
   const enrollment = data?.enrollment;

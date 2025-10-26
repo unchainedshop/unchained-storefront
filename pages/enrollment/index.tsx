@@ -4,20 +4,24 @@ import useEnrollment from '../../modules/products/hooks/useEnrollment';
 import Loading from '../../modules/common/components/Loading';
 import useFormatDateTime from '../../modules/common/utils/useFormatDateTime';
 import useTerminateEnrollment from '../../modules/products/hooks/useTerminateEnrollment';
+import useActivateEnrollment from '../../modules/products/hooks/useActivateEnrollment';
 import { useIntl } from 'react-intl';
+import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const EnrollmentDetailPage = () => {
   const router = useRouter();
   const { formatDateTime } = useFormatDateTime();
   const { formatMessage } = useIntl();
   const { enrollment, loading } = useEnrollment({
-    enrollmentId: router.query._id as string,
+    enrollmentId: router.query?._id as string,
   });
+  const { activateEnrollment } = useActivateEnrollment();
   const { terminateEnrollment } = useTerminateEnrollment();
 
   if (loading) return <Loading />;
 
-  if (!enrollment)
+  if (!enrollment && !loading)
     return (
       <div className="max-w-2xl mx-auto mt-10 text-center text-gray-500">
         {formatMessage({
@@ -28,6 +32,7 @@ const EnrollmentDetailPage = () => {
     );
 
   const {
+    _id,
     enrollmentNumber,
     status,
     created,
@@ -37,15 +42,36 @@ const EnrollmentDetailPage = () => {
     plan,
     currency,
     isExpired,
+    expires,
   } = enrollment;
   const createdAt = formatDateTime(created);
   const updatedAt = formatDateTime(updated);
-
+  const expiryDate = expires ? formatDateTime(expires) : null;
   const handleTerminate = async () => {
     try {
-      await terminateEnrollment({ enrollmentId: enrollment._id });
+      await terminateEnrollment({ enrollmentId: _id });
     } catch (err) {
+      toast.error(
+        formatMessage({
+          id: 'enrollment_terminate_error',
+          defaultMessage: 'Failed to terminate enrollment.',
+        }),
+      );
       console.error('Failed to terminate enrollment:', err);
+    }
+  };
+
+  const handleActivateEnrollment = async () => {
+    try {
+      await activateEnrollment({ enrollmentId: _id });
+    } catch (err) {
+      toast.error(
+        formatMessage({
+          id: 'enrollment_activate_error',
+          defaultMessage: 'Failed to activate enrollment.',
+        }),
+      );
+      console.error('Error activating enrollment:', err);
     }
   };
 
@@ -63,7 +89,9 @@ const EnrollmentDetailPage = () => {
           className={`px-3 py-1 text-sm rounded-full ${
             status === 'ACTIVE'
               ? 'bg-green-100 text-green-700'
-              : 'bg-gray-100 text-gray-500'
+              : status === 'TERMINATED'
+                ? 'bg-red-100 text-red-700'
+                : 'bg-gray-100 text-gray-500'
           }`}
         >
           {status}
@@ -87,6 +115,13 @@ const EnrollmentDetailPage = () => {
             })}
           </p>
           <p>{createdAt}</p>
+          <p className="font-medium text-gray-500">
+            {formatMessage({
+              id: 'enrollment.expiry_date',
+              defaultMessage: 'Expiry Date:',
+            })}
+          </p>
+          <p>{expiryDate || '—'}</p>
 
           <p className="font-medium text-gray-500">
             {formatMessage({
@@ -114,8 +149,6 @@ const EnrollmentDetailPage = () => {
         </div>
 
         <hr className="my-4" />
-
-        {/* User Info */}
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-2">
             {formatMessage({
@@ -158,7 +191,6 @@ const EnrollmentDetailPage = () => {
 
         <hr className="my-4" />
 
-        {/* Plan Info */}
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-2">
             {formatMessage({
@@ -173,7 +205,16 @@ const EnrollmentDetailPage = () => {
                 defaultMessage: 'Product:',
               })}
             </p>
-            <p>{plan?.product?.texts?.title}</p>
+            {plan?.product ? (
+              <Link
+                href={`/product/${plan.product.texts?.slug}`}
+                className="text-blue-600 hover:underline text-left cursor-pointer"
+              >
+                {plan.product.texts?.title}
+              </Link>
+            ) : (
+              <p className="text-gray-400">—</p>
+            )}
 
             <p className="font-medium text-gray-500">
               {formatMessage({
@@ -185,20 +226,31 @@ const EnrollmentDetailPage = () => {
           </div>
         </div>
 
-        {/* Terminate Button */}
-        {status !== 'TERMINATED' && (
-          <div className="pt-6 flex justify-end">
+        <div className="pt-6 flex justify-end gap-3">
+          {status !== 'ACTIVE' && status !== 'TERMINATED' && (
+            <button
+              onClick={handleActivateEnrollment}
+              className="px-5 py-2 rounded-lg font-medium transition bg-blue-100 text-blue-700 hover:bg-blue-200"
+            >
+              {formatMessage({
+                id: 'enrollment.activate',
+                defaultMessage: 'Activate Enrollment',
+              })}
+            </button>
+          )}
+
+          {status !== 'TERMINATED' && (
             <button
               onClick={handleTerminate}
-              className={`px-5 py-2 rounded-lg font-medium transition bg-red-100 text-red-700 hover:bg-red-200`}
+              className="px-5 py-2 rounded-lg font-medium transition bg-red-100 text-red-700 hover:bg-red-200"
             >
               {formatMessage({
                 id: 'enrollment.terminate',
                 defaultMessage: 'Terminate Enrollment',
               })}
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

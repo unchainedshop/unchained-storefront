@@ -20,8 +20,6 @@ import useConditionalBookmarkProduct from '../../modules/cart/hooks/useCondition
 import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 import ProductVariants from '../../modules/products/components/ProductVariants';
 import ProductListItem from '../../modules/products/components/ProductListItem';
-import { useCreateEnrollment } from '../../modules/products/hooks/useCreateEnrollment';
-import useActivateEnrollment from '../../modules/products/hooks/useActivateEnrollment';
 
 const Detail = () => {
   const router = useRouter();
@@ -30,8 +28,7 @@ const Detail = () => {
   const { product, paths, loading } = useProductDetail({
     slug: router.query.slug,
   });
-  const { createEnrollment } = useCreateEnrollment();
-  const { activateEnrollment } = useActivateEnrollment();
+
   const { conditionalBookmarkProduct } = useConditionalBookmarkProduct();
   const { removeBookmark } = useRemoveBookmark();
 
@@ -41,23 +38,6 @@ const Detail = () => {
     ) || [];
 
   const productPath = getAssortmentPath(paths);
-
-  const handleSubscribe = async () => {
-    try {
-      const { data } = await createEnrollment({
-        plan: {
-          productId: product?._id,
-          quantity: 1,
-        },
-        contact: {
-          emailAddress: 'test@unchained.local',
-        },
-      });
-      await activateEnrollment({ enrollmentId: data?.createEnrollment?._id });
-    } catch (err) {
-      console.error('Error creating enrollment', err);
-    }
-  };
 
   if (!product && !loading)
     return (

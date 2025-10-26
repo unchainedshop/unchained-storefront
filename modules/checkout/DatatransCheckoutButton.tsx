@@ -16,12 +16,12 @@ export const SIGN_DATATRANS_MUTATION = gql`
 `;
 
 const DatatransCheckoutButton = ({ order }) => {
-  const { formatMessage } = useIntl();  
+  const { formatMessage } = useIntl();
   const [signDatatransMutation] = useMutation<any>(SIGN_DATATRANS_MUTATION);
 
   const sign = async (event) => {
     event.preventDefault();
-    event.stopPropagation();    
+    event.stopPropagation();
     try {
       const successUrl = `${window.location.origin}/order/${order._id}/success`;
       const cancelUrl = `${window.location.origin}/checkout`;

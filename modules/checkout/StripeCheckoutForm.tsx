@@ -7,7 +7,7 @@ import {
 
 export default function StripeCheckoutForm({ returnUrl }) {
   const stripe = useStripe();
-  const elements = useElements();  
+  const elements = useElements();
 
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -47,7 +47,7 @@ export default function StripeCheckoutForm({ returnUrl }) {
       return;
     }
 
-    setIsLoading(true);    
+    setIsLoading(true);
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
