@@ -18,6 +18,7 @@ const useLoginAsGuest = () => {
   const loginAsGuest = async () => {
     const result = await loginAsGuestMutation({
       awaitRefetchQueries: true,
+      refetchQueries: ['User'],
     });
     await client.resetStore();
     return result;

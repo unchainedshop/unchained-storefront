@@ -26,6 +26,9 @@
   "account": {
     "defaultMessage": "Account"
   },
+  "active_subscription": {
+    "defaultMessage": "Active"
+  },
   "add-to-cart": {
     "defaultMessage": "Add to Cart"
   },
@@ -40,6 +43,9 @@
   },
   "address2_optional": {
     "defaultMessage": "Optional"
+  },
+  "addressLine2": {
+    "defaultMessage": "Zusatz/Abteilung/Etage/Raum"
   },
   "address_2": {
     "defaultMessage": "Address 2"
@@ -67,6 +73,9 @@
   },
   "billing_address": {
     "defaultMessage": "Billing address"
+  },
+  "billing_interval": {
+    "defaultMessage": "Billing Interval:"
   },
   "billing_summary": {
     "defaultMessage": "Billing Summary"
@@ -108,13 +117,13 @@
     "defaultMessage": "Choose language"
   },
   "city": {
-    "defaultMessage": "City"
+    "defaultMessage": "Ort"
   },
   "close": {
     "defaultMessage": "Close"
   },
   "company": {
-    "defaultMessage": "Company"
+    "defaultMessage": "Unternehmen"
   },
   "company-name": {
     "defaultMessage": "Company Name"
@@ -204,7 +213,7 @@
     "defaultMessage": "Edit Contact Data"
   },
   "email": {
-    "defaultMessage": "Email"
+    "defaultMessage": "E-Mail"
   },
   "email-address": {
     "defaultMessage": "Email Address"
@@ -233,35 +242,47 @@
   "emails": {
     "defaultMessage": "Emails"
   },
-  "enrollment.created": {
+  "enrollment_activate": {
+    "defaultMessage": "Activate Enrollment"
+  },
+  "enrollment_active_period": {
+    "defaultMessage": "Active Period"
+  },
+  "enrollment_created": {
     "defaultMessage": "Created:"
   },
-  "enrollment.currency": {
+  "enrollment_currency": {
     "defaultMessage": "Currency:"
   },
-  "enrollment.details.title": {
-    "defaultMessage": "Enrollment Details"
-  },
-  "enrollment.expired": {
+  "enrollment_expired": {
     "defaultMessage": "Expired:"
   },
-  "enrollment.not_found": {
+  "enrollment_expiry_date": {
+    "defaultMessage": "Expiry Date:"
+  },
+  "enrollment_no_periods": {
+    "defaultMessage": "No enrollment periods available."
+  },
+  "enrollment_not_found": {
     "defaultMessage": "Enrollment not found."
   },
-  "enrollment.number": {
-    "defaultMessage": "Enrollment Number:"
+  "enrollment_periods": {
+    "defaultMessage": "Enrollment Periods:"
   },
-  "enrollment.plan_info": {
-    "defaultMessage": "Plan Information"
-  },
-  "enrollment.terminate": {
+  "enrollment_terminate": {
     "defaultMessage": "Terminate Enrollment"
   },
-  "enrollment.updated": {
+  "enrollment_trial": {
+    "defaultMessage": "Trial"
+  },
+  "enrollment_updated": {
     "defaultMessage": "Last Updated:"
   },
-  "enrollment.user_info": {
+  "enrollment_user_info": {
     "defaultMessage": "User Information"
+  },
+  "enrollments.empty": {
+    "defaultMessage": "No enrollments found."
   },
   "enter_email_address": {
     "defaultMessage": "Enter email address"
@@ -294,7 +315,7 @@
     "defaultMessage": "{label} is a required field"
   },
   "first_name": {
-    "defaultMessage": "First name"
+    "defaultMessage": "Vorname"
   },
   "footer": {
     "defaultMessage": "Footer"
@@ -344,6 +365,9 @@
   "in_cart": {
     "defaultMessage": "Cart"
   },
+  "incorrect-captcha-answer": {
+    "defaultMessage": "Incorrect CAPTCHA answer"
+  },
   "invalid-credential-error": {
     "defaultMessage": "Invalid credential, please try again"
   },
@@ -357,7 +381,7 @@
     "defaultMessage": "English"
   },
   "last-name": {
-    "defaultMessage": "Last Name"
+    "defaultMessage": "Nachname"
   },
   "last_Name": {
     "defaultMessage": "Last name"
@@ -377,8 +401,14 @@
   "log_in": {
     "defaultMessage": "Log In"
   },
+  "logout": {
+    "defaultMessage": "Logout"
+  },
   "manage_orders": {
     "defaultMessage": "Check the status of recent orders, manage returns, and download invoices."
+  },
+  "message": {
+    "defaultMessage": "Nachricht"
   },
   "method": {
     "defaultMessage": "Method"
@@ -406,6 +436,18 @@
   },
   "new_password": {
     "defaultMessage": "New password"
+  },
+  "newsletter-registration-option-devices": {
+    "defaultMessage": "Plotter/Maschinen/Geräte"
+  },
+  "newsletter-registration-option-news": {
+    "defaultMessage": "News/Angebote"
+  },
+  "newsletter-registration-option-paper": {
+    "defaultMessage": "Papiere/Medien/Zubehör"
+  },
+  "newsletter-subscription-options": {
+    "defaultMessage": "Newsletter Anmeldung gewünscht für:"
   },
   "no-password-set-error": {
     "defaultMessage": "User password not set"
@@ -545,14 +587,11 @@
   "phone": {
     "defaultMessage": "Phone"
   },
-  "plan.product": {
-    "defaultMessage": "Product:"
-  },
-  "plan.quantity": {
-    "defaultMessage": "Quantity:"
+  "phone-number": {
+    "defaultMessage": "Telefonnummer"
   },
   "postal-code": {
-    "defaultMessage": "Postal code"
+    "defaultMessage": "Postleitzahl"
   },
   "postal-code-or-zip": {
     "defaultMessage": "Postal Code / ZIP"
@@ -587,6 +626,12 @@
   "quantity": {
     "defaultMessage": "Quantity"
   },
+  "quotation-request-failed": {
+    "defaultMessage": "quotation request failed with the {error}"
+  },
+  "quotation-request-sent": {
+    "defaultMessage": "Angebotsanfrage gesendet"
+  },
   "recent_orders": {
     "defaultMessage": "Recent orders"
   },
@@ -607,6 +652,12 @@
   },
   "remove": {
     "defaultMessage": "Remove"
+  },
+  "request-quotation-offer": {
+    "defaultMessage": "Anfrage Angebot"
+  },
+  "request-showroom-visit": {
+    "defaultMessage": "Ich wünsche eine Beratung per Telefon"
   },
   "resend-another-verification": {
     "defaultMessage": "Please resend another verification email and try to verify again"
@@ -734,6 +785,33 @@
   "status": {
     "defaultMessage": "Status"
   },
+  "street": {
+    "defaultMessage": "Straße"
+  },
+  "subscription_activate_error": {
+    "defaultMessage": "Failed to activate subscription."
+  },
+  "subscription_details_title": {
+    "defaultMessage": "Subscription Details"
+  },
+  "subscription_number": {
+    "defaultMessage": "Subscription:"
+  },
+  "subscription_periods": {
+    "defaultMessage": "Subscription Periods"
+  },
+  "subscription_plan_info_header": {
+    "defaultMessage": "Subscription detail"
+  },
+  "subscription_quantity": {
+    "defaultMessage": "Quantity:"
+  },
+  "subscription_terminate_error": {
+    "defaultMessage": "Failed to terminate subscription."
+  },
+  "subscriptions": {
+    "defaultMessage": "Subscriptions"
+  },
   "subtotal": {
     "defaultMessage": "Subtotal"
   },
@@ -779,11 +857,20 @@
   "total_amount": {
     "defaultMessage": "Total amount"
   },
+  "trial_interval": {
+    "defaultMessage": "Trial Interval:"
+  },
+  "trial_subscription": {
+    "defaultMessage": "Trial"
+  },
   "update": {
     "defaultMessage": "Update"
   },
   "update_password": {
     "defaultMessage": "Update Password"
+  },
+  "usage_type": {
+    "defaultMessage": "Usage Type:"
   },
   "use-password-to-authenticate": {
     "defaultMessage": "Or Use password to authenticate"
@@ -791,16 +878,16 @@
   "use_authenticator": {
     "defaultMessage": "Use authenticator"
   },
-  "user.email": {
+  "user_email": {
     "defaultMessage": "Email:"
   },
-  "user.name": {
+  "user_name": {
     "defaultMessage": "Name:"
   },
-  "user.phone": {
+  "user_phone": {
     "defaultMessage": "Phone:"
   },
-  "user.username": {
+  "user_username": {
     "defaultMessage": "Username:"
   },
   "username": {

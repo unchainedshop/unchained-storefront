@@ -20,6 +20,8 @@ import useConditionalBookmarkProduct from '../../modules/cart/hooks/useCondition
 import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 import ProductVariants from '../../modules/products/components/ProductVariants';
 import ProductListItem from '../../modules/products/components/ProductListItem';
+import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 const Detail = () => {
   const router = useRouter();
@@ -50,6 +52,8 @@ const Detail = () => {
     );
 
   const { siblings } = product || {};
+  const isQuotable =
+    product?.status === 'ACTIVE' && product?.tags?.includes('quotable');
   return (
     <>
       <MetaTags
@@ -148,6 +152,23 @@ const Detail = () => {
 
               <div className="pt-4">
                 <AddToCartButton productId={product?._id} {...product} />
+              </div>
+
+              <div className="row">
+                <div className="col-md-10 mt-2 col-lg-8 col-xl-7">
+                  {isQuotable && (
+                    <Link
+                      className="inline-flex items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2  dark:focus:ring-offset-slate-900 w-full px-4 py-2 bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white border-transparent focus:ring-slate-500 border rounded-b-md shadow-xs transition-all duration-300 ease-in-out"
+                      href={`/quotation/request/${product?.texts?.slug}`}
+                    >
+                      <ChatBubbleLeftIcon className="h-5 w-5 icon mr-2" />
+                      {intl.formatMessage({
+                        id: 'request-quotation-offer',
+                        defaultMessage: 'Anfrage Angebot',
+                      })}
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>

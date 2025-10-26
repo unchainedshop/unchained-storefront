@@ -8,6 +8,8 @@ import ProductListItemFragment from '../fragments/ProductListItemFragment';
 const PRODUCT_DETAIL_QUERY = gql`
   query ProductDetails($slug: String) {
     product(slug: $slug) {
+      status
+      tags
       assortmentPaths {
         ...ProductAssortmentPathFragment
       }
