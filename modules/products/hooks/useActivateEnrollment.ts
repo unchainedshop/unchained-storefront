@@ -23,6 +23,7 @@ export const useActivateEnrollment = () => {
       variables: {
         enrollmentId,
       },
+      refetchQueries: ['Enrollment'],
     });
   };
 

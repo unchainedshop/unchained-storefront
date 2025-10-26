@@ -16,6 +16,7 @@ import Address from '../../modules/common/components/Address';
 import ProfileView from '../../modules/auth/components/ProfileView';
 import Loading from '../../modules/common/components/Loading';
 import EmailAddresses from '../../modules/auth/components/EmailAddresses';
+import EnrollmentList from '../../modules/products/components/EnrollmentList';
 
 const getSubNavigation = (formatMessage) => [
   {
@@ -44,6 +45,15 @@ const getSubNavigation = (formatMessage) => [
     href: '#email',
     icon: EnvelopeIcon,
     id: 'email',
+  },
+  {
+    name: formatMessage({
+      id: 'subscriptions',
+      defaultMessage: 'Subscriptions',
+    }),
+    href: '#subscriptions-view',
+    icon: KeyIcon,
+    id: 'subscriptions-view',
   },
   {
     name: formatMessage({
@@ -152,6 +162,7 @@ const Account = () => {
 
           {/* Address */}
           <Address user={user} />
+          <EnrollmentList {...user} />
 
           {/* Password */}
           <section

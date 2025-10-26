@@ -1,13 +1,18 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import CurrentUserFragment from '../fragments/CurrentUserFragment';
+import EnrollmentDetailFragment from '../../products/fragments/EnrollmentDetailFragment';
 
 export const USER_QUERY = gql`
   query User {
     me {
       ...CurrentUser
+      enrollments {
+        ...EnrollmentDetailFragment
+      }
     }
   }
+  ${EnrollmentDetailFragment}
   ${CurrentUserFragment}
 `;
 

@@ -16,7 +16,7 @@ const OrderDetailPage = () => {
     orderId: router.query?._id,
   });
 
-  useRedirect({ to: '/login', matchGuests: true, matchAnonymous: true });
+  useRedirect({ to: '/login', matchGuests: false, matchAnonymous: true });
 
   if (!order && !loading)
     return (

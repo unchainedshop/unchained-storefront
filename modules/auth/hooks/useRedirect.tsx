@@ -21,7 +21,7 @@ const useRedirect = ({
     const isUserMatched = user && !user.isGuest && matchUsers;
     const isGuestMatched = user && user.isGuest && matchGuests;
 
-    if (isAnonymousMatched || isUserMatched || isGuestMatched) {
+    if (isAnonymousMatched || isUserMatched) {
       // pattern matched, push
       if (replace) {
         router.replace({ pathname: to });
