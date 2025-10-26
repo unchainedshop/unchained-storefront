@@ -96,6 +96,13 @@ const EnrollmentDetailFragment = gql`
           title
           slug
         }
+        plan {
+          usageCalculationType
+          billingInterval
+          billingIntervalCount
+          trialInterval
+          trialIntervalCount
+        }
       }
       quantity
     }

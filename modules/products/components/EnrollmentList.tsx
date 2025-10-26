@@ -39,11 +39,15 @@ const EnrollmentList = ({ enrollments }) => {
           <div key={enrollment._id}>
             <div className="flex justify-between items-center mb-2">
               <div>
-                <Link key={_id} href={`/enrollment?_id=${_id}`}>
-                  <p className="text-gray-500 text-sm">
+                <Link
+                  key={_id}
+                  className="text-blue-600 hover:underline font-medium"
+                  href={`/enrollment?_id=${_id}`}
+                >
+                  <p>
                     {formatMessage({
-                      id: 'enrollment.number',
-                      defaultMessage: 'Enrollment:',
+                      id: 'subscription_number',
+                      defaultMessage: 'Subscription:',
                     })}{' '}
                     <span className="font-medium">
                       {enrollmentNumber || '—'}
@@ -70,7 +74,7 @@ const EnrollmentList = ({ enrollments }) => {
             <div className="mb-2">
               <p className="text-gray-500 text-sm font-medium">
                 {formatMessage({
-                  id: 'plan.product',
+                  id: 'product',
                   defaultMessage: 'Product:',
                 })}
               </p>
@@ -89,7 +93,7 @@ const EnrollmentList = ({ enrollments }) => {
             <div>
               <p className="text-gray-500 text-sm font-medium">
                 {formatMessage({
-                  id: 'enrollment.periods',
+                  id: 'enrollment_periods',
                   defaultMessage: 'Enrollment Periods:',
                 })}
               </p>
@@ -97,8 +101,8 @@ const EnrollmentList = ({ enrollments }) => {
                 {periods?.map((period, idx) => (
                   <li key={`${idx}${period.start}`}>
                     {period.isTrial
-                      ? `${formatMessage({ id: 'enrollment.trial', defaultMessage: 'Trial' })}: `
-                      : `${formatMessage({ id: 'enrollment.active_period', defaultMessage: 'Active Period' })}: `}
+                      ? `${formatMessage({ id: 'enrollment_trial', defaultMessage: 'Trial' })}: `
+                      : `${formatMessage({ id: 'enrollment_active_period', defaultMessage: 'Active Period' })}: `}
                     {formatDateTime(period.start)} →{' '}
                     {formatDateTime(period.end)}
                   </li>
