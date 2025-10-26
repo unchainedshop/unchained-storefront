@@ -17,7 +17,6 @@ const EnrollmentList = ({ enrollments }) => {
       </div>
     );
   }
-
   return (
     <section
       id="subscriptions-view"
@@ -37,16 +36,20 @@ const EnrollmentList = ({ enrollments }) => {
         const { _id, enrollmentNumber, status, periods, plan, user } =
           enrollment;
         return (
-          <Link key={_id} href={`/enrollment?_id=${_id}`}>
+          <div key={enrollment._id}>
             <div className="flex justify-between items-center mb-2">
               <div>
-                <p className="text-gray-500 text-sm">
-                  {formatMessage({
-                    id: 'enrollment.number',
-                    defaultMessage: 'Enrollment:',
-                  })}{' '}
-                  <span className="font-medium">{enrollmentNumber || '—'}</span>
-                </p>
+                <Link key={_id} href={`/enrollment?_id=${_id}`}>
+                  <p className="text-gray-500 text-sm">
+                    {formatMessage({
+                      id: 'enrollment.number',
+                      defaultMessage: 'Enrollment:',
+                    })}{' '}
+                    <span className="font-medium">
+                      {enrollmentNumber || '—'}
+                    </span>
+                  </p>
+                </Link>
                 <p className="text-gray-700 font-semibold">
                   {user?.name || '—'}
                 </p>
@@ -92,7 +95,7 @@ const EnrollmentList = ({ enrollments }) => {
               </p>
               <ul className="text-gray-700 ml-2 list-disc">
                 {periods?.map((period, idx) => (
-                  <li key={idx}>
+                  <li key={`${idx}${period.start}`}>
                     {period.isTrial
                       ? `${formatMessage({ id: 'enrollment.trial', defaultMessage: 'Trial' })}: `
                       : `${formatMessage({ id: 'enrollment.active_period', defaultMessage: 'Active Period' })}: `}
@@ -102,7 +105,7 @@ const EnrollmentList = ({ enrollments }) => {
                 ))}
               </ul>
             </div>
-          </Link>
+          </div>
         );
       })}
     </section>
