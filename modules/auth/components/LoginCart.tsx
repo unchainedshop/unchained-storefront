@@ -30,7 +30,7 @@ const LoginCart = () => {
   return user ? (
     <div className="flex items-center gap-x-3">
       {/* Account Link */}
-      {user && (
+      {!user?.isGuest && (
         <Link
           href="/account"
           className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
