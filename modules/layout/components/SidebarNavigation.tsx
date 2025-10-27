@@ -74,6 +74,30 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       href: '/bookmarks',
     },
     {
+      id: 'quotations',
+      label: formatMessage({
+        id: 'quotations',
+        defaultMessage: 'Quotations',
+      }),
+      href: '/quotation',
+    },
+    {
+      id: 'subscriptions',
+      label: formatMessage({
+        id: 'subscriptions',
+        defaultMessage: 'Subscriptions',
+      }),
+      href: '/subscriptions',
+    },
+    {
+      id: 'tokens',
+      label: formatMessage({
+        id: 'tokens',
+        defaultMessage: 'Tokens',
+      }),
+      href: '/tokens',
+    },
+    {
       id: 'account',
       label: formatMessage({ id: 'nav_account', defaultMessage: 'Account' }),
       href: '/account',

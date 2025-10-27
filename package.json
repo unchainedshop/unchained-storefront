@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "description": "SPA Storefront Boilerplate for Unchained Engine",
   "license": "Apache-2.0",
-  "private": true,
-  "type": "module",
+  "private": true,  
   "engineStrict": true,
   "engines": {
     "node": "22.x"

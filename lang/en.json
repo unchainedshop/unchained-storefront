@@ -62,6 +62,9 @@
   "already_got_a_user": {
     "defaultMessage": "Already got a user?"
   },
+  "available_tokens": {
+    "defaultMessage": "Available:"
+  },
   "back": {
     "defaultMessage": "← Back"
   },
@@ -75,7 +78,7 @@
     "defaultMessage": "Billing address"
   },
   "billing_interval": {
-    "defaultMessage": "Billing Interval:"
+    "defaultMessage": "Billing:"
   },
   "billing_summary": {
     "defaultMessage": "Billing Summary"
@@ -151,6 +154,9 @@
   },
   "continue_shopping": {
     "defaultMessage": "Continue Shopping"
+  },
+  "contract_address": {
+    "defaultMessage": "Address:"
   },
   "country": {
     "defaultMessage": "Country"
@@ -325,6 +331,9 @@
   },
   "forgot_password": {
     "defaultMessage": "Forgot your password?"
+  },
+  "free": {
+    "defaultMessage": "Free"
   },
   "fulfilled": {
     "defaultMessage": "FulFilled"
@@ -617,6 +626,9 @@
   "product_categories": {
     "defaultMessage": "Product Categories"
   },
+  "product_standard": {
+    "defaultMessage": "Standard:"
+  },
   "products": {
     "defaultMessage": "Products"
   },
@@ -631,6 +643,33 @@
   },
   "quotation-request-sent": {
     "defaultMessage": "Angebotsanfrage gesendet"
+  },
+  "quotation_created": {
+    "defaultMessage": "Created:"
+  },
+  "quotation_currency": {
+    "defaultMessage": "Currency:"
+  },
+  "quotation_email": {
+    "defaultMessage": "Email:"
+  },
+  "quotation_expires": {
+    "defaultMessage": "Expires:"
+  },
+  "quotation_list_empty": {
+    "defaultMessage": "No quotations found."
+  },
+  "quotation_list_title": {
+    "defaultMessage": "Quotation Requests"
+  },
+  "quotation_number": {
+    "defaultMessage": "Quotation ID:"
+  },
+  "quotation_user": {
+    "defaultMessage": "Requested By:"
+  },
+  "quotations": {
+    "defaultMessage": "Quotations"
   },
   "recent_orders": {
     "defaultMessage": "Recent orders"
@@ -851,14 +890,23 @@
   "to_checkout": {
     "defaultMessage": "Checkout"
   },
+  "token_id": {
+    "defaultMessage": "Token:"
+  },
+  "tokens": {
+    "defaultMessage": "Tokens"
+  },
   "total": {
     "defaultMessage": "Total"
   },
   "total_amount": {
     "defaultMessage": "Total amount"
   },
+  "total_supply": {
+    "defaultMessage": "Supply:"
+  },
   "trial_interval": {
-    "defaultMessage": "Trial Interval:"
+    "defaultMessage": "Trial:"
   },
   "trial_subscription": {
     "defaultMessage": "Trial"
@@ -870,7 +918,7 @@
     "defaultMessage": "Update Password"
   },
   "usage_type": {
-    "defaultMessage": "Usage Type:"
+    "defaultMessage": "Usage:"
   },
   "use-password-to-authenticate": {
     "defaultMessage": "Or Use password to authenticate"

@@ -2,10 +2,10 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import CurrentUserFragment from '../fragments/CurrentUserFragment';
 
-export const USER_QUERY = gql`
-  query User {
+export const USER_TOKENS_QUERY = gql`
+  query UserTokens {
     me {
-      ...CurrentUser
+      _id
       tokens {
         _id
         walletAddress
@@ -27,16 +27,14 @@ export const USER_QUERY = gql`
   ${CurrentUserFragment}
 `;
 
-const useUser = () => {
-  const { data, loading, error, refetch } = useQuery<any>(USER_QUERY);
+const useUserTokens = () => {
+  const { data, loading, error } = useQuery<any>(USER_TOKENS_QUERY);
 
   return {
     loading,
     error,
-    user: data?.me,
-    cart: data?.me?.cart,
-    refetch,
+    tokens: data?.me?.tokens,
   };
 };
 
-export default useUser;
+export default useUserTokens;

@@ -6,7 +6,6 @@ import {
   EnvelopeIcon,
   MapPinIcon,
   TvIcon,
-  DocumentIcon,
 } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
@@ -18,8 +17,6 @@ import Address from '../../modules/common/components/Address';
 import ProfileView from '../../modules/auth/components/ProfileView';
 import Loading from '../../modules/common/components/Loading';
 import EmailAddresses from '../../modules/auth/components/EmailAddresses';
-import EnrollmentList from '../../modules/products/components/EnrollmentList';
-import QuotationList from '../../modules/products/components/QuotationList';
 
 const getSubNavigation = (formatMessage) => [
   {
@@ -48,24 +45,6 @@ const getSubNavigation = (formatMessage) => [
     href: '#email',
     icon: EnvelopeIcon,
     id: 'email',
-  },
-  {
-    name: formatMessage({
-      id: 'subscriptions',
-      defaultMessage: 'Subscriptions',
-    }),
-    href: '#subscriptions-view',
-    icon: TvIcon,
-    id: 'subscriptions-view',
-  },
-  {
-    name: formatMessage({
-      id: 'quotations',
-      defaultMessage: 'Quotations',
-    }),
-    href: '#quotations-view',
-    icon: DocumentIcon,
-    id: 'quotations-view',
   },
   {
     name: formatMessage({
@@ -174,8 +153,6 @@ const Account = () => {
 
           {/* Address */}
           <Address user={user} />
-          <EnrollmentList {...user} />
-          <QuotationList {...user} />
           {/* Password */}
           <section
             id="password"
