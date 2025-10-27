@@ -33,7 +33,7 @@ const CurrentUserFragment = gql`
       _id
       created
       product {
-        ...ProductDetails
+        ...ProductFragment
         ...ProductPriceFragment
       }
     }
@@ -70,7 +70,7 @@ const CurrentUserFragment = gql`
           currencyCode
         }
         product {
-          ...ProductDetails
+          ...ProductFragment
           ...ProductPriceFragment
         }
       }

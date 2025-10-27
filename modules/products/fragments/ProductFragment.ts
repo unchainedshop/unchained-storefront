@@ -2,8 +2,9 @@ import { gql } from '@apollo/client';
 import ProductPriceFragment from './ProductPriceFragment';
 
 const ProductDetailFragment = gql`
-  fragment ProductDetails on Product {
+  fragment ProductFragment on Product {
     _id
+    tags
     media {
       _id
       file {
@@ -12,7 +13,16 @@ const ProductDetailFragment = gql`
         url
       }
     }
-
+    texts {
+      _id
+      title
+      subtitle
+      description
+      slug
+      labels
+      vendor
+      brand
+    }
     reviews {
       _id
       created
@@ -23,29 +33,27 @@ const ProductDetailFragment = gql`
       title
       review
     }
-    ... on PlanProduct {
-      texts {
-        _id
-        title
-        subtitle
-        description
-        slug
-        labels
-        vendor
-        brand
+    ... on TokenizedProduct {
+      contractConfiguration {
+        tokenId
+        supply
       }
+      contractStandard
+      contractAddress
+      tokensCount
+    }
+    ... on PlanProduct {
+      plan {
+        usageCalculationType
+        billingInterval
+        billingIntervalCount
+        trialInterval
+        trialIntervalCount
+      }
+      salesQuantityPerUnit
+      defaultOrderQuantity
     }
     ... on SimpleProduct {
-      texts {
-        _id
-        title
-        subtitle
-        description
-        slug
-        labels
-        vendor
-        brand
-      }
       dimensions {
         width
         height
@@ -55,16 +63,6 @@ const ProductDetailFragment = gql`
     }
 
     ... on BundleProduct {
-      texts {
-        _id
-        title
-        subtitle
-        description
-        slug
-        labels
-        vendor
-        brand
-      }
       bundleItems {
         product {
           _id
@@ -81,16 +79,6 @@ const ProductDetailFragment = gql`
       }
     }
     ... on ConfigurableProduct {
-      texts {
-        _id
-        title
-        subtitle
-        description
-        slug
-        labels
-        vendor
-        brand
-      }
       variations {
         _id
         texts {

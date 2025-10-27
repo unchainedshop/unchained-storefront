@@ -66,7 +66,7 @@ const PRODUCT_DETAIL_QUERY = gql`
           }
         }
       }
-      ...ProductDetails
+      ...ProductFragment
       ...ProductPriceFragment
     }
   }

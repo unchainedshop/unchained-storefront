@@ -11,7 +11,7 @@ export const PRODUCTS_QUERY = gql`
       assortmentPaths {
         ...ProductAssortmentPathFragment
       }
-      ...ProductDetails
+      ...ProductFragment
       ...ProductPriceFragment
     }
   }

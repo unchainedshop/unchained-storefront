@@ -20,7 +20,7 @@ export const ASSORTMENT_PRODUCTS_QUERY = gql`
         filteredProductsCount
         productsCount
         products(offset: $offset, limit: $limit) {
-          ...ProductDetails
+          ...ProductFragment
           ...ProductPriceFragment
         }
       }
