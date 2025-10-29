@@ -14,8 +14,9 @@ const ProductPrice = ({ product, compact = false }) => {
         compact={compact}
       />
     );
-
   if (product.__typename === 'BundleProduct') {
+    if (product.simulatedPrice)
+      return <FormattedPrice price={product.simulatedPrice} />;
     const priceRange = calculateBundlePriceRange(product.bundleItems);
     return <FormattedPriceRange priceRange={priceRange} />;
   }

@@ -104,6 +104,30 @@ const ProductPriceFragment = gql`
         }
       }
     }
+    ... on BundleProduct {
+      simulatedPrice {
+        isTaxable
+        isNetPrice
+        amount
+        currencyCode
+      }
+      leveledCatalogPrices {
+        minQuantity
+        maxQuantity
+        price {
+          isTaxable
+          isNetPrice
+          amount
+          currencyCode
+        }
+      }
+      catalogPrice {
+        isTaxable
+        isNetPrice
+        amount
+        currencyCode
+      }
+    }
   }
 `;
 

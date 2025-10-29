@@ -101,6 +101,15 @@
   "browse_categories": {
     "defaultMessage": "Browse Categories"
   },
+  "bundle": {
+    "defaultMessage": "Bundle"
+  },
+  "bundle_badge": {
+    "defaultMessage": "Bundle"
+  },
+  "bundle_includes": {
+    "defaultMessage": "This bundle includes:"
+  },
   "cancel": {
     "defaultMessage": "Cancel"
   },

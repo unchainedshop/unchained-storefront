@@ -74,6 +74,16 @@ const ProductDetailFragment = gql`
             }
           }
           ...ProductPriceFragment
+          texts {
+            _id
+            title
+            subtitle
+            description
+            slug
+            labels
+            vendor
+            brand
+          }
         }
       }
     }
