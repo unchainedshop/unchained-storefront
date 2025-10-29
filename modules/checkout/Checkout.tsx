@@ -6,6 +6,7 @@ import { useAppContext } from '../common/components/AppContextWrapper';
 import FormattedPrice from '../common/components/FormattedPrice';
 import { useIntl } from 'react-intl';
 import useCart from '../orders/hooks/useCart';
+import AddDiscount from '../orders/components/AddDiscount';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
@@ -178,6 +179,7 @@ const Checkout = () => {
                       </div>
                     )}
                   </div>
+                  <AddDiscount orderId={cart?._id} />
                   <div className="border-t border-slate-200 dark:border-0 pt-4 mt-4">
                     <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
                       <span>

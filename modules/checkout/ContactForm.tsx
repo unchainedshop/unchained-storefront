@@ -1,6 +1,5 @@
 import { useIntl } from 'react-intl';
 import { useState } from 'react';
-import classNames from 'classnames';
 import { useAppContext } from '../common/components/AppContextWrapper';
 import Button from '../common/components/Button';
 import Form from '../forms/components/Form';
@@ -12,8 +11,7 @@ import usePushNotification from '../context/push-notification/usePushNotificatio
 
 const ContactForm = ({ contact, onSubmit, onCancel }) => {
   const { formatMessage } = useIntl();
-  const { isSubscribed, subscribe, unsubscribe, disabledForCurrentBrowser } =
-    usePushNotification();
+  const { isSubscribed } = usePushNotification();
   const { emailSupportDisabled } = useAppContext();
   const [localNotificationSubscribed, setLocalNotificationSubscribed] =
     useState(false);

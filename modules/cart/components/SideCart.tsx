@@ -7,6 +7,7 @@ import useUser from '../../auth/hooks/useUser';
 import CartItem from './CartItem';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import FormattedPrice from '../../common/components/FormattedPrice';
+import AddDiscount from '../../orders/components/AddDiscount';
 
 const SideCart = ({ isOpen }) => {
   const { user } = useUser();
@@ -136,6 +137,27 @@ const SideCart = ({ isOpen }) => {
                     <CartItem {...item} />
                   </div>
                 ))}
+                {user?.cart?.discounts?.length ? (
+                  <div className="text-right">
+                    <div className="border-top py-3 mt-0">
+                      <h1 className="text-center">Discounts</h1>
+                      {user?.cart?.discounts?.map((d) => {
+                        return (
+                          <div
+                            key={d._id}
+                            className="d-flex flex-wrap justify-content-between"
+                          >
+                            <div> {d.code} </div>
+                            <div>
+                              <FormattedPrice price={d?.total} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+                <AddDiscount orderId={user?.cart?._id} />
               </div>
             )}
           </div>

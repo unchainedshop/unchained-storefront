@@ -22,7 +22,19 @@ const OrderItemFragment = gql`
       }
     }
     quantity
-
+    discounts {
+      orderDiscount {
+        total {
+          amount
+          currencyCode
+        }
+        code
+      }
+      total {
+        amount
+        currencyCode
+      }
+    }
     unitPrice {
       amount
       isTaxable

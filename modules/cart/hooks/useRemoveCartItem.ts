@@ -18,6 +18,19 @@ export const REMOVE_CART_ITEM_MUTATION = gql`
             amount
             currencyCode
           }
+          discounts {
+            orderDiscount {
+              total {
+                amount
+                currencyCode
+              }
+              code
+            }
+            total {
+              amount
+              currencyCode
+            }
+          }
         }
         itemsTotal: total(category: ITEMS) {
           amount

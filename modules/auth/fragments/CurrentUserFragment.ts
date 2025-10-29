@@ -49,6 +49,20 @@ const CurrentUserFragment = gql`
       billingAddress {
         ...AddressFragment
       }
+      discounts {
+        _id
+        code
+        total {
+          amount
+          currencyCode
+        }
+        discounted {
+          total {
+            amount
+            currencyCode
+          }
+        }
+      }
 
       contact {
         telNumber
@@ -89,6 +103,10 @@ const CurrentUserFragment = gql`
         ... on OrderPaymentGeneric {
           _id
         }
+      }
+      discountsTotal: total(category: DISCOUNTS) {
+        amount
+        currencyCode
       }
       taxes: total(category: TAXES) {
         amount
