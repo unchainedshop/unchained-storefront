@@ -71,6 +71,9 @@
   "already_got_a_user": {
     "defaultMessage": "Already got a user?"
   },
+  "apply_discount": {
+    "defaultMessage": "Apply Discount"
+  },
   "available_tokens": {
     "defaultMessage": "Available:"
   },
@@ -218,6 +221,12 @@
   "delivery_summary": {
     "defaultMessage": "Delivery Summary"
   },
+  "discount_code": {
+    "defaultMessage": "Discount Code"
+  },
+  "discount_code_already_used": {
+    "defaultMessage": "Code already used"
+  },
   "docs": {
     "defaultMessage": "Documentation"
   },
@@ -314,6 +323,9 @@
   "enrollments.empty": {
     "defaultMessage": "No enrollments found."
   },
+  "enter_discount_code": {
+    "defaultMessage": "Enter your code"
+  },
   "enter_email_address": {
     "defaultMessage": "Enter email address"
   },
@@ -403,6 +415,9 @@
   },
   "invalid-credential-error": {
     "defaultMessage": "Invalid credential, please try again"
+  },
+  "invalid_discount_code": {
+    "defaultMessage": "Invalid Code"
   },
   "join-now": {
     "defaultMessage": "Join now"
@@ -982,6 +997,9 @@
   },
   "total_amount": {
     "defaultMessage": "Total amount"
+  },
+  "total_discounts": {
+    "defaultMessage": "Total discount"
   },
   "total_supply": {
     "defaultMessage": "Supply:"

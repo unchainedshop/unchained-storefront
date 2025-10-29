@@ -42,6 +42,44 @@ export const CART_CHECKOUT_QUERY = gql`
             }
           }
         }
+        totalDiscount: total(category: DISCOUNTS) {
+          amount
+          currencyCode
+        }
+        discounts {
+          _id
+          trigger
+          code
+          interface {
+            _id
+            label
+            version
+          }
+          total {
+            amount
+            currencyCode
+            isTaxable
+            isNetPrice
+          }
+          discounted {
+            _id
+            orderDiscount {
+              _id
+              total {
+                amount
+                currencyCode
+                isTaxable
+                isNetPrice
+              }
+            }
+            total {
+              amount
+              currencyCode
+              isTaxable
+              isNetPrice
+            }
+          }
+        }
         itemsTotal: total(category: ITEMS) {
           amount
           currencyCode

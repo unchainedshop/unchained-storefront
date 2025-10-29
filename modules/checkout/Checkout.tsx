@@ -19,10 +19,9 @@ const Checkout = () => {
     !cart.delivery?.address?.firstName && !cart.billingAddress?.firstName;
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
-
-  // Extract different total categories using aliases
   const itemsTotal = cart.itemsTotal;
   const taxesTotal = cart.taxesTotal;
+  const discountTotal = cart?.totalDiscount;
   const deliveryTotal = cart.deliveryTotal;
   const grandTotal = cart.grandTotal;
 
@@ -162,6 +161,35 @@ const Checkout = () => {
                             }
                           }
                         />
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <div className="border-top py-3 mt-0">
+                        <h1 className="text-center">Discounts</h1>
+                        {cart?.discounts?.map((discount) => {
+                          return (
+                            <div
+                              key={discount._id}
+                              className="d-flex flex-wrap justify-content-between"
+                            >
+                              <div> {discount.code} </div>
+                              <div>
+                                <FormattedPrice price={discount?.total} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                      <span>
+                        {formatMessage({
+                          id: 'total_discounts',
+                          defaultMessage: 'Total discount',
+                        })}
+                      </span>
+                      <span>
+                        <FormattedPrice price={discountTotal} />
                       </span>
                     </div>
 
