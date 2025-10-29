@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import ProductPriceFragment from './ProductPriceFragment';
 
 const ProductDetailFragment = gql`
-  fragment ProductFragment on Product {
+  fragment ProductDetailFragment on Product {
     _id
     tags
     media {
@@ -40,7 +40,6 @@ const ProductDetailFragment = gql`
       }
       contractStandard
       contractAddress
-      tokensCount
     }
     ... on PlanProduct {
       plan {

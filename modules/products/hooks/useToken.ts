@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import ProductFragment from '../fragments/ProductFragment';
+import ProductDetailFragment from '../fragments/ProductFragment';
 import { useQuery } from '@apollo/client/react';
 
 export const TokenQuery = gql`
@@ -36,7 +36,7 @@ export const TokenQuery = gql`
             labels
           }
         }
-        ...ProductFragment
+        ...ProductDetailFragment
       }
       invalidatedDate
       isInvalidateable
@@ -48,7 +48,7 @@ export const TokenQuery = gql`
       contractAddress
     }
   }
-  ${ProductFragment}
+  ${ProductDetailFragment}
 `;
 
 const useToken = ({ tokenId, hash = null }) => {

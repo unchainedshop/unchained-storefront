@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
-import ProductFragment from '../fragments/ProductFragment';
+import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 
@@ -66,12 +66,12 @@ const PRODUCT_DETAIL_QUERY = gql`
           }
         }
       }
-      ...ProductFragment
+      ...ProductDetailFragment
       ...ProductPriceFragment
     }
   }
 
-  ${ProductFragment}
+  ${ProductDetailFragment}
   ${ProductPriceFragment}
   ${ProductAssortmentPathFragment}
   ${ProductListItemFragment}

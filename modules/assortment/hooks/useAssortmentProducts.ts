@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
-import ProductFragment from '../../products/fragments/ProductFragment';
+import ProductDetailFragment from '../../products/fragments/ProductFragment';
 import ProductPriceFragment from '../../products/fragments/ProductPriceFragment';
 import AssortmentFragment from '../fragments/assortment';
 import AssortmentMediaFragment from '../fragments/AssortmentMedia';
@@ -20,7 +20,7 @@ export const ASSORTMENT_PRODUCTS_QUERY = gql`
         filteredProductsCount
         productsCount
         products(offset: $offset, limit: $limit) {
-          ...ProductFragment
+          ...ProductDetailFragment
           ...ProductPriceFragment
         }
       }
@@ -28,7 +28,7 @@ export const ASSORTMENT_PRODUCTS_QUERY = gql`
   }
   ${ProductPriceFragment}
   ${AssortmentFragment}
-  ${ProductFragment}
+  ${ProductDetailFragment}
   ${AssortmentPathFragment}
   ${AssortmentMediaFragment}
 `;

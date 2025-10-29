@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import AddressFragment from '../../common/fragments/AddressFragment';
-import ProductFragment from '../../products/fragments/ProductFragment';
+import ProductDetailFragment from '../../products/fragments/ProductFragment';
 import ProductPriceFragment from '../../products/fragments/ProductPriceFragment';
 
 const CurrentUserFragment = gql`
@@ -33,7 +33,7 @@ const CurrentUserFragment = gql`
       _id
       created
       product {
-        ...ProductFragment
+        ...ProductDetailFragment
         ...ProductPriceFragment
       }
     }
@@ -70,7 +70,7 @@ const CurrentUserFragment = gql`
           currencyCode
         }
         product {
-          ...ProductFragment
+          ...ProductDetailFragment
           ...ProductPriceFragment
         }
       }
@@ -145,7 +145,7 @@ const CurrentUserFragment = gql`
       }
     }
   }
-  ${ProductFragment}
+  ${ProductDetailFragment}
   ${AddressFragment}
   ${ProductPriceFragment}
 `;
