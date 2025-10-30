@@ -1,5 +1,5 @@
 import getConfig from 'next/config';
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useCallback } from 'react';
 
 const {
   publicRuntimeConfig: { disableEmailSupport },
@@ -26,9 +26,12 @@ export const useAppContext = () => useContext(AppContext);
 export const AppContextWrapper = ({ children }) => {
   const [isCartOpen, toggleCart] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState(null);
-  const changeCurrency = (value) => {
-    if (value) setSelectedCurrency(value);
-  };
+  const changeCurrency = useCallback(
+    (value) => {
+      setSelectedCurrency(value);
+    },
+    [selectedCurrency],
+  );
 
   const appContext = useMemo(
     () =>
@@ -39,7 +42,7 @@ export const AppContextWrapper = ({ children }) => {
         changeCurrency,
         selectedCurrency,
       }) as AppContextType,
-    [isCartOpen],
+    [isCartOpen, selectedCurrency],
   );
 
   return (

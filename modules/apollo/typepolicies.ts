@@ -9,6 +9,15 @@ export const keyMappings: any = {
   ProductTexts: {
     keyArgs: ['forceLocale'],
   },
+  Price: {
+    keyArgs: ['currencyCode'],
+  },
+  PriceRange: {
+    keyArgs: ['currencyCode'],
+  },
+  PriceLevel: {
+    keyArgs: ['currencyCode'],
+  },
 };
 
 export const keyFields: any = {

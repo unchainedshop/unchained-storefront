@@ -66,7 +66,7 @@ const EventTokenList = ({ product }) => {
                 : formatMessage({ id: 'no', defaultMessage: 'Nein' })
             }"`,
             ...[...fieldNames].map(
-              (f) =>
+              (f: any) =>
                 `"${token.ercMetadata?.[f]?.toString().replace(/"/g, "'") || ''}"`,
             ),
           ].join(','),
