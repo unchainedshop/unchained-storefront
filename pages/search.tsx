@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
@@ -6,23 +6,45 @@ import MetaTags from '../modules/common/components/MetaTags';
 import useProducts from '../modules/products/hooks/useProducts';
 import ProductListItem from '../modules/products/components/ProductListItem';
 import Loading from '../modules/common/components/Loading';
+import { useRouter } from 'next/router';
 
 const Search = () => {
   const { formatMessage } = useIntl();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+
+  const searchParams = new URLSearchParams(router.asPath.split('?')[1]);
+
+  const initialQuery = searchParams.get('query') || '';
+
+  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
+  console.log(initialQuery, debouncedQuery);
   const [isSearching, setIsSearching] = useState(false);
 
-  // You can implement actual search logic here
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
   const { products, loading } = useProducts({
-    // Add search parameters when implementing backend search
+    queryString: debouncedQuery,
   });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      setIsSearching(true);
-      // TODO: Implement search logic here
-      console.log('Searching for:', searchQuery);
+      setDebouncedQuery(searchQuery.trim());
+      router.push(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -33,7 +55,6 @@ const Search = () => {
       />
       <div className="min-h-screen bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-          {/* Search Header */}
           <div className="mb-12 text-center">
             <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
               {formatMessage({
@@ -49,7 +70,6 @@ const Search = () => {
             </p>
           </div>
 
-          {/* Search Form */}
           <form onSubmit={handleSearch} className="mb-12">
             <div className="relative mx-auto max-w-2xl">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -68,14 +88,13 @@ const Search = () => {
             </div>
           </form>
 
-          {/* Search Results */}
           {loading ? (
             <div className="flex justify-center">
               <Loading />
             </div>
           ) : (
             <div>
-              {searchQuery && (
+              {debouncedQuery && (
                 <div className="mb-8">
                   <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
                     {formatMessage(
@@ -83,7 +102,7 @@ const Search = () => {
                         id: 'search_results_for',
                         defaultMessage: "Results for '{query}'",
                       },
-                      { query: searchQuery },
+                      { query: debouncedQuery },
                     )}
                   </h2>
                 </div>
@@ -100,7 +119,7 @@ const Search = () => {
                     </div>
                   ))}
                 </div>
-              ) : searchQuery ? (
+              ) : debouncedQuery ? (
                 <div className="text-center">
                   <p className="text-slate-600 dark:text-slate-300">
                     {formatMessage({

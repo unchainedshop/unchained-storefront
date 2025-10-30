@@ -32,7 +32,6 @@ const Layout: React.FC<LayoutProps> = ({
       <Header
         onSidebarToggle={handleSidebarToggle}
         hasHeroSection={hasHeroSection}
-        heroSectionId={heroSectionId}
       />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8">{children}</main>
       <Footer />

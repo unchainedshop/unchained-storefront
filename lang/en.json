@@ -74,6 +74,9 @@
   "apply_discount": {
     "defaultMessage": "Apply Discount"
   },
+  "available": {
+    "defaultMessage": "Available:"
+  },
   "available_tokens": {
     "defaultMessage": "Available:"
   },
@@ -104,11 +107,11 @@
   "browse_categories": {
     "defaultMessage": "Browse Categories"
   },
-  "bundle": {
-    "defaultMessage": "Bundle"
-  },
   "bundle_badge": {
     "defaultMessage": "Bundle"
+  },
+  "bundle_contains": {
+    "defaultMessage": "Includes:"
   },
   "bundle_includes": {
     "defaultMessage": "This bundle includes:"
@@ -810,7 +813,7 @@
     "defaultMessage": "Enter a search term to find products."
   },
   "search_placeholder": {
-    "defaultMessage": "Search for products..."
+    "defaultMessage": "Search products..."
   },
   "search_products": {
     "defaultMessage": "Search Products"
