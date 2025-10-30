@@ -10,6 +10,7 @@ import { AppContextWrapper } from '../modules/common/components/AppContextWrappe
 
 import '../styles/globals.css';
 import PushNotificationWrapper from '../modules/context/push-notification/PushNotificationWrapper';
+import { FilterProvider } from '../modules/filter/hooks/useFilterContext';
 
 const UnchainedApp = ({ Component, pageProps, router }) => {
   const apollo = useApollo(pageProps, { locale: router.locale });
@@ -22,12 +23,14 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
     <IntlWrapper locale={router.locale} messages={messages} key="intl-provider">
       <AppContextWrapper>
         <ApolloProvider client={apollo}>
-          <PushNotificationWrapper>
-            <Toaster />
-            <Layout hasHeroSection={hasHeroSection}>
-              <Component {...pageProps} />
-            </Layout>
-          </PushNotificationWrapper>
+          <FilterProvider>
+            <PushNotificationWrapper>
+              <Toaster />
+              <Layout hasHeroSection={hasHeroSection}>
+                <Component {...pageProps} />
+              </Layout>
+            </PushNotificationWrapper>
+          </FilterProvider>
         </ApolloProvider>
       </AppContextWrapper>
     </IntlWrapper>

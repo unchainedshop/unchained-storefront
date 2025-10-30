@@ -3,10 +3,12 @@ import { useIntl } from 'react-intl';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import MetaTags from '../modules/common/components/MetaTags';
-import useProducts from '../modules/products/hooks/useProducts';
 import ProductListItem from '../modules/products/components/ProductListItem';
 import Loading from '../modules/common/components/Loading';
 import { useRouter } from 'next/router';
+import useSearch from '../modules/products/hooks/useSearch';
+import DynamicFilterCard from '../modules/filter/components/DynamicFilterCard';
+import useFilters from '../modules/filter/hooks/useFilters';
 
 const Search = () => {
   const { formatMessage } = useIntl();
@@ -34,10 +36,11 @@ const Search = () => {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const { products, loading } = useProducts({
+  const { products, filters, filteredProductsCount, loading } = useSearch({
     queryString: debouncedQuery,
   });
 
+  console.log(filters, filteredProductsCount);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -105,7 +108,9 @@ const Search = () => {
                   </h2>
                 </div>
               )}
-
+              {filters.map((filter) => (
+                <DynamicFilterCard key={filter._id} filter={filter} />
+              ))}
               {products.length > 0 ? (
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {products.map((product) => (
