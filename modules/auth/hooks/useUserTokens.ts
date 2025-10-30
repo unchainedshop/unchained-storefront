@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
-import CurrentUserFragment from '../fragments/CurrentUserFragment';
 
 export const USER_TOKENS_QUERY = gql`
   query UserTokens {
@@ -24,7 +23,6 @@ export const USER_TOKENS_QUERY = gql`
       }
     }
   }
-  ${CurrentUserFragment}
 `;
 
 const useUserTokens = () => {

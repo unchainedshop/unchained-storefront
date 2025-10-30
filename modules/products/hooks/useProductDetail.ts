@@ -4,9 +4,10 @@ import { ProductAssortmentPathFragment } from '../../assortment/fragments/Assort
 import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 const PRODUCT_DETAIL_QUERY = gql`
-  query ProductDetails($slug: String) {
+  query ProductDetails($slug: String, $currency: String) {
     product(slug: $slug) {
       status
       tags
@@ -78,8 +79,9 @@ const PRODUCT_DETAIL_QUERY = gql`
 `;
 
 const useProductDetail = ({ slug }) => {
+  const { selectedCurrency } = useAppContext();
   const { data, loading, error } = useQuery<any>(PRODUCT_DETAIL_QUERY, {
-    variables: { slug },
+    variables: { slug, currency: selectedCurrency },
   });
 
   const paths = (data?.product?.assortmentPaths || []).flat().pop()?.links;

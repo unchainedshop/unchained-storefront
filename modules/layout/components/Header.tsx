@@ -8,6 +8,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/20/solid';
 import LoginCart from '../../auth/components/LoginCart';
+import CurrencySelector from '../../common/components/CurrencySelector';
 
 interface HeaderProps {
   onSidebarToggle: () => void;
@@ -20,7 +21,6 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const router = useRouter();
   const isOnSearchPage = router.pathname.includes('search');
-  console.log(router);
   const { formatMessage } = useIntl();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOverHero, setIsOverHero] = useState(hasHeroSection);
@@ -153,6 +153,7 @@ const Header: React.FC<HeaderProps> = ({
             >
               <LoginCart />
             </div>
+            <CurrencySelector />
           </div>
         </div>
       </div>

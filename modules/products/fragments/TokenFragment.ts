@@ -31,7 +31,7 @@ const TokenFragment = gql`
         }
       }
       ... on TokenizedProduct {
-        simulatedPrice {
+        simulatedPrice(currencyCode: $currency) {
           amount
           currencyCode
         }

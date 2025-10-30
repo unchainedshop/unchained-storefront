@@ -5,9 +5,15 @@ import ProductPriceFragment from '../../products/fragments/ProductPriceFragment'
 import AssortmentFragment from '../fragments/assortment';
 import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 import AssortmentPathFragment from '../fragments/AssortmentPath';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 export const ASSORTMENT_PRODUCTS_QUERY = gql`
-  query AssortmentsProducts($slugs: String!, $offset: Int, $limit: Int) {
+  query AssortmentsProducts(
+    $slugs: String!
+    $offset: Int
+    $limit: Int
+    $currency: String
+  ) {
     assortment(slug: $slugs) {
       ...AssortmentFragment
       assortmentPaths {
@@ -42,6 +48,7 @@ const useAssortmentProducts = (
     slugs: [],
   },
 ) => {
+  const { selectedCurrency } = useAppContext();
   const { data, loading, error, fetchMore } = useQuery<any>(
     ASSORTMENT_PRODUCTS_QUERY,
     {
@@ -50,6 +57,7 @@ const useAssortmentProducts = (
         slugs,
         offset: 0,
         limit: 10,
+        currency: selectedCurrency,
       },
     },
   );

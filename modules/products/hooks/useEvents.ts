@@ -1,9 +1,15 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 export const EventsQuery = gql`
-  query Events($tags: [LowerCaseString!], $queryString: String, $limit: Int) {
+  query Events(
+    $tags: [LowerCaseString!]
+    $queryString: String
+    $limit: Int
+    $currency: String
+  ) {
     products(
       tags: $tags
       queryString: $queryString
@@ -30,7 +36,7 @@ export const EventsQuery = gql`
           ercMetadataProperties
           supply
         }
-        simulatedPrice {
+        simulatedPrice(currencyCode: $currency) {
           amount
           currencyCode
         }
@@ -39,7 +45,7 @@ export const EventsQuery = gql`
         }
       }
       ... on ConfigurableProduct {
-        simulatedPriceRange {
+        simulatedPriceRange(currencyCode: $currency) {
           minPrice {
             amount
             currencyCode
@@ -55,7 +61,7 @@ export const EventsQuery = gql`
             labels
           }
           ... on TokenizedProduct {
-            simulatedPrice {
+            simulatedPrice(currencyCode: $currency) {
               amount
               currencyCode
             }
@@ -121,9 +127,11 @@ export const EventsQuery = gql`
 `;
 
 const useEvents = () => {
+  const { selectedCurrency } = useAppContext();
   const { loading, error, data } = useQuery(EventsQuery, {
     variables: {
       tags: ['event'],
+      currency: selectedCurrency,
     },
   });
 

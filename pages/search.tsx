@@ -18,8 +18,6 @@ const Search = () => {
   const initialQuery = searchParams.get('query') || '';
 
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
-  console.log(initialQuery, debouncedQuery);
-  const [isSearching, setIsSearching] = useState(false);
 
   const firstRender = useRef(true);
 

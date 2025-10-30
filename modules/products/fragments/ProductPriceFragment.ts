@@ -3,19 +3,19 @@ import { gql } from '@apollo/client';
 const ProductPriceFragment = gql`
   fragment ProductPriceFragment on Product {
     ... on SimpleProduct {
-      simulatedPrice {
+      simulatedPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      catalogPrice {
+      catalogPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      leveledCatalogPrices {
+      leveledCatalogPrices(currencyCode: $currency) {
         minQuantity
         maxQuantity
         price {
@@ -27,19 +27,19 @@ const ProductPriceFragment = gql`
       }
     }
     ... on PlanProduct {
-      simulatedPrice {
+      simulatedPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      catalogPrice {
+      catalogPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      leveledCatalogPrices {
+      leveledCatalogPrices(currencyCode: $currency) {
         minQuantity
         maxQuantity
         price {
@@ -51,19 +51,19 @@ const ProductPriceFragment = gql`
       }
     }
     ... on TokenizedProduct {
-      simulatedPrice {
+      simulatedPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      catalogPrice {
+      catalogPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      leveledCatalogPrices {
+      leveledCatalogPrices(currencyCode: $currency) {
         minQuantity
         maxQuantity
         price {
@@ -75,7 +75,7 @@ const ProductPriceFragment = gql`
       }
     }
     ... on ConfigurableProduct {
-      catalogPriceRange {
+      catalogPriceRange(currencyCode: $currency) {
         minPrice {
           isTaxable
           isNetPrice
@@ -89,7 +89,7 @@ const ProductPriceFragment = gql`
           currencyCode
         }
       }
-      simulatedPriceRange {
+      simulatedPriceRange(currencyCode: $currency) {
         minPrice {
           isTaxable
           isNetPrice
@@ -105,13 +105,13 @@ const ProductPriceFragment = gql`
       }
     }
     ... on BundleProduct {
-      simulatedPrice {
+      simulatedPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount
         currencyCode
       }
-      leveledCatalogPrices {
+      leveledCatalogPrices(currencyCode: $currency) {
         minQuantity
         maxQuantity
         price {
@@ -121,7 +121,7 @@ const ProductPriceFragment = gql`
           currencyCode
         }
       }
-      catalogPrice {
+      catalogPrice(currencyCode: $currency) {
         isTaxable
         isNetPrice
         amount

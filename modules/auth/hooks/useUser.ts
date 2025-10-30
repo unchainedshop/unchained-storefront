@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import CurrentUserFragment from '../fragments/CurrentUserFragment';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 export const USER_QUERY = gql`
-  query User {
+  query User($currency: String) {
     me {
       ...CurrentUser
       tokens {
@@ -28,7 +29,12 @@ export const USER_QUERY = gql`
 `;
 
 const useUser = () => {
-  const { data, loading, error, refetch } = useQuery<any>(USER_QUERY);
+  const { selectedCurrency } = useAppContext();
+  const { data, loading, error, refetch } = useQuery<any>(USER_QUERY, {
+    variables: {
+      currency: selectedCurrency,
+    },
+  });
 
   return {
     loading,

@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client';
 import ProductDetailFragment from '../fragments/ProductFragment';
 import { useQuery } from '@apollo/client/react';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 export const EventDetailQuery = gql`
-  query Event($slug: String, $productId: ID) {
+  query Event($slug: String, $productId: ID, $currency: String) {
     product(slug: $slug, productId: $productId) {
       _id
       tags
@@ -63,7 +64,7 @@ export const EventDetailQuery = gql`
         }
       }
       ... on ConfigurableProduct {
-        simulatedPriceRange {
+        simulatedPriceRange(currencyCode: $currency) {
           minPrice {
             amount
             currencyCode
@@ -125,8 +126,9 @@ export const EventDetailQuery = gql`
 `;
 
 const useEventDetail = ({ productId }) => {
+  const { selectedCurrency } = useAppContext();
   const { loading, error, data } = useQuery<any>(EventDetailQuery, {
-    variables: { productId },
+    variables: { productId, currency: selectedCurrency },
     skip: !productId,
   });
 

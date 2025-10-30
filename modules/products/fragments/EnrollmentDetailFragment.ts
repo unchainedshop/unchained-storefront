@@ -46,7 +46,7 @@ const EnrollmentDetailFragment = gql`
         }
         isActive
 
-        simulatedPrice {
+        simulatedPrice(currencyCode: $currency) {
           amount
           currencyCode
           isNetPrice

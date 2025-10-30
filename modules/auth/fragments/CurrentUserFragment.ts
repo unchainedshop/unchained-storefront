@@ -156,7 +156,7 @@ const CurrentUserFragment = gql`
           label
           version
         }
-        simulatedPrice {
+        simulatedPrice(currencyCode: $currency) {
           amount
           currencyCode
         }
