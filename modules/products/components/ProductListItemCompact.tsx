@@ -210,6 +210,50 @@ const ProductListItemCompact = ({ product }) => {
             )}
           </div>
         </div>
+        {isBundle && (
+          <div className="mt-4 border-t border-slate-100 dark:border-slate-800 pt-3">
+            <h4 className="text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+              {formatMessage({
+                id: 'bundle_contains',
+                defaultMessage: 'Includes:',
+              })}
+            </h4>
+            <div className="flex items-center gap-3 overflow-x-auto pb-1">
+              {product.bundleItems?.slice(0, 3).map((item, index) => {
+                const bundleProduct = item.product;
+                return (
+                  <div
+                    key={bundleProduct._id || index}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div className="relative w-14 h-14 rounded-md overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                      {bundleProduct?.media?.[0]?.file?.url ? (
+                        <Image
+                          src={bundleProduct.media[0].file.url}
+                          alt={bundleProduct.texts?.title}
+                          fill
+                          className="object-cover"
+                          loader={defaultNextImageLoader}
+                        />
+                      ) : (
+                        <PhotoIcon className="h-6 w-6 text-slate-400 absolute inset-0 m-auto" />
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 truncate w-16">
+                      {bundleProduct.texts?.title}
+                    </p>
+                  </div>
+                );
+              })}
+
+              {product.bundleItems?.length > 3 && (
+                <div className="text-xs text-slate-500 dark:text-slate-400 ml-2">
+                  +{product.bundleItems.length - 3} more
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <ProductRightActions product={product} formatMessage={formatMessage} />
       </div>
