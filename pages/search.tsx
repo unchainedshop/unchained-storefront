@@ -7,7 +7,7 @@ import ProductListItem from '../modules/products/components/ProductListItem';
 import Loading from '../modules/common/components/Loading';
 import { useRouter } from 'next/router';
 import useSearch from '../modules/products/hooks/useSearch';
-import useRouteFilterQuery from '../modules/filter/hooks/useFilterContext';
+import useRouteFilterQuery from '../modules/filter/hooks/useRouteFilterQuery';
 import FilterSidebar from '../modules/filter/components/FilterSideBar';
 
 const Search = () => {

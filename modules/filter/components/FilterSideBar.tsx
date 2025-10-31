@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../../common/components/Button';
-import useRouteFilterQuery from '../hooks/useFilterContext';
+import useRouteFilterQuery from '../hooks/useRouteFilterQuery';
 import DynamicFilterCard from './DynamicFilterCard';
 import { useIntl } from 'react-intl';
 

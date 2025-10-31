@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import useRouteFilterQuery from '../hooks/useFilterContext';
+import useRouteFilterQuery from '../hooks/useRouteFilterQuery';
 import FilterCard from './FilterCard';
 import { useIntl } from 'react-intl';
 

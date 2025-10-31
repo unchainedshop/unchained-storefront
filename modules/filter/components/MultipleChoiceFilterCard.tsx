@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import FilterCard from './FilterCard';
-import useRouteFilterQuery from '../hooks/useFilterContext';
+import useRouteFilterQuery from '../hooks/useRouteFilterQuery';
 
 const MultipleChoiceFilterCard = ({
   title,
