@@ -1,35 +1,32 @@
 import React, { useMemo, useState } from 'react';
 import FilterCard from './FilterCard';
-import useFilterContext from '../hooks/useFilterContext';
-import Button from '../../common/components/Button';
+import useRouteFilterQuery from '../hooks/useFilterContext';
 
 const MultipleChoiceFilterCard = ({
   title,
   searchParamName,
   options = [],
   limit = 4,
-  onSettingsClicked,
 }) => {
-  const { formState, setFilterValues } = useFilterContext();
-  const current = useMemo(
-    () => formState[searchParamName] || [],
-    [formState, searchParamName],
-  );
+  const { filterQuery, setFilterValues } = useRouteFilterQuery();
   const [itemLimit, setItemLimit] = useState(limit);
+  const current = useMemo(() => {
+    return filterQuery
+      .filter((f) => f.key === searchParamName)
+      .map((f) => f.value)
+      .filter(Boolean) as string[];
+  }, [filterQuery, searchParamName]);
 
   if (!options.length) return null;
 
   const onToggle = (value: string, checked: boolean) => {
-    if (checked)
-      setFilterValues(
-        searchParamName,
-        Array.from(new Set([...current, value])),
-      );
-    else
-      setFilterValues(
-        searchParamName,
-        current.filter((v) => v !== value),
-      );
+    let values = [...current];
+    if (checked) {
+      values = Array.from(new Set([...values, value]));
+    } else {
+      values = values.filter((v) => v !== value);
+    }
+    setFilterValues(searchParamName, values);
   };
 
   const selectAll = () =>
@@ -40,16 +37,25 @@ const MultipleChoiceFilterCard = ({
   const reset = () => setFilterValues(searchParamName, []);
 
   return (
-    <FilterCard title={title} onSettingsClicked={onSettingsClicked}>
+    <FilterCard title={title}>
       {options.length > 1 && (
-        <div className="filter-select mb-2">
-          <Button onClick={selectAll} className="fs-8">
-            Select all
-          </Button>
-          <span className="mx-2">·</span>
-          <Button onClick={reset} className="fs-8">
-            Reset
-          </Button>
+        <div className="filter-actions d-flex flex-wrap gap-2 mb-3">
+          {current.length !== options.length ? (
+            <a
+              onClick={selectAll}
+              className="px-3 py-1 fs-8 bg-blue-50 text-blue-700 rounded-full hover:bg-blue-100 focus:outline-none focus:ring-1 focus:ring-blue-300 transition"
+            >
+              Select all
+            </a>
+          ) : null}
+          {current.length ? (
+            <a
+              onClick={reset}
+              className="px-3 py-1 fs-8 bg-red-50 text-red-700 rounded-full hover:bg-red-100 focus:outline-none focus:ring-1 focus:ring-red-300 transition"
+            >
+              Reset
+            </a>
+          ) : null}
         </div>
       )}
 
@@ -71,12 +77,6 @@ const MultipleChoiceFilterCard = ({
                 />
                 <label htmlFor={id}>{opt.label}</label>
               </div>
-
-              {opt.showSettings && onSettingsClicked && (
-                <Button onClick={() => onSettingsClicked(opt.value)}>
-                  <i className="icon icon-edit" />
-                </Button>
-              )}
             </div>
           );
         })}

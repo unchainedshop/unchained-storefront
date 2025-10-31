@@ -1,41 +1,45 @@
 import React, { useMemo } from 'react';
 import FilterCard from './FilterCard';
-import useFilterContext from '../hooks/useFilterContext';
+import useRouteFilterQuery from '../hooks/useFilterContext';
 
 const SingleChoiceFilterCard = ({
   title,
   searchParamName,
   options,
-  defaultChecked = false,
-  onSettingsClicked,
+  defaultChecked = null,
 }) => {
-  const { formState, setFilterValues } = useFilterContext();
-  const current = useMemo(
-    () => formState[searchParamName]?.[0] ?? defaultChecked ?? '',
-    [formState, searchParamName, defaultChecked],
-  );
+  const { filterQuery, setFilterValues } = useRouteFilterQuery();
+  const currentValue = useMemo(() => {
+    const matched = filterQuery.find((f) => f.key === searchParamName);
+    return matched?.value || defaultChecked;
+  }, [filterQuery, searchParamName, defaultChecked]);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValues(searchParamName, [e.target.value]);
+  };
 
   if (!options?.length) return null;
 
   return (
-    <FilterCard title={title} onSettingsClicked={onSettingsClicked}>
-      <div className="d-flex flex-column gap-2 mt-2">
-        {options.map((opt) => {
-          const id = `${searchParamName}_${String(opt.value).replace(/\s+/g, '_')}`;
-          return (
-            <div key={opt.value} className="d-flex align-items-center gap-2">
-              <input
-                id={id}
-                type="radio"
-                name={searchParamName}
-                value={opt.value}
-                checked={current === opt.value}
-                onChange={() => setFilterValues(searchParamName, [opt.value])}
-              />
-              <label htmlFor={id}>{opt.label}</label>
-            </div>
-          );
-        })}
+    <FilterCard title={title}>
+      <div className="d-flex flex-column gap-12px gap-lg-2 mt-2">
+        {options.map(({ label, value }) => (
+          <div
+            className="radio-group__item d-flex align-items-center"
+            key={value}
+          >
+            <input
+              className="form-field-input"
+              id={`${searchParamName}_${value}`}
+              type="radio"
+              name={searchParamName}
+              value={value}
+              checked={currentValue === value}
+              onChange={onChange}
+            />
+            <label htmlFor={`${searchParamName}_${value}`}>{label}</label>
+          </div>
+        ))}
       </div>
     </FilterCard>
   );

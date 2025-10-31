@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import FilterCard from './FilterCard';
-import useFilterContext from '../hooks/useFilterContext';
-
+import useRouteFilterQuery from '../hooks/useFilterContext';
 const RangeFilterCard = ({
   title,
   searchParamName,
@@ -9,21 +8,25 @@ const RangeFilterCard = ({
   max = 100,
   step = 1,
   unit,
-  onSettingsClicked,
 }) => {
-  const { formState, setFilterValues } = useFilterContext();
-  const initial = formState[searchParamName]?.map(Number) ?? [min, max];
-  const [range, setRange] = useState<[number, number]>([
-    initial[0] ?? min,
-    initial[1] ?? max,
-  ]);
+  const { filterQuery, setFilterValues } = useRouteFilterQuery();
+  const initial = useMemo(() => {
+    const matched = filterQuery.find((f) => f.key === searchParamName);
+    if (!matched || !matched.value) return [min, max];
+    const numbers = matched.value.split(',').map(Number);
+    return [numbers[0] ?? min, numbers[1] ?? max];
+  }, [filterQuery, searchParamName, min, max]);
 
+  const [range, setRange] = useState<[number, number]>([
+    initial[0],
+    initial[1],
+  ]);
   useEffect(() => {
-    setFilterValues(searchParamName, [String(range[0]), String(range[1])]);
-  }, [range[0], range[1]]);
+    setFilterValues(searchParamName, [`${range[0]},${range[1]}`]);
+  }, [range[0], range[1], searchParamName, setFilterValues]);
 
   return (
-    <FilterCard title={title} onSettingsClicked={onSettingsClicked}>
+    <FilterCard title={title}>
       <div className="d-flex align-items-center gap-2 mt-2">
         <input
           type="number"

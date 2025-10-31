@@ -7,16 +7,15 @@ import ProductListItem from '../modules/products/components/ProductListItem';
 import Loading from '../modules/common/components/Loading';
 import { useRouter } from 'next/router';
 import useSearch from '../modules/products/hooks/useSearch';
-import DynamicFilterCard from '../modules/filter/components/DynamicFilterCard';
-import useFilters from '../modules/filter/hooks/useFilters';
+import useRouteFilterQuery from '../modules/filter/hooks/useFilterContext';
+import FilterSidebar from '../modules/filter/components/FilterSideBar';
 
 const Search = () => {
   const { formatMessage } = useIntl();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-
+  const { filterQuery } = useRouteFilterQuery();
   const searchParams = new URLSearchParams(router.asPath.split('?')[1]);
-
   const initialQuery = searchParams.get('query') || '';
 
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
@@ -36,11 +35,11 @@ const Search = () => {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const { products, filters, filteredProductsCount, loading } = useSearch({
+  const { products, filters, loading } = useSearch({
     queryString: debouncedQuery,
+    filterQuery,
   });
 
-  console.log(filters, filteredProductsCount);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -94,53 +93,60 @@ const Search = () => {
               <Loading />
             </div>
           ) : (
-            <div>
-              {debouncedQuery && (
-                <div className="mb-8">
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-                    {formatMessage(
-                      {
-                        id: 'search_results_for',
-                        defaultMessage: "Results for '{query}'",
-                      },
-                      { query: debouncedQuery },
-                    )}
-                  </h2>
+            <div className="flex gap-8">
+              {filters.length ? (
+                <div className="w-64 flex-shrink-0 space-y-4">
+                  <FilterSidebar filters={filters} />
                 </div>
-              )}
-              {filters.map((filter) => (
-                <DynamicFilterCard key={filter._id} filter={filter} />
-              ))}
-              {products.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {products.map((product) => (
-                    <div
-                      key={product?._id}
-                      className="group transform transition-transform duration-300 hover:scale-105"
-                    >
-                      <ProductListItem product={product} />
-                    </div>
-                  ))}
-                </div>
-              ) : debouncedQuery ? (
-                <div className="text-center">
-                  <p className="text-slate-600 dark:text-slate-300">
-                    {formatMessage({
-                      id: 'no_search_results',
-                      defaultMessage: 'No products found matching your search.',
-                    })}
-                  </p>
-                </div>
-              ) : (
-                <div className="text-center">
-                  <p className="text-slate-600 dark:text-slate-300">
-                    {formatMessage({
-                      id: 'search_instruction',
-                      defaultMessage: 'Enter a search term to find products.',
-                    })}
-                  </p>
-                </div>
-              )}
+              ) : null}
+
+              <div className="flex-1">
+                {debouncedQuery && (
+                  <div className="mb-8">
+                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                      {formatMessage(
+                        {
+                          id: 'search_results_for',
+                          defaultMessage: "Results for '{query}'",
+                        },
+                        { query: debouncedQuery },
+                      )}
+                    </h2>
+                  </div>
+                )}
+
+                {products.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {products.map((product) => (
+                      <div
+                        key={product?._id}
+                        className="group transform transition-transform duration-300 hover:scale-105"
+                      >
+                        <ProductListItem product={product} />
+                      </div>
+                    ))}
+                  </div>
+                ) : debouncedQuery ? (
+                  <div className="text-center">
+                    <p className="text-slate-600 dark:text-slate-300">
+                      {formatMessage({
+                        id: 'no_search_results',
+                        defaultMessage:
+                          'No products found matching your search.',
+                      })}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-slate-600 dark:text-slate-300">
+                      {formatMessage({
+                        id: 'search_instruction',
+                        defaultMessage: 'Enter a search term to find products.',
+                      })}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

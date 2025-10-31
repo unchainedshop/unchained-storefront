@@ -1,13 +1,14 @@
 import { NetworkStatus, gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 const SearchQuery = gql`
   query Search(
     $queryString: String!
     $offset: Int
-    $filterQuery: [FilterQueryInput!]
     $currency: String
+    $filterQuery: [FilterQueryInput!]
   ) {
     searchProducts(queryString: $queryString, filterQuery: $filterQuery) {
       productsCount
@@ -48,6 +49,7 @@ const SearchQuery = gql`
 `;
 
 const useSearch = ({ queryString, filterQuery = [] }) => {
+  const { selectedCurrency } = useAppContext();
   const { loading, error, data, networkStatus, previousData } = useQuery<any>(
     SearchQuery,
     {
@@ -55,6 +57,7 @@ const useSearch = ({ queryString, filterQuery = [] }) => {
         queryString,
         offset: 0,
         filterQuery,
+        currency: selectedCurrency,
       },
     },
   );

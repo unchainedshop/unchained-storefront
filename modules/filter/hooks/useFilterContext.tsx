@@ -1,36 +1,48 @@
 'use client';
-import { createContext, useContext, useState, ReactNode } from 'react';
 
-interface FilterContextValue {
-  formState: Record<string, string[]>;
-  setFilterValues: (name: string, values: string[]) => void;
-  resetFilters: () => void;
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useMemo } from 'react';
+
+export interface FilterQueryInput {
+  key: string;
+  value?: string;
 }
 
-const FilterContext = createContext<FilterContextValue | undefined>(undefined);
+export default function useRouteFilterQuery() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-export const FilterProvider = ({ children }: { children: ReactNode }) => {
-  const [formState, setFormState] = useState<Record<string, string[]>>({});
+  // Convert URL query to FilterQueryInput[]
+  const filterQuery: FilterQueryInput[] = useMemo(() => {
+    const arr: FilterQueryInput[] = [];
+    searchParams.forEach((value, key) => {
+      // Split multi-value strings by comma
+      const values = value.split(',');
+      values.forEach((v) => arr.push({ key, value: v }));
+    });
+    return arr;
+  }, [searchParams]);
 
-  const setFilterValues = (name: string, values: string[]) => {
-    setFormState((prev) => ({ ...prev, [name]: values }));
-  };
+  // Set or replace values for a key
+  const setFilterValues = useCallback(
+    (key: string, values: string[]) => {
+      const params = new URLSearchParams(searchParams.toString());
 
-  const resetFilters = () => setFormState({});
+      if (values.length) {
+        params.set(key, values.join(','));
+      } else {
+        params.delete(key);
+      }
 
-  return (
-    <FilterContext.Provider
-      value={{ formState, setFilterValues, resetFilters }}
-    >
-      {children}
-    </FilterContext.Provider>
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [pathname, router, searchParams],
   );
-};
 
-export default function useFilterContext() {
-  const ctx = useContext(FilterContext);
-  if (!ctx) {
-    throw new Error('useFilterContext must be used within a FilterProvider');
-  }
-  return ctx;
+  const resetFilters = useCallback(() => {
+    router.push(pathname);
+  }, [pathname, router]);
+
+  return { filterQuery, setFilterValues, resetFilters };
 }

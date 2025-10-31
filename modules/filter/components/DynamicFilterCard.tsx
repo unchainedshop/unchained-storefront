@@ -4,13 +4,12 @@ import MultipleChoiceFilterCard from './MultipleChoiceFilterCard';
 import SwitchFilterCard from './SwitchFilterCard';
 import RangeFilterCard from './RangeFilterCard';
 
-const DynamicFilterCard = ({ filter, onSettingsClicked }) => {
+const DynamicFilterCard = ({ filter }) => {
   const { definition, options } = filter;
   const filterType = definition?.type;
-
   const filterItems = options?.map((opt: any) => ({
-    label: opt.label || opt.value,
-    value: opt.value,
+    label: opt.definition.texts?.title || opt.definition.value,
+    value: opt.definition.value,
   }));
 
   switch (filterType) {
@@ -20,7 +19,6 @@ const DynamicFilterCard = ({ filter, onSettingsClicked }) => {
           title={definition?.texts?.title}
           searchParamName={definition.key}
           options={filterItems}
-          onSettingsClicked={onSettingsClicked}
         />
       );
 
@@ -30,29 +28,26 @@ const DynamicFilterCard = ({ filter, onSettingsClicked }) => {
           title={definition.texts?.title}
           searchParamName={definition.key}
           options={filterItems}
-          onSettingsClicked={onSettingsClicked}
         />
       );
 
     case 'SWITCH':
       return (
         <SwitchFilterCard
-          title={definition.label}
+          title={definition.texts?.title}
           searchParamName={definition.key}
-          label={definition.label}
-          onSettingsClicked={onSettingsClicked}
+          label={definition.texts?.subtitle}
         />
       );
 
     case 'RANGE':
       return (
         <RangeFilterCard
-          title={definition.label}
+          title={definition.texts?.title}
           searchParamName={definition.key}
           min={definition.minValue}
           max={definition.maxValue}
           unit={definition.unit}
-          onSettingsClicked={onSettingsClicked}
         />
       );
 
