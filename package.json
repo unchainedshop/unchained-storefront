@@ -4,8 +4,8 @@
   "description": "SPA Storefront Boilerplate for Unchained Engine",
   "license": "Apache-2.0",
   "type": "module",
-  "private": true,    
-  "engineStrict": true,  
+  "private": true,
+  "engineStrict": true,
   "engines": {
     "node": "22.x"
   },
@@ -42,6 +42,7 @@
     "react-image-gallery": "^1.4.0",
     "react-intl": "^7.1.11",
     "react-markdown": "^10.1.0",
+    "react-range-slider-input": "^3.2.1",
     "rxjs": "^7.8.2",
     "validator": "^13.15.15"
   },
