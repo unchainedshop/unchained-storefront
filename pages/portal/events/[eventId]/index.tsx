@@ -1,4 +1,3 @@
-'use client';
 import { notFound } from 'next/navigation';
 import RouteProtectionSink from '../../../../modules/auth/components/RouteProtectionSink';
 import EventTokenList from '../../../../modules/products/components/EventTokenList';

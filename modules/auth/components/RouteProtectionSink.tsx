@@ -1,5 +1,3 @@
-'use client';
-
 import useRouteProtection from '../hooks/useRouteProtection';
 
 const RouteProtectionSink = ({

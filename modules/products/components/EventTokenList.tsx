@@ -1,5 +1,3 @@
-'use client';
-
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import useUser from '../../auth/hooks/useUser';

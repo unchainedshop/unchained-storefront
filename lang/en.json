@@ -71,6 +71,9 @@
   "already_got_a_user": {
     "defaultMessage": "Already got a user?"
   },
+  "apply": {
+    "defaultMessage": "Apply"
+  },
   "apply_discount": {
     "defaultMessage": "Apply Discount"
   },
@@ -773,11 +776,17 @@
   "resend-another-verification": {
     "defaultMessage": "Please resend another verification email and try to verify again"
   },
+  "reset": {
+    "defaultMessage": "Reset"
+  },
   "reset-password-header": {
     "defaultMessage": "Reset password"
   },
   "reset-password-subtitle": {
     "defaultMessage": "Set a password for your account"
+  },
+  "reset_all_filters": {
+    "defaultMessage": "Reset all filters"
   },
   "reset_link_sent": {
     "defaultMessage": "Password reset link sent to {email}"

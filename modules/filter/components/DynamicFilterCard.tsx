@@ -36,7 +36,6 @@ const DynamicFilterCard = ({ filter }) => {
         <SwitchFilterCard
           title={definition.texts?.title}
           searchParamName={definition.key}
-          label={definition.texts?.subtitle}
         />
       );
 
