@@ -1,51 +1,88 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import FilterCard from './FilterCard';
 import useRouteFilterQuery from '../hooks/useFilterContext';
-const RangeFilterCard = ({
-  title,
-  searchParamName,
-  min = 0,
-  max = 100,
-  step = 1,
-  unit,
-}) => {
-  const { filterQuery, setFilterValues } = useRouteFilterQuery();
-  const initial = useMemo(() => {
-    const matched = filterQuery.find((f) => f.key === searchParamName);
-    if (!matched || !matched.value) return [min, max];
-    const numbers = matched.value.split(',').map(Number);
-    return [numbers[0] ?? min, numbers[1] ?? max];
-  }, [filterQuery, searchParamName, min, max]);
 
-  const [range, setRange] = useState<[number, number]>([
-    initial[0],
-    initial[1],
-  ]);
-  useEffect(() => {
-    setFilterValues(searchParamName, [`${range[0]},${range[1]}`]);
-  }, [range[0], range[1], searchParamName, setFilterValues]);
+const RangeFilterCard = ({ title, searchParamName, rangeItems = [] }) => {
+  const { filterQuery, setFilterValues } = useRouteFilterQuery();
+
+  const numericValues = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          rangeItems.map((r) => Number(r.value)).filter((v) => !isNaN(v)),
+        ),
+      ).sort((a, b) => a - b),
+    [rangeItems],
+  );
+
+  const minValue = numericValues[0] ?? 0;
+  const maxValue = numericValues[numericValues.length - 1] ?? 100;
+
+  const matched = filterQuery.find((f) => f.key === searchParamName);
+  const initialMin = matched?.value?.split(',')[0]
+    ? Number(matched.value.split(',')[0])
+    : minValue;
+  const initialMax = matched?.value?.split(',')[1]
+    ? Number(matched.value.split(',')[1])
+    : maxValue;
+
+  const [min, setMin] = useState(initialMin);
+  const [max, setMax] = useState(initialMax);
+
+  const apply = () => {
+    const newMin = Math.min(min, max);
+    const newMax = Math.max(min, max);
+    setFilterValues(searchParamName, [`${newMin},${newMax}`]);
+  };
+
+  const reset = () => {
+    setMin(minValue);
+    setMax(maxValue);
+    setFilterValues(searchParamName, []);
+  };
 
   return (
     <FilterCard title={title}>
-      <div className="d-flex align-items-center gap-2 mt-2">
+      <div className="d-flex flex-column gap-2 mt-2">
+        <div className="d-flex justify-content-between">
+          <span>
+            {min} – {max}
+          </span>
+        </div>
+
         <input
-          type="number"
-          value={range[0]}
-          min={min}
-          max={range[1]}
-          step={step}
-          onChange={(e) => setRange([Number(e.target.value || min), range[1]])}
+          type="range"
+          min={minValue}
+          max={maxValue}
+          list={`range-${searchParamName}`}
+          step={1}
+          value={min}
+          onChange={(e) => setMin(Number(e.target.value))}
         />
-        <span>–</span>
         <input
-          type="number"
-          value={range[1]}
-          min={range[0]}
-          max={max}
-          step={step}
-          onChange={(e) => setRange([range[0], Number(e.target.value || max)])}
+          type="range"
+          min={minValue}
+          max={maxValue}
+          list={`range-${searchParamName}`}
+          step={1}
+          value={max}
+          onChange={(e) => setMax(Number(e.target.value))}
         />
-        {unit && <span>{unit}</span>}
+
+        <datalist id={`range-${searchParamName}`}>
+          {numericValues.map((v) => (
+            <option key={v} value={v} label={v.toString()} />
+          ))}
+        </datalist>
+
+        <div className="d-flex gap-2 mt-2">
+          <button className="color-blue fs-8" onClick={apply}>
+            Apply
+          </button>
+          <button className="color-gray fs-8" onClick={reset}>
+            Reset
+          </button>
+        </div>
       </div>
     </FilterCard>
   );

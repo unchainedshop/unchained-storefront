@@ -42,9 +42,15 @@ const Search = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    const trimmedQuery = searchQuery.trim();
     if (searchQuery.trim()) {
-      setDebouncedQuery(searchQuery.trim());
-      router.push(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+      router.push({
+        pathname: '/search',
+        query: {
+          ...router.query,
+          query: trimmedQuery,
+        },
+      });
     }
   };
 

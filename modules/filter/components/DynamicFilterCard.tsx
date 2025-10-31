@@ -45,9 +45,7 @@ const DynamicFilterCard = ({ filter }) => {
         <RangeFilterCard
           title={definition.texts?.title}
           searchParamName={definition.key}
-          min={definition.minValue}
-          max={definition.maxValue}
-          unit={definition.unit}
+          rangeItems={filterItems}
         />
       );
 
