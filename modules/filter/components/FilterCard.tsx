@@ -1,20 +1,21 @@
 import React from 'react';
 import classNames from 'classnames';
-import Button from '../../common/components/Button';
 
 const FilterCard = ({ title, children = null, className = '' }) => {
   return (
     <div
       className={classNames(
-        'filter-card border rounded-2xl p-3 bg-white shadow-sm',
+        'filter-card rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-slate-800',
         className,
       )}
     >
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h4 className="fs-6 fw-semibold m-0">{title}</h4>
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 m-0">
+          {title}
+        </h4>
       </div>
 
-      <div className="filter-card__body">{children}</div>
+      <div>{children}</div>
     </div>
   );
 };

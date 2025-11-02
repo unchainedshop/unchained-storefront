@@ -2,6 +2,7 @@ import { NetworkStatus, gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import LoadedFilterFragment from '../fragments/LoadedFilterFragment';
 
 const SearchQuery = gql`
   query Search(
@@ -17,34 +18,11 @@ const SearchQuery = gql`
         ...ProductListItemFragment
       }
       filters {
-        definition {
-          type
-          _id
-          texts {
-            _id
-            title
-          }
-          key
-        }
-        filteredProductsCount
-        productsCount
-        isSelected
-
-        options {
-          definition {
-            _id
-            texts {
-              _id
-              title
-            }
-            value
-          }
-          filteredProductsCount
-          isSelected
-        }
+        ...LoadedFilterFragment
       }
     }
   }
+  ${LoadedFilterFragment}
   ${ProductListItemFragment}
 `;
 

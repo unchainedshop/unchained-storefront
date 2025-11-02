@@ -14,7 +14,6 @@ export default function useRouteFilterQuery() {
   const filterQuery: FilterQueryInput[] = useMemo(() => {
     const arr: FilterQueryInput[] = [];
     searchParams.forEach((value, key) => {
-      console.log({ value, key });
       if (key !== 'query') {
         const values = value.split(',');
         values.forEach((v) => arr.push({ key, value: v }));
