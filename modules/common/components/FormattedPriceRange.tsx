@@ -3,7 +3,6 @@ import FormattedPrice from './FormattedPrice';
 
 const FormattedPriceRange = ({ priceRange }) => {
   const intl = useIntl();
-
   if (!priceRange?.minPrice || !priceRange?.maxPrice) {
     return <span>N/A</span>;
   }

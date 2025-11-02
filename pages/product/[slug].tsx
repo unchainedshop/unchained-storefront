@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import { BookmarkIcon } from '@heroicons/react/20/solid';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 import useUser from '../../modules/auth/hooks/useUser';
 import useProductDetail from '../../modules/products/hooks/useProductDetail';
@@ -17,13 +18,13 @@ import Loading from '../../modules/common/components/Loading';
 import NotFound from '../404';
 import AssortmentBreadcrumbs from '../../modules/assortment/components/AssortmentBreadcrumbs';
 import AddToCartButton from '../../modules/cart/components/AddToCartButton';
-import ProductVariants from '../../modules/products/components/ProductVariants';
-import ProductListItem from '../../modules/products/components/ProductListItem';
 import ProductPrice from '../../modules/common/components/ProductPrice';
 
 import getAssortmentPath from '../../modules/assortment/utils/getAssortmentPath';
 import getMediaUrl from '../../modules/common/utils/getMediaUrl';
 import getMediaUrls from '../../modules/common/utils/getMediaUrls';
+import ProductListItem from '../../modules/products/components/ProductListItem';
+import ProductVariants from '../../modules/products/components/ProductVariants';
 
 const Detail = () => {
   const router = useRouter();
@@ -35,6 +36,10 @@ const Detail = () => {
   const { product, paths, loading } = useProductDetail({
     slug: router.query.slug,
   });
+
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >({});
 
   if (!product && !loading)
     return (
@@ -49,6 +54,7 @@ const Detail = () => {
   const productPath = getAssortmentPath(paths);
   const { siblings, bundleItems } = product || {};
   const isBundle = product?.__typename === 'BundleProduct';
+  const isConfigurable = product?.__typename === 'ConfigurableProduct';
   const isQuotable =
     product?.status === 'ACTIVE' && product?.tags?.includes('quotable');
 
@@ -61,6 +67,18 @@ const Detail = () => {
     filteredBookmark
       ? removeBookmark({ bookmarkId: filteredBookmark?._id })
       : conditionalBookmarkProduct({ productId: product?._id });
+
+  const resolvedAssignments = isConfigurable
+    ? product.assignments.filter((assignment) =>
+        Object.entries(selectedOptions).every(
+          ([key, value]) =>
+            assignment.vectors.find((v) => v.variation.key === key)?.option
+              .value === value,
+        ),
+      )
+    : [];
+
+  const resolvedProducts = resolvedAssignments.map((a) => a.product);
 
   return (
     <>
@@ -138,13 +156,7 @@ const Detail = () => {
                   <button
                     type="button"
                     className="rounded-full bg-white/90 p-3 shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-lg dark:bg-slate-900/90"
-                    onClick={() =>
-                      filteredBookmark
-                        ? removeBookmark({ bookmarkId: filteredBookmark?._id })
-                        : conditionalBookmarkProduct({
-                            productId: product?._id,
-                          })
-                    }
+                    onClick={toggleBookmark}
                     aria-label={
                       filteredBookmark
                         ? 'Remove from bookmarks'
@@ -162,7 +174,38 @@ const Detail = () => {
                 </div>
 
                 <div className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-6">
-                  <ProductPrice product={product} />
+                  {isConfigurable && resolvedProducts.length > 0 ? (
+                    resolvedProducts.length === 1 ? (
+                      <ProductPrice product={resolvedProducts[0]} />
+                    ) : (
+                      <ProductPrice
+                        product={{
+                          simulatedPriceRange: {
+                            minPrice: {
+                              amount: Math.min(
+                                ...resolvedProducts.map(
+                                  (p) => p.catalogPrice.amount,
+                                ),
+                              ),
+                              currencyCode:
+                                resolvedProducts[0].catalogPrice.currencyCode,
+                            },
+                            maxPrice: {
+                              amount: Math.max(
+                                ...resolvedProducts.map(
+                                  (p) => p.catalogPrice.amount,
+                                ),
+                              ),
+                              currencyCode:
+                                resolvedProducts[0].catalogPrice.currencyCode,
+                            },
+                          },
+                        }}
+                      />
+                    )
+                  ) : (
+                    <ProductPrice product={product} />
+                  )}
                 </div>
               </div>
 
@@ -171,17 +214,68 @@ const Detail = () => {
                   <Markdown>{product?.texts?.description}</Markdown>
                 </div>
               )}
+              {isConfigurable &&
+                product.variations?.length > 0 &&
+                product.variations.map((variation) => {
+                  const availableOptions = variation.options.map((option) => {
+                    const isAvailable = product.assignments.some((assignment) =>
+                      assignment.vectors.every((vector) =>
+                        vector.variation.key === variation.key
+                          ? vector.option.value === option.value
+                          : selectedOptions[vector.variation.key] ===
+                              vector.option.value ||
+                            !selectedOptions[vector.variation.key],
+                      ),
+                    );
+                    return { ...option, isAvailable };
+                  });
 
-              {product?.proxies?.map((proxy) => (
-                <ProductVariants
-                  key={proxy._id}
-                  proxy={proxy}
-                  activeProductId={product._id}
-                />
-              ))}
+                  return (
+                    <div key={variation._id}>
+                      <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        {variation.texts?.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {availableOptions.map((option) => (
+                          <button
+                            key={option._id}
+                            type="button"
+                            disabled={!option.isAvailable}
+                            className={classNames(
+                              'px-3 py-1 border rounded-md text-sm',
+                              {
+                                'bg-slate-900 text-white':
+                                  selectedOptions[variation.key] ===
+                                  option.value,
+                                'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-white':
+                                  option.isAvailable &&
+                                  selectedOptions[variation.key] !==
+                                    option.value,
+                                'bg-slate-200 text-slate-400 cursor-not-allowed':
+                                  !option.isAvailable,
+                              },
+                            )}
+                            onClick={() =>
+                              setSelectedOptions((prev) => ({
+                                ...prev,
+                                [variation.key]: option.value,
+                              }))
+                            }
+                          >
+                            {option.texts?.title || option.value}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
 
               <div className="pt-4">
-                <AddToCartButton productId={product?._id} {...product} />
+                <AddToCartButton
+                  productId={resolvedProducts[0]?._id || product?._id}
+                  {...(resolvedProducts[0] || product)}
+                  disabled={isConfigurable && resolvedProducts.length === 0}
+                />
               </div>
 
               {isQuotable && (
@@ -200,6 +294,13 @@ const Detail = () => {
               )}
             </div>
           </div>
+          {product?.proxies?.map((proxy) => (
+            <ProductVariants
+              key={proxy._id}
+              proxy={proxy}
+              activeProductId={product._id}
+            />
+          ))}
           {isBundle && bundleItems?.length > 0 && (
             <section className="mt-12">
               <h2 className="text-xl font-semibold mb-6">

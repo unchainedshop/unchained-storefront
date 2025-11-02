@@ -27,6 +27,30 @@ const PRODUCT_DETAIL_QUERY = gql`
         }
         salesUnit
       }
+      ... on ConfigurableProduct {
+        assignments {
+          _id
+          product {
+            _id
+            texts {
+              _id
+              title
+              slug
+            }
+            ...ProductPriceFragment
+          }
+          vectors {
+            _id
+            variation {
+              key
+            }
+            option {
+              value
+            }
+          }
+        }
+      }
+
       proxies {
         ... on ConfigurableProduct {
           _id
