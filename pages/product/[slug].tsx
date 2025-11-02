@@ -12,7 +12,6 @@ import MetaTags from '../../modules/common/components/MetaTags';
 import Loading from '../../modules/common/components/Loading';
 import NotFound from '../404';
 import AssortmentBreadcrumbs from '../../modules/assortment/components/AssortmentBreadcrumbs';
-import AddToCartButton from '../../modules/cart/components/AddToCartButton';
 import ProductPrice from '../../modules/common/components/ProductPrice';
 import ProductVariants from '../../modules/products/components/ProductVariants';
 
@@ -24,6 +23,7 @@ import ProductImageGallery from '../../modules/products/components/ProductImageG
 import ProductVariationSelector from '../../modules/products/components/ProductVariationSelector';
 import BookmarkButton from '../../modules/products/components/BookmarkButton';
 import ProductSiblings from '../../modules/products/components/ProductSiblings';
+import ProductAddToCart from '../../modules/products/components/ProductAddToCart';
 
 const Detail = () => {
   const router = useRouter();
@@ -179,10 +179,10 @@ const Detail = () => {
               )}
 
               <div className="pt-4">
-                <AddToCartButton
-                  productId={resolvedProducts[0]?._id || product?._id}
-                  {...(resolvedProducts[0] || product)}
-                  disabled={isConfigurable && resolvedProducts.length === 0}
+                <ProductAddToCart
+                  product={product}
+                  resolvedProducts={resolvedProducts}
+                  isConfigurable={isConfigurable}
                 />
               </div>
 
