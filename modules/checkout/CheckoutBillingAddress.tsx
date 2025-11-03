@@ -5,10 +5,14 @@ import EditableAddressPanel from './EditableAddressPanel';
 import useUpdateCartBillingAddress from '../orders/hooks/useUpdateCartBillingAddress';
 
 const areAddressesEqual = (deliveryAddress = {}, billingAddress = {}) => {
+  if (!deliveryAddress || !billingAddress) return false;
   const keys = Array.from(
-    new Set([...Object.keys(deliveryAddress), ...Object.keys(billingAddress)]),
+    new Set([
+      ...Object.keys(deliveryAddress || {}),
+      ...Object.keys(billingAddress || {}),
+    ]),
   ).filter((key) => key !== '__typename');
-  return keys.every((key) => deliveryAddress[key] === billingAddress[key]);
+  return keys.every((key) => deliveryAddress?.[key] === billingAddress?.[key]);
 };
 
 const CheckoutBillingAddress = ({ cart, isInitial }) => {
