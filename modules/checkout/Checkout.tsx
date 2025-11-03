@@ -7,14 +7,19 @@ import FormattedPrice from '../common/components/FormattedPrice';
 import { useIntl } from 'react-intl';
 import useCart from '../orders/hooks/useCart';
 import AddDiscount from '../orders/components/AddDiscount';
+import useUpdateCartDelivery from '../cart/hooks/useUpdateCartDelivery';
+import useUpdateCartDeliveryPickUp from '../orders/hooks/useUpdateCartDeliveryPickUp';
+import CheckoutDeliverySelector from './CheckoutDeliverySelector';
+import Loading from '../common/components/Loading';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
   const { formatMessage } = useIntl();
-  const { error, loading, cart } = useCart();
-
+  const { error, cart } = useCart();
+  const { updateCartDelivery } = useUpdateCartDelivery();
+  const { updateCartDeliveryPickUp } = useUpdateCartDeliveryPickUp();
   if (error) return <ErrorMessage message="Error loading cart" />;
-  if (!cart || loading) return <div>Loading</div>;
+  if (!cart) return <Loading />;
   const isAddressesMissing =
     !cart.delivery?.address?.firstName && !cart.billingAddress?.firstName;
   const isContactDataMissing =
@@ -28,12 +33,28 @@ const Checkout = () => {
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Checkout Forms - Left Side */}
         <div className="lg:col-span-2 space-y-8">
           <CheckoutAddresses cart={cart} isInitial={isAddressesMissing} />
           {!isAddressesMissing && (
             <CheckoutContact cart={cart} isInitial={isContactDataMissing} />
           )}
+          {!isAddressesMissing && !isContactDataMissing && (
+            <CheckoutDeliverySelector
+              providers={cart.supportedDeliveryProviders}
+              currentDelivery={cart.delivery}
+              currencyCode={cart.itemsTotal?.currencyCode}
+              onSelectProvider={(providerId) =>
+                updateCartDelivery({ deliveryProviderId: providerId })
+              }
+              onSelectLocation={async (providerId, locationId) =>
+                await updateCartDeliveryPickUp({
+                  orderPickUpLocationId: locationId,
+                  deliveryProviderId: providerId,
+                })
+              }
+            />
+          )}
+
           {!isAddressesMissing && !isContactDataMissing && (
             <CheckoutPaymentMethod
               cart={cart}
@@ -42,7 +63,6 @@ const Checkout = () => {
           )}
         </div>
 
-        {/* Cart Summary - Right Side */}
         <div className="lg:col-span-1">
           <div className="sticky top-16">
             <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
@@ -53,12 +73,10 @@ const Checkout = () => {
                 })}
               </h2>
 
-              {/* Cart Items */}
               <div className="space-y-4 mb-6">
                 {cart.items?.length > 0 ? (
                   cart.items.map((item) => (
                     <div key={item._id} className="flex gap-4">
-                      {/* Product Image */}
                       <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-md overflow-hidden flex-shrink-0">
                         {item.product.media?.[0]?.file?.url ? (
                           <img
@@ -75,7 +93,6 @@ const Checkout = () => {
                         )}
                       </div>
 
-                      {/* Product Details */}
                       <div className="flex-1 min-w-0">
                         <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
                           {item.product.texts.title}
@@ -107,8 +124,6 @@ const Checkout = () => {
                   </div>
                 )}
               </div>
-
-              {/* Order Totals */}
               {cart.items?.length > 0 && (
                 <>
                   <div className="border-t border-slate-200 dark:border-0 pt-4 space-y-2">
@@ -124,7 +139,6 @@ const Checkout = () => {
                       </span>
                     </div>
 
-                    {/* Versandgebühren (Delivery/Shipping) */}
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                       <span>
                         {formatMessage({
@@ -144,7 +158,6 @@ const Checkout = () => {
                       </span>
                     </div>
 
-                    {/* MwSt (Taxes) */}
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
                       <span>
                         {formatMessage({

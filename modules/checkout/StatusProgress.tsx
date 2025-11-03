@@ -5,9 +5,8 @@ import useFormatDateTime from '../common/utils/useFormatDateTime';
 
 const StatusProgress = ({ data, statusTypes, timeline }) => {
   const { formatMessage } = useIntl();
-  const { formatDateTime } = useFormatDateTime();
-
-  const { content = {}, id: currentId } = timeline[data?.status];
+  const { formatDateTime } = useFormatDateTime();  
+  const { content = {}, id: currentId } = timeline?.[data?.status] || {};
 
   const status = statusTypes.filter(({ value }) => timeline[value]?.visible);
 

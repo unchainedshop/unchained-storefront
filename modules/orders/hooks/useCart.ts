@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
+import OrderDeliveryPickUpFragment from '../fragments/OrderDeliveryPickUpFragment';
+import AddressFragment from '../../common/fragments/AddressFragment';
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -121,19 +123,25 @@ export const CART_CHECKOUT_QUERY = gql`
             version
           }
         }
+        delivery {
+          _id
+          ...OrderDeliveryPickUpFragment
+        }
+        supportedDeliveryProviders {
+          _id
+          type
+          isActive
+          simulatedPrice {
+            amount
+            currencyCode
+          }
+        }
         contact {
           telNumber
           emailAddress
         }
         billingAddress {
-          firstName
-          lastName
-          addressLine
-          addressLine2
-          postalCode
-          regionCode
-          city
-          countryCode
+          ...AddressFragment
         }
         delivery {
           _id
@@ -148,28 +156,26 @@ export const CART_CHECKOUT_QUERY = gql`
           }
           ... on OrderDeliveryShipping {
             address {
-              firstName
-              lastName
-              addressLine
-              addressLine2
-              postalCode
-              regionCode
-              city
-              countryCode
+              ...AddressFragment
             }
           }
         }
       }
     }
   }
+  ${AddressFragment}
+  ${OrderDeliveryPickUpFragment}
 `;
 
 const useCart = () => {
-  const { loading, error, data } = useQuery<any>(CART_CHECKOUT_QUERY, {
-    notifyOnNetworkStatusChange: true,
-  });
+  const { loading, error, data, previousData } = useQuery<any>(
+    CART_CHECKOUT_QUERY,
+    {
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
-  const { cart } = data?.me || {};
+  const { cart } = data?.me || previousData?.me || {};
   return {
     cart,
     loading,

@@ -22,6 +22,11 @@ const OrderDetail = ({ order }) => {
       content: 'rejected',
       visible: order?.status === 'REJECTED',
     },
+    PENDING: {
+      id: 1,
+      content: 'pending',
+      visible: order?.status === 'PENDING',
+    },
     CONFIRMED: {
       id: 2,
       content: 'confirmed',
