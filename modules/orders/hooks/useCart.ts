@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import OrderDeliveryPickUpFragment from '../fragments/OrderDeliveryPickUpFragment';
 import AddressFragment from '../../common/fragments/AddressFragment';
+import OrderDeliveryShippingFragment from '../fragments/OrderDeliveryShippingFragment';
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -126,6 +127,7 @@ export const CART_CHECKOUT_QUERY = gql`
         delivery {
           _id
           ...OrderDeliveryPickUpFragment
+          ...OrderDeliveryShippingFragment
         }
         supportedDeliveryProviders {
           _id
@@ -165,6 +167,7 @@ export const CART_CHECKOUT_QUERY = gql`
   }
   ${AddressFragment}
   ${OrderDeliveryPickUpFragment}
+  ${OrderDeliveryShippingFragment}
 `;
 
 const useCart = () => {

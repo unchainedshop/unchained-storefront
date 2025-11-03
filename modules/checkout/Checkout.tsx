@@ -1,6 +1,6 @@
 import ErrorMessage from '../common/components/ErrorMessage';
 import CheckoutContact from './CheckoutContact';
-import CheckoutAddresses from './CheckoutAddresses';
+import CheckoutBillingAddress from './CheckoutBillingAddress';
 import CheckoutPaymentMethod from './CheckoutPaymentMethod';
 import { useAppContext } from '../common/components/AppContextWrapper';
 import FormattedPrice from '../common/components/FormattedPrice';
@@ -11,6 +11,7 @@ import useUpdateCartDelivery from '../cart/hooks/useUpdateCartDelivery';
 import useUpdateCartDeliveryPickUp from '../orders/hooks/useUpdateCartDeliveryPickUp';
 import CheckoutDeliverySelector from './CheckoutDeliverySelector';
 import Loading from '../common/components/Loading';
+import useUpdateCartDeliveryShipping from '../orders/hooks/useUpdateCartDeliveryShipping';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
@@ -18,10 +19,10 @@ const Checkout = () => {
   const { error, cart } = useCart();
   const { updateCartDelivery } = useUpdateCartDelivery();
   const { updateCartDeliveryPickUp } = useUpdateCartDeliveryPickUp();
+  const { updateCartDeliveryShipping } = useUpdateCartDeliveryShipping();
   if (error) return <ErrorMessage message="Error loading cart" />;
   if (!cart) return <Loading />;
-  const isAddressesMissing =
-    !cart.delivery?.address?.firstName && !cart.billingAddress?.firstName;
+  const isAddressesMissing = !cart.billingAddress?.firstName;
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
   const itemsTotal = cart.itemsTotal;
@@ -34,25 +35,30 @@ const Checkout = () => {
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <CheckoutAddresses cart={cart} isInitial={isAddressesMissing} />
+          <CheckoutDeliverySelector
+            providers={cart.supportedDeliveryProviders}
+            currentDelivery={cart.delivery}
+            currencyCode={cart.itemsTotal?.currencyCode}
+            onSelectProvider={(providerId) =>
+              updateCartDelivery({ deliveryProviderId: providerId })
+            }
+            onSelectLocation={async (providerId, locationId) =>
+              await updateCartDeliveryPickUp({
+                orderPickUpLocationId: locationId,
+                deliveryProviderId: providerId,
+              })
+            }
+            onUpdateAddress={async (providerId, address) => {
+              await updateCartDeliveryShipping({
+                deliveryProviderId: providerId,
+                address,
+              });
+            }}
+          />
+
+          <CheckoutBillingAddress cart={cart} isInitial={isAddressesMissing} />
           {!isAddressesMissing && (
             <CheckoutContact cart={cart} isInitial={isContactDataMissing} />
-          )}
-          {!isAddressesMissing && !isContactDataMissing && (
-            <CheckoutDeliverySelector
-              providers={cart.supportedDeliveryProviders}
-              currentDelivery={cart.delivery}
-              currencyCode={cart.itemsTotal?.currencyCode}
-              onSelectProvider={(providerId) =>
-                updateCartDelivery({ deliveryProviderId: providerId })
-              }
-              onSelectLocation={async (providerId, locationId) =>
-                await updateCartDeliveryPickUp({
-                  orderPickUpLocationId: locationId,
-                  deliveryProviderId: providerId,
-                })
-              }
-            />
           )}
 
           {!isAddressesMissing && !isContactDataMissing && (

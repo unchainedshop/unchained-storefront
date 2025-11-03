@@ -1,15 +1,61 @@
 import classNames from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
 import FormattedPrice from '../common/components/FormattedPrice';
+import EditableAddressPanel from './EditableAddressPanel';
+import { useState } from 'react';
 
-export default function CheckoutDeliverySelector({
+const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
+  const { formatMessage } = useIntl();
+  const [editMode, setEditMode] = useState(!currentDelivery.address);
+
+  const toggleEditMode = () => setEditMode(!editMode);
+
+  const handleSubmit = ({ __typename = null, ...address }) => {
+    onUpdateAddress(currentDelivery.provider._id, address);
+    setEditMode(false);
+  };
+
+  return (
+    <div className="mt-4 bg-white dark:bg-slate-900 rounded-lg p-4 border border-slate-200 dark:border-0 space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+          {formatMessage({
+            id: 'delivery_address',
+            defaultMessage: 'Delivery Address',
+          })}
+        </h3>
+        {!editMode && (
+          <button
+            type="button"
+            onClick={toggleEditMode}
+            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+          >
+            {formatMessage({
+              id: 'edit-address',
+              defaultMessage: 'Edit Address',
+            })}
+          </button>
+        )}
+      </div>
+
+      <EditableAddressPanel
+        editing={editMode}
+        address={currentDelivery.address || {}}
+        onSubmit={handleSubmit}
+        onToggle={toggleEditMode}
+      />
+    </div>
+  );
+};
+
+const CheckoutDeliverySelector = ({
   providers = [],
   currentDelivery,
   currencyCode = 'CHF',
-  onSelectProvider,
-  onSelectLocation,
-  isDisabled = false,
-}) {
+  onSelectProvider = null,
+  onSelectLocation = null,
+  onUpdateAddress = null,
+}) => {
   const { formatMessage } = useIntl();
 
   if (!providers.length) return null;
@@ -26,7 +72,7 @@ export default function CheckoutDeliverySelector({
         <div className="flex flex-wrap gap-2">
           {providers.map((provider) => {
             const isSelected = currentDelivery.provider?._id === provider._id;
-            const price = provider.fee || {
+            const price = provider?.simulatedPrice || {
               amount: 0,
               currencyCode,
             };
@@ -35,15 +81,15 @@ export default function CheckoutDeliverySelector({
               <button
                 key={provider._id}
                 type="button"
-                disabled={!provider.isActive || isDisabled}
+                disabled={!provider.isActive}
                 className={classNames(
                   'px-4 py-2 rounded-md border text-sm transition-colors',
                   {
                     'bg-slate-900 text-white border-slate-900': isSelected,
                     'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-white':
-                      !isSelected && provider.isActive && !isDisabled,
+                      !isSelected && provider.isActive,
                     'bg-slate-200 text-slate-400 cursor-not-allowed':
-                      !provider.isActive || isDisabled,
+                      !provider.isActive,
                   },
                 )}
                 onClick={() => onSelectProvider(provider._id)}
@@ -87,15 +133,12 @@ export default function CheckoutDeliverySelector({
                 <button
                   key={loc._id}
                   type="button"
-                  disabled={isDisabled}
                   className={classNames(
                     'px-4 py-2 rounded-md border text-left text-sm transition-colors flex-1 min-w-[150px]',
                     {
                       'bg-slate-900 text-white border-slate-900': isSelected,
                       'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-white':
-                        !isSelected && !isDisabled,
-                      'bg-slate-200 text-slate-400 cursor-not-allowed':
-                        isDisabled,
+                        !isSelected,
                     },
                   )}
                   onClick={() =>
@@ -114,6 +157,15 @@ export default function CheckoutDeliverySelector({
           </div>
         </div>
       )}
+
+      {currentDelivery?.provider?.type === 'SHIPPING' && onUpdateAddress && (
+        <ShippingAddressSelector
+          currentDelivery={currentDelivery}
+          onUpdateAddress={onUpdateAddress}
+        />
+      )}
     </div>
   );
-}
+};
+
+export default CheckoutDeliverySelector;

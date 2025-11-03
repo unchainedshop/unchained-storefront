@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client/react';
 const UpdateCartDeliveryShippingMutation = gql`
   mutation UpdateCartDeliveryShipping(
     $deliveryProviderId: ID!
-    $meta: JSON!
+    $meta: JSON
     $orderId: ID
     $address: AddressInput
   ) {
