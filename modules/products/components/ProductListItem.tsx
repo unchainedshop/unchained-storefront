@@ -71,7 +71,8 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
     {plan?.usageCalculationType && (
       <p>
         <span className="font-medium">
-          {formatMessage({ id: 'usage_type', defaultMessage: 'Usage:' })}{' '}
+          {formatMessage({ id: 'usage_type', defaultMessage: 'Usage type' })}
+          :{' '}
         </span>
         {plan.usageCalculationType}
       </p>
@@ -81,8 +82,9 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
         <span className="font-medium">
           {formatMessage({
             id: 'billing_interval',
-            defaultMessage: 'Billing:',
-          })}{' '}
+            defaultMessage: 'Billing',
+          })}
+          :{' '}
         </span>
         {plan.billingIntervalCount} {plan.billingInterval.toLowerCase()}
       </p>
@@ -94,8 +96,9 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
         <span className="font-medium">
           {formatMessage({
             id: 'trial_interval',
-            defaultMessage: 'Trial:',
-          })}{' '}
+            defaultMessage: 'Trial',
+          })}
+          :{' '}
         </span>
         {plan.trialIntervalCount} {plan.trialInterval.toLowerCase()}
       </p>

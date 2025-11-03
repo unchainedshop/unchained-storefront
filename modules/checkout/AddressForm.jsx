@@ -28,8 +28,7 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
       onSubmitError={onSubmitError}
       defaultValues={{ ...address }}
       className="space-y-6"
-    >
-      {/* Name Fields - Grouped */}
+    >      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextField
           label={formatMessage({
@@ -42,14 +41,13 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
         <TextField
           label={formatMessage({
             id: "last-name",
-            defaultMessage: "Last Name",
+            defaultMessage: "Last name",
           })}
           name="lastName"
           required
         />
       </div>
-
-      {/* Company Field */}
+      
       <div>
         <TextField
           label={`${formatMessage({
@@ -62,8 +60,7 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           name="company"
         />
       </div>
-
-      {/* Address Fields - Grouped */}
+      
       <div className="space-y-4">
         <TextField
           label={formatMessage({ id: "address", defaultMessage: "Address" })}
@@ -74,12 +71,11 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           name="addressLine2"
           placeholder={formatMessage({
             id: "address_line_2",
-            defaultMessage: "Apartment, suite, etc. (optional)",
+            defaultMessage: "Address line 2",
           })}
         />
       </div>
-
-      {/* Location Fields - Grouped */}
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <TextField
           label={formatMessage({
@@ -107,8 +103,7 @@ const AddressForm = ({ address, onSubmit, onCancel }) => {
           name="regionCode"
         />
       </div>
-
-      {/* Country Field */}
+      
       <div>
         <SelectField
           label={formatMessage({ id: "country", defaultMessage: "Country" })}

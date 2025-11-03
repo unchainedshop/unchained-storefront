@@ -187,7 +187,7 @@ const Account = () => {
                         <p className="text-sm font-medium text-slate-900 dark:text-white">
                           {formatMessage({
                             id: 'current_password',
-                            defaultMessage: 'Current Password',
+                            defaultMessage: 'Current password',
                           })}
                         </p>
                         <p className="text-sm text-slate-500 dark:text-slate-400">

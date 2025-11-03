@@ -21,7 +21,7 @@ const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
         <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
           {formatMessage({
             id: 'delivery_address',
-            defaultMessage: 'Delivery Address',
+            defaultMessage: 'Delivery address',
           })}
         </h3>
         {!editMode && (
@@ -160,6 +160,7 @@ const CheckoutDeliverySelector = ({
 
       {currentDelivery?.provider?.type === 'SHIPPING' && onUpdateAddress && (
         <ShippingAddressSelector
+          key={currentDelivery?.address}
           currentDelivery={currentDelivery}
           onUpdateAddress={onUpdateAddress}
         />

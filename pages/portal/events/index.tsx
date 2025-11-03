@@ -13,7 +13,7 @@ const PortalEvents = () => {
       <h2 className="mb-4">
         {formatMessage({
           id: 'all_events',
-          defaultMessage: 'Alle Veranstaltungen',
+          defaultMessage: 'All events',
         })}
       </h2>
       <div className="row">

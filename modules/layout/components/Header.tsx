@@ -178,7 +178,7 @@ const Header: React.FC<HeaderProps> = ({
               defaultValue=""
               placeholder={formatMessage({
                 id: 'search_placeholder',
-                defaultMessage: 'Search products...',
+                defaultMessage: 'Search...',
               })}
               className="flex-1 bg-transparent outline-none text-sm"
               autoFocus

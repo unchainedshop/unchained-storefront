@@ -53,7 +53,7 @@ const ForgotPasswordForm = () => {
         type="email"
         label={formatMessage({
           id: "email_address",
-          defaultMessage: "Email Address",
+          defaultMessage: "E-Mail",
         })}
         required
       />

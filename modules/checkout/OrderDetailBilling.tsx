@@ -26,12 +26,11 @@ const OrderDetailBilling = ({ order }) => {
 
   return (
     <div className="space-y-6">
-      {/* Billing Address */}
       <div>
         <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">
           {formatMessage({
             id: 'billing_address',
-            defaultMessage: 'Billing Address',
+            defaultMessage: 'Billing address',
           })}
         </h4>
         <div className="text-sm text-slate-900 dark:text-white space-y-1">
@@ -49,7 +48,6 @@ const OrderDetailBilling = ({ order }) => {
         </div>
       </div>
 
-      {/* Order Total */}
       <div className="border-t border-slate-200 dark:border-0 pt-6">
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">

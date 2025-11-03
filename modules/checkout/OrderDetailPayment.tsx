@@ -58,7 +58,7 @@ const OrderDetailPayment = ({ order }) => {
         <div className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-200 print:hidden">
           {formatMessage({
             id: 'payment_status',
-            defaultMessage: 'Status',
+            defaultMessage: 'Payment status',
           })}
         </div>
         <span className="mr-2 block rounded-full py-1 text-xs font-semibold leading-5 print:hidden">

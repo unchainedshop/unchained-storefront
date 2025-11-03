@@ -8,7 +8,7 @@ const AboutPage = () => {
   return (
     <>
       <MetaTags
-        title={intl.formatMessage({ id: 'about', defaultMessage: 'About' })}
+        title={intl.formatMessage({ id: 'about', defaultMessage: 'About us' })}
       />
 
       <div className="max-w-4xl mx-auto px-6 py-12">

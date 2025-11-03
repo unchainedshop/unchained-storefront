@@ -7,7 +7,6 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useIntl } from 'react-intl';
 import useUser from '../../auth/hooks/useUser';
-import CheckboxField from '../../forms/components/CheckboxField';
 import EmailField from '../../forms/components/EmailField';
 import Form from '../../forms/components/Form';
 import SubmitButton from '../../forms/components/SubmitButton';
@@ -26,7 +25,7 @@ const GuestUserFields = () => {
           className="col-md-6"
           required
           label={formatMessage({
-            id: 'email',
+            id: 'email_address',
             defaultMessage: 'E-Mail',
           })}
         />
@@ -49,7 +48,7 @@ const GuestUserFields = () => {
           type="text"
           label={formatMessage({
             id: 'first_name',
-            defaultMessage: 'Vorname',
+            defaultMessage: 'First name',
           })}
         />
         <TextField
@@ -60,7 +59,7 @@ const GuestUserFields = () => {
           type="text"
           label={formatMessage({
             id: 'last-name',
-            defaultMessage: 'Nachname',
+            defaultMessage: 'Last name',
           })}
         />
         <TextField
@@ -71,7 +70,7 @@ const GuestUserFields = () => {
           type="text"
           label={formatMessage({
             id: 'company',
-            defaultMessage: 'Unternehmen',
+            defaultMessage: 'Company',
           })}
         />
         <TextField
@@ -81,7 +80,7 @@ const GuestUserFields = () => {
           type="text"
           label={`${formatMessage({
             id: 'addressLine2',
-            defaultMessage: 'Zusatz/Abteilung/Etage/Raum',
+            defaultMessage: 'Addition/Department/Floor/Room',
           })} ${formatMessage({
             id: 'optional',
             defaultMessage: '(Optional)',
@@ -95,7 +94,7 @@ const GuestUserFields = () => {
           type="text"
           label={formatMessage({
             id: 'street',
-            defaultMessage: 'Straße',
+            defaultMessage: 'Street',
           })}
         />
         <TextField
@@ -106,7 +105,7 @@ const GuestUserFields = () => {
           type="text"
           label={formatMessage({
             id: 'postal-code',
-            defaultMessage: 'Postleitzahl',
+            defaultMessage: 'Postal code',
           })}
         />
         <TextField
@@ -117,7 +116,7 @@ const GuestUserFields = () => {
           type="text"
           label={formatMessage({
             id: 'city',
-            defaultMessage: 'Ort',
+            defaultMessage: 'City',
           })}
         />
         <TextAreaField
@@ -126,7 +125,7 @@ const GuestUserFields = () => {
           rows={5}
           label={formatMessage({
             id: 'message',
-            defaultMessage: 'Nachricht (optional)',
+            defaultMessage: 'Message',
           })}
         />
       </div>
@@ -149,21 +148,6 @@ const QuotationRequestForm = ({ product }) => {
   const { user } = useUser();
 
   const isGuestUser = !user || user?.isGuest;
-
-  const newsletterSubscriptionOptionsMap = {
-    news: formatMessage({
-      id: 'newsletter-registration-option-news',
-      defaultMessage: ' News/Angebote',
-    }),
-    device: formatMessage({
-      id: 'newsletter-registration-option-devices',
-      defaultMessage: ' Plotter/Maschinen/Geräte',
-    }),
-    paper: formatMessage({
-      id: 'newsletter-registration-option-paper',
-      defaultMessage: ' Papiere/Medien/Zubehör',
-    }),
-  };
 
   const onSubmitError = async (error) => {
     if (error?.code === 'InvalidCaptchaValue') {
@@ -193,7 +177,6 @@ const QuotationRequestForm = ({ product }) => {
   };
 
   const firstMediaUrl = product?.media?.[0]?.file?.url;
-  const isDevice = !!product?.tags?.includes('device');
 
   const onSubmit = async ({ quantity, ...contactInfo }) => {
     await requestQuotation({
@@ -235,7 +218,7 @@ const QuotationRequestForm = ({ product }) => {
                   {quantity} x
                   {formatMessage({
                     id: 'quotation-request-sent',
-                    defaultMessage: 'Angebotsanfrage gesendet',
+                    defaultMessage: 'Quotation request sent',
                   })}
                 </div>
               </div>
@@ -260,9 +243,6 @@ const QuotationRequestForm = ({ product }) => {
         postalCode: user?.contactAddress?.postalCode,
         city: user?.contactAddress?.city,
         emailAddress: user?.contactAddress?.emailAddress,
-        newsletterSubscriptionOption: user?.isGuest
-          ? Object.values(newsletterSubscriptionOptionsMap)
-          : '',
       }}
       onSubmitError={onSubmitError}
     >
@@ -304,35 +284,6 @@ const QuotationRequestForm = ({ product }) => {
               {product.salesUnit}
             </div>
           </div>
-          {isDevice ? (
-            <CheckboxField
-              name="requestShowRoomVisit"
-              id="requestShowRoomVisit"
-              label={formatMessage({
-                id: 'request-showroom-visit',
-                defaultMessage:
-                  'Ich wünsche einen Termin für eine Vorführung im Demoraum',
-              })}
-              type="checkbox"
-              className="form-check-input"
-              labelClassName="form-check-label line-height-normal"
-              wrapperClass="form-check checkbox required"
-            />
-          ) : null}
-          {isDevice ? (
-            <CheckboxField
-              name="requestAdviceByTelephone"
-              id="requestAdviceByTelephone"
-              label={formatMessage({
-                id: 'request-showroom-visit',
-                defaultMessage: 'Ich wünsche eine Beratung per Telefon',
-              })}
-              type="checkbox"
-              className="form-check-input"
-              labelClassName="form-check-label line-height-normal"
-              wrapperClass="form-check checkbox required"
-            />
-          ) : null}
         </div>
       </div>
 
@@ -345,7 +296,7 @@ const QuotationRequestForm = ({ product }) => {
           rows={5}
           label={`${formatMessage({
             id: 'message',
-            defaultMessage: 'Nachricht',
+            defaultMessage: 'Message',
           })} ${formatMessage({
             id: 'optional',
             defaultMessage: '(Optional)',
@@ -357,7 +308,7 @@ const QuotationRequestForm = ({ product }) => {
           <ChatBubbleLeftIcon className="icon mr-2 h-5 w-5" />
           {formatMessage({
             id: 'request-quotation-offer',
-            defaultMessage: 'Anfrage Angebot',
+            defaultMessage: 'Request offer',
           })}
         </SubmitButton>
       </div>

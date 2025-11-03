@@ -89,7 +89,7 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                   dateStyle: 'full',
                   timeStyle: 'medium',
                 })
-              : formatMessage({ id: 'in_cart', defaultMessage: 'In cart' })}
+              : formatMessage({ id: 'in_cart', defaultMessage: 'Cart' })}
           </span>
         </p>
         <div className="mt-2 print:hidden" aria-hidden="true">

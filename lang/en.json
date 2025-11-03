@@ -11,9 +11,6 @@
   "500-error-header": {
     "defaultMessage": "500 - Server-side error occurred"
   },
-  "79i0Kd": {
-    "defaultMessage": "Language X"
-  },
   "Delivery_status": {
     "defaultMessage": "Delivery status"
   },
@@ -30,7 +27,7 @@
     "defaultMessage": "Account"
   },
   "actions": {
-    "defaultMessage": "Aktionen"
+    "defaultMessage": "Actions"
   },
   "active_subscription": {
     "defaultMessage": "Active"
@@ -51,7 +48,7 @@
     "defaultMessage": "Optional"
   },
   "addressLine2": {
-    "defaultMessage": "Zusatz/Abteilung/Etage/Raum"
+    "defaultMessage": "Addition/Department/Floor/Room"
   },
   "address_2": {
     "defaultMessage": "Address 2"
@@ -63,7 +60,7 @@
     "defaultMessage": "Address line 2"
   },
   "all_events": {
-    "defaultMessage": "Alle Veranstaltungen"
+    "defaultMessage": "All events"
   },
   "all_products": {
     "defaultMessage": "All Products"
@@ -96,7 +93,7 @@
     "defaultMessage": "Billing address"
   },
   "billing_interval": {
-    "defaultMessage": "Billing:"
+    "defaultMessage": "Billing"
   },
   "billing_summary": {
     "defaultMessage": "Billing Summary"
@@ -115,9 +112,6 @@
   },
   "bundle_contains": {
     "defaultMessage": "Includes:"
-  },
-  "bundle_includes": {
-    "defaultMessage": "This bundle includes:"
   },
   "cancel": {
     "defaultMessage": "Cancel"
@@ -147,13 +141,13 @@
     "defaultMessage": "Choose language"
   },
   "city": {
-    "defaultMessage": "Ort"
+    "defaultMessage": "City"
   },
   "close": {
     "defaultMessage": "Close"
   },
   "company": {
-    "defaultMessage": "Unternehmen"
+    "defaultMessage": "Company"
   },
   "company-name": {
     "defaultMessage": "Company Name"
@@ -201,7 +195,7 @@
     "defaultMessage": "Currency"
   },
   "current_password": {
-    "defaultMessage": "Current Password"
+    "defaultMessage": "Current password"
   },
   "delivered": {
     "defaultMessage": "Delivered"
@@ -212,14 +206,14 @@
   "delivery": {
     "defaultMessage": "Delivery"
   },
-  "delivery-address": {
-    "defaultMessage": "Delivery address"
-  },
   "delivery_address": {
     "defaultMessage": "Delivery address"
   },
   "delivery_information": {
     "defaultMessage": "Delivery Information"
+  },
+  "delivery_method": {
+    "defaultMessage": "Delivery Method"
   },
   "delivery_status": {
     "defaultMessage": "Delivery status"
@@ -249,7 +243,7 @@
     "defaultMessage": "Download"
   },
   "download_csv": {
-    "defaultMessage": "CSV herunterladen"
+    "defaultMessage": "Download CSV"
   },
   "edit-address": {
     "defaultMessage": "Edit Address"
@@ -258,7 +252,7 @@
     "defaultMessage": "Edit Contact Data"
   },
   "email": {
-    "defaultMessage": "E-Mail"
+    "defaultMessage": "Email"
   },
   "email-address": {
     "defaultMessage": "Email Address"
@@ -363,7 +357,7 @@
     "defaultMessage": "{label} is a required field"
   },
   "first_name": {
-    "defaultMessage": "Vorname"
+    "defaultMessage": "First name"
   },
   "footer": {
     "defaultMessage": "Footer"
@@ -431,17 +425,20 @@
   "language": {
     "defaultMessage": "Language"
   },
+  "language_de": {
+    "defaultMessage": "Dutch"
+  },
   "language_en": {
     "defaultMessage": "English"
   },
   "last-name": {
-    "defaultMessage": "Nachname"
+    "defaultMessage": "Last name"
   },
   "last_Name": {
     "defaultMessage": "Last name"
   },
   "last_name": {
-    "defaultMessage": "Nachname"
+    "defaultMessage": "Last name"
   },
   "legal": {
     "defaultMessage": "Legal"
@@ -462,7 +459,7 @@
     "defaultMessage": "Check the status of recent orders, manage returns, and download invoices."
   },
   "message": {
-    "defaultMessage": "Nachricht"
+    "defaultMessage": "Message"
   },
   "method": {
     "defaultMessage": "Method"
@@ -494,20 +491,11 @@
   "new_password": {
     "defaultMessage": "New password"
   },
-  "newsletter-registration-option-devices": {
-    "defaultMessage": "Plotter/Maschinen/Geräte"
-  },
-  "newsletter-registration-option-news": {
-    "defaultMessage": "News/Angebote"
-  },
-  "newsletter-registration-option-paper": {
-    "defaultMessage": "Papiere/Medien/Zubehör"
-  },
   "newsletter-subscription-options": {
     "defaultMessage": "Newsletter Anmeldung gewünscht für:"
   },
   "no": {
-    "defaultMessage": "Nein"
+    "defaultMessage": "No"
   },
   "no-password-set-error": {
     "defaultMessage": "User password not set"
@@ -522,13 +510,16 @@
     "defaultMessage": "No products available"
   },
   "no_results_found": {
-    "defaultMessage": "Keine Ergebnisse gefunden.."
+    "defaultMessage": "No results found"
   },
   "no_search_results": {
     "defaultMessage": "No products found matching your search."
   },
   "no_user_tokens": {
     "defaultMessage": "No tokens found."
+  },
+  "not_available": {
+    "defaultMessage": "Not available"
   },
   "old_password_not_correct": {
     "defaultMessage": "Wrong password, please try again"
@@ -591,7 +582,7 @@
     "defaultMessage": "Order Summary"
   },
   "order_total": {
-    "defaultMessage": "Order total"
+    "defaultMessage": "Total"
   },
   "ordered": {
     "defaultMessage": "Ordered"
@@ -603,10 +594,10 @@
     "defaultMessage": "paid on"
   },
   "participant_list_description": {
-    "defaultMessage": "Liste aller Teilnehmer des Events."
+    "defaultMessage": "List of all participants of the event"
   },
   "participant_list_for": {
-    "defaultMessage": "Teilnehmerliste für"
+    "defaultMessage": "Participant list for"
   },
   "password": {
     "defaultMessage": "Password"
@@ -665,8 +656,14 @@
   "phone_number": {
     "defaultMessage": "Telefonnummer"
   },
+  "pickup": {
+    "defaultMessage": "Pickup"
+  },
+  "pickup_location": {
+    "defaultMessage": "Pickup Location"
+  },
   "postal-code": {
-    "defaultMessage": "Postleitzahl"
+    "defaultMessage": "Postal code"
   },
   "postal-code-or-zip": {
     "defaultMessage": "Postal Code / ZIP"
@@ -711,7 +708,7 @@
     "defaultMessage": "quotation request failed with the {error}"
   },
   "quotation-request-sent": {
-    "defaultMessage": "Angebotsanfrage gesendet"
+    "defaultMessage": "Quotation request sent"
   },
   "quotation_created": {
     "defaultMessage": "Created:"
@@ -744,10 +741,10 @@
     "defaultMessage": "Recent orders"
   },
   "redeem_ticket": {
-    "defaultMessage": "Ticket einlösen"
+    "defaultMessage": "Redeem ticket"
   },
   "redeemed": {
-    "defaultMessage": "Eingelöst?"
+    "defaultMessage": "Redeemed?"
   },
   "region": {
     "defaultMessage": "Region"
@@ -768,10 +765,7 @@
     "defaultMessage": "Remove"
   },
   "request-quotation-offer": {
-    "defaultMessage": "Anfrage Angebot"
-  },
-  "request-showroom-visit": {
-    "defaultMessage": "Ich wünsche eine Beratung per Telefon"
+    "defaultMessage": "Request offer"
   },
   "resend-another-verification": {
     "defaultMessage": "Please resend another verification email and try to verify again"
@@ -822,13 +816,16 @@
     "defaultMessage": "Enter a search term to find products."
   },
   "search_placeholder": {
-    "defaultMessage": "Search products..."
+    "defaultMessage": "Search..."
   },
   "search_products": {
     "defaultMessage": "Search Products"
   },
   "search_results_for": {
     "defaultMessage": "Results for '{query}'"
+  },
+  "selectAll": {
+    "defaultMessage": "Select all"
   },
   "select_tab": {
     "defaultMessage": "Select a tab"
@@ -890,6 +887,9 @@
   "shopping_cart": {
     "defaultMessage": "Shopping Cart"
   },
+  "showMore": {
+    "defaultMessage": "Show more"
+  },
   "sign-in": {
     "defaultMessage": "Sign in"
   },
@@ -906,10 +906,13 @@
     "defaultMessage": "Status"
   },
   "street": {
-    "defaultMessage": "Straße"
+    "defaultMessage": "Street"
   },
   "subscription_activate_error": {
     "defaultMessage": "Failed to activate subscription."
+  },
+  "subscription_billing_interval": {
+    "defaultMessage": "Billing interval"
   },
   "subscription_details_title": {
     "defaultMessage": "Subscription Details"
@@ -928,6 +931,9 @@
   },
   "subscription_terminate_error": {
     "defaultMessage": "Failed to terminate subscription."
+  },
+  "subscription_trial_interval": {
+    "defaultMessage": "Trial interval"
   },
   "subscriptions": {
     "defaultMessage": "Subscriptions"
@@ -969,16 +975,16 @@
     "defaultMessage": "<dl> <dt> Your Order Number is: </dt> <dd> {orderNumber} </dd> </dl>"
   },
   "ticket_invalidated_error_message": {
-    "defaultMessage": "Ticket bereits eingelöst oder nicht einlösbar."
+    "defaultMessage": "Ticket already redeemed or invalid"
   },
   "ticket_invalidated_success": {
-    "defaultMessage": "Ticket erfolgreich eingelöst"
+    "defaultMessage": "Ticket successfully redeemed"
   },
   "ticket_number": {
     "defaultMessage": "Ticket #"
   },
   "tickets_booked": {
-    "defaultMessage": "Tickets gebucht"
+    "defaultMessage": "Tickets booked"
   },
   "to_checkout": {
     "defaultMessage": "Checkout"
@@ -1017,7 +1023,7 @@
     "defaultMessage": "Supply:"
   },
   "trial_interval": {
-    "defaultMessage": "Trial:"
+    "defaultMessage": "Trial"
   },
   "trial_subscription": {
     "defaultMessage": "Trial"
@@ -1029,7 +1035,7 @@
     "defaultMessage": "Update Password"
   },
   "usage_type": {
-    "defaultMessage": "Usage:"
+    "defaultMessage": "Usage type"
   },
   "use-password-to-authenticate": {
     "defaultMessage": "Or Use password to authenticate"
@@ -1077,7 +1083,7 @@
     "defaultMessage": "Wallet:"
   },
   "yes": {
-    "defaultMessage": "Ja"
+    "defaultMessage": "Yes"
   },
   "your_cart_is_empty": {
     "defaultMessage": "Your cart is empty"

@@ -41,7 +41,7 @@ const SoldEventTicketListItem = ({ product }) => {
             {bookedTickets} / {totalSupply}{' '}
             {formatMessage({
               id: 'tickets_booked',
-              defaultMessage: 'Tickets gebucht',
+              defaultMessage: 'Tickets booked',
             })}
           </span>
         </div>

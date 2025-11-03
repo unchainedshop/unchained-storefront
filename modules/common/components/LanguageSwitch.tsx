@@ -6,8 +6,19 @@ import changeLanguage from '../utils/changeLanguage';
 const LanguageSwitch = () => {
   const intl = useIntl();
   const currentLang = intl.locale.split('-')[0];
-  intl.formatMessage({ id: 'language_en', defaultMessage: 'English' });
-
+  const supportedLanguages = [
+    {
+      id: 'en',
+      label: intl.formatMessage({
+        id: 'language_en',
+        defaultMessage: 'English',
+      }),
+    },
+    {
+      id: 'de',
+      label: intl.formatMessage({ id: 'language_de', defaultMessage: 'Dutch' }),
+    },
+  ];
   return (
     <div className="relative">
       <label htmlFor="language-switcher" className="sr-only">
@@ -22,12 +33,9 @@ const LanguageSwitch = () => {
         onChange={(e) => changeLanguage(e.target.value)}
         id="language-switcher"
       >
-        {['en', 'de'].map((lang) => (
-          <option key={lang} value={lang}>
-            {intl.formatMessage({
-              id: `language_${lang}`,
-              defaultMessage: 'Language X',
-            })}
+        {supportedLanguages.map((lang) => (
+          <option key={lang.id} value={lang.id}>
+            {lang.label}
           </option>
         ))}
       </select>

@@ -55,7 +55,10 @@ const DetailHeader = ({ user, contact }) => {
           {contact?.emailAddress && (
             <>
               <dt className="sr-only">
-                {formatMessage({ id: 'email', defaultMessage: 'Email' })}
+                {formatMessage({
+                  id: 'email_address',
+                  defaultMessage: 'E-Mail',
+                })}
               </dt>
               <dd className="flex items-center text-sm font-medium capitalize sm:mr-6">
                 {contact.emailAddress}

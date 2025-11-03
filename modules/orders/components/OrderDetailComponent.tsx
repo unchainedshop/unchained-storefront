@@ -373,7 +373,7 @@ const OrderDetailComponent = ({ order }) => {
                 <dt className="font-medium text-slate-900 dark:text-slate-100">
                   {formatMessage({
                     id: 'order_total',
-                    defaultMessage: 'Order total',
+                    defaultMessage: 'Total',
                   })}
                 </dt>
                 <dd className="font-medium text-slate-600 dark:text-dslate-400">

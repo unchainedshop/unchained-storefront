@@ -106,7 +106,7 @@ const EnrollmentDetailPage = () => {
           <p className="font-medium text-gray-500">
             {formatMessage({
               id: 'subscription_number',
-              defaultMessage: 'Subscription Number:',
+              defaultMessage: 'Subscription:',
             })}
           </p>
           <p>{enrollmentNumber || '—'}</p>
@@ -149,7 +149,11 @@ const EnrollmentDetailPage = () => {
               defaultMessage: 'Expired:',
             })}
           </p>
-          <p>{isExpired ? 'Yes' : 'No'}</p>
+          <p>
+            {isExpired
+              ? formatMessage({ id: 'yes', defaultMessage: 'Yes' })
+              : formatMessage({ id: 'no', defaultMessage: 'No' })}
+          </p>
         </div>
 
         <hr className="my-4" />
@@ -208,8 +212,9 @@ const EnrollmentDetailPage = () => {
             <p className="font-medium text-gray-500">
               {formatMessage({
                 id: 'product',
-                defaultMessage: 'Product:',
+                defaultMessage: 'Product',
               })}
+              :
             </p>
             {plan?.product ? (
               <Link
@@ -236,16 +241,18 @@ const EnrollmentDetailPage = () => {
                 <p className="font-medium text-gray-500">
                   {formatMessage({
                     id: 'usage_type',
-                    defaultMessage: 'Usage Type:',
+                    defaultMessage: 'Usage type',
                   })}
+                  :
                 </p>
                 <p>{plan.product.plan.usageCalculationType}</p>
 
                 <p className="font-medium text-gray-500">
                   {formatMessage({
-                    id: 'billing_interval',
-                    defaultMessage: 'Billing Interval:',
+                    id: 'subscription_billing_interval',
+                    defaultMessage: 'Billing interval',
                   })}
+                  :
                 </p>
                 <p>
                   {plan.product.plan.billingIntervalCount}{' '}
@@ -254,9 +261,10 @@ const EnrollmentDetailPage = () => {
 
                 <p className="font-medium text-gray-500">
                   {formatMessage({
-                    id: 'trial_interval',
-                    defaultMessage: 'Trial Interval:',
+                    id: 'subscription_trial_interval',
+                    defaultMessage: 'Trial interval',
                   })}
+                  :
                 </p>
                 <p>
                   {plan.product.plan.trialIntervalCount}{' '}

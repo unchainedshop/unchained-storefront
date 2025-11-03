@@ -16,7 +16,7 @@ const SoldEventTicketList = ({ eventTickets }) => {
         <p className="mt-5">
           {formatMessage({
             id: 'no_results_found',
-            defaultMessage: 'Keine Ergebnisse gefunden..',
+            defaultMessage: 'No results found',
           })}
         </p>
       ) : (

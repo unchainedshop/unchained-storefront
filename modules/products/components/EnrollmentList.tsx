@@ -75,8 +75,9 @@ const EnrollmentList = ({ enrollments }) => {
               <p className="text-gray-500 text-sm font-medium">
                 {formatMessage({
                   id: 'product',
-                  defaultMessage: 'Product:',
+                  defaultMessage: 'Product',
                 })}
+                :
               </p>
               {plan?.product ? (
                 <Link

@@ -17,7 +17,7 @@ const EventTokenList = ({ product }) => {
       toast.success(
         formatMessage({
           id: 'ticket_invalidated_success',
-          defaultMessage: 'Ticket erfolgreich eingelöst',
+          defaultMessage: 'Ticket successfully redeemed',
         }),
       );
     } catch {
@@ -25,7 +25,7 @@ const EventTokenList = ({ product }) => {
         <p className="my-0">
           {formatMessage({
             id: 'ticket_invalidated_error_message',
-            defaultMessage: 'Ticket bereits eingelöst oder nicht einlösbar.',
+            defaultMessage: 'Ticket already redeemed or invalid',
           })}
         </p>,
       );
@@ -50,7 +50,7 @@ const EventTokenList = ({ product }) => {
             id: 'phone_number',
             defaultMessage: 'Telefonnummer',
           }),
-          formatMessage({ id: 'redeemed', defaultMessage: 'Eingelöst?' }),
+          formatMessage({ id: 'redeemed', defaultMessage: 'Redeemed?' }),
           ...fieldNames,
         ].join(','),
         ...(tokens || []).map((token) =>
@@ -60,8 +60,8 @@ const EventTokenList = ({ product }) => {
             `"${token.user?.lastContact?.telNumber || ''}"`,
             `"${
               token.invalidatedDate
-                ? formatMessage({ id: 'yes', defaultMessage: 'Ja' })
-                : formatMessage({ id: 'no', defaultMessage: 'Nein' })
+                ? formatMessage({ id: 'yes', defaultMessage: 'Yes' })
+                : formatMessage({ id: 'no', defaultMessage: 'No' })
             }"`,
             ...[...fieldNames].map(
               (f: any) =>
@@ -82,14 +82,14 @@ const EventTokenList = ({ product }) => {
       <h2 className="text-2xl font-semibold text-gray-800 mb-2">
         {formatMessage({
           id: 'participant_list_for',
-          defaultMessage: 'Teilnehmerliste für',
+          defaultMessage: 'Participant list for',
         })}{' '}
         {texts?.title || ''}
       </h2>
       <p className="text-gray-500 mb-6">
         {formatMessage({
           id: 'participant_list_description',
-          defaultMessage: 'Liste aller Teilnehmer des Events.',
+          defaultMessage: 'List of all participants of the event',
         })}
       </p>
 
@@ -104,10 +104,16 @@ const EventTokenList = ({ product }) => {
                 })}
               </th>
               <th className="px-4 py-3 text-left">
-                {formatMessage({ id: 'last_name', defaultMessage: 'Nachname' })}
+                {formatMessage({
+                  id: 'last_name',
+                  defaultMessage: 'Last name',
+                })}
               </th>
               <th className="px-4 py-3 text-left">
-                {formatMessage({ id: 'first_name', defaultMessage: 'Vorname' })}
+                {formatMessage({
+                  id: 'first_name',
+                  defaultMessage: 'First name',
+                })}
               </th>
               <th className="px-4 py-3 text-left">
                 {formatMessage({
@@ -124,11 +130,11 @@ const EventTokenList = ({ product }) => {
               <th className="px-4 py-3 text-left">
                 {formatMessage({
                   id: 'redeemed',
-                  defaultMessage: 'Eingelöst?',
+                  defaultMessage: 'Redeemed?',
                 })}
               </th>
               <th className="px-4 py-3 text-right">
-                {formatMessage({ id: 'actions', defaultMessage: 'Aktionen' })}
+                {formatMessage({ id: 'actions', defaultMessage: 'Actions' })}
               </th>
             </tr>
           </thead>
@@ -158,8 +164,8 @@ const EventTokenList = ({ product }) => {
                   className={`px-4 py-3 font-semibold ${token.invalidatedDate ? 'text-green-600' : 'text-red-500'}`}
                 >
                   {token.invalidatedDate
-                    ? formatMessage({ id: 'yes', defaultMessage: 'Ja' })
-                    : formatMessage({ id: 'no', defaultMessage: 'Nein' })}
+                    ? formatMessage({ id: 'yes', defaultMessage: 'Yes' })
+                    : formatMessage({ id: 'no', defaultMessage: 'No' })}
                 </td>
                 <td className="px-4 py-3 text-right">
                   {token.isInvalidateable && user?.roles?.includes('admin') && (
@@ -170,7 +176,7 @@ const EventTokenList = ({ product }) => {
                     >
                       {formatMessage({
                         id: 'redeem_ticket',
-                        defaultMessage: 'Ticket einlösen',
+                        defaultMessage: 'Redeem ticket',
                       })}
                     </button>
                   )}
@@ -193,7 +199,7 @@ const EventTokenList = ({ product }) => {
             >
               {formatMessage({
                 id: 'download_csv',
-                defaultMessage: 'CSV herunterladen',
+                defaultMessage: 'Download CSV',
               })}
             </a>
           </div>

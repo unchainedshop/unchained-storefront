@@ -18,7 +18,7 @@ const ProductQuotationButton = ({ product }) => {
         <ChatBubbleLeftIcon className="h-5 w-5 mr-2" />
         {intl.formatMessage({
           id: 'request-quotation-offer',
-          defaultMessage: 'Request Offer',
+          defaultMessage: 'Request offer',
         })}
       </Link>
     </div>
