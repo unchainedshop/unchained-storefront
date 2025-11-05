@@ -29,7 +29,7 @@ const Checkout = () => {
   const taxesTotal = cart.taxesTotal;
   const discountTotal = cart?.totalDiscount;
   const deliveryTotal = cart.deliveryTotal;
-  const grandTotal = cart.grandTotal;  
+  const grandTotal = cart.grandTotal;
   const isDeliverySet =
     cart?.delivery?.activePickUpLocation || cart?.delivery?.address;
   const isAddressesMissing = !cart?.billingAddress?.firstName || !isDeliverySet;

@@ -6,6 +6,7 @@ import CryptopayCheckoutButton from './CryptopayCheckoutButton';
 import InvoiceCheckoutButton from './InvoiceCheckoutButton';
 import DatatransCheckoutButton from './DatatransCheckoutButton';
 import PostfinancenCheckoutButton from './PostfinancenCheckoutButton';
+import SaferpayCheckoutButton from './SaferpayCheckoutButton';
 
 const StripeCheckoutButton = dynamic(() => import('./StripeCheckoutButton'), {
   ssr: false,
@@ -18,6 +19,7 @@ const CheckoutButtons = {
   'shop.unchained.datatrans': DatatransCheckoutButton,
   'shop.unchained.payment.stripe': StripeCheckoutButton,
   'shop.unchained.payment.postfinance-checkout': PostfinancenCheckoutButton,
+  'shop.unchained.payment.saferpay': SaferpayCheckoutButton,
 };
 
 const PaymentLabels = defineMessages({
@@ -44,6 +46,10 @@ const PaymentLabels = defineMessages({
   'shop.unchained.payment.postfinance-checkout': {
     id: 'shop.unchained.payment.postfinance-checkout',
     defaultMessage: 'Online Payment Gateway (Postfinance Checkout)',
+  },
+  'shop.unchained.payment.saferpay': {
+    id: 'shop.unchained.payment.saferpay-checkout',
+    defaultMessage: 'Online Payment Gateway (Saferpay Checkout)',
   },
 });
 
@@ -98,8 +104,7 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
     } catch {
       setSelectedProvider(cart.payment?.provider?._id);
     }
-  };
-
+  };  
   const interfaceId = cart.payment?.provider?.interface?._id;
   const CheckoutButton = CheckoutButtons[interfaceId] ?? (() => null);
 

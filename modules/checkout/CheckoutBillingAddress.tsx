@@ -86,7 +86,7 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
           )}
         </div>
 
-        {billingAddressEditMode ? (
+        {deliveryAddress ? (
           <div className="mb-4">
             <label className="flex items-center">
               <input
