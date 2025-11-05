@@ -22,14 +22,17 @@ const Checkout = () => {
   const { updateCartDeliveryShipping } = useUpdateCartDeliveryShipping();
   if (error) return <ErrorMessage message="Error loading cart" />;
   if (!cart) return <Loading />;
-  const isAddressesMissing = !cart.billingAddress?.firstName;
+
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
   const itemsTotal = cart.itemsTotal;
   const taxesTotal = cart.taxesTotal;
   const discountTotal = cart?.totalDiscount;
   const deliveryTotal = cart.deliveryTotal;
-  const grandTotal = cart.grandTotal;
+  const grandTotal = cart.grandTotal;  
+  const isDeliverySet =
+    cart?.delivery?.activePickUpLocation || cart?.delivery?.address;
+  const isAddressesMissing = !cart?.billingAddress?.firstName || !isDeliverySet;
 
   return (
     <>
@@ -55,8 +58,12 @@ const Checkout = () => {
               });
             }}
           />
-
-          <CheckoutBillingAddress cart={cart} isInitial={isAddressesMissing} />
+          {isDeliverySet ? (
+            <CheckoutBillingAddress
+              cart={cart}
+              isInitial={isAddressesMissing}
+            />
+          ) : null}
           {!isAddressesMissing && (
             <CheckoutContact cart={cart} isInitial={isContactDataMissing} />
           )}

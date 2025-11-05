@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
-import getConfig from 'next/config';
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeCheckoutForm from './StripeCheckoutForm';
+import Loading from '../common/components/Loading';
 
-const {
-  publicRuntimeConfig: { publishableKey },
-} = getConfig();
-
-const stripePromise = loadStripe(publishableKey);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
+);
 
 export const SIGN_STRIPE_MUTATION = gql`
   mutation SignPaymentProviderForCheckout(
@@ -64,7 +62,7 @@ const StripeCheckoutButton = ({ order }) => {
       </Elements>
     );
   }
-  return <div>Loading...</div>;
+  return <Loading />;
 };
 
 export default StripeCheckoutButton;
