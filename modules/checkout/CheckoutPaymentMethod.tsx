@@ -90,7 +90,11 @@ const PaymentOption = ({ provider, selected, onSelect }) => {
   );
 };
 
-const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
+const CheckoutPaymentMethod = ({
+  cart,
+  disabled = false,
+  hideOptions = false,
+}) => {
   const { updateCartPayment } = useUpdateCartPayment();
   const { formatMessage } = useIntl();
   const [selectedProvider, setSelectedProvider] = useState(
@@ -104,7 +108,7 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
     } catch {
       setSelectedProvider(cart.payment?.provider?._id);
     }
-  };  
+  };
   const interfaceId = cart.payment?.provider?.interface?._id;
   const CheckoutButton = CheckoutButtons[interfaceId] ?? (() => null);
 
@@ -118,14 +122,15 @@ const CheckoutPaymentMethod = ({ cart, disabled = false }) => {
       </h2>
 
       <div className="space-y-4">
-        {cart.supportedPaymentProviders.map((provider) => (
-          <PaymentOption
-            key={provider._id}
-            provider={provider}
-            selected={selectedProvider === provider._id}
-            onSelect={handleSelect}
-          />
-        ))}
+        {!hideOptions &&
+          cart.supportedPaymentProviders.map((provider) => (
+            <PaymentOption
+              key={provider._id}
+              provider={provider}
+              selected={selectedProvider === provider._id}
+              onSelect={handleSelect}
+            />
+          ))}
       </div>
 
       {!disabled && (

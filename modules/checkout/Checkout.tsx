@@ -12,11 +12,17 @@ import useUpdateCartDeliveryPickUp from '../orders/hooks/useUpdateCartDeliveryPi
 import CheckoutDeliverySelector from './CheckoutDeliverySelector';
 import Loading from '../common/components/Loading';
 import useUpdateCartDeliveryShipping from '../orders/hooks/useUpdateCartDeliveryShipping';
+import { useRouter } from 'next/router';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
   const { formatMessage } = useIntl();
   const { error, cart } = useCart();
+  const { query } = useRouter();
+  const orderTransactionIdFromQuery = query?.transactionId as
+    | string
+    | undefined;
+
   const { updateCartDelivery } = useUpdateCartDelivery();
   const { updateCartDeliveryPickUp } = useUpdateCartDeliveryPickUp();
   const { updateCartDeliveryShipping } = useUpdateCartDeliveryShipping();
@@ -38,33 +44,35 @@ const Checkout = () => {
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <CheckoutDeliverySelector
-            providers={cart.supportedDeliveryProviders}
-            currentDelivery={cart.delivery}
-            currencyCode={cart.itemsTotal?.currencyCode}
-            onSelectProvider={(providerId) =>
-              updateCartDelivery({ deliveryProviderId: providerId })
-            }
-            onSelectLocation={async (providerId, locationId) =>
-              await updateCartDeliveryPickUp({
-                orderPickUpLocationId: locationId,
-                deliveryProviderId: providerId,
-              })
-            }
-            onUpdateAddress={async (providerId, address) => {
-              await updateCartDeliveryShipping({
-                deliveryProviderId: providerId,
-                address,
-              });
-            }}
-          />
-          {isDeliverySet ? (
+          {!orderTransactionIdFromQuery && (
+            <CheckoutDeliverySelector
+              providers={cart.supportedDeliveryProviders}
+              currentDelivery={cart.delivery}
+              currencyCode={cart.itemsTotal?.currencyCode}
+              onSelectProvider={(providerId) =>
+                updateCartDelivery({ deliveryProviderId: providerId })
+              }
+              onSelectLocation={async (providerId, locationId) =>
+                await updateCartDeliveryPickUp({
+                  orderPickUpLocationId: locationId,
+                  deliveryProviderId: providerId,
+                })
+              }
+              onUpdateAddress={async (providerId, address) => {
+                await updateCartDeliveryShipping({
+                  deliveryProviderId: providerId,
+                  address,
+                });
+              }}
+            />
+          )}
+          {isDeliverySet && !orderTransactionIdFromQuery ? (
             <CheckoutBillingAddress
               cart={cart}
               isInitial={isAddressesMissing}
             />
           ) : null}
-          {!isAddressesMissing && (
+          {!isAddressesMissing && !orderTransactionIdFromQuery && (
             <CheckoutContact cart={cart} isInitial={isContactDataMissing} />
           )}
 
@@ -72,6 +80,7 @@ const Checkout = () => {
             <CheckoutPaymentMethod
               cart={cart}
               disabled={isContactDataMissing}
+              hideOptions={!!orderTransactionIdFromQuery}
             />
           )}
         </div>

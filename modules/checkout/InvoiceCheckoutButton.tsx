@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
-import useCheckoutByInvoice from '../cart/hooks/useCheckoutByInvoice';
+import useCheckoutCart from '../cart/hooks/useCheckoutCart';
 import Button from '../common/components/Button';
 
 const InvoiceCheckoutButton = () => {
   const { formatMessage } = useIntl();
-  const { checkoutByInvoice } = useCheckoutByInvoice();
+  const { checkoutCart } = useCheckoutCart();
   const router = useRouter();
 
   const checkout = async () => {
-    const result = await checkoutByInvoice();
+    const result = await checkoutCart();
     router.replace(`/order/${result.data.checkoutCart._id}/success`);
   };
 
