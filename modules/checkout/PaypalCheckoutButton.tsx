@@ -27,7 +27,6 @@ const PaypalCheckoutButton = ({ order }) => {
         setClientId(signedCLientId);
       }
     } catch (err) {
-      console.error('Error initializing Paypal payment:', err);
       setMessage(
         formatMessage({
           id: 'payment_init_error',
@@ -56,7 +55,6 @@ const PaypalCheckoutButton = ({ order }) => {
       );
       router.replace(`/order/${result?.data?.checkoutCart?._id}/success`);
     } catch (err) {
-      console.error('Error completing order:', err);
       setMessage(
         formatMessage({
           id: 'payment_checkout_error',
@@ -88,29 +86,42 @@ const PaypalCheckoutButton = ({ order }) => {
       <PayPalScriptProvider
         options={{
           clientId,
-          currency: order?.grandTotal?.currencyCode,
-          intent: 'capture',
+          currency: order?.currencyCode,
         }}
       >
         <PayPalButtons
-          createOrder={(data, actions) =>
-            actions.order.create({
+          message={{ align: 'center' }}
+          displayOnly={['vaultable']}
+          style={{
+            shape: 'sharp',
+
+            layout: 'horizontal',
+            color: 'black',
+            label: 'checkout',
+            tagline: false,
+            disableMaxWidth: true,
+          }}
+          createOrder={async (data, actions) => {
+            return actions.order.create({
               intent: 'CAPTURE',
               purchase_units: [
                 {
                   amount: {
-                    value: (order?.grandTotal?.amount / 100).toFixed(2),
-                    currency_code: order?.grandTotal?.currencyCode,
+                    value: (order?.grandTotal?.amount / 100)
+                      .toFixed(2)
+                      .toString(),
+                    currency_code: order?.currencyCode,
                   },
+                  custom_id: order._id,
                 },
               ],
-            })
-          }
+            });
+          }}
           onApprove={async (data, actions) => {
-            await handleCompleteOrder(data.orderID);
+            await actions.order.capture();
+            await handleCompleteOrder(data?.orderID);
           }}
           onError={(err) => {
-            console.error('PayPal error:', err);
             setMessage('Error processing PayPal payment. Please try again.');
           }}
         />
