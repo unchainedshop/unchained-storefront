@@ -7,6 +7,8 @@ import InvoiceCheckoutButton from './InvoiceCheckoutButton';
 import DatatransCheckoutButton from './DatatransCheckoutButton';
 import PostfinancenCheckoutButton from './PostfinancenCheckoutButton';
 import SaferpayCheckoutButton from './SaferpayCheckoutButton';
+import PayrexxCheckoutButton from './PayrexxCheckoutButton';
+import PaypalCheckoutButton from './PaypalCheckoutButton';
 
 const StripeCheckoutButton = dynamic(() => import('./StripeCheckoutButton'), {
   ssr: false,
@@ -20,6 +22,8 @@ const CheckoutButtons = {
   'shop.unchained.payment.stripe': StripeCheckoutButton,
   'shop.unchained.payment.postfinance-checkout': PostfinancenCheckoutButton,
   'shop.unchained.payment.saferpay': SaferpayCheckoutButton,
+  'shop.unchained.payment.payrexx': PayrexxCheckoutButton,
+  'shop.unchained.payment.paypal': PaypalCheckoutButton,
 };
 
 const PaymentLabels = defineMessages({
@@ -50,6 +54,14 @@ const PaymentLabels = defineMessages({
   'shop.unchained.payment.saferpay': {
     id: 'shop.unchained.payment.saferpay-checkout',
     defaultMessage: 'Online Payment Gateway (Saferpay Checkout)',
+  },
+  'shop.unchained.payment.payrexx': {
+    id: 'shop.unchained.payment.payrexx-checkout',
+    defaultMessage: 'Online Payment Gateway (Payrexx Checkout)',
+  },
+  'shop.unchained.payment.paypal': {
+    id: 'shop.unchained.payment.paypal-checkout',
+    defaultMessage: 'Online Payment Gateway (Paypal Checkout)',
   },
 });
 

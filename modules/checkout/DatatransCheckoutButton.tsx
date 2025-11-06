@@ -1,25 +1,12 @@
-import { gql } from '@apollo/client';
-import { useMutation } from '@apollo/client/react';
 import { useIntl } from 'react-intl';
 import Button from '../common/components/Button';
-
-export const SIGN_DATATRANS_MUTATION = gql`
-  mutation SignPaymentProviderForCheckout(
-    $orderPaymentId: ID!
-    $transactionContext: JSON
-  ) {
-    signPaymentProviderForCheckout(
-      orderPaymentId: $orderPaymentId
-      transactionContext: $transactionContext
-    )
-  }
-`;
+import useSignPaymentProviderForCheckout from './hooks/useSignPaymentProviderForCheckout';
 
 const DatatransCheckoutButton = ({ order }) => {
   const { formatMessage } = useIntl();
-  const [signDatatransMutation] = useMutation<any>(SIGN_DATATRANS_MUTATION);
+  const { sign } = useSignPaymentProviderForCheckout();
 
-  const sign = async (event) => {
+  const signDatatrans = async (event) => {
     event.preventDefault();
     event.stopPropagation();
     try {
@@ -36,8 +23,9 @@ const DatatransCheckoutButton = ({ order }) => {
           errorUrl,
         },
       };
-      const { data } = await signDatatransMutation({
-        variables: { orderPaymentId: order.payment._id, transactionContext },
+      const { data } = await sign({
+        orderPaymentId: order.payment._id,
+        transactionContext,
       });
       if (data?.signPaymentProviderForCheckout) {
         const { location } = JSON.parse(
@@ -59,7 +47,7 @@ const DatatransCheckoutButton = ({ order }) => {
         id: 'pay-with-card',
         defaultMessage: 'Complete Payment',
       })}
-      onClick={sign}
+      onClick={signDatatrans}
       className="mt-6 w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium text-white shadow-xs hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2 focus:ring-offset-slate-50"
     />
   );

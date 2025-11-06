@@ -14,7 +14,9 @@ export const SIGN_SAFERPAY_MUTATION = gql`
 `;
 
 const useSignPaymentProviderForCheckout = () => {
-  const [signSaferpayMutation] = useMutation<any>(SIGN_SAFERPAY_MUTATION);
+  const [signSaferpayMutation, { data, error, loading }] = useMutation<any>(
+    SIGN_SAFERPAY_MUTATION,
+  );
 
   const sign = async ({
     orderPaymentId,
@@ -39,7 +41,7 @@ const useSignPaymentProviderForCheckout = () => {
     }
   };
 
-  return { sign };
+  return { sign, data, error, loading };
 };
 
 export default useSignPaymentProviderForCheckout;
