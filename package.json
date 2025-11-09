@@ -73,6 +73,6 @@
     "start": "next start",
     "update-schema": "npx --yes get-graphql-schema http://localhost:4010/graphql --json > schema.json && node possibleTypesGenerator.js",
     "extract-translation": "formatjs extract '(pages|modules)/**/*.{ts,tsx,jsx}' --out-file lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-    "compile-translation": "formatjs compile  ./lang/en.json  --out-file ./i18n/en.json --format custom-formatter.js"
+    "compile-translation": "formatjs compile  ./lang/en.json  --out-file ./i18n/en.json --format custom-formatter.js && node extract-missing-translation-keys.js"
   }
 }

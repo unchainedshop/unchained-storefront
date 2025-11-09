@@ -13,7 +13,7 @@ const ProductDetailFragment = gql`
         url
       }
     }
-    texts {
+    texts(forceLocale: $locale) {
       _id
       title
       subtitle
@@ -74,7 +74,7 @@ const ProductDetailFragment = gql`
             }
           }
           ...ProductPriceFragment
-          texts {
+          texts(forceLocale: $locale) {
             _id
             title
             subtitle
@@ -90,7 +90,7 @@ const ProductDetailFragment = gql`
     ... on ConfigurableProduct {
       variations {
         _id
-        texts {
+        texts(forceLocale: $locale) {
           _id
           title
           subtitle
@@ -99,7 +99,7 @@ const ProductDetailFragment = gql`
         key
         options {
           _id
-          texts {
+          texts(forceLocale: $locale) {
             _id
             title
             subtitle

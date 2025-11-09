@@ -2,14 +2,20 @@ import { gql } from '@apollo/client';
 import ProductDetailFragment from '../fragments/ProductFragment';
 import { useQuery } from '@apollo/client/react';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import { useIntl } from 'react-intl';
 
 export const EventDetailQuery = gql`
-  query Event($slug: String, $productId: ID, $currency: String) {
+  query Event(
+    $slug: String
+    $productId: ID
+    $currency: String
+    $locale: Locale
+  ) {
     product(slug: $slug, productId: $productId) {
       _id
       tags
       status
-      texts {
+      texts(forceLocale: $locale) {
         _id
         title
         slug
@@ -22,13 +28,13 @@ export const EventDetailQuery = gql`
         file {
           url
         }
-        texts {
+        texts(forceLocale: $locale) {
           _id
           title
         }
       }
       ... on TokenizedProduct {
-        texts {
+        texts(forceLocale: $locale) {
           _id
           slug
           title
@@ -73,14 +79,14 @@ export const EventDetailQuery = gql`
         variations {
           _id
           key
-          texts {
+          texts(forceLocale: $locale) {
             _id
             title
           }
           options {
             _id
             value
-            texts {
+            texts(forceLocale: $locale) {
               _id
               title
             }
@@ -90,7 +96,7 @@ export const EventDetailQuery = gql`
           _id
           product {
             _id
-            texts {
+            texts(forceLocale: $locale) {
               _id
               slug
               title
@@ -104,7 +110,7 @@ export const EventDetailQuery = gql`
             option {
               _id
               value
-              texts {
+              texts(forceLocale: $locale) {
                 _id
                 title
               }
@@ -112,7 +118,7 @@ export const EventDetailQuery = gql`
             variation {
               _id
               key
-              texts {
+              texts(forceLocale: $locale) {
                 _id
                 title
               }
@@ -127,8 +133,9 @@ export const EventDetailQuery = gql`
 
 const useEventDetail = ({ productId }) => {
   const { selectedCurrency } = useAppContext();
+  const { locale } = useIntl();
   const { loading, error, data } = useQuery<any>(EventDetailQuery, {
-    variables: { productId, currency: selectedCurrency },
+    variables: { productId, currency: selectedCurrency, locale },
     skip: !productId,
   });
 

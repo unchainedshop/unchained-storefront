@@ -15,7 +15,7 @@ const TokenFragment = gql`
     product {
       _id
       tags
-      texts {
+      texts(forceLocale: $locale) {
         _id
         slug
         title
