@@ -3,8 +3,13 @@ import FormattedPrice from '../common/components/FormattedPrice';
 import ImageWithFallback from '../common/components/ImageWithFallback';
 import getProductHref from '../common/utils/getProductHref';
 import { PhotoIcon } from '@heroicons/react/20/solid';
+import getEngineURL from '../common/utils/getEngineURL';
 
 const OrderDetailItem = ({ item }) => {
+  const engineURL = getEngineURL();
+  const printTicketUrl = item?.tokens
+    ? `${engineURL.origin}/rest/print_tickets?orderId=${item?.order?._id}&otp=not-needed`
+    : null;
   return (
     <Link
       href={getProductHref(item.product.texts.slug)}
@@ -43,6 +48,20 @@ const OrderDetailItem = ({ item }) => {
         {/* Price */}
         <div className="text-sm font-medium text-slate-900 dark:text-white">
           <FormattedPrice price={item?.unitPrice} />
+        </div>
+        <div className="d-flex justify-content-center gap-3">
+          {printTicketUrl && (
+            <a
+              href={printTicketUrl}
+              target="_blank"
+              type="button"
+              className="button button--secondary"
+              rel="noreferrer"
+            >
+              Tickets ausdrucken
+            </a>
+          )}
+          {/* <PassPrint url={htmlUrl} /> */}
         </div>
       </div>
     </Link>

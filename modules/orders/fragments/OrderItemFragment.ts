@@ -1,8 +1,12 @@
 import { gql } from '@apollo/client';
+import TokenFragment from '../../products/fragments/TokenFragment';
 
 const OrderItemFragment = gql`
   fragment OrderItemDetails on OrderItem {
     _id
+    order {
+      _id
+    }
     product {
       _id
       texts(forceLocale: $locale) {
@@ -20,6 +24,9 @@ const OrderItemFragment = gql`
           url
         }
       }
+    }
+    tokens {
+      ...TokenFragment
     }
     quantity
     discounts {
@@ -48,6 +55,7 @@ const OrderItemFragment = gql`
       currencyCode
     }
   }
+  ${TokenFragment}
 `;
 
 export default OrderItemFragment;

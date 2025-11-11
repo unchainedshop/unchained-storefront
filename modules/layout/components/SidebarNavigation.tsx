@@ -74,6 +74,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
       href: '/bookmarks',
     },
     {
+      id: 'orders',
+      label: formatMessage({ id: 'my_orders', defaultMessage: 'My orders' }),
+      href: '/orders',
+    },
+    {
       id: 'quotations',
       label: formatMessage({
         id: 'quotations',
