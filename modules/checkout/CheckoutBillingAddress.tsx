@@ -18,7 +18,8 @@ const areAddressesEqual = (deliveryAddress = {}, billingAddress = {}) => {
 const CheckoutBillingAddress = ({ cart, isInitial }) => {
   const { formatMessage } = useIntl();
   const [lastBillingAddress, setLastBillingAddress] = useState(null);
-  const [billingAddressEditMode, setBillingAddressEditMode] = useState(false);
+  const [billingAddressEditMode, setBillingAddressEditMode] =
+    useState(isInitial);
   const { updateCartBillingAddress } = useUpdateCartBillingAddress();
 
   const deliveryAddress = cart.delivery?.address
@@ -62,58 +63,56 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
 
   return (
     <div className="space-y-8">
-      {!isInitial && (
-        <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-medium text-slate-900 dark:text-white">
-              {formatMessage({
-                id: 'billing-address',
-                defaultMessage: 'Billing address',
+      <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-medium text-slate-900 dark:text-white">
+            {formatMessage({
+              id: 'billing-address',
+              defaultMessage: 'Billing address',
+            })}
+          </h2>
+          {!billingAddressEditMode && (
+            <Button
+              type="button"
+              variant="link"
+              onClick={toggleBillingAddressEditMode}
+              text={formatMessage({
+                id: 'edit-address',
+                defaultMessage: 'Edit Address',
               })}
-            </h2>
-            {!billingAddressEditMode && (
-              <Button
-                type="button"
-                variant="link"
-                onClick={toggleBillingAddressEditMode}
-                text={formatMessage({
-                  id: 'edit-address',
-                  defaultMessage: 'Edit Address',
-                })}
-                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                fullWidth={false}
-              />
-            )}
-          </div>
-
-          {deliveryAddress ? (
-            <div className="mb-4">
-              <label className="flex items-center">
-                <input
-                  key={isBillingAddressSame.toString()}
-                  id="isBillingAddressSame"
-                  type="checkbox"
-                  defaultChecked={isBillingAddressSame}
-                  onChange={toggleBillingAddress}
-                  className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-0 dark:bg-slate-700"
-                />
-                <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {formatMessage({
-                    id: 'billing-same-as-delivery',
-                    defaultMessage: 'Billing Address Same as Delivery',
-                  })}
-                </span>
-              </label>
-            </div>
-          ) : null}
-          <EditableAddressPanel
-            editing={billingAddressEditMode}
-            address={billingAddress}
-            onSubmit={updateBillingAddress}
-            onToggle={toggleBillingAddressEditMode}
-          />
+              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              fullWidth={false}
+            />
+          )}
         </div>
-      )}
+
+        {deliveryAddress ? (
+          <div className="mb-4">
+            <label className="flex items-center">
+              <input
+                key={isBillingAddressSame.toString()}
+                id="isBillingAddressSame"
+                type="checkbox"
+                defaultChecked={isBillingAddressSame}
+                onChange={toggleBillingAddress}
+                className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-0 dark:bg-slate-700"
+              />
+              <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+                {formatMessage({
+                  id: 'billing-same-as-delivery',
+                  defaultMessage: 'Billing Address Same as Delivery',
+                })}
+              </span>
+            </label>
+          </div>
+        ) : null}
+        <EditableAddressPanel
+          editing={billingAddressEditMode}
+          address={billingAddress}
+          onSubmit={updateBillingAddress}
+          onToggle={toggleBillingAddressEditMode}
+        />
+      </div>
     </div>
   );
 };

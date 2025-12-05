@@ -5,7 +5,7 @@ const LoadedFilterFragment = gql`
     definition {
       type
       _id
-      texts {
+      texts(forceLocale: $locale) {
         _id
         title
       }
@@ -18,7 +18,7 @@ const LoadedFilterFragment = gql`
     options {
       definition {
         _id
-        texts {
+        texts(forceLocale: $locale) {
           _id
           title
         }

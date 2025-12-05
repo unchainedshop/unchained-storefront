@@ -7,7 +7,7 @@ const AssortmentPathFragment = gql`
       link {
         parent {
           _id
-          texts {
+          texts(forceLocale: $locale) {
             _id
             title
             slug
@@ -22,7 +22,7 @@ export const ProductAssortmentPathFragment = gql`
   fragment ProductAssortmentPathFragment on ProductAssortmentPath {
     links {
       assortmentId
-      assortmentTexts {
+      assortmentTexts(forceLocale: $locale) {
         _id
         title
         slug
@@ -31,7 +31,7 @@ export const ProductAssortmentPathFragment = gql`
       link {
         parent {
           _id
-          texts {
+          texts(forceLocale: $locale) {
             _id
             title
             slug
@@ -39,7 +39,7 @@ export const ProductAssortmentPathFragment = gql`
         }
         child {
           _id
-          texts {
+          texts(forceLocale: $locale) {
             _id
             title
             slug

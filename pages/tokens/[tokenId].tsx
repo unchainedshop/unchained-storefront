@@ -5,15 +5,16 @@ import { useIntl } from 'react-intl';
 import Link from 'next/link';
 import defaultNextImageLoader from '../../modules/common/utils/defaultNextImageLoader';
 import Image from 'next/image';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, QrCodeIcon } from '@heroicons/react/24/outline';
 import useFormatDateTime from '../../modules/common/utils/useFormatDateTime';
+import Badge from '../../modules/common/components/Badge';
 
 const TokenDetailPage = () => {
   const router = useRouter();
   const { formatDateTime } = useFormatDateTime();
   const { formatMessage } = useIntl();
   const { token, loading } = useToken({ tokenId: router.query?.tokenId });
-
+  console.log(token);
   if (loading) return <Loading />;
 
   const {
@@ -60,6 +61,20 @@ const TokenDetailPage = () => {
         </h2>
 
         <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+          <InfoItem
+            id="zugangscode_anzeigend"
+            label=" Zugangscode anzeigen"
+            value={
+              <a
+                href={`/download/${_id}?hash=${accessKey}`}
+                className="button button--primary my-5"
+              >
+                Zugangscode anzeigen
+                <QrCodeIcon className="ms-3 icon icon--bigger icon--qr-code-scan--mini" />
+              </a>
+            }
+            formatMessage={formatMessage}
+          />
           <InfoItem
             id="token_id"
             label="ID"
@@ -157,6 +172,7 @@ const TokenDetailPage = () => {
               </Link>
             }
           />
+
           <InfoItem
             id="product_subtitle"
             label="Subtitle"

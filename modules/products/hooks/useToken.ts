@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client';
 import ProductDetailFragment from '../fragments/ProductFragment';
 import { useQuery } from '@apollo/client/react';
+import { useIntl } from 'react-intl';
+import { useAppContext } from '../../common/components/AppContextWrapper';
 
 export const TokenQuery = gql`
-  query TokenScanInfo($tokenId: ID!) {
+  query TokenScanInfo($tokenId: ID!, $locale: Locale, $currency: String) {
     token(tokenId: $tokenId) {
       _id
       status
@@ -28,7 +30,7 @@ export const TokenQuery = gql`
             supply
             ercMetadataProperties
           }
-          texts {
+          texts(forceLocale: $locale) {
             _id
             slug
             title
@@ -52,8 +54,10 @@ export const TokenQuery = gql`
 `;
 
 const useToken = ({ tokenId, hash = null }) => {
+  const { locale } = useIntl();
+  const { selectedCurrency } = useAppContext();
   const { data, error, loading } = useQuery<any>(TokenQuery, {
-    variables: { tokenId },
+    variables: { tokenId, locale, currency: selectedCurrency },
     notifyOnNetworkStatusChange: true,
   });
   return {

@@ -57,7 +57,6 @@ const CheckoutDeliverySelector = ({
   onUpdateAddress = null,
 }) => {
   const { formatMessage } = useIntl();
-
   if (!providers.length) return null;
 
   return (

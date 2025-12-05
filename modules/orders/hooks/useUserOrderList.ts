@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client/react';
 import OrderFragment from '../fragments/OrderFragment';
 
 export const USER_ORDERS_QUERY = gql`
-  query UserOrders {
+  query UserOrders($currency: String) {
     me {
       _id
       orders {
@@ -16,7 +16,7 @@ export const USER_ORDERS_QUERY = gql`
   ${OrderFragment}
 `;
 
-const useOrderList = () => {
+const useUserOrderList = () => {
   const { data, loading, error } = useQuery<any>(USER_ORDERS_QUERY);
 
   return {
@@ -26,4 +26,4 @@ const useOrderList = () => {
   };
 };
 
-export default useOrderList;
+export default useUserOrderList;

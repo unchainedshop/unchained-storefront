@@ -12,17 +12,23 @@ import useUpdateCartDeliveryPickUp from '../orders/hooks/useUpdateCartDeliveryPi
 import CheckoutDeliverySelector from './CheckoutDeliverySelector';
 import Loading from '../common/components/Loading';
 import useUpdateCartDeliveryShipping from '../orders/hooks/useUpdateCartDeliveryShipping';
+import { useRouter } from 'next/router';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
   const { formatMessage } = useIntl();
   const { error, cart } = useCart();
+  const { query } = useRouter();
+  const orderTransactionIdFromQuery = query?.transactionId as
+    | string
+    | undefined;
+
   const { updateCartDelivery } = useUpdateCartDelivery();
   const { updateCartDeliveryPickUp } = useUpdateCartDeliveryPickUp();
   const { updateCartDeliveryShipping } = useUpdateCartDeliveryShipping();
   if (error) return <ErrorMessage message="Error loading cart" />;
   if (!cart) return <Loading />;
-  const isAddressesMissing = !cart.billingAddress?.firstName;
+
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
   const itemsTotal = cart.itemsTotal;
@@ -30,34 +36,43 @@ const Checkout = () => {
   const discountTotal = cart?.totalDiscount;
   const deliveryTotal = cart.deliveryTotal;
   const grandTotal = cart.grandTotal;
+  const isDeliverySet =
+    cart?.delivery?.activePickUpLocation || cart?.delivery?.address;
+  const isAddressesMissing = !cart?.billingAddress?.firstName || !isDeliverySet;
 
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <CheckoutDeliverySelector
-            providers={cart.supportedDeliveryProviders}
-            currentDelivery={cart.delivery}
-            currencyCode={cart.itemsTotal?.currencyCode}
-            onSelectProvider={(providerId) =>
-              updateCartDelivery({ deliveryProviderId: providerId })
-            }
-            onSelectLocation={async (providerId, locationId) =>
-              await updateCartDeliveryPickUp({
-                orderPickUpLocationId: locationId,
-                deliveryProviderId: providerId,
-              })
-            }
-            onUpdateAddress={async (providerId, address) => {
-              await updateCartDeliveryShipping({
-                deliveryProviderId: providerId,
-                address,
-              });
-            }}
-          />
-
-          <CheckoutBillingAddress cart={cart} isInitial={isAddressesMissing} />
-          {!isAddressesMissing && (
+          {!orderTransactionIdFromQuery && (
+            <CheckoutDeliverySelector
+              providers={cart.supportedDeliveryProviders}
+              currentDelivery={cart.delivery}
+              currencyCode={cart.itemsTotal?.currencyCode}
+              onSelectProvider={(providerId) =>
+                updateCartDelivery({ deliveryProviderId: providerId })
+              }
+              onSelectLocation={async (providerId, locationId) =>
+                await updateCartDeliveryPickUp({
+                  orderPickUpLocationId: locationId,
+                  deliveryProviderId: providerId,
+                })
+              }
+              onUpdateAddress={async (providerId, address) => {
+                await updateCartDeliveryShipping({
+                  deliveryProviderId: providerId,
+                  address,
+                });
+              }}
+            />
+          )}
+          {isDeliverySet && !orderTransactionIdFromQuery ? (
+            <CheckoutBillingAddress
+              cart={cart}
+              isInitial={isAddressesMissing}
+            />
+          ) : null}
+          {!isAddressesMissing && !orderTransactionIdFromQuery && (
             <CheckoutContact cart={cart} isInitial={isContactDataMissing} />
           )}
 
@@ -65,6 +80,7 @@ const Checkout = () => {
             <CheckoutPaymentMethod
               cart={cart}
               disabled={isContactDataMissing}
+              hideOptions={!!orderTransactionIdFromQuery}
             />
           )}
         </div>

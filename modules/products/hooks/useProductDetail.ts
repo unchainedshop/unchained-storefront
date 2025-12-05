@@ -5,9 +5,10 @@ import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import { useIntl } from 'react-intl';
 
 const PRODUCT_DETAIL_QUERY = gql`
-  query ProductDetails($slug: String, $currency: String) {
+  query ProductDetails($slug: String, $currency: String, $locale: Locale) {
     product(slug: $slug) {
       status
       tags
@@ -32,7 +33,7 @@ const PRODUCT_DETAIL_QUERY = gql`
           _id
           product {
             _id
-            texts {
+            texts(forceLocale: $locale) {
               _id
               title
               slug
@@ -56,13 +57,13 @@ const PRODUCT_DETAIL_QUERY = gql`
           _id
           variations {
             key
-            texts {
+            texts(forceLocale: $locale) {
               _id
               title
             }
             options {
               value
-              texts {
+              texts(forceLocale: $locale) {
                 _id
                 title
               }
@@ -72,7 +73,7 @@ const PRODUCT_DETAIL_QUERY = gql`
             _id
             product {
               _id
-              texts {
+              texts(forceLocale: $locale) {
                 _id
                 title
                 slug
@@ -104,8 +105,9 @@ const PRODUCT_DETAIL_QUERY = gql`
 
 const useProductDetail = ({ slug }) => {
   const { selectedCurrency } = useAppContext();
+  const { locale } = useIntl();
   const { data, loading, error } = useQuery<any>(PRODUCT_DETAIL_QUERY, {
-    variables: { slug, currency: selectedCurrency },
+    variables: { slug, currency: selectedCurrency, locale },
   });
 
   const paths = (data?.product?.assortmentPaths || []).flat().pop()?.links;

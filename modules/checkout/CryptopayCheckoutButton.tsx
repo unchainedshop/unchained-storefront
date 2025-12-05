@@ -1,21 +1,16 @@
 import { useState, useEffect } from 'react';
 import { gql } from '@apollo/client';
-import { useLazyQuery, useMutation } from '@apollo/client/react';
+import { useLazyQuery } from '@apollo/client/react';
 import useQRCodeGenerator from 'react-hook-qrcode-svg';
 import { useRouter } from 'next/router';
 import Portal from '../common/components/Portal';
 import formatPrice from '../common/utils/formatPrice';
 import Loading from '../common/components/Loading';
+import useSignPaymentProviderForCheckout from './hooks/useSignPaymentProviderForCheckout';
 
 const QRCODE_SIZE = 256;
 const QRCODE_LEVEL = 'Q';
 const QRCODE_BORDER = 4;
-
-export const SIGN_CRYPTOPAY_MUTATION = gql`
-  mutation SignPaymentProviderForCheckout($orderPaymentId: ID!) {
-    signPaymentProviderForCheckout(orderPaymentId: $orderPaymentId)
-  }
-`;
 
 export const CHECK_ORDER_STATUS_QUERY = gql`
   query CheckOrderStatus($orderId: ID!) {
@@ -144,9 +139,7 @@ const PayWithCryptoButton = ({ sign }) => (
 const CryptopayCheckoutButton = ({ order }) => {
   const router = useRouter();
   const [showPaymentInformation, setShowPaymentInformation] = useState(false);
-  const [signCryptopayMutation, { data }] = useMutation<any>(
-    SIGN_CRYPTOPAY_MUTATION,
-  );
+  const { sign, data } = useSignPaymentProviderForCheckout();
 
   const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery<any>(
     CHECK_ORDER_STATUS_QUERY,
@@ -165,10 +158,10 @@ const CryptopayCheckoutButton = ({ order }) => {
 
   const { amount } = order.total || {};
 
-  const sign = async () => {
+  const signCryptopay = async () => {
     try {
-      await signCryptopayMutation({
-        variables: { orderPaymentId: order.payment._id },
+      await sign({
+        orderPaymentId: order.payment._id,
       });
       setShowPaymentInformation(true);
       await pollOrder({ variables: { orderId: order._id } });
@@ -315,7 +308,7 @@ const CryptopayCheckoutButton = ({ order }) => {
         </Portal>
       )}
 
-      <PayWithCryptoButton sign={sign} />
+      <PayWithCryptoButton sign={signCryptopay} />
     </>
   );
 };

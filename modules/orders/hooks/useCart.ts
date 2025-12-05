@@ -3,9 +3,10 @@ import { useQuery } from '@apollo/client/react';
 import OrderDeliveryPickUpFragment from '../fragments/OrderDeliveryPickUpFragment';
 import AddressFragment from '../../common/fragments/AddressFragment';
 import OrderDeliveryShippingFragment from '../fragments/OrderDeliveryShippingFragment';
+import { useIntl } from 'react-intl';
 
 export const CART_CHECKOUT_QUERY = gql`
-  query CartCheckout {
+  query CartCheckout($locale: Locale) {
     me {
       _id
       cart {
@@ -23,7 +24,7 @@ export const CART_CHECKOUT_QUERY = gql`
           }
           product {
             _id
-            texts {
+            texts(forceLocale: $locale) {
               title
               subtitle
             }
@@ -171,10 +172,12 @@ export const CART_CHECKOUT_QUERY = gql`
 `;
 
 const useCart = () => {
+  const { locale } = useIntl();
   const { loading, error, data, previousData } = useQuery<any>(
     CART_CHECKOUT_QUERY,
     {
       notifyOnNetworkStatusChange: true,
+      variables: { locale },
     },
   );
 

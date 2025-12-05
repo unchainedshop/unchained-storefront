@@ -137,6 +137,9 @@
   "checkout": {
     "defaultMessage": "Checkout"
   },
+  "checkout_payment": {
+    "defaultMessage": "Checkout Payment"
+  },
   "choose_language": {
     "defaultMessage": "Choose language"
   },
@@ -151,6 +154,9 @@
   },
   "company-name": {
     "defaultMessage": "Company Name"
+  },
+  "complete_order": {
+    "defaultMessage": "Complete Order"
   },
   "conditions": {
     "defaultMessage": "Terms & Conditions"
@@ -175,6 +181,9 @@
   },
   "continue_shopping": {
     "defaultMessage": "Continue Shopping"
+  },
+  "continue_to_payment": {
+    "defaultMessage": "Continue to Payment"
   },
   "contract_address": {
     "defaultMessage": "Address:"
@@ -629,6 +638,9 @@
   "pay-with-card": {
     "defaultMessage": "Complete Payment"
   },
+  "pay_now": {
+    "defaultMessage": "Pay now"
+  },
   "payment": {
     "defaultMessage": "Payment"
   },
@@ -638,11 +650,44 @@
   "payment-method": {
     "defaultMessage": "Payment method"
   },
+  "payment_checkout_error": {
+    "defaultMessage": "Error completing the order. Please try again."
+  },
+  "payment_completed": {
+    "defaultMessage": "Payment completed successfully!"
+  },
+  "payment_error": {
+    "defaultMessage": "Something went wrong."
+  },
+  "payment_failed": {
+    "defaultMessage": "Your payment was not successful, please try again."
+  },
   "payment_fee": {
     "defaultMessage": "Payment Fee"
   },
+  "payment_init_error": {
+    "defaultMessage": "Error initializing payment. Please try again."
+  },
+  "payment_init_failed": {
+    "defaultMessage": "Payment initialization failed."
+  },
+  "payment_preparing": {
+    "defaultMessage": "Preparing payment..."
+  },
+  "payment_processing": {
+    "defaultMessage": "Your payment is processing."
+  },
+  "payment_ready_to_complete": {
+    "defaultMessage": "Payment authorization complete. Click below to finalize your order."
+  },
   "payment_status": {
     "defaultMessage": "Payment status"
+  },
+  "payment_succeeded": {
+    "defaultMessage": "Payment succeeded!"
+  },
+  "payment_validation_error": {
+    "defaultMessage": "Validation error occurred."
   },
   "pending": {
     "defaultMessage": "Pending"
@@ -679,6 +724,9 @@
   },
   "privacy": {
     "defaultMessage": "Privacy Policy"
+  },
+  "processing_payment": {
+    "defaultMessage": "Processing..."
   },
   "product": {
     "defaultMessage": "Product"
@@ -830,6 +878,9 @@
   "select_tab": {
     "defaultMessage": "Select a tab"
   },
+  "selected": {
+    "defaultMessage": "Selected"
+  },
   "send-order": {
     "defaultMessage": "Send Order"
   },
@@ -872,8 +923,17 @@
   "shop.unchained.payment.cryptopay": {
     "defaultMessage": "Cryptocurrencies"
   },
+  "shop.unchained.payment.paypal-checkout": {
+    "defaultMessage": "Online Payment Gateway (Paypal Checkout)"
+  },
+  "shop.unchained.payment.payrexx-checkout": {
+    "defaultMessage": "Online Payment Gateway (Payrexx Checkout)"
+  },
   "shop.unchained.payment.postfinance-checkout": {
     "defaultMessage": "Online Payment Gateway (Postfinance Checkout)"
+  },
+  "shop.unchained.payment.saferpay-checkout": {
+    "defaultMessage": "Online Payment Gateway (Saferpay Checkout)"
   },
   "shop.unchained.payment.stripe": {
     "defaultMessage": "Online Payment Gateway (Stripe)"
@@ -1027,6 +1087,9 @@
   },
   "trial_subscription": {
     "defaultMessage": "Trial"
+  },
+  "unexpected_error": {
+    "defaultMessage": "An unexpected error occurred."
   },
   "update": {
     "defaultMessage": "Update"
