@@ -91,7 +91,7 @@ const EnrollmentDetailFragment = gql`
       }
       product {
         _id
-        texts(forceLocale: $locale) {
+        texts {
           _id
           title
           slug

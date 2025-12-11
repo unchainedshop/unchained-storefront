@@ -1,10 +1,9 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import QuotationFragment from '../../products/fragments/QuotationFragment';
-import { useIntl } from 'react-intl';
 
 export const USER_QUOTATIONS_QUERY = gql`
-  query UserQuotations($locale: Locale) {
+  query UserQuotations {
     me {
       _id
       quotations {
@@ -16,10 +15,7 @@ export const USER_QUOTATIONS_QUERY = gql`
 `;
 
 const useUserQuotations = () => {
-  const { locale } = useIntl();
-  const { data, loading, error } = useQuery<any>(USER_QUOTATIONS_QUERY, {
-    variables: { locale },
-  });
+  const { data, loading, error } = useQuery<any>(USER_QUOTATIONS_QUERY);
 
   return {
     loading,

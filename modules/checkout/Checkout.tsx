@@ -103,7 +103,7 @@ const Checkout = () => {
                         {item.product.media?.[0]?.file?.url ? (
                           <img
                             src={item.product.media[0].file.url}
-                            alt={item.product.texts.title}
+                            alt={item.product.texts?.title || ''}
                             className="w-full h-full object-cover"
                           />
                         ) : (
@@ -117,9 +117,9 @@ const Checkout = () => {
 
                       <div className="flex-1 min-w-0">
                         <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
-                          {item.product.texts.title}
+                          {item.product.texts?.title || 'Untitled Product'}
                         </h3>
-                        {item.product.texts.subtitle && (
+                        {item.product.texts?.subtitle && (
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                             {item.product.texts.subtitle}
                           </p>

@@ -2,7 +2,6 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
-import { useIntl } from 'react-intl';
 
 export const EventsQuery = gql`
   query Events(
@@ -10,7 +9,6 @@ export const EventsQuery = gql`
     $queryString: String
     $limit: Int
     $currency: String
-    $locale: Locale
   ) {
     products(
       tags: $tags
@@ -19,7 +17,7 @@ export const EventsQuery = gql`
       limit: $limit
     ) {
       _id
-      texts(forceLocale: $locale) {
+      texts {
         _id
         slug
         title
@@ -55,7 +53,7 @@ export const EventsQuery = gql`
         }
         products {
           _id
-          texts(forceLocale: $locale) {
+          texts {
             _id
             slug
             title
@@ -75,14 +73,14 @@ export const EventsQuery = gql`
         variations {
           _id
           key
-          texts(forceLocale: $locale) {
+          texts {
             _id
             title
           }
           options {
             _id
             value
-            texts(forceLocale: $locale) {
+            texts {
               _id
               title
             }
@@ -92,7 +90,7 @@ export const EventsQuery = gql`
           _id
           product {
             _id
-            texts(forceLocale: $locale) {
+            texts {
               _id
               slug
               title
@@ -107,7 +105,7 @@ export const EventsQuery = gql`
             option {
               _id
               value
-              texts(forceLocale: $locale) {
+              texts {
                 _id
                 title
               }
@@ -115,7 +113,7 @@ export const EventsQuery = gql`
             variation {
               _id
               key
-              texts(forceLocale: $locale) {
+              texts {
                 _id
                 title
               }
@@ -130,12 +128,10 @@ export const EventsQuery = gql`
 
 const useEvents = () => {
   const { selectedCurrency } = useAppContext();
-  const { locale } = useIntl();
   const { loading, error, data } = useQuery(EventsQuery, {
     variables: {
       tags: ['event'],
       currency: selectedCurrency,
-      locale,
     },
   });
 

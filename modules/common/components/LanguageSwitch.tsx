@@ -16,7 +16,7 @@ const LanguageSwitch = () => {
     },
     {
       id: 'de',
-      label: intl.formatMessage({ id: 'language_de', defaultMessage: 'Dutch' }),
+      label: intl.formatMessage({ id: 'language_de', defaultMessage: 'Deutsch' }),
     },
   ];
   return (

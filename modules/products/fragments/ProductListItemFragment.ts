@@ -12,7 +12,7 @@ const ProductListItemFragment = gql`
         url
       }
     }
-    texts(forceLocale: $locale) {
+    texts {
       _id
       title
       subtitle
@@ -24,7 +24,7 @@ const ProductListItemFragment = gql`
     }
     ...ProductPriceFragment
     ... on PlanProduct {
-      texts(forceLocale: $locale) {
+      texts {
         _id
         title
         subtitle
@@ -36,7 +36,7 @@ const ProductListItemFragment = gql`
       }
     }
     ... on SimpleProduct {
-      texts(forceLocale: $locale) {
+      texts {
         _id
         title
         subtitle
@@ -55,7 +55,7 @@ const ProductListItemFragment = gql`
     }
 
     ... on BundleProduct {
-      texts(forceLocale: $locale) {
+      texts {
         _id
         title
         subtitle
@@ -67,7 +67,7 @@ const ProductListItemFragment = gql`
       }
     }
     ... on ConfigurableProduct {
-      texts(forceLocale: $locale) {
+      texts {
         _id
         title
         subtitle

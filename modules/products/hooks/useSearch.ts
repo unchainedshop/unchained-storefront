@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import LoadedFilterFragment from '../fragments/LoadedFilterFragment';
-import { useIntl } from 'react-intl';
 
 const SearchQuery = gql`
   query Search(
@@ -11,7 +10,6 @@ const SearchQuery = gql`
     $offset: Int
     $currency: String
     $filterQuery: [FilterQueryInput!]
-    $locale: Locale
   ) {
     searchProducts(queryString: $queryString, filterQuery: $filterQuery) {
       productsCount
@@ -30,7 +28,6 @@ const SearchQuery = gql`
 
 const useSearch = ({ queryString, filterQuery = [] }) => {
   const { selectedCurrency } = useAppContext();
-  const { locale } = useIntl();
   const { loading, error, data, networkStatus, previousData } = useQuery<any>(
     SearchQuery,
     {
@@ -39,7 +36,6 @@ const useSearch = ({ queryString, filterQuery = [] }) => {
         offset: 0,
         filterQuery,
         currency: selectedCurrency,
-        locale,
       },
     },
   );

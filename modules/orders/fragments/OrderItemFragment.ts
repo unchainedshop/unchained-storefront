@@ -9,7 +9,7 @@ const OrderItemFragment = gql`
     }
     product {
       _id
-      texts(forceLocale: $locale) {
+      texts {
         _id
         slug
         brand

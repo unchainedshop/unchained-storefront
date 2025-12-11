@@ -7,7 +7,6 @@ import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 import AssortmentPathFragment from '../fragments/AssortmentPath';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import LoadedFilterFragment from '../../products/fragments/LoadedFilterFragment';
-import { useIntl } from 'react-intl';
 
 export const ASSORTMENT_PRODUCTS_QUERY = gql`
   query AssortmentsProducts(
@@ -17,7 +16,6 @@ export const ASSORTMENT_PRODUCTS_QUERY = gql`
     $currency: String
     $filterQuery: [FilterQueryInput!]
     $queryString: String
-    $locale: Locale
   ) {
     assortment(slug: $slugs) {
       ...AssortmentFragment
@@ -66,7 +64,6 @@ const useAssortmentProducts = (
   },
 ) => {
   const { selectedCurrency } = useAppContext();
-  const { locale } = useIntl();
   const { data, loading, error, fetchMore, previousData } = useQuery<any>(
     ASSORTMENT_PRODUCTS_QUERY,
     {
@@ -78,7 +75,6 @@ const useAssortmentProducts = (
         currency: selectedCurrency,
         filterQuery,
         queryString,
-        locale,
       },
     },
   );

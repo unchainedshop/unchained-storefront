@@ -4,7 +4,6 @@ import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 import { useAppContext } from '../../common/components/AppContextWrapper';
-import { useIntl } from 'react-intl';
 
 export const PRODUCTS_QUERY = gql`
   query Products(
@@ -12,7 +11,6 @@ export const PRODUCTS_QUERY = gql`
     $limit: Int
     $queryString: String
     $currency: String
-    $locale: Locale
   ) {
     products(tags: $tags, limit: $limit, queryString: $queryString) {
       _id
@@ -30,14 +28,12 @@ export const PRODUCTS_QUERY = gql`
 
 const useProducts = ({ tags = [], limit = 50, queryString = null } = {}) => {
   const { selectedCurrency } = useAppContext();
-  const { locale } = useIntl();
   const { data, loading, error } = useQuery<any>(PRODUCTS_QUERY, {
     variables: {
       tags: tags.length > 0 ? tags : undefined,
       limit,
       queryString,
       currency: selectedCurrency,
-      locale,
     },
   });
 
