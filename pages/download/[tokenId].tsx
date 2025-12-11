@@ -1,10 +1,8 @@
-import { useSearchParams } from 'next/navigation';
 import getEngineURL from '../../modules/common/utils/getEngineURL';
 import Ticket from '../../modules/products/components/Ticket';
 import { useRouter } from 'next/router';
 
-const DownloadPage = ({ params }) => {
-  const searchParams = useSearchParams();
+const DownloadPage = () => {
   const { query } = useRouter();
   const engineURL = getEngineURL(true);
   const frontendURL = new URL(

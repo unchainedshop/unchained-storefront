@@ -1,9 +1,6 @@
-import getConfig from 'next/config';
 import React, { useState, useContext, useMemo, useCallback } from 'react';
 
-const {
-  publicRuntimeConfig: { disableEmailSupport },
-} = getConfig();
+const disableEmailSupport = process.env.NEXT_PUBLIC_DISABLE_EMAIL_PROCESSES === 'true';
 
 type AppContextType = {
   isCartOpen: boolean;

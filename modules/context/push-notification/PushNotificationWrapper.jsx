@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 import React, {
   useEffect,
   useMemo,
@@ -93,7 +93,7 @@ const PushNotificationWrapper = ({ children }) => {
         .register("/service-worker.js")
         .then((registration) => {
           console.info("Service worker registered:", registration);
-          // eslint-disable-next-line no-param-reassign
+           
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             installingWorker.onstatechange = () => {

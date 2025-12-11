@@ -37,7 +37,7 @@ const GetCurrentStep = ({
               id="password"
               name="password"
               type="password"
-              autoFocus // eslint-disable-line
+              autoFocus  
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
