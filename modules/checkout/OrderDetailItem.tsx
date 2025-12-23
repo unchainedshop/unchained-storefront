@@ -8,7 +8,7 @@ import getEngineURL from '../common/utils/getEngineURL';
 const OrderDetailItem = ({ item }) => {
   const engineURL = getEngineURL();
   const printTicketUrl = item?.tokens
-    ? `${engineURL.origin}/rest/print_tickets?orderId=${item?.order?._id}&otp=not-needed`
+    ? `${engineURL.origin}/rest/print_tickets/?orderId=${item?.order?._id}&otp=not-needed`
     : null;
   return (
     <Link
@@ -49,7 +49,7 @@ const OrderDetailItem = ({ item }) => {
         <div className="text-sm font-medium text-slate-900 dark:text-white">
           <FormattedPrice price={item?.unitPrice} />
         </div>
-        <div className="d-flex justify-content-center gap-3">
+        <div className="d-flex justify-content-center gap-3">          
           {printTicketUrl && (
             <a
               href={printTicketUrl}
@@ -57,6 +57,7 @@ const OrderDetailItem = ({ item }) => {
               type="button"
               className="button button--secondary"
               rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
               Tickets ausdrucken
             </a>
