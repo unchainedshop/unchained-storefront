@@ -14,21 +14,32 @@ const Ticket = ({ barcodeUrl, pkpassUrl, googlePassUrl }) => {
       }, 1000);
     }
   }, []);
+
   return (
     <div
-      className="text-center mt-0 mx-auto p-3"
       hidden={!barcodeUrl}
-      style={{
-        maxWidth: '360px',
-      }}
+      className="mx-auto flex flex-col items-center rounded-2xl bg-white px-4 py-6 text-center shadow-sm"
+      style={{ maxWidth: '360px' }}
     >
-      <h1 className="my-0">gastro.zuerich</h1>
-      <h2 className="mb-0 fs-5 color-black">QR Code am Eingang vorweisen</h2>
-      <AddToWalletButton href={pkpassUrl} />
-      <div className="py-5">
+      <h1 className="text-lg font-semibold tracking-tight text-gray-900">
+        Unchained Store
+      </h1>
+
+      <p className="mt-1 text-sm text-gray-600">
+        QR Code
+      </p>
+
+      <div className="mt-4 w-full">
+        <AddToWalletButton href={pkpassUrl} />
+      </div>
+
+      <div className="my-6 w-56 h-56 rounded-xl border bg-white p-3">
         <QRCode value={barcodeUrl} />
       </div>
-      <AddToGoogleWalletButton href={googlePassUrl} />
+
+      <div className="w-full">
+        <AddToGoogleWalletButton href={googlePassUrl} />
+      </div>
     </div>
   );
 };

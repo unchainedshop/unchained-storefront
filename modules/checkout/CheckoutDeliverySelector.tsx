@@ -11,7 +11,7 @@ const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
   const toggleEditMode = () => setEditMode(!editMode);
 
   const handleSubmit = ({ __typename = null, ...address }) => {
-    onUpdateAddress(currentDelivery.provider._id, address);
+    onUpdateAddress(currentDelivery?.provider?._id, address);
     setEditMode(false);
   };
 
@@ -70,7 +70,7 @@ const CheckoutDeliverySelector = ({
         </h3>
         <div className="flex flex-wrap gap-2">
           {providers.map((provider) => {
-            const isSelected = currentDelivery.provider?._id === provider._id;
+            const isSelected = currentDelivery?.provider?._id === provider._id;
             const price = provider?.simulatedPrice || {
               amount: 0,
               currencyCode,
@@ -116,7 +116,7 @@ const CheckoutDeliverySelector = ({
         </div>
       </div>
 
-      {currentDelivery.pickUpLocations?.length > 0 && onSelectLocation && (
+      {currentDelivery?.pickUpLocations?.length > 0 && onSelectLocation && (
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
             {formatMessage({

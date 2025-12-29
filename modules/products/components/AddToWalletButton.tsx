@@ -17,21 +17,21 @@ const AddToWalletButton = ({
   }, []);
 
   if (!appleWalletSupported) return null;
+
   return (
     <a
-      className={className}
       href={href}
-      style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: 55 / 17,
-        display: 'block',
-      }}
+      aria-label="Add to Apple Wallet"
+      className={`relative block w-full overflow-hidden rounded-lg transition
+        hover:opacity-90 active:scale-[0.99] ${className}`}
+      style={{ aspectRatio: '55 / 17' }}
     >
       <Image
-        src="/img/DE_Add_to_Apple_Wallet_RGB_101421.svg"
+        src="/apple-wallet.svg"
         alt="Add to Apple Wallet"
         fill
+        priority
+        className="object-contain"
       />
     </a>
   );

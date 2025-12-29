@@ -7,14 +7,13 @@ import defaultNextImageLoader from '../../modules/common/utils/defaultNextImageL
 import Image from 'next/image';
 import { PhotoIcon, QrCodeIcon } from '@heroicons/react/24/outline';
 import useFormatDateTime from '../../modules/common/utils/useFormatDateTime';
-import Badge from '../../modules/common/components/Badge';
 
 const TokenDetailPage = () => {
   const router = useRouter();
   const { formatDateTime } = useFormatDateTime();
   const { formatMessage } = useIntl();
   const { token, loading } = useToken({ tokenId: router.query?.tokenId });
-  console.log(token);
+
   if (loading) return <Loading />;
 
   const {
@@ -31,184 +30,141 @@ const TokenDetailPage = () => {
     ercMetadata,
   } = token;
 
-  const statusColor =
+  const statusClasses =
     status === 'CENTRALIZED'
-      ? 'bg-green-100 text-green-700 border-green-300'
-      : 'bg-yellow-100 text-yellow-700 border-yellow-300';
+      ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
+      : 'bg-amber-50 text-amber-700 ring-amber-200';
 
   const productImage =
     ercMetadata?.image || product?.media?.[0]?.file?.url || null;
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4 md:gap-0">
-        <h1 className="text-3xl font-bold text-gray-800">
-          {formatMessage({
-            id: 'token_detail_title',
-            defaultMessage: 'Token Detail',
-          })}
-        </h1>
-        <span
-          className={`text-sm px-3 py-1 border rounded-full font-medium ${statusColor}`}
-        >
-          {status}
-        </span>
-      </div>
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="mx-auto max-w-5xl space-y-8">        
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {formatMessage({
+              id: 'token_detail_title',
+              defaultMessage: 'Token Detail',
+            })}
+          </h1>
 
-      <section className="bg-white p-6 rounded-2xl shadow-sm mb-8 border border-gray-100">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          🪙 {formatMessage({ id: 'token_info', defaultMessage: 'Token Info' })}
-        </h2>
-
-        <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
-          <InfoItem
-            id="zugangscode_anzeigend"
-            label=" Zugangscode anzeigen"
-            value={
-              <a
-                href={`/download/${_id}?hash=${accessKey}`}
-                className="button button--primary my-5"
-              >
-                Zugangscode anzeigen
-                <QrCodeIcon className="ms-3 icon icon--bigger icon--qr-code-scan--mini" />
-              </a>
-            }
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_id"
-            label="ID"
-            value={_id}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_quantity"
-            label="Quantity"
-            value={quantity}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_serial"
-            label="Serial"
-            value={tokenSerialNumber}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_wallet"
-            label="Wallet Address"
-            value={walletAddress || 'N/A'}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_chain_id"
-            label="Chain ID"
-            value={chainId}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_access_key"
-            label="Access Key"
-            value={<span className="break-all">{accessKey}</span>}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_invalidated_date"
-            label="Invalidated Date"
-            value={formatDateTime(invalidatedDate) || 'N/A'}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="token_expiry_date"
-            label="Expiry Date"
-            value={formatDateTime(expiryDate) || 'N/A'}
-            formatMessage={formatMessage}
-          />
-        </dl>
-      </section>
-
-      <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          🛍️{' '}
-          {formatMessage({
-            id: 'product_info',
-            defaultMessage: 'Product Info',
-          })}
-        </h2>
-
-        <div className="relative w-full h-64 mb-6 rounded-xl overflow-hidden bg-gray-100">
-          {productImage ? (
-            <Image
-              src={productImage}
-              alt={product.texts?.title || 'Product Image'}
-              fill
-              style={{ objectFit: 'cover' }}
-              loader={defaultNextImageLoader}
-              className="transition-transform duration-200 hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center">
-              <PhotoIcon className="w-16 h-16 text-slate-400" />
-            </div>
-          )}
+          <span
+            className={`inline-flex items-center rounded-full px-4 py-1 text-sm font-medium ring-1 ${statusClasses}`}
+          >
+            {status}
+          </span>
         </div>
+        
+        <Section title="🪙 Token Info">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <InfoItem
+              id="zugangscode_anzeigend"
+              label="Zugangscode anzeigen"
+              formatMessage={formatMessage}
+              value={
+                <a
+                  href={`/download/${_id}?hash=${accessKey}`}
+                  className="inline-flex items-center gap-2 rounded-lg bg-slate-600 px-4 py-2 text-white font-medium  hover:bg-slate-700 transition"
+                  
+                >
+                  Zugangscode anzeigen
+                  <QrCodeIcon className="h-5 w-5" />
+                </a>
+              }
+            />
 
-        <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
-          <InfoItem
-            id="product_id"
-            label="Product ID"
-            value={product._id}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="product_title"
-            label="Title"
-            formatMessage={formatMessage}
-            value={
-              <Link
-                href={`/product/${product.texts.slug}`}
-                className="text-blue-600 hover:text-blue-800 underline transition-colors"
-              >
-                {product.texts.title}
-              </Link>
-            }
-          />
+            <InfoItem id="token_id" label="ID" value={_id} formatMessage={formatMessage} />
+            <InfoItem id="token_quantity" label="Quantity" value={quantity} formatMessage={formatMessage} />
+            <InfoItem id="token_serial" label="Serial" value={tokenSerialNumber} formatMessage={formatMessage} />
+            <InfoItem id="token_wallet" label="Wallet Address" value={walletAddress || 'N/A'} formatMessage={formatMessage} />
+            <InfoItem id="token_chain_id" label="Chain ID" value={chainId} formatMessage={formatMessage} />
+            <InfoItem
+              id="token_access_key"
+              label="Access Key"
+              value={<span className="break-all font-mono text-sm">{accessKey}</span>}
+              formatMessage={formatMessage}
+            />
+            <InfoItem
+              id="token_invalidated_date"
+              label="Invalidated Date"
+              value={formatDateTime(invalidatedDate) || 'N/A'}
+              formatMessage={formatMessage}
+            />
+            <InfoItem
+              id="token_expiry_date"
+              label="Expiry Date"
+              value={formatDateTime(expiryDate) || 'N/A'}
+              formatMessage={formatMessage}
+            />
+          </div>
+        </Section>
+        
+        <Section title="🛍️ Product Info">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">            
+            <div className="relative h-64 w-full overflow-hidden rounded-xl bg-gray-100">
+              {productImage ? (
+                <Image
+                  src={productImage}
+                  alt={product.texts?.title || 'Product Image'}
+                  fill
+                  loader={defaultNextImageLoader}
+                  className="object-cover transition-transform duration-300 hover:scale-105"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <PhotoIcon className="h-14 w-14 text-gray-400" />
+                </div>
+              )}
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <InfoItem id="product_id" label="Product ID" value={product._id} formatMessage={formatMessage} />
 
-          <InfoItem
-            id="product_subtitle"
-            label="Subtitle"
-            value={product.texts.subtitle}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="product_contract_standard"
-            label="Contract Standard"
-            value={product.contractStandard}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="product_contract_address"
-            label="Contract Address"
-            value={product.contractAddress}
-            formatMessage={formatMessage}
-          />
-          <InfoItem
-            id="product_token_id"
-            label="Token ID"
-            value={product.contractConfiguration.tokenId}
-            formatMessage={formatMessage}
-          />
-        </dl>
-      </section>
+              <InfoItem
+                id="product_title"
+                label="Title"
+                formatMessage={formatMessage}
+                value={
+                  <Link
+                    href={`/product/${product.texts.slug}`}
+                    className="text-blue-600 hover:text-blue-800 font-medium underline"
+                  >
+                    {product.texts.title}
+                  </Link>
+                }
+              />
+
+              <InfoItem id="product_subtitle" label="Subtitle" value={product.texts.subtitle} formatMessage={formatMessage} />
+              <InfoItem id="product_contract_standard" label="Contract Standard" value={product.contractStandard} formatMessage={formatMessage} />
+              <InfoItem id="product_contract_address" label="Contract Address" value={product.contractAddress} formatMessage={formatMessage} />
+              <InfoItem
+                id="product_token_id"
+                label="Token ID"
+                value={product.contractConfiguration.tokenId}
+                formatMessage={formatMessage}
+              />
+            </div>
+          </div>
+        </Section>
+      </div>
     </div>
   );
 };
 
+const Section = ({ title, children }) => (
+  <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm space-y-6">
+    <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+    {children}
+  </section>
+);
+
 const InfoItem = ({ id, label, value, formatMessage }) => (
   <div>
-    <dt className="font-semibold text-gray-800 text-sm uppercase tracking-wide mb-1">
-      {formatMessage({ id, defaultMessage: `${label}:` })}
+    <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">
+      {formatMessage({ id, defaultMessage: label })}
     </dt>
-    <dd className="text-gray-700 break-words">{value}</dd>
+    <dd className="text-gray-900 break-words">{value}</dd>
   </div>
 );
 
