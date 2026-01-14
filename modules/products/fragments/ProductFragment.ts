@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
-import ProductPriceFragment from './ProductPriceFragment';
+import { gql } from "@apollo/client";
+import ProductPriceFragment from "./ProductPriceFragment";
 
 const ProductDetailFragment = gql`
   fragment ProductDetailFragment on Product {
@@ -28,10 +28,12 @@ const ProductDetailFragment = gql`
       created
       deleted
       updated
-
       rating
       title
       review
+      author {
+        username
+      }
     }
     ... on TokenizedProduct {
       contractConfiguration {

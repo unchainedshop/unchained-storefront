@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "assets": {
+    "media_1768343521154_mqvutc": {
+      "filename": "2026/01/media_1768343521150_84vwli.jpeg",
+      "originalName": "verbrauchsmaterial.jpeg",
+      "mimeType": "image/jpeg",
+      "size": 112313,
+      "dimensions": {
+        "width": 1408,
+        "height": 768
+      },
+      "altText": "",
+      "title": "verbrauchsmaterial",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768343521154_mqvutc",
+      "createdAt": "2026-01-13T22:32:01.154Z",
+      "updatedAt": "2026-01-13T22:32:01.154Z",
+      "usageCount": 0
+    },
+    "media_1768343573344_8rbqmi": {
+      "filename": "2026/01/media_1768343573333_zsk1d3.png",
+      "originalName": "unchained-logo-2025-square.png",
+      "mimeType": "image/png",
+      "size": 9544,
+      "dimensions": {
+        "width": 458,
+        "height": 458
+      },
+      "altText": "",
+      "title": "unchained-logo-2025-square",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768343573344_8rbqmi",
+      "createdAt": "2026-01-13T22:32:53.344Z",
+      "updatedAt": "2026-01-13T22:32:53.344Z",
+      "usageCount": 0
+    },
+    "media_1768343628374_jaje2m": {
+      "filename": "2026/01/media_1768343628106_rwziyw.jpg",
+      "originalName": "vedi.jpg",
+      "mimeType": "image/jpeg",
+      "size": 63859,
+      "dimensions": {
+        "width": 621,
+        "height": 621
+      },
+      "altText": "",
+      "title": "vedi",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768343628374_jaje2m",
+      "createdAt": "2026-01-13T22:33:48.374Z",
+      "updatedAt": "2026-01-13T22:33:48.374Z",
+      "usageCount": 0
+    },
+    "media_1768343795461_h712k3": {
+      "filename": "2026/01/media_1768343794763_r6rlmr.avif",
+      "originalName": "modular.avif",
+      "mimeType": "image/avif",
+      "size": 385038,
+      "dimensions": {
+        "width": 1200,
+        "height": 1200
+      },
+      "altText": "",
+      "title": "modular",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768343795461_h712k3",
+      "createdAt": "2026-01-13T22:36:35.461Z",
+      "updatedAt": "2026-01-13T22:36:35.461Z",
+      "usageCount": 0
+    },
+    "media_1768343804614_wd2dp0": {
+      "filename": "2026/01/media_1768343804182_yt5c80.jpg",
+      "originalName": "vedi-westhive-2024.jpg",
+      "mimeType": "image/jpeg",
+      "size": 683696,
+      "dimensions": {
+        "width": 1280,
+        "height": 1920
+      },
+      "altText": "",
+      "title": "vedi-westhive-2024",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768343804614_wd2dp0",
+      "createdAt": "2026-01-13T22:36:44.614Z",
+      "updatedAt": "2026-01-13T22:36:44.614Z",
+      "usageCount": 0
+    }
+  },
+  "folders": {
+    "folder_1768343948837_vkazwt": {
+      "name": "sali",
+      "slug": "sali",
+      "parentId": null,
+      "id": "folder_1768343948837_vkazwt",
+      "createdAt": "2026-01-13T22:39:08.837Z",
+      "updatedAt": "2026-01-13T22:39:08.837Z"
+    }
+  },
+  "tags": [],
+  "lastUpdated": "2026-01-13T22:39:08.841Z"
+}

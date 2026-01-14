@@ -1,29 +1,30 @@
-import { useRouter } from 'next/router';
-import { useIntl } from 'react-intl';
-import Markdown from 'react-markdown';
-import { useState } from 'react';
+import { useRouter } from "next/router";
+import { useIntl } from "react-intl";
+import Markdown from "react-markdown";
+import { useState } from "react";
 
-import useUser from '../../modules/auth/hooks/useUser';
-import useProductDetail from '../../modules/products/hooks/useProductDetail';
-import useConditionalBookmarkProduct from '../../modules/cart/hooks/useConditionalBookmarkProduct';
-import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
+import useUser from "../../modules/auth/hooks/useUser";
+import useProductDetail from "../../modules/products/hooks/useProductDetail";
+import useConditionalBookmarkProduct from "../../modules/cart/hooks/useConditionalBookmarkProduct";
+import useRemoveBookmark from "../../modules/common/hooks/useRemoveBookmark";
 
-import MetaTags from '../../modules/common/components/MetaTags';
-import Loading from '../../modules/common/components/Loading';
-import NotFound from '../404';
-import AssortmentBreadcrumbs from '../../modules/assortment/components/AssortmentBreadcrumbs';
-import ProductPrice from '../../modules/common/components/ProductPrice';
-import ProductVariants from '../../modules/products/components/ProductVariants';
+import MetaTags from "../../modules/common/components/MetaTags";
+import Loading from "../../modules/common/components/Loading";
+import NotFound from "../404";
+import AssortmentBreadcrumbs from "../../modules/assortment/components/AssortmentBreadcrumbs";
+import ProductPrice from "../../modules/common/components/ProductPrice";
+import ProductVariants from "../../modules/products/components/ProductVariants";
 
-import getAssortmentPath from '../../modules/assortment/utils/getAssortmentPath';
-import getMediaUrl from '../../modules/common/utils/getMediaUrl';
-import ProductBundleItems from '../../modules/products/components/ProductBundleItems';
-import ProductQuotationButton from '../../modules/products/components/ProductQuotationButton';
-import ProductImageGallery from '../../modules/products/components/ProductImageGallery';
-import ProductVariationSelector from '../../modules/products/components/ProductVariationSelector';
-import BookmarkButton from '../../modules/products/components/BookmarkButton';
-import ProductSiblings from '../../modules/products/components/ProductSiblings';
-import ProductAddToCart from '../../modules/products/components/ProductAddToCart';
+import getAssortmentPath from "../../modules/assortment/utils/getAssortmentPath";
+import getMediaUrl from "../../modules/common/utils/getMediaUrl";
+import ProductBundleItems from "../../modules/products/components/ProductBundleItems";
+import ProductQuotationButton from "../../modules/products/components/ProductQuotationButton";
+import ProductImageGallery from "../../modules/products/components/ProductImageGallery";
+import ProductVariationSelector from "../../modules/products/components/ProductVariationSelector";
+import BookmarkButton from "../../modules/products/components/BookmarkButton";
+import ProductSiblings from "../../modules/products/components/ProductSiblings";
+import ProductAddToCart from "../../modules/products/components/ProductAddToCart";
+import ProductReviews from "../../modules/products/components/ProductReviews";
 
 const Detail = () => {
   const router = useRouter();
@@ -42,14 +43,14 @@ const Detail = () => {
   if (!product && !loading) {
     return (
       <NotFound
-        page={intl.formatMessage({ id: 'product', defaultMessage: 'Product' })}
+        page={intl.formatMessage({ id: "product", defaultMessage: "Product" })}
       />
     );
   }
 
   const productPath = getAssortmentPath(paths);
-  const isBundle = product?.__typename === 'BundleProduct';
-  const isConfigurable = product?.__typename === 'ConfigurableProduct';
+  const isBundle = product?.__typename === "BundleProduct";
+  const isConfigurable = product?.__typename === "ConfigurableProduct";
 
   const [filteredBookmark] =
     user?.bookmarks?.filter(
@@ -116,8 +117,8 @@ const Detail = () => {
                       {isBundle && (
                         <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
                           {intl.formatMessage({
-                            id: 'bundle_badge',
-                            defaultMessage: 'Bundle',
+                            id: "bundle_badge",
+                            defaultMessage: "Bundle",
                           })}
                         </span>
                       )}
@@ -125,7 +126,7 @@ const Detail = () => {
                     <h2
                       className="text-lg text-slate-600 dark:text-slate-300 mb-4"
                       dangerouslySetInnerHTML={{
-                        __html: product?.texts?.subtitle || '',
+                        __html: product?.texts?.subtitle || "",
                       }}
                     />
                   </div>
@@ -200,6 +201,7 @@ const Detail = () => {
 
           <ProductBundleItems product={product} />
           <ProductSiblings product={product} />
+          <ProductReviews reviews={product?.reviews} />
         </div>
       )}
     </>

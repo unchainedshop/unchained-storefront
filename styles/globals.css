@@ -64,3 +64,176 @@
   width: 100% !important;
   line-height: 1.15;
 }
+
+/* Modal animations - fast and smooth */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Rainbow gradient animation */
+@keyframes rainbow-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Light rainbow gradient - softer pastel colors */
+.rainbow-gradient {
+  background: linear-gradient(
+    90deg,
+    #ff9a9e,
+    #fecfef,
+    #a8edea,
+    #fed6e3,
+    #d299c2,
+    #a8c0ff,
+    #ffecd2,
+    #ff9a9e
+  );
+  background-size: 400% 400%;
+  animation: rainbow-shift 12s ease infinite;
+}
+
+/* Rainbow border effect using box-shadow */
+.rainbow-border {
+  position: relative;
+  box-shadow:
+    0 0 0 2px #ff9a9e,
+    0 0 0 3px #a8edea,
+    0 0 0 4px #a8c0ff;
+  animation: rainbow-border-shift 8s ease infinite;
+}
+
+@keyframes rainbow-border-shift {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px #ff9a9e,
+      0 0 0 3px #a8edea,
+      0 0 0 4px #a8c0ff;
+  }
+  33% {
+    box-shadow:
+      0 0 0 2px #fecfef,
+      0 0 0 3px #d299c2,
+      0 0 0 4px #ff9a9e;
+  }
+  66% {
+    box-shadow:
+      0 0 0 2px #a8edea,
+      0 0 0 3px #a8c0ff,
+      0 0 0 4px #fecfef;
+  }
+}
+
+/* Active rainbow state - animated background */
+.rainbow-active:active,
+.rainbow-focus:focus {
+  background: linear-gradient(
+    90deg,
+    #ff9a9e,
+    #fecfef,
+    #a8edea,
+    #fed6e3,
+    #d299c2,
+    #a8c0ff,
+    #ffecd2,
+    #ff9a9e
+  );
+  background-size: 400% 400%;
+  animation: rainbow-shift 8s ease infinite;
+}
+
+/* Rainbow ring effect for focus states */
+.rainbow-ring {
+  position: relative;
+}
+
+.rainbow-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 154, 158, 0.4),
+    0 0 0 3px rgba(168, 237, 234, 0.4), 0 0 0 3px rgba(162, 192, 255, 0.4);
+}
+
+/* Subtle rainbow shimmer on hover */
+.rainbow-shimmer:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 154, 158, 0.15),
+    rgba(254, 207, 239, 0.15),
+    rgba(168, 237, 234, 0.15),
+    rgba(162, 192, 255, 0.15),
+    rgba(255, 154, 158, 0.15)
+  );
+  background-size: 400% 400%;
+  animation: rainbow-shift 10s ease infinite;
+}
+
+/* Rainbow pill/badge - for selected tabs, tags, labels */
+.rainbow-pill {
+  background: linear-gradient(
+    90deg,
+    #ff9a9e,
+    #fecfef,
+    #a8edea,
+    #fed6e3,
+    #d299c2,
+    #a8c0ff,
+    #ffecd2,
+    #ff9a9e
+  ) !important;
+  background-size: 400% 400% !important;
+  background-color: transparent !important;
+  animation: rainbow-shift 12s ease infinite;
+  color: #1e293b !important;
+}
+
+/* Rainbow hover state for interactive elements */
+.rainbow-hover:hover {
+  border-color: #f9a8d4;
+  background-color: rgba(252, 231, 243, 0.5);
+}
+
+.dark .rainbow-hover:hover {
+  border-color: rgba(244, 114, 182, 0.6);
+  background-color: rgba(219, 39, 119, 0.1);
+}
+
+/* Rainbow text on hover */
+.rainbow-text-hover:hover {
+  color: #ec4899;
+}
+
+.dark .rainbow-text-hover:hover {
+  color: #f472b6;
+}
+
+/* Rainbow text when parent group is hovered */
+.group:hover .rainbow-text-group {
+  color: #ec4899;
+}
+
+.dark .group:hover .rainbow-text-group {
+  color: #f472b6;
+}

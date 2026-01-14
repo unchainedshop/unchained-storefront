@@ -1,22 +1,27 @@
-import React from 'react';
-import { Toaster } from 'react-hot-toast';
-import { ApolloProvider } from '@apollo/client/react';
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import { ApolloProvider } from "@apollo/client/react";
 
-import IntlWrapper from '../modules/i18n/components/IntlWrapper';
-import { useApollo } from '../modules/apollo/apolloClient';
-import Layout from '../modules/layout/components/Layout';
-import getMessages from '../modules/i18n/utils/getMessages';
-import { AppContextWrapper } from '../modules/common/components/AppContextWrapper';
+import IntlWrapper from "../modules/i18n/components/IntlWrapper";
+import { useApollo } from "../modules/apollo/apolloClient";
+import Layout from "../modules/layout/components/Layout";
+import getMessages from "../modules/i18n/utils/getMessages";
+import { AppContextWrapper } from "../modules/common/components/AppContextWrapper";
 
-import '../styles/globals.css';
-import PushNotificationWrapper from '../modules/context/push-notification/PushNotificationWrapper';
+import "../styles/globals.css";
+import PushNotificationWrapper from "../modules/context/push-notification/PushNotificationWrapper";
 
 const UnchainedApp = ({ Component, pageProps, router }) => {
   const apollo = useApollo(pageProps, { locale: router.locale });
   const messages = getMessages(router.locale);
 
   // Check if the current page has hero section based on route
-  const hasHeroSection = router.pathname === '/';
+  const hasHeroSection = router.pathname === "/";
+
+  // Check if we're on admin pages routes (skip layout for full-screen editor)
+  const isPageBuilder =
+    router.pathname === "/admin/pages" ||
+    router.pathname.startsWith("/admin/pages/");
 
   return (
     <IntlWrapper locale={router.locale} messages={messages} key="intl-provider">
@@ -24,9 +29,13 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
         <ApolloProvider client={apollo}>
           <PushNotificationWrapper>
             <Toaster />
-            <Layout hasHeroSection={hasHeroSection}>
+            {isPageBuilder ? (
               <Component {...pageProps} />
-            </Layout>
+            ) : (
+              <Layout hasHeroSection={hasHeroSection}>
+                <Component {...pageProps} />
+              </Layout>
+            )}
           </PushNotificationWrapper>
         </ApolloProvider>
       </AppContextWrapper>

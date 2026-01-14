@@ -1,0 +1,46 @@
+{
+  "id": "page_about",
+  "title": "About Us",
+  "slug": "about",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_hero_about",
+      "type": "hero-banner",
+      "content": {
+        "title": "About Our Company",
+        "subtitle": "Learn more about who we are and what we do",
+        "backgroundType": "color",
+        "backgroundColor": "#1e293b",
+        "alignment": "center",
+        "height": "medium"
+      },
+      "style": {
+        "padding": { "top": 0, "right": 0, "bottom": 0, "left": 0 },
+        "margin": { "top": 0, "right": 0, "bottom": 0, "left": 0 }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_text_about",
+      "type": "text-content",
+      "content": {
+        "content": "<h2>Our Story</h2><p>We started with a simple mission: to provide the best products at the best prices. Today, we continue to serve customers worldwide with the same dedication and passion.</p><p>Our team of experts carefully curates each product to ensure quality and satisfaction.</p>",
+        "alignment": "left"
+      },
+      "style": {
+        "padding": { "top": 48, "right": 24, "bottom": 48, "left": 24 },
+        "margin": { "top": 0, "right": 0, "bottom": 0, "left": 0 },
+        "maxWidth": "800px"
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {
+    "title": "About Us - Our Store",
+    "description": "Learn more about our company and our mission."
+  },
+  "createdAt": "2024-01-15T11:00:00.000Z",
+  "updatedAt": "2024-01-15T11:00:00.000Z",
+  "versions": []
+}

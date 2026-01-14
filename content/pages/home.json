@@ -1,0 +1,190 @@
+{
+  "id": "page_home",
+  "title": "Home Page",
+  "slug": "home",
+  "status": "published",
+  "blocks": [
+    {
+      "id": "block_hero_1",
+      "type": "hero-banner",
+      "content": {
+        "title": "Welcome to Our Store",
+        "subtitle": "Discover amazing products",
+        "ctaText": "Shop Now",
+        "ctaLink": "/products",
+        "backgroundType": "gradient",
+        "backgroundGradient": "from-blue-600 to-purple-600",
+        "alignment": "center",
+        "height": "large",
+        "heading": "asdfsadf",
+        "subheading": "asdfasdfasdf",
+        "buttonText": "asdflkjasdflaksdjf",
+        "buttonLink": "asdfasf",
+        "secondaryButtonText": "asdfasdf",
+        "secondaryButtonLink": "asdflkasdfklj"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundImage": "/api/media/files/2026/01/media_1768343794763_r6rlmr.avif",
+        "backgroundColor": "#7b7474",
+        "backgroundOverlayColor": "#4d4d4d",
+        "textColor": "#ffffff",
+        "alignmentX": "left",
+        "alignmentY": "center",
+        "backgroundOverlay": 76
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768343969031_d463791qs",
+      "type": "columns",
+      "content": {
+        "columns": 2,
+        "gap": 24,
+        "layout": "1-2"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundImage": "/api/media/files/2026/01/media_1768343794763_r6rlmr.avif"
+      },
+      "responsive": {},
+      "children": []
+    },
+    {
+      "id": "block_1768344594882_g21tdj8wn",
+      "type": "text-content",
+      "content": {
+        "content": "Enter your text here...",
+        "headingLevel": "h1"
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768344612499_m97miwwc7",
+      "type": "text-content",
+      "content": {
+        "content": "f\nasdf\nasdf\nas\ndfa\nsdf\nasdfasdfasdfasdfasdf",
+        "headingLevel": "p"
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_products_1",
+      "type": "product-grid",
+      "content": {
+        "title": "Featured Products",
+        "columns": 3,
+        "rows": 1,
+        "source": "featured",
+        "showPrice": true,
+        "showRating": true,
+        "showAddToCart": true,
+        "limit": 3,
+        "showQuickAdd": true,
+        "mobileColumns": 1
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "fullWidth": false
+      },
+      "responsive": {},
+      "hidden": false,
+      "locked": false
+    },
+    {
+      "id": "block_newsletter_1",
+      "type": "newsletter",
+      "content": {
+        "title": "Stay Updated",
+        "description": "Subscribe to our newsletter for the latest updates and exclusive offers.",
+        "buttonText": "Subscribe",
+        "placeholder": "Enter your email"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundColor": "#f8fafc"
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {
+    "title": "Home - Our Store",
+    "description": "Welcome to our store. Discover amazing products at great prices."
+  },
+  "createdAt": "2024-01-15T10:00:00.000Z",
+  "updatedAt": "2026-01-13T22:50:32.771Z",
+  "versions": [],
+  "publishedAt": "2026-01-13T20:56:41.416Z"
+}
