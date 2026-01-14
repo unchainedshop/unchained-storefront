@@ -231,6 +231,27 @@
       "createdAt": "2026-01-14T15:56:16.791Z",
       "updatedAt": "2026-01-14T15:56:16.791Z",
       "usageCount": 0
+    },
+    "media_1768416068756_gocdsw": {
+      "filename": "2026/01/media_1768416068503_2e5zsl.png",
+      "originalName": "Screenshot from 2026-01-14 19-25-37.png",
+      "mimeType": "image/png",
+      "size": 151822,
+      "dimensions": {
+        "width": 1726,
+        "height": 986
+      },
+      "altText": "",
+      "title": "screenshot-from-2026-01-14-19-25-37",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "Mikael Araya Mengistu",
+      "id": "media_1768416068756_gocdsw",
+      "createdAt": "2026-01-14T18:41:08.756Z",
+      "updatedAt": "2026-01-14T18:41:08.756Z",
+      "usageCount": 0
     }
   },
   "folders": {
@@ -252,5 +273,5 @@
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-14T17:59:24.255Z"
+  "lastUpdated": "2026-01-14T18:41:08.758Z"
 }

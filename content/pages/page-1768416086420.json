@@ -1,0 +1,134 @@
+{
+  "id": "page_1768416086420",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768416086420",
+  "status": "published",
+  "blocks": [
+    {
+      "id": "block_1768416098645_sw52asnmh",
+      "type": "hero-banner",
+      "content": {
+        "heading": "The Essentials Collection",
+        "subheading": "Timeless pieces designed to work together. Build your perfect wardrobe.",
+        "buttonText": "Shop All",
+        "buttonLink": "#products",
+        "variant": "text-left"
+      },
+      "style": {
+        "backgroundColor": "#292524",
+        "textColor": "#ffffff",
+        "minHeight": 400
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768416098645_adg41k6fs",
+      "type": "spacer",
+      "content": {
+        "height": 48,
+        "mobileHeight": 32
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768416098645_07296eeqq",
+      "type": "product-grid",
+      "content": {
+        "source": "collection",
+        "limit": 12,
+        "columns": 4,
+        "mobileColumns": 2,
+        "showSaleBadge": true,
+        "showQuickAdd": true,
+        "sortBy": "bestselling"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768416119895_4snkqjpz8",
+      "type": "section",
+      "content": {
+        "containerWidth": "container"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "fullWidth": true
+      },
+      "responsive": {},
+      "children": []
+    },
+    {
+      "id": "block_1768416098645_wblhh40cm",
+      "type": "newsletter",
+      "content": {
+        "heading": "Be the First to Know",
+        "subheading": "New arrivals and exclusive offers, straight to your inbox.",
+        "buttonText": "Sign Up",
+        "placeholder": "Your email",
+        "showConsent": false
+      },
+      "style": {
+        "backgroundColor": "#f5f5f4",
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-14T18:41:26.420Z",
+  "updatedAt": "2026-01-14T18:42:26.212Z",
+  "versions": [],
+  "publishedAt": "2026-01-14T18:42:26.106Z"
+}

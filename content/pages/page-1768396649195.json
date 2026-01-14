@@ -1,10 +1,11 @@
 {
   "id": "page_1768396649195",
   "title": {
-    "de": "Untitled Page"
+    "de": "Untitled Page",
+    "fr": "hello"
   },
   "slug": "page-1768396649195",
-  "status": "in_review",
+  "status": "approved",
   "blocks": [
     {
       "id": "block_1768396655405_f73tvr0ir",
@@ -94,6 +95,30 @@
       "responsive": {}
     },
     {
+      "id": "block_1768414876458_b55vwzrnn",
+      "type": "section",
+      "content": {
+        "containerWidth": "container"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "fullWidth": true
+      },
+      "responsive": {},
+      "children": []
+    },
+    {
       "id": "block_1768396655405_ru026il7m",
       "type": "hero-banner",
       "content": {
@@ -133,6 +158,11 @@
           "gap": 32,
           "layout": "equal",
           "stackOnMobile": true
+        },
+        "fr": {
+          "columns": 2,
+          "layout": "equal",
+          "laptopColumns": 1
         }
       },
       "style": {
@@ -212,9 +242,19 @@
       "responsive": {}
     }
   ],
-  "seo": {},
+  "seo": {
+    "title": {
+      "fr": "sdsfsdf"
+    },
+    "description": {
+      "fr": "sdfsf"
+    },
+    "keywords": {
+      "fr": "sdf"
+    }
+  },
   "createdAt": "2026-01-14T13:17:29.195Z",
-  "updatedAt": "2026-01-14T16:03:56.595Z",
+  "updatedAt": "2026-01-14T18:22:13.573Z",
   "versions": [],
   "publishedAt": "2026-01-14T13:21:26.889Z",
   "translations": {
