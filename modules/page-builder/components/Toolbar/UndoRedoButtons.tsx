@@ -1,6 +1,6 @@
 /**
  * Undo/Redo Buttons with History Dropdown
- * Shows recent history entries in a dropdown menu
+ * Glassmorphism-styled history controls
  */
 
 import React, { useState, useRef, useEffect } from "react";
@@ -70,22 +70,31 @@ const HistoryDropdownItem: React.FC<HistoryDropdownItemProps> = ({
     <button
       onClick={onClick}
       className={classNames(
-        "w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors",
-        isActive && "bg-blue-50 dark:bg-blue-900/20",
+        "w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-150",
+        "hover:bg-white/50 dark:hover:bg-white/5",
+        isActive && "bg-white/40 dark:bg-white/10",
       )}
     >
-      <Icon className="w-4 h-4 text-slate-500 flex-shrink-0" />
+      <div
+        className={classNames(
+          "w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0",
+          "bg-white/60 dark:bg-white/10",
+          "border border-white/40 dark:border-white/5",
+        )}
+      >
+        <Icon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+      </div>
       <span
         className={classNames(
-          "flex-1 truncate",
+          "flex-1 truncate text-left",
           isActive
-            ? "text-blue-700 dark:text-blue-300 font-medium"
+            ? "text-slate-900 dark:text-white font-medium"
             : "text-slate-700 dark:text-slate-300",
         )}
       >
         {entry.label}
       </span>
-      <span className="text-xs text-slate-400 flex-shrink-0">
+      <span className="text-[11px] text-slate-400 dark:text-slate-500 flex-shrink-0 tabular-nums">
         {formatTime(entry.timestamp)}
       </span>
     </button>
@@ -136,114 +145,218 @@ const UndoRedoButtons: React.FC = () => {
     setShowRedoMenu(false);
   };
 
+  // Glassmorphism dropdown component
+  const HistoryDropdown: React.FC<{
+    isOpen: boolean;
+    onClose: () => void;
+    title: string;
+    count: number;
+    children: React.ReactNode;
+  }> = ({ isOpen, onClose, title, count, children }) => {
+    if (!isOpen) return null;
+
+    return (
+      <>
+        <div className="fixed inset-0 z-40" onClick={onClose} />
+        <div
+          className={classNames(
+            "absolute top-full mt-2 left-0 z-50",
+            // Glassmorphism
+            "bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl backdrop-saturate-150",
+            "rounded-2xl",
+            "shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
+            "border border-white/50 dark:border-white/10",
+            "ring-1 ring-black/5 dark:ring-white/5",
+            "overflow-hidden",
+            "min-w-[280px] max-h-[360px]",
+            "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200",
+          )}
+        >
+          {/* Header */}
+          <div
+            className={classNames(
+              "px-4 py-3 border-b border-white/30 dark:border-white/5",
+              "bg-white/30 dark:bg-white/5",
+            )}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                {title}
+              </span>
+              <span
+                className={classNames(
+                  "text-xs font-medium px-2 py-0.5 rounded-full",
+                  "bg-white/60 dark:bg-white/10",
+                  "text-slate-500 dark:text-slate-400",
+                )}
+              >
+                {count}
+              </span>
+            </div>
+          </div>
+
+          {/* Items */}
+          <div className="overflow-y-auto max-h-[280px] py-1">{children}</div>
+        </div>
+      </>
+    );
+  };
+
+  // Button component with glassmorphism
+  const ActionButton: React.FC<{
+    onClick: () => void;
+    disabled: boolean;
+    title: string;
+    children: React.ReactNode;
+    isFirst?: boolean;
+    isLast?: boolean;
+  }> = ({ onClick, disabled, title, children, isFirst, isLast }) => (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      title={title}
+      className={classNames(
+        "p-2 transition-all duration-200",
+        isFirst && "rounded-l-lg",
+        isLast && "rounded-r-lg",
+        !isFirst && !isLast && "rounded-none",
+        disabled
+          ? "text-slate-300 dark:text-slate-600 cursor-not-allowed"
+          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
+      )}
+    >
+      {children}
+    </button>
+  );
+
+  // Chevron button
+  const ChevronButton: React.FC<{
+    onClick: () => void;
+    disabled: boolean;
+    isOpen: boolean;
+  }> = ({ onClick, disabled, isOpen }) => (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={classNames(
+        "p-1 pr-1.5 transition-all duration-200 rounded-r-lg",
+        "border-l border-white/30 dark:border-white/10",
+        disabled
+          ? "text-slate-300 dark:text-slate-600 cursor-not-allowed"
+          : "text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/50 dark:hover:bg-white/5",
+      )}
+    >
+      <ChevronDownIcon
+        className={classNames(
+          "w-3 h-3 transition-transform duration-200",
+          isOpen && "rotate-180",
+        )}
+      />
+    </button>
+  );
+
   return (
-    <div className="flex items-center border-r border-slate-200 dark:border-slate-700 pr-2 mr-2">
-      {/* Undo button with dropdown */}
+    <div className="flex items-center gap-1">
+      {/* Undo button group */}
       <div ref={undoRef} className="relative flex items-center">
-        <button
-          onClick={undo}
-          disabled={!canUndo}
+        <div
           className={classNames(
-            "p-2 rounded-l transition-colors",
-            canUndo
-              ? "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
-              : "text-slate-300 dark:text-slate-600 cursor-not-allowed",
-          )}
-          title={`Undo (Ctrl+Z)${canUndo ? ` - ${history[historyIndex - 1]?.label || ""}` : ""}`}
-        >
-          <ArrowUturnLeftIcon className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => {
-            if (canUndo) {
-              setShowUndoMenu(!showUndoMenu);
-              setShowRedoMenu(false);
-            }
-          }}
-          disabled={!canUndo}
-          className={classNames(
-            "p-1 pr-2 rounded-r border-l border-slate-200 dark:border-slate-700 transition-colors",
-            canUndo
-              ? "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-500"
-              : "text-slate-300 dark:text-slate-600 cursor-not-allowed",
+            "flex items-center rounded-xl overflow-hidden",
+            "bg-white/40 dark:bg-white/5",
+            "backdrop-blur-xl",
+            "border border-white/60 dark:border-white/10",
           )}
         >
-          <ChevronDownIcon className="w-3 h-3" />
-        </button>
+          <ActionButton
+            onClick={undo}
+            disabled={!canUndo}
+            title={`Undo (Ctrl+Z)${canUndo ? ` - ${history[historyIndex - 1]?.label || ""}` : ""}`}
+            isFirst
+          >
+            <ArrowUturnLeftIcon className="w-4 h-4" />
+          </ActionButton>
+          <ChevronButton
+            onClick={() => {
+              if (canUndo) {
+                setShowUndoMenu(!showUndoMenu);
+                setShowRedoMenu(false);
+              }
+            }}
+            disabled={!canUndo}
+            isOpen={showUndoMenu}
+          />
+        </div>
 
         {/* Undo dropdown */}
-        {showUndoMenu && undoEntries.length > 0 && (
-          <div className="absolute top-full mt-1 left-0 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50 min-w-[220px] max-h-[300px] overflow-y-auto">
-            <div className="px-3 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
-              Undo History ({undoEntries.length})
-            </div>
-            {undoEntries.map((entry, idx) => {
-              const targetIndex = historyIndex - 1 - idx;
-              return (
-                <HistoryDropdownItem
-                  key={`${targetIndex}-${entry.timestamp}`}
-                  entry={entry}
-                  onClick={() => handleUndoTo(targetIndex)}
-                  isActive={false}
-                />
-              );
-            })}
-          </div>
-        )}
+        <HistoryDropdown
+          isOpen={showUndoMenu && undoEntries.length > 0}
+          onClose={() => setShowUndoMenu(false)}
+          title="Undo History"
+          count={undoEntries.length}
+        >
+          {undoEntries.map((entry, idx) => {
+            const targetIndex = historyIndex - 1 - idx;
+            return (
+              <HistoryDropdownItem
+                key={`${targetIndex}-${entry.timestamp}`}
+                entry={entry}
+                onClick={() => handleUndoTo(targetIndex)}
+                isActive={false}
+              />
+            );
+          })}
+        </HistoryDropdown>
       </div>
 
-      {/* Redo button with dropdown */}
+      {/* Redo button group */}
       <div ref={redoRef} className="relative flex items-center">
-        <button
-          onClick={redo}
-          disabled={!canRedo}
+        <div
           className={classNames(
-            "p-2 rounded-l transition-colors",
-            canRedo
-              ? "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
-              : "text-slate-300 dark:text-slate-600 cursor-not-allowed",
-          )}
-          title={`Redo (Ctrl+Shift+Z)${canRedo ? ` - ${history[historyIndex + 1]?.label || ""}` : ""}`}
-        >
-          <ArrowUturnRightIcon className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => {
-            if (canRedo) {
-              setShowRedoMenu(!showRedoMenu);
-              setShowUndoMenu(false);
-            }
-          }}
-          disabled={!canRedo}
-          className={classNames(
-            "p-1 pr-2 rounded-r border-l border-slate-200 dark:border-slate-700 transition-colors",
-            canRedo
-              ? "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-500"
-              : "text-slate-300 dark:text-slate-600 cursor-not-allowed",
+            "flex items-center rounded-xl overflow-hidden",
+            "bg-white/40 dark:bg-white/5",
+            "backdrop-blur-xl",
+            "border border-white/60 dark:border-white/10",
           )}
         >
-          <ChevronDownIcon className="w-3 h-3" />
-        </button>
+          <ActionButton
+            onClick={redo}
+            disabled={!canRedo}
+            title={`Redo (Ctrl+Shift+Z)${canRedo ? ` - ${history[historyIndex + 1]?.label || ""}` : ""}`}
+            isFirst
+          >
+            <ArrowUturnRightIcon className="w-4 h-4" />
+          </ActionButton>
+          <ChevronButton
+            onClick={() => {
+              if (canRedo) {
+                setShowRedoMenu(!showRedoMenu);
+                setShowUndoMenu(false);
+              }
+            }}
+            disabled={!canRedo}
+            isOpen={showRedoMenu}
+          />
+        </div>
 
         {/* Redo dropdown */}
-        {showRedoMenu && redoEntries.length > 0 && (
-          <div className="absolute top-full mt-1 left-0 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50 min-w-[220px] max-h-[300px] overflow-y-auto">
-            <div className="px-3 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
-              Redo History ({redoEntries.length})
-            </div>
-            {redoEntries.map((entry, idx) => {
-              const targetIndex = historyIndex + 1 + idx;
-              return (
-                <HistoryDropdownItem
-                  key={`${targetIndex}-${entry.timestamp}`}
-                  entry={entry}
-                  onClick={() => handleRedoTo(targetIndex)}
-                  isActive={false}
-                />
-              );
-            })}
-          </div>
-        )}
+        <HistoryDropdown
+          isOpen={showRedoMenu && redoEntries.length > 0}
+          onClose={() => setShowRedoMenu(false)}
+          title="Redo History"
+          count={redoEntries.length}
+        >
+          {redoEntries.map((entry, idx) => {
+            const targetIndex = historyIndex + 1 + idx;
+            return (
+              <HistoryDropdownItem
+                key={`${targetIndex}-${entry.timestamp}`}
+                entry={entry}
+                onClick={() => handleRedoTo(targetIndex)}
+                isActive={false}
+              />
+            );
+          })}
+        </HistoryDropdown>
       </div>
     </div>
   );

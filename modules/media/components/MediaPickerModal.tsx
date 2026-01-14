@@ -10,6 +10,7 @@ import React, {
   useRef,
   useMemo,
 } from "react";
+import { createPortal } from "react-dom";
 import classNames from "classnames";
 import {
   XMarkIcon,
@@ -261,7 +262,8 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  // Use portal to render at document body level (escape sidebar overflow)
+  const modalContent = (
     <div className="fixed inset-0 z-[1050] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
@@ -583,6 +585,13 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
       </div>
     </div>
   );
+
+  // Render to document body via portal
+  if (typeof document !== "undefined") {
+    return createPortal(modalContent, document.body);
+  }
+
+  return modalContent;
 };
 
 export default MediaPickerModal;

@@ -191,11 +191,11 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
           status: "published",
           publishedAt: new Date().toISOString(),
         });
-        dispatch({ type: "MARK_CLEAN" });
         dispatch({
           type: "UPDATE_PAGE_META",
           payload: { status: "published" },
         });
+        dispatch({ type: "MARK_CLEAN" });
       } finally {
         dispatch({ type: "SET_SAVING", payload: false });
       }
@@ -253,19 +253,29 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
       )}
 
       {/* Main content */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar */}
+      <div className="flex-1 flex overflow-hidden p-3 gap-3">
+        {/* Left Sidebar - Glassmorphism */}
         {!isPreviewMode && !isFocusMode && (
-          <div className="w-72 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 flex flex-col">
+          <div
+            className={classNames(
+              "w-72 flex flex-col rounded-2xl overflow-hidden",
+              // Glassmorphism
+              "bg-white/70 dark:bg-slate-900/70",
+              "backdrop-blur-2xl backdrop-saturate-150",
+              "border border-white/50 dark:border-white/10",
+              "shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
+              "ring-1 ring-black/5 dark:ring-white/5",
+            )}
+          >
             {/* Sidebar tabs */}
-            <div className="flex p-2 gap-1 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex p-2 gap-1 border-b border-white/30 dark:border-white/5">
               <button
                 onClick={() => handleSetSidebarTab("blocks")}
                 className={classNames(
-                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-lg transition-all duration-200",
+                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
                   sidebarTab === "blocks"
                     ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
                 )}
               >
                 Overview
@@ -273,10 +283,10 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
               <button
                 onClick={() => handleSetSidebarTab("layers")}
                 className={classNames(
-                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-lg transition-all duration-200",
+                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
                   sidebarTab === "layers"
                     ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
                 )}
               >
                 Layers
@@ -284,10 +294,10 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
               <button
                 onClick={() => handleSetSidebarTab("history")}
                 className={classNames(
-                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-lg transition-all duration-200",
+                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
                   sidebarTab === "history"
                     ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
                 )}
               >
                 History
@@ -308,9 +318,19 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
         {/* Canvas */}
         <Canvas className="flex-1" />
 
-        {/* Right Sidebar - Settings */}
+        {/* Right Sidebar - Settings - Glassmorphism */}
         {!isPreviewMode && !isFocusMode && (
-          <div className="w-80 bg-white dark:bg-slate-900 border-l border-slate-100 dark:border-slate-800">
+          <div
+            className={classNames(
+              "w-80 rounded-2xl overflow-hidden",
+              // Glassmorphism
+              "bg-white/70 dark:bg-slate-900/70",
+              "backdrop-blur-2xl backdrop-saturate-150",
+              "border border-white/50 dark:border-white/10",
+              "shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
+              "ring-1 ring-black/5 dark:ring-white/5",
+            )}
+          >
             <SettingsPanel />
           </div>
         )}

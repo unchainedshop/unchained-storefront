@@ -19,7 +19,19 @@ export type BlockType =
   | "section"
   | "columns"
   | "shoppable-image"
-  | "before-after";
+  | "before-after"
+  | "faq-accordion"
+  | "pricing-table"
+  | "stats"
+  | "logo-cloud"
+  | "team-grid"
+  | "video"
+  | "tabs"
+  | "feature-grid"
+  | "shoppable-video"
+  | "size-guide"
+  | "store-locator"
+  | "instagram-feed";
 
 export type Viewport =
   | "mobile"
@@ -77,6 +89,24 @@ export interface ResponsiveOverrides {
 
 export type ButtonVariant = "primary" | "secondary" | "link";
 
+export type HeroVariant =
+  | "centered"
+  | "text-left"
+  | "text-right"
+  | "split-left"
+  | "split-right"
+  | "image-grid-right"
+  | "image-grid-left";
+
+export type TextOverlayVariant =
+  | "none"
+  | "gradient"
+  | "glass"
+  | "solid"
+  | "text-shadow";
+
+export type TextOverlayColorMode = "auto" | "dark" | "light";
+
 // Content types for each block
 export interface HeroBannerContent {
   heading: string;
@@ -87,6 +117,17 @@ export interface HeroBannerContent {
   secondaryButtonText?: string;
   secondaryButtonLink?: string;
   secondaryButtonVariant?: ButtonVariant;
+  variant?: HeroVariant;
+  /** Image URL for split layouts (separate from background) */
+  heroImage?: string;
+  /** Secondary images for image-grid layouts */
+  gridImages?: string[];
+  /** Text overlay variant for readability over images */
+  textOverlay?: TextOverlayVariant;
+  /** Text overlay intensity (0-100) */
+  textOverlayIntensity?: number;
+  /** Text overlay color mode */
+  textOverlayColorMode?: TextOverlayColorMode;
 }
 
 export interface ProductGridContent {
@@ -196,13 +237,14 @@ export interface ColumnsContent {
   columns: number;
   gap: number;
   layout: ColumnLayout;
-  // Responsive overrides - mobile stacks by default
+  // Responsive columns per breakpoint
   mobileColumns?: number;
-  mobileLayout?: ColumnLayout;
   tabletColumns?: number;
+  tabletLgColumns?: number;
+  laptopColumns?: number;
+  // Layout overrides (optional)
+  mobileLayout?: ColumnLayout;
   tabletLayout?: ColumnLayout;
-  // Whether to stack on mobile (default: true)
-  stackOnMobile?: boolean;
 }
 
 export interface ProductHotspot {
@@ -237,6 +279,248 @@ export interface BeforeAfterContent {
   showLabels: boolean;
 }
 
+export interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export interface FAQAccordionContent {
+  heading?: string;
+  subheading?: string;
+  items: FAQItem[];
+  allowMultiple: boolean;
+  defaultOpenFirst: boolean;
+}
+
+export interface PricingTier {
+  id: string;
+  name: string;
+  price: string;
+  period?: string;
+  description?: string;
+  features: string[];
+  buttonText: string;
+  buttonLink: string;
+  highlighted?: boolean;
+  badge?: string;
+}
+
+export interface PricingTableContent {
+  heading?: string;
+  subheading?: string;
+  tiers: PricingTier[];
+  columns: 2 | 3 | 4;
+}
+
+export interface StatItem {
+  id: string;
+  value: string;
+  label: string;
+  prefix?: string;
+  suffix?: string;
+}
+
+export interface StatsContent {
+  heading?: string;
+  subheading?: string;
+  stats: StatItem[];
+  columns: 2 | 3 | 4;
+  style: "simple" | "cards" | "bordered";
+}
+
+export interface LogoItem {
+  id: string;
+  name: string;
+  image: string;
+  link?: string;
+}
+
+export interface LogoCloudContent {
+  heading?: string;
+  logos: LogoItem[];
+  columns: 3 | 4 | 5 | 6;
+  grayscale: boolean;
+  showNames: boolean;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  image?: string;
+  bio?: string;
+  social?: {
+    twitter?: string;
+    linkedin?: string;
+    email?: string;
+  };
+}
+
+export interface TeamGridContent {
+  heading?: string;
+  subheading?: string;
+  members: TeamMember[];
+  columns: 2 | 3 | 4;
+  showBio: boolean;
+  showSocial: boolean;
+}
+
+export interface VideoContent {
+  url: string;
+  provider: "youtube" | "vimeo" | "custom";
+  autoplay: boolean;
+  muted: boolean;
+  loop: boolean;
+  controls: boolean;
+  aspectRatio: "16:9" | "4:3" | "1:1" | "9:16";
+  thumbnail?: string;
+  caption?: string;
+}
+
+export interface TabItem {
+  id: string;
+  label: string;
+  content: string;
+  icon?: string;
+}
+
+export interface TabsContent {
+  tabs: TabItem[];
+  defaultTab: number;
+  variant: "underline" | "pills" | "boxed";
+  alignment: "left" | "center" | "stretch";
+}
+
+export interface FeatureItem {
+  id: string;
+  icon?: string;
+  title: string;
+  description: string;
+  link?: string;
+}
+
+export interface FeatureGridContent {
+  heading?: string;
+  subheading?: string;
+  features: FeatureItem[];
+  columns: 2 | 3 | 4;
+  iconStyle: "none" | "circle" | "square" | "rounded";
+  alignment: "left" | "center";
+}
+
+// E-commerce specific blocks
+
+export interface VideoHotspot {
+  id: string;
+  productId: string;
+  productTitle?: string;
+  productImage?: string;
+  productPrice?: string;
+  /** Timestamp in seconds when the hotspot appears */
+  startTime: number;
+  /** Timestamp in seconds when the hotspot disappears */
+  endTime: number;
+  /** Position on video (percentage) */
+  position: {
+    x: number;
+    y: number;
+  };
+  label?: string;
+}
+
+export interface ShoppableVideoContent {
+  videoUrl: string;
+  provider: "youtube" | "vimeo" | "custom" | "hosted";
+  thumbnail?: string;
+  autoplay: boolean;
+  muted: boolean;
+  loop: boolean;
+  controls: boolean;
+  aspectRatio: "16:9" | "4:3" | "1:1" | "9:16";
+  hotspots: VideoHotspot[];
+  showHotspots: "always" | "paused" | "never";
+  hotspotStyle: "dot" | "plus" | "pulse" | "tag";
+  hotspotColor: string;
+}
+
+export interface SizeRow {
+  id: string;
+  size: string;
+  measurements: Record<string, string>;
+}
+
+export interface SizeGuideContent {
+  heading?: string;
+  subheading?: string;
+  measurementColumns: string[];
+  sizes: SizeRow[];
+  unit: "cm" | "in";
+  showUnitToggle: boolean;
+  showHowToMeasure: boolean;
+  howToMeasureContent?: string;
+  howToMeasureImage?: string;
+  tableStyle: "simple" | "striped" | "bordered";
+}
+
+export interface StoreLocation {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state?: string;
+  postalCode?: string;
+  country: string;
+  phone?: string;
+  email?: string;
+  hours?: string;
+  lat: number;
+  lng: number;
+  image?: string;
+  features?: string[];
+}
+
+export interface StoreLocatorContent {
+  heading?: string;
+  subheading?: string;
+  stores: StoreLocation[];
+  defaultZoom: number;
+  defaultCenter?: { lat: number; lng: number };
+  showSearch: boolean;
+  showList: boolean;
+  listPosition: "left" | "right" | "bottom";
+  mapStyle: "standard" | "silver" | "dark" | "retro";
+  markerColor: string;
+  showDirectionsLink: boolean;
+  showPhoneLink: boolean;
+}
+
+export interface InstagramPost {
+  id: string;
+  imageUrl: string;
+  permalink: string;
+  caption?: string;
+  mediaType: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  timestamp?: string;
+}
+
+export interface InstagramFeedContent {
+  heading?: string;
+  subheading?: string;
+  username: string;
+  accessToken?: string;
+  posts: InstagramPost[];
+  columns: 3 | 4 | 5 | 6;
+  mobileColumns: 2 | 3;
+  gap: number;
+  showCaption: "hover" | "always" | "never";
+  limit: number;
+  layout: "grid" | "masonry" | "carousel";
+  showFollowButton: boolean;
+  followButtonText?: string;
+  aspectRatio: "square" | "original";
+}
+
 export type BlockContent =
   | HeroBannerContent
   | ProductGridContent
@@ -253,7 +537,19 @@ export type BlockContent =
   | SectionContent
   | ColumnsContent
   | ShoppableImageContent
-  | BeforeAfterContent;
+  | BeforeAfterContent
+  | FAQAccordionContent
+  | PricingTableContent
+  | StatsContent
+  | LogoCloudContent
+  | TeamGridContent
+  | VideoContent
+  | TabsContent
+  | FeatureGridContent
+  | ShoppableVideoContent
+  | SizeGuideContent
+  | StoreLocatorContent
+  | InstagramFeedContent;
 
 export interface PageBlock {
   id: string;

@@ -388,6 +388,434 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       canBeNested: true,
     },
   },
+
+  // New blocks
+  "faq-accordion": {
+    type: "faq-accordion",
+    label: "FAQ Accordion",
+    description: "Expandable Q&A sections",
+    icon: "question-mark-circle",
+    category: "content",
+    defaultContent: {
+      heading: "Frequently Asked Questions",
+      subheading: "",
+      items: [
+        {
+          id: "faq_1",
+          question: "What is your return policy?",
+          answer: "We offer a 30-day hassle-free return policy on all items.",
+        },
+        {
+          id: "faq_2",
+          question: "How long does shipping take?",
+          answer:
+            "Standard shipping takes 3-5 business days. Express shipping is available.",
+        },
+      ],
+      allowMultiple: false,
+      defaultOpenFirst: true,
+    },
+    defaultStyle: {
+      padding: { top: 64, right: 24, bottom: 64, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  "pricing-table": {
+    type: "pricing-table",
+    label: "Pricing Table",
+    description: "Compare pricing tiers with features",
+    icon: "currency-dollar",
+    category: "marketing",
+    defaultContent: {
+      heading: "Simple, Transparent Pricing",
+      subheading: "Choose the plan that works for you",
+      columns: 3,
+      tiers: [
+        {
+          id: "tier_1",
+          name: "Starter",
+          price: "$9",
+          period: "month",
+          description: "Perfect for getting started",
+          features: ["5 projects", "Basic support", "1GB storage"],
+          buttonText: "Get Started",
+          buttonLink: "#",
+        },
+        {
+          id: "tier_2",
+          name: "Pro",
+          price: "$29",
+          period: "month",
+          description: "Best for growing teams",
+          features: [
+            "Unlimited projects",
+            "Priority support",
+            "10GB storage",
+            "Advanced analytics",
+          ],
+          buttonText: "Start Free Trial",
+          buttonLink: "#",
+          highlighted: true,
+          badge: "Most Popular",
+        },
+        {
+          id: "tier_3",
+          name: "Enterprise",
+          price: "$99",
+          period: "month",
+          description: "For large organizations",
+          features: [
+            "Everything in Pro",
+            "Custom integrations",
+            "Dedicated support",
+            "SLA guarantee",
+          ],
+          buttonText: "Contact Sales",
+          buttonLink: "#",
+        },
+      ],
+    },
+    defaultStyle: {
+      padding: { top: 64, right: 24, bottom: 64, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  stats: {
+    type: "stats",
+    label: "Stats",
+    description: "Display metrics with big numbers",
+    icon: "chart-bar",
+    category: "content",
+    defaultContent: {
+      heading: "",
+      subheading: "",
+      columns: 4,
+      style: "simple",
+      stats: [
+        { id: "stat_1", value: "10K", label: "Customers", suffix: "+" },
+        { id: "stat_2", value: "99", label: "Uptime", suffix: "%" },
+        { id: "stat_3", value: "24", label: "Support", suffix: "/7" },
+        { id: "stat_4", value: "50", label: "Countries", suffix: "+" },
+      ],
+    },
+    defaultStyle: {
+      padding: { top: 64, right: 24, bottom: 64, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  "logo-cloud": {
+    type: "logo-cloud",
+    label: "Logo Cloud",
+    description: "Display partner or press logos",
+    icon: "building-office",
+    category: "marketing",
+    defaultContent: {
+      heading: "Trusted by leading companies",
+      columns: 5,
+      grayscale: true,
+      showNames: false,
+      logos: [],
+    },
+    defaultStyle: {
+      padding: { top: 48, right: 24, bottom: 48, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  "team-grid": {
+    type: "team-grid",
+    label: "Team Grid",
+    description: "Display team members with photos",
+    icon: "user-group",
+    category: "content",
+    defaultContent: {
+      heading: "Meet Our Team",
+      subheading: "The people behind the product",
+      columns: 3,
+      showBio: true,
+      showSocial: true,
+      members: [],
+    },
+    defaultStyle: {
+      padding: { top: 64, right: 24, bottom: 64, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  video: {
+    type: "video",
+    label: "Video",
+    description: "Embed YouTube, Vimeo, or custom video",
+    icon: "play",
+    category: "content",
+    defaultContent: {
+      url: "",
+      provider: "youtube",
+      autoplay: false,
+      muted: false,
+      loop: false,
+      controls: true,
+      aspectRatio: "16:9",
+      thumbnail: "",
+      caption: "",
+    },
+    defaultStyle: {
+      borderRadius: 12,
+      padding: { top: 24, right: 24, bottom: 24, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: true,
+    },
+  },
+
+  tabs: {
+    type: "tabs",
+    label: "Tabs",
+    description: "Tabbed content sections",
+    icon: "rectangle-stack",
+    category: "content",
+    defaultContent: {
+      defaultTab: 0,
+      variant: "underline",
+      alignment: "left",
+      tabs: [
+        {
+          id: "tab_1",
+          label: "Overview",
+          content: "This is the overview content.",
+        },
+        {
+          id: "tab_2",
+          label: "Features",
+          content: "This is the features content.",
+        },
+        { id: "tab_3", label: "Specs", content: "This is the specs content." },
+      ],
+    },
+    defaultStyle: {
+      padding: { top: 48, right: 24, bottom: 48, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  "feature-grid": {
+    type: "feature-grid",
+    label: "Feature Grid",
+    description: "Icon + title + description cards",
+    icon: "squares-plus",
+    category: "content",
+    defaultContent: {
+      heading: "Why Choose Us",
+      subheading: "Everything you need to succeed",
+      columns: 3,
+      iconStyle: "circle",
+      alignment: "center",
+      features: [
+        {
+          id: "feat_1",
+          icon: "bolt",
+          title: "Lightning Fast",
+          description: "Optimized for speed and performance.",
+        },
+        {
+          id: "feat_2",
+          icon: "shield-check",
+          title: "Secure by Default",
+          description: "Enterprise-grade security built in.",
+        },
+        {
+          id: "feat_3",
+          icon: "sparkles",
+          title: "Easy to Use",
+          description: "Intuitive interface for everyone.",
+        },
+      ],
+    },
+    defaultStyle: {
+      padding: { top: 64, right: 24, bottom: 64, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  // E-commerce specific blocks
+  "shoppable-video": {
+    type: "shoppable-video",
+    label: "Shoppable Video",
+    description: "Video with clickable product hotspots at timestamps",
+    icon: "video-camera",
+    category: "ecommerce",
+    defaultContent: {
+      videoUrl: "",
+      provider: "custom",
+      thumbnail: "",
+      autoplay: false,
+      muted: true,
+      loop: true,
+      controls: true,
+      aspectRatio: "16:9",
+      hotspots: [],
+      showHotspots: "always",
+      hotspotStyle: "tag",
+      hotspotColor: "#ffffff",
+    },
+    defaultStyle: {
+      borderRadius: 8,
+      padding: { top: 0, right: 0, bottom: 0, left: 0 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: true,
+    },
+  },
+
+  "size-guide": {
+    type: "size-guide",
+    label: "Size Guide",
+    description: "Interactive size chart with measurement table",
+    icon: "table-cells",
+    category: "ecommerce",
+    defaultContent: {
+      heading: "Size Guide",
+      subheading: "Find your perfect fit",
+      measurementColumns: ["Chest", "Waist", "Hips", "Length"],
+      sizes: [
+        {
+          id: "size_xs",
+          size: "XS",
+          measurements: { Chest: "86", Waist: "71", Hips: "91", Length: "66" },
+        },
+        {
+          id: "size_s",
+          size: "S",
+          measurements: { Chest: "91", Waist: "76", Hips: "96", Length: "68" },
+        },
+        {
+          id: "size_m",
+          size: "M",
+          measurements: { Chest: "97", Waist: "81", Hips: "102", Length: "70" },
+        },
+        {
+          id: "size_l",
+          size: "L",
+          measurements: {
+            Chest: "102",
+            Waist: "86",
+            Hips: "107",
+            Length: "72",
+          },
+        },
+        {
+          id: "size_xl",
+          size: "XL",
+          measurements: {
+            Chest: "107",
+            Waist: "91",
+            Hips: "112",
+            Length: "74",
+          },
+        },
+      ],
+      unit: "cm",
+      showUnitToggle: true,
+      showHowToMeasure: true,
+      howToMeasureContent:
+        "<p><strong>Chest:</strong> Measure around the fullest part of your chest.</p><p><strong>Waist:</strong> Measure around your natural waistline.</p><p><strong>Hips:</strong> Measure around the fullest part of your hips.</p>",
+      howToMeasureImage: "",
+      tableStyle: "striped",
+    },
+    defaultStyle: {
+      padding: { top: 48, right: 24, bottom: 48, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  "store-locator": {
+    type: "store-locator",
+    label: "Store Locator",
+    description: "Interactive map with store locations and search",
+    icon: "map-pin",
+    category: "ecommerce",
+    defaultContent: {
+      heading: "Find a Store",
+      subheading: "Visit us in person",
+      stores: [],
+      defaultZoom: 12,
+      defaultCenter: { lat: 40.7128, lng: -74.006 },
+      showSearch: true,
+      showList: true,
+      listPosition: "left",
+      mapStyle: "standard",
+      markerColor: "#3B82F6",
+      showDirectionsLink: true,
+      showPhoneLink: true,
+    },
+    defaultStyle: {
+      padding: { top: 48, right: 24, bottom: 48, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
+
+  "instagram-feed": {
+    type: "instagram-feed",
+    label: "Instagram Feed",
+    description: "Display Instagram posts in a grid or carousel",
+    icon: "camera",
+    category: "ecommerce",
+    defaultContent: {
+      heading: "Follow Us on Instagram",
+      subheading: "",
+      username: "",
+      accessToken: "",
+      posts: [],
+      columns: 4,
+      mobileColumns: 2,
+      gap: 8,
+      showCaption: "hover",
+      limit: 8,
+      layout: "grid",
+      showFollowButton: true,
+      followButtonText: "",
+      aspectRatio: "square",
+    },
+    defaultStyle: {
+      padding: { top: 48, right: 24, bottom: 48, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
 };
 
 export const blockCategories = [

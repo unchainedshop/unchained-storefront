@@ -494,6 +494,17 @@ interface PageBuilderContextValue {
 
 const PageBuilderContext = createContext<PageBuilderContextValue | null>(null);
 
+// Track newly added blocks for entrance animation
+const newlyAddedBlocks = new Set<string>();
+
+export const isNewlyAddedBlock = (blockId: string): boolean => {
+  return newlyAddedBlocks.has(blockId);
+};
+
+export const clearNewlyAddedBlock = (blockId: string): void => {
+  newlyAddedBlocks.delete(blockId);
+};
+
 export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -513,6 +524,8 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     (block: PageBlock, parentId?: string, position?: number) => {
       const blockDef = blockRegistry[block.type];
       const label = blockDef?.label || block.type;
+      // Track for entrance animation
+      newlyAddedBlocks.add(block.id);
       dispatch({
         type: "SAVE_HISTORY",
         payload: {

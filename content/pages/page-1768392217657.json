@@ -1,0 +1,157 @@
+{
+  "id": "page_1768392217657",
+  "title": "About us",
+  "slug": "page-1768392217657",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768392220547_7a7n3p88s",
+      "type": "hero-banner",
+      "content": {
+        "heading": "Our Story",
+        "subheading": "Building quality products since 2010",
+        "buttonText": "asdf",
+        "buttonLink": ""
+      },
+      "style": {
+        "backgroundColor": "#0f172a",
+        "textColor": "#c13e3e",
+        "minHeight": 350,
+        "alignmentX": "left",
+        "alignmentY": "center",
+        "padding": {
+          "top": 43,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundImage": "/api/media/files/2026/01/media_1768343521150_84vwli.jpeg"
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768392220547_16v9uw6u2",
+      "type": "columns",
+      "content": {
+        "columns": 2,
+        "gap": 48,
+        "layout": "equal"
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768392220547_jujl7mwnt",
+          "type": "image",
+          "content": {
+            "src": "",
+            "alt": "About us image",
+            "aspectRatio": "4:3"
+          },
+          "style": {
+            "borderRadius": 12
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768392220547_dvbwgt579",
+          "type": "text-content",
+          "content": {
+            "content": "<p>## Who We Are We are a passionate team dedicated to creating products that make a difference in people's lives. Founded in 2010, we've grown from a small startup to a trusted brand serving customers worldwide. Our mission is simple: deliver exceptional quality at fair prices while treating our customers like family.</p>",
+            "headingLevel": "h2"
+          },
+          "style": {
+            "alignmentY": "center"
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768392220547_qgsl6wcao",
+      "type": "text-content",
+      "content": {
+        "content": "<p>## Our Values</p>",
+        "headingLevel": "h2"
+      },
+      "style": {
+        "alignmentX": "center",
+        "padding": {
+          "top": 32,
+          "right": 24,
+          "bottom": 16,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768392220547_jef3yuta6",
+      "type": "columns",
+      "content": {
+        "columns": 3,
+        "gap": 32,
+        "layout": "equal"
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768392220547_f5r07mqe8",
+          "type": "text-content",
+          "content": {
+            "content": "<p>### Quality First We never compromise on quality. Every product is crafted with care.</p>",
+            "headingLevel": "h3"
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768392220547_iq6v5wuv7",
+          "type": "text-content",
+          "content": {
+            "content": "<p>### Customer Focus Your satisfaction is our priority. We're here to help 24/7.</p>",
+            "headingLevel": "h3"
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768392220547_d1xo997sl",
+          "type": "text-content",
+          "content": {
+            "content": "<p>### Sustainability We're committed to reducing our environmental footprint.</p>",
+            "headingLevel": "h3"
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        }
+      ]
+    }
+  ],
+  "seo": {},
+  "createdAt": "2026-01-14T12:03:37.657Z",
+  "updatedAt": "2026-01-14T12:38:35.523Z",
+  "versions": [],
+  "publishedAt": "2026-01-14T12:03:46.747Z"
+}

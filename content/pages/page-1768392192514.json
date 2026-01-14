@@ -1,0 +1,82 @@
+{
+  "id": "page_1768392192514",
+  "title": "Home",
+  "slug": "page-1768392192514",
+  "status": "published",
+  "blocks": [
+    {
+      "id": "block_1768392195648_j9iqjlui4",
+      "type": "hero-banner",
+      "content": {
+        "heading": "Welcome to Our Store",
+        "subheading": "Discover amazing products at unbeatable prices",
+        "buttonText": "Shop Now",
+        "buttonLink": "/products",
+        "secondaryButtonText": "Learn More",
+        "secondaryButtonLink": "/about"
+      },
+      "style": {
+        "backgroundColor": "#1e293b",
+        "textColor": "#ffffff",
+        "minHeight": 500,
+        "alignmentX": "center",
+        "alignmentY": "center",
+        "padding": {
+          "top": 80,
+          "right": 24,
+          "bottom": 80,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768392195648_61ws2w31e",
+      "type": "product-grid",
+      "content": {
+        "heading": "Featured Products",
+        "source": "auto",
+        "limit": 4,
+        "columns": 4,
+        "mobileColumns": 2,
+        "showSaleBadge": true,
+        "showQuickAdd": true
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768392195648_j9yc06xos",
+      "type": "newsletter",
+      "content": {
+        "heading": "Stay in the Loop",
+        "subheading": "Subscribe to get special offers and updates",
+        "buttonText": "Subscribe",
+        "placeholder": "Enter your email",
+        "showConsent": true
+      },
+      "style": {
+        "backgroundColor": "#f1f5f9",
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "createdAt": "2026-01-14T12:03:12.514Z",
+  "updatedAt": "2026-01-14T12:03:31.430Z",
+  "versions": [],
+  "publishedAt": "2026-01-14T12:03:31.414Z"
+}

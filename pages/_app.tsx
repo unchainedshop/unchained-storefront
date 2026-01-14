@@ -18,10 +18,11 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
   // Check if the current page has hero section based on route
   const hasHeroSection = router.pathname === "/";
 
-  // Check if we're on admin pages routes (skip layout for full-screen editor)
-  const isPageBuilder =
-    router.pathname === "/admin/pages" ||
-    router.pathname.startsWith("/admin/pages/");
+  // Check if we're on admin routes (skip layout for full-screen editor)
+  const isAdminPage =
+    router.pathname === "/admin" ||
+    router.pathname.startsWith("/admin/pages") ||
+    router.pathname.startsWith("/admin/media");
 
   return (
     <IntlWrapper locale={router.locale} messages={messages} key="intl-provider">
@@ -29,7 +30,7 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
         <ApolloProvider client={apollo}>
           <PushNotificationWrapper>
             <Toaster />
-            {isPageBuilder ? (
+            {isAdminPage ? (
               <Component {...pageProps} />
             ) : (
               <Layout hasHeroSection={hasHeroSection}>

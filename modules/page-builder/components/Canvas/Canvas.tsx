@@ -181,45 +181,33 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
       };
 
       return (
-        <React.Fragment key={block.id}>
-          {/* Add block button between blocks */}
-          {index === 0 && !isPreviewMode && (
-            <AddBlockButton
-              position="between"
-              onClick={() => handleOpenBlockPicker(0)}
-            />
-          )}
-          <BlockWrapper
+        <BlockWrapper
+          key={block.id}
+          block={block}
+          parentId={parentId}
+          isFirst={index === 0}
+          isLast={index === blocks.length - 1}
+          isDraggingAny={isDragging}
+          isOver={overId === block.id}
+          overPosition={overId === block.id ? overPosition : null}
+          previousBlockId={previousBlockId}
+          nextBlockId={nextBlockId}
+          onAddAfter={
+            !isPreviewMode ? () => handleOpenBlockPicker(index + 1) : undefined
+          }
+        >
+          <BlockRenderer
             block={block}
-            parentId={parentId}
-            isFirst={index === 0}
-            isLast={index === blocks.length - 1}
-            isDraggingAny={isDragging}
-            isOver={overId === block.id}
-            overPosition={overId === block.id ? overPosition : null}
-            previousBlockId={previousBlockId}
-            nextBlockId={nextBlockId}
+            isSelected={isBlockSelected}
+            onUpdate={handleBlockUpdate}
           >
-            <BlockRenderer
-              block={block}
-              isSelected={isBlockSelected}
-              onUpdate={handleBlockUpdate}
-            >
-              {block.children && block.children.length > 0 && (
-                <div className="min-h-[100px]">
-                  {renderBlocks(block.children, block.id)}
-                </div>
-              )}
-            </BlockRenderer>
-          </BlockWrapper>
-          {/* Add block button after each block */}
-          {!isPreviewMode && (
-            <AddBlockButton
-              position="between"
-              onClick={() => handleOpenBlockPicker(index + 1)}
-            />
-          )}
-        </React.Fragment>
+            {block.children && block.children.length > 0 && (
+              <div className="min-h-[100px]">
+                {renderBlocks(block.children, block.id)}
+              </div>
+            )}
+          </BlockRenderer>
+        </BlockWrapper>
       );
     });
   };

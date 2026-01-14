@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import Link from "next/link";
 import {
   SparklesIcon,
   CursorArrowRaysIcon,
@@ -12,6 +13,9 @@ import {
   DocumentDuplicateIcon,
   ArrowPathIcon,
   LightBulbIcon,
+  DocumentTextIcon,
+  PhotoIcon,
+  ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
 import { usePageBuilder } from "../../context/PageBuilderContext";
 
@@ -52,7 +56,7 @@ const BlockLibrary: React.FC = () => {
           </div>
           <div>
             <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-              Page Builder
+              Buildor
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {blockCount} {blockCount === 1 ? "block" : "blocks"} on this page
@@ -114,13 +118,29 @@ const BlockLibrary: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer hint */}
+      {/* Quick Links */}
       <div className="p-4 border-t border-slate-100 dark:border-slate-800">
-        <div className="flex items-center justify-center gap-2 text-xs text-slate-400 dark:text-slate-500">
-          <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] font-medium">
-            +
+        <div className="flex items-center gap-2 mb-3">
+          <ArrowTopRightOnSquareIcon className="w-4 h-4 text-slate-400" />
+          <span className="text-xs font-medium text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+            Quick Links
           </span>
-          <span>Click to add blocks</span>
+        </div>
+        <div className="space-y-1">
+          <Link
+            href="/admin/pages"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <DocumentTextIcon className="w-4 h-4" />
+            All Pages
+          </Link>
+          <Link
+            href="/admin/media"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <PhotoIcon className="w-4 h-4" />
+            Media Library
+          </Link>
         </div>
       </div>
     </div>

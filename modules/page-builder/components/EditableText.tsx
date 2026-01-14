@@ -31,14 +31,24 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const isEditing = !state.isPreviewMode;
 
-  // Update the DOM when value changes externally
+  // Update the DOM when value changes externally (only on mount or external changes)
   useEffect(() => {
     if (elementRef.current && !isUpdatingRef.current) {
-      if (elementRef.current.innerText !== value) {
+      // Only update if the DOM content is truly different (not just during typing)
+      const currentText = elementRef.current.innerText;
+      if (currentText !== value && currentText !== (value || "")) {
         elementRef.current.innerText = value || "";
       }
     }
   }, [value]);
+
+  // Set initial value on mount
+  useEffect(() => {
+    if (elementRef.current) {
+      elementRef.current.innerText = value || "";
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleInput = useCallback(() => {
     if (!elementRef.current) return;
@@ -114,9 +124,7 @@ const EditableText: React.FC<EditableTextProps> = ({
         minHeight: "1em",
       }}
       data-placeholder={!value ? placeholder : undefined}
-    >
-      {value}
-    </Element>
+    />
   );
 };
 

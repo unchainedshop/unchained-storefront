@@ -105,6 +105,27 @@
       "createdAt": "2026-01-13T22:36:44.614Z",
       "updatedAt": "2026-01-13T22:36:44.614Z",
       "usageCount": 0
+    },
+    "media_1768393235304_0t736l": {
+      "filename": "2026/01/media_1768393235289_s9sq7k.webp",
+      "originalName": "Menue_DolderGarden__DavidBiedert3_3bcc128d5d2ee05a47fe044cfa7ca0e2.webp",
+      "mimeType": "image/webp",
+      "size": 105974,
+      "dimensions": {
+        "width": 1600,
+        "height": 1200
+      },
+      "altText": "",
+      "title": "menue-doldergarden-davidbiedert3-3bcc128d5d2ee05a47fe044cfa7ca0e2",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768393235304_0t736l",
+      "createdAt": "2026-01-14T12:20:35.304Z",
+      "updatedAt": "2026-01-14T12:20:35.304Z",
+      "usageCount": 0
     }
   },
   "folders": {
@@ -118,5 +139,5 @@
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-13T22:39:08.841Z"
+  "lastUpdated": "2026-01-14T12:20:35.304Z"
 }

@@ -1,15 +1,22 @@
 /**
- * Settings Panel
- * Displays and edits settings for the selected block
+ * Settings Panel - Figma-inspired design
+ * Compact, dense layout with collapsible sections
  */
 
 import React, { useState, useEffect } from "react";
 import classNames from "classnames";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  XMarkIcon,
+  ChevronDownIcon,
+  ArrowsPointingOutIcon,
+  EyeSlashIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
 import { usePageBuilder } from "../../context/PageBuilderContext";
 import { blockRegistry } from "../../utils/blockRegistry";
 import { useCollaborationContext } from "../../collaboration/CollaborationContext";
 import MediaPickerField from "../../../media/components/MediaPickerField";
+import LinkPickerField from "./LinkPickerField";
 import type {
   PageBlock,
   BlockStyle,
@@ -23,11 +30,78 @@ interface SettingsPanelProps {
 
 type TabId = "content" | "style" | "advanced";
 
+// Collapsible Section Component
+interface SectionProps {
+  title: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}
+
+const Section: React.FC<SectionProps> = ({
+  title,
+  defaultOpen = true,
+  children,
+}) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className="border-b border-slate-100 dark:border-slate-800/50">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between py-2.5 px-3 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+          {title}
+        </span>
+        <ChevronDownIcon
+          className={classNames(
+            "w-3.5 h-3.5 text-slate-400 transition-transform duration-200",
+            !isOpen && "-rotate-90",
+          )}
+        />
+      </button>
+      {isOpen && <div className="px-3 pb-3 space-y-2">{children}</div>}
+    </div>
+  );
+};
+
+// Inline Property Row
+interface PropertyRowProps {
+  label: string;
+  children: React.ReactNode;
+  inline?: boolean;
+}
+
+const PropertyRow: React.FC<PropertyRowProps> = ({
+  label,
+  children,
+  inline = true,
+}) => {
+  if (!inline) {
+    return (
+      <div className="space-y-1">
+        <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+          {label}
+        </label>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0">
+        {label}
+      </label>
+      <div className="flex-1 min-w-0">{children}</div>
+    </div>
+  );
+};
+
 const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
   const { selectedBlock, updateBlock, selectBlock, saveHistory } =
     usePageBuilder();
 
-  // Save history when user finishes editing (on blur)
   const handleSaveHistory = () => {
     if (selectedBlock) {
       const blockDef = blockRegistry[selectedBlock.type];
@@ -44,7 +118,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     useCollaborationContext();
   const [activeTab, setActiveTab] = useState<TabId>("content");
 
-  // Acquire lock when block is selected for editing
   useEffect(() => {
     if (selectedBlock) {
       const acquired = lockBlock(selectedBlock.id);
@@ -52,8 +125,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
         setEditingBlock(selectedBlock.id);
       }
     }
-
-    // Release lock when deselecting or unmounting
     return () => {
       if (selectedBlock) {
         unlockBlock(selectedBlock.id);
@@ -66,29 +137,34 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     return (
       <div
         className={classNames(
-          "flex items-center justify-center h-full",
+          "flex flex-col items-center justify-center h-full px-6",
           className,
         )}
       >
-        <p className="text-sm text-slate-500 dark:text-slate-400 text-center px-4">
-          Select a block to edit its settings
+        <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
+          <ArrowsPointingOutIcon className="w-5 h-5 text-slate-400" />
+        </div>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center">
+          Select a block to edit
         </p>
       </div>
     );
   }
 
-  // Check if block is locked by another user
   const isLocked = isBlockLocked(selectedBlock.id);
   if (isLocked) {
     return (
       <div
         className={classNames(
-          "flex items-center justify-center h-full",
+          "flex flex-col items-center justify-center h-full px-6",
           className,
         )}
       >
-        <p className="text-sm text-slate-500 dark:text-slate-400 text-center px-4">
-          This block is being edited by another user
+        <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center mb-3">
+          <LockClosedIcon className="w-5 h-5 text-amber-500" />
+        </div>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center">
+          Being edited by another user
         </p>
       </div>
     );
@@ -99,6 +175,12 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
   const handleContentChange = (key: string, value: any) => {
     updateBlock(selectedBlock.id, {
       content: { ...selectedBlock.content, [key]: value },
+    });
+  };
+
+  const handleBatchContentChange = (updates: Record<string, any>) => {
+    updateBlock(selectedBlock.id, {
+      content: { ...selectedBlock.content, ...updates },
     });
   };
 
@@ -136,43 +218,55 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
 
   return (
     <div className={classNames("h-full flex flex-col", className)}>
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
-        <h3 className="font-medium text-slate-900 dark:text-white">
-          {blockDef?.label || selectedBlock.type}
-        </h3>
+      {/* Header - Compact */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100 dark:border-slate-800/50">
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] font-semibold text-slate-900 dark:text-white">
+            {blockDef?.label || selectedBlock.type}
+          </span>
+          {selectedBlock.hidden && (
+            <EyeSlashIcon className="w-3.5 h-3.5 text-slate-400" />
+          )}
+          {selectedBlock.locked && (
+            <LockClosedIcon className="w-3.5 h-3.5 text-amber-500" />
+          )}
+        </div>
         <button
           onClick={() => selectBlock(null)}
-          className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"
+          className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
         >
-          <XMarkIcon className="w-5 h-5 text-slate-500" />
+          <XMarkIcon className="w-4 h-4 text-slate-400" />
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-700">
+      {/* Tabs - Figma style */}
+      <div className="flex border-b border-slate-100 dark:border-slate-800/50">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={classNames(
-              "flex-1 px-4 py-2 text-sm font-medium transition-colors",
+              "flex-1 px-3 py-2 text-[11px] font-medium transition-colors relative",
               activeTab === tab.id
-                ? "text-slate-900 dark:text-white border-b-2 border-slate-900 dark:border-white"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white",
+                ? "text-slate-900 dark:text-white"
+                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
             )}
           >
             {tab.label}
+            {activeTab === tab.id && (
+              <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
+            )}
           </button>
         ))}
       </div>
 
       {/* Tab content */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto">
         {activeTab === "content" && (
           <ContentSettings
             block={selectedBlock}
             onChange={handleContentChange}
+            onBatchChange={handleBatchContentChange}
             onBlur={handleSaveHistory}
           />
         )}
@@ -201,677 +295,2179 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
 interface ContentSettingsProps {
   block: PageBlock;
   onChange: (key: string, value: any) => void;
+  onBatchChange: (updates: Record<string, any>) => void;
   onBlur: () => void;
 }
 
 const ContentSettings: React.FC<ContentSettingsProps> = ({
   block,
   onChange,
+  onBatchChange,
   onBlur,
 }) => {
   const content = block.content as Record<string, any>;
 
-  // Render different fields based on block type
   switch (block.type) {
     case "hero-banner":
       return (
-        <div className="space-y-4">
-          <InputField
-            label="Heading"
-            value={content.heading || ""}
-            onChange={(v) => onChange("heading", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Subheading"
-            value={content.subheading || ""}
-            onChange={(v) => onChange("subheading", v)}
-            onBlur={onBlur}
-          />
+        <div>
+          <Section title="Layout">
+            <LayoutPicker
+              value={content.variant || "centered"}
+              onChange={(v) => onChange("variant", v)}
+            />
+          </Section>
 
-          {/* Primary Button */}
-          <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-xs font-medium text-slate-900 dark:text-white">
-                Primary Button
-              </h4>
-              {(content.buttonText || content.buttonLink) && (
-                <button
-                  onClick={() => {
-                    onChange("buttonText", "");
-                    onChange("buttonLink", "");
-                    onChange("buttonVariant", "primary");
-                  }}
-                  className="text-xs text-red-500 hover:text-red-600"
-                >
-                  Remove
-                </button>
-              )}
-            </div>
-            <div className="space-y-3">
-              <InputField
-                label="Text"
-                value={content.buttonText || ""}
-                onChange={(v) => onChange("buttonText", v)}
-                onBlur={onBlur}
-                placeholder="e.g. Shop Now"
-              />
-              <InputField
-                label="Link"
+          <Section title="Text">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Primary Button">
+            <InputField
+              value={content.buttonText || ""}
+              onChange={(v) => onChange("buttonText", v)}
+              onBlur={onBlur}
+              placeholder="Button text"
+            />
+            <PropertyRow label="Link" inline={false}>
+              <LinkPickerField
                 value={content.buttonLink || ""}
                 onChange={(v) => onChange("buttonLink", v)}
                 onBlur={onBlur}
-                placeholder="e.g. /products"
               />
-              <SelectField
-                label="Style"
+            </PropertyRow>
+            <PropertyRow label="Style">
+              <MiniSelect
                 value={content.buttonVariant || "primary"}
                 options={[
-                  { value: "primary", label: "Primary (Filled)" },
-                  { value: "secondary", label: "Secondary (Outline)" },
-                  { value: "link", label: "Link (Text only)" },
+                  { value: "primary", label: "Filled" },
+                  { value: "secondary", label: "Outline" },
+                  { value: "link", label: "Link" },
                 ]}
                 onChange={(v) => onChange("buttonVariant", v)}
               />
-            </div>
-          </div>
+            </PropertyRow>
+          </Section>
 
-          {/* Secondary Button */}
-          <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-xs font-medium text-slate-900 dark:text-white">
-                Secondary Button
-              </h4>
-              {(content.secondaryButtonText || content.secondaryButtonLink) && (
-                <button
-                  onClick={() => {
-                    onChange("secondaryButtonText", "");
-                    onChange("secondaryButtonLink", "");
-                    onChange("secondaryButtonVariant", "secondary");
-                  }}
-                  className="text-xs text-red-500 hover:text-red-600"
-                >
-                  Remove
-                </button>
-              )}
-            </div>
-            <div className="space-y-3">
-              <InputField
-                label="Text"
-                value={content.secondaryButtonText || ""}
-                onChange={(v) => onChange("secondaryButtonText", v)}
-                onBlur={onBlur}
-                placeholder="e.g. Learn More"
-              />
-              <InputField
-                label="Link"
+          <Section title="Secondary Button" defaultOpen={false}>
+            <InputField
+              value={content.secondaryButtonText || ""}
+              onChange={(v) => onChange("secondaryButtonText", v)}
+              onBlur={onBlur}
+              placeholder="Button text"
+            />
+            <PropertyRow label="Link" inline={false}>
+              <LinkPickerField
                 value={content.secondaryButtonLink || ""}
                 onChange={(v) => onChange("secondaryButtonLink", v)}
                 onBlur={onBlur}
-                placeholder="e.g. /about"
               />
-              <SelectField
-                label="Style"
-                value={content.secondaryButtonVariant || "secondary"}
+            </PropertyRow>
+          </Section>
+
+          <Section title="Text Readability" defaultOpen={false}>
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.textOverlay || "none"}
                 options={[
-                  { value: "primary", label: "Primary (Filled)" },
-                  { value: "secondary", label: "Secondary (Outline)" },
-                  { value: "link", label: "Link (Text only)" },
+                  { value: "none", label: "None" },
+                  { value: "gradient", label: "Gradient" },
+                  { value: "glass", label: "Glass" },
+                  { value: "solid", label: "Solid" },
+                  { value: "text-shadow", label: "Shadow" },
                 ]}
-                onChange={(v) => onChange("secondaryButtonVariant", v)}
+                onChange={(v) => onChange("textOverlay", v)}
               />
-            </div>
-          </div>
+            </PropertyRow>
+            {content.textOverlay && content.textOverlay !== "none" && (
+              <>
+                <PropertyRow label="Mode">
+                  <SegmentedControl
+                    value={content.textOverlayColorMode || "dark"}
+                    options={[
+                      { value: "auto", label: "Auto" },
+                      { value: "dark", label: "Dark" },
+                      { value: "light", label: "Light" },
+                    ]}
+                    onChange={(v) => onChange("textOverlayColorMode", v)}
+                  />
+                </PropertyRow>
+                <PropertyRow label="Intensity">
+                  <MiniNumberInput
+                    value={content.textOverlayIntensity || 50}
+                    min={10}
+                    max={100}
+                    onChange={(v) => onChange("textOverlayIntensity", v)}
+                    suffix="%"
+                  />
+                </PropertyRow>
+              </>
+            )}
+          </Section>
         </div>
       );
 
     case "product-grid":
       return (
-        <div className="space-y-4">
-          <SelectField
-            label="Source"
-            value={content.source || "auto"}
-            options={[
-              { value: "auto", label: "Automatic" },
-              { value: "collection", label: "Collection" },
-              { value: "manual", label: "Manual Selection" },
-            ]}
-            onChange={(v) => onChange("source", v)}
-          />
-          <NumberField
-            label="Products to Show"
-            value={content.limit || 8}
-            min={1}
-            max={24}
-            onChange={(v) => onChange("limit", v)}
-          />
-          <NumberField
-            label="Columns (Desktop)"
-            value={content.columns || 4}
-            min={1}
-            max={6}
-            onChange={(v) => onChange("columns", v)}
-          />
-          <NumberField
-            label="Columns (Mobile)"
-            value={content.mobileColumns || 2}
-            min={1}
-            max={3}
-            onChange={(v) => onChange("mobileColumns", v)}
-          />
-          <CheckboxField
-            label="Show Sale Badge"
-            checked={content.showSaleBadge ?? true}
-            onChange={(v) => onChange("showSaleBadge", v)}
-          />
-          <CheckboxField
-            label="Show Quick Add"
-            checked={content.showQuickAdd ?? false}
-            onChange={(v) => onChange("showQuickAdd", v)}
-          />
+        <div>
+          <Section title="Data">
+            <PropertyRow label="Source">
+              <MiniSelect
+                value={content.source || "auto"}
+                options={[
+                  { value: "auto", label: "Auto" },
+                  { value: "collection", label: "Collection" },
+                  { value: "manual", label: "Manual" },
+                ]}
+                onChange={(v) => onChange("source", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Count">
+              <MiniNumberInput
+                value={content.limit || 8}
+                min={1}
+                max={24}
+                onChange={(v) => onChange("limit", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Layout">
+            <PropertyRow label="Columns">
+              <MiniNumberInput
+                value={content.columns || 4}
+                min={1}
+                max={6}
+                onChange={(v) => onChange("columns", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Mobile">
+              <MiniNumberInput
+                value={content.mobileColumns || 2}
+                min={1}
+                max={3}
+                onChange={(v) => onChange("mobileColumns", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Options">
+            <ToggleRow
+              label="Sale Badge"
+              checked={content.showSaleBadge ?? true}
+              onChange={(v) => onChange("showSaleBadge", v)}
+            />
+            <ToggleRow
+              label="Quick Add"
+              checked={content.showQuickAdd ?? false}
+              onChange={(v) => onChange("showQuickAdd", v)}
+            />
+          </Section>
         </div>
       );
 
     case "text-content":
       return (
-        <div className="space-y-4">
-          <TextareaField
-            label="Content"
-            value={content.content || ""}
-            onChange={(v) => onChange("content", v)}
-            onBlur={onBlur}
-          />
-          <SelectField
-            label="Text Style"
-            value={content.headingLevel || "p"}
-            options={[
-              { value: "h1", label: "Heading 1" },
-              { value: "h2", label: "Heading 2" },
-              { value: "h3", label: "Heading 3" },
-              { value: "h4", label: "Heading 4" },
-              { value: "p", label: "Paragraph" },
-            ]}
-            onChange={(v) => onChange("headingLevel", v)}
-          />
-        </div>
-      );
-
-    case "newsletter":
-      return (
-        <div className="space-y-4">
-          <InputField
-            label="Heading"
-            value={content.heading || ""}
-            onChange={(v) => onChange("heading", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Subheading"
-            value={content.subheading || ""}
-            onChange={(v) => onChange("subheading", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Button Text"
-            value={content.buttonText || ""}
-            onChange={(v) => onChange("buttonText", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Placeholder"
-            value={content.placeholder || ""}
-            onChange={(v) => onChange("placeholder", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Success Message"
-            value={content.successMessage || ""}
-            onChange={(v) => onChange("successMessage", v)}
-            onBlur={onBlur}
-          />
-          <CheckboxField
-            label="Show Consent Checkbox"
-            checked={content.showConsent ?? true}
-            onChange={(v) => onChange("showConsent", v)}
-          />
+        <div>
+          <Section title="Content">
+            <textarea
+              value={content.content || ""}
+              onChange={(e) => onChange("content", e.target.value)}
+              onBlur={onBlur}
+              rows={4}
+              placeholder="Enter text..."
+              className="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+            />
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.headingLevel || "p"}
+                options={[
+                  { value: "h1", label: "H1" },
+                  { value: "h2", label: "H2" },
+                  { value: "h3", label: "H3" },
+                  { value: "p", label: "Para" },
+                ]}
+                onChange={(v) => onChange("headingLevel", v)}
+              />
+            </PropertyRow>
+          </Section>
         </div>
       );
 
     case "spacer":
       return (
-        <div className="space-y-4">
-          <NumberField
-            label="Height (px)"
-            value={content.height || 48}
-            min={8}
-            max={200}
-            onChange={(v) => onChange("height", v)}
-          />
-          <NumberField
-            label="Mobile Height (px)"
-            value={content.mobileHeight || content.height || 24}
-            min={8}
-            max={200}
-            onChange={(v) => onChange("mobileHeight", v)}
-          />
-        </div>
-      );
-
-    case "countdown-timer":
-      return (
-        <div className="space-y-4">
-          <InputField
-            label="End Date"
-            type="datetime-local"
-            value={content.endDate?.slice(0, 16) || ""}
-            onChange={(v) => onChange("endDate", new Date(v).toISOString())}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Heading"
-            value={content.heading || ""}
-            onChange={(v) => onChange("heading", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Button Text"
-            value={content.buttonText || ""}
-            onChange={(v) => onChange("buttonText", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Button Link"
-            value={content.buttonLink || ""}
-            onChange={(v) => onChange("buttonLink", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="Expired Message"
-            value={content.expiredMessage || ""}
-            onChange={(v) => onChange("expiredMessage", v)}
-            onBlur={onBlur}
-          />
+        <div>
+          <Section title="Size">
+            <PropertyRow label="Height">
+              <MiniNumberInput
+                value={content.height || 48}
+                min={8}
+                max={200}
+                onChange={(v) => onChange("height", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+            <PropertyRow label="Mobile">
+              <MiniNumberInput
+                value={content.mobileHeight || content.height || 24}
+                min={8}
+                max={200}
+                onChange={(v) => onChange("mobileHeight", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+          </Section>
         </div>
       );
 
     case "columns": {
-      const currentColumns = content.columns || 2;
-      const currentLayout = content.layout || "equal";
+      const desktopCols = content.columns || 2;
+      const laptopCols = content.laptopColumns ?? desktopCols;
+      const tabletLgCols = content.tabletLgColumns ?? laptopCols;
+      const tabletCols = content.tabletColumns ?? tabletLgCols;
+      const mobileCols = content.mobileColumns ?? 1;
 
-      // Available layouts based on column count
-      const layoutsFor2 = [
-        { id: "equal", label: "Equal", widths: [1, 1] },
-        { id: "1-2", label: "1:2", widths: [1, 2] },
-        { id: "2-1", label: "2:1", widths: [2, 1] },
+      const columnOptions = [
+        { value: "1", label: "1" },
+        { value: "2", label: "2" },
+        { value: "3", label: "3" },
+        { value: "4", label: "4" },
       ];
-      const layoutsFor3 = [
-        { id: "equal", label: "Equal", widths: [1, 1, 1] },
-        { id: "1-2-1", label: "1:2:1", widths: [1, 2, 1] },
-      ];
-
-      const availableLayouts =
-        currentColumns === 2
-          ? layoutsFor2
-          : currentColumns === 3
-            ? layoutsFor3
-            : [
-                {
-                  id: "equal",
-                  label: "Equal",
-                  widths: Array(currentColumns).fill(1),
-                },
-              ];
 
       return (
-        <div className="space-y-4">
-          {/* Column Count */}
-          <div>
-            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
-              Columns
-            </label>
-            <div className="flex gap-2">
-              {[2, 3, 4].map((count) => (
-                <button
-                  key={count}
-                  onClick={() => {
-                    onChange("columns", count);
-                    // Reset to equal layout when changing column count
-                    onChange("layout", "equal");
-                  }}
-                  className={`flex-1 py-2 rounded-lg font-medium transition-all ${
-                    currentColumns === count
-                      ? "bg-blue-500 text-white"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                  }`}
-                >
-                  {count}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Layout Options (shown only if multiple layouts available) */}
-          {availableLayouts.length > 1 && (
-            <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
-                Layout
-              </label>
-              <div className="flex gap-2">
-                {availableLayouts.map((layout) => (
-                  <button
-                    key={layout.id}
-                    onClick={() => onChange("layout", layout.id)}
-                    className={`flex-1 p-2 rounded-lg border-2 transition-all ${
-                      currentLayout === layout.id ||
-                      (layout.id === "equal" &&
-                        !["1-2", "2-1", "1-2-1"].includes(currentLayout))
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                        : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
-                    }`}
-                    title={layout.label}
-                  >
-                    <div className="flex gap-0.5 h-6">
-                      {layout.widths.map((w, i) => (
-                        <div
-                          key={i}
-                          className={`rounded-sm ${
-                            currentLayout === layout.id ||
-                            (layout.id === "equal" &&
-                              !["1-2", "2-1", "1-2-1"].includes(currentLayout))
-                              ? "bg-blue-500"
-                              : "bg-slate-300 dark:bg-slate-600"
-                          }`}
-                          style={{ flex: w }}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-xs mt-1 text-slate-500 dark:text-slate-400">
-                      {layout.label}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <NumberField
-            label="Gap (px)"
-            value={content.gap || 24}
-            min={0}
-            max={100}
-            onChange={(v) => onChange("gap", v)}
-          />
-
-          {/* Responsive Settings */}
-          <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
-            <h4 className="text-xs font-medium text-slate-900 dark:text-white mb-3">
-              Responsive
-            </h4>
-
-            <CheckboxField
-              label="Stack on mobile"
-              checked={content.stackOnMobile !== false}
-              onChange={(v) => onChange("stackOnMobile", v)}
-            />
-
-            {content.stackOnMobile === false && (
-              <div className="mt-3">
-                <NumberField
-                  label="Mobile Columns"
-                  value={content.mobileColumns || 1}
-                  min={1}
-                  max={4}
-                  onChange={(v) => onChange("mobileColumns", v)}
-                />
-              </div>
-            )}
-
-            <div className="mt-3">
-              <NumberField
-                label="Tablet Columns"
-                value={content.tabletColumns || currentColumns}
-                min={1}
-                max={4}
-                onChange={(v) => onChange("tabletColumns", v)}
+        <div>
+          <Section title="Layout">
+            <PropertyRow label="Gap">
+              <MiniNumberInput
+                value={content.gap || 24}
+                min={0}
+                max={100}
+                onChange={(v) => onChange("gap", v)}
+                suffix="px"
               />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Columns per Breakpoint">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 px-1">
+                <span>DESKTOP</span>
+                <span>1520px+</span>
+              </div>
+              <PropertyRow label="Desktop">
+                <SegmentedControl
+                  value={String(desktopCols)}
+                  options={columnOptions}
+                  onChange={(v) => {
+                    onBatchChange({ columns: Number(v), layout: "equal" });
+                  }}
+                />
+              </PropertyRow>
+              <PropertyRow label="Laptop">
+                <SegmentedControl
+                  value={String(laptopCols)}
+                  options={columnOptions}
+                  onChange={(v) => onChange("laptopColumns", Number(v))}
+                />
+              </PropertyRow>
+
+              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 px-1 pt-2">
+                <span>TABLET</span>
+                <span>768px - 1279px</span>
+              </div>
+              <PropertyRow label="Tablet Landscape">
+                <SegmentedControl
+                  value={String(tabletLgCols)}
+                  options={columnOptions}
+                  onChange={(v) => onChange("tabletLgColumns", Number(v))}
+                />
+              </PropertyRow>
+              <PropertyRow label="Tablet">
+                <SegmentedControl
+                  value={String(tabletCols)}
+                  options={columnOptions}
+                  onChange={(v) => onChange("tabletColumns", Number(v))}
+                />
+              </PropertyRow>
+
+              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 px-1 pt-2">
+                <span>MOBILE</span>
+                <span>390px</span>
+              </div>
+              <PropertyRow label="Mobile">
+                <SegmentedControl
+                  value={String(mobileCols)}
+                  options={columnOptions}
+                  onChange={(v) => onChange("mobileColumns", Number(v))}
+                />
+              </PropertyRow>
             </div>
-          </div>
+          </Section>
         </div>
       );
     }
 
-    case "before-after":
+    case "image":
       return (
-        <div className="space-y-4">
-          <MediaPickerField
-            label="Before Image"
-            value={content.beforeImage || ""}
-            onChange={(v) => onChange("beforeImage", v)}
-            onBlur={onBlur}
-            allowedTypes={["image/*"]}
-          />
-          <MediaPickerField
-            label="After Image"
-            value={content.afterImage || ""}
-            onChange={(v) => onChange("afterImage", v)}
-            onBlur={onBlur}
-            allowedTypes={["image/*"]}
-          />
-          <InputField
-            label="Before Label"
-            value={content.beforeLabel || "Before"}
-            onChange={(v) => onChange("beforeLabel", v)}
-            onBlur={onBlur}
-          />
-          <InputField
-            label="After Label"
-            value={content.afterLabel || "After"}
-            onChange={(v) => onChange("afterLabel", v)}
-            onBlur={onBlur}
-          />
-          <NumberField
-            label="Initial Position (%)"
-            value={content.initialPosition || 50}
-            min={0}
-            max={100}
-            onChange={(v) => onChange("initialPosition", v)}
-          />
-          <SelectField
-            label="Orientation"
-            value={content.orientation || "horizontal"}
-            options={[
-              { value: "horizontal", label: "Horizontal" },
-              { value: "vertical", label: "Vertical" },
-            ]}
-            onChange={(v) => onChange("orientation", v)}
-          />
-          <CheckboxField
-            label="Show Labels"
-            checked={content.showLabels ?? true}
-            onChange={(v) => onChange("showLabels", v)}
-          />
+        <div>
+          <Section title="Image">
+            <MediaPickerField
+              value={content.src || ""}
+              onChange={(v) => onChange("src", v)}
+              onBlur={onBlur}
+              allowedTypes={["image/*"]}
+              compact
+            />
+            <InputField
+              value={content.alt || ""}
+              onChange={(v) => onChange("alt", v)}
+              onBlur={onBlur}
+              placeholder="Alt text"
+            />
+          </Section>
+
+          <Section title="Link" defaultOpen={false}>
+            <LinkPickerField
+              value={content.link || ""}
+              onChange={(v) => onChange("link", v)}
+              onBlur={onBlur}
+            />
+          </Section>
+
+          <Section title="Display">
+            <PropertyRow label="Ratio">
+              <MiniSelect
+                value={content.aspectRatio || "auto"}
+                options={[
+                  { value: "auto", label: "Auto" },
+                  { value: "1:1", label: "1:1" },
+                  { value: "4:3", label: "4:3" },
+                  { value: "16:9", label: "16:9" },
+                ]}
+                onChange={(v) => onChange("aspectRatio", v)}
+              />
+            </PropertyRow>
+          </Section>
         </div>
       );
 
-    case "shoppable-image":
+    case "faq-accordion": {
+      const items = content.items || [];
       return (
-        <div className="space-y-4">
-          <MediaPickerField
-            label="Image"
-            value={content.image || ""}
-            onChange={(v) => onChange("image", v)}
-            onBlur={onBlur}
-            allowedTypes={["image/*"]}
-          />
-          <InputField
-            label="Alt Text"
-            value={content.altText || ""}
-            onChange={(v) => onChange("altText", v)}
-            onBlur={onBlur}
-            placeholder="Describe the image"
-          />
-          <SelectField
-            label="Hotspot Style"
-            value={content.hotspotStyle || "pulse"}
-            options={[
-              { value: "dot", label: "Dot" },
-              { value: "plus", label: "Plus" },
-              { value: "pulse", label: "Pulse (Animated)" },
-            ]}
-            onChange={(v) => onChange("hotspotStyle", v)}
-          />
-          <ColorField
-            label="Hotspot Color"
-            value={content.hotspotColor || "#ffffff"}
-            onChange={(v) => onChange("hotspotColor", v)}
-          />
-          <SelectField
-            label="Show Labels"
-            value={content.showLabels || "hover"}
-            options={[
-              { value: "always", label: "Always" },
-              { value: "hover", label: "On Hover" },
-              { value: "never", label: "Never" },
-            ]}
-            onChange={(v) => onChange("showLabels", v)}
-          />
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
 
-          {/* Hotspots List */}
-          <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
-            <h4 className="text-xs font-medium text-slate-900 dark:text-white mb-3">
-              Product Hotspots ({(content.hotspots || []).length})
-            </h4>
-            {(content.hotspots || []).length === 0 ? (
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                No hotspots added yet. Click &quot;Add Hotspot&quot; to place
-                product markers on your image.
-              </p>
-            ) : (
-              <div className="space-y-2">
-                {(content.hotspots || []).map(
-                  (
-                    hotspot: {
-                      id: string;
-                      productTitle?: string;
-                      position: { x: number; y: number };
-                    },
-                    index: number,
-                  ) => (
-                    <div
-                      key={hotspot.id}
-                      className="flex items-center justify-between p-2 bg-slate-50 dark:bg-slate-800 rounded"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
-                          {hotspot.productTitle || `Hotspot ${index + 1}`}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                          Position: {Math.round(hotspot.position.x)}%,{" "}
-                          {Math.round(hotspot.position.y)}%
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => {
-                          const newHotspots = [...(content.hotspots || [])];
-                          newHotspots.splice(index, 1);
-                          onChange("hotspots", newHotspots);
-                        }}
-                        className="ml-2 p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
-                        title="Remove hotspot"
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  ),
-                )}
+          <Section title="Options">
+            <ToggleRow
+              label="Allow multiple open"
+              checked={content.allowMultiple ?? false}
+              onChange={(v) => onChange("allowMultiple", v)}
+            />
+            <ToggleRow
+              label="Open first by default"
+              checked={content.defaultOpenFirst ?? true}
+              onChange={(v) => onChange("defaultOpenFirst", v)}
+            />
+          </Section>
+
+          <Section title="Questions">
+            {items.map((item: any, index: number) => (
+              <div
+                key={item.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Q{index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newItems = items.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("items", newItems);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <InputField
+                  value={item.question || ""}
+                  onChange={(v) => {
+                    const newItems = [...items];
+                    newItems[index] = { ...newItems[index], question: v };
+                    onChange("items", newItems);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Question"
+                />
+                <textarea
+                  value={item.answer || ""}
+                  onChange={(e) => {
+                    const newItems = [...items];
+                    newItems[index] = {
+                      ...newItems[index],
+                      answer: e.target.value,
+                    };
+                    onChange("items", newItems);
+                  }}
+                  onBlur={onBlur}
+                  rows={2}
+                  placeholder="Answer"
+                  className="w-full px-2 py-1.5 text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                />
               </div>
-            )}
+            ))}
             <button
               onClick={() => {
-                const newHotspot = {
-                  id: `hotspot_${Date.now()}`,
-                  productId: "",
-                  productTitle: "New Product",
-                  productPrice: "$0.00",
-                  position: { x: 50, y: 50 },
-                };
-                onChange("hotspots", [...(content.hotspots || []), newHotspot]);
+                const newItems = [
+                  ...items,
+                  { id: `faq_${Date.now()}`, question: "", answer: "" },
+                ];
+                onChange("items", newItems);
               }}
-              className="mt-3 w-full py-2 px-3 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Question
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "pricing-table": {
+      const plans = content.plans || [];
+      return (
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Options">
+            <ToggleRow
+              label="Show toggle"
+              checked={content.showToggle ?? true}
+              onChange={(v) => onChange("showToggle", v)}
+            />
+            {content.showToggle && (
+              <>
+                <InputField
+                  value={content.monthlyLabel || "Monthly"}
+                  onChange={(v) => onChange("monthlyLabel", v)}
+                  onBlur={onBlur}
+                  placeholder="Monthly label"
+                />
+                <InputField
+                  value={content.yearlyLabel || "Yearly"}
+                  onChange={(v) => onChange("yearlyLabel", v)}
+                  onBlur={onBlur}
+                  placeholder="Yearly label"
+                />
+              </>
+            )}
+          </Section>
+
+          <Section title="Plans">
+            {plans.map((plan: any, index: number) => (
+              <div
+                key={plan.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Plan {index + 1}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <ToggleRow
+                      label="Featured"
+                      checked={plan.featured ?? false}
+                      onChange={(v) => {
+                        const newPlans = [...plans];
+                        newPlans[index] = { ...newPlans[index], featured: v };
+                        onChange("plans", newPlans);
+                      }}
+                    />
+                    <button
+                      onClick={() => {
+                        const newPlans = plans.filter(
+                          (_: any, i: number) => i !== index,
+                        );
+                        onChange("plans", newPlans);
+                      }}
+                      className="text-[10px] text-red-500 hover:text-red-600"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <InputField
+                  value={plan.name || ""}
+                  onChange={(v) => {
+                    const newPlans = [...plans];
+                    newPlans[index] = { ...newPlans[index], name: v };
+                    onChange("plans", newPlans);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Plan name"
+                />
+                <div className="grid grid-cols-2 gap-1.5">
+                  <InputField
+                    value={plan.monthlyPrice || ""}
+                    onChange={(v) => {
+                      const newPlans = [...plans];
+                      newPlans[index] = { ...newPlans[index], monthlyPrice: v };
+                      onChange("plans", newPlans);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Monthly $"
+                  />
+                  <InputField
+                    value={plan.yearlyPrice || ""}
+                    onChange={(v) => {
+                      const newPlans = [...plans];
+                      newPlans[index] = { ...newPlans[index], yearlyPrice: v };
+                      onChange("plans", newPlans);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Yearly $"
+                  />
+                </div>
+                <InputField
+                  value={plan.description || ""}
+                  onChange={(v) => {
+                    const newPlans = [...plans];
+                    newPlans[index] = { ...newPlans[index], description: v };
+                    onChange("plans", newPlans);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Description"
+                />
+                <textarea
+                  value={(plan.features || []).join("\n")}
+                  onChange={(e) => {
+                    const newPlans = [...plans];
+                    newPlans[index] = {
+                      ...newPlans[index],
+                      features: e.target.value.split("\n").filter(Boolean),
+                    };
+                    onChange("plans", newPlans);
+                  }}
+                  onBlur={onBlur}
+                  rows={3}
+                  placeholder="Features (one per line)"
+                  className="w-full px-2 py-1.5 text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                />
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newPlans = [
+                  ...plans,
+                  {
+                    id: `plan_${Date.now()}`,
+                    name: "",
+                    monthlyPrice: "",
+                    yearlyPrice: "",
+                    features: [],
+                    buttonText: "Get Started",
+                  },
+                ];
+                onChange("plans", newPlans);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Plan
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "stats": {
+      const stats = content.stats || [];
+      return (
+        <div>
+          <Section title="Layout">
+            <PropertyRow label="Columns">
+              <SegmentedControl
+                value={String(content.columns || 4)}
+                options={[
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "4" },
+                ]}
+                onChange={(v) => onChange("columns", Number(v))}
+              />
+            </PropertyRow>
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.variant || "simple"}
+                options={[
+                  { value: "simple", label: "Simple" },
+                  { value: "cards", label: "Cards" },
+                  { value: "bordered", label: "Bordered" },
+                ]}
+                onChange={(v) => onChange("variant", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Stats">
+            {stats.map((stat: any, index: number) => (
+              <div
+                key={stat.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Stat {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newStats = stats.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("stats", newStats);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <InputField
+                    value={stat.value || ""}
+                    onChange={(v) => {
+                      const newStats = [...stats];
+                      newStats[index] = { ...newStats[index], value: v };
+                      onChange("stats", newStats);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Value (e.g. 99%)"
+                  />
+                  <InputField
+                    value={stat.label || ""}
+                    onChange={(v) => {
+                      const newStats = [...stats];
+                      newStats[index] = { ...newStats[index], label: v };
+                      onChange("stats", newStats);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Label"
+                  />
+                </div>
+                <InputField
+                  value={stat.description || ""}
+                  onChange={(v) => {
+                    const newStats = [...stats];
+                    newStats[index] = { ...newStats[index], description: v };
+                    onChange("stats", newStats);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Description (optional)"
+                />
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newStats = [
+                  ...stats,
+                  { id: `stat_${Date.now()}`, value: "", label: "" },
+                ];
+                onChange("stats", newStats);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Stat
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "logo-cloud": {
+      const logos = content.logos || [];
+      return (
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+          </Section>
+
+          <Section title="Layout">
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.variant || "grid"}
+                options={[
+                  { value: "grid", label: "Grid" },
+                  { value: "scroll", label: "Scroll" },
+                  { value: "marquee", label: "Marquee" },
+                ]}
+                onChange={(v) => onChange("variant", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Columns">
+              <MiniNumberInput
+                value={content.columns || 5}
+                min={3}
+                max={8}
+                onChange={(v) => onChange("columns", v)}
+              />
+            </PropertyRow>
+            <ToggleRow
+              label="Grayscale"
+              checked={content.grayscale ?? true}
+              onChange={(v) => onChange("grayscale", v)}
+            />
+          </Section>
+
+          <Section title="Logos">
+            {logos.map((logo: any, index: number) => (
+              <div
+                key={logo.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Logo {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newLogos = logos.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("logos", newLogos);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <MediaPickerField
+                  value={logo.src || ""}
+                  onChange={(v) => {
+                    const newLogos = [...logos];
+                    newLogos[index] = { ...newLogos[index], src: v };
+                    onChange("logos", newLogos);
+                  }}
+                  onBlur={onBlur}
+                  allowedTypes={["image/*"]}
+                  compact
+                />
+                <InputField
+                  value={logo.alt || ""}
+                  onChange={(v) => {
+                    const newLogos = [...logos];
+                    newLogos[index] = { ...newLogos[index], alt: v };
+                    onChange("logos", newLogos);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Company name"
+                />
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newLogos = [
+                  ...logos,
+                  { id: `logo_${Date.now()}`, src: "", alt: "" },
+                ];
+                onChange("logos", newLogos);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Logo
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "team-grid": {
+      const members = content.members || [];
+      return (
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Layout">
+            <PropertyRow label="Columns">
+              <SegmentedControl
+                value={String(content.columns || 3)}
+                options={[
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "4" },
+                ]}
+                onChange={(v) => onChange("columns", Number(v))}
+              />
+            </PropertyRow>
+            <ToggleRow
+              label="Show bio"
+              checked={content.showBio ?? true}
+              onChange={(v) => onChange("showBio", v)}
+            />
+            <ToggleRow
+              label="Show social"
+              checked={content.showSocial ?? true}
+              onChange={(v) => onChange("showSocial", v)}
+            />
+          </Section>
+
+          <Section title="Members">
+            {members.map((member: any, index: number) => (
+              <div
+                key={member.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Member {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newMembers = members.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("members", newMembers);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <MediaPickerField
+                  value={member.image || ""}
+                  onChange={(v) => {
+                    const newMembers = [...members];
+                    newMembers[index] = { ...newMembers[index], image: v };
+                    onChange("members", newMembers);
+                  }}
+                  onBlur={onBlur}
+                  allowedTypes={["image/*"]}
+                  compact
+                />
+                <InputField
+                  value={member.name || ""}
+                  onChange={(v) => {
+                    const newMembers = [...members];
+                    newMembers[index] = { ...newMembers[index], name: v };
+                    onChange("members", newMembers);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Name"
+                />
+                <InputField
+                  value={member.role || ""}
+                  onChange={(v) => {
+                    const newMembers = [...members];
+                    newMembers[index] = { ...newMembers[index], role: v };
+                    onChange("members", newMembers);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Role"
+                />
+                {content.showBio && (
+                  <textarea
+                    value={member.bio || ""}
+                    onChange={(e) => {
+                      const newMembers = [...members];
+                      newMembers[index] = {
+                        ...newMembers[index],
+                        bio: e.target.value,
+                      };
+                      onChange("members", newMembers);
+                    }}
+                    onBlur={onBlur}
+                    rows={2}
+                    placeholder="Bio"
+                    className="w-full px-2 py-1.5 text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                  />
+                )}
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newMembers = [
+                  ...members,
+                  { id: `member_${Date.now()}`, name: "", role: "", bio: "" },
+                ];
+                onChange("members", newMembers);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Member
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "video":
+      return (
+        <div>
+          <Section title="Video">
+            <PropertyRow label="Provider">
+              <MiniSelect
+                value={content.provider || "youtube"}
+                options={[
+                  { value: "youtube", label: "YouTube" },
+                  { value: "vimeo", label: "Vimeo" },
+                  { value: "custom", label: "Custom" },
+                ]}
+                onChange={(v) => onChange("provider", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="URL" inline={false}>
+              <InputField
+                value={content.url || ""}
+                onChange={(v) => onChange("url", v)}
+                onBlur={onBlur}
+                placeholder="Video URL"
+              />
+            </PropertyRow>
+            <PropertyRow label="Thumbnail" inline={false}>
+              <MediaPickerField
+                value={content.thumbnail || ""}
+                onChange={(v) => onChange("thumbnail", v)}
+                onBlur={onBlur}
+                allowedTypes={["image/*"]}
+                compact
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Display">
+            <PropertyRow label="Ratio">
+              <MiniSelect
+                value={content.aspectRatio || "16:9"}
+                options={[
+                  { value: "16:9", label: "16:9" },
+                  { value: "4:3", label: "4:3" },
+                  { value: "1:1", label: "1:1" },
+                  { value: "9:16", label: "9:16" },
+                ]}
+                onChange={(v) => onChange("aspectRatio", v)}
+              />
+            </PropertyRow>
+            <InputField
+              value={content.caption || ""}
+              onChange={(v) => onChange("caption", v)}
+              onBlur={onBlur}
+              placeholder="Caption (optional)"
+            />
+          </Section>
+
+          <Section title="Playback">
+            <ToggleRow
+              label="Autoplay"
+              checked={content.autoplay ?? false}
+              onChange={(v) => onChange("autoplay", v)}
+            />
+            <ToggleRow
+              label="Muted"
+              checked={content.muted ?? false}
+              onChange={(v) => onChange("muted", v)}
+            />
+            <ToggleRow
+              label="Loop"
+              checked={content.loop ?? false}
+              onChange={(v) => onChange("loop", v)}
+            />
+            <ToggleRow
+              label="Controls"
+              checked={content.controls ?? true}
+              onChange={(v) => onChange("controls", v)}
+            />
+          </Section>
+        </div>
+      );
+
+    case "tabs": {
+      const tabs = content.tabs || [];
+      return (
+        <div>
+          <Section title="Style">
+            <PropertyRow label="Variant">
+              <MiniSelect
+                value={content.variant || "underline"}
+                options={[
+                  { value: "underline", label: "Underline" },
+                  { value: "pills", label: "Pills" },
+                  { value: "boxed", label: "Boxed" },
+                ]}
+                onChange={(v) => onChange("variant", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Alignment">
+              <SegmentedControl
+                value={content.alignment || "left"}
+                options={[
+                  { value: "left", label: "Left" },
+                  { value: "center", label: "Center" },
+                  { value: "stretch", label: "Full" },
+                ]}
+                onChange={(v) => onChange("alignment", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Default Tab">
+              <MiniNumberInput
+                value={(content.defaultTab || 0) + 1}
+                min={1}
+                max={tabs.length || 1}
+                onChange={(v) => onChange("defaultTab", v - 1)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Tabs">
+            {tabs.map((tab: any, index: number) => (
+              <div
+                key={tab.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Tab {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newTabs = tabs.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("tabs", newTabs);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <InputField
+                  value={tab.label || ""}
+                  onChange={(v) => {
+                    const newTabs = [...tabs];
+                    newTabs[index] = { ...newTabs[index], label: v };
+                    onChange("tabs", newTabs);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Tab label"
+                />
+                <textarea
+                  value={tab.content || ""}
+                  onChange={(e) => {
+                    const newTabs = [...tabs];
+                    newTabs[index] = {
+                      ...newTabs[index],
+                      content: e.target.value,
+                    };
+                    onChange("tabs", newTabs);
+                  }}
+                  onBlur={onBlur}
+                  rows={3}
+                  placeholder="Tab content (supports markdown)"
+                  className="w-full px-2 py-1.5 text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                />
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newTabs = [
+                  ...tabs,
+                  { id: `tab_${Date.now()}`, label: "", content: "" },
+                ];
+                onChange("tabs", newTabs);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Tab
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "feature-grid": {
+      const features = content.features || [];
+      return (
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Layout">
+            <PropertyRow label="Columns">
+              <SegmentedControl
+                value={String(content.columns || 3)}
+                options={[
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "4" },
+                ]}
+                onChange={(v) => onChange("columns", Number(v))}
+              />
+            </PropertyRow>
+            <PropertyRow label="Alignment">
+              <SegmentedControl
+                value={content.alignment || "center"}
+                options={[
+                  { value: "left", label: "Left" },
+                  { value: "center", label: "Center" },
+                ]}
+                onChange={(v) => onChange("alignment", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Icon Style">
+              <MiniSelect
+                value={content.iconStyle || "circle"}
+                options={[
+                  { value: "none", label: "None" },
+                  { value: "circle", label: "Circle" },
+                  { value: "square", label: "Square" },
+                  { value: "rounded", label: "Rounded" },
+                ]}
+                onChange={(v) => onChange("iconStyle", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Features">
+            {features.map((feature: any, index: number) => (
+              <div
+                key={feature.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Feature {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newFeatures = features.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("features", newFeatures);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <InputField
+                  value={feature.icon || ""}
+                  onChange={(v) => {
+                    const newFeatures = [...features];
+                    newFeatures[index] = { ...newFeatures[index], icon: v };
+                    onChange("features", newFeatures);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Icon (e.g. check, star, bolt)"
+                />
+                <InputField
+                  value={feature.title || ""}
+                  onChange={(v) => {
+                    const newFeatures = [...features];
+                    newFeatures[index] = { ...newFeatures[index], title: v };
+                    onChange("features", newFeatures);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Title"
+                />
+                <textarea
+                  value={feature.description || ""}
+                  onChange={(e) => {
+                    const newFeatures = [...features];
+                    newFeatures[index] = {
+                      ...newFeatures[index],
+                      description: e.target.value,
+                    };
+                    onChange("features", newFeatures);
+                  }}
+                  onBlur={onBlur}
+                  rows={2}
+                  placeholder="Description"
+                  className="w-full px-2 py-1.5 text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                />
+                <PropertyRow label="Link" inline={false}>
+                  <LinkPickerField
+                    value={feature.link || ""}
+                    onChange={(v) => {
+                      const newFeatures = [...features];
+                      newFeatures[index] = { ...newFeatures[index], link: v };
+                      onChange("features", newFeatures);
+                    }}
+                    onBlur={onBlur}
+                  />
+                </PropertyRow>
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newFeatures = [
+                  ...features,
+                  {
+                    id: `feature_${Date.now()}`,
+                    icon: "check",
+                    title: "",
+                    description: "",
+                  },
+                ];
+                onChange("features", newFeatures);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Feature
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "shoppable-video": {
+      const hotspots = content.hotspots || [];
+      return (
+        <div>
+          <Section title="Video">
+            <PropertyRow label="Provider">
+              <MiniSelect
+                value={content.provider || "custom"}
+                options={[
+                  { value: "youtube", label: "YouTube" },
+                  { value: "vimeo", label: "Vimeo" },
+                  { value: "custom", label: "Custom URL" },
+                  { value: "hosted", label: "Hosted" },
+                ]}
+                onChange={(v) => onChange("provider", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="URL" inline={false}>
+              <InputField
+                value={content.videoUrl || ""}
+                onChange={(v) => onChange("videoUrl", v)}
+                onBlur={onBlur}
+                placeholder="Video URL"
+              />
+            </PropertyRow>
+            <PropertyRow label="Thumbnail" inline={false}>
+              <MediaPickerField
+                value={content.thumbnail || ""}
+                onChange={(v) => onChange("thumbnail", v)}
+                onBlur={onBlur}
+                allowedTypes={["image/*"]}
+                compact
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Display">
+            <PropertyRow label="Ratio">
+              <MiniSelect
+                value={content.aspectRatio || "16:9"}
+                options={[
+                  { value: "16:9", label: "16:9" },
+                  { value: "4:3", label: "4:3" },
+                  { value: "1:1", label: "1:1" },
+                  { value: "9:16", label: "9:16" },
+                ]}
+                onChange={(v) => onChange("aspectRatio", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Playback">
+            <ToggleRow
+              label="Autoplay"
+              checked={content.autoplay ?? false}
+              onChange={(v) => onChange("autoplay", v)}
+            />
+            <ToggleRow
+              label="Muted"
+              checked={content.muted ?? true}
+              onChange={(v) => onChange("muted", v)}
+            />
+            <ToggleRow
+              label="Loop"
+              checked={content.loop ?? true}
+              onChange={(v) => onChange("loop", v)}
+            />
+            <ToggleRow
+              label="Controls"
+              checked={content.controls ?? true}
+              onChange={(v) => onChange("controls", v)}
+            />
+          </Section>
+
+          <Section title="Hotspots">
+            <PropertyRow label="Show">
+              <MiniSelect
+                value={content.showHotspots || "always"}
+                options={[
+                  { value: "always", label: "Always" },
+                  { value: "paused", label: "When Paused" },
+                  { value: "never", label: "Never" },
+                ]}
+                onChange={(v) => onChange("showHotspots", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.hotspotStyle || "tag"}
+                options={[
+                  { value: "dot", label: "Dot" },
+                  { value: "plus", label: "Plus" },
+                  { value: "pulse", label: "Pulse" },
+                  { value: "tag", label: "Tag" },
+                ]}
+                onChange={(v) => onChange("hotspotStyle", v)}
+              />
+            </PropertyRow>
+            <ColorInputRow
+              label="Color"
+              value={content.hotspotColor || "#ffffff"}
+              onChange={(v) => onChange("hotspotColor", v)}
+            />
+
+            {hotspots.map((hotspot: any, index: number) => (
+              <div
+                key={hotspot.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Hotspot {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newHotspots = hotspots.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("hotspots", newHotspots);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <InputField
+                  value={hotspot.productId || ""}
+                  onChange={(v) => {
+                    const newHotspots = [...hotspots];
+                    newHotspots[index] = {
+                      ...newHotspots[index],
+                      productId: v,
+                    };
+                    onChange("hotspots", newHotspots);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Product ID"
+                />
+                <InputField
+                  value={hotspot.label || ""}
+                  onChange={(v) => {
+                    const newHotspots = [...hotspots];
+                    newHotspots[index] = { ...newHotspots[index], label: v };
+                    onChange("hotspots", newHotspots);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Label (optional)"
+                />
+                <div className="grid grid-cols-2 gap-1.5">
+                  <PropertyRow label="Start">
+                    <MiniNumberInput
+                      value={hotspot.startTime || 0}
+                      min={0}
+                      max={9999}
+                      onChange={(v) => {
+                        const newHotspots = [...hotspots];
+                        newHotspots[index] = {
+                          ...newHotspots[index],
+                          startTime: v,
+                        };
+                        onChange("hotspots", newHotspots);
+                      }}
+                      suffix="s"
+                    />
+                  </PropertyRow>
+                  <PropertyRow label="End">
+                    <MiniNumberInput
+                      value={hotspot.endTime || 10}
+                      min={0}
+                      max={9999}
+                      onChange={(v) => {
+                        const newHotspots = [...hotspots];
+                        newHotspots[index] = {
+                          ...newHotspots[index],
+                          endTime: v,
+                        };
+                        onChange("hotspots", newHotspots);
+                      }}
+                      suffix="s"
+                    />
+                  </PropertyRow>
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <PropertyRow label="X">
+                    <MiniNumberInput
+                      value={hotspot.position?.x || 50}
+                      min={0}
+                      max={100}
+                      onChange={(v) => {
+                        const newHotspots = [...hotspots];
+                        newHotspots[index] = {
+                          ...newHotspots[index],
+                          position: { ...newHotspots[index].position, x: v },
+                        };
+                        onChange("hotspots", newHotspots);
+                      }}
+                      suffix="%"
+                    />
+                  </PropertyRow>
+                  <PropertyRow label="Y">
+                    <MiniNumberInput
+                      value={hotspot.position?.y || 50}
+                      min={0}
+                      max={100}
+                      onChange={(v) => {
+                        const newHotspots = [...hotspots];
+                        newHotspots[index] = {
+                          ...newHotspots[index],
+                          position: { ...newHotspots[index].position, y: v },
+                        };
+                        onChange("hotspots", newHotspots);
+                      }}
+                      suffix="%"
+                    />
+                  </PropertyRow>
+                </div>
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newHotspots = [
+                  ...hotspots,
+                  {
+                    id: `hotspot_${Date.now()}`,
+                    productId: "",
+                    label: "",
+                    startTime: 0,
+                    endTime: 10,
+                    position: { x: 50, y: 50 },
+                  },
+                ];
+                onChange("hotspots", newHotspots);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
             >
               + Add Hotspot
             </button>
-          </div>
+          </Section>
         </div>
       );
+    }
 
-    case "image":
+    case "size-guide": {
+      const sizes = content.sizes || [];
+      const columns = content.measurementColumns || [];
       return (
-        <div className="space-y-4">
-          <MediaPickerField
-            label="Image"
-            value={content.src || ""}
-            onChange={(v) => onChange("src", v)}
-            onBlur={onBlur}
-            allowedTypes={["image/*"]}
-          />
-          <InputField
-            label="Alt Text"
-            value={content.alt || ""}
-            onChange={(v) => onChange("alt", v)}
-            onBlur={onBlur}
-            placeholder="Describe the image"
-          />
-          <InputField
-            label="Link URL"
-            value={content.link || ""}
-            onChange={(v) => onChange("link", v)}
-            onBlur={onBlur}
-            placeholder="https://..."
-          />
-          <InputField
-            label="Caption"
-            value={content.caption || ""}
-            onChange={(v) => onChange("caption", v)}
-            onBlur={onBlur}
-          />
-          <SelectField
-            label="Aspect Ratio"
-            value={content.aspectRatio || "auto"}
-            options={[
-              { value: "auto", label: "Auto" },
-              { value: "1:1", label: "Square (1:1)" },
-              { value: "4:3", label: "Standard (4:3)" },
-              { value: "16:9", label: "Widescreen (16:9)" },
-              { value: "21:9", label: "Ultra Wide (21:9)" },
-            ]}
-            onChange={(v) => onChange("aspectRatio", v)}
-          />
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Options">
+            <PropertyRow label="Unit">
+              <SegmentedControl
+                value={content.unit || "cm"}
+                options={[
+                  { value: "cm", label: "CM" },
+                  { value: "in", label: "IN" },
+                ]}
+                onChange={(v) => onChange("unit", v)}
+              />
+            </PropertyRow>
+            <ToggleRow
+              label="Show unit toggle"
+              checked={content.showUnitToggle ?? true}
+              onChange={(v) => onChange("showUnitToggle", v)}
+            />
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.tableStyle || "striped"}
+                options={[
+                  { value: "simple", label: "Simple" },
+                  { value: "striped", label: "Striped" },
+                  { value: "bordered", label: "Bordered" },
+                ]}
+                onChange={(v) => onChange("tableStyle", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="How to Measure" defaultOpen={false}>
+            <ToggleRow
+              label="Show guide"
+              checked={content.showHowToMeasure ?? true}
+              onChange={(v) => onChange("showHowToMeasure", v)}
+            />
+            {content.showHowToMeasure && (
+              <>
+                <PropertyRow label="Image" inline={false}>
+                  <MediaPickerField
+                    value={content.howToMeasureImage || ""}
+                    onChange={(v) => onChange("howToMeasureImage", v)}
+                    onBlur={onBlur}
+                    allowedTypes={["image/*"]}
+                    compact
+                  />
+                </PropertyRow>
+                <textarea
+                  value={content.howToMeasureContent || ""}
+                  onChange={(e) =>
+                    onChange("howToMeasureContent", e.target.value)
+                  }
+                  onBlur={onBlur}
+                  rows={4}
+                  placeholder="Instructions (HTML supported)"
+                  className="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                />
+              </>
+            )}
+          </Section>
+
+          <Section title="Measurement Columns">
+            <div className="space-y-1.5">
+              {columns.map((col: string, index: number) => (
+                <div key={index} className="flex items-center gap-1.5">
+                  <InputField
+                    value={col}
+                    onChange={(v) => {
+                      const newColumns = [...columns];
+                      newColumns[index] = v;
+                      onChange("measurementColumns", newColumns);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Column name"
+                  />
+                  <button
+                    onClick={() => {
+                      const newColumns = columns.filter(
+                        (_: string, i: number) => i !== index,
+                      );
+                      onChange("measurementColumns", newColumns);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600 px-1"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={() => {
+                  onChange("measurementColumns", [...columns, ""]);
+                }}
+                className="w-full py-1 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+              >
+                + Add Column
+              </button>
+            </div>
+          </Section>
+
+          <Section title="Sizes">
+            {sizes.map((size: any, index: number) => (
+              <div
+                key={size.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <InputField
+                    value={size.size || ""}
+                    onChange={(v) => {
+                      const newSizes = [...sizes];
+                      newSizes[index] = { ...newSizes[index], size: v };
+                      onChange("sizes", newSizes);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Size (e.g. S, M, L)"
+                  />
+                  <button
+                    onClick={() => {
+                      const newSizes = sizes.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("sizes", newSizes);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600 ml-2"
+                  >
+                    Remove
+                  </button>
+                </div>
+                {columns.map((col: string) => (
+                  <div key={col} className="flex items-center gap-2">
+                    <span className="text-[10px] text-slate-400 w-16 truncate">
+                      {col}
+                    </span>
+                    <InputField
+                      value={size.measurements?.[col] || ""}
+                      onChange={(v) => {
+                        const newSizes = [...sizes];
+                        newSizes[index] = {
+                          ...newSizes[index],
+                          measurements: {
+                            ...newSizes[index].measurements,
+                            [col]: v,
+                          },
+                        };
+                        onChange("sizes", newSizes);
+                      }}
+                      onBlur={onBlur}
+                      placeholder="Value"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newSizes = [
+                  ...sizes,
+                  { id: `size_${Date.now()}`, size: "", measurements: {} },
+                ];
+                onChange("sizes", newSizes);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Size
+            </button>
+          </Section>
         </div>
       );
+    }
+
+    case "store-locator": {
+      const stores = content.stores || [];
+      return (
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Map Settings">
+            <PropertyRow label="Zoom">
+              <MiniNumberInput
+                value={content.defaultZoom || 12}
+                min={1}
+                max={20}
+                onChange={(v) => onChange("defaultZoom", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.mapStyle || "standard"}
+                options={[
+                  { value: "standard", label: "Standard" },
+                  { value: "silver", label: "Silver" },
+                  { value: "dark", label: "Dark" },
+                  { value: "retro", label: "Retro" },
+                ]}
+                onChange={(v) => onChange("mapStyle", v)}
+              />
+            </PropertyRow>
+            <ColorInputRow
+              label="Marker"
+              value={content.markerColor || "#3B82F6"}
+              onChange={(v) => onChange("markerColor", v)}
+            />
+          </Section>
+
+          <Section title="Display">
+            <ToggleRow
+              label="Show search"
+              checked={content.showSearch ?? true}
+              onChange={(v) => onChange("showSearch", v)}
+            />
+            <ToggleRow
+              label="Show store list"
+              checked={content.showList ?? true}
+              onChange={(v) => onChange("showList", v)}
+            />
+            {content.showList && (
+              <PropertyRow label="List Position">
+                <MiniSelect
+                  value={content.listPosition || "left"}
+                  options={[
+                    { value: "left", label: "Left" },
+                    { value: "right", label: "Right" },
+                    { value: "bottom", label: "Bottom" },
+                  ]}
+                  onChange={(v) => onChange("listPosition", v)}
+                />
+              </PropertyRow>
+            )}
+            <ToggleRow
+              label="Show directions"
+              checked={content.showDirectionsLink ?? true}
+              onChange={(v) => onChange("showDirectionsLink", v)}
+            />
+            <ToggleRow
+              label="Show phone"
+              checked={content.showPhoneLink ?? true}
+              onChange={(v) => onChange("showPhoneLink", v)}
+            />
+          </Section>
+
+          <Section title="Stores">
+            {stores.map((store: any, index: number) => (
+              <div
+                key={store.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Store {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newStores = stores.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("stores", newStores);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <InputField
+                  value={store.name || ""}
+                  onChange={(v) => {
+                    const newStores = [...stores];
+                    newStores[index] = { ...newStores[index], name: v };
+                    onChange("stores", newStores);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Store name"
+                />
+                <InputField
+                  value={store.address || ""}
+                  onChange={(v) => {
+                    const newStores = [...stores];
+                    newStores[index] = { ...newStores[index], address: v };
+                    onChange("stores", newStores);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Street address"
+                />
+                <div className="grid grid-cols-2 gap-1.5">
+                  <InputField
+                    value={store.city || ""}
+                    onChange={(v) => {
+                      const newStores = [...stores];
+                      newStores[index] = { ...newStores[index], city: v };
+                      onChange("stores", newStores);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="City"
+                  />
+                  <InputField
+                    value={store.postalCode || ""}
+                    onChange={(v) => {
+                      const newStores = [...stores];
+                      newStores[index] = { ...newStores[index], postalCode: v };
+                      onChange("stores", newStores);
+                    }}
+                    onBlur={onBlur}
+                    placeholder="Postal code"
+                  />
+                </div>
+                <InputField
+                  value={store.country || ""}
+                  onChange={(v) => {
+                    const newStores = [...stores];
+                    newStores[index] = { ...newStores[index], country: v };
+                    onChange("stores", newStores);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Country"
+                />
+                <div className="grid grid-cols-2 gap-1.5">
+                  <PropertyRow label="Lat">
+                    <MiniNumberInput
+                      value={store.lat || 0}
+                      min={-90}
+                      max={90}
+                      onChange={(v) => {
+                        const newStores = [...stores];
+                        newStores[index] = { ...newStores[index], lat: v };
+                        onChange("stores", newStores);
+                      }}
+                    />
+                  </PropertyRow>
+                  <PropertyRow label="Lng">
+                    <MiniNumberInput
+                      value={store.lng || 0}
+                      min={-180}
+                      max={180}
+                      onChange={(v) => {
+                        const newStores = [...stores];
+                        newStores[index] = { ...newStores[index], lng: v };
+                        onChange("stores", newStores);
+                      }}
+                    />
+                  </PropertyRow>
+                </div>
+                <InputField
+                  value={store.phone || ""}
+                  onChange={(v) => {
+                    const newStores = [...stores];
+                    newStores[index] = { ...newStores[index], phone: v };
+                    onChange("stores", newStores);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Phone"
+                />
+                <textarea
+                  value={store.hours || ""}
+                  onChange={(e) => {
+                    const newStores = [...stores];
+                    newStores[index] = {
+                      ...newStores[index],
+                      hours: e.target.value,
+                    };
+                    onChange("stores", newStores);
+                  }}
+                  onBlur={onBlur}
+                  rows={2}
+                  placeholder="Opening hours"
+                  className="w-full px-2 py-1.5 text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 resize-y"
+                />
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newStores = [
+                  ...stores,
+                  {
+                    id: `store_${Date.now()}`,
+                    name: "",
+                    address: "",
+                    city: "",
+                    country: "",
+                    lat: 0,
+                    lng: 0,
+                  },
+                ];
+                onChange("stores", newStores);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Store
+            </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "instagram-feed": {
+      const posts = content.posts || [];
+      return (
+        <div>
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Account">
+            <InputField
+              value={content.username || ""}
+              onChange={(v) => onChange("username", v)}
+              onBlur={onBlur}
+              placeholder="@username"
+            />
+            <ToggleRow
+              label="Show follow button"
+              checked={content.showFollowButton ?? true}
+              onChange={(v) => onChange("showFollowButton", v)}
+            />
+            {content.showFollowButton && (
+              <InputField
+                value={content.followButtonText || ""}
+                onChange={(v) => onChange("followButtonText", v)}
+                onBlur={onBlur}
+                placeholder="Button text (optional)"
+              />
+            )}
+          </Section>
+
+          <Section title="Layout">
+            <PropertyRow label="Layout">
+              <MiniSelect
+                value={content.layout || "grid"}
+                options={[
+                  { value: "grid", label: "Grid" },
+                  { value: "masonry", label: "Masonry" },
+                  { value: "carousel", label: "Carousel" },
+                ]}
+                onChange={(v) => onChange("layout", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Columns">
+              <MiniNumberInput
+                value={content.columns || 4}
+                min={3}
+                max={6}
+                onChange={(v) => onChange("columns", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Mobile">
+              <MiniNumberInput
+                value={content.mobileColumns || 2}
+                min={2}
+                max={3}
+                onChange={(v) => onChange("mobileColumns", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Gap">
+              <MiniNumberInput
+                value={content.gap || 8}
+                min={0}
+                max={32}
+                onChange={(v) => onChange("gap", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+            <PropertyRow label="Limit">
+              <MiniNumberInput
+                value={content.limit || 8}
+                min={1}
+                max={24}
+                onChange={(v) => onChange("limit", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Display">
+            <PropertyRow label="Aspect Ratio">
+              <SegmentedControl
+                value={content.aspectRatio || "square"}
+                options={[
+                  { value: "square", label: "Square" },
+                  { value: "original", label: "Original" },
+                ]}
+                onChange={(v) => onChange("aspectRatio", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Caption">
+              <MiniSelect
+                value={content.showCaption || "hover"}
+                options={[
+                  { value: "always", label: "Always" },
+                  { value: "hover", label: "On Hover" },
+                  { value: "never", label: "Never" },
+                ]}
+                onChange={(v) => onChange("showCaption", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Posts (Manual)">
+            {posts.map((post: any, index: number) => (
+              <div
+                key={post.id}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium text-slate-400">
+                    Post {index + 1}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const newPosts = posts.filter(
+                        (_: any, i: number) => i !== index,
+                      );
+                      onChange("posts", newPosts);
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <MediaPickerField
+                  value={post.imageUrl || ""}
+                  onChange={(v) => {
+                    const newPosts = [...posts];
+                    newPosts[index] = { ...newPosts[index], imageUrl: v };
+                    onChange("posts", newPosts);
+                  }}
+                  onBlur={onBlur}
+                  allowedTypes={["image/*"]}
+                  compact
+                />
+                <InputField
+                  value={post.permalink || ""}
+                  onChange={(v) => {
+                    const newPosts = [...posts];
+                    newPosts[index] = { ...newPosts[index], permalink: v };
+                    onChange("posts", newPosts);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Post URL"
+                />
+                <InputField
+                  value={post.caption || ""}
+                  onChange={(v) => {
+                    const newPosts = [...posts];
+                    newPosts[index] = { ...newPosts[index], caption: v };
+                    onChange("posts", newPosts);
+                  }}
+                  onBlur={onBlur}
+                  placeholder="Caption (optional)"
+                />
+                <PropertyRow label="Type">
+                  <MiniSelect
+                    value={post.mediaType || "IMAGE"}
+                    options={[
+                      { value: "IMAGE", label: "Image" },
+                      { value: "VIDEO", label: "Video" },
+                      { value: "CAROUSEL_ALBUM", label: "Carousel" },
+                    ]}
+                    onChange={(v) => {
+                      const newPosts = [...posts];
+                      newPosts[index] = { ...newPosts[index], mediaType: v };
+                      onChange("posts", newPosts);
+                    }}
+                  />
+                </PropertyRow>
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                const newPosts = [
+                  ...posts,
+                  {
+                    id: `post_${Date.now()}`,
+                    imageUrl: "",
+                    permalink: "",
+                    caption: "",
+                    mediaType: "IMAGE",
+                  },
+                ];
+                onChange("posts", newPosts);
+              }}
+              className="w-full py-1.5 text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 transition-colors"
+            >
+              + Add Post
+            </button>
+          </Section>
+        </div>
+      );
+    }
 
     default:
       return (
-        <div className="text-sm text-slate-500 dark:text-slate-400">
-          Content settings for this block type are not yet available.
+        <div className="px-3 py-6 text-center">
+          <p className="text-[11px] text-slate-400">
+            No content settings available
+          </p>
         </div>
       );
   }
 };
 
-// Style settings component
+// Style settings
 interface StyleSettingsProps {
   block: PageBlock;
   onChange: (key: keyof BlockStyle, value: any) => void;
@@ -891,144 +2487,103 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
   const style = block.style;
 
   return (
-    <div className="space-y-6">
-      {/* Background */}
-      <div>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
-          Background
-        </h4>
-        <div className="space-y-3">
-          <ColorField
-            label="Color"
-            value={style.backgroundColor || ""}
-            onChange={(v) => onChange("backgroundColor", v)}
-          />
+    <div>
+      <Section title="Fill">
+        <ColorInputRow
+          label="Color"
+          value={style.backgroundColor || ""}
+          onChange={(v) => onChange("backgroundColor", v)}
+        />
+        <PropertyRow label="Image" inline={false}>
           <MediaPickerField
-            label="Background Image"
             value={style.backgroundImage || ""}
             onChange={(v) => onChange("backgroundImage", v)}
             onBlur={onBlur}
             allowedTypes={["image/*"]}
+            compact
           />
-          {style.backgroundImage && (
-            <>
-              <NumberField
-                label="Overlay Opacity (%)"
-                value={style.backgroundOverlay || 0}
-                min={0}
-                max={100}
-                onChange={(v) => onChange("backgroundOverlay", v)}
-              />
-              <ColorField
-                label="Overlay Color"
-                value={style.backgroundOverlayColor || "#000000"}
-                onChange={(v) => onChange("backgroundOverlayColor", v)}
-              />
-            </>
-          )}
-        </div>
-      </div>
+        </PropertyRow>
+        {style.backgroundImage && (
+          <PropertyRow label="Overlay">
+            <MiniNumberInput
+              value={style.backgroundOverlay || 0}
+              min={0}
+              max={100}
+              onChange={(v) => onChange("backgroundOverlay", v)}
+              suffix="%"
+            />
+          </PropertyRow>
+        )}
+      </Section>
 
-      {/* Text */}
-      <div>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
-          Text
-        </h4>
-        <ColorField
-          label="Text Color"
+      <Section title="Text">
+        <ColorInputRow
+          label="Color"
           value={style.textColor || ""}
           onChange={(v) => onChange("textColor", v)}
         />
-      </div>
+      </Section>
 
-      {/* Padding */}
-      <div>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
-          Padding
-        </h4>
-        <div className="grid grid-cols-2 gap-3">
-          <NumberField
-            label="Top"
-            value={style.padding?.top || 0}
-            min={0}
-            max={200}
-            onChange={(v) => onPaddingChange("top", v)}
-          />
-          <NumberField
-            label="Right"
-            value={style.padding?.right || 0}
-            min={0}
-            max={200}
-            onChange={(v) => onPaddingChange("right", v)}
-          />
-          <NumberField
-            label="Bottom"
-            value={style.padding?.bottom || 0}
-            min={0}
-            max={200}
-            onChange={(v) => onPaddingChange("bottom", v)}
-          />
-          <NumberField
-            label="Left"
-            value={style.padding?.left || 0}
-            min={0}
-            max={200}
-            onChange={(v) => onPaddingChange("left", v)}
+      <Section title="Spacing">
+        <div className="space-y-2">
+          <span className="text-[10px] font-medium text-slate-400 uppercase">
+            Padding
+          </span>
+          <PaddingControl
+            top={style.padding?.top || 0}
+            right={style.padding?.right || 0}
+            bottom={style.padding?.bottom || 0}
+            left={style.padding?.left || 0}
+            onChange={onPaddingChange}
           />
         </div>
-      </div>
+      </Section>
 
-      {/* Alignment */}
-      <div>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
-          Alignment
-        </h4>
-        <div className="space-y-3">
-          <SelectField
-            label="Horizontal"
+      <Section title="Alignment">
+        <PropertyRow label="Horizontal">
+          <AlignmentControl
             value={style.alignmentX || "center"}
             options={[
-              { value: "left", label: "Left" },
-              { value: "center", label: "Center" },
-              { value: "right", label: "Right" },
+              { value: "left", icon: "align-left" },
+              { value: "center", icon: "align-center" },
+              { value: "right", icon: "align-right" },
             ]}
             onChange={(v) => onChange("alignmentX", v as AlignmentX)}
           />
-          <SelectField
-            label="Vertical"
+        </PropertyRow>
+        <PropertyRow label="Vertical">
+          <AlignmentControl
             value={style.alignmentY || "center"}
             options={[
-              { value: "top", label: "Top" },
-              { value: "center", label: "Center" },
-              { value: "bottom", label: "Bottom" },
+              { value: "top", icon: "align-top" },
+              { value: "center", icon: "align-middle" },
+              { value: "bottom", icon: "align-bottom" },
             ]}
             onChange={(v) => onChange("alignmentY", v as AlignmentY)}
           />
-        </div>
-      </div>
+        </PropertyRow>
+      </Section>
 
-      {/* Size */}
-      <div>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
-          Size
-        </h4>
-        <div className="space-y-3">
-          <NumberField
-            label="Min Height (px)"
+      <Section title="Size">
+        <PropertyRow label="Min Height">
+          <MiniNumberInput
             value={style.minHeight || 0}
             min={0}
             max={1000}
             onChange={(v) => onChange("minHeight", v)}
+            suffix="px"
           />
-          <NumberField
-            label="Border Radius (px)"
+        </PropertyRow>
+        <PropertyRow label="Radius">
+          <MiniNumberInput
             value={style.borderRadius || 0}
             min={0}
             max={50}
             onChange={(v) => onChange("borderRadius", v)}
+            suffix="px"
           />
-        </div>
-      </div>
+        </PropertyRow>
+      </Section>
     </div>
   );
 };
@@ -1043,207 +2598,551 @@ const AdvancedSettings: React.FC<AdvancedSettingsProps> = ({ block }) => {
   const { updateBlock } = usePageBuilder();
 
   return (
-    <div className="space-y-4">
-      <CheckboxField
-        label="Full Width"
-        checked={block.style.fullWidth ?? false}
-        onChange={(v) =>
-          updateBlock(block.id, { style: { ...block.style, fullWidth: v } })
-        }
-      />
-      <CheckboxField
-        label="Hidden"
-        checked={block.hidden ?? false}
-        onChange={(v) => updateBlock(block.id, { hidden: v })}
-      />
-      <CheckboxField
-        label="Locked"
-        checked={block.locked ?? false}
-        onChange={(v) => updateBlock(block.id, { locked: v })}
-      />
+    <div>
+      <Section title="Options">
+        <ToggleRow
+          label="Full Width"
+          checked={block.style.fullWidth ?? false}
+          onChange={(v) =>
+            updateBlock(block.id, { style: { ...block.style, fullWidth: v } })
+          }
+        />
+        <ToggleRow
+          label="Hidden"
+          checked={block.hidden ?? false}
+          onChange={(v) => updateBlock(block.id, { hidden: v })}
+        />
+        <ToggleRow
+          label="Locked"
+          checked={block.locked ?? false}
+          onChange={(v) => updateBlock(block.id, { locked: v })}
+        />
+      </Section>
 
-      <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
-          Block ID
-        </p>
-        <code className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">
-          {block.id}
-        </code>
-      </div>
+      <Section title="Debug" defaultOpen={false}>
+        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-md p-2">
+          <span className="text-[10px] font-mono text-slate-500 break-all">
+            {block.id}
+          </span>
+        </div>
+      </Section>
     </div>
   );
 };
 
-// Field components
-interface InputFieldProps {
-  label: string;
+// ============ Compact UI Components ============
+
+// Mini Input Field
+const InputField: React.FC<{
   value: string;
-  onChange: (value: string) => void;
+  onChange: (v: string) => void;
   onBlur?: () => void;
-  type?: string;
   placeholder?: string;
-}
-
-const InputField: React.FC<InputFieldProps> = ({
-  label,
-  value,
-  onChange,
-  onBlur,
-  type = "text",
-  placeholder,
-}) => (
-  <div>
-    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-      {label}
-    </label>
-    <input
-      type={type}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      onBlur={onBlur}
-      placeholder={placeholder}
-      className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-  </div>
+  type?: string;
+}> = ({ value, onChange, onBlur, placeholder, type = "text" }) => (
+  <input
+    type={type}
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    onBlur={onBlur}
+    placeholder={placeholder}
+    className="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 placeholder:text-slate-400"
+  />
 );
 
-interface TextareaFieldProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  onBlur?: () => void;
-}
-
-const TextareaField: React.FC<TextareaFieldProps> = ({
-  label,
-  value,
-  onChange,
-  onBlur,
-}) => (
-  <div>
-    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-      {label}
-    </label>
-    <textarea
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      onBlur={onBlur}
-      rows={4}
-      className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
-    />
-  </div>
-);
-
-interface NumberFieldProps {
-  label: string;
+// Mini Number Input
+const MiniNumberInput: React.FC<{
   value: number;
-  onChange: (value: number) => void;
+  onChange: (v: number) => void;
   min?: number;
   max?: number;
-}
-
-const NumberField: React.FC<NumberFieldProps> = ({
-  label,
-  value,
-  onChange,
-  min,
-  max,
-}) => (
-  <div>
-    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-      {label}
-    </label>
+  suffix?: string;
+}> = ({ value, onChange, min, max, suffix }) => (
+  <div className="relative">
     <input
       type="number"
       value={value}
       onChange={(e) => onChange(Number(e.target.value))}
       min={min}
       max={max}
-      className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="w-full px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 text-right pr-6 tabular-nums"
     />
+    {suffix && (
+      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none">
+        {suffix}
+      </span>
+    )}
   </div>
 );
 
-interface SelectFieldProps {
-  label: string;
+// Mini Select
+const MiniSelect: React.FC<{
   value: string;
   options: { value: string; label: string }[];
-  onChange: (value: string) => void;
-}
+  onChange: (v: string) => void;
+}> = ({ value, options, onChange }) => (
+  <select
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    className="w-full px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 appearance-none cursor-pointer"
+  >
+    {options.map((opt) => (
+      <option key={opt.value} value={opt.value}>
+        {opt.label}
+      </option>
+    ))}
+  </select>
+);
 
-const SelectField: React.FC<SelectFieldProps> = ({
-  label,
-  value,
-  options,
-  onChange,
-}) => (
-  <div>
-    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+// Toggle Row
+const ToggleRow: React.FC<{
+  label: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}> = ({ label, checked, onChange }) => (
+  <div className="flex items-center justify-between py-0.5">
+    <span className="text-[11px] text-slate-600 dark:text-slate-400">
       {label}
-    </label>
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    </span>
+    <button
+      onClick={() => onChange(!checked)}
+      className={classNames(
+        "w-7 h-4 rounded-full transition-colors relative",
+        checked
+          ? "bg-slate-900 dark:bg-white"
+          : "bg-slate-200 dark:bg-slate-700",
+      )}
     >
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+      <div
+        className={classNames(
+          "absolute top-0.5 w-3 h-3 rounded-full transition-transform",
+          checked
+            ? "bg-white dark:bg-slate-900 translate-x-3.5"
+            : "bg-white dark:bg-slate-400 translate-x-0.5",
+        )}
+      />
+    </button>
   </div>
 );
 
-interface CheckboxFieldProps {
-  label: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-}
-
-const CheckboxField: React.FC<CheckboxFieldProps> = ({
-  label,
-  checked,
-  onChange,
-}) => (
-  <label className="flex items-center gap-2 cursor-pointer">
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
-      className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500"
-    />
-    <span className="text-sm text-slate-700 dark:text-slate-300">{label}</span>
-  </label>
+// Segmented Control
+const SegmentedControl: React.FC<{
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (v: string) => void;
+}> = ({ value, options, onChange }) => (
+  <div className="flex bg-slate-100 dark:bg-slate-800 rounded-md p-0.5 gap-0.5">
+    {options.map((opt) => (
+      <button
+        key={opt.value}
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onChange(opt.value);
+        }}
+        className={classNames(
+          "flex-1 px-3 py-1.5 text-[10px] font-medium rounded transition-all cursor-pointer",
+          value === opt.value
+            ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm"
+            : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
+        )}
+      >
+        {opt.label}
+      </button>
+    ))}
+  </div>
 );
 
-interface ColorFieldProps {
+// Color Input Row
+const ColorInputRow: React.FC<{
   label: string;
   value: string;
-  onChange: (value: string) => void;
-}
-
-const ColorField: React.FC<ColorFieldProps> = ({ label, value, onChange }) => (
-  <div>
-    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+  onChange: (v: string) => void;
+}> = ({ label, value, onChange }) => (
+  <div className="flex items-center justify-between gap-2">
+    <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0">
       {label}
     </label>
-    <div className="flex gap-2">
+    <div className="flex items-center gap-1.5">
       <input
         type="color"
         value={value || "#000000"}
         onChange={(e) => onChange(e.target.value)}
-        className="w-10 h-10 rounded border border-slate-200 dark:border-slate-600 cursor-pointer"
+        className="w-6 h-6 rounded border border-slate-200 dark:border-slate-700 cursor-pointer overflow-hidden"
       />
       <input
         type="text"
         value={value || ""}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="#000000"
-        className="flex-1 px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="#000"
+        className="w-20 px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 font-mono"
       />
     </div>
   </div>
+);
+
+// Padding Control - Figma-style visual box
+const PaddingControl: React.FC<{
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+  onChange: (side: "top" | "right" | "bottom" | "left", value: number) => void;
+}> = ({ top, right, bottom, left, onChange }) => (
+  <div className="relative bg-slate-100 dark:bg-slate-800 rounded-lg p-3">
+    {/* Center box */}
+    <div className="w-full aspect-video bg-slate-200 dark:bg-slate-700 rounded border border-dashed border-slate-300 dark:border-slate-600" />
+
+    {/* Top */}
+    <input
+      type="number"
+      value={top}
+      onChange={(e) => onChange("top", Number(e.target.value))}
+      className="absolute top-1 left-1/2 -translate-x-1/2 w-10 text-center text-[10px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded py-0.5 tabular-nums focus:outline-none focus:ring-1 focus:ring-slate-400"
+    />
+    {/* Right */}
+    <input
+      type="number"
+      value={right}
+      onChange={(e) => onChange("right", Number(e.target.value))}
+      className="absolute right-1 top-1/2 -translate-y-1/2 w-10 text-center text-[10px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded py-0.5 tabular-nums focus:outline-none focus:ring-1 focus:ring-slate-400"
+    />
+    {/* Bottom */}
+    <input
+      type="number"
+      value={bottom}
+      onChange={(e) => onChange("bottom", Number(e.target.value))}
+      className="absolute bottom-1 left-1/2 -translate-x-1/2 w-10 text-center text-[10px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded py-0.5 tabular-nums focus:outline-none focus:ring-1 focus:ring-slate-400"
+    />
+    {/* Left */}
+    <input
+      type="number"
+      value={left}
+      onChange={(e) => onChange("left", Number(e.target.value))}
+      className="absolute left-1 top-1/2 -translate-y-1/2 w-10 text-center text-[10px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded py-0.5 tabular-nums focus:outline-none focus:ring-1 focus:ring-slate-400"
+    />
+  </div>
+);
+
+// Alignment Control - Figma-style icon buttons
+const AlignmentControl: React.FC<{
+  value: string;
+  options: { value: string; icon: string }[];
+  onChange: (v: string) => void;
+}> = ({ value, options, onChange }) => (
+  <div className="flex bg-slate-100 dark:bg-slate-800 rounded-md p-0.5">
+    {options.map((opt) => (
+      <button
+        key={opt.value}
+        onClick={() => onChange(opt.value)}
+        className={classNames(
+          "flex-1 p-1.5 rounded transition-all flex items-center justify-center",
+          value === opt.value
+            ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm"
+            : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300",
+        )}
+      >
+        <AlignIcon type={opt.icon} />
+      </button>
+    ))}
+  </div>
+);
+
+// Alignment Icons
+const AlignIcon: React.FC<{ type: string }> = ({ type }) => {
+  const className = "w-3 h-3";
+  switch (type) {
+    case "align-left":
+      return (
+        <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+          <rect x="1" y="3" width="8" height="2" rx="0.5" />
+          <rect x="1" y="7" width="12" height="2" rx="0.5" />
+          <rect x="1" y="11" width="6" height="2" rx="0.5" />
+        </svg>
+      );
+    case "align-center":
+      return (
+        <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+          <rect x="4" y="3" width="8" height="2" rx="0.5" />
+          <rect x="2" y="7" width="12" height="2" rx="0.5" />
+          <rect x="5" y="11" width="6" height="2" rx="0.5" />
+        </svg>
+      );
+    case "align-right":
+      return (
+        <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+          <rect x="7" y="3" width="8" height="2" rx="0.5" />
+          <rect x="3" y="7" width="12" height="2" rx="0.5" />
+          <rect x="9" y="11" width="6" height="2" rx="0.5" />
+        </svg>
+      );
+    case "align-top":
+      return (
+        <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+          <rect x="3" y="1" width="2" height="8" rx="0.5" />
+          <rect x="7" y="1" width="2" height="12" rx="0.5" />
+          <rect x="11" y="1" width="2" height="6" rx="0.5" />
+        </svg>
+      );
+    case "align-middle":
+      return (
+        <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+          <rect x="3" y="4" width="2" height="8" rx="0.5" />
+          <rect x="7" y="2" width="2" height="12" rx="0.5" />
+          <rect x="11" y="5" width="2" height="6" rx="0.5" />
+        </svg>
+      );
+    case "align-bottom":
+      return (
+        <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+          <rect x="3" y="7" width="2" height="8" rx="0.5" />
+          <rect x="7" y="3" width="2" height="12" rx="0.5" />
+          <rect x="11" y="9" width="2" height="6" rx="0.5" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
+
+// Layout Picker for Hero Banner
+const LayoutPicker: React.FC<{
+  value: string;
+  onChange: (v: string) => void;
+}> = ({ value, onChange }) => {
+  const layouts = [
+    { value: "centered", label: "Centered", icon: LayoutCenteredIcon },
+    { value: "text-left", label: "Text Left", icon: LayoutTextLeftIcon },
+    { value: "text-right", label: "Text Right", icon: LayoutTextRightIcon },
+    { value: "split-left", label: "Split Left", icon: LayoutSplitLeftIcon },
+    { value: "split-right", label: "Split Right", icon: LayoutSplitRightIcon },
+    {
+      value: "image-grid-right",
+      label: "Grid Right",
+      icon: LayoutGridRightIcon,
+    },
+    { value: "image-grid-left", label: "Grid Left", icon: LayoutGridLeftIcon },
+  ];
+
+  return (
+    <div className="grid grid-cols-4 gap-1.5">
+      {layouts.map((layout) => {
+        const Icon = layout.icon;
+        const isSelected = value === layout.value;
+        return (
+          <button
+            key={layout.value}
+            onClick={() => onChange(layout.value)}
+            className={classNames(
+              "flex flex-col items-center p-2 rounded-lg transition-all",
+              isSelected
+                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700",
+            )}
+            title={layout.label}
+          >
+            <Icon className="w-6 h-6" />
+            <span className="text-[9px] mt-1 font-medium truncate w-full text-center">
+              {layout.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+// Layout Icons
+const LayoutCenteredIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <line x1="8" y1="9" x2="16" y2="9" />
+    <line x1="9" y1="12" x2="15" y2="12" />
+    <rect x="9" y="14" width="6" height="2" rx="0.5" fill="currentColor" />
+  </svg>
+);
+
+const LayoutTextLeftIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <line x1="5" y1="9" x2="12" y2="9" />
+    <line x1="5" y1="12" x2="10" y2="12" />
+    <rect x="5" y="14" width="5" height="2" rx="0.5" fill="currentColor" />
+  </svg>
+);
+
+const LayoutTextRightIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <line x1="12" y1="9" x2="19" y2="9" />
+    <line x1="14" y1="12" x2="19" y2="12" />
+    <rect x="14" y="14" width="5" height="2" rx="0.5" fill="currentColor" />
+  </svg>
+);
+
+const LayoutSplitLeftIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <line x1="5" y1="9" x2="10" y2="9" />
+    <line x1="5" y1="11" x2="9" y2="11" />
+    <rect x="5" y="13" width="4" height="2" rx="0.5" fill="currentColor" />
+    <rect
+      x="13"
+      y="7"
+      width="6"
+      height="10"
+      rx="1"
+      fill="currentColor"
+      opacity="0.3"
+    />
+  </svg>
+);
+
+const LayoutSplitRightIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <rect
+      x="5"
+      y="7"
+      width="6"
+      height="10"
+      rx="1"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <line x1="14" y1="9" x2="19" y2="9" />
+    <line x1="14" y1="11" x2="18" y2="11" />
+    <rect x="14" y="13" width="4" height="2" rx="0.5" fill="currentColor" />
+  </svg>
+);
+
+const LayoutGridRightIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <line x1="5" y1="9" x2="10" y2="9" />
+    <line x1="5" y1="11" x2="9" y2="11" />
+    <rect x="5" y="13" width="4" height="2" rx="0.5" fill="currentColor" />
+    <rect
+      x="13"
+      y="7"
+      width="6"
+      height="4"
+      rx="0.5"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <rect
+      x="13"
+      y="12"
+      width="3"
+      height="5"
+      rx="0.5"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <rect
+      x="16.5"
+      y="12"
+      width="2.5"
+      height="5"
+      rx="0.5"
+      fill="currentColor"
+      opacity="0.3"
+    />
+  </svg>
+);
+
+const LayoutGridLeftIcon: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="1" />
+    <rect
+      x="5"
+      y="7"
+      width="6"
+      height="4"
+      rx="0.5"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <rect
+      x="5"
+      y="12"
+      width="3"
+      height="5"
+      rx="0.5"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <rect
+      x="8.5"
+      y="12"
+      width="2.5"
+      height="5"
+      rx="0.5"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <line x1="14" y1="9" x2="19" y2="9" />
+    <line x1="14" y1="11" x2="18" y2="11" />
+    <rect x="14" y="13" width="4" height="2" rx="0.5" fill="currentColor" />
+  </svg>
 );
 
 export default SettingsPanel;

@@ -1,13 +1,14 @@
-import { PhotoIcon } from '@heroicons/react/20/solid';
-import Image from 'next/legacy/image';
-import Link from 'next/link';
-import { useIntl } from 'react-intl';
-import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
-import ProductPrice from '../../common/components/ProductPrice';
-import getProductHref from '../../common/utils/getProductHref';
+import { PhotoIcon } from "@heroicons/react/20/solid";
+import Image from "next/legacy/image";
+import Link from "next/link";
+import { useIntl } from "react-intl";
+import defaultNextImageLoader from "../../common/utils/defaultNextImageLoader";
+import ProductPrice from "../../common/components/ProductPrice";
+import getProductHref from "../../common/utils/getProductHref";
+import QuickAddButton from "./QuickAddButton";
 
 const shortenAddress = (address) =>
-  address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
+  address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "";
 
 const TokenProductMetadata = ({ product, formatMessage }) => {
   const contract = product?.contractConfiguration;
@@ -21,9 +22,9 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
         <p>
           <span className="font-medium">
             {formatMessage({
-              id: 'product_standard',
-              defaultMessage: 'Standard:',
-            })}{' '}
+              id: "product_standard",
+              defaultMessage: "Standard:",
+            })}{" "}
           </span>
           {product.contractStandard}
         </p>
@@ -31,7 +32,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
       {contract?.tokenId && (
         <p>
           <span className="font-medium">
-            {formatMessage({ id: 'token_id', defaultMessage: 'Token:' })}{' '}
+            {formatMessage({ id: "token_id", defaultMessage: "Token:" })}{" "}
           </span>
           {contract.tokenId}
         </p>
@@ -40,13 +41,13 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
         <p>
           <span className="font-medium">
             {formatMessage({
-              id: 'total_supply',
-              defaultMessage: 'Supply:',
-            })}{' '}
+              id: "total_supply",
+              defaultMessage: "Supply:",
+            })}{" "}
           </span>
-          {totalSupply}{' '}
+          {totalSupply}{" "}
           <span className="text-slate-500 dark:text-slate-400">
-            ({formatMessage({ id: 'available', defaultMessage: 'Available:' })}{' '}
+            ({formatMessage({ id: "available", defaultMessage: "Available:" })}{" "}
             {availableTokens})
           </span>
         </p>
@@ -55,9 +56,9 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
         <p title={product.contractAddress}>
           <span className="font-medium">
             {formatMessage({
-              id: 'contract_address',
-              defaultMessage: 'Address:',
-            })}{' '}
+              id: "contract_address",
+              defaultMessage: "Address:",
+            })}{" "}
           </span>
           {shortenAddress(product.contractAddress)}
         </p>
@@ -71,8 +72,8 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
     {plan?.usageCalculationType && (
       <p>
         <span className="font-medium">
-          {formatMessage({ id: 'usage_type', defaultMessage: 'Usage type' })}
-          :{' '}
+          {formatMessage({ id: "usage_type", defaultMessage: "Usage type" })}
+          :{" "}
         </span>
         {plan.usageCalculationType}
       </p>
@@ -81,24 +82,24 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
       <p>
         <span className="font-medium">
           {formatMessage({
-            id: 'billing_interval',
-            defaultMessage: 'Billing',
+            id: "billing_interval",
+            defaultMessage: "Billing",
           })}
-          :{' '}
+          :{" "}
         </span>
         {plan.billingIntervalCount} {plan.billingInterval.toLowerCase()}
       </p>
     ) : (
-      <p>{formatMessage({ id: 'free', defaultMessage: 'Free' })}</p>
+      <p>{formatMessage({ id: "free", defaultMessage: "Free" })}</p>
     )}
     {plan?.trialInterval && plan?.trialIntervalCount && (
       <p>
         <span className="font-medium">
           {formatMessage({
-            id: 'trial_interval',
-            defaultMessage: 'Trial',
+            id: "trial_interval",
+            defaultMessage: "Trial",
           })}
-          :{' '}
+          :{" "}
         </span>
         {plan.trialIntervalCount} {plan.trialInterval.toLowerCase()}
       </p>
@@ -109,7 +110,7 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
 const ProductListItem = ({ product }) => {
   const { formatMessage } = useIntl();
   const firstMediaUrl = product?.media?.[0]?.file?.url;
-  const isBundle = product?.__typename === 'BundleProduct';
+  const isBundle = product?.__typename === "BundleProduct";
   const isTokenProduct = !!product?.contractStandard;
   const plan = product?.plan;
   const isPlanProduct = !!plan;
@@ -137,8 +138,14 @@ const ProductListItem = ({ product }) => {
         {isBundle && (
           <div className="absolute top-3 left-3 z-10">
             <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-500 text-white shadow-sm">
-              {formatMessage({ id: 'bundle_badge', defaultMessage: 'Bundle' })}
+              {formatMessage({ id: "bundle_badge", defaultMessage: "Bundle" })}
             </span>
+          </div>
+        )}
+
+        {product?._id && (
+          <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <QuickAddButton productId={product._id} />
           </div>
         )}
       </div>
@@ -155,8 +162,8 @@ const ProductListItem = ({ product }) => {
             {isBundle && (
               <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
                 {formatMessage({
-                  id: 'bundle_badge',
-                  defaultMessage: 'Bundle',
+                  id: "bundle_badge",
+                  defaultMessage: "Bundle",
                 })}
               </span>
             )}

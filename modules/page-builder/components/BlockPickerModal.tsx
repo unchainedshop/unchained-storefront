@@ -25,6 +25,10 @@ import {
   SparklesIcon,
   ArrowLeftIcon,
   CheckIcon,
+  VideoCameraIcon,
+  TableCellsIcon,
+  MapPinIcon,
+  CameraIcon,
 } from "@heroicons/react/24/outline";
 import { blockRegistry, blockCategories } from "../utils/blockRegistry";
 import { getAvailableBlocksForParent } from "../utils/nestingRules";
@@ -47,6 +51,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   megaphone: MegaphoneIcon,
   "chat-bubble-left-right": ChatBubbleLeftRightIcon,
   "code-bracket": CodeBracketIcon,
+  "video-camera": VideoCameraIcon,
+  "table-cells": TableCellsIcon,
+  "map-pin": MapPinIcon,
+  camera: CameraIcon,
 };
 
 interface BlockOverrides {
@@ -196,21 +204,19 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search components..."
-                  className="w-full pl-12 pr-4 py-3 text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white dark:focus:bg-slate-700 transition-all"
+                  className="w-full pl-12 pr-4 py-3 text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-400 focus:bg-white dark:focus:bg-slate-700 transition-all"
                   autoFocus
                 />
               </div>
             </div>
 
             {/* Categories */}
-            <div className="px-6 py-3 border-b border-slate-100 dark:border-slate-800 flex gap-2 overflow-x-auto scrollbar-hide">
+            <div className="category-filter">
               <button
                 onClick={() => setSelectedCategory(null)}
                 className={classNames(
-                  "px-4 py-2 text-sm font-medium rounded-xl whitespace-nowrap transition-colors duration-200",
-                  selectedCategory === null
-                    ? "rainbow-pill"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700",
+                  "category-filter__item",
+                  selectedCategory === null && "category-filter__item--active",
                 )}
               >
                 All
@@ -220,10 +226,9 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
                   className={classNames(
-                    "px-4 py-2 text-sm font-medium rounded-xl whitespace-nowrap transition-colors duration-200",
-                    selectedCategory === category.id
-                      ? "rainbow-pill"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700",
+                    "category-filter__item",
+                    selectedCategory === category.id &&
+                      "category-filter__item--active",
                   )}
                 >
                   {category.label}
@@ -247,8 +252,8 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   className={classNames(
                     "group relative flex flex-col overflow-hidden rounded-xl border-2 transition-all duration-200",
                     selectedPresetId === preset.id
-                      ? "border-pink-500 shadow-lg shadow-pink-500/20"
-                      : "border-slate-200 dark:border-slate-700 hover:border-pink-300 dark:hover:border-pink-700",
+                      ? "border-slate-900 dark:border-white shadow-lg shadow-slate-900/20 dark:shadow-white/20"
+                      : "border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500",
                   )}
                 >
                   {/* Preview Thumbnail */}
@@ -275,8 +280,8 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                     </div>
                     {/* Selection indicator */}
                     {selectedPresetId === preset.id && (
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center">
-                        <CheckIcon className="w-4 h-4 text-white" />
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-slate-900 dark:bg-white rounded-full flex items-center justify-center">
+                        <CheckIcon className="w-4 h-4 text-white dark:text-slate-900" />
                       </div>
                     )}
                   </div>

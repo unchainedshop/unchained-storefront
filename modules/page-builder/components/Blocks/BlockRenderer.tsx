@@ -21,6 +21,18 @@ import Section from "./Section/Section";
 import Columns from "./Columns/Columns";
 import ShoppableImage from "./ShoppableImage/ShoppableImage";
 import BeforeAfter from "./BeforeAfter/BeforeAfter";
+import FAQAccordion from "./FAQAccordion/FAQAccordion";
+import PricingTable from "./PricingTable/PricingTable";
+import Stats from "./Stats/Stats";
+import LogoCloud from "./LogoCloud/LogoCloud";
+import TeamGrid from "./TeamGrid/TeamGrid";
+import Video from "./Video/Video";
+import Tabs from "./Tabs/Tabs";
+import FeatureGrid from "./FeatureGrid/FeatureGrid";
+import ShoppableVideo from "./ShoppableVideo/ShoppableVideo";
+import SizeGuide from "./SizeGuide/SizeGuide";
+import StoreLocator from "./StoreLocator/StoreLocator";
+import InstagramFeed from "./InstagramFeed/InstagramFeed";
 
 interface BlockRendererProps {
   block: PageBlock;
@@ -90,6 +102,42 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({
 
     case "before-after":
       return <BeforeAfter {...commonProps} />;
+
+    case "faq-accordion":
+      return <FAQAccordion {...commonProps} />;
+
+    case "pricing-table":
+      return <PricingTable {...commonProps} />;
+
+    case "stats":
+      return <Stats {...commonProps} />;
+
+    case "logo-cloud":
+      return <LogoCloud {...commonProps} />;
+
+    case "team-grid":
+      return <TeamGrid {...commonProps} />;
+
+    case "video":
+      return <Video {...commonProps} />;
+
+    case "tabs":
+      return <Tabs {...commonProps} />;
+
+    case "feature-grid":
+      return <FeatureGrid {...commonProps} />;
+
+    case "shoppable-video":
+      return <ShoppableVideo {...commonProps} />;
+
+    case "size-guide":
+      return <SizeGuide {...commonProps} />;
+
+    case "store-locator":
+      return <StoreLocator {...commonProps} />;
+
+    case "instagram-feed":
+      return <InstagramFeed {...commonProps} />;
 
     default:
       return (

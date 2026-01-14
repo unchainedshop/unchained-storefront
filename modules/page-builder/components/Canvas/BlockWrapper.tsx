@@ -4,7 +4,7 @@
  * Uses @dnd-kit for smooth drag and drop
  */
 
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import classNames from "classnames";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -17,11 +17,16 @@ import {
   LockClosedIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
-import { usePageBuilder } from "../../context/PageBuilderContext";
+import {
+  usePageBuilder,
+  isNewlyAddedBlock,
+  clearNewlyAddedBlock,
+} from "../../context/PageBuilderContext";
 import type { PageBlock } from "../../types";
 import { blockRegistry } from "../../utils/blockRegistry";
 import { useCollaborationContext } from "../../collaboration/CollaborationContext";
 import { BlockLockIndicator, BlockSelectionBorder } from "../Collaboration";
+import AddBlockButton from "../AddBlockButton";
 import type { DragData } from "../../hooks/useDragDrop";
 
 interface BlockWrapperProps {
@@ -35,6 +40,7 @@ interface BlockWrapperProps {
   overPosition?: "before" | "after" | "inside" | null;
   previousBlockId?: string;
   nextBlockId?: string;
+  onAddAfter?: () => void;
 }
 
 const BlockWrapper: React.FC<BlockWrapperProps> = ({
@@ -48,10 +54,27 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   overPosition = null,
   previousBlockId,
   nextBlockId,
+  onAddAfter,
 }) => {
   const { state, selectBlock, deleteBlock, duplicateBlock, moveBlock } =
     usePageBuilder();
   const { isBlockLocked, setSelectedBlock } = useCollaborationContext();
+
+  // Track entrance animation
+  const [isAnimating, setIsAnimating] = useState(() =>
+    isNewlyAddedBlock(block.id),
+  );
+
+  useEffect(() => {
+    if (isAnimating) {
+      // Clear the flag after animation completes
+      const timer = setTimeout(() => {
+        clearNewlyAddedBlock(block.id);
+        setIsAnimating(false);
+      }, 600); // Match animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [isAnimating, block.id]);
 
   const isSelected = state.selection.blockId === block.id;
   const blockDef = blockRegistry[block.type];
@@ -140,11 +163,19 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={classNames("relative group transition-all duration-200", {
-        "rainbow-border": isSelected && !isCollaborationLocked,
-        "opacity-50": block.hidden,
-        "cursor-not-allowed": isCollaborationLocked,
-      })}
+      className={classNames(
+        "relative group transition-all duration-200",
+        {
+          "opacity-50": block.hidden,
+          "cursor-not-allowed": isCollaborationLocked,
+          "block-enter": isAnimating,
+        },
+        // Selection/hover outlines
+        isSelected && !isCollaborationLocked
+          ? "outline outline-2 outline-slate-900 dark:outline-white outline-offset-1"
+          : !isDragging &&
+              "hover:outline hover:outline-2 hover:outline-slate-300 dark:hover:outline-slate-600",
+      )}
       onClick={handleClick}
     >
       {/* Drop indicator - before */}
@@ -154,26 +185,15 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
           isOver && overPosition === "before"
             ? "rainbow-gradient scale-y-[3]"
             : isDraggingAny
-              ? "hover:bg-pink-300"
+              ? "hover:bg-slate-400"
               : "",
-        )}
-      />
-
-      {/* Hover outline */}
-      <div
-        className={classNames(
-          "absolute inset-0 pointer-events-none border-2 border-transparent transition-all duration-200 z-10 rounded-lg",
-          {
-            "group-hover:border-pink-300 dark:group-hover:border-pink-400/50":
-              !isSelected && !state.isPreviewMode && !isDragging,
-          },
         )}
       />
 
       {/* Combined label + action toolbar - inside component */}
       <div
         className={classNames(
-          "absolute top-3 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg px-1.5 py-1 z-30 transition-all duration-200",
+          "absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg px-1.5 py-1 z-50 transition-all duration-200",
           isSelected
             ? "opacity-100 scale-100"
             : "opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100",
@@ -261,6 +281,13 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
         {children}
       </div>
 
+      {/* Add block button - positioned at bottom edge */}
+      {onAddAfter && (
+        <div className="absolute -bottom-1 left-0 right-0 z-[15] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <AddBlockButton position="between" onClick={onAddAfter} />
+        </div>
+      )}
+
       {/* Collaboration lock indicator */}
       <BlockLockIndicator blockId={block.id} />
 
@@ -271,7 +298,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
           isOver && overPosition === "after"
             ? "rainbow-gradient scale-y-[3]"
             : isDraggingAny
-              ? "hover:bg-pink-300"
+              ? "hover:bg-slate-400"
               : "",
         )}
       />
@@ -282,7 +309,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
           className={classNames(
             "absolute inset-4 z-5 transition-all duration-200 rounded-lg pointer-events-none",
             isOver && overPosition === "inside"
-              ? "bg-pink-200/30 border-2 border-dashed border-pink-400"
+              ? "bg-slate-200/30 dark:bg-slate-700/30 border-2 border-dashed border-slate-400"
               : "",
           )}
         />

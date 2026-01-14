@@ -4,23 +4,24 @@
  * Designed for integration with the page builder SettingsPanel
  */
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   PhotoIcon,
   XMarkIcon,
   ArrowTopRightOnSquareIcon,
-} from '@heroicons/react/24/outline';
-import MediaPickerModal from './MediaPickerModal';
-import type { MediaAsset } from '../types';
+} from "@heroicons/react/24/outline";
+import MediaPickerModal from "./MediaPickerModal";
+import type { MediaAsset } from "../types";
 
 interface MediaPickerFieldProps {
-  label: string;
+  label?: string;
   value: string;
   onChange: (url: string) => void;
   onBlur?: () => void;
   allowedTypes?: string[];
   placeholder?: string;
   description?: string;
+  compact?: boolean;
 }
 
 const MediaPickerField: React.FC<MediaPickerFieldProps> = ({
@@ -28,25 +29,26 @@ const MediaPickerField: React.FC<MediaPickerFieldProps> = ({
   value,
   onChange,
   onBlur,
-  allowedTypes = ['image/*'],
-  placeholder = 'Select an image...',
+  allowedTypes = ["image/*"],
+  placeholder = "Select an image...",
   description,
+  compact = false,
 }) => {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInputValue, setUrlInputValue] = useState(value);
 
-  const hasValue = value && value.trim() !== '';
-  const isExternalUrl = hasValue && !value.startsWith('/media/');
+  const hasValue = value && value.trim() !== "";
+  const isExternalUrl = hasValue && !value.startsWith("/media/");
 
   const handleSelect = (asset: MediaAsset) => {
-    onChange(asset.url || '');
+    onChange(asset.url || "");
     setIsPickerOpen(false);
     onBlur?.();
   };
 
   const handleClear = () => {
-    onChange('');
+    onChange("");
     onBlur?.();
   };
 
@@ -56,12 +58,73 @@ const MediaPickerField: React.FC<MediaPickerFieldProps> = ({
     onBlur?.();
   };
 
+  // Compact mode for settings panel
+  if (compact) {
+    return (
+      <div className="space-y-1.5">
+        {hasValue ? (
+          <div className="flex items-center gap-2">
+            {/* Thumbnail */}
+            <div className="w-10 h-10 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden flex-shrink-0">
+              {value.match(/\.(jpg|jpeg|png|gif|webp|svg|avif)(\?|$)/i) ? (
+                <img
+                  src={value}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <PhotoIcon className="w-5 h-5 text-slate-400" />
+                </div>
+              )}
+            </div>
+            {/* Actions */}
+            <button
+              type="button"
+              onClick={() => setIsPickerOpen(true)}
+              className="flex-1 px-2 py-1.5 text-[11px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-left truncate"
+            >
+              Change image
+            </button>
+            <button
+              type="button"
+              onClick={handleClear}
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+            >
+              <XMarkIcon className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsPickerOpen(true)}
+            className="w-full flex items-center gap-2 px-2 py-1.5 text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <PhotoIcon className="w-4 h-4" />
+            {placeholder}
+          </button>
+        )}
+
+        {/* Media Picker Modal */}
+        <MediaPickerModal
+          isOpen={isPickerOpen}
+          onClose={() => setIsPickerOpen(false)}
+          onSelect={handleSelect}
+          allowedTypes={allowedTypes}
+          currentValue={value}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-2">
       {/* Label */}
-      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400">
-        {label}
-      </label>
+      {label && (
+        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400">
+          {label}
+        </label>
+      )}
 
       {/* Preview/Picker */}
       {hasValue ? (
@@ -74,7 +137,7 @@ const MediaPickerField: React.FC<MediaPickerFieldProps> = ({
                 alt=""
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
+                  (e.target as HTMLImageElement).style.display = "none";
                 }}
               />
             ) : (
@@ -146,8 +209,8 @@ const MediaPickerField: React.FC<MediaPickerFieldProps> = ({
                 placeholder="https://..."
                 className="flex-1 px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleUrlSubmit();
-                  if (e.key === 'Escape') setShowUrlInput(false);
+                  if (e.key === "Enter") handleUrlSubmit();
+                  if (e.key === "Escape") setShowUrlInput(false);
                 }}
                 autoFocus
               />
@@ -178,7 +241,9 @@ const MediaPickerField: React.FC<MediaPickerFieldProps> = ({
 
       {/* Description */}
       {description && (
-        <p className="text-xs text-slate-500 dark:text-slate-400">{description}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          {description}
+        </p>
       )}
 
       {/* Media Picker Modal */}
