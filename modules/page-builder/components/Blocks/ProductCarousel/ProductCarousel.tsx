@@ -6,28 +6,34 @@
 import React, { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import type { PageBlock, ProductCarouselContent } from '../../../types';
+import useProducts from '../../../../products/hooks/useProducts';
+import formatPrice from '../../../../common/utils/formatPrice';
 
 interface ProductCarouselProps {
   block: PageBlock;
   isPreview?: boolean;
 }
 
-// Mock products for preview
+// Mock product for preview
 const mockProducts = [
-  { id: '1', title: 'Featured Product One', price: '$149.00', image: null },
-  { id: '2', title: 'Featured Product Two', price: '$199.00', image: null },
-  { id: '3', title: 'Featured Product Three', price: '$99.00', image: null },
-  { id: '4', title: 'Featured Product Four', price: '$249.00', image: null },
-  { id: '5', title: 'Featured Product Five', price: '$179.00', image: null },
-  { id: '6', title: 'Featured Product Six', price: '$129.00', image: null },
+  { id: '1', texts: {title: 'Featured Product One'}, simulatedPrice:{ amount: 4900, currencyCode: 'USD'}, media: [] },
+  { id: '2', texts: {title: 'Featured Product Two'}, simulatedPrice:{ amount: 5900, currencyCode: 'USD'}, media: [] },
+  { id: '3', texts: {title: 'Featured Product Three'}, simulatedPrice:{ amount: 14900, currencyCode: 'USD'}, media: [] },
+  { id: '4', texts: {title: 'Featured Product Four'}, simulatedPrice:{ amount: 4600, currencyCode: 'USD'}, media: [] },
+  { id: '5', texts: {title: 'Featured Product Five'}, simulatedPrice:{ amount: 8900, currencyCode: 'USD'}, media: [] },
+  { id: '6', texts: {title: 'Featured Product Six'}, simulatedPrice:{ amount: 7000, currencyCode: 'USD'}, media: [] },
+  { id: '7', texts: {title: 'Featured Product Seven'}, simulatedPrice:{ amount: 12900, currencyCode: 'USD'} , media: [] },
+  { id: '8', texts: {title: 'Featured Product Eight'}, simulatedPrice:{ amount: 8800, currencyCode: 'USD'}, media: [] },
+  { id: '9', texts: {title: 'Featured Product Nine'}, simulatedPrice:{ amount: 6700, currencyCode: 'USD'}, media: [] },
 ];
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
+  const {products: allProducts} = useProducts()
   const content = block.content as unknown as ProductCarouselContent;
   const style = block.style;
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const products = mockProducts.slice(0, content.limit || 6);
+  const products = [...allProducts, ...mockProducts ].filter(Boolean).slice(0, content.limit || 6);
   const visibleCount = 4;
   const maxIndex = Math.max(0, products.length - visibleCount);
 
@@ -79,10 +85,10 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
               <div key={product.id} className="flex-shrink-0 w-1/4">
                 <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
                   <div className="relative aspect-square bg-slate-100 dark:bg-slate-700">
-                    {product.image ? (
+                    {product?.media?.length ? (
                       <img
-                        src={product.image}
-                        alt={product.title}
+                        src={product?.media?.[0]?.file?.url}
+                    alt={product?.media?.[0]?.file?.title}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -93,9 +99,9 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
                   </div>
                   <div className="p-4">
                     <h3 className="font-medium text-slate-900 dark:text-white truncate">
-                      {product.title}
+                      {product?.texts.title}
                     </h3>
-                    <p className="mt-1 text-slate-600 dark:text-slate-300">{product.price}</p>
+                    <p className="mt-1 text-slate-600 dark:text-slate-300">{formatPrice( product.simulatedPrice)}</p>
                   </div>
                 </div>
               </div>

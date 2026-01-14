@@ -7,6 +7,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import type { PageBlock, ProductGridContent } from '../../../types';
+import useProducts from '../../../../products/hooks/useProducts';
+import formatPrice from '../../../../common/utils/formatPrice';
 
 interface ProductGridProps {
   block: PageBlock;
@@ -15,21 +17,23 @@ interface ProductGridProps {
 
 // Mock product for preview
 const mockProducts = [
-  { id: '1', title: 'Product One', price: '$49.00', image: null },
-  { id: '2', title: 'Product Two', price: '$79.00', image: null, sale: true },
-  { id: '3', title: 'Product Three', price: '$59.00', image: null },
-  { id: '4', title: 'Product Four', price: '$89.00', image: null, new: true },
-  { id: '5', title: 'Product Five', price: '$129.00', image: null },
-  { id: '6', title: 'Product Six', price: '$39.00', image: null, sale: true },
-  { id: '7', title: 'Product Seven', price: '$99.00', image: null },
-  { id: '8', title: 'Product Eight', price: '$69.00', image: null },
+  { id: '1', texts: {title: 'Product One'}, simulatedPrice:{ amount: 4900, currencyCode: 'USD'}, media: [] },
+  { id: '2', texts: {title: 'Product Two'}, simulatedPrice:{ amount: 5900, currencyCode: 'USD'}, media: [] },
+  { id: '3', texts: {title: 'Product Three'}, simulatedPrice:{ amount: 14900, currencyCode: 'USD'}, media: [] },
+  { id: '4', texts: {title: 'Product Four'}, simulatedPrice:{ amount: 4600, currencyCode: 'USD'}, media: [] },
+  { id: '5', texts: {title: 'Product Five'}, simulatedPrice:{ amount: 8900, currencyCode: 'USD'}, media: [] },
+  { id: '6', texts: {title: 'Product Six'}, simulatedPrice:{ amount: 7000, currencyCode: 'USD'}, media: [] },
+  { id: '7', texts: {title: 'Product Seven'}, simulatedPrice:{ amount: 12900, currencyCode: 'USD'}, media: [] },
+  { id: '8', texts: {title: 'Product Eight'}, simulatedPrice:{ amount: 8800, currencyCode: 'USD'}, media: [] },
+  { id: '9', texts: {title: 'Product Nine'}, simulatedPrice:{ amount: 6700, currencyCode: 'USD'}, media: [] },
 ];
 
 const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
+  const {products: allProducts} = useProducts()
   const content = block.content as unknown as ProductGridContent;
   const style = block.style;
 
-  const products = mockProducts.slice(0, content.limit || 8);
+  const products = [...allProducts, ...mockProducts].filter(Boolean).slice(0, content.limit || 8);
 
   const gridCols = {
     1: 'grid-cols-1',
@@ -52,7 +56,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
       : undefined,
     backgroundColor: style.backgroundColor,
   };
-
+console.log('Rendering ProductGrid with products:', products);
   return (
     <div style={containerStyle}>
       <div className="max-w-7xl mx-auto">
@@ -70,10 +74,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
             >
               {/* Product Image */}
               <div className="relative aspect-square bg-slate-100 dark:bg-slate-700">
-                {product.image ? (
+                {product?.media?.length ? (
                   <img
-                    src={product.image}
-                    alt={product.title}
+                    src={product?.media?.[0]?.file?.url}
+                    alt={product?.media?.[0]?.file?.title}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -88,7 +92,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
                     Sale
                   </span>
                 )}
-                {(product as any).new && (
+                {(product as any)?.tags?.includes("new") && (
                   <span className="absolute top-2 right-2 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded">
                     New
                   </span>
@@ -105,9 +109,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
               {/* Product Info */}
               <div className="p-4">
                 <h3 className="font-medium text-slate-900 dark:text-white truncate">
-                  {product.title}
+                  {product?.texts?.title}
                 </h3>
-                <p className="mt-1 text-slate-600 dark:text-slate-300">{product.price}</p>
+                <p className="mt-1 text-slate-600 dark:text-slate-300">{formatPrice(product?.simulatedPrice)}</p>
               </div>
             </div>
           ))}
