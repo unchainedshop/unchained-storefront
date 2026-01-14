@@ -57,6 +57,18 @@ export function useCollaboration(
   const stateRef = useRef(state);
   stateRef.current = state;
 
+  // Renew locks (update lastActivity) - defined before connect() which uses it
+  const renewLocks = useCallback((awareness: Awareness) => {
+    const localState = awareness.getLocalState() as AwarenessState | null;
+    if (
+      localState &&
+      localState.lockedBlocks &&
+      localState.lockedBlocks.length > 0
+    ) {
+      awareness.setLocalStateField("lastActivity", Date.now());
+    }
+  }, []);
+
   // Update collaborators from awareness - defined before connect() which uses it
   const updateCollaboratorsFromAwareness = useCallback(
     (awareness: Awareness, localUserId: string) => {
@@ -192,19 +204,7 @@ export function useCollaboration(
     renewIntervalRef.current = setInterval(() => {
       renewLocks(awareness);
     }, config.lockRenewInterval || DEFAULT_COLLAB_CONFIG.lockRenewInterval!);
-  }, [config, updateCollaboratorsFromAwareness]);
-
-  // Renew locks (update lastActivity)
-  const renewLocks = useCallback((awareness: Awareness) => {
-    const localState = awareness.getLocalState() as AwarenessState | null;
-    if (
-      localState &&
-      localState.lockedBlocks &&
-      localState.lockedBlocks.length > 0
-    ) {
-      awareness.setLocalStateField("lastActivity", Date.now());
-    }
-  }, []);
+  }, [config, updateCollaboratorsFromAwareness, renewLocks]);
 
   // Disconnect
   const disconnect = useCallback(() => {

@@ -25,6 +25,16 @@
 - **Order Management** - Track orders and view order history
 - **User Accounts** - Registration, login, and profile management
 
+### 🎨 Visual Page Builder
+- **28 Block Types** - Layout, content, e-commerce, and marketing blocks
+- **E-commerce Blocks** - Shoppable images/videos, product grids, size guides, store locator
+- **Real-time Collaboration** - Concurrent editing with Yjs CRDTs (like Notion/Google Docs)
+- **Multi-language Support** - Per-block localization with translation status tracking
+- **Git-based Versioning** - Full version history with restore capabilities
+- **Editorial Workflow** - Draft -> review -> approve -> publish with scheduled publishing
+
+See [Page Builder Comparison](docs/PAGE_BUILDER_COMPARISON.md) for detailed feature comparison with Gutenberg, Directus, Strapi, and Cockpit.
+
 ### 💳 Payment Integrations
 - **Stripe** - Credit/debit card payments
 - **Datatrans** - Swiss payment method
@@ -112,12 +122,16 @@ unchained-storefront/
 │   ├── auth/                  # Authentication (password, WebAuthn)
 │   ├── cart/                  # Shopping cart logic
 │   ├── checkout/              # Checkout flow
+│   ├── cms/                   # CMS utilities and audit logging
 │   ├── common/                # Shared components
+│   ├── media/                 # Digital asset management (DAM)
+│   ├── page-builder/          # Visual page builder
 │   ├── products/              # Product pages
 │   ├── orders/                # Order management
 │   └── layout/                # Layout components
 ├── 📁 pages/                   # Next.js pages (routes)
 ├── 📁 public/                  # Static assets
+├── 📁 docs/                    # Documentation
 ├── 📁 i18n/                    # Translation files
 ├── 📁 styles/                  # Global styles
 ```
