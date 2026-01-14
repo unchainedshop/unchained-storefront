@@ -3,10 +3,12 @@
  * Display metrics with big numbers and labels
  */
 
-import React from "react";
+import React, { useCallback } from "react";
 import classNames from "classnames";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import type { PageBlock, StatsContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
+import InlineRichText from "../../InlineRichText";
 
 interface StatsProps {
   block: PageBlock;
@@ -14,9 +16,28 @@ interface StatsProps {
   isEditing?: boolean;
 }
 
-const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => {
+const Stats: React.FC<StatsProps> = ({
+  block,
+  isPreview,
+  isEditing = true,
+}) => {
   const content = block.content as unknown as StatsContent;
   const style = block.style;
+  const { updateBlock, state } = usePageBuilder();
+  const canEdit = isEditing && !state.isPreviewMode;
+
+  // Handler for updating individual stat fields
+  const updateStat = useCallback(
+    (statId: string, field: "value" | "label", value: string) => {
+      const updatedStats = content.stats.map((s) =>
+        s.id === statId ? { ...s, [field]: value } : s,
+      );
+      updateBlock(block.id, {
+        content: { stats: updatedStats },
+      });
+    },
+    [block.id, content.stats, updateBlock],
+  );
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: style.backgroundColor,
@@ -46,12 +67,48 @@ const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => 
   }
 
   const renderStat = (stat: StatsContent["stats"][0]) => {
-    const valueContent = (
-      <>
-        {stat.prefix && <span className="text-2xl md:text-3xl">{stat.prefix}</span>}
-        {stat.value}
-        {stat.suffix && <span className="text-2xl md:text-3xl">{stat.suffix}</span>}
-      </>
+    const renderValue = (className: string, textColor?: string) => (
+      <div
+        className={classNames(
+          className,
+          "flex items-baseline justify-center gap-1",
+        )}
+        style={{ color: textColor }}
+      >
+        {stat.prefix && (
+          <span className="text-2xl md:text-3xl">{stat.prefix}</span>
+        )}
+        <InlineRichText
+          blockId={block.id}
+          field={`stats.${stat.id}.value`}
+          value={stat.value || ""}
+          tag="span"
+          className="inline"
+          style={{ color: textColor }}
+          placeholder="0"
+          multiline={false}
+          enableLinks={false}
+          onUpdate={(value) => updateStat(stat.id, "value", value)}
+        />
+        {stat.suffix && (
+          <span className="text-2xl md:text-3xl">{stat.suffix}</span>
+        )}
+      </div>
+    );
+
+    const renderLabel = (className: string, textColor?: string) => (
+      <InlineRichText
+        blockId={block.id}
+        field={`stats.${stat.id}.label`}
+        value={stat.label || ""}
+        tag="div"
+        className={className}
+        style={{ color: textColor }}
+        placeholder="Label..."
+        multiline={false}
+        enableLinks={false}
+        onUpdate={(value) => updateStat(stat.id, "label", value)}
+      />
     );
 
     switch (content.style) {
@@ -61,15 +118,13 @@ const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => 
             key={stat.id}
             className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-700"
           >
-            <div
-              className="text-4xl md:text-5xl font-bold mb-2"
-              style={{ color: style.textColor || "#0f172a" }}
-            >
-              {valueContent}
-            </div>
-            <div className="text-slate-500 dark:text-slate-400 font-medium">
-              {stat.label}
-            </div>
+            {renderValue(
+              "text-4xl md:text-5xl font-bold mb-2",
+              style.textColor || "#0f172a",
+            )}
+            {renderLabel(
+              "text-slate-500 dark:text-slate-400 font-medium text-center",
+            )}
           </div>
         );
 
@@ -79,18 +134,14 @@ const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => 
             key={stat.id}
             className="text-center py-8 border-l border-slate-200 dark:border-slate-700 first:border-l-0"
           >
-            <div
-              className="text-4xl md:text-5xl font-bold mb-2"
-              style={{ color: style.textColor }}
-            >
-              {valueContent}
-            </div>
-            <div
-              className="text-sm uppercase tracking-wide opacity-70"
-              style={{ color: style.textColor }}
-            >
-              {stat.label}
-            </div>
+            {renderValue(
+              "text-4xl md:text-5xl font-bold mb-2",
+              style.textColor,
+            )}
+            {renderLabel(
+              "text-sm uppercase tracking-wide opacity-70 text-center",
+              style.textColor,
+            )}
           </div>
         );
 
@@ -98,18 +149,11 @@ const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => 
       default:
         return (
           <div key={stat.id} className="text-center">
-            <div
-              className="text-5xl md:text-6xl font-bold mb-2"
-              style={{ color: style.textColor }}
-            >
-              {valueContent}
-            </div>
-            <div
-              className="text-lg opacity-70"
-              style={{ color: style.textColor }}
-            >
-              {stat.label}
-            </div>
+            {renderValue(
+              "text-5xl md:text-6xl font-bold mb-2",
+              style.textColor,
+            )}
+            {renderLabel("text-lg opacity-70 text-center", style.textColor)}
           </div>
         );
     }
@@ -119,24 +163,29 @@ const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => 
     <div style={containerStyle}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        {(content.heading || content.subheading) && (
+        {(content.heading || content.subheading || canEdit) && (
           <div className="text-center mb-12">
-            {content.heading && (
-              <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
-                style={{ color: style.textColor }}
-              >
-                {content.heading}
-              </h2>
-            )}
-            {content.subheading && (
-              <p
-                className="text-lg opacity-80"
-                style={{ color: style.textColor }}
-              >
-                {content.subheading}
-              </p>
-            )}
+            <InlineRichText
+              blockId={block.id}
+              field="heading"
+              value={content.heading || ""}
+              tag="h2"
+              className="text-3xl md:text-4xl font-bold mb-3"
+              style={{ color: style.textColor }}
+              placeholder="Add heading..."
+              multiline={false}
+              enableLinks={false}
+            />
+            <InlineRichText
+              blockId={block.id}
+              field="subheading"
+              value={content.subheading || ""}
+              tag="p"
+              className="text-lg opacity-80"
+              style={{ color: style.textColor }}
+              placeholder="Add subheading..."
+              multiline={false}
+            />
           </div>
         )}
 

@@ -248,5 +248,65 @@
     "entityType": "page",
     "entityId": "page_1768418741446",
     "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768421986140_cnwip0w",
+    "timestamp": "2026-01-14T20:19:46.140Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "krassi siite"
+  },
+  {
+    "id": "audit_1768422214828_5zfnq26",
+    "timestamp": "2026-01-14T20:23:34.828Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768422217371_1beadk2",
+    "timestamp": "2026-01-14T20:23:37.371Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768422219206_368qflj",
+    "timestamp": "2026-01-14T20:23:39.206Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768422224755_deykenn",
+    "timestamp": "2026-01-14T20:23:44.755Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768422313049_2th5l4z",
+    "timestamp": "2026-01-14T20:25:13.049Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Pagesss"
   }
 ]

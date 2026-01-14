@@ -3,21 +3,51 @@
  * Customer testimonials in carousel or grid layout
  */
 
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24/solid';
-import { UserCircleIcon } from '@heroicons/react/24/outline';
-import type { PageBlock, TestimonialsContent } from '../../../types';
+import React, { useState, useCallback } from "react";
+import classNames from "classnames";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  StarIcon,
+} from "@heroicons/react/24/solid";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
+import type { PageBlock, TestimonialsContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
+import InlineRichText from "../../InlineRichText";
 
 interface TestimonialsProps {
   block: PageBlock;
   isPreview?: boolean;
+  isEditing?: boolean;
 }
 
-const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
+const Testimonials: React.FC<TestimonialsProps> = ({
+  block,
+  isPreview,
+  isEditing = true,
+}) => {
   const content = block.content as unknown as TestimonialsContent;
   const style = block.style;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { updateBlock, state } = usePageBuilder();
+  const canEdit = isEditing && !state.isPreviewMode;
+
+  // Handler for updating individual testimonial fields
+  const updateTestimonial = useCallback(
+    (
+      testimonialId: string,
+      field: "quote" | "author" | "role",
+      value: string,
+    ) => {
+      const updatedTestimonials = content.testimonials.map((t) =>
+        t.id === testimonialId ? { ...t, [field]: value } : t,
+      );
+      updateBlock(block.id, {
+        content: { testimonials: updatedTestimonials },
+      });
+    },
+    [block.id, content.testimonials, updateBlock],
+  );
 
   const containerStyle: React.CSSProperties = {
     padding: style.padding
@@ -27,11 +57,15 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? content.testimonials.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? content.testimonials.length - 1 : prev - 1,
+    );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === content.testimonials.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === content.testimonials.length - 1 ? 0 : prev + 1,
+    );
   };
 
   const TestimonialCard = ({
@@ -43,8 +77,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
   }) => (
     <div
       className={classNames(
-        'bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm',
-        isCarousel ? 'mx-auto max-w-2xl' : ''
+        "bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm",
+        isCarousel ? "mx-auto max-w-2xl" : "",
       )}
     >
       {/* Rating */}
@@ -54,8 +88,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
             <StarIcon
               key={i}
               className={classNames(
-                'w-5 h-5',
-                i < testimonial.rating! ? 'text-amber-400' : 'text-slate-200 dark:text-slate-600'
+                "w-5 h-5",
+                i < testimonial.rating!
+                  ? "text-amber-400"
+                  : "text-slate-200 dark:text-slate-600",
               )}
             />
           ))}
@@ -64,13 +100,26 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
 
       {/* Quote */}
       <blockquote className="text-lg text-slate-700 dark:text-slate-300 mb-4">
-        "{testimonial.quote}"
+        <span className="select-none">"</span>
+        <InlineRichText
+          blockId={block.id}
+          field={`testimonials.${testimonial.id}.quote`}
+          value={testimonial.quote || ""}
+          tag="span"
+          className="inline"
+          placeholder="Enter testimonial quote..."
+          multiline={true}
+          onUpdate={(value) =>
+            updateTestimonial(testimonial.id, "quote", value)
+          }
+        />
+        <span className="select-none">"</span>
       </blockquote>
 
       {/* Author */}
       <div className="flex items-center gap-3">
         {content.showAvatar && (
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700">
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 flex-shrink-0">
             {testimonial.avatar ? (
               <img
                 src={testimonial.avatar}
@@ -82,17 +131,39 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
             )}
           </div>
         )}
-        <div>
-          <p className="font-semibold text-slate-900 dark:text-white">{testimonial.author}</p>
-          {testimonial.role && (
-            <p className="text-sm text-slate-500 dark:text-slate-400">{testimonial.role}</p>
-          )}
+        <div className="min-w-0">
+          <InlineRichText
+            blockId={block.id}
+            field={`testimonials.${testimonial.id}.author`}
+            value={testimonial.author || ""}
+            tag="p"
+            className="font-semibold text-slate-900 dark:text-white"
+            placeholder="Author name..."
+            multiline={false}
+            enableLinks={false}
+            onUpdate={(value) =>
+              updateTestimonial(testimonial.id, "author", value)
+            }
+          />
+          <InlineRichText
+            blockId={block.id}
+            field={`testimonials.${testimonial.id}.role`}
+            value={testimonial.role || ""}
+            tag="p"
+            className="text-sm text-slate-500 dark:text-slate-400"
+            placeholder="Role or company..."
+            multiline={false}
+            enableLinks={false}
+            onUpdate={(value) =>
+              updateTestimonial(testimonial.id, "role", value)
+            }
+          />
         </div>
       </div>
     </div>
   );
 
-  if (content.layout === 'carousel') {
+  if (content.layout === "carousel") {
     return (
       <div style={containerStyle}>
         <div className="max-w-4xl mx-auto relative">
@@ -104,7 +175,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
             <ChevronLeftIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
           </button>
 
-          <TestimonialCard testimonial={content.testimonials[currentIndex]} isCarousel />
+          <TestimonialCard
+            testimonial={content.testimonials[currentIndex]}
+            isCarousel
+          />
 
           <button
             onClick={handleNext}
@@ -120,10 +194,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={classNames(
-                  'w-2 h-2 rounded-full transition-colors',
+                  "w-2 h-2 rounded-full transition-colors",
                   index === currentIndex
-                    ? 'bg-slate-900 dark:bg-white'
-                    : 'bg-slate-300 dark:bg-slate-600'
+                    ? "bg-slate-900 dark:bg-white"
+                    : "bg-slate-300 dark:bg-slate-600",
                 )}
               />
             ))}

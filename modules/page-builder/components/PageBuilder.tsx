@@ -19,12 +19,14 @@ import LayersPanel from "./Sidebar/LayersPanel";
 import HistoryPanel from "./Sidebar/HistoryPanel";
 import { TemplatePicker } from "./TemplatePicker";
 import KeyboardShortcutsModal from "./Modals/KeyboardShortcutsModal";
+import PageBuilderErrorBoundary from "./ErrorBoundary";
 import { pageTemplates, type PageTemplate } from "../templates";
 import type { Page, PageBlock, PageStatus } from "../types";
 import { cmsConfig } from "../../../lib/cms.config";
 import { createInitialTranslations } from "../utils/localization";
 import type { ShortcutDefinition } from "../hooks/useKeyboardShortcuts";
 import { formatShortcut } from "../hooks/useKeyboardShortcuts";
+import { showErrorToast, showSuccessToast } from "../utils/toast";
 
 interface PageBuilderProps {
   initialPage?: Page;
@@ -136,6 +138,11 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
       try {
         await onSave(state.page);
         dispatch({ type: "MARK_CLEAN" });
+        showSuccessToast("Page saved successfully");
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to save page";
+        showErrorToast(errorMessage);
       } finally {
         dispatch({ type: "SET_SAVING", payload: false });
       }
@@ -156,6 +163,11 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
           payload: { status: "published" },
         });
         dispatch({ type: "MARK_CLEAN" });
+        showSuccessToast("Page published successfully");
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to publish page";
+        showErrorToast(errorMessage);
       } finally {
         dispatch({ type: "SET_SAVING", payload: false });
       }
@@ -180,6 +192,11 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
             payload: { status: newStatus },
           });
           dispatch({ type: "MARK_CLEAN" });
+        } catch (err) {
+          const errorMessage =
+            err instanceof Error ? err.message : "Failed to update page status";
+          showErrorToast(errorMessage);
+          throw err; // Re-throw so WorkflowActions knows it failed
         } finally {
           dispatch({ type: "SET_SAVING", payload: false });
         }
@@ -536,7 +553,9 @@ const PageBuilder: React.FC<PageBuilderProps> = (props) => {
   return (
     <PageBuilderProvider>
       <CollaborationProvider config={fullCollabConfig}>
-        <PageBuilderInner {...props} />
+        <PageBuilderErrorBoundary>
+          <PageBuilderInner {...props} />
+        </PageBuilderErrorBoundary>
       </CollaborationProvider>
     </PageBuilderProvider>
   );

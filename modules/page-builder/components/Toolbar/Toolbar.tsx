@@ -127,7 +127,7 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   className,
 }) => {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+    "inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
 
   const variants = {
     ghost: classNames(
@@ -191,7 +191,7 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
 
 // Frosted divider
 const ToolbarDivider: React.FC = () => (
-  <div className="w-px h-6 bg-gradient-to-b from-slate-300/50 via-slate-400/30 to-slate-300/50 dark:from-white/20 dark:via-white/10 dark:to-white/20 mx-2" />
+  <div className="w-px h-6 bg-gradient-to-b from-slate-300/50 via-slate-400/30 to-slate-300/50 dark:from-white/20 dark:via-white/10 dark:to-white/20 mx-3" />
 );
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -302,7 +302,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   return (
     <div
       className={classNames(
-        "h-14 flex items-center justify-between px-3 sticky top-0 z-50",
+        "h-14 flex items-center px-4 sticky top-0 z-50",
         // Glassmorphism background
         "bg-white/60 dark:bg-slate-900/60",
         "backdrop-blur-2xl backdrop-saturate-150",
@@ -314,7 +314,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
       )}
     >
       {/* Left section */}
-      <div className="flex items-center gap-1 flex-shrink-0">
+      <div className="flex items-center gap-3 flex-shrink-0">
         {/* Logo + Brand */}
         <button
           type="button"
@@ -376,8 +376,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </div>
       </div>
 
-      {/* Center section - Viewport & Zoom */}
-      <div className="hidden lg:flex items-center gap-1 min-w-0 flex-shrink">
+      {/* Center section - Viewport & Zoom (only on xl screens) */}
+      <div className="hidden xl:flex flex-1 items-center justify-center gap-4 overflow-hidden mx-6">
         {/* Templates button */}
         {onOpenTemplates && (
           <>
@@ -403,7 +403,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <ToolbarDivider />
 
         {/* Viewport switcher - glassmorphism segmented control */}
-        <div className="relative flex items-center gap-2">
+        <div className="relative flex items-center gap-3">
           <div
             className={classNames(
               "flex items-center p-1 rounded-xl",
@@ -441,7 +441,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <button
             onClick={() => setShowViewportMenu(!showViewportMenu)}
             className={classNames(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap",
               "text-xs font-medium text-slate-600 dark:text-slate-300",
               "hover:bg-white/50 dark:hover:bg-white/5",
               "transition-all duration-200",
@@ -508,13 +508,13 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <button
             onClick={() => setShowZoomMenu(!showZoomMenu)}
             className={classNames(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap",
               "text-xs font-medium text-slate-600 dark:text-slate-300",
               "hover:bg-white/50 dark:hover:bg-white/5",
               "transition-all duration-200",
             )}
           >
-            <span className="tabular-nums w-8">{zoom}%</span>
+            <span className="tabular-nums">{zoom}%</span>
             <ChevronDownIcon
               className={classNames(
                 "w-3 h-3 transition-transform duration-200",
@@ -553,9 +553,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Right section - Actions */}
-      <div className="flex items-center gap-1 flex-shrink-0">
+      <div className="flex items-center gap-3 flex-shrink-0 ml-auto">
         {/* Collaboration presence - hide on small screens */}
-        <div className="hidden md:flex items-center gap-2 pr-1 mr-1">
+        <div className="hidden md:flex items-center gap-3">
           <PresenceAvatars maxVisible={4} />
           <ConnectionStatus showLabel={false} />
         </div>

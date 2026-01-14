@@ -3,11 +3,13 @@
  * Compare pricing tiers with features
  */
 
-import React from "react";
+import React, { useCallback } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import type { PageBlock, PricingTableContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
+import InlineRichText from "../../InlineRichText";
 
 interface PricingTableProps {
   block: PageBlock;
@@ -22,6 +24,49 @@ const PricingTable: React.FC<PricingTableProps> = ({
 }) => {
   const content = block.content as unknown as PricingTableContent;
   const style = block.style;
+  const { updateBlock, state } = usePageBuilder();
+  const canEdit = isEditing && !state.isPreviewMode;
+
+  // Handler for updating individual tier fields
+  const updateTier = useCallback(
+    (
+      tierId: string,
+      field:
+        | "name"
+        | "description"
+        | "price"
+        | "period"
+        | "badge"
+        | "buttonText",
+      value: string,
+    ) => {
+      const updatedTiers = content.tiers.map((t) =>
+        t.id === tierId ? { ...t, [field]: value } : t,
+      );
+      updateBlock(block.id, {
+        content: { tiers: updatedTiers },
+      });
+    },
+    [block.id, content.tiers, updateBlock],
+  );
+
+  // Handler for updating tier features
+  const updateTierFeature = useCallback(
+    (tierId: string, featureIndex: number, value: string) => {
+      const updatedTiers = content.tiers.map((t) => {
+        if (t.id === tierId) {
+          const updatedFeatures = [...t.features];
+          updatedFeatures[featureIndex] = value;
+          return { ...t, features: updatedFeatures };
+        }
+        return t;
+      });
+      updateBlock(block.id, {
+        content: { tiers: updatedTiers },
+      });
+    },
+    [block.id, content.tiers, updateBlock],
+  );
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: style.backgroundColor,
@@ -54,24 +99,29 @@ const PricingTable: React.FC<PricingTableProps> = ({
     <div style={containerStyle}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        {(content.heading || content.subheading) && (
+        {(content.heading || content.subheading || canEdit) && (
           <div className="text-center mb-12">
-            {content.heading && (
-              <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
-                style={{ color: style.textColor }}
-              >
-                {content.heading}
-              </h2>
-            )}
-            {content.subheading && (
-              <p
-                className="text-lg opacity-80"
-                style={{ color: style.textColor }}
-              >
-                {content.subheading}
-              </p>
-            )}
+            <InlineRichText
+              blockId={block.id}
+              field="heading"
+              value={content.heading || ""}
+              tag="h2"
+              className="text-3xl md:text-4xl font-bold mb-3"
+              style={{ color: style.textColor }}
+              placeholder="Add heading..."
+              multiline={false}
+              enableLinks={false}
+            />
+            <InlineRichText
+              blockId={block.id}
+              field="subheading"
+              value={content.subheading || ""}
+              tag="p"
+              className="text-lg opacity-80"
+              style={{ color: style.textColor }}
+              placeholder="Add subheading..."
+              multiline={false}
+            />
           </div>
         )}
 
@@ -93,63 +143,95 @@ const PricingTable: React.FC<PricingTableProps> = ({
               )}
             >
               {/* Badge */}
-              {tier.badge && (
+              {(tier.badge || canEdit) && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="px-3 py-1 text-xs font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full">
-                    {tier.badge}
+                    <InlineRichText
+                      blockId={block.id}
+                      field={`tiers.${tier.id}.badge`}
+                      value={tier.badge || ""}
+                      tag="span"
+                      placeholder="Badge"
+                      multiline={false}
+                      enableLinks={false}
+                      onUpdate={(value) => updateTier(tier.id, "badge", value)}
+                    />
                   </span>
                 </div>
               )}
 
               {/* Tier Name */}
-              <h3
+              <InlineRichText
+                blockId={block.id}
+                field={`tiers.${tier.id}.name`}
+                value={tier.name || ""}
+                tag="h3"
                 className={classNames(
                   "text-xl font-bold mb-2",
                   tier.highlighted
                     ? "text-white dark:text-slate-900"
                     : "text-slate-900 dark:text-white",
                 )}
-              >
-                {tier.name}
-              </h3>
+                placeholder="Tier name..."
+                multiline={false}
+                enableLinks={false}
+                onUpdate={(value) => updateTier(tier.id, "name", value)}
+              />
 
               {/* Description */}
-              {tier.description && (
-                <p
-                  className={classNames(
-                    "text-sm mb-6",
-                    tier.highlighted
-                      ? "text-slate-300 dark:text-slate-600"
-                      : "text-slate-500 dark:text-slate-400",
-                  )}
-                >
-                  {tier.description}
-                </p>
-              )}
+              <InlineRichText
+                blockId={block.id}
+                field={`tiers.${tier.id}.description`}
+                value={tier.description || ""}
+                tag="p"
+                className={classNames(
+                  "text-sm mb-6",
+                  tier.highlighted
+                    ? "text-slate-300 dark:text-slate-600"
+                    : "text-slate-500 dark:text-slate-400",
+                )}
+                placeholder="Description..."
+                multiline={false}
+                onUpdate={(value) => updateTier(tier.id, "description", value)}
+              />
 
               {/* Price */}
               <div className="mb-6">
-                <span
+                <InlineRichText
+                  blockId={block.id}
+                  field={`tiers.${tier.id}.price`}
+                  value={tier.price || ""}
+                  tag="span"
                   className={classNames(
                     "text-4xl font-bold",
                     tier.highlighted
                       ? "text-white dark:text-slate-900"
                       : "text-slate-900 dark:text-white",
                   )}
-                >
-                  {tier.price}
-                </span>
-                {tier.period && (
-                  <span
+                  placeholder="$0"
+                  multiline={false}
+                  enableLinks={false}
+                  onUpdate={(value) => updateTier(tier.id, "price", value)}
+                />
+                {(tier.period || canEdit) && (
+                  <InlineRichText
+                    blockId={block.id}
+                    field={`tiers.${tier.id}.period`}
+                    value={tier.period ? `/${tier.period}` : ""}
+                    tag="span"
                     className={classNames(
                       "text-sm ml-1",
                       tier.highlighted
                         ? "text-slate-400 dark:text-slate-500"
                         : "text-slate-500 dark:text-slate-400",
                     )}
-                  >
-                    /{tier.period}
-                  </span>
+                    placeholder="/month"
+                    multiline={false}
+                    enableLinks={false}
+                    onUpdate={(value) =>
+                      updateTier(tier.id, "period", value.replace(/^\//, ""))
+                    }
+                  />
                 )}
               </div>
 
@@ -165,32 +247,63 @@ const PricingTable: React.FC<PricingTableProps> = ({
                           : "text-green-500",
                       )}
                     />
-                    <span
+                    <InlineRichText
+                      blockId={block.id}
+                      field={`tiers.${tier.id}.features.${idx}`}
+                      value={feature || ""}
+                      tag="span"
                       className={classNames(
                         "text-sm",
                         tier.highlighted
                           ? "text-slate-300 dark:text-slate-600"
                           : "text-slate-600 dark:text-slate-300",
                       )}
-                    >
-                      {feature}
-                    </span>
+                      placeholder="Feature..."
+                      multiline={false}
+                      onUpdate={(value) =>
+                        updateTierFeature(tier.id, idx, value)
+                      }
+                    />
                   </li>
                 ))}
               </ul>
 
               {/* CTA Button */}
-              <Link
-                href={isPreview ? "#" : tier.buttonLink}
-                className={classNames(
-                  "w-full py-3 px-6 text-center font-semibold rounded-lg transition-colors",
-                  tier.highlighted
-                    ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-                    : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100",
-                )}
-              >
-                {tier.buttonText}
-              </Link>
+              {canEdit ? (
+                <div
+                  className={classNames(
+                    "w-full py-3 px-6 text-center font-semibold rounded-lg transition-colors",
+                    tier.highlighted
+                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                      : "bg-slate-900 dark:bg-white text-white dark:text-slate-900",
+                  )}
+                >
+                  <InlineRichText
+                    blockId={block.id}
+                    field={`tiers.${tier.id}.buttonText`}
+                    value={tier.buttonText || ""}
+                    tag="span"
+                    placeholder="Button text..."
+                    multiline={false}
+                    enableLinks={false}
+                    onUpdate={(value) =>
+                      updateTier(tier.id, "buttonText", value)
+                    }
+                  />
+                </div>
+              ) : (
+                <Link
+                  href={isPreview ? "#" : tier.buttonLink}
+                  className={classNames(
+                    "w-full py-3 px-6 text-center font-semibold rounded-lg transition-colors",
+                    tier.highlighted
+                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+                      : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100",
+                  )}
+                >
+                  {tier.buttonText}
+                </Link>
+              )}
             </div>
           ))}
         </div>

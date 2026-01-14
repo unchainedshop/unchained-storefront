@@ -797,6 +797,10 @@ export interface EditorState {
   sidebarTab: "blocks" | "layers" | "settings" | "history";
   /** Currently active locale for editing (e.g., 'de', 'fr') */
   activeLocale: string;
+  /** Currently hovered block ID (for showing toolbar on single block) */
+  hoveredBlockId: string | null;
+  /** Current error state */
+  error: PageBuilderError | null;
 }
 
 // Nesting configuration for blocks
@@ -830,39 +834,39 @@ export interface BlockDefinition {
 export type EditorAction =
   | { type: "SET_PAGE"; payload: Page }
   | {
-    type: "SELECT_BLOCK";
-    payload: {
-      blockId: string | null;
-      parentId?: string | null;
-      keepTab?: boolean;
-    };
-  }
-  | {
-    type: "ADD_BLOCK";
-    payload: { block: PageBlock; parentId?: string; position?: number };
-  }
-  | {
-    type: "UPDATE_BLOCK";
-    payload: {
-      blockId: string;
-      /**
-       * Updates to apply. Content is BlockContent (not LocalizedContent)
-       * because the reducer will automatically apply it to the active locale.
-       */
-      updates: Partial<Omit<PageBlock, "content">> & {
-        content?: Partial<BlockContent>;
+      type: "SELECT_BLOCK";
+      payload: {
+        blockId: string | null;
+        parentId?: string | null;
+        keepTab?: boolean;
       };
-    };
-  }
+    }
+  | {
+      type: "ADD_BLOCK";
+      payload: { block: PageBlock; parentId?: string; position?: number };
+    }
+  | {
+      type: "UPDATE_BLOCK";
+      payload: {
+        blockId: string;
+        /**
+         * Updates to apply. Content is BlockContent (not LocalizedContent)
+         * because the reducer will automatically apply it to the active locale.
+         */
+        updates: Partial<Omit<PageBlock, "content">> & {
+          content?: Partial<BlockContent>;
+        };
+      };
+    }
   | { type: "DELETE_BLOCK"; payload: { blockId: string } }
   | {
-    type: "MOVE_BLOCK";
-    payload: {
-      blockId: string;
-      targetId: string;
-      position: "before" | "after" | "inside";
-    };
-  }
+      type: "MOVE_BLOCK";
+      payload: {
+        blockId: string;
+        targetId: string;
+        position: "before" | "after" | "inside";
+      };
+    }
   | { type: "DUPLICATE_BLOCK"; payload: { blockId: string } }
   | { type: "SET_VIEWPORT"; payload: Viewport }
   | { type: "SET_ZOOM"; payload: number }
@@ -871,34 +875,64 @@ export type EditorAction =
   | { type: "TOGGLE_PREVIEW"; payload?: boolean }
   | { type: "TOGGLE_FOCUS_MODE"; payload?: boolean }
   | {
-    type: "SET_SIDEBAR_TAB";
-    payload: "blocks" | "layers" | "settings" | "history";
-  }
+      type: "SET_SIDEBAR_TAB";
+      payload: "blocks" | "layers" | "settings" | "history";
+    }
   | { type: "SET_DRAG_STATE"; payload: Partial<DragState> }
   | { type: "UNDO" }
   | { type: "REDO" }
   | {
-    type: "SAVE_HISTORY";
-    payload: {
-      action: HistoryActionType;
-      label: string;
-      blockType?: BlockType;
-      blockId?: string;
-    };
-  }
+      type: "SAVE_HISTORY";
+      payload: {
+        action: HistoryActionType;
+        label: string;
+        blockType?: BlockType;
+        blockId?: string;
+      };
+    }
   | { type: "SET_SAVING"; payload: boolean }
   | { type: "MARK_CLEAN" }
   | { type: "UPDATE_SEO"; payload: Partial<LocalizedSEOSettings> }
   | {
-    type: "UPDATE_PAGE_META";
-    payload: { title?: LocalizedString; slug?: string; status?: PageStatus };
-  }
+      type: "UPDATE_PAGE_META";
+      payload: { title?: LocalizedString; slug?: string; status?: PageStatus };
+    }
   | { type: "SET_ACTIVE_LOCALE"; payload: string }
   | {
-    type: "UPDATE_TRANSLATION_STATUS";
-    payload: { locale: string; status: Partial<TranslationStatus> };
-  }
+      type: "UPDATE_TRANSLATION_STATUS";
+      payload: { locale: string; status: Partial<TranslationStatus> };
+    }
   | {
-    type: "COPY_CONTENT_TO_LOCALE";
-    payload: { fromLocale: string; toLocale: string };
-  };
+      type: "COPY_CONTENT_TO_LOCALE";
+      payload: { fromLocale: string; toLocale: string };
+    }
+  | { type: "SET_HOVERED_BLOCK"; payload: string | null }
+  | { type: "SET_ERROR"; payload: PageBuilderError | null }
+  | { type: "CLEAR_ERROR" };
+
+// =============================================================================
+// ERROR TYPES
+// =============================================================================
+
+export type ErrorSeverity = "info" | "warning" | "error";
+
+export type ErrorCode =
+  | "SAVE_FAILED"
+  | "LOAD_FAILED"
+  | "DELETE_FAILED"
+  | "DUPLICATE_FAILED"
+  | "WORKFLOW_FAILED"
+  | "VALIDATION_FAILED"
+  | "NETWORK_ERROR"
+  | "PERMISSION_DENIED"
+  | "CONFLICT"
+  | "UNKNOWN";
+
+export interface PageBuilderError {
+  code: ErrorCode;
+  message: string;
+  severity: ErrorSeverity;
+  details?: string;
+  timestamp: number;
+  retryAction?: () => Promise<void>;
+}

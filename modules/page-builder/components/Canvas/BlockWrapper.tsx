@@ -56,8 +56,14 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   nextBlockId,
   onAddAfter,
 }) => {
-  const { state, selectBlock, deleteBlock, duplicateBlock, moveBlock } =
-    usePageBuilder();
+  const {
+    state,
+    selectBlock,
+    deleteBlock,
+    duplicateBlock,
+    moveBlock,
+    setHoveredBlock,
+  } = usePageBuilder();
   const { isBlockLocked, setSelectedBlock } = useCollaborationContext();
 
   // Track entrance animation
@@ -77,9 +83,30 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   }, [isAnimating, block.id]);
 
   const isSelected = state.selection.blockId === block.id;
+  const isHovered = state.hoveredBlockId === block.id;
   const blockDef = blockRegistry[block.type];
   const isCollaborationLocked = isBlockLocked(block.id);
   const isDraggable = !block.locked && !isCollaborationLocked;
+
+  // Handle mouse enter/leave for hover tracking
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setHoveredBlock(block.id);
+    },
+    [block.id, setHoveredBlock],
+  );
+
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      // Only clear if this block is currently hovered
+      if (state.hoveredBlockId === block.id) {
+        setHoveredBlock(null);
+      }
+    },
+    [block.id, state.hoveredBlockId, setHoveredBlock],
+  );
 
   // @dnd-kit sortable setup
   const {
@@ -175,10 +202,13 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
         // Selection/hover outlines
         isSelected && !isCollaborationLocked
           ? "outline outline-2 outline-slate-900 dark:outline-white outline-offset-1"
-          : !isDragging &&
-              "hover:outline hover:outline-2 hover:outline-slate-300 dark:hover:outline-slate-600",
+          : isHovered && !isDragging
+            ? "outline outline-2 outline-slate-300 dark:outline-slate-600"
+            : "",
       )}
       onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Drop indicator - before */}
       <div
@@ -192,9 +222,9 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       <div
         className={classNames(
           "absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg px-1.5 py-1 z-50 transition-all duration-200",
-          isSelected
+          isSelected || isHovered
             ? "opacity-100 scale-100"
-            : "opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100",
+            : "opacity-0 scale-95 pointer-events-none",
         )}
       >
         {/* Move up */}
@@ -281,7 +311,14 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
 
       {/* Add block button - positioned at bottom edge */}
       {onAddAfter && (
-        <div className="absolute -bottom-1 left-0 right-0 z-[15] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div
+          className={classNames(
+            "absolute -bottom-1 left-0 right-0 z-[15] transition-opacity duration-300",
+            isHovered || isSelected
+              ? "opacity-100"
+              : "opacity-0 pointer-events-none",
+          )}
+        >
           <AddBlockButton position="between" onClick={onAddAfter} />
         </div>
       )}

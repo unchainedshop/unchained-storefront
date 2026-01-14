@@ -3,12 +3,14 @@
  * Icon + title + description feature cards
  */
 
-import React from "react";
+import React, { useCallback } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import * as HeroIcons from "@heroicons/react/24/outline";
 import type { PageBlock, FeatureGridContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
+import InlineRichText from "../../InlineRichText";
 
 interface FeatureGridProps {
   block: PageBlock;
@@ -35,6 +37,21 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
 }) => {
   const content = block.content as unknown as FeatureGridContent;
   const style = block.style;
+  const { updateBlock, state } = usePageBuilder();
+  const canEdit = isEditing && !state.isPreviewMode;
+
+  // Handler for updating individual feature fields
+  const updateFeature = useCallback(
+    (featureId: string, field: "title" | "description", value: string) => {
+      const updatedFeatures = content.features.map((f) =>
+        f.id === featureId ? { ...f, [field]: value } : f,
+      );
+      updateBlock(block.id, {
+        content: { features: updatedFeatures },
+      });
+    },
+    [block.id, content.features, updateBlock],
+  );
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: style.backgroundColor,
@@ -74,29 +91,34 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
     <div style={containerStyle}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        {(content.heading || content.subheading) && (
+        {(content.heading || content.subheading || canEdit) && (
           <div
             className={classNames(
               "mb-12",
               content.alignment === "center" && "text-center",
             )}
           >
-            {content.heading && (
-              <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
-                style={{ color: style.textColor }}
-              >
-                {content.heading}
-              </h2>
-            )}
-            {content.subheading && (
-              <p
-                className="text-lg opacity-80"
-                style={{ color: style.textColor }}
-              >
-                {content.subheading}
-              </p>
-            )}
+            <InlineRichText
+              blockId={block.id}
+              field="heading"
+              value={content.heading || ""}
+              tag="h2"
+              className="text-3xl md:text-4xl font-bold mb-3"
+              style={{ color: style.textColor }}
+              placeholder="Add heading..."
+              multiline={false}
+              enableLinks={false}
+            />
+            <InlineRichText
+              blockId={block.id}
+              field="subheading"
+              value={content.subheading || ""}
+              tag="p"
+              className="text-lg opacity-80"
+              style={{ color: style.textColor }}
+              placeholder="Add subheading..."
+              multiline={false}
+            />
           </div>
         )}
 
@@ -134,24 +156,39 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
                 )}
 
                 {/* Title */}
-                <h3
+                <InlineRichText
+                  blockId={block.id}
+                  field={`features.${feature.id}.title`}
+                  value={feature.title || ""}
+                  tag="h3"
                   className="text-lg font-semibold mb-2"
                   style={{ color: style.textColor || "#0f172a" }}
-                >
-                  {feature.title}
-                </h3>
+                  placeholder="Feature title..."
+                  multiline={false}
+                  enableLinks={false}
+                  onUpdate={(value) =>
+                    updateFeature(feature.id, "title", value)
+                  }
+                />
 
                 {/* Description */}
-                <p
+                <InlineRichText
+                  blockId={block.id}
+                  field={`features.${feature.id}.description`}
+                  value={feature.description || ""}
+                  tag="p"
                   className="text-sm opacity-70 leading-relaxed"
                   style={{ color: style.textColor }}
-                >
-                  {feature.description}
-                </p>
+                  placeholder="Feature description..."
+                  multiline={true}
+                  onUpdate={(value) =>
+                    updateFeature(feature.id, "description", value)
+                  }
+                />
               </div>
             );
 
-            if (feature.link && !isPreview) {
+            if (feature.link && !isPreview && !canEdit) {
               return (
                 <Link
                   key={feature.id}

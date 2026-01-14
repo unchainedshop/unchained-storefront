@@ -3,8 +3,14 @@
  * Manages pages list operations - fetching, deleting, duplicating
  */
 
-import { useState, useCallback, useEffect } from 'react';
-import type { Page } from '../types';
+import { useState, useCallback, useEffect } from "react";
+import type { Page } from "../types";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showLoadingToast,
+  dismissToast,
+} from "../utils/toast";
 
 interface UsePagesOptions {
   autoFetch?: boolean;
@@ -30,12 +36,12 @@ export function usePages(options: UsePagesOptions = {}): UsePagesReturn {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/pages');
-      if (!res.ok) throw new Error('Failed to fetch pages');
+      const res = await fetch("/api/pages");
+      if (!res.ok) throw new Error("Failed to fetch pages");
       const data = await res.json();
       setPages(data.pages);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load pages');
+      setError(err instanceof Error ? err.message : "Failed to load pages");
     } finally {
       setIsLoading(false);
     }
@@ -47,36 +53,53 @@ export function usePages(options: UsePagesOptions = {}): UsePagesReturn {
         return false;
       }
 
+      const toastId = showLoadingToast("Deleting page...");
       try {
-        const res = await fetch(`/api/pages/${page.slug}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Failed to delete page');
+        const res = await fetch(`/api/pages/${page.slug}`, {
+          method: "DELETE",
+        });
+        if (!res.ok) throw new Error("Failed to delete page");
+        dismissToast(toastId);
+        showSuccessToast("Page deleted successfully");
         await fetchPages();
         return true;
       } catch (err) {
-        alert(err instanceof Error ? err.message : 'Failed to delete page');
+        dismissToast(toastId);
+        showErrorToast(
+          err instanceof Error ? err.message : "Failed to delete page",
+        );
         return false;
       }
     },
-    [fetchPages]
+    [fetchPages],
   );
 
-  const duplicatePage = useCallback(async (page: Page): Promise<Page | null> => {
-    const newSlug = `${page.slug}-copy-${Date.now()}`;
+  const duplicatePage = useCallback(
+    async (page: Page): Promise<Page | null> => {
+      const newSlug = `${page.slug}-copy-${Date.now()}`;
+      const toastId = showLoadingToast("Duplicating page...");
 
-    try {
-      const res = await fetch(`/api/pages/${page.slug}/duplicate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ newSlug }),
-      });
-      if (!res.ok) throw new Error('Failed to duplicate page');
-      const data = await res.json();
-      return data.page;
-    } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to duplicate page');
-      return null;
-    }
-  }, []);
+      try {
+        const res = await fetch(`/api/pages/${page.slug}/duplicate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newSlug }),
+        });
+        if (!res.ok) throw new Error("Failed to duplicate page");
+        const data = await res.json();
+        dismissToast(toastId);
+        showSuccessToast("Page duplicated successfully");
+        return data.page;
+      } catch (err) {
+        dismissToast(toastId);
+        showErrorToast(
+          err instanceof Error ? err.message : "Failed to duplicate page",
+        );
+        return null;
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     if (autoFetch) {

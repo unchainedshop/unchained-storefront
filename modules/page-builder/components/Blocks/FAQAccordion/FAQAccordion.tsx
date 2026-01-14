@@ -3,10 +3,12 @@
  * Expandable Q&A sections with smooth animations
  */
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import classNames from "classnames";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import type { PageBlock, FAQAccordionContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
+import InlineRichText from "../../InlineRichText";
 
 interface FAQAccordionProps {
   block: PageBlock;
@@ -21,10 +23,25 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
 }) => {
   const content = block.content as unknown as FAQAccordionContent;
   const style = block.style;
+  const { updateBlock, state } = usePageBuilder();
+  const canEdit = isEditing && !state.isPreviewMode;
   const [openItems, setOpenItems] = useState<Set<string>>(
     content.defaultOpenFirst && content.items.length > 0
       ? new Set([content.items[0].id])
       : new Set(),
+  );
+
+  // Handler for updating individual FAQ item fields
+  const updateFAQItem = useCallback(
+    (itemId: string, field: "question" | "answer", value: string) => {
+      const updatedItems = content.items.map((item) =>
+        item.id === itemId ? { ...item, [field]: value } : item,
+      );
+      updateBlock(block.id, {
+        content: { items: updatedItems },
+      });
+    },
+    [block.id, content.items, updateBlock],
   );
 
   const toggleItem = (id: string) => {
@@ -67,24 +84,29 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
     <div style={containerStyle}>
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        {(content.heading || content.subheading) && (
+        {(content.heading || content.subheading || canEdit) && (
           <div className="text-center mb-10">
-            {content.heading && (
-              <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
-                style={{ color: style.textColor }}
-              >
-                {content.heading}
-              </h2>
-            )}
-            {content.subheading && (
-              <p
-                className="text-lg opacity-80"
-                style={{ color: style.textColor }}
-              >
-                {content.subheading}
-              </p>
-            )}
+            <InlineRichText
+              blockId={block.id}
+              field="heading"
+              value={content.heading || ""}
+              tag="h2"
+              className="text-3xl md:text-4xl font-bold mb-3"
+              style={{ color: style.textColor }}
+              placeholder="Add heading..."
+              multiline={false}
+              enableLinks={false}
+            />
+            <InlineRichText
+              blockId={block.id}
+              field="subheading"
+              value={content.subheading || ""}
+              tag="p"
+              className="text-lg opacity-80"
+              style={{ color: style.textColor }}
+              placeholder="Add subheading..."
+              multiline={false}
+            />
           </div>
         )}
 
@@ -97,28 +119,63 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
                 key={item.id}
                 className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden"
               >
-                <button
-                  onClick={() => toggleItem(item.id)}
-                  className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                <div
+                  onClick={() => !canEdit && toggleItem(item.id)}
+                  className={classNames(
+                    "w-full flex items-center justify-between px-6 py-5 text-left transition-colors",
+                    !canEdit &&
+                      "cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50",
+                  )}
                 >
-                  <span className="font-semibold text-slate-900 dark:text-white pr-4">
-                    {item.question}
-                  </span>
-                  <ChevronDownIcon
-                    className={classNames(
-                      "w-5 h-5 text-slate-500 flex-shrink-0 transition-transform duration-200",
-                      isOpen && "rotate-180",
-                    )}
-                  />
-                </button>
+                  <div className="flex-1 pr-4">
+                    <InlineRichText
+                      blockId={block.id}
+                      field={`items.${item.id}.question`}
+                      value={item.question || ""}
+                      tag="span"
+                      className="font-semibold text-slate-900 dark:text-white"
+                      placeholder="Enter question..."
+                      multiline={false}
+                      enableLinks={false}
+                      onUpdate={(value) =>
+                        updateFAQItem(item.id, "question", value)
+                      }
+                    />
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleItem(item.id);
+                    }}
+                    className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded transition-colors"
+                  >
+                    <ChevronDownIcon
+                      className={classNames(
+                        "w-5 h-5 text-slate-500 flex-shrink-0 transition-transform duration-200",
+                        isOpen && "rotate-180",
+                      )}
+                    />
+                  </button>
+                </div>
                 <div
                   className={classNames(
                     "overflow-hidden transition-all duration-200",
-                    isOpen ? "max-h-96" : "max-h-0",
+                    isOpen ? "max-h-[500px]" : "max-h-0",
                   )}
                 >
-                  <div className="px-6 pb-5 text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {item.answer}
+                  <div className="px-6 pb-5">
+                    <InlineRichText
+                      blockId={block.id}
+                      field={`items.${item.id}.answer`}
+                      value={item.answer || ""}
+                      tag="div"
+                      className="text-slate-600 dark:text-slate-300 leading-relaxed"
+                      placeholder="Enter answer..."
+                      multiline={true}
+                      onUpdate={(value) =>
+                        updateFAQItem(item.id, "answer", value)
+                      }
+                    />
                   </div>
                 </div>
               </div>

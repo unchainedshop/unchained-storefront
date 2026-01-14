@@ -25,6 +25,7 @@ import type {
   BlockType,
   BlockContent,
   TranslationStatus,
+  PageBuilderError,
 } from "../types";
 import { blockRegistry } from "../utils/blockRegistry";
 import { cmsConfig } from "../../../lib/cms.config";
@@ -55,6 +56,8 @@ const initialState: EditorState = {
   historyIndex: -1,
   sidebarTab: "blocks",
   activeLocale: cmsConfig.defaultLocale,
+  hoveredBlockId: null,
+  error: null,
 };
 
 // Helper functions for immutable block updates (exported for use in other components)
@@ -530,6 +533,24 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
         isDirty: true,
       };
 
+    case "SET_HOVERED_BLOCK":
+      return {
+        ...state,
+        hoveredBlockId: action.payload,
+      };
+
+    case "SET_ERROR":
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case "CLEAR_ERROR":
+      return {
+        ...state,
+        error: null,
+      };
+
     default:
       return state;
   }
@@ -590,6 +611,11 @@ interface PageBuilderContextValue {
     locale: string,
     status: Partial<TranslationStatus>,
   ) => void;
+  // Hover tracking
+  setHoveredBlock: (blockId: string | null) => void;
+  // Error handling
+  setError: (error: PageBuilderError | null) => void;
+  clearError: () => void;
 }
 
 const PageBuilderContext = createContext<PageBuilderContextValue | null>(null);
@@ -812,6 +838,18 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     [],
   );
 
+  const setHoveredBlock = useCallback((blockId: string | null) => {
+    dispatch({ type: "SET_HOVERED_BLOCK", payload: blockId });
+  }, []);
+
+  const setError = useCallback((error: PageBuilderError | null) => {
+    dispatch({ type: "SET_ERROR", payload: error });
+  }, []);
+
+  const clearError = useCallback(() => {
+    dispatch({ type: "CLEAR_ERROR" });
+  }, []);
+
   const selectedBlock = useMemo(() => {
     if (!state.page || !state.selection.blockId) return null;
     return findBlockById(state.page.blocks, state.selection.blockId);
@@ -849,6 +887,10 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     setActiveLocale,
     copyContentToLocale: copyContentToLocaleFn,
     updateTranslationStatus,
+    setHoveredBlock,
+    // Error handling
+    setError,
+    clearError,
   };
 
   return (
