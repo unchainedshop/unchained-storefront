@@ -308,5 +308,35 @@
     "entityType": "page",
     "entityId": "page_1768396649195",
     "entityTitle": "Untitled Pagesss"
+  },
+  {
+    "id": "audit_1768424705180_rrxdl9y",
+    "timestamp": "2026-01-14T21:05:05.180Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768416086420",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768424707369_to7lf37",
+    "timestamp": "2026-01-14T21:05:07.369Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768416086420",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768424715167_17btyhu",
+    "timestamp": "2026-01-14T21:05:15.167Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768416086420",
+    "entityTitle": "Untitled Page"
   }
 ]

@@ -377,7 +377,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Center section - Viewport & Zoom (only on xl screens) */}
-      <div className="hidden xl:flex flex-1 items-center justify-center gap-4 overflow-hidden mx-6">
+      <div className="hidden xl:flex flex-1 items-center justify-center gap-4 mx-6">
         {/* Templates button */}
         {onOpenTemplates && (
           <>

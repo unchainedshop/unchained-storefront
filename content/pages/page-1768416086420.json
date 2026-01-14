@@ -4,7 +4,7 @@
     "de": "Untitled Page"
   },
   "slug": "page-1768416086420",
-  "status": "published",
+  "status": "draft",
   "blocks": [
     {
       "id": "block_1768416098645_sw52asnmh",
@@ -128,7 +128,7 @@
     }
   },
   "createdAt": "2026-01-14T18:41:26.420Z",
-  "updatedAt": "2026-01-14T18:42:26.212Z",
+  "updatedAt": "2026-01-14T21:05:15.166Z",
   "versions": [],
   "publishedAt": "2026-01-14T18:42:26.106Z"
 }

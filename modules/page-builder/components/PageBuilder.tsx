@@ -431,7 +431,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
       )}
 
       {/* Main content */}
-      <div className="flex-1 flex overflow-hidden p-3 gap-3">
+      <div className="flex-1 flex overflow-hidden p-3 gap-3 relative z-0">
         {/* Left Sidebar - Glassmorphism */}
         {!isPreviewMode && !isFocusMode && (
           <div
