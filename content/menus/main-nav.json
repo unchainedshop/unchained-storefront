@@ -1,0 +1,45 @@
+{
+  "id": "menu_1768413584380_nj7hc4e",
+  "slug": "main-nav",
+  "name": {
+    "de": "main nav"
+  },
+  "type": "sidebar",
+  "status": "published",
+  "items": [
+    {
+      "id": "item_1768413766234_2x4k68d",
+      "label": {
+        "de": "eins"
+      },
+      "linkType": "category",
+      "isVisible": true,
+      "order": 0,
+      "children": [
+        {
+          "id": "item_1768414078433_zj4fq2a",
+          "label": {
+            "de": "zwei"
+          },
+          "linkType": "page",
+          "isVisible": true,
+          "order": 0
+        },
+        {
+          "id": "item_1768413794867_n2zpdk7",
+          "label": {
+            "de": "drei"
+          },
+          "linkType": "category",
+          "isVisible": true,
+          "order": 1,
+          "categorySlug": "electronics"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-01-14T17:59:44.380Z",
+  "updatedAt": "2026-01-14T18:21:43.071Z",
+  "lastModifiedBy": "Development User",
+  "publishedAt": "2026-01-14T18:03:12.811Z"
+}

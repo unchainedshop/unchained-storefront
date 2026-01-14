@@ -642,12 +642,12 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
   const { activeLocale } = usePageBuilder();
 
   // Resolve localized content to active locale for display
-  const content =
-    getLocalizedContent(
-      block.content as LocalizedContent<BlockContent>,
-      activeLocale,
-      cmsConfig.fallbackLocale,
-    ) || ({} as Record<string, any>);
+  // Cast to Record<string, any> since type narrowing doesn't work across the switch
+  const content = (getLocalizedContent(
+    block.content as LocalizedContent<BlockContent>,
+    activeLocale,
+    cmsConfig.fallbackLocale,
+  ) || {}) as Record<string, any>;
 
   switch (block.type) {
     case "hero-banner":

@@ -11,7 +11,7 @@
       "type": "hero-banner",
       "content": {
         "de": {
-          "heading": "ddWelcome to Oddur Store",
+          "heading": "Vedran Rudelj",
           "subheading": "Discover amazing products at unbeatable prices",
           "buttonText": "Shop Now",
           "buttonLink": "/products",
@@ -91,7 +91,7 @@
               }
             }
           },
-          "heading": "tulaS",
+          "heading": "Anandi",
           "fr": {
             "de": {
               "heading": "ddWelcome to Oddur Store",
@@ -479,6 +479,13 @@
               }
             }
           }
+        },
+        "it": {
+          "heading": "Italo",
+          "subheading": "sfsfdsf"
+        },
+        "en": {
+          "heading": "english"
         }
       },
       "style": {
@@ -546,7 +553,7 @@
   ],
   "seo": {},
   "createdAt": "2026-01-14T12:03:12.514Z",
-  "updatedAt": "2026-01-14T15:39:35.647Z",
+  "updatedAt": "2026-01-14T16:24:44.100Z",
   "versions": [],
   "publishedAt": "2026-01-14T12:03:31.414Z",
   "translations": {

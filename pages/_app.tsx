@@ -22,7 +22,8 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
   const isAdminPage =
     router.pathname === "/admin" ||
     router.pathname.startsWith("/admin/pages") ||
-    router.pathname.startsWith("/admin/media");
+    router.pathname.startsWith("/admin/media") ||
+    router.pathname.startsWith("/admin/menus");
 
   return (
     <IntlWrapper locale={router.locale} messages={messages} key="intl-provider">

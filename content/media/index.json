@@ -241,8 +241,16 @@
       "id": "folder_1768343948837_vkazwt",
       "createdAt": "2026-01-13T22:39:08.837Z",
       "updatedAt": "2026-01-13T22:39:08.837Z"
+    },
+    "folder_1768413564254_qv9pjh": {
+      "name": "new folder",
+      "slug": "new-folder",
+      "parentId": null,
+      "id": "folder_1768413564254_qv9pjh",
+      "createdAt": "2026-01-14T17:59:24.254Z",
+      "updatedAt": "2026-01-14T17:59:24.254Z"
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-14T15:56:16.792Z"
+  "lastUpdated": "2026-01-14T17:59:24.255Z"
 }

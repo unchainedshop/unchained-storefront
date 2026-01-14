@@ -127,6 +127,27 @@ export async function logMediaAction(
 }
 
 /**
+ * Log a menu action
+ */
+export async function logMenuAction(
+  action: AuditAction,
+  menuId: string,
+  menuName: string,
+  user: { id: string; name: string },
+  details?: Record<string, unknown>,
+): Promise<AuditEntry> {
+  return logAudit({
+    userId: user.id,
+    userName: user.name,
+    action,
+    entityType: "menu",
+    entityId: menuId,
+    entityTitle: menuName,
+    details,
+  });
+}
+
+/**
  * Query audit entries with filters
  */
 export interface AuditQueryOptions {

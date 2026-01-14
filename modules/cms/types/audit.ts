@@ -17,7 +17,7 @@ export type AuditAction =
   | "duplicate"
   | "schedule";
 
-export type AuditEntityType = "page" | "media" | "folder";
+export type AuditEntityType = "page" | "media" | "folder" | "menu";
 
 export interface AuditEntry {
   id: string;
@@ -57,4 +57,5 @@ export const entityTypeLabels: Record<AuditEntityType, string> = {
   page: "Page",
   media: "Media",
   folder: "Folder",
+  menu: "Menu",
 };
