@@ -1,6 +1,8 @@
 {
   "id": "page_1768392192514",
-  "title": "Home",
+  "title": {
+    "de": "Home"
+  },
   "slug": "page-1768392192514",
   "status": "published",
   "blocks": [
@@ -8,12 +10,476 @@
       "id": "block_1768392195648_j9iqjlui4",
       "type": "hero-banner",
       "content": {
-        "heading": "Welcome to Our Store",
-        "subheading": "Discover amazing products at unbeatable prices",
-        "buttonText": "Shop Now",
-        "buttonLink": "/products",
-        "secondaryButtonText": "Learn More",
-        "secondaryButtonLink": "/about"
+        "de": {
+          "heading": "ddWelcome to Oddur Store",
+          "subheading": "Discover amazing products at unbeatable prices",
+          "buttonText": "Shop Now",
+          "buttonLink": "/products",
+          "secondaryButtonText": "Learn More",
+          "secondaryButtonLink": "/about",
+          "de": {
+            "heading": "dWelcome to Oddur Store",
+            "subheading": "Discover amazing products at unbeatable prices",
+            "buttonText": "Shop Now",
+            "buttonLink": "/products",
+            "secondaryButtonText": "Learn More",
+            "secondaryButtonLink": "/about",
+            "de": {
+              "heading": "Welcome to Oddur Store",
+              "subheading": "Discover amazing products at unbeatable prices",
+              "buttonText": "Shop Now",
+              "buttonLink": "/products",
+              "secondaryButtonText": "Learn More",
+              "secondaryButtonLink": "/about",
+              "de": {
+                "heading": "Welcome to Odur Store",
+                "subheading": "Discover amazing products at unbeatable prices",
+                "buttonText": "Shop Now",
+                "buttonLink": "/products",
+                "secondaryButtonText": "Learn More",
+                "secondaryButtonLink": "/about",
+                "de": {
+                  "heading": "Welcome to Our Store",
+                  "subheading": "Discover amazing products at unbeatable prices",
+                  "buttonText": "Shop Now",
+                  "buttonLink": "/products",
+                  "secondaryButtonText": "Learn More",
+                  "secondaryButtonLink": "/about"
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "de": {
+            "heading": "ddWelcome to Oddur Store",
+            "subheading": "Discover amazing products at unbeatable prices",
+            "buttonText": "Shop Now",
+            "buttonLink": "/products",
+            "secondaryButtonText": "Learn More",
+            "secondaryButtonLink": "/about",
+            "de": {
+              "heading": "dWelcome to Oddur Store",
+              "subheading": "Discover amazing products at unbeatable prices",
+              "buttonText": "Shop Now",
+              "buttonLink": "/products",
+              "secondaryButtonText": "Learn More",
+              "secondaryButtonLink": "/about",
+              "de": {
+                "heading": "Welcome to Oddur Store",
+                "subheading": "Discover amazing products at unbeatable prices",
+                "buttonText": "Shop Now",
+                "buttonLink": "/products",
+                "secondaryButtonText": "Learn More",
+                "secondaryButtonLink": "/about",
+                "de": {
+                  "heading": "Welcome to Odur Store",
+                  "subheading": "Discover amazing products at unbeatable prices",
+                  "buttonText": "Shop Now",
+                  "buttonLink": "/products",
+                  "secondaryButtonText": "Learn More",
+                  "secondaryButtonLink": "/about",
+                  "de": {
+                    "heading": "Welcome to Our Store",
+                    "subheading": "Discover amazing products at unbeatable prices",
+                    "buttonText": "Shop Now",
+                    "buttonLink": "/products",
+                    "secondaryButtonText": "Learn More",
+                    "secondaryButtonLink": "/about"
+                  }
+                }
+              }
+            }
+          },
+          "heading": "tulaS",
+          "fr": {
+            "de": {
+              "heading": "ddWelcome to Oddur Store",
+              "subheading": "Discover amazing products at unbeatable prices",
+              "buttonText": "Shop Now",
+              "buttonLink": "/products",
+              "secondaryButtonText": "Learn More",
+              "secondaryButtonLink": "/about",
+              "de": {
+                "heading": "dWelcome to Oddur Store",
+                "subheading": "Discover amazing products at unbeatable prices",
+                "buttonText": "Shop Now",
+                "buttonLink": "/products",
+                "secondaryButtonText": "Learn More",
+                "secondaryButtonLink": "/about",
+                "de": {
+                  "heading": "Welcome to Oddur Store",
+                  "subheading": "Discover amazing products at unbeatable prices",
+                  "buttonText": "Shop Now",
+                  "buttonLink": "/products",
+                  "secondaryButtonText": "Learn More",
+                  "secondaryButtonLink": "/about",
+                  "de": {
+                    "heading": "Welcome to Odur Store",
+                    "subheading": "Discover amazing products at unbeatable prices",
+                    "buttonText": "Shop Now",
+                    "buttonLink": "/products",
+                    "secondaryButtonText": "Learn More",
+                    "secondaryButtonLink": "/about",
+                    "de": {
+                      "heading": "Welcome to Our Store",
+                      "subheading": "Discover amazing products at unbeatable prices",
+                      "buttonText": "Shop Now",
+                      "buttonLink": "/products",
+                      "secondaryButtonText": "Learn More",
+                      "secondaryButtonLink": "/about"
+                    }
+                  }
+                }
+              }
+            },
+            "heading": "ulaS",
+            "fr": {
+              "de": {
+                "heading": "ddWelcome to Oddur Store",
+                "subheading": "Discover amazing products at unbeatable prices",
+                "buttonText": "Shop Now",
+                "buttonLink": "/products",
+                "secondaryButtonText": "Learn More",
+                "secondaryButtonLink": "/about",
+                "de": {
+                  "heading": "dWelcome to Oddur Store",
+                  "subheading": "Discover amazing products at unbeatable prices",
+                  "buttonText": "Shop Now",
+                  "buttonLink": "/products",
+                  "secondaryButtonText": "Learn More",
+                  "secondaryButtonLink": "/about",
+                  "de": {
+                    "heading": "Welcome to Oddur Store",
+                    "subheading": "Discover amazing products at unbeatable prices",
+                    "buttonText": "Shop Now",
+                    "buttonLink": "/products",
+                    "secondaryButtonText": "Learn More",
+                    "secondaryButtonLink": "/about",
+                    "de": {
+                      "heading": "Welcome to Odur Store",
+                      "subheading": "Discover amazing products at unbeatable prices",
+                      "buttonText": "Shop Now",
+                      "buttonLink": "/products",
+                      "secondaryButtonText": "Learn More",
+                      "secondaryButtonLink": "/about",
+                      "de": {
+                        "heading": "Welcome to Our Store",
+                        "subheading": "Discover amazing products at unbeatable prices",
+                        "buttonText": "Shop Now",
+                        "buttonLink": "/products",
+                        "secondaryButtonText": "Learn More",
+                        "secondaryButtonLink": "/about"
+                      }
+                    }
+                  }
+                }
+              },
+              "heading": "laS",
+              "fr": {
+                "de": {
+                  "heading": "ddWelcome to Oddur Store",
+                  "subheading": "Discover amazing products at unbeatable prices",
+                  "buttonText": "Shop Now",
+                  "buttonLink": "/products",
+                  "secondaryButtonText": "Learn More",
+                  "secondaryButtonLink": "/about",
+                  "de": {
+                    "heading": "dWelcome to Oddur Store",
+                    "subheading": "Discover amazing products at unbeatable prices",
+                    "buttonText": "Shop Now",
+                    "buttonLink": "/products",
+                    "secondaryButtonText": "Learn More",
+                    "secondaryButtonLink": "/about",
+                    "de": {
+                      "heading": "Welcome to Oddur Store",
+                      "subheading": "Discover amazing products at unbeatable prices",
+                      "buttonText": "Shop Now",
+                      "buttonLink": "/products",
+                      "secondaryButtonText": "Learn More",
+                      "secondaryButtonLink": "/about",
+                      "de": {
+                        "heading": "Welcome to Odur Store",
+                        "subheading": "Discover amazing products at unbeatable prices",
+                        "buttonText": "Shop Now",
+                        "buttonLink": "/products",
+                        "secondaryButtonText": "Learn More",
+                        "secondaryButtonLink": "/about",
+                        "de": {
+                          "heading": "Welcome to Our Store",
+                          "subheading": "Discover amazing products at unbeatable prices",
+                          "buttonText": "Shop Now",
+                          "buttonLink": "/products",
+                          "secondaryButtonText": "Learn More",
+                          "secondaryButtonLink": "/about"
+                        }
+                      }
+                    }
+                  }
+                },
+                "heading": "aS",
+                "fr": {
+                  "de": {
+                    "heading": "ddWelcome to Oddur Store",
+                    "subheading": "Discover amazing products at unbeatable prices",
+                    "buttonText": "Shop Now",
+                    "buttonLink": "/products",
+                    "secondaryButtonText": "Learn More",
+                    "secondaryButtonLink": "/about",
+                    "de": {
+                      "heading": "dWelcome to Oddur Store",
+                      "subheading": "Discover amazing products at unbeatable prices",
+                      "buttonText": "Shop Now",
+                      "buttonLink": "/products",
+                      "secondaryButtonText": "Learn More",
+                      "secondaryButtonLink": "/about",
+                      "de": {
+                        "heading": "Welcome to Oddur Store",
+                        "subheading": "Discover amazing products at unbeatable prices",
+                        "buttonText": "Shop Now",
+                        "buttonLink": "/products",
+                        "secondaryButtonText": "Learn More",
+                        "secondaryButtonLink": "/about",
+                        "de": {
+                          "heading": "Welcome to Odur Store",
+                          "subheading": "Discover amazing products at unbeatable prices",
+                          "buttonText": "Shop Now",
+                          "buttonLink": "/products",
+                          "secondaryButtonText": "Learn More",
+                          "secondaryButtonLink": "/about",
+                          "de": {
+                            "heading": "Welcome to Our Store",
+                            "subheading": "Discover amazing products at unbeatable prices",
+                            "buttonText": "Shop Now",
+                            "buttonLink": "/products",
+                            "secondaryButtonText": "Learn More",
+                            "secondaryButtonLink": "/about"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "heading": "S",
+                  "fr": {
+                    "de": {
+                      "heading": "ddWelcome to Oddur Store",
+                      "subheading": "Discover amazing products at unbeatable prices",
+                      "buttonText": "Shop Now",
+                      "buttonLink": "/products",
+                      "secondaryButtonText": "Learn More",
+                      "secondaryButtonLink": "/about",
+                      "de": {
+                        "heading": "dWelcome to Oddur Store",
+                        "subheading": "Discover amazing products at unbeatable prices",
+                        "buttonText": "Shop Now",
+                        "buttonLink": "/products",
+                        "secondaryButtonText": "Learn More",
+                        "secondaryButtonLink": "/about",
+                        "de": {
+                          "heading": "Welcome to Oddur Store",
+                          "subheading": "Discover amazing products at unbeatable prices",
+                          "buttonText": "Shop Now",
+                          "buttonLink": "/products",
+                          "secondaryButtonText": "Learn More",
+                          "secondaryButtonLink": "/about",
+                          "de": {
+                            "heading": "Welcome to Odur Store",
+                            "subheading": "Discover amazing products at unbeatable prices",
+                            "buttonText": "Shop Now",
+                            "buttonLink": "/products",
+                            "secondaryButtonText": "Learn More",
+                            "secondaryButtonLink": "/about",
+                            "de": {
+                              "heading": "Welcome to Our Store",
+                              "subheading": "Discover amazing products at unbeatable prices",
+                              "buttonText": "Shop Now",
+                              "buttonLink": "/products",
+                              "secondaryButtonText": "Learn More",
+                              "secondaryButtonLink": "/about"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "heading": "tulas to Oddur Store",
+                    "fr": {
+                      "de": {
+                        "heading": "ddWelcome to Oddur Store",
+                        "subheading": "Discover amazing products at unbeatable prices",
+                        "buttonText": "Shop Now",
+                        "buttonLink": "/products",
+                        "secondaryButtonText": "Learn More",
+                        "secondaryButtonLink": "/about",
+                        "de": {
+                          "heading": "dWelcome to Oddur Store",
+                          "subheading": "Discover amazing products at unbeatable prices",
+                          "buttonText": "Shop Now",
+                          "buttonLink": "/products",
+                          "secondaryButtonText": "Learn More",
+                          "secondaryButtonLink": "/about",
+                          "de": {
+                            "heading": "Welcome to Oddur Store",
+                            "subheading": "Discover amazing products at unbeatable prices",
+                            "buttonText": "Shop Now",
+                            "buttonLink": "/products",
+                            "secondaryButtonText": "Learn More",
+                            "secondaryButtonLink": "/about",
+                            "de": {
+                              "heading": "Welcome to Odur Store",
+                              "subheading": "Discover amazing products at unbeatable prices",
+                              "buttonText": "Shop Now",
+                              "buttonLink": "/products",
+                              "secondaryButtonText": "Learn More",
+                              "secondaryButtonLink": "/about",
+                              "de": {
+                                "heading": "Welcome to Our Store",
+                                "subheading": "Discover amazing products at unbeatable prices",
+                                "buttonText": "Shop Now",
+                                "buttonLink": "/products",
+                                "secondaryButtonText": "Learn More",
+                                "secondaryButtonLink": "/about"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "heading": "ulas to Oddur Store",
+                      "fr": {
+                        "de": {
+                          "heading": "ddWelcome to Oddur Store",
+                          "subheading": "Discover amazing products at unbeatable prices",
+                          "buttonText": "Shop Now",
+                          "buttonLink": "/products",
+                          "secondaryButtonText": "Learn More",
+                          "secondaryButtonLink": "/about",
+                          "de": {
+                            "heading": "dWelcome to Oddur Store",
+                            "subheading": "Discover amazing products at unbeatable prices",
+                            "buttonText": "Shop Now",
+                            "buttonLink": "/products",
+                            "secondaryButtonText": "Learn More",
+                            "secondaryButtonLink": "/about",
+                            "de": {
+                              "heading": "Welcome to Oddur Store",
+                              "subheading": "Discover amazing products at unbeatable prices",
+                              "buttonText": "Shop Now",
+                              "buttonLink": "/products",
+                              "secondaryButtonText": "Learn More",
+                              "secondaryButtonLink": "/about",
+                              "de": {
+                                "heading": "Welcome to Odur Store",
+                                "subheading": "Discover amazing products at unbeatable prices",
+                                "buttonText": "Shop Now",
+                                "buttonLink": "/products",
+                                "secondaryButtonText": "Learn More",
+                                "secondaryButtonLink": "/about",
+                                "de": {
+                                  "heading": "Welcome to Our Store",
+                                  "subheading": "Discover amazing products at unbeatable prices",
+                                  "buttonText": "Shop Now",
+                                  "buttonLink": "/products",
+                                  "secondaryButtonText": "Learn More",
+                                  "secondaryButtonLink": "/about"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "heading": "las to Oddur Store",
+                        "fr": {
+                          "de": {
+                            "heading": "ddWelcome to Oddur Store",
+                            "subheading": "Discover amazing products at unbeatable prices",
+                            "buttonText": "Shop Now",
+                            "buttonLink": "/products",
+                            "secondaryButtonText": "Learn More",
+                            "secondaryButtonLink": "/about",
+                            "de": {
+                              "heading": "dWelcome to Oddur Store",
+                              "subheading": "Discover amazing products at unbeatable prices",
+                              "buttonText": "Shop Now",
+                              "buttonLink": "/products",
+                              "secondaryButtonText": "Learn More",
+                              "secondaryButtonLink": "/about",
+                              "de": {
+                                "heading": "Welcome to Oddur Store",
+                                "subheading": "Discover amazing products at unbeatable prices",
+                                "buttonText": "Shop Now",
+                                "buttonLink": "/products",
+                                "secondaryButtonText": "Learn More",
+                                "secondaryButtonLink": "/about",
+                                "de": {
+                                  "heading": "Welcome to Odur Store",
+                                  "subheading": "Discover amazing products at unbeatable prices",
+                                  "buttonText": "Shop Now",
+                                  "buttonLink": "/products",
+                                  "secondaryButtonText": "Learn More",
+                                  "secondaryButtonLink": "/about",
+                                  "de": {
+                                    "heading": "Welcome to Our Store",
+                                    "subheading": "Discover amazing products at unbeatable prices",
+                                    "buttonText": "Shop Now",
+                                    "buttonLink": "/products",
+                                    "secondaryButtonText": "Learn More",
+                                    "secondaryButtonLink": "/about"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "heading": "as to Oddur Store",
+                          "fr": {
+                            "de": {
+                              "heading": "ddWelcome to Oddur Store",
+                              "subheading": "Discover amazing products at unbeatable prices",
+                              "buttonText": "Shop Now",
+                              "buttonLink": "/products",
+                              "secondaryButtonText": "Learn More",
+                              "secondaryButtonLink": "/about",
+                              "de": {
+                                "heading": "dWelcome to Oddur Store",
+                                "subheading": "Discover amazing products at unbeatable prices",
+                                "buttonText": "Shop Now",
+                                "buttonLink": "/products",
+                                "secondaryButtonText": "Learn More",
+                                "secondaryButtonLink": "/about",
+                                "de": {
+                                  "heading": "Welcome to Oddur Store",
+                                  "subheading": "Discover amazing products at unbeatable prices",
+                                  "buttonText": "Shop Now",
+                                  "buttonLink": "/products",
+                                  "secondaryButtonText": "Learn More",
+                                  "secondaryButtonLink": "/about",
+                                  "de": {
+                                    "heading": "Welcome to Odur Store",
+                                    "subheading": "Discover amazing products at unbeatable prices",
+                                    "buttonText": "Shop Now",
+                                    "buttonLink": "/products",
+                                    "secondaryButtonText": "Learn More",
+                                    "secondaryButtonLink": "/about",
+                                    "de": {
+                                      "heading": "Welcome to Our Store",
+                                      "subheading": "Discover amazing products at unbeatable prices",
+                                      "buttonText": "Shop Now",
+                                      "buttonLink": "/products",
+                                      "secondaryButtonText": "Learn More",
+                                      "secondaryButtonLink": "/about"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "heading": "s to Oddur Store"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "style": {
         "backgroundColor": "#1e293b",
@@ -34,13 +500,15 @@
       "id": "block_1768392195648_61ws2w31e",
       "type": "product-grid",
       "content": {
-        "heading": "Featured Products",
-        "source": "auto",
-        "limit": 4,
-        "columns": 4,
-        "mobileColumns": 2,
-        "showSaleBadge": true,
-        "showQuickAdd": true
+        "de": {
+          "heading": "Featured Products",
+          "source": "auto",
+          "limit": 4,
+          "columns": 4,
+          "mobileColumns": 2,
+          "showSaleBadge": true,
+          "showQuickAdd": true
+        }
       },
       "style": {
         "padding": {
@@ -56,11 +524,13 @@
       "id": "block_1768392195648_j9yc06xos",
       "type": "newsletter",
       "content": {
-        "heading": "Stay in the Loop",
-        "subheading": "Subscribe to get special offers and updates",
-        "buttonText": "Subscribe",
-        "placeholder": "Enter your email",
-        "showConsent": true
+        "de": {
+          "heading": "Stay in the Loop",
+          "subheading": "Subscribe to get special offers and updates",
+          "buttonText": "Subscribe",
+          "placeholder": "Enter your email",
+          "showConsent": true
+        }
       },
       "style": {
         "backgroundColor": "#f1f5f9",
@@ -76,7 +546,32 @@
   ],
   "seo": {},
   "createdAt": "2026-01-14T12:03:12.514Z",
-  "updatedAt": "2026-01-14T12:03:31.430Z",
+  "updatedAt": "2026-01-14T15:39:35.647Z",
   "versions": [],
-  "publishedAt": "2026-01-14T12:03:31.414Z"
+  "publishedAt": "2026-01-14T12:03:31.414Z",
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  }
 }

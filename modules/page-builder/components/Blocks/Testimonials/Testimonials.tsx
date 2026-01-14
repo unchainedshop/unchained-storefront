@@ -15,7 +15,7 @@ interface TestimonialsProps {
 }
 
 const Testimonials: React.FC<TestimonialsProps> = ({ block }) => {
-  const content = block.content as TestimonialsContent;
+  const content = block.content as unknown as TestimonialsContent;
   const style = block.style;
   const [currentIndex, setCurrentIndex] = useState(0);
 

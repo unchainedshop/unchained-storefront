@@ -15,7 +15,7 @@ interface VideoProps {
 }
 
 const Video: React.FC<VideoProps> = ({ block, isPreview, isEditing = true }) => {
-  const content = block.content as VideoContent;
+  const content = block.content as unknown as VideoContent;
   const style = block.style;
   const [isPlaying, setIsPlaying] = useState(content.autoplay);
 

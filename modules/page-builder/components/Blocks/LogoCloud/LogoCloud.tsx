@@ -19,7 +19,7 @@ const LogoCloud: React.FC<LogoCloudProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as LogoCloudContent;
+  const content = block.content as unknown as LogoCloudContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

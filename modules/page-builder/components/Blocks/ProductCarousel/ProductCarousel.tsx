@@ -23,7 +23,7 @@ const mockProducts = [
 ];
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
-  const content = block.content as ProductCarouselContent;
+  const content = block.content as unknown as ProductCarouselContent;
   const style = block.style;
   const [currentIndex, setCurrentIndex] = useState(0);
 

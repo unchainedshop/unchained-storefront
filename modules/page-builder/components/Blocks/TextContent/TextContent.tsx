@@ -22,7 +22,7 @@ interface TextContentProps {
 }
 
 const TextContent: React.FC<TextContentProps> = ({ block, isPreview }) => {
-  const content = block.content as TextContentBlock;
+  const content = block.content as unknown as TextContentBlock;
   const style = block.style;
   const { updateBlock, state } = usePageBuilder();
 
@@ -38,10 +38,10 @@ const TextContent: React.FC<TextContentProps> = ({ block, isPreview }) => {
   const handleContentChange = useCallback(
     (newContent: string) => {
       updateBlock(block.id, {
-        content: { ...content, content: newContent },
+        content: { content: newContent },
       });
     },
-    [block.id, content, updateBlock],
+    [block.id, updateBlock],
   );
 
   const isEditable = !isPreview && !state.isPreviewMode;

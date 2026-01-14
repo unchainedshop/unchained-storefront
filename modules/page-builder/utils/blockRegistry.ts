@@ -96,7 +96,7 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     defaultContent: {
       src: "",
       alt: "",
-      aspectRatio: "auto",
+      aspectRatio: "original",
     },
     defaultStyle: {
       borderRadius: 8,

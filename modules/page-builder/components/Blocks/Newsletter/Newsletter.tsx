@@ -12,7 +12,7 @@ interface NewsletterProps {
 }
 
 const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
-  const content = block.content as NewsletterContent;
+  const content = block.content as unknown as NewsletterContent;
   const style = block.style;
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);

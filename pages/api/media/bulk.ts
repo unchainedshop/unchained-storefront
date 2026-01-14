@@ -3,14 +3,15 @@
  * Bulk operations on assets (move, delete, tag)
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 import {
   moveAssets,
   bulkDeleteAssets,
   bulkAddTags,
-} from '../../../modules/media/utils/mediaStorage';
+} from "../../../modules/media/utils/mediaStorage";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
-type BulkOperation = 'move' | 'delete' | 'tag';
+type BulkOperation = "move" | "delete" | "tag";
 
 interface BulkRequestBody {
   operation: BulkOperation;
@@ -21,10 +22,14 @@ interface BulkRequestBody {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
+  // Require CMS access for bulk operations
+  const { authorized } = await withCMSAuth(req, res);
+  if (!authorized) return;
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
     return res.status(405).json({ error: `Method ${req.method} not allowed` });
   }
 
@@ -32,35 +37,43 @@ export default async function handler(
     const body = req.body as BulkRequestBody;
 
     if (!body.operation) {
-      return res.status(400).json({ error: 'Operation is required' });
+      return res.status(400).json({ error: "Operation is required" });
     }
 
-    if (!body.assetIds || !Array.isArray(body.assetIds) || body.assetIds.length === 0) {
-      return res.status(400).json({ error: 'assetIds array is required' });
+    if (
+      !body.assetIds ||
+      !Array.isArray(body.assetIds) ||
+      body.assetIds.length === 0
+    ) {
+      return res.status(400).json({ error: "assetIds array is required" });
     }
 
     switch (body.operation) {
-      case 'move': {
+      case "move": {
         if (body.targetFolderId === undefined) {
-          return res.status(400).json({ error: 'targetFolderId is required for move operation' });
+          return res
+            .status(400)
+            .json({ error: "targetFolderId is required for move operation" });
         }
 
         const result = await moveAssets(
           body.assetIds,
-          body.targetFolderId === 'null' ? null : body.targetFolderId
+          body.targetFolderId === "null" ? null : body.targetFolderId,
         );
 
         return res.status(200).json(result);
       }
 
-      case 'delete': {
+      case "delete": {
         const result = await bulkDeleteAssets(body.assetIds);
         return res.status(200).json(result);
       }
 
-      case 'tag': {
+      case "tag": {
         if (!body.tags || !Array.isArray(body.tags) || body.tags.length === 0) {
-          return res.status(400).json({ error: 'tags array is required for tag operation' });
+          return res
+            .status(400)
+            .json({ error: "tags array is required for tag operation" });
         }
 
         const result = await bulkAddTags(body.assetIds, body.tags);
@@ -73,7 +86,7 @@ export default async function handler(
         });
     }
   } catch (error) {
-    console.error('API error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("API error:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }

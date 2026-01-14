@@ -14,7 +14,7 @@ interface SpacerProps {
 
 const Spacer: React.FC<SpacerProps> = ({ block }) => {
   const { state } = usePageBuilder();
-  const content = block.content as SpacerContent;
+  const content = block.content as unknown as SpacerContent;
 
   const height =
     state.viewport === 'mobile' && content.mobileHeight

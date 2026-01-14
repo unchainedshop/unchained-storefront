@@ -20,7 +20,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as PricingTableContent;
+  const content = block.content as unknown as PricingTableContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

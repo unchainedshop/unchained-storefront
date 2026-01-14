@@ -15,7 +15,7 @@ interface ShoppableImageProps {
 }
 
 const ShoppableImage: React.FC<ShoppableImageProps> = ({ block, isPreview }) => {
-  const content = block.content as ShoppableImageContent;
+  const content = block.content as unknown as ShoppableImageContent;
   const style = block.style;
 
   const [activeHotspot, setActiveHotspot] = useState<ProductHotspot | null>(null);

@@ -3,22 +3,34 @@
  * Displays page status with appropriate styling
  */
 
-import React from 'react';
-import type { PageStatus } from '../types';
+import React from "react";
+import type { PageStatus } from "../types";
 
 const statusConfig: Record<PageStatus, { label: string; className: string }> = {
   draft: {
-    label: 'Draft',
-    className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+    label: "Draft",
+    className:
+      "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
+  },
+  in_review: {
+    label: "In Review",
+    className:
+      "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+  },
+  approved: {
+    label: "Approved",
+    className:
+      "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
   },
   published: {
-    label: 'Published',
+    label: "Published",
     className:
-      'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
   },
   archived: {
-    label: 'Archived',
-    className: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400',
+    label: "Archived",
+    className:
+      "bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-500",
   },
 };
 
@@ -29,7 +41,7 @@ interface PageStatusBadgeProps {
 
 const PageStatusBadge: React.FC<PageStatusBadgeProps> = ({
   status,
-  className = '',
+  className = "",
 }) => {
   const config = statusConfig[status];
 

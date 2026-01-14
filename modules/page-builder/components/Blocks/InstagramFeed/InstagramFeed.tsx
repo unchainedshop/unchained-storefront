@@ -26,7 +26,7 @@ const InstagramIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
-  const content = block.content as InstagramFeedContent;
+  const content = block.content as unknown as InstagramFeedContent;
   const style = block.style;
 
   const [hoveredPost, setHoveredPost] = useState<string | null>(null);

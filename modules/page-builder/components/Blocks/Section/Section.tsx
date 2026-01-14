@@ -14,7 +14,7 @@ interface SectionProps {
 }
 
 const Section: React.FC<SectionProps> = ({ block, children }) => {
-  const content = block.content as SectionContent;
+  const content = block.content as unknown as SectionContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

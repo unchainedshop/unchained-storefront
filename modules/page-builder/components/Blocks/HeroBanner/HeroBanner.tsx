@@ -45,7 +45,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as HeroBannerContent;
+  const content = block.content as unknown as HeroBannerContent;
   const style = block.style;
   const { updateBlock } = usePageBuilder();
   const [showMediaPicker, setShowMediaPicker] = useState(false);
@@ -73,18 +73,18 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
     if (mediaPickerTarget === "background") {
       updateBlock(block.id, {
-        style: { ...style, backgroundImage: imageUrl },
+        style: { backgroundImage: imageUrl },
       });
     } else if (mediaPickerTarget === "hero") {
       updateBlock(block.id, {
-        content: { ...content, heroImage: imageUrl },
+        content: { heroImage: imageUrl },
       });
     } else if (mediaPickerTarget.startsWith("grid-")) {
       const index = parseInt(mediaPickerTarget.split("-")[1]);
       const gridImages = [...(content.gridImages || [])];
       gridImages[index] = imageUrl;
       updateBlock(block.id, {
-        content: { ...content, gridImages },
+        content: { gridImages },
       });
     }
     setShowMediaPicker(false);
@@ -97,6 +97,10 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
     setShowMediaPicker(true);
   };
 
+  // Calculate background position from focal point
+  const focalPoint = style.backgroundFocalPoint || { x: 50, y: 50 };
+  const backgroundPosition = `${focalPoint.x}% ${focalPoint.y}%`;
+
   const containerStyle: React.CSSProperties = {
     minHeight: style.minHeight || 500,
     backgroundColor: isEmpty ? undefined : style.backgroundColor || "#1e293b",
@@ -104,8 +108,8 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
       variant === "centered" && style.backgroundImage
         ? `url(${style.backgroundImage})`
         : undefined,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundSize: style.backgroundObjectFit || "cover",
+    backgroundPosition,
     padding: style.padding
       ? `${style.padding.top}px ${style.padding.right}px ${style.padding.bottom}px ${style.padding.left}px`
       : undefined,
@@ -154,13 +158,11 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
                   e.stopPropagation();
                   updateBlock(block.id, {
                     content: {
-                      ...content,
                       heading: "Your Headline Here",
                       subheading:
                         "Add a compelling description for your hero section",
                     },
                     style: {
-                      ...style,
                       backgroundColor: "#1e293b",
                       textColor: "#ffffff",
                     },
@@ -398,12 +400,16 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
   // Render hero image for split layouts
   const renderHeroImage = () => {
     if (content.heroImage) {
+      const heroFocalPoint = content.heroImageFocalPoint || { x: 50, y: 50 };
+      const heroObjectPosition = `${heroFocalPoint.x}% ${heroFocalPoint.y}%`;
+
       return (
         <div className="relative w-full h-full min-h-[300px] md:min-h-[400px]">
           <img
             src={content.heroImage}
             alt=""
             className="w-full h-full object-cover rounded-2xl"
+            style={{ objectPosition: heroObjectPosition }}
           />
           {isEditing && (
             <button
@@ -443,12 +449,15 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
   // Render image grid for grid layouts
   const renderImageGrid = () => {
     const images = content.gridImages || [];
+    const focalPoints = content.gridImagesFocalPoints || [];
 
     return (
       <div className="grid grid-cols-2 gap-3 h-full">
         {[0, 1, 2].map((index) => {
           const image = images[index];
           const isLarge = index === 0;
+          const gridFocalPoint = focalPoints[index] || { x: 50, y: 50 };
+          const gridObjectPosition = `${gridFocalPoint.x}% ${gridFocalPoint.y}%`;
 
           if (image) {
             return (
@@ -463,7 +472,10 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
                   src={image}
                   alt=""
                   className="w-full h-full object-cover"
-                  style={{ minHeight: isLarge ? 200 : 150 }}
+                  style={{
+                    minHeight: isLarge ? 200 : 150,
+                    objectPosition: gridObjectPosition,
+                  }}
                 />
                 {isEditing && (
                   <button

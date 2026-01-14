@@ -1,0 +1,92 @@
+[
+  {
+    "id": "audit_1768404871022_7ajka5y",
+    "timestamp": "2026-01-14T15:34:31.022Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768404899161_0jwbizz",
+    "timestamp": "2026-01-14T15:34:59.161Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768404928487_hqc75zb",
+    "timestamp": "2026-01-14T15:35:28.487Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768405152096_99xywm0",
+    "timestamp": "2026-01-14T15:39:12.096Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768392192514",
+    "entityTitle": "Home"
+  },
+  {
+    "id": "audit_1768405157629_oxzkqti",
+    "timestamp": "2026-01-14T15:39:17.629Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768392192514",
+    "entityTitle": "Home"
+  },
+  {
+    "id": "audit_1768405175648_hhve7mt",
+    "timestamp": "2026-01-14T15:39:35.648Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768392192514",
+    "entityTitle": "Home"
+  },
+  {
+    "id": "audit_1768406480909_dvuu0g7",
+    "timestamp": "2026-01-14T16:01:20.909Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768392217657",
+    "entityTitle": "About us"
+  },
+  {
+    "id": "audit_1768406635343_s1jfy2w",
+    "timestamp": "2026-01-14T16:03:55.343Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768406636596_9mltf4i",
+    "timestamp": "2026-01-14T16:03:56.596Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Page"
+  }
+]

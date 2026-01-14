@@ -26,7 +26,7 @@ const mockProducts = [
 ];
 
 const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
-  const content = block.content as ProductGridContent;
+  const content = block.content as unknown as ProductGridContent;
   const style = block.style;
 
   const products = mockProducts.slice(0, content.limit || 8);

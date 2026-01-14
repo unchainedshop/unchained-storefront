@@ -53,6 +53,59 @@ export function useCollaboration(
   );
   const renewIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Refs to avoid infinite loops in callbacks that depend on frequently changing state
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
+  // Update collaborators from awareness - defined before connect() which uses it
+  const updateCollaboratorsFromAwareness = useCallback(
+    (awareness: Awareness, localUserId: string) => {
+      const collaborators: CollaboratorInfo[] = [];
+      const blockLocks = new Map<string, BlockLock>();
+
+      awareness.getStates().forEach((rawState, clientId: number) => {
+        const state = rawState as AwarenessState;
+        if (!state.user) return;
+
+        // Add to collaborators (excluding self)
+        if (state.user.id !== localUserId) {
+          collaborators.push({
+            clientId,
+            odId: state.user.id,
+            name: state.user.name,
+            avatar: state.user.avatar,
+            color: state.user.color,
+            cursor: state.cursor,
+            selectedBlockId: state.selectedBlockId,
+            editingBlockId: state.editingBlockId,
+            lastActivity: state.lastActivity,
+          });
+        }
+
+        // Collect block locks
+        if (state.lockedBlocks && state.lockedBlocks.length > 0) {
+          for (const blockId of state.lockedBlocks) {
+            blockLocks.set(blockId, {
+              blockId,
+              lockedBy: state.user.id,
+              lockedByName: state.user.name,
+              lockedByColor: state.user.color,
+              lockedAt: state.lastActivity,
+              expiresAt: state.lastActivity + lockTimeoutRef.current,
+            });
+          }
+        }
+      });
+
+      setState((prev) => ({
+        ...prev,
+        collaborators,
+        blockLocks,
+      }));
+    },
+    [],
+  );
+
   // Initialize connection
   const connect = useCallback(() => {
     if (!config || providerRef.current) return;
@@ -139,56 +192,7 @@ export function useCollaboration(
     renewIntervalRef.current = setInterval(() => {
       renewLocks(awareness);
     }, config.lockRenewInterval || DEFAULT_COLLAB_CONFIG.lockRenewInterval!);
-  }, [config]);
-
-  // Update collaborators from awareness
-  const updateCollaboratorsFromAwareness = useCallback(
-    (awareness: Awareness, localUserId: string) => {
-      const collaborators: CollaboratorInfo[] = [];
-      const blockLocks = new Map<string, BlockLock>();
-
-      awareness.getStates().forEach((rawState, clientId: number) => {
-        const state = rawState as AwarenessState;
-        if (!state.user) return;
-
-        // Add to collaborators (excluding self)
-        if (state.user.id !== localUserId) {
-          collaborators.push({
-            clientId,
-            odId: state.user.id,
-            name: state.user.name,
-            avatar: state.user.avatar,
-            color: state.user.color,
-            cursor: state.cursor,
-            selectedBlockId: state.selectedBlockId,
-            editingBlockId: state.editingBlockId,
-            lastActivity: state.lastActivity,
-          });
-        }
-
-        // Collect block locks
-        if (state.lockedBlocks && state.lockedBlocks.length > 0) {
-          for (const blockId of state.lockedBlocks) {
-            blockLocks.set(blockId, {
-              blockId,
-              lockedBy: state.user.id,
-              lockedByName: state.user.name,
-              lockedByColor: state.user.color,
-              lockedAt: state.lastActivity,
-              expiresAt: state.lastActivity + lockTimeoutRef.current,
-            });
-          }
-        }
-      });
-
-      setState((prev) => ({
-        ...prev,
-        collaborators,
-        blockLocks,
-      }));
-    },
-    [],
-  );
+  }, [config, updateCollaboratorsFromAwareness]);
 
   // Renew locks (update lastActivity)
   const renewLocks = useCallback((awareness: Awareness) => {
@@ -224,37 +228,35 @@ export function useCollaboration(
   }, []);
 
   // Lock a block
-  const lockBlock = useCallback(
-    (blockId: string): boolean => {
-      const awareness = awarenessRef.current;
-      if (!awareness || !state.isConnected) return true; // Allow in offline mode
+  const lockBlock = useCallback((blockId: string): boolean => {
+    const awareness = awarenessRef.current;
+    const currentState = stateRef.current;
+    if (!awareness || !currentState.isConnected) return true; // Allow in offline mode
 
-      // Check if already locked by someone else
-      const existingLock = state.blockLocks.get(blockId);
-      if (existingLock && existingLock.lockedBy !== state.localUser?.odId) {
-        // Check if lock is expired
-        if (Date.now() < existingLock.expiresAt) {
-          return false; // Block is locked
-        }
+    // Check if already locked by someone else
+    const existingLock = currentState.blockLocks.get(blockId);
+    if (
+      existingLock &&
+      existingLock.lockedBy !== currentState.localUser?.odId
+    ) {
+      // Check if lock is expired
+      if (Date.now() < existingLock.expiresAt) {
+        return false; // Block is locked
       }
+    }
 
-      // Acquire lock
-      const localState = awareness.getLocalState() as AwarenessState | null;
-      const currentLocks = localState?.lockedBlocks || [];
+    // Acquire lock
+    const localState = awareness.getLocalState() as AwarenessState | null;
+    const currentLocks = localState?.lockedBlocks || [];
 
-      if (!currentLocks.includes(blockId)) {
-        awareness.setLocalStateField("lockedBlocks", [
-          ...currentLocks,
-          blockId,
-        ]);
-        awareness.setLocalStateField("editingBlockId", blockId);
-        awareness.setLocalStateField("lastActivity", Date.now());
-      }
+    if (!currentLocks.includes(blockId)) {
+      awareness.setLocalStateField("lockedBlocks", [...currentLocks, blockId]);
+      awareness.setLocalStateField("editingBlockId", blockId);
+      awareness.setLocalStateField("lastActivity", Date.now());
+    }
 
-      return true;
-    },
-    [state.isConnected, state.blockLocks, state.localUser],
-  );
+    return true;
+  }, []);
 
   // Unlock a block
   const unlockBlock = useCallback((blockId: string) => {
@@ -302,31 +304,26 @@ export function useCollaboration(
   }, []);
 
   // Check if block is locked
-  const isBlockLocked = useCallback(
-    (blockId: string): boolean => {
-      if (!state.isConnected) return false; // No locks in offline mode
+  const isBlockLocked = useCallback((blockId: string): boolean => {
+    const currentState = stateRef.current;
+    if (!currentState.isConnected) return false; // No locks in offline mode
 
-      const lock = state.blockLocks.get(blockId);
-      if (!lock) return false;
+    const lock = currentState.blockLocks.get(blockId);
+    if (!lock) return false;
 
-      // Check if it's our lock
-      if (lock.lockedBy === state.localUser?.odId) return false;
+    // Check if it's our lock
+    if (lock.lockedBy === currentState.localUser?.odId) return false;
 
-      // Check if lock is expired
-      if (Date.now() >= lock.expiresAt) return false;
+    // Check if lock is expired
+    if (Date.now() >= lock.expiresAt) return false;
 
-      return true;
-    },
-    [state.isConnected, state.blockLocks, state.localUser],
-  );
+    return true;
+  }, []);
 
   // Get block lock info
-  const getBlockLock = useCallback(
-    (blockId: string): BlockLock | undefined => {
-      return state.blockLocks.get(blockId);
-    },
-    [state.blockLocks],
-  );
+  const getBlockLock = useCallback((blockId: string): BlockLock | undefined => {
+    return stateRef.current.blockLocks.get(blockId);
+  }, []);
 
   // Cleanup on unmount
   useEffect(() => {

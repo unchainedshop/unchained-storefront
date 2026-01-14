@@ -24,7 +24,7 @@ const mockCategories = [
 ];
 
 const CategoryGrid: React.FC<CategoryGridProps> = ({ block }) => {
-  const content = block.content as CategoryGridContent;
+  const content = block.content as unknown as CategoryGridContent;
   const style = block.style;
 
   const categories =

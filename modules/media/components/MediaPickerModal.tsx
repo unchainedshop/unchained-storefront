@@ -21,9 +21,11 @@ import {
   ArrowPathIcon,
   CheckIcon,
   ChevronLeftIcon,
+  ScissorsIcon,
 } from "@heroicons/react/24/outline";
 import type { MediaAsset, MediaFolder } from "../types";
 import { formatFileSize } from "../utils/mediaUtils";
+import CropEditor, { CropArea, AspectRatioPreset } from "./CropEditor";
 
 interface MediaPickerModalProps {
   isOpen: boolean;
@@ -56,6 +58,8 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
   const [selectedAsset, setSelectedAsset] = useState<MediaAsset | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [showCropEditor, setShowCropEditor] = useState(false);
+  const [isCropping, setIsCropping] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -220,9 +224,16 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           setSelectedAsset(data.assets[0]);
         }
         setActiveTab("browse");
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Upload failed:", res.status, errorData);
+        alert(`Upload failed: ${errorData.error || res.statusText}`);
       }
     } catch (err) {
       console.error("Upload failed:", err);
+      alert(
+        `Upload failed: ${err instanceof Error ? err.message : "Network error"}`,
+      );
     } finally {
       setIsUploading(false);
     }
@@ -234,6 +245,51 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
     const files = e.dataTransfer.files;
     if (files.length) {
       handleUpload(files);
+    }
+  };
+
+  // Crop functionality
+  const handleCropSave = async (
+    crop: CropArea,
+    aspectRatio: AspectRatioPreset,
+  ) => {
+    if (!selectedAsset) return;
+
+    setIsCropping(true);
+    setShowCropEditor(false);
+
+    try {
+      const res = await fetch("/api/media/crop", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          assetId: selectedAsset.id,
+          crop: {
+            x: crop.x,
+            y: crop.y,
+            width: crop.width,
+            height: crop.height,
+          },
+          format: "webp",
+          quality: 85,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.asset) {
+          // Select the newly cropped asset
+          setSelectedAsset(data.asset);
+          // Refresh assets list to show the new cropped image
+          await fetchAssets();
+        }
+      } else {
+        console.error("Crop failed:", await res.text());
+      }
+    } catch (err) {
+      console.error("Crop error:", err);
+    } finally {
+      setIsCropping(false);
     }
   };
 
@@ -573,6 +629,20 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
             >
               Cancel
             </button>
+            {selectedAsset && selectedAsset.mimeType.startsWith("image/") && (
+              <button
+                onClick={() => setShowCropEditor(true)}
+                disabled={isCropping}
+                className="flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 font-medium rounded-lg transition-colors disabled:opacity-50"
+              >
+                {isCropping ? (
+                  <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                ) : (
+                  <ScissorsIcon className="w-4 h-4" />
+                )}
+                Crop
+              </button>
+            )}
             <button
               onClick={handleSelect}
               disabled={!selectedAsset}
@@ -583,6 +653,15 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Crop Editor Modal */}
+      {showCropEditor && selectedAsset && selectedAsset.url && (
+        <CropEditor
+          imageUrl={selectedAsset.url}
+          onSave={handleCropSave}
+          onCancel={() => setShowCropEditor(false)}
+        />
+      )}
     </div>
   );
 

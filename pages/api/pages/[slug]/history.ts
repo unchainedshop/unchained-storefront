@@ -3,54 +3,65 @@
  * Get Git history for a page
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 import {
   getPageHistory,
   getPageAtCommit,
   restorePageVersion,
   commitPageChange,
-} from '../../../../modules/page-builder/utils/gitHistory';
-import { getPage } from '../../../../modules/page-builder/utils/pageStorage';
+} from "../../../../modules/page-builder/utils/gitHistory";
+import { getPage } from "../../../../modules/page-builder/utils/pageStorage";
+import { withCMSAuth } from "../../../../lib/adminAuth";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
+  // Require CMS access for all operations
+  const { authorized, user } = await withCMSAuth(req, res);
+  if (!authorized) return;
+
   const { slug } = req.query;
 
-  if (typeof slug !== 'string') {
-    return res.status(400).json({ error: 'Invalid slug' });
+  if (typeof slug !== "string") {
+    return res.status(400).json({ error: "Invalid slug" });
   }
 
   try {
     switch (req.method) {
-      case 'GET': {
+      case "GET": {
         // Get version history
         const { commit } = req.query;
 
-        if (commit && typeof commit === 'string') {
+        if (commit && typeof commit === "string") {
           // Get page at specific commit
           const content = await getPageAtCommit(slug, commit);
           if (!content) {
-            return res.status(404).json({ error: 'Version not found' });
+            return res.status(404).json({ error: "Version not found" });
           }
           return res.status(200).json({ page: JSON.parse(content) });
         }
 
         // Get history list
-        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;
+        const limit = req.query.limit
+          ? parseInt(req.query.limit as string, 10)
+          : 20;
         const history = await getPageHistory(slug, limit);
         return res.status(200).json({ history });
       }
 
-      case 'POST': {
+      case "POST": {
         // Restore to a specific version OR commit current changes
         const { action, commit, message } = req.body;
 
-        if (action === 'restore' && commit) {
+        if (action === "restore" && commit) {
+          // Require 'edit' permission to restore
+          const { authorized: canEdit } = await withCMSAuth(req, res, "edit");
+          if (!canEdit) return;
+
           const success = await restorePageVersion(slug, commit);
           if (!success) {
-            return res.status(500).json({ error: 'Failed to restore version' });
+            return res.status(500).json({ error: "Failed to restore version" });
           }
 
           // Get the restored page
@@ -58,20 +69,31 @@ export default async function handler(
           return res.status(200).json({ page, restored: true });
         }
 
-        if (action === 'commit' && message) {
-          const commitHash = await commitPageChange(slug, message);
+        if (action === "commit" && message) {
+          // Require 'edit' permission to commit
+          const { authorized: canEdit } = await withCMSAuth(req, res, "edit");
+          if (!canEdit) return;
+
+          // Include user info in commit
+          const author = {
+            name: user?.name || user?.username || "Unknown",
+            email: `${user?.username || "cms"}@cms.local`,
+          };
+          const commitHash = await commitPageChange(slug, message, author);
           return res.status(200).json({ committed: true, hash: commitHash });
         }
 
-        return res.status(400).json({ error: 'Invalid action' });
+        return res.status(400).json({ error: "Invalid action" });
       }
 
       default:
-        res.setHeader('Allow', ['GET', 'POST']);
-        return res.status(405).json({ error: `Method ${req.method} not allowed` });
+        res.setHeader("Allow", ["GET", "POST"]);
+        return res
+          .status(405)
+          .json({ error: `Method ${req.method} not allowed` });
     }
   } catch (error) {
-    console.error('API error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("API error:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }

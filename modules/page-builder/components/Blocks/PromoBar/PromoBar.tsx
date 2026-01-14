@@ -14,7 +14,7 @@ interface PromoBarProps {
 }
 
 const PromoBar: React.FC<PromoBarProps> = ({ block, isPreview }) => {
-  const content = block.content as PromoBarContent;
+  const content = block.content as unknown as PromoBarContent;
   const style = block.style;
   const [isDismissed, setIsDismissed] = useState(false);
 

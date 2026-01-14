@@ -35,6 +35,30 @@ interface CanvasProps {
   className?: string;
 }
 
+// Block icon mapping
+const getBlockIcon = (icon?: string) => {
+  switch (icon) {
+    case "rectangle-group":
+      return "▢";
+    case "view-columns":
+      return "⫼";
+    case "photo":
+      return "🖼";
+    case "document-text":
+      return "📄";
+    case "shopping-bag":
+      return "🛍";
+    case "squares-2x2":
+      return "⊞";
+    case "sparkles":
+      return "✨";
+    case "video-camera":
+      return "🎬";
+    default:
+      return "◆";
+  }
+};
+
 // Drag overlay component - shows a preview of the block being dragged
 const BlockDragOverlay: React.FC<{ block: PageBlock | null }> = ({ block }) => {
   if (!block) return null;
@@ -42,24 +66,18 @@ const BlockDragOverlay: React.FC<{ block: PageBlock | null }> = ({ block }) => {
   const blockDef = blockRegistry[block.type];
 
   return (
-    <div className="flex items-center gap-2 bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-xl shadow-2xl px-4 py-2 cursor-grabbing">
-      <div className="w-6 h-6 rounded-lg rainbow-gradient flex items-center justify-center">
-        <span className="text-slate-700 text-sm">
-          {blockDef?.icon === "rectangle-group" && "▢"}
-          {blockDef?.icon === "view-columns" && "⫼"}
-          {blockDef?.icon === "photo" && "🖼"}
-          {blockDef?.icon === "document-text" && "📄"}
-          {![
-            "rectangle-group",
-            "view-columns",
-            "photo",
-            "document-text",
-          ].includes(blockDef?.icon || "") && "◆"}
+    <div className="drag-overlay flex items-center gap-3 rounded-xl px-4 py-3 cursor-grabbing">
+      <div className="w-8 h-8 rounded-lg rainbow-gradient flex items-center justify-center shadow-inner">
+        <span className="text-slate-700 text-base">
+          {getBlockIcon(blockDef?.icon)}
         </span>
       </div>
-      <span className="text-sm font-medium text-white">
-        {blockDef?.label || block.type}
-      </span>
+      <div className="flex flex-col">
+        <span className="text-sm font-semibold text-white">
+          {blockDef?.label || block.type}
+        </span>
+        <span className="text-[10px] text-slate-400">Drag to reorder</span>
+      </div>
     </div>
   );
 };
@@ -264,6 +282,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
               {
                 "shadow-xl rounded-lg": !isPreviewMode,
                 "bg-grid-pattern": showGrid && !isPreviewMode,
+                "canvas-dragging": isDragging,
               },
             )}
           >

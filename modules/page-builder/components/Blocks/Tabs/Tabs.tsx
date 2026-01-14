@@ -15,7 +15,7 @@ interface TabsProps {
 }
 
 const Tabs: React.FC<TabsProps> = ({ block, isPreview, isEditing = true }) => {
-  const content = block.content as TabsContent;
+  const content = block.content as unknown as TabsContent;
   const style = block.style;
   const [activeTab, setActiveTab] = useState(content.defaultTab || 0);
 

@@ -16,7 +16,7 @@ interface SizeGuideProps {
 }
 
 const SizeGuide: React.FC<SizeGuideProps> = ({ block, isPreview }) => {
-  const content = block.content as SizeGuideContent;
+  const content = block.content as unknown as SizeGuideContent;
   const style = block.style;
 
   const [unit, setUnit] = useState<"cm" | "in">(content.unit);

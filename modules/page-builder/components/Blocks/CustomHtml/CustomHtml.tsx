@@ -13,7 +13,7 @@ interface CustomHtmlProps {
 }
 
 const CustomHtml: React.FC<CustomHtmlProps> = ({ block, isPreview }) => {
-  const content = block.content as CustomHtmlContent;
+  const content = block.content as unknown as CustomHtmlContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

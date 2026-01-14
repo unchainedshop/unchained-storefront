@@ -3,25 +3,30 @@
  * List folders (GET) or create a new folder (POST)
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 import {
   listFolders,
   createFolder,
-} from '../../../../modules/media/utils/mediaStorage';
+} from "../../../../modules/media/utils/mediaStorage";
+import { withCMSAuth } from "../../../../lib/adminAuth";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
+  // Require CMS access for folder management
+  const { authorized } = await withCMSAuth(req, res);
+  if (!authorized) return;
+
   try {
     switch (req.method) {
-      case 'GET': {
+      case "GET": {
         const { parentId } = req.query;
 
         let parent: string | null | undefined;
-        if (parentId === 'null') {
+        if (parentId === "null") {
           parent = null;
-        } else if (typeof parentId === 'string') {
+        } else if (typeof parentId === "string") {
           parent = parentId;
         }
 
@@ -29,17 +34,17 @@ export default async function handler(
         return res.status(200).json({ folders });
       }
 
-      case 'POST': {
+      case "POST": {
         const { name, parentId, description, color } = req.body;
 
-        if (!name || typeof name !== 'string') {
-          return res.status(400).json({ error: 'Folder name is required' });
+        if (!name || typeof name !== "string") {
+          return res.status(400).json({ error: "Folder name is required" });
         }
 
         const folder = await createFolder({
           name: name.trim(),
-          slug: '',
-          parentId: parentId === 'null' || !parentId ? null : parentId,
+          slug: "",
+          parentId: parentId === "null" || !parentId ? null : parentId,
           description: description || undefined,
           color: color || undefined,
         });
@@ -48,13 +53,13 @@ export default async function handler(
       }
 
       default:
-        res.setHeader('Allow', ['GET', 'POST']);
+        res.setHeader("Allow", ["GET", "POST"]);
         return res
           .status(405)
           .json({ error: `Method ${req.method} not allowed` });
     }
   } catch (error) {
-    console.error('API error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("API error:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }

@@ -33,7 +33,7 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as FeatureGridContent;
+  const content = block.content as unknown as FeatureGridContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

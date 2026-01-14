@@ -19,7 +19,7 @@ const TeamGrid: React.FC<TeamGridProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as TeamGridContent;
+  const content = block.content as unknown as TeamGridContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

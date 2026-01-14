@@ -20,7 +20,7 @@ interface StoreLocatorProps {
 }
 
 const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
-  const content = block.content as StoreLocatorContent;
+  const content = block.content as unknown as StoreLocatorContent;
   const style = block.style;
 
   const [searchQuery, setSearchQuery] = useState("");

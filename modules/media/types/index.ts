@@ -3,15 +3,41 @@
  * Core type definitions for the Digital Asset Management system
  */
 
-export type MediaType = 'image' | 'video' | 'document' | 'audio' | 'other';
+export type MediaType = "image" | "video" | "document" | "audio" | "other";
 
 export interface MediaDimensions {
   width: number;
   height: number;
 }
 
+/** Focal point for smart cropping (0-100 percentage) */
+export interface FocalPoint {
+  x: number;
+  y: number;
+}
+
+/** Aspect ratio presets */
+export type AspectRatio =
+  | "original"
+  | "1:1"
+  | "4:3"
+  | "3:2"
+  | "16:9"
+  | "21:9"
+  | "9:16"
+  | "custom";
+
+/** Saved crop data */
+export interface CropData {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  aspectRatio: AspectRatio;
+}
+
 export interface UsageLocation {
-  type: 'page' | 'product' | 'block' | 'seo';
+  type: "page" | "product" | "block" | "seo";
   entityId: string;
   entityName: string;
   field: string;
@@ -42,6 +68,10 @@ export interface MediaAsset {
   updatedAt: string;
   uploadedBy: string;
 
+  // Image editing
+  focalPoint?: FocalPoint;
+  crops?: Record<string, CropData>;
+
   // Runtime computed
   url?: string;
   thumbnailUrl?: string;
@@ -67,8 +97,8 @@ export interface MediaIndex {
 }
 
 // API types
-export type SortField = 'name' | 'date' | 'size' | 'usage';
-export type SortOrder = 'asc' | 'desc';
+export type SortField = "name" | "date" | "size" | "usage";
+export type SortOrder = "asc" | "desc";
 
 export interface MediaListParams {
   folderId?: string | null;
@@ -109,16 +139,16 @@ export interface FolderTreeItem extends MediaFolder {
 
 // Helper to determine media type from MIME
 export function getMediaType(mimeType: string): MediaType {
-  if (mimeType.startsWith('image/')) return 'image';
-  if (mimeType.startsWith('video/')) return 'video';
-  if (mimeType.startsWith('audio/')) return 'audio';
+  if (mimeType.startsWith("image/")) return "image";
+  if (mimeType.startsWith("video/")) return "video";
+  if (mimeType.startsWith("audio/")) return "audio";
   if (
-    mimeType.includes('pdf') ||
-    mimeType.includes('document') ||
-    mimeType.includes('text/')
+    mimeType.includes("pdf") ||
+    mimeType.includes("document") ||
+    mimeType.includes("text/")
   )
-    return 'document';
-  return 'other';
+    return "document";
+  return "other";
 }
 
 // Generate unique ID
@@ -138,16 +168,16 @@ export function generateFolderId(): string {
 export function sanitizeFilename(filename: string): string {
   return filename
     .toLowerCase()
-    .replace(/[^a-z0-9.-]/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/[^a-z0-9.-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 // Sanitize slug
 export function sanitizeSlug(name: string): string {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/[^a-z0-9]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }

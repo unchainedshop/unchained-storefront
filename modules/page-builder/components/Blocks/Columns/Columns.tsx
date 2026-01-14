@@ -51,7 +51,7 @@ const getColumnsForViewport = (
 };
 
 const Columns: React.FC<ColumnsProps> = ({ block, children, isPreview }) => {
-  const content = block.content as ColumnsContent;
+  const content = block.content as unknown as ColumnsContent;
   const style = block.style;
   const pageBuilder = usePageBuilder();
   const viewport = pageBuilder?.state?.viewport || "desktop-xl";

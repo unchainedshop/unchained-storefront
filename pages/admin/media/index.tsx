@@ -133,11 +133,23 @@ const MediaAdmin: React.FC = () => {
           const formData = new FormData();
           formData.append("file", file);
           if (currentFolderId) formData.append("folderId", currentFolderId);
-          await fetch("/api/media/upload", { method: "POST", body: formData });
+          const res = await fetch("/api/media/upload", {
+            method: "POST",
+            body: formData,
+          });
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            console.error("Upload failed:", res.status, errorData);
+            alert(`Upload failed: ${errorData.error || res.statusText}`);
+            break;
+          }
         }
         await refresh();
       } catch (err) {
         console.error("Upload failed:", err);
+        alert(
+          `Upload failed: ${err instanceof Error ? err.message : "Network error"}`,
+        );
       } finally {
         setIsUploading(false);
       }

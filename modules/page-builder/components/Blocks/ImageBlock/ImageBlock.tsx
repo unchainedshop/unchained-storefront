@@ -1,12 +1,12 @@
 /**
  * Image Block
- * Displays an image with optional link and caption
+ * Displays an image with optional link, caption, focal point, and aspect ratio
  */
 
-import React from 'react';
-import Link from 'next/link';
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import type { PageBlock, ImageBlockContent } from '../../../types';
+import React from "react";
+import Link from "next/link";
+import { PhotoIcon } from "@heroicons/react/24/outline";
+import type { PageBlock, ImageBlockContent } from "../../../types";
 
 interface ImageBlockProps {
   block: PageBlock;
@@ -14,35 +14,58 @@ interface ImageBlockProps {
 }
 
 const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
-  const content = block.content as ImageBlockContent;
+  const content = block.content as unknown as ImageBlockContent;
   const style = block.style;
 
-  const aspectRatioClasses = {
-    auto: '',
-    '1:1': 'aspect-square',
-    '4:3': 'aspect-[4/3]',
-    '16:9': 'aspect-video',
-    '21:9': 'aspect-[21/9]',
+  // Aspect ratio CSS classes
+  const aspectRatioClasses: Record<string, string> = {
+    original: "",
+    "1:1": "aspect-square",
+    "4:3": "aspect-[4/3]",
+    "3:2": "aspect-[3/2]",
+    "16:9": "aspect-video",
+    "21:9": "aspect-[21/9]",
+    "9:16": "aspect-[9/16]",
   };
+
+  // Object fit CSS classes
+  const objectFitClasses: Record<string, string> = {
+    cover: "object-cover",
+    contain: "object-contain",
+    fill: "object-fill",
+    none: "object-none",
+  };
+
+  // Calculate object position from focal point
+  const focalPoint = content.focalPoint || { x: 50, y: 50 };
+  const objectPosition = `${focalPoint.x}% ${focalPoint.y}%`;
 
   const containerStyle: React.CSSProperties = {
     maxWidth: style.maxWidth || undefined,
-    margin: style.alignmentX === 'center' ? '0 auto' : undefined,
+    margin: style.alignmentX === "center" ? "0 auto" : undefined,
     borderRadius: style.borderRadius || 0,
   };
 
+  const imageStyle: React.CSSProperties = {
+    objectPosition,
+  };
+
+  const aspectRatioClass =
+    aspectRatioClasses[content.aspectRatio || "original"] || "";
+  const objectFitClass =
+    objectFitClasses[content.objectFit || "cover"] || "object-cover";
+
   const ImageContent = (
     <div
-      className={`overflow-hidden bg-slate-100 dark:bg-slate-800 ${
-        aspectRatioClasses[content.aspectRatio || 'auto']
-      }`}
+      className={`overflow-hidden bg-slate-100 dark:bg-slate-800 ${aspectRatioClass}`}
       style={{ borderRadius: style.borderRadius || 0 }}
     >
       {content.src ? (
         <img
           src={content.src}
-          alt={content.alt || ''}
-          className="w-full h-full object-cover"
+          alt={content.alt || ""}
+          className={`w-full h-full ${objectFitClass}`}
+          style={imageStyle}
         />
       ) : (
         <div className="w-full h-full min-h-[200px] flex items-center justify-center">

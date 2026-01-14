@@ -17,12 +17,18 @@ import type {
   PageBlock,
   Viewport,
   DragState,
-  SEOSettings,
+  LocalizedSEOSettings,
+  LocalizedString,
+  LocalizedContent,
   PageStatus,
   HistoryActionType,
   BlockType,
+  BlockContent,
+  TranslationStatus,
 } from "../types";
 import { blockRegistry } from "../utils/blockRegistry";
+import { cmsConfig } from "../../../lib/cms.config";
+import { copyPageContentToLocale } from "../utils/localization";
 
 const initialState: EditorState = {
   page: null,
@@ -48,6 +54,7 @@ const initialState: EditorState = {
   history: [],
   historyIndex: -1,
   sidebarTab: "blocks",
+  activeLocale: cmsConfig.defaultLocale,
 };
 
 // Helper functions for immutable block updates (exported for use in other components)
@@ -222,16 +229,50 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
           blocks: updateBlockInTree(
             state.page.blocks,
             action.payload.blockId,
-            (block) => ({
-              ...block,
-              ...action.payload.updates,
-              content: action.payload.updates.content
-                ? { ...block.content, ...action.payload.updates.content }
-                : block.content,
-              style: action.payload.updates.style
-                ? { ...block.style, ...action.payload.updates.style }
-                : block.style,
-            }),
+            (block) => {
+              // Handle content updates - merge into the active locale
+              let newContent = block.content;
+              if (action.payload.updates.content) {
+                const activeLocale = state.activeLocale;
+
+                // Check if content is in legacy (non-localized) format
+                // Legacy content has block keys directly (heading, text) not locale keys (de, fr)
+                const contentKeys = Object.keys(block.content);
+                const isLegacyContent =
+                  contentKeys.length > 0 &&
+                  !cmsConfig.locales.some((locale) => locale in block.content);
+
+                if (isLegacyContent) {
+                  // Migrate legacy content: wrap existing content in active locale
+                  newContent = {
+                    [activeLocale]: {
+                      ...(block.content as unknown as Record<string, unknown>),
+                      ...action.payload.updates.content,
+                    },
+                  } as LocalizedContent;
+                } else {
+                  // Already localized: merge into active locale
+                  const existingLocaleContent =
+                    block.content[activeLocale] || {};
+                  newContent = {
+                    ...block.content,
+                    [activeLocale]: {
+                      ...existingLocaleContent,
+                      ...action.payload.updates.content,
+                    },
+                  } as LocalizedContent;
+                }
+              }
+
+              return {
+                ...block,
+                ...action.payload.updates,
+                content: newContent,
+                style: action.payload.updates.style
+                  ? { ...block.style, ...action.payload.updates.style }
+                  : block.style,
+              };
+            },
           ),
         },
         isDirty: true,
@@ -443,6 +484,52 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
         isDirty: true,
       };
 
+    case "SET_ACTIVE_LOCALE":
+      return { ...state, activeLocale: action.payload };
+
+    case "UPDATE_TRANSLATION_STATUS":
+      if (!state.page) return state;
+      return {
+        ...state,
+        page: {
+          ...state.page,
+          translations: {
+            ...state.page.translations,
+            status: {
+              ...state.page.translations.status,
+              [action.payload.locale]: {
+                ...state.page.translations.status[action.payload.locale],
+                ...action.payload.status,
+              },
+            },
+          },
+        },
+        isDirty: true,
+      };
+
+    case "COPY_CONTENT_TO_LOCALE":
+      if (!state.page) return state;
+      return {
+        ...state,
+        page: {
+          ...state.page,
+          blocks: copyPageContentToLocale(
+            state.page.blocks,
+            action.payload.fromLocale,
+            action.payload.toLocale,
+          ),
+          // Also copy the page title
+          title: {
+            ...state.page.title,
+            [action.payload.toLocale]:
+              state.page.title[action.payload.fromLocale] ||
+              state.page.title[cmsConfig.defaultLocale] ||
+              "",
+          },
+        },
+        isDirty: true,
+      };
+
     default:
       return state;
   }
@@ -458,7 +545,12 @@ interface PageBuilderContextValue {
     keepTab?: boolean,
   ) => void;
   addBlock: (block: PageBlock, parentId?: string, position?: number) => void;
-  updateBlock: (blockId: string, updates: Partial<PageBlock>) => void;
+  updateBlock: (
+    blockId: string,
+    updates: Partial<Omit<PageBlock, "content">> & {
+      content?: Partial<BlockContent>;
+    },
+  ) => void;
   deleteBlock: (blockId: string) => void;
   moveBlock: (
     blockId: string,
@@ -468,7 +560,7 @@ interface PageBuilderContextValue {
   duplicateBlock: (blockId: string) => void;
   setViewport: (viewport: Viewport) => void;
   setZoom: (zoom: number) => void;
-  togglePreview: () => void;
+  togglePreview: (forceState?: boolean) => void;
   toggleFocusMode: () => void;
   undo: () => void;
   redo: () => void;
@@ -479,17 +571,25 @@ interface PageBuilderContextValue {
     blockId?: string,
   ) => void;
   setPage: (page: Page) => void;
-  updateSEO: (seo: Partial<SEOSettings>) => void;
+  updateSEO: (seo: Partial<LocalizedSEOSettings>) => void;
   updatePageMeta: (meta: {
-    title?: string;
+    title?: LocalizedString;
     slug?: string;
     status?: PageStatus;
   }) => void;
   setDragState: (dragState: Partial<DragState>) => void;
-  setSidebarTab: (tab: "blocks" | "layers" | "settings") => void;
+  setSidebarTab: (tab: "blocks" | "layers" | "settings" | "history") => void;
   selectedBlock: PageBlock | null;
   canUndo: boolean;
   canRedo: boolean;
+  // Localization methods
+  activeLocale: string;
+  setActiveLocale: (locale: string) => void;
+  copyContentToLocale: (fromLocale: string, toLocale: string) => void;
+  updateTranslationStatus: (
+    locale: string,
+    status: Partial<TranslationStatus>,
+  ) => void;
 }
 
 const PageBuilderContext = createContext<PageBuilderContextValue | null>(null);
@@ -541,7 +641,12 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const updateBlock = useCallback(
-    (blockId: string, updates: Partial<PageBlock>) => {
+    (
+      blockId: string,
+      updates: Partial<Omit<PageBlock, "content">> & {
+        content?: Partial<BlockContent>;
+      },
+    ) => {
       dispatch({ type: "UPDATE_BLOCK", payload: { blockId, updates } });
     },
     [],
@@ -626,8 +731,8 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "SET_ZOOM", payload: zoom });
   }, []);
 
-  const togglePreview = useCallback(() => {
-    dispatch({ type: "TOGGLE_PREVIEW" });
+  const togglePreview = useCallback((forceState?: boolean) => {
+    dispatch({ type: "TOGGLE_PREVIEW", payload: forceState });
   }, []);
 
   const toggleFocusMode = useCallback(() => {
@@ -661,13 +766,37 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "SET_PAGE", payload: page });
   }, []);
 
-  const updateSEO = useCallback((seo: Partial<SEOSettings>) => {
+  const updateSEO = useCallback((seo: Partial<LocalizedSEOSettings>) => {
     dispatch({ type: "UPDATE_SEO", payload: seo });
   }, []);
 
   const updatePageMeta = useCallback(
-    (meta: { title?: string; slug?: string; status?: PageStatus }) => {
+    (meta: { title?: LocalizedString; slug?: string; status?: PageStatus }) => {
       dispatch({ type: "UPDATE_PAGE_META", payload: meta });
+    },
+    [],
+  );
+
+  const setActiveLocale = useCallback((locale: string) => {
+    dispatch({ type: "SET_ACTIVE_LOCALE", payload: locale });
+  }, []);
+
+  const copyContentToLocaleFn = useCallback(
+    (fromLocale: string, toLocale: string) => {
+      dispatch({
+        type: "COPY_CONTENT_TO_LOCALE",
+        payload: { fromLocale, toLocale },
+      });
+    },
+    [],
+  );
+
+  const updateTranslationStatus = useCallback(
+    (locale: string, status: Partial<TranslationStatus>) => {
+      dispatch({
+        type: "UPDATE_TRANSLATION_STATUS",
+        payload: { locale, status },
+      });
     },
     [],
   );
@@ -676,9 +805,12 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "SET_DRAG_STATE", payload: dragState });
   }, []);
 
-  const setSidebarTab = useCallback((tab: "blocks" | "layers" | "settings") => {
-    dispatch({ type: "SET_SIDEBAR_TAB", payload: tab });
-  }, []);
+  const setSidebarTab = useCallback(
+    (tab: "blocks" | "layers" | "settings" | "history") => {
+      dispatch({ type: "SET_SIDEBAR_TAB", payload: tab });
+    },
+    [],
+  );
 
   const selectedBlock = useMemo(() => {
     if (!state.page || !state.selection.blockId) return null;
@@ -712,6 +844,11 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedBlock,
     canUndo,
     canRedo,
+    // Localization
+    activeLocale: state.activeLocale,
+    setActiveLocale,
+    copyContentToLocale: copyContentToLocaleFn,
+    updateTranslationStatus,
   };
 
   return (

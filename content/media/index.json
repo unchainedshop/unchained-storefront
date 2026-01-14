@@ -126,6 +126,111 @@
       "createdAt": "2026-01-14T12:20:35.304Z",
       "updatedAt": "2026-01-14T12:20:35.304Z",
       "usageCount": 0
+    },
+    "media_1768400107673_2fllak": {
+      "filename": "2026/01/media_1768400107620_80azcn.png",
+      "originalName": "Logo_Transparent_eced948ea947e96c71fbfbff3f5c1a55.png",
+      "mimeType": "image/png",
+      "size": 4927,
+      "dimensions": {
+        "width": 417,
+        "height": 207
+      },
+      "altText": "",
+      "title": "logo-transparent-eced948ea947e96c71fbfbff3f5c1a55",
+      "description": "",
+      "tags": [],
+      "folderId": "folder_1768343948837_vkazwt",
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768400107673_2fllak",
+      "createdAt": "2026-01-14T14:15:07.673Z",
+      "updatedAt": "2026-01-14T14:15:07.673Z",
+      "usageCount": 0
+    },
+    "media_1768400107679_tc0bsj": {
+      "filename": "2026/01/media_1768400107620_2lwpeb.webp",
+      "originalName": "Logo_ktzh_cut_eced948ea947e96c71fbfbff3f5c1a55.webp",
+      "mimeType": "image/webp",
+      "size": 13406,
+      "dimensions": {
+        "width": 500,
+        "height": 127
+      },
+      "altText": "",
+      "title": "logo-ktzh-cut-eced948ea947e96c71fbfbff3f5c1a55",
+      "description": "",
+      "tags": [],
+      "folderId": "folder_1768343948837_vkazwt",
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768400107679_tc0bsj",
+      "createdAt": "2026-01-14T14:15:07.679Z",
+      "updatedAt": "2026-01-14T14:15:07.679Z",
+      "usageCount": 0
+    },
+    "media_1768405375733_zno4lt": {
+      "filename": "2026/01/media_1768405375558_lm15zo.webp",
+      "originalName": "verbrauchsmaterial_cropped.webp",
+      "mimeType": "image/webp",
+      "size": 5118,
+      "dimensions": {
+        "width": 1126,
+        "height": 204
+      },
+      "altText": "",
+      "title": "verbrauchsmaterial (cropped)",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768405375733_zno4lt",
+      "createdAt": "2026-01-14T15:42:55.733Z",
+      "updatedAt": "2026-01-14T15:42:55.733Z",
+      "usageCount": 0
+    },
+    "media_1768406160379_cfours": {
+      "filename": "2026/01/media_1768406160327_petmxc.webp",
+      "originalName": "vedi-westhive-2024_cropped.webp",
+      "mimeType": "image/webp",
+      "size": 117920,
+      "dimensions": {
+        "width": 1271,
+        "height": 467
+      },
+      "altText": "",
+      "title": "vedi-westhive-2024 (cropped)",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768406160379_cfours",
+      "createdAt": "2026-01-14T15:56:00.379Z",
+      "updatedAt": "2026-01-14T15:56:00.379Z",
+      "usageCount": 0
+    },
+    "media_1768406176791_526paw": {
+      "filename": "2026/01/media_1768406176778_i3t922.webp",
+      "originalName": "vedi_cropped.webp",
+      "mimeType": "image/webp",
+      "size": 5436,
+      "dimensions": {
+        "width": 229,
+        "height": 292
+      },
+      "altText": "",
+      "title": "vedi (cropped)",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768406176791_526paw",
+      "createdAt": "2026-01-14T15:56:16.791Z",
+      "updatedAt": "2026-01-14T15:56:16.791Z",
+      "usageCount": 0
     }
   },
   "folders": {
@@ -139,5 +244,5 @@
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-14T12:20:35.304Z"
+  "lastUpdated": "2026-01-14T15:56:16.792Z"
 }

@@ -22,13 +22,29 @@ import type { Viewport, PageStatus } from "../../types";
 import { VIEWPORT_WIDTHS } from "../../types";
 import { PresenceAvatars, ConnectionStatus } from "../Collaboration";
 import UndoRedoButtons from "./UndoRedoButtons";
+import WorkflowActions from "./WorkflowActions";
 import UnchainedLogo from "../UnchainedLogo";
+import LanguageSwitcher from "./LanguageSwitcher";
+import {
+  getLocalizedString,
+  setLocalizedString,
+} from "../../utils/localization";
+import AutosaveIndicator from "./AutosaveIndicator";
+import type { AutosaveStatus } from "../../hooks/useAutosave";
 
 interface ToolbarProps {
   onBack?: () => void;
   onSave?: () => Promise<void>;
   onPublish?: () => Promise<void>;
+  onWorkflowChange?: (newStatus: PageStatus) => Promise<void>;
   onOpenTemplates?: () => void;
+  userRoles?: string[];
+  // Autosave props
+  autosaveStatus?: AutosaveStatus;
+  autosaveLastSaved?: Date | null;
+  autosaveError?: string | null;
+  onAutosaveRetry?: () => void;
+  onAutosaveDismissError?: () => void;
 }
 
 // Glassmorphism dropdown component
@@ -182,7 +198,14 @@ const Toolbar: React.FC<ToolbarProps> = ({
   onBack,
   onSave,
   onPublish,
+  onWorkflowChange,
   onOpenTemplates,
+  userRoles = ["admin"],
+  autosaveStatus,
+  autosaveLastSaved,
+  autosaveError,
+  onAutosaveRetry,
+  onAutosaveDismissError,
 }) => {
   const { formatMessage } = useIntl();
   const {
@@ -192,6 +215,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
     togglePreview,
     toggleFocusMode,
     updatePageMeta,
+    activeLocale,
   } = usePageBuilder();
 
   const {
@@ -204,7 +228,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
     isFocusMode,
   } = state;
 
-  const [showStatusMenu, setShowStatusMenu] = useState(false);
   const [showZoomMenu, setShowZoomMenu] = useState(false);
   const [showViewportMenu, setShowViewportMenu] = useState(false);
   const [titleFocused, setTitleFocused] = useState(false);
@@ -270,46 +293,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   const zoomOptions = [50, 75, 100, 125, 150, 200];
 
-  const statusOptions: {
-    value: PageStatus;
-    label: string;
-    color: string;
-    bgColor: string;
-  }[] = [
-    {
-      value: "draft",
-      label: formatMessage({ id: "pb_draft", defaultMessage: "Draft" }),
-      color: "bg-amber-500",
-      bgColor: "bg-amber-500/10 dark:bg-amber-500/20",
-    },
-    {
-      value: "published",
-      label: formatMessage({ id: "pb_published", defaultMessage: "Published" }),
-      color: "bg-emerald-500",
-      bgColor: "bg-emerald-500/10 dark:bg-emerald-500/20",
-    },
-    {
-      value: "archived",
-      label: formatMessage({ id: "pb_archived", defaultMessage: "Archived" }),
-      color: "bg-slate-400",
-      bgColor: "bg-slate-500/10 dark:bg-slate-500/20",
-    },
-  ];
-
   const handleSave = async () => {
     if (onSave) {
       await onSave();
     }
   };
-
-  const handlePublish = async () => {
-    if (onPublish) {
-      await onPublish();
-    }
-  };
-
-  const currentStatus =
-    statusOptions.find((s) => s.value === page?.status) || statusOptions[0];
 
   return (
     <div
@@ -326,9 +314,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
       )}
     >
       {/* Left section */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 flex-shrink-0">
         {/* Logo + Brand */}
-        <div
+        <button
+          type="button"
           onClick={onBack}
           className={classNames(
             "flex items-center gap-2 px-3 py-1.5 rounded-xl",
@@ -341,7 +330,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <span className="hidden md:block text-[13px] font-semibold text-slate-700 dark:text-slate-200 tracking-tight">
             Buildor
           </span>
-        </div>
+        </button>
 
         <ToolbarDivider />
 
@@ -357,39 +346,38 @@ const Toolbar: React.FC<ToolbarProps> = ({
           >
             <input
               type="text"
-              value={page?.title || ""}
-              onChange={(e) => updatePageMeta({ title: e.target.value })}
+              value={getLocalizedString(page?.title, activeLocale) || ""}
+              onChange={(e) =>
+                updatePageMeta({
+                  title: setLocalizedString(
+                    page?.title,
+                    activeLocale,
+                    e.target.value,
+                  ),
+                })
+              }
               onFocus={() => setTitleFocused(true)}
               onBlur={() => setTitleFocused(false)}
-              className="text-[15px] font-semibold bg-transparent border-none focus:outline-none focus:ring-0 text-slate-900 dark:text-white w-[180px] md:w-[240px] placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              className="text-[15px] font-semibold bg-transparent border-none focus:outline-none focus:ring-0 text-slate-900 dark:text-white w-[120px] sm:w-[180px] md:w-[240px] placeholder:text-slate-400 dark:placeholder:text-slate-500"
               placeholder="Untitled Page"
             />
           </div>
 
-          {/* Save status indicator - glassmorphism pill */}
-          {isDirty && (
-            <div
-              className={classNames(
-                "flex items-center gap-2 px-3 py-1.5 rounded-full",
-                "bg-amber-500/15 dark:bg-amber-500/20",
-                "backdrop-blur-xl",
-                "border border-amber-500/30 dark:border-amber-400/30",
-              )}
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-              </span>
-              <span className="text-xs font-semibold text-amber-700 dark:text-amber-300">
-                Unsaved
-              </span>
-            </div>
+          {/* Autosave status indicator */}
+          {autosaveStatus && (
+            <AutosaveIndicator
+              status={autosaveStatus}
+              lastSaved={autosaveLastSaved || null}
+              error={autosaveError || null}
+              onRetry={onAutosaveRetry}
+              onDismissError={onAutosaveDismissError}
+            />
           )}
         </div>
       </div>
 
       {/* Center section - Viewport & Zoom */}
-      <div className="flex items-center gap-1">
+      <div className="hidden lg:flex items-center gap-1 min-w-0 flex-shrink">
         {/* Templates button */}
         {onOpenTemplates && (
           <>
@@ -406,6 +394,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
         {/* Undo/Redo */}
         <UndoRedoButtons />
+
+        <ToolbarDivider />
+
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         <ToolbarDivider />
 
@@ -560,28 +553,32 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Right section - Actions */}
-      <div className="flex items-center gap-1">
-        {/* Collaboration presence - always visible */}
-        <div className="flex items-center gap-2 pr-1 mr-1">
+      <div className="flex items-center gap-1 flex-shrink-0">
+        {/* Collaboration presence - hide on small screens */}
+        <div className="hidden md:flex items-center gap-2 pr-1 mr-1">
           <PresenceAvatars maxVisible={4} />
           <ConnectionStatus showLabel={false} />
         </div>
 
-        <ToolbarDivider />
+        <div className="hidden md:block">
+          <ToolbarDivider />
+        </div>
 
-        {/* Focus mode toggle */}
-        <ToolbarButton
-          onClick={() => toggleFocusMode()}
-          active={isFocusMode}
-          title={isFocusMode ? "Exit Focus Mode (F)" : "Focus Mode (F)"}
-          size="sm"
-        >
-          {isFocusMode ? (
-            <ArrowsPointingOutIcon className="w-4 h-4" />
-          ) : (
-            <ArrowsPointingInIcon className="w-4 h-4" />
-          )}
-        </ToolbarButton>
+        {/* Focus mode toggle - hide on small screens */}
+        <div className="hidden sm:block">
+          <ToolbarButton
+            onClick={() => toggleFocusMode()}
+            active={isFocusMode}
+            title={isFocusMode ? "Exit Focus Mode (F)" : "Focus Mode (F)"}
+            size="sm"
+          >
+            {isFocusMode ? (
+              <ArrowsPointingOutIcon className="w-4 h-4" />
+            ) : (
+              <ArrowsPointingInIcon className="w-4 h-4" />
+            )}
+          </ToolbarButton>
+        </div>
 
         {/* Preview toggle */}
         <ToolbarButton
@@ -593,91 +590,40 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <span className="hidden sm:inline">Preview</span>
         </ToolbarButton>
 
-        <ToolbarDivider />
-
-        {/* Status dropdown - glassmorphism pill */}
-        <div className="relative">
-          <button
-            onClick={() => setShowStatusMenu(!showStatusMenu)}
-            className={classNames(
-              "flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all duration-200",
-              "backdrop-blur-xl",
-              "border border-white/40 dark:border-white/10",
-              currentStatus.bgColor,
-              "hover:border-white/60 dark:hover:border-white/20",
-            )}
-          >
-            <span
-              className={classNames(
-                "w-2 h-2 rounded-full shadow-sm",
-                currentStatus.color,
-              )}
-            />
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              {currentStatus.label}
-            </span>
-            <ChevronDownIcon
-              className={classNames(
-                "w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-200",
-                showStatusMenu && "rotate-180",
-              )}
-            />
-          </button>
-
-          <Dropdown
-            isOpen={showStatusMenu}
-            onClose={() => setShowStatusMenu(false)}
-            align="right"
-            width="min-w-[180px]"
-          >
-            {statusOptions.map((status) => (
-              <button
-                key={status.value}
-                onClick={() => {
-                  updatePageMeta({ status: status.value });
-                  setShowStatusMenu(false);
-                }}
-                className={classNames(
-                  "w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-150",
-                  "hover:bg-white/50 dark:hover:bg-white/5",
-                  page?.status === status.value &&
-                    "bg-white/30 dark:bg-white/5",
-                )}
-              >
-                <span
-                  className={classNames(
-                    "w-2.5 h-2.5 rounded-full shadow-sm",
-                    status.color,
-                  )}
-                />
-                <span
-                  className={classNames(
-                    "flex-1 text-left",
-                    page?.status === status.value
-                      ? "font-semibold text-slate-900 dark:text-white"
-                      : "text-slate-600 dark:text-slate-400",
-                  )}
-                >
-                  {status.label}
-                </span>
-                {page?.status === status.value && (
-                  <CheckIcon className="w-4 h-4 text-slate-900 dark:text-white" />
-                )}
-              </button>
-            ))}
-          </Dropdown>
+        <div className="hidden sm:block">
+          <ToolbarDivider />
         </div>
 
-        <ToolbarDivider />
+        {/* Workflow Actions - status, submit, approve, reject, publish - hide on small screens */}
+        <div className="hidden sm:block">
+          <WorkflowActions
+            onWorkflowChange={onWorkflowChange}
+            userRoles={userRoles}
+          />
+        </div>
+
+        <div className="hidden sm:block">
+          <ToolbarDivider />
+        </div>
 
         {/* Save button - glassmorphism */}
         <ToolbarButton
           onClick={handleSave}
-          disabled={!isDirty || isSaving}
+          disabled={
+            (!isDirty && autosaveStatus !== "error") ||
+            autosaveStatus === "saving"
+          }
           variant="secondary"
           size="sm"
+          title={
+            autosaveStatus === "error"
+              ? "Retry save"
+              : isDirty
+                ? "Save now (Cmd+S)"
+                : "All changes saved"
+          }
         >
-          {isSaving ? (
+          {autosaveStatus === "saving" ? (
             <>
               <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                 <circle
@@ -695,7 +641,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              <span>Saving</span>
+              <span className="hidden sm:inline">Saving</span>
             </>
           ) : (
             <>
@@ -712,14 +658,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span>Save</span>
+              <span className="hidden sm:inline">Save</span>
             </>
           )}
-        </ToolbarButton>
-
-        {/* Publish button - solid with gradient */}
-        <ToolbarButton onClick={handlePublish} variant="primary" size="sm">
-          Publish
         </ToolbarButton>
       </div>
     </div>

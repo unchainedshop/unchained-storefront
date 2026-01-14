@@ -11,18 +11,33 @@ import {
   ArrowsPointingOutIcon,
   EyeSlashIcon,
   LockClosedIcon,
+  ScissorsIcon,
+  ArrowPathIcon,
+  MagnifyingGlassIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 import { usePageBuilder } from "../../context/PageBuilderContext";
 import { blockRegistry } from "../../utils/blockRegistry";
 import { useCollaborationContext } from "../../collaboration/CollaborationContext";
 import MediaPickerField from "../../../media/components/MediaPickerField";
+import FocalPointPicker from "../../../media/components/FocalPointPicker";
+import CropEditor, {
+  CropArea,
+  AspectRatioPreset,
+} from "../../../media/components/CropEditor";
 import LinkPickerField from "./LinkPickerField";
 import type {
   PageBlock,
   BlockStyle,
   AlignmentX,
   AlignmentY,
+  LocalizedSEOSettings,
+  LocalizedString,
+  LocalizedContent,
+  BlockContent,
 } from "../../types";
+import { getLocalizedContent } from "../../utils/localization";
+import { cmsConfig } from "../../../../lib/cms.config";
 
 interface SettingsPanelProps {
   className?: string;
@@ -99,8 +114,16 @@ const PropertyRow: React.FC<PropertyRowProps> = ({
 };
 
 const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
-  const { selectedBlock, updateBlock, selectBlock, saveHistory } =
-    usePageBuilder();
+  const {
+    selectedBlock,
+    updateBlock,
+    selectBlock,
+    saveHistory,
+    state,
+    updateSEO,
+    updatePageMeta,
+    activeLocale,
+  } = usePageBuilder();
 
   const handleSaveHistory = () => {
     if (selectedBlock) {
@@ -117,6 +140,108 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
   const { lockBlock, unlockBlock, setEditingBlock, isBlockLocked } =
     useCollaborationContext();
   const [activeTab, setActiveTab] = useState<TabId>("content");
+  const [showCropEditor, setShowCropEditor] = useState(false);
+  const [isCropping, setIsCropping] = useState(false);
+  const [cropImageUrl, setCropImageUrl] = useState<string | null>(null);
+  // cropTarget format: "content.fieldName" or "style.fieldName"
+  const [cropTarget, setCropTarget] = useState<string>("content.src");
+
+  // Crop handler for content images, hero images, and background images
+  const handleCropImage = async (
+    crop: CropArea,
+    aspectRatio: AspectRatioPreset,
+  ) => {
+    if (!cropImageUrl) return;
+
+    setIsCropping(true);
+    setShowCropEditor(false);
+
+    try {
+      // First, find the asset ID from the URL
+      const assetRes = await fetch(
+        `/api/media/search?url=${encodeURIComponent(cropImageUrl)}`,
+      );
+
+      if (!assetRes.ok) {
+        console.error("Could not find asset");
+        setIsCropping(false);
+        return;
+      }
+
+      const assetData = await assetRes.json();
+      const assetId = assetData.assets?.[0]?.id;
+
+      if (!assetId) {
+        console.error("Asset not found");
+        setIsCropping(false);
+        return;
+      }
+
+      const res = await fetch("/api/media/crop", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          assetId,
+          crop: {
+            x: crop.x,
+            y: crop.y,
+            width: crop.width,
+            height: crop.height,
+          },
+          format: "webp",
+          quality: 85,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.asset?.url && selectedBlock) {
+          // Parse cropTarget to determine where to update
+          // Format: "content.fieldName" or "content.arrayField.index" or "style.fieldName"
+          const parts = cropTarget.split(".");
+          const targetType = parts[0];
+          const fieldName = parts[1];
+          const arrayIndex = parts[2] !== undefined ? parseInt(parts[2]) : null;
+
+          if (targetType === "style") {
+            updateBlock(selectedBlock.id, {
+              style: {
+                ...selectedBlock.style,
+                [fieldName]: data.asset.url,
+              },
+            });
+          } else if (arrayIndex !== null) {
+            // Handle array field (e.g., gridImages[0])
+            const contentObj = selectedBlock.content as Record<string, any>;
+            const currentArray = [...(contentObj[fieldName] || [])];
+            currentArray[arrayIndex] = data.asset.url;
+            updateBlock(selectedBlock.id, {
+              content: {
+                ...contentObj,
+                [fieldName]: currentArray,
+              } as typeof selectedBlock.content,
+            });
+          } else {
+            updateBlock(selectedBlock.id, {
+              content: {
+                ...selectedBlock.content,
+                [fieldName]: data.asset.url,
+              },
+            });
+          }
+          handleSaveHistory();
+        }
+      } else {
+        console.error("Crop failed:", await res.text());
+      }
+    } catch (err) {
+      console.error("Crop error:", err);
+    } finally {
+      setIsCropping(false);
+      setCropImageUrl(null);
+      setCropTarget("content.src");
+    }
+  };
 
   useEffect(() => {
     if (selectedBlock) {
@@ -133,20 +258,195 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     };
   }, [selectedBlock?.id, lockBlock, unlockBlock, setEditingBlock]);
 
+  // Page Settings (shown when no block is selected)
   if (!selectedBlock) {
-    return (
-      <div
-        className={classNames(
-          "flex flex-col items-center justify-center h-full px-6",
-          className,
-        )}
-      >
-        <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
-          <ArrowsPointingOutIcon className="w-5 h-5 text-slate-400" />
+    const page = state.page;
+    if (!page) {
+      return (
+        <div
+          className={classNames(
+            "flex flex-col items-center justify-center h-full px-6",
+            className,
+          )}
+        >
+          <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center">
+            No page loaded
+          </p>
         </div>
-        <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center">
-          Select a block to edit
-        </p>
+      );
+    }
+
+    // Get localized SEO values
+    const seo = page.seo || {};
+    const seoTitle = seo.title?.[activeLocale] || "";
+    const seoDescription = seo.description?.[activeLocale] || "";
+    const seoKeywords = seo.keywords?.[activeLocale] || "";
+    const seoOgImage = seo.ogImage?.[activeLocale] || "";
+    const seoNoIndex = seo.noIndex ?? false;
+
+    // Get page title for current locale
+    const pageTitle = page.title?.[activeLocale] || "";
+
+    const handleSEOChange = (
+      field: keyof LocalizedSEOSettings,
+      value: string | boolean,
+    ) => {
+      if (field === "noIndex") {
+        updateSEO({ noIndex: value as boolean });
+      } else {
+        const currentField = seo[field] as LocalizedString | undefined;
+        updateSEO({
+          [field]: {
+            ...currentField,
+            [activeLocale]: value,
+          },
+        });
+      }
+    };
+
+    const handlePageTitleChange = (value: string) => {
+      updatePageMeta({
+        title: {
+          ...page.title,
+          [activeLocale]: value,
+        },
+      });
+    };
+
+    return (
+      <div className={classNames("flex flex-col h-full", className)}>
+        {/* Header */}
+        <div className="flex items-center gap-2 px-3 py-2.5 border-b border-slate-100 dark:border-slate-800/50">
+          <DocumentTextIcon className="w-4 h-4 text-slate-500" />
+          <span className="text-[13px] font-semibold text-slate-900 dark:text-white">
+            Page Settings
+          </span>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto">
+          {/* General Section */}
+          <Section title="General" defaultOpen>
+            <PropertyRow label="Title" inline={false}>
+              <input
+                type="text"
+                value={pageTitle}
+                onChange={(e) => handlePageTitleChange(e.target.value)}
+                placeholder="Page title..."
+                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400"
+              />
+            </PropertyRow>
+            <PropertyRow label="Slug">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                /{page.slug}
+              </span>
+            </PropertyRow>
+            <PropertyRow label="Status">
+              <span
+                className={classNames(
+                  "text-[10px] font-medium px-2 py-0.5 rounded-full",
+                  page.status === "published"
+                    ? "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+                    : page.status === "draft"
+                      ? "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400"
+                      : "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400",
+                )}
+              >
+                {page.status}
+              </span>
+            </PropertyRow>
+          </Section>
+
+          {/* SEO Section */}
+          <Section title="SEO" defaultOpen>
+            <div className="flex items-center gap-1.5 mb-2 px-0.5">
+              <MagnifyingGlassIcon className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                Editing for: {activeLocale.toUpperCase()}
+              </span>
+            </div>
+
+            <PropertyRow label="Meta Title" inline={false}>
+              <input
+                type="text"
+                value={seoTitle}
+                onChange={(e) => handleSEOChange("title", e.target.value)}
+                placeholder="SEO title (defaults to page title)..."
+                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400"
+              />
+              <p className="text-[10px] text-slate-400 mt-1">
+                {seoTitle.length}/60 characters
+              </p>
+            </PropertyRow>
+
+            <PropertyRow label="Meta Description" inline={false}>
+              <textarea
+                value={seoDescription}
+                onChange={(e) => handleSEOChange("description", e.target.value)}
+                placeholder="Brief description for search engines..."
+                rows={3}
+                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400 resize-none"
+              />
+              <p className="text-[10px] text-slate-400 mt-1">
+                {seoDescription.length}/160 characters
+              </p>
+            </PropertyRow>
+
+            <PropertyRow label="Keywords" inline={false}>
+              <input
+                type="text"
+                value={seoKeywords}
+                onChange={(e) => handleSEOChange("keywords", e.target.value)}
+                placeholder="keyword1, keyword2, keyword3..."
+                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400"
+              />
+            </PropertyRow>
+
+            <PropertyRow label="OG Image" inline={false}>
+              <MediaPickerField
+                value={seoOgImage}
+                onChange={(v) => handleSEOChange("ogImage", v)}
+                allowedTypes={["image/*"]}
+                compact
+              />
+              <p className="text-[10px] text-slate-400 mt-1">
+                Social sharing image (1200×630px recommended)
+              </p>
+            </PropertyRow>
+
+            <div className="flex items-center justify-between py-1">
+              <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                No Index
+              </label>
+              <button
+                onClick={() => handleSEOChange("noIndex", !seoNoIndex)}
+                className={classNames(
+                  "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
+                  seoNoIndex ? "bg-blue-500" : "bg-slate-200 dark:bg-slate-700",
+                )}
+              >
+                <span
+                  className="inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform"
+                  style={{
+                    transform: seoNoIndex
+                      ? "translateX(18px)"
+                      : "translateX(4px)",
+                  }}
+                />
+              </button>
+            </div>
+            <p className="text-[10px] text-slate-400 -mt-1">
+              Hide this page from search engines
+            </p>
+          </Section>
+
+          {/* Help text */}
+          <div className="px-3 py-4">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center">
+              Select a block on the canvas to edit its properties
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -173,20 +473,23 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
   const blockDef = blockRegistry[selectedBlock.type];
 
   const handleContentChange = (key: string, value: any) => {
+    // Only pass the field being updated - the reducer handles locale merging
     updateBlock(selectedBlock.id, {
-      content: { ...selectedBlock.content, [key]: value },
+      content: { [key]: value },
     });
   };
 
   const handleBatchContentChange = (updates: Record<string, any>) => {
+    // Only pass the fields being updated - the reducer handles locale merging
     updateBlock(selectedBlock.id, {
-      content: { ...selectedBlock.content, ...updates },
+      content: updates,
     });
   };
 
   const handleStyleChange = (key: keyof BlockStyle, value: any) => {
+    // Only pass the field being updated - the reducer handles merging
     updateBlock(selectedBlock.id, {
-      style: { ...selectedBlock.style, [key]: value },
+      style: { [key]: value },
     });
   };
 
@@ -194,9 +497,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     side: "top" | "right" | "bottom" | "left",
     value: number,
   ) => {
+    // Spread existing padding (needed for nested object) but not full style
     updateBlock(selectedBlock.id, {
       style: {
-        ...selectedBlock.style,
         padding: {
           ...(selectedBlock.style.padding || {
             top: 0,
@@ -268,6 +571,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
             onChange={handleContentChange}
             onBatchChange={handleBatchContentChange}
             onBlur={handleSaveHistory}
+            onCropImage={(imageUrl, fieldName = "src") => {
+              setCropImageUrl(imageUrl);
+              setCropTarget(`content.${fieldName}`);
+              setShowCropEditor(true);
+            }}
+            isCropping={isCropping}
+            cropTarget={cropTarget}
           />
         )}
 
@@ -277,6 +587,12 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
             onChange={handleStyleChange}
             onPaddingChange={handlePaddingChange}
             onBlur={handleSaveHistory}
+            onCropImage={(imageUrl) => {
+              setCropImageUrl(imageUrl);
+              setCropTarget("style.backgroundImage");
+              setShowCropEditor(true);
+            }}
+            isCropping={isCropping && cropTarget === "style.backgroundImage"}
           />
         )}
 
@@ -287,6 +603,18 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
           />
         )}
       </div>
+
+      {/* Crop Editor Modal */}
+      {showCropEditor && cropImageUrl && (
+        <CropEditor
+          imageUrl={cropImageUrl}
+          onSave={handleCropImage}
+          onCancel={() => {
+            setShowCropEditor(false);
+            setCropImageUrl(null);
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -297,6 +625,9 @@ interface ContentSettingsProps {
   onChange: (key: string, value: any) => void;
   onBatchChange: (updates: Record<string, any>) => void;
   onBlur: () => void;
+  onCropImage?: (imageUrl: string, fieldName?: string) => void;
+  isCropping?: boolean;
+  cropTarget?: string;
 }
 
 const ContentSettings: React.FC<ContentSettingsProps> = ({
@@ -304,8 +635,19 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
   onChange,
   onBatchChange,
   onBlur,
+  onCropImage,
+  isCropping = false,
+  cropTarget = "",
 }) => {
-  const content = block.content as Record<string, any>;
+  const { activeLocale } = usePageBuilder();
+
+  // Resolve localized content to active locale for display
+  const content =
+    getLocalizedContent(
+      block.content as LocalizedContent<BlockContent>,
+      activeLocale,
+      cmsConfig.fallbackLocale,
+    ) || ({} as Record<string, any>);
 
   switch (block.type) {
     case "hero-banner":
@@ -414,6 +756,114 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 </PropertyRow>
               </>
             )}
+          </Section>
+
+          <Section title="Hero Image" defaultOpen={false}>
+            <PropertyRow label="Image" inline={false}>
+              <MediaPickerField
+                value={content.heroImage || ""}
+                onChange={(v) => onChange("heroImage", v)}
+                onBlur={onBlur}
+                allowedTypes={["image/*"]}
+                compact
+              />
+            </PropertyRow>
+            {content.heroImage && onCropImage && (
+              <PropertyRow label="Crop">
+                <button
+                  onClick={() => onCropImage(content.heroImage, "heroImage")}
+                  disabled={isCropping && cropTarget === "content.heroImage"}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md transition-colors disabled:opacity-50"
+                >
+                  {isCropping && cropTarget === "content.heroImage" ? (
+                    <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScissorsIcon className="w-3.5 h-3.5" />
+                  )}
+                  {isCropping && cropTarget === "content.heroImage"
+                    ? "Cropping..."
+                    : "Crop Image"}
+                </button>
+              </PropertyRow>
+            )}
+            {content.heroImage && (
+              <PropertyRow label="Focus" inline={false}>
+                <FocalPointPicker
+                  imageUrl={content.heroImage}
+                  value={content.heroImageFocalPoint || { x: 50, y: 50 }}
+                  onChange={(v) => onChange("heroImageFocalPoint", v)}
+                />
+              </PropertyRow>
+            )}
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+              Used in split layouts (left/right image)
+            </p>
+          </Section>
+
+          <Section title="Grid Images" defaultOpen={false}>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mb-2">
+              Used in image-grid layouts (up to 3 images)
+            </p>
+            {[0, 1, 2].map((index) => {
+              const gridImages = content.gridImages || [];
+              const imageUrl = gridImages[index] || "";
+              const targetKey = `content.gridImages.${index}`;
+              const focalPoints = content.gridImagesFocalPoints || [];
+              const focalPoint = focalPoints[index] || { x: 50, y: 50 };
+              return (
+                <div
+                  key={index}
+                  className="mb-3 pb-3 border-b border-slate-100 dark:border-slate-800 last:border-0 last:mb-0 last:pb-0"
+                >
+                  <PropertyRow label={`Image ${index + 1}`} inline={false}>
+                    <MediaPickerField
+                      value={imageUrl}
+                      onChange={(v) => {
+                        const newGridImages = [...gridImages];
+                        newGridImages[index] = v;
+                        onChange("gridImages", newGridImages);
+                      }}
+                      onBlur={onBlur}
+                      allowedTypes={["image/*"]}
+                      compact
+                    />
+                  </PropertyRow>
+                  {imageUrl && onCropImage && (
+                    <PropertyRow label="Crop">
+                      <button
+                        onClick={() =>
+                          onCropImage(imageUrl, `gridImages.${index}`)
+                        }
+                        disabled={isCropping && cropTarget === targetKey}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md transition-colors disabled:opacity-50"
+                      >
+                        {isCropping && cropTarget === targetKey ? (
+                          <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <ScissorsIcon className="w-3.5 h-3.5" />
+                        )}
+                        {isCropping && cropTarget === targetKey
+                          ? "Cropping..."
+                          : "Crop"}
+                      </button>
+                    </PropertyRow>
+                  )}
+                  {imageUrl && (
+                    <PropertyRow label="Focus" inline={false}>
+                      <FocalPointPicker
+                        imageUrl={imageUrl}
+                        value={focalPoint}
+                        onChange={(v) => {
+                          const newFocalPoints = [...focalPoints];
+                          newFocalPoints[index] = v;
+                          onChange("gridImagesFocalPoints", newFocalPoints);
+                        }}
+                      />
+                    </PropertyRow>
+                  )}
+                </div>
+              );
+            })}
           </Section>
         </div>
       );
@@ -637,27 +1087,69 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
             />
           </Section>
 
+          <Section title="Display">
+            <PropertyRow label="Ratio">
+              <MiniSelect
+                value={content.aspectRatio || "original"}
+                options={[
+                  { value: "original", label: "Original" },
+                  { value: "1:1", label: "1:1" },
+                  { value: "4:3", label: "4:3" },
+                  { value: "3:2", label: "3:2" },
+                  { value: "16:9", label: "16:9" },
+                  { value: "21:9", label: "21:9" },
+                  { value: "9:16", label: "9:16" },
+                ]}
+                onChange={(v) => onChange("aspectRatio", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Fit">
+              <MiniSelect
+                value={content.objectFit || "cover"}
+                options={[
+                  { value: "cover", label: "Cover" },
+                  { value: "contain", label: "Contain" },
+                  { value: "fill", label: "Fill" },
+                  { value: "none", label: "None" },
+                ]}
+                onChange={(v) => onChange("objectFit", v)}
+              />
+            </PropertyRow>
+            {content.src && content.objectFit !== "contain" && (
+              <PropertyRow label="Focus" inline={false}>
+                <FocalPointPicker
+                  imageUrl={content.src}
+                  value={content.focalPoint || { x: 50, y: 50 }}
+                  onChange={(v) => onChange("focalPoint", v)}
+                />
+              </PropertyRow>
+            )}
+            {content.src && onCropImage && (
+              <PropertyRow label="Crop">
+                <button
+                  onClick={() => onCropImage(content.src, "src")}
+                  disabled={isCropping && cropTarget === "content.src"}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md transition-colors disabled:opacity-50"
+                >
+                  {isCropping && cropTarget === "content.src" ? (
+                    <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScissorsIcon className="w-3.5 h-3.5" />
+                  )}
+                  {isCropping && cropTarget === "content.src"
+                    ? "Cropping..."
+                    : "Crop Image"}
+                </button>
+              </PropertyRow>
+            )}
+          </Section>
+
           <Section title="Link" defaultOpen={false}>
             <LinkPickerField
               value={content.link || ""}
               onChange={(v) => onChange("link", v)}
               onBlur={onBlur}
             />
-          </Section>
-
-          <Section title="Display">
-            <PropertyRow label="Ratio">
-              <MiniSelect
-                value={content.aspectRatio || "auto"}
-                options={[
-                  { value: "auto", label: "Auto" },
-                  { value: "1:1", label: "1:1" },
-                  { value: "4:3", label: "4:3" },
-                  { value: "16:9", label: "16:9" },
-                ]}
-                onChange={(v) => onChange("aspectRatio", v)}
-              />
-            </PropertyRow>
           </Section>
         </div>
       );
@@ -2476,6 +2968,8 @@ interface StyleSettingsProps {
     value: number,
   ) => void;
   onBlur: () => void;
+  onCropImage?: (imageUrl: string) => void;
+  isCropping?: boolean;
 }
 
 const StyleSettings: React.FC<StyleSettingsProps> = ({
@@ -2483,6 +2977,8 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
   onChange,
   onPaddingChange,
   onBlur,
+  onCropImage,
+  isCropping = false,
 }) => {
   const style = block.style;
 
@@ -2504,15 +3000,51 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
           />
         </PropertyRow>
         {style.backgroundImage && (
-          <PropertyRow label="Overlay">
-            <MiniNumberInput
-              value={style.backgroundOverlay || 0}
-              min={0}
-              max={100}
-              onChange={(v) => onChange("backgroundOverlay", v)}
-              suffix="%"
-            />
-          </PropertyRow>
+          <>
+            <PropertyRow label="Focal Point" inline={false}>
+              <FocalPointPicker
+                imageUrl={style.backgroundImage}
+                value={style.backgroundFocalPoint || { x: 50, y: 50 }}
+                onChange={(v) => onChange("backgroundFocalPoint", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Fit">
+              <MiniSelect
+                value={style.backgroundObjectFit || "cover"}
+                options={[
+                  { value: "cover", label: "Cover" },
+                  { value: "contain", label: "Contain" },
+                  { value: "fill", label: "Fill" },
+                ]}
+                onChange={(v) => onChange("backgroundObjectFit", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Overlay">
+              <MiniNumberInput
+                value={style.backgroundOverlay || 0}
+                min={0}
+                max={100}
+                onChange={(v) => onChange("backgroundOverlay", v)}
+                suffix="%"
+              />
+            </PropertyRow>
+            {onCropImage && (
+              <PropertyRow label="Crop">
+                <button
+                  onClick={() => onCropImage(style.backgroundImage!)}
+                  disabled={isCropping}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md transition-colors disabled:opacity-50"
+                >
+                  {isCropping ? (
+                    <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScissorsIcon className="w-3.5 h-3.5" />
+                  )}
+                  {isCropping ? "Cropping..." : "Crop Image"}
+                </button>
+              </PropertyRow>
+            )}
+          </>
         )}
       </Section>
 

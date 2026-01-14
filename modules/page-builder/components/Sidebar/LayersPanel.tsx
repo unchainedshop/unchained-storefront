@@ -97,9 +97,12 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
       {/* Drop indicator line */}
-      {isOver && (
-        <div className="h-0.5 mx-2 rounded-full rainbow-gradient" />
-      )}
+      <div
+        className={classNames(
+          "h-0.5 mx-2 rounded-full transition-all duration-200",
+          isOver ? "drop-indicator--active opacity-100" : "opacity-0",
+        )}
+      />
 
       <div
         {...listeners}
@@ -108,7 +111,9 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
           isDragging && "opacity-30 scale-95",
           isSelected
             ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-            : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300",
+            : isOver
+              ? "bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-300 dark:ring-blue-600"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300",
         )}
         style={{ paddingLeft: `${depth * 12 + 8}px` }}
         onClick={onSelect}
@@ -221,18 +226,20 @@ const DragOverlayItem: React.FC<{ block: PageBlock }> = ({ block }) => {
 
   const getBlockColor = () => {
     if (block.type.includes("hero") || block.type.includes("banner"))
-      return "bg-slate-700";
-    if (block.type.includes("product")) return "bg-slate-500";
+      return "bg-purple-500";
+    if (block.type.includes("product")) return "bg-emerald-500";
     if (block.type.includes("section") || block.type.includes("column"))
-      return "bg-slate-600";
-    return "bg-slate-400";
+      return "bg-blue-500";
+    return "bg-slate-500";
   };
 
   return (
-    <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl shadow-2xl scale-105 ring-2 ring-slate-900/20 dark:ring-white/30">
-      <Bars2Icon className="w-3.5 h-3.5 opacity-50" />
-      <span className={classNames("w-2 h-2 rounded-full", getBlockColor())} />
-      <span className="text-sm font-semibold">
+    <div className="drag-overlay flex items-center gap-2.5 px-4 py-3 rounded-xl">
+      <Bars2Icon className="w-4 h-4 text-slate-400" />
+      <span
+        className={classNames("w-2.5 h-2.5 rounded-full", getBlockColor())}
+      />
+      <span className="text-sm font-semibold text-white">
         {blockDef?.label || block.type}
       </span>
     </div>

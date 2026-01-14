@@ -164,11 +164,13 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       style={style}
       {...attributes}
       className={classNames(
-        "relative group transition-all duration-200",
+        "relative group transition-all duration-200 block-wrapper",
         {
           "opacity-50": block.hidden,
           "cursor-not-allowed": isCollaborationLocked,
           "block-enter": isAnimating,
+          "block-dragging": isDragging,
+          "drop-target-valid": isOver && !isDragging,
         },
         // Selection/hover outlines
         isSelected && !isCollaborationLocked
@@ -181,12 +183,8 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       {/* Drop indicator - before */}
       <div
         className={classNames(
-          "absolute -top-1 left-0 right-0 h-1 z-20 rounded-full transition-all duration-200",
-          isOver && overPosition === "before"
-            ? "rainbow-gradient scale-y-[3]"
-            : isDraggingAny
-              ? "hover:bg-slate-400"
-              : "",
+          "drop-indicator -top-0.5 z-20",
+          isOver && overPosition === "before" && "drop-indicator--active",
         )}
       />
 
@@ -232,9 +230,9 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
           ref={setActivatorNodeRef}
           {...listeners}
           className={classNames(
-            "flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors touch-none",
+            "flex items-center gap-1.5 px-2 py-1 rounded-full touch-none drag-handle",
             isDraggable
-              ? "cursor-grab active:cursor-grabbing hover:bg-slate-700"
+              ? "cursor-grab active:cursor-grabbing"
               : "cursor-not-allowed opacity-50",
           )}
           title="Drag to move"
@@ -294,26 +292,15 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       {/* Drop indicator - after */}
       <div
         className={classNames(
-          "absolute -bottom-1 left-0 right-0 h-1 z-20 rounded-full transition-all duration-200",
-          isOver && overPosition === "after"
-            ? "rainbow-gradient scale-y-[3]"
-            : isDraggingAny
-              ? "hover:bg-slate-400"
-              : "",
+          "drop-indicator -bottom-0.5 z-20",
+          isOver && overPosition === "after" && "drop-indicator--active",
         )}
       />
 
       {/* Drop zone - inside (for container blocks) */}
-      {blockRegistry[block.type]?.allowChildren && (
-        <div
-          className={classNames(
-            "absolute inset-4 z-5 transition-all duration-200 rounded-lg pointer-events-none",
-            isOver && overPosition === "inside"
-              ? "bg-slate-200/30 dark:bg-slate-700/30 border-2 border-dashed border-slate-400"
-              : "",
-          )}
-        />
-      )}
+      {blockRegistry[block.type]?.allowChildren &&
+        isOver &&
+        overPosition === "inside" && <div className="drop-zone-inside z-5" />}
     </div>
   );
 

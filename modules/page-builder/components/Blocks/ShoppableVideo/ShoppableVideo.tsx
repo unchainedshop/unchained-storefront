@@ -15,7 +15,7 @@ interface ShoppableVideoProps {
 }
 
 const ShoppableVideo: React.FC<ShoppableVideoProps> = ({ block, isPreview }) => {
-  const content = block.content as ShoppableVideoContent;
+  const content = block.content as unknown as ShoppableVideoContent;
   const style = block.style;
 
   const videoRef = useRef<HTMLVideoElement>(null);

@@ -1,10 +1,14 @@
 /**
  * Block Renderer
  * Renders the appropriate component for each block type
+ * Handles content localization by resolving content to active locale
  */
 
-import React from "react";
-import type { PageBlock } from "../../types";
+import React, { useMemo, useContext } from "react";
+import type { PageBlock, LocalizedContent, BlockContent } from "../../types";
+import PageBuilderContext from "../../context/PageBuilderContext";
+import { getLocalizedContent } from "../../utils/localization";
+import { cmsConfig } from "../../../../lib/cms.config";
 import HeroBanner from "./HeroBanner/HeroBanner";
 import ProductGrid from "./ProductGrid/ProductGrid";
 import ProductCarousel from "./ProductCarousel/ProductCarousel";
@@ -34,23 +38,67 @@ import SizeGuide from "./SizeGuide/SizeGuide";
 import StoreLocator from "./StoreLocator/StoreLocator";
 import InstagramFeed from "./InstagramFeed/InstagramFeed";
 
+/**
+ * Resolve a block's localized content to a single locale
+ * This creates a "resolved" block that can be used by block components
+ * without them needing to know about localization
+ */
+interface ResolvedPageBlock extends Omit<PageBlock, "content" | "children"> {
+  content: BlockContent;
+  children?: ResolvedPageBlock[];
+}
+
+function resolveBlockContent(
+  block: PageBlock,
+  locale: string,
+  fallbackLocale: string,
+): ResolvedPageBlock {
+  const localizedContent = block.content as LocalizedContent<BlockContent>;
+  const resolvedContent =
+    getLocalizedContent(localizedContent, locale, fallbackLocale) ||
+    ({} as BlockContent);
+
+  return {
+    ...block,
+    content: resolvedContent,
+    children: block.children?.map((child) =>
+      resolveBlockContent(child, locale, fallbackLocale),
+    ),
+  };
+}
+
 interface BlockRendererProps {
   block: PageBlock;
   children?: React.ReactNode;
   isPreview?: boolean;
   isSelected?: boolean;
   onUpdate?: (updates: Partial<PageBlock>) => void;
+  locale?: string; // Optional locale for frontend preview (no context)
 }
 
 const BlockRenderer: React.FC<BlockRendererProps> = ({
   block,
   children,
   isPreview = false,
-  isSelected = false,
-  onUpdate,
+  locale: propLocale,
 }) => {
+  // Get context (may be null in frontend preview mode)
+  const context = useContext(PageBuilderContext);
+
+  // Use locale from: prop > context > default
+  const activeLocale =
+    propLocale || context?.activeLocale || cmsConfig.defaultLocale;
+
+  // Resolve block content to active locale
+  // This converts LocalizedContent to BlockContent for the active locale
+  const resolvedBlock = useMemo(
+    () => resolveBlockContent(block, activeLocale, cmsConfig.fallbackLocale),
+    [block, activeLocale],
+  );
+
+  // Use resolved block for rendering - blocks receive plain BlockContent
   const commonProps = {
-    block,
+    block: resolvedBlock as unknown as PageBlock,
     isPreview,
   };
 

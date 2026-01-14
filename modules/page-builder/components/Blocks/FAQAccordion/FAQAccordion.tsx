@@ -19,7 +19,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as FAQAccordionContent;
+  const content = block.content as unknown as FAQAccordionContent;
   const style = block.style;
   const [openItems, setOpenItems] = useState<Set<string>>(
     content.defaultOpenFirst && content.items.length > 0

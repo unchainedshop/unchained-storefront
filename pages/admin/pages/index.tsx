@@ -26,6 +26,8 @@ import PageStatusBadge from "../../../modules/page-builder/components/PageStatus
 import UnchainedLogo from "../../../modules/page-builder/components/UnchainedLogo";
 import AdminNavIsland from "../../../modules/page-builder/components/AdminNavIsland";
 import { blockRegistry } from "../../../modules/page-builder/utils/blockRegistry";
+import { getLocalizedString } from "../../../modules/page-builder/utils/localization";
+import { cmsConfig } from "../../../lib/cms.config";
 import type {
   Page,
   PageStatus,
@@ -43,7 +45,8 @@ const PagesAdmin: React.FC = () => {
     usePages();
 
   const filteredPages = pages.filter((page) => {
-    const matchesSearch = page.title
+    const pageTitle = getLocalizedString(page.title, cmsConfig.defaultLocale);
+    const matchesSearch = pageTitle
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const matchesStatus =
@@ -296,7 +299,10 @@ const PagesAdmin: React.FC = () => {
                               href={`/admin/pages/${page.slug}`}
                               className="font-semibold text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                             >
-                              {page.title}
+                              {getLocalizedString(
+                                page.title,
+                                cmsConfig.defaultLocale,
+                              )}
                             </Link>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-sm text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
@@ -435,7 +441,10 @@ const PagesAdmin: React.FC = () => {
                                   <p className="text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors truncate">
                                     Updated{" "}
                                     <span className="font-medium">
-                                      {page.title}
+                                      {getLocalizedString(
+                                        page.title,
+                                        cmsConfig.defaultLocale,
+                                      )}
                                     </span>
                                   </p>
                                 </div>
@@ -593,7 +602,10 @@ const PagesAdmin: React.FC = () => {
                                   {index + 1}
                                 </span>
                                 <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors truncate max-w-[140px]">
-                                  {page.title}
+                                  {getLocalizedString(
+                                    page.title,
+                                    cmsConfig.defaultLocale,
+                                  )}
                                 </span>
                               </div>
                               <span className="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">

@@ -15,7 +15,7 @@ interface StatsProps {
 }
 
 const Stats: React.FC<StatsProps> = ({ block, isPreview, isEditing = true }) => {
-  const content = block.content as StatsContent;
+  const content = block.content as unknown as StatsContent;
   const style = block.style;
 
   const containerStyle: React.CSSProperties = {

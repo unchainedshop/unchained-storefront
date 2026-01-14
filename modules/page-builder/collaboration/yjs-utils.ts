@@ -4,7 +4,18 @@
  */
 
 import * as Y from "yjs";
-import type { Page, PageBlock, BlockContent, BlockStyle } from "../types";
+import type {
+  Page,
+  PageBlock,
+  BlockContent,
+  BlockStyle,
+  LocalizedContent,
+  LocalizedString,
+  LocalizedSEOSettings,
+  PageTranslations,
+} from "../types";
+import { cmsConfig } from "../../../lib/cms.config";
+import { createInitialTranslations } from "../utils/localization";
 
 /**
  * Convert a Page to Y.Doc structure
@@ -16,20 +27,51 @@ export function pageToYDoc(page: Page, ydoc: Y.Doc): void {
   ydoc.transact(() => {
     // Set metadata
     ymeta.set("id", page.id);
-    ymeta.set("title", page.title);
+    // Title is now LocalizedString - store as Y.Map
+    ymeta.set(
+      "title",
+      objectToYMap(page.title as unknown as Record<string, unknown>),
+    );
     ymeta.set("slug", page.slug);
     ymeta.set("status", page.status);
     ymeta.set("createdAt", page.createdAt);
     ymeta.set("updatedAt", page.updatedAt);
     if (page.publishedAt) ymeta.set("publishedAt", page.publishedAt);
 
-    // Set SEO
+    // Set SEO (now LocalizedSEOSettings)
     const yseo = new Y.Map();
-    if (page.seo?.title) yseo.set("title", page.seo.title);
-    if (page.seo?.description) yseo.set("description", page.seo.description);
-    if (page.seo?.ogImage) yseo.set("ogImage", page.seo.ogImage);
+    if (page.seo?.title)
+      yseo.set(
+        "title",
+        objectToYMap(page.seo.title as unknown as Record<string, unknown>),
+      );
+    if (page.seo?.description)
+      yseo.set(
+        "description",
+        objectToYMap(
+          page.seo.description as unknown as Record<string, unknown>,
+        ),
+      );
+    if (page.seo?.keywords)
+      yseo.set(
+        "keywords",
+        objectToYMap(page.seo.keywords as unknown as Record<string, unknown>),
+      );
+    if (page.seo?.ogImage)
+      yseo.set(
+        "ogImage",
+        objectToYMap(page.seo.ogImage as unknown as Record<string, unknown>),
+      );
     if (page.seo?.noIndex) yseo.set("noIndex", page.seo.noIndex);
     ymeta.set("seo", yseo);
+
+    // Set translations metadata
+    if (page.translations) {
+      ymeta.set(
+        "translations",
+        objectToYMap(page.translations as unknown as Record<string, unknown>),
+      );
+    }
 
     // Clear and set blocks
     if (yblocks.length > 0) {
@@ -107,19 +149,66 @@ export function yDocToPage(ydoc: Y.Doc): Page {
   const yblocks = ydoc.getArray("blocks");
 
   const yseo = ymeta.get("seo") as Y.Map<unknown> | undefined;
+  const ytitle = ymeta.get("title") as Y.Map<unknown> | string | undefined;
+  const ytranslations = ymeta.get("translations") as Y.Map<unknown> | undefined;
+
+  // Handle title - could be Y.Map (new format) or string (legacy)
+  let title: LocalizedString;
+  if (ytitle instanceof Y.Map) {
+    title = yMapToObject(ytitle) as unknown as LocalizedString;
+  } else if (typeof ytitle === "string") {
+    // Legacy format - convert to localized
+    title = { [cmsConfig.defaultLocale]: ytitle || "Untitled" };
+  } else {
+    title = { [cmsConfig.defaultLocale]: "Untitled" };
+  }
+
+  // Handle SEO - convert to LocalizedSEOSettings
+  let seo: LocalizedSEOSettings = {};
+  if (yseo) {
+    const seoObj = yMapToObject(yseo);
+    // Each SEO field could be Y.Map (new) or string (legacy)
+    seo = {
+      title: convertToLocalizedString(seoObj.title),
+      description: convertToLocalizedString(seoObj.description),
+      keywords: convertToLocalizedString(seoObj.keywords),
+      ogImage: convertToLocalizedString(seoObj.ogImage),
+      noIndex: seoObj.noIndex as boolean | undefined,
+    };
+  }
+
+  // Handle translations
+  const translations: PageTranslations = ytranslations
+    ? (yMapToObject(ytranslations) as unknown as PageTranslations)
+    : createInitialTranslations(cmsConfig.defaultLocale);
 
   return {
     id: (ymeta.get("id") as string) || "",
-    title: (ymeta.get("title") as string) || "Untitled",
+    title,
     slug: (ymeta.get("slug") as string) || "untitled",
     status: (ymeta.get("status") as Page["status"]) || "draft",
     blocks: yArrayToBlocks(yblocks),
-    seo: yseo ? yMapToObject(yseo) : {},
+    seo,
+    translations,
     createdAt: (ymeta.get("createdAt") as string) || new Date().toISOString(),
     updatedAt: (ymeta.get("updatedAt") as string) || new Date().toISOString(),
     publishedAt: ymeta.get("publishedAt") as string | undefined,
     versions: [],
   };
+}
+
+/**
+ * Convert a value to LocalizedString (handles legacy string format)
+ */
+function convertToLocalizedString(value: unknown): LocalizedString | undefined {
+  if (!value) return undefined;
+  if (typeof value === "string") {
+    return { [cmsConfig.defaultLocale]: value };
+  }
+  if (typeof value === "object") {
+    return value as LocalizedString;
+  }
+  return undefined;
 }
 
 /**
@@ -147,12 +236,15 @@ function yMapToBlock(yblock: Y.Map<unknown>): PageBlock {
   const yresponsive = yblock.get("responsive") as Y.Map<unknown>;
   const ychildren = yblock.get("children") as Y.Array<unknown> | undefined;
 
+  // Content is now LocalizedContent - a map of locale -> BlockContent
+  const content: LocalizedContent = ycontent
+    ? (yMapToObject(ycontent) as unknown as LocalizedContent)
+    : {};
+
   return {
     id: (yblock.get("id") as string) || "",
     type: yblock.get("type") as PageBlock["type"],
-    content: ycontent
-      ? (yMapToObject(ycontent) as unknown as BlockContent)
-      : ({} as BlockContent),
+    content,
     style: ystyle
       ? (yMapToObject(ystyle) as unknown as BlockStyle)
       : ({} as BlockStyle),

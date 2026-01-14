@@ -1,0 +1,245 @@
+{
+  "id": "page_1768396649195",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768396649195",
+  "status": "in_review",
+  "blocks": [
+    {
+      "id": "block_1768396655405_f73tvr0ir",
+      "type": "hero-banner",
+      "content": {
+        "de": {
+          "heading": "Voll krass, Pasci, han es CMS baut",
+          "subheading": "Discover our curated collection of premium products, designed to elevate your everyday experience.",
+          "buttonText": "Shop Collection",
+          "buttonLink": "/shop",
+          "secondaryButtonText": "Our Story",
+          "secondaryButtonLink": "/about",
+          "variant": "image-grid-left",
+          "heroImage": "/api/media/files/2026/01/media_1768343573333_zsk1d3.png",
+          "gridImages": [
+            "/api/media/files/2026/01/media_1768393235289_s9sq7k.webp",
+            "/api/media/files/2026/01/media_1768343573333_zsk1d3.png"
+          ]
+        }
+      },
+      "style": {
+        "backgroundColor": "#5786f4",
+        "textColor": "#ffffff",
+        "minHeight": 600,
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768396655405_w1cv8cb42",
+      "type": "spacer",
+      "content": {
+        "de": {
+          "height": 80,
+          "mobileHeight": 48
+        }
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768396655405_52p86ybep",
+      "type": "text-content",
+      "content": {
+        "de": {
+          "content": "<p>## Bestsellers</p>",
+          "headingLevel": "h2"
+        }
+      },
+      "style": {
+        "alignmentX": "center",
+        "padding": {
+          "top": 0,
+          "right": 24,
+          "bottom": 24,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768396655405_9jg44ox2e",
+      "type": "product-grid",
+      "content": {
+        "de": {
+          "source": "auto",
+          "limit": 4,
+          "columns": 4,
+          "mobileColumns": 2,
+          "showSaleBadge": true,
+          "showQuickAdd": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768396655405_ru026il7m",
+      "type": "hero-banner",
+      "content": {
+        "de": {
+          "heading": "New Season Arrivals",
+          "subheading": "Fresh styles just landed. Be the first to shop.",
+          "buttonText": "View New In",
+          "buttonLink": "/new",
+          "variant": "split-right"
+        }
+      },
+      "style": {
+        "backgroundColor": "#f8fafc",
+        "textColor": "#0f172a",
+        "minHeight": 450
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768396655405_r4cv83amg",
+      "type": "spacer",
+      "content": {
+        "de": {
+          "height": 64,
+          "mobileHeight": 48
+        }
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768396655405_maelf4gxe",
+      "type": "columns",
+      "content": {
+        "de": {
+          "columns": 3,
+          "gap": 32,
+          "layout": "equal",
+          "stackOnMobile": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768396655405_3b92yz8jr",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Free Shipping Complimentary delivery on all orders over $75. No code needed.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768396655405_g3rt2dvtv",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Easy Returns 30-day hassle-free returns. We'll cover the shipping both ways.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768396655405_n95v96ql2",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Secure Checkout Your payment info is encrypted and secure. Shop with confidence.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768396655405_8x5f7szb9",
+      "type": "newsletter",
+      "content": {
+        "de": {
+          "heading": "Join the Community",
+          "subheading": "Get 15% off your first order plus exclusive access to new arrivals and special offers.",
+          "buttonText": "Subscribe",
+          "placeholder": "Enter your email",
+          "showConsent": true,
+          "consentText": "I agree to receive marketing emails"
+        }
+      },
+      "style": {
+        "backgroundColor": "#0f172a",
+        "textColor": "#ffffff",
+        "padding": {
+          "top": 80,
+          "right": 24,
+          "bottom": 80,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "createdAt": "2026-01-14T13:17:29.195Z",
+  "updatedAt": "2026-01-14T16:03:56.595Z",
+  "versions": [],
+  "publishedAt": "2026-01-14T13:21:26.889Z",
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  }
+}

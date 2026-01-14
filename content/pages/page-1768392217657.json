@@ -1,17 +1,21 @@
 {
   "id": "page_1768392217657",
-  "title": "About us",
+  "title": {
+    "de": "About us"
+  },
   "slug": "page-1768392217657",
-  "status": "draft",
+  "status": "published",
   "blocks": [
     {
       "id": "block_1768392220547_7a7n3p88s",
       "type": "hero-banner",
       "content": {
-        "heading": "Our Story",
-        "subheading": "Building quality products since 2010",
-        "buttonText": "asdf",
-        "buttonLink": ""
+        "de": {
+          "heading": "Our Story",
+          "subheading": "Building quality products since 2010",
+          "buttonText": "asdf",
+          "buttonLink": ""
+        }
       },
       "style": {
         "backgroundColor": "#0f172a",
@@ -33,9 +37,11 @@
       "id": "block_1768392220547_16v9uw6u2",
       "type": "columns",
       "content": {
-        "columns": 2,
-        "gap": 48,
-        "layout": "equal"
+        "de": {
+          "columns": 2,
+          "gap": 48,
+          "layout": "equal"
+        }
       },
       "style": {
         "padding": {
@@ -51,9 +57,11 @@
           "id": "block_1768392220547_jujl7mwnt",
           "type": "image",
           "content": {
-            "src": "",
-            "alt": "About us image",
-            "aspectRatio": "4:3"
+            "de": {
+              "src": "",
+              "alt": "About us image",
+              "aspectRatio": "4:3"
+            }
           },
           "style": {
             "borderRadius": 12
@@ -64,8 +72,10 @@
           "id": "block_1768392220547_dvbwgt579",
           "type": "text-content",
           "content": {
-            "content": "<p>## Who We Are We are a passionate team dedicated to creating products that make a difference in people's lives. Founded in 2010, we've grown from a small startup to a trusted brand serving customers worldwide. Our mission is simple: deliver exceptional quality at fair prices while treating our customers like family.</p>",
-            "headingLevel": "h2"
+            "de": {
+              "content": "<p>## Who We Are We are a passionate team dedicated to creating products that make a difference in people's lives. Founded in 2010, we've grown from a small startup to a trusted brand serving customers worldwide. Our mission is simple: deliver exceptional quality at fair prices while treating our customers like family.</p>",
+              "headingLevel": "h2"
+            }
           },
           "style": {
             "alignmentY": "center"
@@ -78,8 +88,10 @@
       "id": "block_1768392220547_qgsl6wcao",
       "type": "text-content",
       "content": {
-        "content": "<p>## Our Values</p>",
-        "headingLevel": "h2"
+        "de": {
+          "content": "<p>## Our Values</p>",
+          "headingLevel": "h2"
+        }
       },
       "style": {
         "alignmentX": "center",
@@ -96,9 +108,11 @@
       "id": "block_1768392220547_jef3yuta6",
       "type": "columns",
       "content": {
-        "columns": 3,
-        "gap": 32,
-        "layout": "equal"
+        "de": {
+          "columns": 3,
+          "gap": 32,
+          "layout": "equal"
+        }
       },
       "style": {
         "padding": {
@@ -114,8 +128,10 @@
           "id": "block_1768392220547_f5r07mqe8",
           "type": "text-content",
           "content": {
-            "content": "<p>### Quality First We never compromise on quality. Every product is crafted with care.</p>",
-            "headingLevel": "h3"
+            "de": {
+              "content": "<p>### Quality First We never compromise on quality. Every product is crafted with care.</p>",
+              "headingLevel": "h3"
+            }
           },
           "style": {
             "alignmentX": "center"
@@ -126,8 +142,10 @@
           "id": "block_1768392220547_iq6v5wuv7",
           "type": "text-content",
           "content": {
-            "content": "<p>### Customer Focus Your satisfaction is our priority. We're here to help 24/7.</p>",
-            "headingLevel": "h3"
+            "de": {
+              "content": "<p>### Customer Focus Your satisfaction is our priority. We're here to help 24/7.</p>",
+              "headingLevel": "h3"
+            }
           },
           "style": {
             "alignmentX": "center"
@@ -138,8 +156,10 @@
           "id": "block_1768392220547_d1xo997sl",
           "type": "text-content",
           "content": {
-            "content": "<p>### Sustainability We're committed to reducing our environmental footprint.</p>",
-            "headingLevel": "h3"
+            "de": {
+              "content": "<p>### Sustainability We're committed to reducing our environmental footprint.</p>",
+              "headingLevel": "h3"
+            }
           },
           "style": {
             "alignmentX": "center"
@@ -151,7 +171,32 @@
   ],
   "seo": {},
   "createdAt": "2026-01-14T12:03:37.657Z",
-  "updatedAt": "2026-01-14T12:38:35.523Z",
+  "updatedAt": "2026-01-14T16:01:20.909Z",
   "versions": [],
-  "publishedAt": "2026-01-14T12:03:46.747Z"
+  "publishedAt": "2026-01-14T16:01:20.899Z",
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  }
 }

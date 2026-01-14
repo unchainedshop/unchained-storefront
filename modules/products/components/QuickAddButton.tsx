@@ -1,6 +1,6 @@
-import React from 'react';
-import { ShoppingCartIcon, CheckIcon } from '@heroicons/react/24/outline';
-import useUnchainedAddToCartButton from '../../cart/hooks/useUnchainedAddToCartButton';
+import React from "react";
+import { ShoppingCartIcon, CheckIcon } from "@heroicons/react/24/outline";
+import useUnchainedAddToCartButton from "../../cart/hooks/useUnchainedAddToCartButton";
 
 interface QuickAddButtonProps {
   productId: string;
@@ -9,10 +9,10 @@ interface QuickAddButtonProps {
 
 const QuickAddButton: React.FC<QuickAddButtonProps> = ({
   productId,
-  className = '',
+  className = "",
 }) => {
   const { submitForm, isAddInProgress, isAddedToCart } =
-    useUnchainedAddToCartButton({ productId });
+    useUnchainedAddToCartButton({ productId, configuration: [] });
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();

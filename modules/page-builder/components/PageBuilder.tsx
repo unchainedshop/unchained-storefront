@@ -18,8 +18,13 @@ import SettingsPanel from "./Sidebar/SettingsPanel";
 import LayersPanel from "./Sidebar/LayersPanel";
 import HistoryPanel from "./Sidebar/HistoryPanel";
 import { TemplatePicker } from "./TemplatePicker";
+import KeyboardShortcutsModal from "./Modals/KeyboardShortcutsModal";
 import { pageTemplates, type PageTemplate } from "../templates";
-import type { Page, PageBlock } from "../types";
+import type { Page, PageBlock, PageStatus } from "../types";
+import { cmsConfig } from "../../../lib/cms.config";
+import { createInitialTranslations } from "../utils/localization";
+import type { ShortcutDefinition } from "../hooks/useKeyboardShortcuts";
+import { formatShortcut } from "../hooks/useKeyboardShortcuts";
 
 interface PageBuilderProps {
   initialPage?: Page;
@@ -33,17 +38,18 @@ interface PageBuilderProps {
 }
 
 // Default page for new pages
-const defaultPage: Page = {
+const createDefaultPage = (): Page => ({
   id: `page_${Date.now()}`,
-  title: "Untitled Page",
+  title: { [cmsConfig.defaultLocale]: "Untitled Page" },
   slug: "untitled-page",
   status: "draft",
   blocks: [],
   seo: {},
+  translations: createInitialTranslations(cmsConfig.defaultLocale),
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   versions: [],
-};
+});
 
 const PageBuilderInner: React.FC<PageBuilderProps> = ({
   initialPage,
@@ -51,17 +57,30 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
   onPublish,
   onBack,
 }) => {
-  const { state, setPage, dispatch, undo, redo, toggleFocusMode } =
-    usePageBuilder();
+  const {
+    state,
+    setPage,
+    dispatch,
+    undo,
+    redo,
+    toggleFocusMode,
+    togglePreview,
+    duplicateBlock,
+    canUndo,
+    canRedo,
+  } = usePageBuilder();
   const { sidebarTab, isPreviewMode, isFocusMode } = state;
 
   // Template picker state - show on new pages with no blocks
   const [showTemplatePicker, setShowTemplatePicker] = useState(false);
   const [hasShownTemplatePicker, setHasShownTemplatePicker] = useState(false);
 
+  // Keyboard shortcuts help modal
+  const [showShortcutsModal, setShowShortcutsModal] = useState(false);
+
   // Initialize page
   useEffect(() => {
-    setPage(initialPage || defaultPage);
+    setPage(initialPage || createDefaultPage());
   }, [initialPage, setPage]);
 
   // Show template picker for new empty pages
@@ -111,65 +130,6 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
     [state.page, setPage],
   );
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Skip if in an input field
-      const isInputField =
-        e.target instanceof HTMLInputElement ||
-        e.target instanceof HTMLTextAreaElement ||
-        (e.target instanceof HTMLElement && e.target.isContentEditable);
-
-      // Cmd/Ctrl + Z = Undo
-      if ((e.metaKey || e.ctrlKey) && e.key === "z" && !e.shiftKey) {
-        e.preventDefault();
-        undo();
-      }
-      // Cmd/Ctrl + Shift + Z = Redo
-      if ((e.metaKey || e.ctrlKey) && e.key === "z" && e.shiftKey) {
-        e.preventDefault();
-        redo();
-      }
-      // Escape = Deselect or exit focus mode
-      if (e.key === "Escape") {
-        if (isFocusMode) {
-          toggleFocusMode();
-        } else {
-          dispatch({ type: "SELECT_BLOCK", payload: { blockId: null } });
-        }
-      }
-      // F = Toggle focus mode (when not in input)
-      if (e.key === "f" && !e.metaKey && !e.ctrlKey && !isInputField) {
-        e.preventDefault();
-        toggleFocusMode();
-      }
-      // Delete/Backspace = Delete selected block
-      if (
-        (e.key === "Delete" || e.key === "Backspace") &&
-        state.selection.blockId
-      ) {
-        // Only if not in an input field
-        if (!isInputField) {
-          e.preventDefault();
-          dispatch({
-            type: "DELETE_BLOCK",
-            payload: { blockId: state.selection.blockId },
-          });
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [
-    undo,
-    redo,
-    dispatch,
-    state.selection.blockId,
-    isFocusMode,
-    toggleFocusMode,
-  ]);
-
   const handleSave = useCallback(async () => {
     if (onSave && state.page) {
       dispatch({ type: "SET_SAVING", payload: true });
@@ -202,6 +162,206 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
     }
   }, [onPublish, state.page, dispatch]);
 
+  const handleWorkflowChange = useCallback(
+    async (newStatus: PageStatus) => {
+      if (onSave && state.page) {
+        dispatch({ type: "SET_SAVING", payload: true });
+        try {
+          const updatedPage = {
+            ...state.page,
+            status: newStatus,
+            ...(newStatus === "published"
+              ? { publishedAt: new Date().toISOString() }
+              : {}),
+          };
+          await onSave(updatedPage);
+          dispatch({
+            type: "UPDATE_PAGE_META",
+            payload: { status: newStatus },
+          });
+          dispatch({ type: "MARK_CLEAN" });
+        } finally {
+          dispatch({ type: "SET_SAVING", payload: false });
+        }
+      }
+    },
+    [onSave, state.page, dispatch],
+  );
+
+  // Keyboard shortcuts definitions (for help modal)
+  const keyboardShortcuts: ShortcutDefinition[] = useMemo(
+    () => [
+      {
+        key: "z",
+        ctrl: true,
+        description: "Undo",
+        category: "editing",
+      },
+      {
+        key: "z",
+        ctrl: true,
+        shift: true,
+        description: "Redo",
+        category: "editing",
+      },
+      {
+        key: "d",
+        ctrl: true,
+        description: "Duplicate block",
+        category: "editing",
+      },
+      {
+        key: "Backspace",
+        description: "Delete block",
+        category: "editing",
+      },
+      {
+        key: "s",
+        ctrl: true,
+        description: "Save page",
+        category: "general",
+      },
+      {
+        key: "p",
+        ctrl: true,
+        description: "Toggle preview",
+        category: "view",
+      },
+      {
+        key: "Escape",
+        description: "Deselect / Exit mode",
+        category: "navigation",
+      },
+      {
+        key: "f",
+        description: "Toggle focus mode",
+        category: "view",
+      },
+      {
+        key: "?",
+        description: "Show shortcuts",
+        category: "general",
+      },
+    ],
+    [],
+  );
+
+  // Keyboard shortcuts handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Skip if in an input field (except for some shortcuts)
+      const isInputField =
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        (e.target instanceof HTMLElement && e.target.isContentEditable);
+
+      const ctrlOrMeta = e.metaKey || e.ctrlKey;
+
+      // Cmd/Ctrl + S = Save
+      if (ctrlOrMeta && e.key === "s") {
+        e.preventDefault();
+        handleSave();
+        return;
+      }
+
+      // Cmd/Ctrl + Z = Undo
+      if (ctrlOrMeta && e.key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        if (canUndo) undo();
+        return;
+      }
+
+      // Cmd/Ctrl + Shift + Z = Redo
+      if (ctrlOrMeta && e.key === "z" && e.shiftKey) {
+        e.preventDefault();
+        if (canRedo) redo();
+        return;
+      }
+
+      // Cmd/Ctrl + Y = Redo (alternative)
+      if (ctrlOrMeta && e.key === "y") {
+        e.preventDefault();
+        if (canRedo) redo();
+        return;
+      }
+
+      // Cmd/Ctrl + D = Duplicate selected block
+      if (ctrlOrMeta && e.key === "d" && state.selection.blockId) {
+        e.preventDefault();
+        duplicateBlock(state.selection.blockId);
+        return;
+      }
+
+      // Cmd/Ctrl + P = Toggle preview
+      if (ctrlOrMeta && e.key === "p") {
+        e.preventDefault();
+        togglePreview();
+        return;
+      }
+
+      // Don't process remaining shortcuts if in input field
+      if (isInputField) return;
+
+      // ? = Show keyboard shortcuts help
+      if (e.key === "?" || (e.shiftKey && e.key === "/")) {
+        e.preventDefault();
+        setShowShortcutsModal(true);
+        return;
+      }
+
+      // Escape = Deselect, exit preview, exit focus mode, or close modals
+      if (e.key === "Escape") {
+        if (showShortcutsModal) {
+          setShowShortcutsModal(false);
+        } else if (isPreviewMode) {
+          togglePreview();
+        } else if (isFocusMode) {
+          toggleFocusMode();
+        } else if (state.selection.blockId) {
+          dispatch({ type: "SELECT_BLOCK", payload: { blockId: null } });
+        }
+        return;
+      }
+
+      // F = Toggle focus mode (when not in input)
+      if (e.key === "f" && !ctrlOrMeta) {
+        e.preventDefault();
+        toggleFocusMode();
+        return;
+      }
+
+      // Delete/Backspace = Delete selected block
+      if (
+        (e.key === "Delete" || e.key === "Backspace") &&
+        state.selection.blockId
+      ) {
+        e.preventDefault();
+        dispatch({
+          type: "DELETE_BLOCK",
+          payload: { blockId: state.selection.blockId },
+        });
+        return;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    dispatch,
+    state.selection.blockId,
+    isFocusMode,
+    isPreviewMode,
+    toggleFocusMode,
+    togglePreview,
+    duplicateBlock,
+    handleSave,
+    showShortcutsModal,
+  ]);
+
   const handleSetSidebarTab = useCallback(
     (tab: "blocks" | "layers" | "settings" | "history") => {
       dispatch({ type: "SET_SIDEBAR_TAB", payload: tab });
@@ -224,6 +384,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
           onBack={onBack}
           onSave={handleSave}
           onPublish={handlePublish}
+          onWorkflowChange={handleWorkflowChange}
           onOpenTemplates={() => setShowTemplatePicker(true)}
         />
       )}
@@ -258,7 +419,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
         {!isPreviewMode && !isFocusMode && (
           <div
             className={classNames(
-              "w-72 flex flex-col rounded-2xl overflow-hidden",
+              "w-72 flex flex-col overflow-hidden rounded-2xl",
               // Glassmorphism
               "bg-white/70 dark:bg-slate-900/70",
               "backdrop-blur-2xl backdrop-saturate-150",
@@ -268,14 +429,14 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
             )}
           >
             {/* Sidebar tabs */}
-            <div className="flex p-2 gap-1 border-b border-white/30 dark:border-white/5">
+            <div className="flex p-2 gap-1">
               <button
                 onClick={() => handleSetSidebarTab("blocks")}
                 className={classNames(
                   "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
                   sidebarTab === "blocks"
                     ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
                 )}
               >
                 Overview
@@ -286,7 +447,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
                   "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
                   sidebarTab === "layers"
                     ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
                 )}
               >
                 Layers
@@ -297,7 +458,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
                   "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
                   sidebarTab === "history"
                     ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5",
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
                 )}
               >
                 History
@@ -341,6 +502,13 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
         isOpen={showTemplatePicker}
         onClose={() => setShowTemplatePicker(false)}
         onSelectTemplate={handleSelectTemplate}
+      />
+
+      {/* Keyboard Shortcuts Help Modal */}
+      <KeyboardShortcutsModal
+        isOpen={showShortcutsModal}
+        onClose={() => setShowShortcutsModal(false)}
+        shortcuts={keyboardShortcuts}
       />
     </div>
   );

@@ -358,3 +358,142 @@
   color: var(--color-slate-100);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* =============================================================================
+   DRAG AND DROP STYLES
+   ============================================================================= */
+
+/* Drop line indicator */
+.drop-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 2px;
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+
+.drop-indicator--active {
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #3b82f6
+  );
+  background-size: 300% 100%;
+  animation: drop-indicator-shift 1.5s ease infinite;
+  box-shadow:
+    0 0 8px rgba(59, 130, 246, 0.5),
+    0 0 16px rgba(139, 92, 246, 0.3);
+}
+
+@keyframes drop-indicator-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Drag overlay card */
+.drag-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(30, 41, 59, 0.95) 100%
+  );
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 8px 10px -6px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Block being dragged */
+.block-dragging {
+  opacity: 0.4 !important;
+  transform: scale(0.98);
+  transition: all 0.2s ease;
+}
+
+/* Valid drop target highlight */
+.drop-target-valid {
+  outline: 2px dashed rgba(59, 130, 246, 0.5);
+  outline-offset: 4px;
+  background-color: rgba(59, 130, 246, 0.05);
+  transition: all 0.2s ease;
+}
+
+/* Invalid drop target */
+.drop-target-invalid {
+  outline: 2px dashed rgba(239, 68, 68, 0.5);
+  outline-offset: 4px;
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* Container drop zone (for dropping inside containers) */
+.drop-zone-inside {
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed rgba(59, 130, 246, 0.4);
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.08);
+  pointer-events: none;
+  animation: drop-zone-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes drop-zone-pulse {
+  0%, 100% {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.08);
+  }
+  50% {
+    border-color: rgba(139, 92, 246, 0.5);
+    background: rgba(139, 92, 246, 0.1);
+  }
+}
+
+/* Dim other blocks while dragging */
+.canvas-dragging .block-wrapper:not(.block-dragging):not(.drop-target-valid) {
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+/* Drop animation */
+@keyframes block-drop {
+  0% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.block-dropped {
+  animation: block-drop 0.4s ease-out forwards;
+}
+
+/* Drag handle hover effect */
+.drag-handle {
+  transition: all 0.15s ease;
+}
+
+.drag-handle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.drag-handle:active {
+  transform: scale(0.95);
+  cursor: grabbing;
+}

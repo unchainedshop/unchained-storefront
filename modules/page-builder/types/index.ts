@@ -3,6 +3,64 @@
  * Core type definitions for the visual page builder
  */
 
+// =============================================================================
+// LOCALIZATION TYPES
+// =============================================================================
+
+/**
+ * A string that has translations for multiple locales
+ * Example: { de: "Willkommen", fr: "Bienvenue", en: "Welcome" }
+ */
+export type LocalizedString = Record<string, string>;
+
+/**
+ * Block content that has translations for multiple locales
+ * Example: { de: { heading: "Willkommen" }, fr: { heading: "Bienvenue" } }
+ */
+export type LocalizedContent<T = BlockContent> = Record<string, T>;
+
+/**
+ * Translation status for a specific locale
+ */
+export type TranslationStatusValue =
+  | "not_started"
+  | "in_progress"
+  | "completed"
+  | "needs_update";
+
+export interface TranslationStatus {
+  locale: string;
+  status: TranslationStatusValue;
+  /** Percentage of fields translated (0-100) */
+  completeness: number;
+  lastUpdatedBy?: string;
+  lastUpdatedAt?: string;
+  /** True if source locale content changed after this translation */
+  sourceChangedSince?: boolean;
+}
+
+export interface PageTranslations {
+  /** The source/master locale (e.g., 'de') */
+  sourceLocale: string;
+  /** Translation status per locale */
+  status: Record<string, TranslationStatus>;
+}
+
+/**
+ * Localized SEO settings
+ */
+export interface LocalizedSEOSettings {
+  title?: LocalizedString;
+  description?: LocalizedString;
+  keywords?: LocalizedString;
+  ogImage?: LocalizedString;
+  noIndex?: boolean;
+}
+
+// =============================================================================
+// BLOCK TYPES
+// =============================================================================
+
 export type BlockType =
   | "hero-banner"
   | "product-grid"
@@ -61,6 +119,10 @@ export interface BlockStyle {
   backgroundImage?: string;
   backgroundOverlay?: number;
   backgroundOverlayColor?: string;
+  /** Focal point for background image (0-100 percentage) */
+  backgroundFocalPoint?: { x: number; y: number };
+  /** Object fit behavior for background image */
+  backgroundObjectFit?: "cover" | "contain" | "fill";
   padding?: {
     top: number;
     right: number;
@@ -120,8 +182,12 @@ export interface HeroBannerContent {
   variant?: HeroVariant;
   /** Image URL for split layouts (separate from background) */
   heroImage?: string;
+  /** Focal point for hero image (0-100 percentage) */
+  heroImageFocalPoint?: ImageFocalPoint;
   /** Secondary images for image-grid layouts */
   gridImages?: string[];
+  /** Focal points for grid images (0-100 percentage each) */
+  gridImagesFocalPoints?: (ImageFocalPoint | null)[];
   /** Text overlay variant for readability over images */
   textOverlay?: TextOverlayVariant;
   /** Text overlay intensity (0-100) */
@@ -167,12 +233,30 @@ export interface TextContentBlock {
   headingLevel?: "h1" | "h2" | "h3" | "h4" | "p";
 }
 
+export type ImageAspectRatio =
+  | "original"
+  | "1:1"
+  | "4:3"
+  | "3:2"
+  | "16:9"
+  | "21:9"
+  | "9:16";
+
+export type ImageObjectFit = "cover" | "contain" | "fill" | "none";
+
+export interface ImageFocalPoint {
+  x: number; // 0-100 percentage
+  y: number; // 0-100 percentage
+}
+
 export interface ImageBlockContent {
   src: string;
   alt: string;
   link?: string;
   caption?: string;
-  aspectRatio?: "auto" | "1:1" | "4:3" | "16:9" | "21:9";
+  aspectRatio?: ImageAspectRatio;
+  objectFit?: ImageObjectFit;
+  focalPoint?: ImageFocalPoint;
 }
 
 export interface CountdownTimerContent {
@@ -554,10 +638,31 @@ export type BlockContent =
 export interface PageBlock {
   id: string;
   type: BlockType;
-  content: BlockContent;
+  /**
+   * Localized content for this block.
+   * Structure: { locale: { ...content fields } }
+   * Example: { de: { heading: "Hallo" }, fr: { heading: "Bonjour" } }
+   */
+  content: LocalizedContent;
+  /** Style is NOT localized - same across all languages */
   style: BlockStyle;
   responsive: ResponsiveOverrides;
   children?: PageBlock[];
+  locked?: boolean;
+  hidden?: boolean;
+}
+
+/**
+ * Legacy block format with non-localized content
+ * Used for migration from old format
+ */
+export interface LegacyPageBlock {
+  id: string;
+  type: BlockType;
+  content: BlockContent;
+  style: BlockStyle;
+  responsive: ResponsiveOverrides;
+  children?: LegacyPageBlock[];
   locked?: boolean;
   hidden?: boolean;
 }
@@ -577,14 +682,63 @@ export interface PageVersion {
   blocks: PageBlock[];
 }
 
-export type PageStatus = "draft" | "published" | "archived";
+export type PageStatus =
+  | "draft"
+  | "in_review"
+  | "approved"
+  | "published"
+  | "archived";
+
+/**
+ * Workflow metadata for a page
+ */
+export interface PageWorkflow {
+  /** User who submitted for review */
+  submittedBy?: string;
+  /** When the page was submitted for review */
+  submittedAt?: string;
+  /** User who reviewed the page */
+  reviewedBy?: string;
+  /** When the page was reviewed */
+  reviewedAt?: string;
+  /** Review note (approval/rejection reason) */
+  reviewNote?: string;
+  /** User who published the page */
+  publishedBy?: string;
+  /** Future publish date (for scheduled publishing) */
+  scheduledFor?: string;
+}
 
 export interface Page {
+  id: string;
+  /** Localized page title */
+  title: LocalizedString;
+  /** URL slug (not localized - same across languages) */
+  slug: string;
+  status: PageStatus;
+  blocks: PageBlock[];
+  /** Localized SEO settings */
+  seo: LocalizedSEOSettings;
+  /** Translation metadata */
+  translations: PageTranslations;
+  /** Workflow metadata (review, approval, scheduling) */
+  workflow?: PageWorkflow;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt?: string;
+  versions: PageVersion[];
+}
+
+/**
+ * Legacy page format with non-localized content
+ * Used for migration from old format
+ */
+export interface LegacyPage {
   id: string;
   title: string;
   slug: string;
   status: PageStatus;
-  blocks: PageBlock[];
+  blocks: LegacyPageBlock[];
   seo: SEOSettings;
   createdAt: string;
   updatedAt: string;
@@ -639,6 +793,8 @@ export interface EditorState {
   history: HistoryEntry[];
   historyIndex: number;
   sidebarTab: "blocks" | "layers" | "settings" | "history";
+  /** Currently active locale for editing (e.g., 'de', 'fr') */
+  activeLocale: string;
 }
 
 // Nesting configuration for blocks
@@ -685,7 +841,16 @@ export type EditorAction =
     }
   | {
       type: "UPDATE_BLOCK";
-      payload: { blockId: string; updates: Partial<PageBlock> };
+      payload: {
+        blockId: string;
+        /**
+         * Updates to apply. Content is BlockContent (not LocalizedContent)
+         * because the reducer will automatically apply it to the active locale.
+         */
+        updates: Partial<Omit<PageBlock, "content">> & {
+          content?: Partial<BlockContent>;
+        };
+      };
     }
   | { type: "DELETE_BLOCK"; payload: { blockId: string } }
   | {
@@ -721,8 +886,17 @@ export type EditorAction =
     }
   | { type: "SET_SAVING"; payload: boolean }
   | { type: "MARK_CLEAN" }
-  | { type: "UPDATE_SEO"; payload: Partial<SEOSettings> }
+  | { type: "UPDATE_SEO"; payload: Partial<LocalizedSEOSettings> }
   | {
       type: "UPDATE_PAGE_META";
-      payload: { title?: string; slug?: string; status?: PageStatus };
+      payload: { title?: LocalizedString; slug?: string; status?: PageStatus };
+    }
+  | { type: "SET_ACTIVE_LOCALE"; payload: string }
+  | {
+      type: "UPDATE_TRANSLATION_STATUS";
+      payload: { locale: string; status: Partial<TranslationStatus> };
+    }
+  | {
+      type: "COPY_CONTENT_TO_LOCALE";
+      payload: { fromLocale: string; toLocale: string };
     };

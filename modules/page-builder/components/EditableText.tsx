@@ -3,7 +3,7 @@
  * Inline editable text using contentEditable
  */
 
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, useLayoutEffect } from "react";
 import { usePageBuilder } from "../context/PageBuilderContext";
 
 interface EditableTextProps {
@@ -25,51 +25,38 @@ const EditableText: React.FC<EditableTextProps> = ({
   style,
   placeholder = "Click to edit...",
 }) => {
-  const { state, updateBlock, selectedBlock } = usePageBuilder();
+  const { state, updateBlock } = usePageBuilder();
   const elementRef = useRef<HTMLElement>(null);
-  const isUpdatingRef = useRef(false);
+  const isTypingRef = useRef(false);
 
   const isEditing = !state.isPreviewMode;
 
-  // Update the DOM when value changes externally (only on mount or external changes)
-  useEffect(() => {
-    if (elementRef.current && !isUpdatingRef.current) {
-      // Only update if the DOM content is truly different (not just during typing)
+  // Set initial content on mount only
+  useLayoutEffect(() => {
+    if (elementRef.current && !isTypingRef.current) {
       const currentText = elementRef.current.innerText;
-      if (currentText !== value && currentText !== (value || "")) {
+      if (currentText !== value) {
         elementRef.current.innerText = value || "";
       }
     }
   }, [value]);
 
-  // Set initial value on mount
-  useEffect(() => {
-    if (elementRef.current) {
-      elementRef.current.innerText = value || "";
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleInput = useCallback(() => {
     if (!elementRef.current) return;
 
-    isUpdatingRef.current = true;
+    isTypingRef.current = true;
     const newValue = elementRef.current.innerText;
 
-    // Update the block content using the updateBlock method
-    const currentContent =
-      selectedBlock?.id === blockId
-        ? selectedBlock.content
-        : ({} as Record<string, unknown>);
+    // Only pass the field being updated - the reducer handles locale merging
     updateBlock(blockId, {
-      content: { ...currentContent, [field]: newValue } as any,
+      content: { [field]: newValue },
     });
 
-    // Reset the flag after a short delay
-    setTimeout(() => {
-      isUpdatingRef.current = false;
-    }, 0);
-  }, [blockId, field, updateBlock, selectedBlock]);
+    // Reset typing flag after React has re-rendered
+    requestAnimationFrame(() => {
+      isTypingRef.current = false;
+    });
+  }, [blockId, field, updateBlock]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -107,6 +94,8 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const Element = Tag as any;
 
+  // Don't render value as children - it causes React to update DOM and reset cursor
+  // The useLayoutEffect handles setting/updating the content
   return (
     <Element
       ref={elementRef}
@@ -117,11 +106,14 @@ const EditableText: React.FC<EditableTextProps> = ({
       onPaste={handlePaste}
       onFocus={handleFocus}
       className={className}
+      dir="ltr"
       style={{
         ...style,
         outline: "none",
         cursor: "text",
         minHeight: "1em",
+        unicodeBidi: "plaintext",
+        textAlign: style?.textAlign || "inherit",
       }}
       data-placeholder={!value ? placeholder : undefined}
     />

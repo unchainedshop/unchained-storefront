@@ -247,6 +247,138 @@ export async function optimizeImage(
   }
 }
 
+export interface CropOptions {
+  /** X position as percentage (0-100) */
+  x: number;
+  /** Y position as percentage (0-100) */
+  y: number;
+  /** Width as percentage (0-100) */
+  width: number;
+  /** Height as percentage (0-100) */
+  height: number;
+  /** Output format */
+  format?: "jpeg" | "png" | "webp";
+  /** Output quality (1-100) */
+  quality?: number;
+}
+
+/**
+ * Crop an image based on percentage coordinates
+ */
+export async function cropImage(
+  sourcePath: string,
+  destPath: string,
+  options: CropOptions,
+): Promise<{ width: number; height: number; size: number } | null> {
+  const sharpModule = await getSharp();
+
+  if (!sharpModule) {
+    console.warn("Cannot crop image: sharp not available");
+    return null;
+  }
+
+  try {
+    // Get original image dimensions
+    const metadata = await sharpModule(sourcePath).metadata();
+    if (!metadata.width || !metadata.height) {
+      throw new Error("Could not read image dimensions");
+    }
+
+    // Convert percentage to pixels
+    const left = Math.round((options.x / 100) * metadata.width);
+    const top = Math.round((options.y / 100) * metadata.height);
+    const width = Math.round((options.width / 100) * metadata.width);
+    const height = Math.round((options.height / 100) * metadata.height);
+
+    // Ensure destination directory exists
+    await fs.mkdir(path.dirname(destPath), { recursive: true });
+
+    // Perform the crop
+    let pipeline = sharpModule(sourcePath).extract({
+      left,
+      top,
+      width,
+      height,
+    });
+
+    // Set output format
+    const format = options.format || "webp";
+    const quality = options.quality || 85;
+
+    switch (format) {
+      case "jpeg":
+        pipeline = pipeline.jpeg({ quality });
+        break;
+      case "png":
+        pipeline = pipeline.png({ quality });
+        break;
+      case "webp":
+      default:
+        pipeline = pipeline.webp({ quality });
+        break;
+    }
+
+    await pipeline.toFile(destPath);
+
+    const stats = await fs.stat(destPath);
+
+    return {
+      width,
+      height,
+      size: stats.size,
+    };
+  } catch (error) {
+    console.error("Error cropping image:", error);
+    return null;
+  }
+}
+
+/**
+ * Convert image to different format
+ */
+export async function convertImage(
+  sourcePath: string,
+  destPath: string,
+  format: "jpeg" | "png" | "webp" | "avif",
+  quality: number = 85,
+): Promise<{ size: number } | null> {
+  const sharpModule = await getSharp();
+
+  if (!sharpModule) {
+    console.warn("Cannot convert image: sharp not available");
+    return null;
+  }
+
+  try {
+    await fs.mkdir(path.dirname(destPath), { recursive: true });
+
+    let pipeline = sharpModule(sourcePath);
+
+    switch (format) {
+      case "jpeg":
+        pipeline = pipeline.jpeg({ quality });
+        break;
+      case "png":
+        pipeline = pipeline.png({ quality });
+        break;
+      case "webp":
+        pipeline = pipeline.webp({ quality });
+        break;
+      case "avif":
+        pipeline = pipeline.avif({ quality });
+        break;
+    }
+
+    await pipeline.toFile(destPath);
+
+    const stats = await fs.stat(destPath);
+    return { size: stats.size };
+  } catch (error) {
+    console.error("Error converting image:", error);
+    return null;
+  }
+}
+
 /**
  * Check if a MIME type is an image
  */

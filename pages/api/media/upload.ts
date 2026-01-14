@@ -21,6 +21,7 @@ import {
 } from "../../../modules/media/utils/imageProcessing";
 import type { MediaAsset, UploadResult } from "../../../modules/media/types";
 import { sanitizeFilename } from "../../../modules/media/types";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 export const config = {
   api: {
@@ -68,6 +69,7 @@ async function processUploadedFile(
   file: formidable.File,
   folderId: string | null,
   tags: string[],
+  uploadedBy: string,
 ): Promise<UploadResult> {
   try {
     const filename = file.newFilename;
@@ -106,7 +108,7 @@ async function processUploadedFile(
       tags,
       folderId,
       usageLocations: [],
-      uploadedBy: "admin",
+      uploadedBy,
     });
 
     // Generate thumbnail if it's an image
@@ -129,6 +131,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS access for uploads
+  const { authorized, user } = await withCMSAuth(req, res);
+  if (!authorized) return;
+
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res.status(405).json({ error: `Method ${req.method} not allowed` });
@@ -169,12 +175,14 @@ export default async function handler(
       : [uploadedFiles];
 
     // Process each file
+    const uploadedBy = user?.name || user?.username || "admin";
     const results: UploadResult[] = [];
     for (const file of fileArray) {
       const result = await processUploadedFile(
         file,
         folderId === "null" || folderId === "" ? null : folderId,
         tags,
+        uploadedBy,
       );
       results.push(result);
     }

@@ -13,11 +13,12 @@ interface BeforeAfterProps {
 }
 
 const BeforeAfter: React.FC<BeforeAfterProps> = ({ block, isPreview }) => {
-  const content = block.content as BeforeAfterContent;
+  // Content is resolved to active locale by BlockRenderer
+  const content = block.content as unknown as BeforeAfterContent;
   const style = block.style;
 
   const [sliderPosition, setSliderPosition] = useState(
-    content.initialPosition || 50
+    content.initialPosition || 50,
   );
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -39,7 +40,7 @@ const BeforeAfter: React.FC<BeforeAfterProps> = ({ block, isPreview }) => {
 
       setSliderPosition(Math.max(0, Math.min(100, position)));
     },
-    [isHorizontal]
+    [isHorizontal],
   );
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -54,7 +55,7 @@ const BeforeAfter: React.FC<BeforeAfterProps> = ({ block, isPreview }) => {
       if (!isDragging) return;
       handleMove(e.clientX, e.clientY);
     },
-    [isDragging, handleMove]
+    [isDragging, handleMove],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -74,7 +75,7 @@ const BeforeAfter: React.FC<BeforeAfterProps> = ({ block, isPreview }) => {
       const touch = e.touches[0];
       handleMove(touch.clientX, touch.clientY);
     },
-    [isDragging, handleMove]
+    [isDragging, handleMove],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
