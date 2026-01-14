@@ -1,0 +1,112 @@
+{
+  "id": "template_testimonials",
+  "slug": "testimonials",
+  "name": {
+    "de": "Testimonials",
+    "en": "Testimonials",
+    "fr": "Temoignages",
+    "it": "Testimonianze"
+  },
+  "description": {
+    "de": "Kundenstimmen und Bewertungen",
+    "en": "Customer reviews and testimonials",
+    "fr": "Avis clients et temoignages",
+    "it": "Recensioni e testimonianze dei clienti"
+  },
+  "type": "content",
+  "icon": "chat-bubble-left-right",
+  "status": "active",
+  "titleField": "author_name",
+  "previewField": "author_image",
+  "sortField": "order",
+  "sortDirection": "asc",
+  "sortable": true,
+  "fields": [
+    {
+      "id": "field_quote",
+      "name": "quote",
+      "label": { "de": "Zitat", "en": "Quote", "fr": "Citation", "it": "Citazione" },
+      "type": "textarea",
+      "localized": true,
+      "validation": { "required": true, "maxLength": 1000 },
+      "listColumn": true,
+      "order": 0,
+      "width": "full"
+    },
+    {
+      "id": "field_author_name",
+      "name": "author_name",
+      "label": { "de": "Name", "en": "Name", "fr": "Nom", "it": "Nome" },
+      "type": "text",
+      "validation": { "required": true },
+      "listColumn": true,
+      "order": 1,
+      "width": "half"
+    },
+    {
+      "id": "field_author_role",
+      "name": "author_role",
+      "label": { "de": "Rolle/Titel", "en": "Role/Title", "fr": "Role/Titre", "it": "Ruolo/Titolo" },
+      "type": "text",
+      "localized": true,
+      "order": 2,
+      "width": "half"
+    },
+    {
+      "id": "field_author_image",
+      "name": "author_image",
+      "label": { "de": "Foto", "en": "Photo", "fr": "Photo", "it": "Foto" },
+      "type": "image",
+      "config": { "aspectRatio": "1:1" },
+      "order": 3,
+      "width": "half"
+    },
+    {
+      "id": "field_company",
+      "name": "company",
+      "label": { "de": "Unternehmen", "en": "Company", "fr": "Entreprise", "it": "Azienda" },
+      "type": "text",
+      "order": 4,
+      "width": "half"
+    },
+    {
+      "id": "field_company_logo",
+      "name": "company_logo",
+      "label": { "de": "Firmenlogo", "en": "Company Logo", "fr": "Logo entreprise", "it": "Logo aziendale" },
+      "type": "image",
+      "order": 5,
+      "width": "half"
+    },
+    {
+      "id": "field_rating",
+      "name": "rating",
+      "label": { "de": "Bewertung", "en": "Rating", "fr": "Note", "it": "Valutazione" },
+      "type": "number",
+      "listColumn": true,
+      "order": 6,
+      "width": "third",
+      "config": { "step": 1, "decimals": 0 },
+      "validation": { "min": 1, "max": 5 }
+    },
+    {
+      "id": "field_featured",
+      "name": "featured",
+      "label": { "de": "Hervorgehoben", "en": "Featured", "fr": "En vedette", "it": "In evidenza" },
+      "type": "boolean",
+      "order": 7,
+      "width": "third",
+      "config": { "defaultValue": false }
+    },
+    {
+      "id": "field_order",
+      "name": "order",
+      "label": { "de": "Reihenfolge", "en": "Order", "fr": "Ordre", "it": "Ordine" },
+      "type": "number",
+      "order": 8,
+      "width": "third",
+      "config": { "step": 1 }
+    }
+  ],
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-01T00:00:00.000Z"
+}

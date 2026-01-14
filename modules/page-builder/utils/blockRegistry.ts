@@ -816,6 +816,41 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       canBeNested: false,
     },
   },
+
+  "collection-list": {
+    type: "collection-list",
+    label: "Collection List",
+    description:
+      "Display entries from a content collection (Blog, FAQ, Team, etc.)",
+    icon: "rectangle-stack",
+    category: "content",
+    defaultContent: {
+      collectionSlug: "",
+      heading: "",
+      subheading: "",
+      layout: "grid",
+      columns: 3,
+      mobileColumns: 1,
+      limit: 6,
+      sortBy: "createdAt",
+      sortOrder: "desc",
+      publishedOnly: true,
+      displayFields: [],
+      showImage: true,
+      showExcerpt: true,
+      showReadMore: true,
+      readMoreText: "Read more",
+      linkPattern: "",
+      gap: 24,
+    },
+    defaultStyle: {
+      padding: { top: 64, right: 24, bottom: 64, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    },
+    nesting: {
+      canBeNested: false,
+    },
+  },
 };
 
 export const blockCategories = [

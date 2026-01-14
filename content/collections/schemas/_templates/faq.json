@@ -1,0 +1,95 @@
+{
+  "id": "template_faq",
+  "slug": "faq",
+  "name": {
+    "de": "FAQ",
+    "en": "FAQ",
+    "fr": "FAQ",
+    "it": "FAQ"
+  },
+  "description": {
+    "de": "Häufig gestellte Fragen",
+    "en": "Frequently asked questions",
+    "fr": "Questions frequemment posees",
+    "it": "Domande frequenti"
+  },
+  "type": "content",
+  "icon": "question-mark-circle",
+  "status": "active",
+  "titleField": "question",
+  "sortField": "order",
+  "sortDirection": "asc",
+  "sortable": true,
+  "fields": [
+    {
+      "id": "field_question",
+      "name": "question",
+      "label": { "de": "Frage", "en": "Question", "fr": "Question", "it": "Domanda" },
+      "type": "text",
+      "localized": true,
+      "validation": { "required": true },
+      "listColumn": true,
+      "order": 0,
+      "width": "full"
+    },
+    {
+      "id": "field_answer",
+      "name": "answer",
+      "label": { "de": "Antwort", "en": "Answer", "fr": "Reponse", "it": "Risposta" },
+      "type": "richtext",
+      "localized": true,
+      "validation": { "required": true },
+      "order": 1,
+      "width": "full"
+    },
+    {
+      "id": "field_category",
+      "name": "category",
+      "label": { "de": "Kategorie", "en": "Category", "fr": "Categorie", "it": "Categoria" },
+      "type": "select",
+      "listColumn": true,
+      "order": 2,
+      "width": "half",
+      "config": {
+        "options": [
+          { "value": "general", "label": { "de": "Allgemein", "en": "General", "fr": "General", "it": "Generale" } },
+          { "value": "shipping", "label": { "de": "Versand", "en": "Shipping", "fr": "Livraison", "it": "Spedizione" } },
+          { "value": "returns", "label": { "de": "Rückgabe", "en": "Returns", "fr": "Retours", "it": "Resi" } },
+          { "value": "payment", "label": { "de": "Zahlung", "en": "Payment", "fr": "Paiement", "it": "Pagamento" } },
+          { "value": "account", "label": { "de": "Konto", "en": "Account", "fr": "Compte", "it": "Account" } },
+          { "value": "products", "label": { "de": "Produkte", "en": "Products", "fr": "Produits", "it": "Prodotti" } }
+        ]
+      }
+    },
+    {
+      "id": "field_order",
+      "name": "order",
+      "label": { "de": "Reihenfolge", "en": "Order", "fr": "Ordre", "it": "Ordine" },
+      "type": "number",
+      "order": 3,
+      "width": "third",
+      "config": { "step": 1 }
+    },
+    {
+      "id": "field_featured",
+      "name": "featured",
+      "label": { "de": "Hervorgehoben", "en": "Featured", "fr": "En vedette", "it": "In evidenza" },
+      "type": "boolean",
+      "order": 4,
+      "width": "third",
+      "description": { "de": "Auf der Startseite anzeigen", "en": "Show on homepage" },
+      "config": { "defaultValue": false }
+    },
+    {
+      "id": "field_active",
+      "name": "active",
+      "label": { "de": "Aktiv", "en": "Active", "fr": "Actif", "it": "Attivo" },
+      "type": "boolean",
+      "order": 5,
+      "width": "third",
+      "config": { "defaultValue": true }
+    }
+  ],
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-01T00:00:00.000Z"
+}

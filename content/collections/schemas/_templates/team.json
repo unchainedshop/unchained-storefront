@@ -1,0 +1,158 @@
+{
+  "id": "template_team",
+  "slug": "team",
+  "name": {
+    "de": "Team",
+    "en": "Team Members",
+    "fr": "Equipe",
+    "it": "Team"
+  },
+  "description": {
+    "de": "Teammitglieder und Mitarbeiter",
+    "en": "Team members and staff",
+    "fr": "Membres de l'equipe",
+    "it": "Membri del team"
+  },
+  "type": "content",
+  "icon": "user-group",
+  "status": "active",
+  "titleField": "name",
+  "previewField": "photo",
+  "sortField": "order",
+  "sortDirection": "asc",
+  "sortable": true,
+  "groups": [
+    {
+      "name": "basic",
+      "label": { "de": "Grunddaten", "en": "Basic Info", "fr": "Infos de base", "it": "Info base" },
+      "order": 0
+    },
+    {
+      "name": "social",
+      "label": { "de": "Social Media", "en": "Social Media", "fr": "Reseaux sociaux", "it": "Social Media" },
+      "order": 1
+    }
+  ],
+  "fields": [
+    {
+      "id": "field_name",
+      "name": "name",
+      "label": { "de": "Name", "en": "Name", "fr": "Nom", "it": "Nome" },
+      "type": "text",
+      "validation": { "required": true },
+      "group": "basic",
+      "listColumn": true,
+      "order": 0,
+      "width": "half"
+    },
+    {
+      "id": "field_role",
+      "name": "role",
+      "label": { "de": "Position", "en": "Role", "fr": "Poste", "it": "Ruolo" },
+      "type": "text",
+      "localized": true,
+      "group": "basic",
+      "listColumn": true,
+      "order": 1,
+      "width": "half"
+    },
+    {
+      "id": "field_photo",
+      "name": "photo",
+      "label": { "de": "Foto", "en": "Photo", "fr": "Photo", "it": "Foto" },
+      "type": "image",
+      "config": { "aspectRatio": "1:1" },
+      "group": "basic",
+      "order": 2,
+      "width": "half"
+    },
+    {
+      "id": "field_bio",
+      "name": "bio",
+      "label": { "de": "Biografie", "en": "Biography", "fr": "Biographie", "it": "Biografia" },
+      "type": "richtext",
+      "localized": true,
+      "group": "basic",
+      "order": 3,
+      "width": "full"
+    },
+    {
+      "id": "field_email",
+      "name": "email",
+      "label": { "de": "E-Mail", "en": "Email", "fr": "E-mail", "it": "Email" },
+      "type": "email",
+      "group": "basic",
+      "order": 4,
+      "width": "half"
+    },
+    {
+      "id": "field_phone",
+      "name": "phone",
+      "label": { "de": "Telefon", "en": "Phone", "fr": "Telephone", "it": "Telefono" },
+      "type": "text",
+      "group": "basic",
+      "order": 5,
+      "width": "half"
+    },
+    {
+      "id": "field_department",
+      "name": "department",
+      "label": { "de": "Abteilung", "en": "Department", "fr": "Departement", "it": "Dipartimento" },
+      "type": "select",
+      "group": "basic",
+      "listColumn": true,
+      "order": 6,
+      "width": "half",
+      "config": {
+        "options": [
+          { "value": "leadership", "label": { "de": "Geschäftsleitung", "en": "Leadership", "fr": "Direction", "it": "Direzione" } },
+          { "value": "engineering", "label": { "de": "Entwicklung", "en": "Engineering", "fr": "Developpement", "it": "Sviluppo" } },
+          { "value": "design", "label": { "de": "Design", "en": "Design", "fr": "Design", "it": "Design" } },
+          { "value": "marketing", "label": { "de": "Marketing", "en": "Marketing", "fr": "Marketing", "it": "Marketing" } },
+          { "value": "sales", "label": { "de": "Vertrieb", "en": "Sales", "fr": "Ventes", "it": "Vendite" } },
+          { "value": "support", "label": { "de": "Support", "en": "Support", "fr": "Support", "it": "Supporto" } }
+        ]
+      }
+    },
+    {
+      "id": "field_order",
+      "name": "order",
+      "label": { "de": "Reihenfolge", "en": "Display Order", "fr": "Ordre d'affichage", "it": "Ordine" },
+      "type": "number",
+      "group": "basic",
+      "order": 7,
+      "width": "half",
+      "config": { "step": 1 }
+    },
+    {
+      "id": "field_linkedin",
+      "name": "linkedin",
+      "label": { "de": "LinkedIn", "en": "LinkedIn", "fr": "LinkedIn", "it": "LinkedIn" },
+      "type": "url",
+      "group": "social",
+      "order": 0,
+      "width": "full",
+      "config": { "placeholder": { "de": "https://linkedin.com/in/...", "en": "https://linkedin.com/in/..." } }
+    },
+    {
+      "id": "field_twitter",
+      "name": "twitter",
+      "label": { "de": "Twitter/X", "en": "Twitter/X", "fr": "Twitter/X", "it": "Twitter/X" },
+      "type": "url",
+      "group": "social",
+      "order": 1,
+      "width": "full"
+    },
+    {
+      "id": "field_github",
+      "name": "github",
+      "label": { "de": "GitHub", "en": "GitHub", "fr": "GitHub", "it": "GitHub" },
+      "type": "url",
+      "group": "social",
+      "order": 2,
+      "width": "full"
+    }
+  ],
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-01T00:00:00.000Z"
+}

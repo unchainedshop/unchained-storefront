@@ -11,6 +11,7 @@ import {
   PhotoIcon,
   HomeIcon,
   Bars3Icon,
+  RectangleStackIcon,
 } from "@heroicons/react/24/outline";
 
 const AdminNavIsland: React.FC = () => {
@@ -18,6 +19,7 @@ const AdminNavIsland: React.FC = () => {
   const isPages = router.pathname.startsWith("/admin/pages");
   const isMedia = router.pathname.startsWith("/admin/media");
   const isMenus = router.pathname.startsWith("/admin/menus");
+  const isCollections = router.pathname.startsWith("/admin/collections");
 
   return (
     <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
@@ -69,6 +71,17 @@ const AdminNavIsland: React.FC = () => {
         >
           <Bars3Icon className="w-4 h-4" />
           Menus
+        </Link>
+        <Link
+          href="/admin/collections"
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+            isCollections
+              ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+          }`}
+        >
+          <RectangleStackIcon className="w-4 h-4" />
+          Collections
         </Link>
       </nav>
     </div>

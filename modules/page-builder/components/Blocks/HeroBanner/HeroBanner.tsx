@@ -248,7 +248,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
         case "glass":
           return {
             wrapperClass:
-              "backdrop-blur-md rounded-2xl p-6 md:p-8 border transition-all",
+              "backdrop-blur-md rounded-2xl p-6 @md:p-8 border transition-all",
             wrapperStyle: {
               backgroundColor: `rgba(${overlayRgb}, ${baseOpacity * 0.4})`,
               borderColor: `rgba(${borderRgb}, 0.1)`,
@@ -257,7 +257,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
           };
         case "solid":
           return {
-            wrapperClass: "rounded-xl p-6 md:p-8 transition-all",
+            wrapperClass: "rounded-xl p-6 @md:p-8 transition-all",
             wrapperStyle: {
               backgroundColor: `rgba(${overlayRgb}, ${baseOpacity * 0.7})`,
             },
@@ -265,7 +265,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
           };
         case "gradient":
           return {
-            wrapperClass: "relative rounded-xl p-6 md:p-8 transition-all",
+            wrapperClass: "relative rounded-xl p-6 @md:p-8 transition-all",
             wrapperStyle: {
               background: `linear-gradient(to top, rgba(${overlayRgb}, ${baseOpacity * 0.8}) 0%, rgba(${overlayRgb}, ${baseOpacity * 0.4}) 50%, transparent 100%)`,
             },
@@ -299,7 +299,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
           field="heading"
           value={content.heading || ""}
           tag="h1"
-          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
+          className="text-4xl @md:text-5xl @lg:text-6xl font-bold mb-4"
           style={{ color: style.textColor || "#ffffff", ...textStyle }}
           placeholder="Enter heading..."
         />
@@ -309,7 +309,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
           field="subheading"
           value={content.subheading || ""}
           tag="p"
-          className="text-lg md:text-xl lg:text-2xl mb-8 opacity-90"
+          className="text-lg @md:text-xl @lg:text-2xl mb-8 opacity-90"
           style={{ color: style.textColor || "#ffffff", ...textStyle }}
           placeholder="Enter subheading..."
         />
@@ -404,7 +404,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
       const heroObjectPosition = `${heroFocalPoint.x}% ${heroFocalPoint.y}%`;
 
       return (
-        <div className="relative w-full h-full min-h-[300px] md:min-h-[400px]">
+        <div className="relative w-full min-h-[300px] @md:min-h-[400px]">
           <img
             src={content.heroImage}
             alt=""
@@ -435,7 +435,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
             e.stopPropagation();
             openMediaPicker("hero");
           }}
-          className="w-full h-full min-h-[300px] md:min-h-[400px] flex flex-col items-center justify-center bg-white/10 border-2 border-dashed border-white/30 rounded-2xl hover:border-white/50 hover:bg-white/20 transition-all"
+          className="w-full min-h-[300px] @md:min-h-[400px] flex flex-col items-center justify-center bg-white/10 border-2 border-dashed border-white/30 rounded-2xl hover:border-white/50 hover:bg-white/20 transition-all"
         >
           <PhotoIcon className="w-12 h-12 text-white/50 mb-3" />
           <span className="text-white/70 font-medium">Add Hero Image</span>
@@ -525,21 +525,21 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
     switch (variant) {
       case "text-left":
         return (
-          <div className="relative z-10 flex items-center h-full min-h-[inherit] px-6 sm:px-12 md:px-16 lg:px-24">
+          <div className="relative z-10 flex items-center h-full min-h-[inherit] px-6 @sm:px-12 @md:px-16 @lg:px-24">
             <div className="max-w-2xl">{renderTextContent("left")}</div>
           </div>
         );
 
       case "text-right":
         return (
-          <div className="relative z-10 flex items-center justify-end h-full min-h-[inherit] px-6 sm:px-12 md:px-16 lg:px-24">
+          <div className="relative z-10 flex items-center justify-end h-full min-h-[inherit] px-6 @sm:px-12 @md:px-16 @lg:px-24">
             <div className="max-w-2xl">{renderTextContent("right")}</div>
           </div>
         );
 
       case "split-left":
         return (
-          <div className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full min-h-[inherit] px-6 sm:px-12 md:px-16 lg:px-24 py-12">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-12 @md:px-16 @lg:px-24 py-12">
             <div>{renderTextContent("left")}</div>
             <div>{renderHeroImage()}</div>
           </div>
@@ -547,9 +547,9 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
       case "split-right":
         return (
-          <div className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full min-h-[inherit] px-6 sm:px-12 md:px-16 lg:px-24 py-12">
-            <div className="order-2 md:order-1">{renderHeroImage()}</div>
-            <div className="order-1 md:order-2">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-12 @md:px-16 @lg:px-24 py-12">
+            <div className="order-2 @md:order-1">{renderHeroImage()}</div>
+            <div className="order-1 @md:order-2">
               {renderTextContent("left")}
             </div>
           </div>
@@ -557,7 +557,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
       case "image-grid-right":
         return (
-          <div className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full min-h-[inherit] px-6 sm:px-12 md:px-16 lg:px-24 py-12">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-12 @md:px-16 @lg:px-24 py-12">
             <div>{renderTextContent("left")}</div>
             <div>{renderImageGrid()}</div>
           </div>
@@ -565,9 +565,11 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
       case "image-grid-left":
         return (
-          <div className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full min-h-[inherit] px-6 sm:px-12 md:px-16 lg:px-24 py-12">
-            <div>{renderImageGrid()}</div>
-            <div>{renderTextContent("left")}</div>
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-12 @md:px-16 @lg:px-24 py-12">
+            <div className="order-2 @md:order-1">{renderImageGrid()}</div>
+            <div className="order-1 @md:order-2">
+              {renderTextContent("left")}
+            </div>
           </div>
         );
 
@@ -576,7 +578,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
         return (
           <div
             className={classNames(
-              "relative z-10 flex flex-col h-full min-h-[inherit] px-4 sm:px-8 md:px-16 lg:px-24 w-full",
+              "relative z-10 flex flex-col h-full min-h-[inherit] px-4 @sm:px-8 @md:px-16 @lg:px-24 w-full",
               style.alignmentX === "left"
                 ? "items-start"
                 : style.alignmentX === "right"
@@ -604,7 +606,10 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
   return (
     <>
-      <div className="relative overflow-hidden" style={containerStyle}>
+      <div
+        className="@container relative overflow-hidden"
+        style={containerStyle}
+      >
         {/* Background image for non-centered layouts */}
         {variant !== "centered" && style.backgroundImage && (
           <div

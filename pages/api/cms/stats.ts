@@ -7,6 +7,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { withCMSAuth } from "../../../lib/adminAuth";
 import { listPages } from "../../../modules/page-builder/utils/pageStorage";
 import { listAssets } from "../../../modules/media/utils/mediaStorage";
+import { listSchemas } from "../../../modules/collections/utils/schemaStorage";
+import { listEntries } from "../../../modules/collections/utils/entryStorage";
 import type { Page, PageStatus } from "../../../modules/page-builder/types";
 import { cmsConfig } from "../../../lib/cms.config";
 import { getLocalizedString } from "../../../modules/page-builder/utils/localization";
@@ -37,6 +39,10 @@ interface DashboardStats {
   media: {
     total: number;
     totalSizeBytes: number;
+  };
+  collections: {
+    total: number;
+    totalEntries: number;
   };
   pendingReviews: PageStat[];
   recentEdits: PageStat[];
@@ -142,6 +148,25 @@ export default async function handler(
       // Media might not be set up yet
     }
 
+    // Get collections stats
+    let collectionsTotal = 0;
+    let collectionsTotalEntries = 0;
+    try {
+      const schemasResult = await listSchemas({});
+      collectionsTotal = schemasResult.total;
+      // Count entries for each collection
+      for (const schema of schemasResult.items) {
+        try {
+          const entriesResult = await listEntries(schema.slug, { limit: 1 });
+          collectionsTotalEntries += entriesResult.total;
+        } catch {
+          // Skip if entries can't be loaded
+        }
+      }
+    } catch {
+      // Collections might not be set up yet
+    }
+
     // Get pending reviews (pages in_review status)
     const pendingReviews = pages
       .filter((p) => p.status === "in_review")
@@ -233,6 +258,10 @@ export default async function handler(
       media: {
         total: mediaTotal,
         totalSizeBytes: mediaTotalSize,
+      },
+      collections: {
+        total: collectionsTotal,
+        totalEntries: collectionsTotalEntries,
       },
       pendingReviews,
       recentEdits,

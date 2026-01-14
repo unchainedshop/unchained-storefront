@@ -26,6 +26,8 @@ import CropEditor, {
   AspectRatioPreset,
 } from "../../../media/components/CropEditor";
 import LinkPickerField from "./LinkPickerField";
+import ProductCollectionPickerField from "./ProductCollectionPickerField";
+import CollectionPickerField from "./CollectionPickerField";
 import type {
   PageBlock,
   BlockStyle,
@@ -947,6 +949,15 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 onChange={(v) => onChange("source", v)}
               />
             </PropertyRow>
+            {content.source === "collection" && (
+              <PropertyRow label="Collection" inline={false}>
+                <ProductCollectionPickerField
+                  value={content.collectionId}
+                  onChange={(v) => onChange("collectionId", v)}
+                  onBlur={onBlur}
+                />
+              </PropertyRow>
+            )}
             <PropertyRow label="Count">
               <MiniNumberInput
                 value={content.limit || 8}
@@ -3007,6 +3018,153 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
             >
               + Add Post
             </button>
+          </Section>
+        </div>
+      );
+    }
+
+    case "collection-list": {
+      return (
+        <div>
+          <Section title="Collection">
+            <PropertyRow label="Collection" inline={false}>
+              <CollectionPickerField
+                value={content.collectionSlug}
+                onChange={(v) => onChange("collectionSlug", v)}
+                onBlur={onBlur}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Header">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading"
+            />
+          </Section>
+
+          <Section title="Layout">
+            <PropertyRow label="Layout">
+              <MiniSelect
+                value={content.layout || "grid"}
+                options={[
+                  { value: "grid", label: "Grid" },
+                  { value: "list", label: "List" },
+                  { value: "cards", label: "Cards" },
+                  { value: "carousel", label: "Carousel" },
+                ]}
+                onChange={(v) => onChange("layout", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Columns">
+              <MiniNumberInput
+                value={content.columns || 3}
+                min={2}
+                max={4}
+                onChange={(v) => onChange("columns", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Mobile">
+              <MiniNumberInput
+                value={content.mobileColumns || 1}
+                min={1}
+                max={2}
+                onChange={(v) => onChange("mobileColumns", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Gap">
+              <MiniNumberInput
+                value={content.gap || 24}
+                min={0}
+                max={48}
+                onChange={(v) => onChange("gap", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Content">
+            <PropertyRow label="Limit">
+              <MiniNumberInput
+                value={content.limit || 6}
+                min={1}
+                max={24}
+                onChange={(v) => onChange("limit", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Sort By">
+              <MiniSelect
+                value={content.sortBy || "createdAt"}
+                options={[
+                  { value: "createdAt", label: "Created" },
+                  { value: "updatedAt", label: "Updated" },
+                  { value: "order", label: "Manual" },
+                  { value: "title", label: "Title" },
+                ]}
+                onChange={(v) => onChange("sortBy", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Order">
+              <SegmentedControl
+                value={content.sortOrder || "desc"}
+                options={[
+                  { value: "desc", label: "Newest" },
+                  { value: "asc", label: "Oldest" },
+                ]}
+                onChange={(v) => onChange("sortOrder", v)}
+              />
+            </PropertyRow>
+            <ToggleRow
+              label="Published only"
+              checked={content.publishedOnly ?? true}
+              onChange={(v) => onChange("publishedOnly", v)}
+            />
+          </Section>
+
+          <Section title="Display">
+            <ToggleRow
+              label="Show image"
+              checked={content.showImage ?? true}
+              onChange={(v) => onChange("showImage", v)}
+            />
+            <ToggleRow
+              label="Show excerpt"
+              checked={content.showExcerpt ?? true}
+              onChange={(v) => onChange("showExcerpt", v)}
+            />
+            <ToggleRow
+              label="Show read more"
+              checked={content.showReadMore ?? true}
+              onChange={(v) => onChange("showReadMore", v)}
+            />
+            {content.showReadMore && (
+              <InputField
+                value={content.readMoreText || "Read more"}
+                onChange={(v) => onChange("readMoreText", v)}
+                onBlur={onBlur}
+                placeholder="Read more text"
+              />
+            )}
+          </Section>
+
+          <Section title="Links">
+            <InputField
+              value={content.linkPattern || ""}
+              onChange={(v) => onChange("linkPattern", v)}
+              onBlur={onBlur}
+              placeholder="/blog/{{slug}}"
+            />
+            <p className="text-[10px] text-slate-400 mt-1">
+              Use {"{{slug}}"} for entry slug
+            </p>
           </Section>
         </div>
       );

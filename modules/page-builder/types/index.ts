@@ -89,7 +89,8 @@ export type BlockType =
   | "shoppable-video"
   | "size-guide"
   | "store-locator"
-  | "instagram-feed";
+  | "instagram-feed"
+  | "collection-list";
 
 export type Viewport =
   | "mobile"
@@ -607,6 +608,43 @@ export interface InstagramFeedContent {
   aspectRatio: "square" | "original";
 }
 
+export interface CollectionListContent {
+  /** Collection slug to display entries from */
+  collectionSlug: string;
+  /** Heading above the list */
+  heading?: string;
+  /** Subheading/description */
+  subheading?: string;
+  /** Display layout */
+  layout: "grid" | "list" | "cards" | "carousel";
+  /** Number of columns (for grid/cards layout) */
+  columns: 2 | 3 | 4;
+  /** Mobile columns */
+  mobileColumns: 1 | 2;
+  /** Maximum entries to display */
+  limit: number;
+  /** Sort field */
+  sortBy: "createdAt" | "updatedAt" | "order" | "title";
+  /** Sort direction */
+  sortOrder: "asc" | "desc";
+  /** Only show published entries */
+  publishedOnly: boolean;
+  /** Fields to display from entries */
+  displayFields: string[];
+  /** Show entry image (if available) */
+  showImage: boolean;
+  /** Show entry excerpt/description */
+  showExcerpt: boolean;
+  /** Show read more link */
+  showReadMore: boolean;
+  /** Read more button text */
+  readMoreText?: string;
+  /** Link pattern for entries (e.g., "/blog/{{slug}}") */
+  linkPattern?: string;
+  /** Gap between items (in pixels) */
+  gap: number;
+}
+
 export type BlockContent =
   | HeroBannerContent
   | ProductGridContent
@@ -635,7 +673,8 @@ export type BlockContent =
   | ShoppableVideoContent
   | SizeGuideContent
   | StoreLocatorContent
-  | InstagramFeedContent;
+  | InstagramFeedContent
+  | CollectionListContent;
 
 export interface PageBlock {
   id: string;
