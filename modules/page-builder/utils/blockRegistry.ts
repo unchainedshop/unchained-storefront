@@ -823,7 +823,7 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     description:
       "Display entries from a content collection (Blog, FAQ, Team, etc.)",
     icon: "rectangle-stack",
-    category: "content",
+    category: "collections",
     defaultContent: {
       collectionSlug: "",
       heading: "",
@@ -856,6 +856,7 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
 export const blockCategories = [
   { id: "layout", label: "Layout", icon: "view-columns" },
   { id: "content", label: "Content", icon: "document-text" },
+  { id: "collections", label: "Collections", icon: "rectangle-stack" },
   { id: "ecommerce", label: "E-Commerce", icon: "shopping-bag" },
   { id: "marketing", label: "Marketing", icon: "megaphone" },
   { id: "custom", label: "Custom", icon: "code-bracket" },

@@ -863,7 +863,13 @@ export interface BlockDefinition {
   label: string;
   description?: string;
   icon: string;
-  category: "layout" | "content" | "ecommerce" | "marketing" | "custom";
+  category:
+    | "layout"
+    | "content"
+    | "collections"
+    | "ecommerce"
+    | "marketing"
+    | "custom";
   defaultContent: BlockContent;
   defaultStyle: BlockStyle;
   allowChildren?: boolean;

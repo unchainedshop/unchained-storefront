@@ -37,6 +37,7 @@ import ShoppableVideo from "./ShoppableVideo/ShoppableVideo";
 import SizeGuide from "./SizeGuide/SizeGuide";
 import StoreLocator from "./StoreLocator/StoreLocator";
 import InstagramFeed from "./InstagramFeed/InstagramFeed";
+import CollectionList from "./CollectionList/CollectionList";
 
 /**
  * Resolve a block's localized content to a single locale
@@ -186,6 +187,9 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({
 
     case "instagram-feed":
       return <InstagramFeed {...commonProps} />;
+
+    case "collection-list":
+      return <CollectionList {...commonProps} />;
 
     default:
       return (

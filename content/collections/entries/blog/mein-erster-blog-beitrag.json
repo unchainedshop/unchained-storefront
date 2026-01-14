@@ -1,0 +1,21 @@
+{
+  "id": "entry_1768431985847_o2dfo",
+  "collectionSlug": "blog",
+  "slug": "mein-erster-blog-beitrag",
+  "status": "published",
+  "content": {
+    "title": {
+      "de": "Mein erster Blog-Beitrag"
+    },
+    "excerpt": {},
+    "content": {
+      "de": "Dies ist mein erster Blog-Beitrag. Willkommen auf unserem Blog!"
+    },
+    "meta_title": {},
+    "meta_description": {},
+    "slug": "mein-erster-blog-beitrag"
+  },
+  "createdAt": "2026-01-14T23:06:25.847Z",
+  "updatedAt": "2026-01-14T23:06:25.847Z",
+  "createdBy": "dev-user"
+}
