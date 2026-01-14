@@ -104,7 +104,7 @@ const WorkflowActions: React.FC<WorkflowActionsProps> = ({
 
   const handleScheduleSubmit = async (date: string) => {
     try {
-      await handleTransition("published");
+      await handleTransition("scheduled");
       setShowScheduleModal(false);
     } catch {
       // Error already handled in handleTransition
@@ -187,6 +187,23 @@ const WorkflowActions: React.FC<WorkflowActionsProps> = ({
       }
     }
 
+    if (status === "scheduled") {
+      if (isPublisher) {
+        actions.push({
+          label: "Publish Now",
+          icon: GlobeAltIcon,
+          onClick: () => handleTransition("published"),
+          color: "emerald",
+        });
+        actions.push({
+          label: "Cancel Schedule",
+          icon: XMarkIcon,
+          onClick: () => handleTransition("draft"),
+          color: "red",
+        });
+      }
+    }
+
     if (status === "published") {
       if (isPublisher) {
         actions.push({
@@ -237,8 +254,7 @@ const WorkflowActions: React.FC<WorkflowActionsProps> = ({
             "flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-xl transition-all duration-200",
             config.color,
             config.bgColor,
-            hasActions &&
-              "cursor-pointer hover:opacity-90 active:scale-[0.98]",
+            hasActions && "cursor-pointer hover:opacity-90 active:scale-[0.98]",
             !hasActions && "cursor-default",
             isSubmitting && "opacity-50",
           )}

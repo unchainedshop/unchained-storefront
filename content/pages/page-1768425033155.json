@@ -1,33 +1,25 @@
 {
-  "id": "page_1768396649195",
+  "id": "page_1768425033155",
   "title": {
-    "de": "Untitled Pagesss",
-    "fr": "hello"
+    "de": "Untitled Page"
   },
-  "slug": "page-1768396649195",
-  "status": "in_review",
+  "slug": "page-1768425033155",
+  "status": "scheduled",
   "blocks": [
     {
-      "id": "block_1768396655405_f73tvr0ir",
+      "id": "block_1768425035726_191rf3h2g",
       "type": "hero-banner",
       "content": {
-        "de": {
-          "heading": "Voll krass, Pasci, han es CMS baut",
-          "subheading": "Discover our curated collection of premium products, designed to elevate your everyday experience.",
-          "buttonText": "Shop Collection",
-          "buttonLink": "/shop",
-          "secondaryButtonText": "Our Story",
-          "secondaryButtonLink": "/about",
-          "variant": "image-grid-left",
-          "heroImage": "/api/media/files/2026/01/media_1768343573333_zsk1d3.png",
-          "gridImages": [
-            "/api/media/files/2026/01/media_1768393235289_s9sq7k.webp",
-            "/api/media/files/2026/01/media_1768343573333_zsk1d3.png"
-          ]
-        }
+        "heading": "Crafted for Those Who Appreciate Quality",
+        "subheading": "Discover our curated collection of premium products, designed to elevate your everyday experience.",
+        "buttonText": "Shop Collection",
+        "buttonLink": "/shop",
+        "secondaryButtonText": "Our Story",
+        "secondaryButtonLink": "/about",
+        "variant": "split-left"
       },
       "style": {
-        "backgroundColor": "#5786f4",
+        "backgroundColor": "#0f172a",
         "textColor": "#ffffff",
         "minHeight": 600,
         "padding": {
@@ -40,19 +32,17 @@
       "responsive": {}
     },
     {
-      "id": "block_1768396655405_w1cv8cb42",
+      "id": "block_1768425035726_9egaubfzx",
       "type": "spacer",
       "content": {
-        "de": {
-          "height": 80,
-          "mobileHeight": 48
-        }
+        "height": 80,
+        "mobileHeight": 48
       },
       "style": {},
       "responsive": {}
     },
     {
-      "id": "block_1768396655405_52p86ybep",
+      "id": "block_1768425035726_stt4qsajx",
       "type": "text-content",
       "content": {
         "de": {
@@ -72,17 +62,15 @@
       "responsive": {}
     },
     {
-      "id": "block_1768396655405_9jg44ox2e",
+      "id": "block_1768425035726_hqr5o84my",
       "type": "product-grid",
       "content": {
-        "de": {
-          "source": "auto",
-          "limit": 4,
-          "columns": 4,
-          "mobileColumns": 2,
-          "showSaleBadge": true,
-          "showQuickAdd": true
-        }
+        "source": "auto",
+        "limit": 4,
+        "columns": 4,
+        "mobileColumns": 2,
+        "showSaleBadge": true,
+        "showQuickAdd": true
       },
       "style": {
         "padding": {
@@ -95,40 +83,14 @@
       "responsive": {}
     },
     {
-      "id": "block_1768414876458_b55vwzrnn",
-      "type": "section",
-      "content": {
-        "containerWidth": "container"
-      },
-      "style": {
-        "padding": {
-          "top": 48,
-          "right": 24,
-          "bottom": 48,
-          "left": 24
-        },
-        "margin": {
-          "top": 0,
-          "right": 0,
-          "bottom": 0,
-          "left": 0
-        },
-        "fullWidth": true
-      },
-      "responsive": {},
-      "children": []
-    },
-    {
-      "id": "block_1768396655405_ru026il7m",
+      "id": "block_1768425035726_6bsnarmqk",
       "type": "hero-banner",
       "content": {
-        "de": {
-          "heading": "New Season Arrivals",
-          "subheading": "Fresh styles just landed. Be the first to shop.",
-          "buttonText": "View New In",
-          "buttonLink": "/new",
-          "variant": "split-right"
-        }
+        "heading": "New Season Arrivals",
+        "subheading": "Fresh styles just landed. Be the first to shop.",
+        "buttonText": "View New In",
+        "buttonLink": "/new",
+        "variant": "split-right"
       },
       "style": {
         "backgroundColor": "#f8fafc",
@@ -138,32 +100,23 @@
       "responsive": {}
     },
     {
-      "id": "block_1768396655405_r4cv83amg",
+      "id": "block_1768425035726_0v5o7kio5",
       "type": "spacer",
       "content": {
-        "de": {
-          "height": 64,
-          "mobileHeight": 48
-        }
+        "height": 64,
+        "mobileHeight": 48
       },
       "style": {},
       "responsive": {}
     },
     {
-      "id": "block_1768396655405_maelf4gxe",
+      "id": "block_1768425035726_kfj6p1xfk",
       "type": "columns",
       "content": {
-        "de": {
-          "columns": 3,
-          "gap": 32,
-          "layout": "equal",
-          "stackOnMobile": true
-        },
-        "fr": {
-          "columns": 2,
-          "layout": "equal",
-          "laptopColumns": 1
-        }
+        "columns": 3,
+        "gap": 32,
+        "layout": "equal",
+        "stackOnMobile": true
       },
       "style": {
         "padding": {
@@ -176,7 +129,7 @@
       "responsive": {},
       "children": [
         {
-          "id": "block_1768396655405_3b92yz8jr",
+          "id": "block_1768425035726_r9wcc40uy",
           "type": "text-content",
           "content": {
             "de": {
@@ -189,7 +142,7 @@
           "responsive": {}
         },
         {
-          "id": "block_1768396655405_g3rt2dvtv",
+          "id": "block_1768425035726_7hdo1eu8w",
           "type": "text-content",
           "content": {
             "de": {
@@ -202,7 +155,7 @@
           "responsive": {}
         },
         {
-          "id": "block_1768396655405_n95v96ql2",
+          "id": "block_1768425035726_6of3763bz",
           "type": "text-content",
           "content": {
             "de": {
@@ -217,17 +170,15 @@
       ]
     },
     {
-      "id": "block_1768396655405_8x5f7szb9",
+      "id": "block_1768425035726_yusxkfu6e",
       "type": "newsletter",
       "content": {
-        "de": {
-          "heading": "Join the Community",
-          "subheading": "Get 15% off your first order plus exclusive access to new arrivals and special offers.",
-          "buttonText": "Subscribe",
-          "placeholder": "Enter your email",
-          "showConsent": true,
-          "consentText": "I agree to receive marketing emails"
-        }
+        "heading": "Join the Community",
+        "subheading": "Get 15% off your first order plus exclusive access to new arrivals and special offers.",
+        "buttonText": "Subscribe",
+        "placeholder": "Enter your email",
+        "showConsent": true,
+        "consentText": "I agree to receive marketing emails"
       },
       "style": {
         "backgroundColor": "#0f172a",
@@ -242,21 +193,7 @@
       "responsive": {}
     }
   ],
-  "seo": {
-    "title": {
-      "fr": "sdsfsdf"
-    },
-    "description": {
-      "fr": "sdfsf"
-    },
-    "keywords": {
-      "fr": "sdf"
-    }
-  },
-  "createdAt": "2026-01-14T13:17:29.195Z",
-  "updatedAt": "2026-01-14T21:10:26.090Z",
-  "versions": [],
-  "publishedAt": "2026-01-14T13:21:26.889Z",
+  "seo": {},
   "translations": {
     "sourceLocale": "de",
     "status": {
@@ -281,5 +218,8 @@
         "completeness": 0
       }
     }
-  }
+  },
+  "createdAt": "2026-01-14T21:10:33.155Z",
+  "updatedAt": "2026-01-14T21:10:47.683Z",
+  "versions": []
 }

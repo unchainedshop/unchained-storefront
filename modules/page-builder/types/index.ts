@@ -688,6 +688,7 @@ export type PageStatus =
   | "draft"
   | "in_review"
   | "approved"
+  | "scheduled"
   | "published"
   | "archived";
 
@@ -801,6 +802,8 @@ export interface EditorState {
   hoveredBlockId: string | null;
   /** Current error state */
   error: PageBuilderError | null;
+  /** Section to focus in settings panel (e.g., 'seo') */
+  focusSection: string | null;
 }
 
 // Nesting configuration for blocks
@@ -908,7 +911,8 @@ export type EditorAction =
     }
   | { type: "SET_HOVERED_BLOCK"; payload: string | null }
   | { type: "SET_ERROR"; payload: PageBuilderError | null }
-  | { type: "CLEAR_ERROR" };
+  | { type: "CLEAR_ERROR" }
+  | { type: "SET_FOCUS_SECTION"; payload: string | null };
 
 // =============================================================================
 // ERROR TYPES

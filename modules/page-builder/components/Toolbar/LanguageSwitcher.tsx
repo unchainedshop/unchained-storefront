@@ -11,6 +11,11 @@ export function LanguageSwitcher() {
   const { activeLocale, setActiveLocale, state } = usePageBuilder();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [position, setPosition] = useState<{ top: number; right: number }>({
+    top: 0,
+    right: 0,
+  });
 
   // Get translation completeness for each locale
   const getCompleteness = (locale: string): number => {
@@ -33,6 +38,17 @@ export function LanguageSwitcher() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Calculate position for fixed dropdown
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setPosition({
+        top: rect.bottom + 4,
+        right: window.innerWidth - rect.right,
+      });
+    }
+  }, [isOpen]);
+
   // Count locales with complete translations
   const completedCount = cmsConfig.locales.filter(
     (locale) => getCompleteness(locale) === 100,
@@ -41,6 +57,7 @@ export function LanguageSwitcher() {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-1 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
@@ -66,7 +83,10 @@ export function LanguageSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-50 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-slate-200 focus:outline-none dark:bg-slate-800 dark:ring-slate-700">
+        <div
+          className="fixed z-50 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-slate-200 focus:outline-none dark:bg-slate-800 dark:ring-slate-700"
+          style={{ top: position.top, right: position.right }}
+        >
           <div className="py-1">
             <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 dark:text-slate-400">
               Content Language

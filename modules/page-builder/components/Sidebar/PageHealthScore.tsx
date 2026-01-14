@@ -48,6 +48,8 @@ interface HealthIssue {
   blockId?: string;
   blockType?: BlockType;
   fix?: string;
+  /** Field to focus when clicking this issue (e.g., 'seo-title', 'seo-description') */
+  focusField?: string;
 }
 
 interface CategoryScore {
@@ -146,6 +148,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: "Missing meta title",
       severity: "error",
       fix: "Add a meta title in page settings (50-60 characters recommended)",
+      focusField: "seo-title",
     });
   } else if (title.length < 30) {
     issues.push({
@@ -153,6 +156,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: `Meta title is too short (${title.length} chars)`,
       severity: "warning",
       fix: "Expand your title to 50-60 characters for better SEO",
+      focusField: "seo-title",
     });
     score += 15;
   } else if (title.length > 60) {
@@ -161,6 +165,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: `Meta title is too long (${title.length} chars)`,
       severity: "warning",
       fix: "Shorten your title to 60 characters or less",
+      focusField: "seo-title",
     });
     score += 15;
   } else {
@@ -174,6 +179,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: "Missing meta description",
       severity: "error",
       fix: "Add a meta description in page settings (150-160 characters recommended)",
+      focusField: "seo-description",
     });
   } else if (description.length < 120) {
     issues.push({
@@ -181,6 +187,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: `Meta description is too short (${description.length} chars)`,
       severity: "warning",
       fix: "Expand your description to 150-160 characters",
+      focusField: "seo-description",
     });
     score += 15;
   } else if (description.length > 160) {
@@ -189,6 +196,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: `Meta description is too long (${description.length} chars)`,
       severity: "warning",
       fix: "Shorten your description to 160 characters or less",
+      focusField: "seo-description",
     });
     score += 15;
   } else {
@@ -202,6 +210,7 @@ function analyzeSEO(page: Page, locale: string): CategoryScore {
       message: "Missing Open Graph image",
       severity: "warning",
       fix: "Add an OG image for better social media sharing",
+      focusField: "seo-og-image",
     });
   } else {
     score += 20;
@@ -638,13 +647,13 @@ const ScoreCircle: React.FC<ScoreCircleProps> = ({ score, size = "lg" }) => {
   };
 
   const dimensions =
-    size === "lg" ? { size: 80, stroke: 6 } : { size: 40, stroke: 4 };
+    size === "lg" ? { size: 56, stroke: 5 } : { size: 40, stroke: 4 };
   const radius = (dimensions.size - dimensions.stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <div className={`relative ${size === "lg" ? "w-20 h-20" : "w-10 h-10"}`}>
+    <div className={`relative ${size === "lg" ? "w-14 h-14" : "w-10 h-10"}`}>
       <svg
         className="transform -rotate-90"
         width={dimensions.size}
@@ -672,7 +681,7 @@ const ScoreCircle: React.FC<ScoreCircleProps> = ({ score, size = "lg" }) => {
       </svg>
       <div
         className={`absolute inset-0 flex items-center justify-center ${
-          size === "lg" ? "text-lg" : "text-xs"
+          size === "lg" ? "text-base" : "text-xs"
         } font-bold ${getScoreColor(score)}`}
       >
         {score}
@@ -686,6 +695,7 @@ interface CategoryCardProps {
   label: string;
   category: CategoryScore;
   onBlockClick?: (blockId: string) => void;
+  onSectionFocus?: (section: string) => void;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({
@@ -693,6 +703,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   label,
   category,
   onBlockClick,
+  onSectionFocus,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasIssues = category.issues.length > 0;
@@ -770,36 +781,49 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
       {isExpanded && hasIssues && (
         <div className="px-3 pb-3 space-y-2">
-          {category.issues.map((issue) => (
-            <div
-              key={issue.id}
-              className={`p-2.5 rounded-lg bg-white dark:bg-slate-900/50 ${
-                issue.blockId
-                  ? "cursor-pointer hover:ring-1 hover:ring-slate-300 dark:hover:ring-slate-600"
-                  : ""
-              }`}
-              onClick={() => issue.blockId && onBlockClick?.(issue.blockId)}
-            >
-              <div className="flex items-start gap-2">
-                {getSeverityIcon(issue.severity)}
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium text-slate-700 dark:text-slate-300">
-                    {issue.message}
-                  </p>
-                  {issue.fix && (
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                      {issue.fix}
+          {category.issues.map((issue) => {
+            // Only clickable if issue has a specific target (block or field)
+            const isClickable = issue.blockId || issue.focusField;
+            const handleClick = () => {
+              if (issue.blockId) {
+                onBlockClick?.(issue.blockId);
+              } else if (issue.focusField) {
+                onSectionFocus?.(issue.focusField);
+              }
+            };
+            return (
+              <div
+                key={issue.id}
+                className={`p-2.5 rounded-lg bg-white dark:bg-slate-900/50 ${
+                  isClickable
+                    ? "cursor-pointer hover:ring-1 hover:ring-slate-300 dark:hover:ring-slate-600"
+                    : ""
+                }`}
+                onClick={handleClick}
+              >
+                <div className="flex items-start gap-2">
+                  {getSeverityIcon(issue.severity)}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                      {issue.message}
                     </p>
-                  )}
-                  {issue.blockId && (
-                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-                      Click to select block
-                    </p>
-                  )}
+                    {issue.fix && (
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        {issue.fix}
+                      </p>
+                    )}
+                    {isClickable && (
+                      <p className="text-xs text-blue-500 dark:text-blue-400 mt-1">
+                        {issue.blockId
+                          ? "Click to select block"
+                          : "Click to edit"}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
@@ -811,7 +835,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 // =============================================================================
 
 const PageHealthScore: React.FC = () => {
-  const { state, selectBlock } = usePageBuilder();
+  const { state, selectBlock, setFocusSection } = usePageBuilder();
   const locale = state.activeLocale || "en";
 
   const analysis = useMemo(
@@ -834,6 +858,11 @@ const PageHealthScore: React.FC = () => {
 
   const handleBlockClick = (blockId: string) => {
     selectBlock(blockId);
+  };
+
+  const handleSectionFocus = (section: string) => {
+    selectBlock(null); // Deselect any block to show Page Settings
+    setFocusSection(section);
   };
 
   const totalIssues =
@@ -885,6 +914,7 @@ const PageHealthScore: React.FC = () => {
           label="SEO"
           category={analysis.seo}
           onBlockClick={handleBlockClick}
+          onSectionFocus={handleSectionFocus}
         />
         <CategoryCard
           icon={EyeIcon}

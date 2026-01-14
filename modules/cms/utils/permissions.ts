@@ -86,7 +86,8 @@ export function getUserActions(userRoles: string[]): CMSAction[] {
 export const validTransitions: Record<PageStatus, PageStatus[]> = {
   draft: ["in_review", "published"], // Editor submits for review, or publisher publishes directly
   in_review: ["approved", "draft"], // Reviewer approves or rejects (back to draft)
-  approved: ["published", "draft"], // Publisher publishes, or can be sent back to draft
+  approved: ["published", "scheduled", "draft"], // Publisher publishes, schedules, or can be sent back to draft
+  scheduled: ["published", "draft"], // Scheduled pages can be published early or cancelled
   published: ["draft", "archived"], // Can unpublish to draft or archive
   archived: ["draft"], // Can restore to draft
 };
@@ -130,9 +131,24 @@ export function getTransitionAction(
     return "publish";
   }
 
+  // Approved → Scheduled: schedule
+  if (from === "approved" && to === "scheduled") {
+    return "schedule";
+  }
+
   // Approved → Draft: reject (sent back for changes)
   if (from === "approved" && to === "draft") {
     return "reject";
+  }
+
+  // Scheduled → Published: publish (publish early)
+  if (from === "scheduled" && to === "published") {
+    return "publish";
+  }
+
+  // Scheduled → Draft: unpublish (cancel scheduled)
+  if (from === "scheduled" && to === "draft") {
+    return "unpublish";
   }
 
   // Published → Draft: unpublish
@@ -197,6 +213,11 @@ export const statusConfig: Record<
     label: "Approved",
     color: "text-blue-700 dark:text-blue-400",
     bgColor: "bg-blue-100 dark:bg-blue-900/30",
+  },
+  scheduled: {
+    label: "Scheduled",
+    color: "text-purple-700 dark:text-purple-400",
+    bgColor: "bg-purple-100 dark:bg-purple-900/30",
   },
   published: {
     label: "Published",

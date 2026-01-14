@@ -3,7 +3,7 @@
  * Modal for selecting a page template to start from
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import classNames from "classnames";
 import {
   XMarkIcon,
@@ -52,12 +52,27 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
       ? pageTemplates
       : pageTemplates.filter((t) => t.category === selectedCategory);
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     if (selectedTemplate) {
       onSelectTemplate(selectedTemplate);
       onClose();
     }
-  };
+  }, [selectedTemplate, onSelectTemplate, onClose]);
+
+  // Handle Enter key to confirm selection
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && selectedTemplate) {
+        e.preventDefault();
+        handleConfirm();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, selectedTemplate, handleConfirm]);
 
   return (
     <AnimatedModal

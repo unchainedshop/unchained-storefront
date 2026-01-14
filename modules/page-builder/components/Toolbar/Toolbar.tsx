@@ -54,6 +54,7 @@ interface DropdownProps {
   children: React.ReactNode;
   align?: "left" | "right";
   width?: string;
+  triggerRef?: React.RefObject<HTMLElement>;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -62,8 +63,13 @@ const Dropdown: React.FC<DropdownProps> = ({
   children,
   align = "left",
   width = "min-w-[180px]",
+  triggerRef,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState<{ top: number; left: number }>({
+    top: 0,
+    left: 0,
+  });
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -77,15 +83,41 @@ const Dropdown: React.FC<DropdownProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (isOpen && triggerRef?.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setPosition({
+        top: rect.bottom + 8,
+        left: align === "right" ? rect.right : rect.left,
+      });
+    }
+  }, [isOpen, triggerRef, align]);
+
   if (!isOpen) return null;
+
+  // Use fixed positioning when triggerRef is provided
+  const useFixed = !!triggerRef;
 
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div
         ref={ref}
+        style={
+          useFixed
+            ? {
+                position: "fixed",
+                top: position.top,
+                left: align === "right" ? "auto" : position.left,
+                right:
+                  align === "right"
+                    ? window.innerWidth - position.left
+                    : "auto",
+              }
+            : undefined
+        }
         className={classNames(
-          "absolute top-full mt-2 z-50",
+          useFixed ? "z-50" : "absolute top-full mt-2 z-50",
           // Glassmorphism: translucent bg + heavy blur + subtle border
           "bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl backdrop-saturate-150",
           "rounded-2xl",
@@ -95,7 +127,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           "py-2 overflow-hidden",
           "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200",
           width,
-          align === "right" ? "right-0" : "left-0",
+          !useFixed && (align === "right" ? "right-0" : "left-0"),
         )}
       >
         {children}
@@ -231,6 +263,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
   const [showZoomMenu, setShowZoomMenu] = useState(false);
   const [showViewportMenu, setShowViewportMenu] = useState(false);
   const [titleFocused, setTitleFocused] = useState(false);
+  const viewportButtonRef = useRef<HTMLButtonElement>(null);
+  const zoomButtonRef = useRef<HTMLButtonElement>(null);
 
   // Viewport categories
   type ViewportCategory = "mobile" | "tablet" | "desktop";
@@ -377,7 +411,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Center section - Viewport & Zoom (only on xl screens) */}
-      <div className="hidden xl:flex flex-1 items-center justify-center gap-4 mx-6">
+      <div className="hidden xl:flex flex-1 items-center justify-center gap-4 overflow-hidden mx-6">
         {/* Templates button */}
         {onOpenTemplates && (
           <>
@@ -439,6 +473,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
           {/* Width dropdown trigger */}
           <button
+            ref={viewportButtonRef}
             onClick={() => setShowViewportMenu(!showViewportMenu)}
             className={classNames(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap",
@@ -461,6 +496,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
             isOpen={showViewportMenu}
             onClose={() => setShowViewportMenu(false)}
             width="min-w-[220px]"
+            triggerRef={viewportButtonRef}
           >
             {(["mobile", "tablet", "desktop"] as const).map((category, idx) => (
               <div key={category}>
@@ -506,6 +542,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         {/* Zoom dropdown */}
         <div className="relative">
           <button
+            ref={zoomButtonRef}
             onClick={() => setShowZoomMenu(!showZoomMenu)}
             className={classNames(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap",
@@ -528,6 +565,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
             onClose={() => setShowZoomMenu(false)}
             align="right"
             width="min-w-[120px]"
+            triggerRef={zoomButtonRef}
           >
             {zoomOptions.map((z) => (
               <button

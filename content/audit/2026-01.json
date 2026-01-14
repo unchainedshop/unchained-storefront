@@ -338,5 +338,55 @@
     "entityType": "page",
     "entityId": "page_1768416086420",
     "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768424868549_l1f7b1x",
+    "timestamp": "2026-01-14T21:07:48.549Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Pagesss"
+  },
+  {
+    "id": "audit_1768425024437_bv3bivg",
+    "timestamp": "2026-01-14T21:10:24.437Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Pagesss"
+  },
+  {
+    "id": "audit_1768425026092_4680yk6",
+    "timestamp": "2026-01-14T21:10:26.092Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "Untitled Pagesss"
+  },
+  {
+    "id": "audit_1768425043172_jpxy9pz",
+    "timestamp": "2026-01-14T21:10:43.172Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768425033155",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768425047684_tt51xjo",
+    "timestamp": "2026-01-14T21:10:47.684Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768425033155",
+    "entityTitle": "Untitled Page"
   }
 ]

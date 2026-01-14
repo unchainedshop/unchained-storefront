@@ -58,6 +58,7 @@ const initialState: EditorState = {
   activeLocale: cmsConfig.defaultLocale,
   hoveredBlockId: null,
   error: null,
+  focusSection: null,
 };
 
 // Helper functions for immutable block updates (exported for use in other components)
@@ -551,6 +552,12 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
         error: null,
       };
 
+    case "SET_FOCUS_SECTION":
+      return {
+        ...state,
+        focusSection: action.payload,
+      };
+
     default:
       return state;
   }
@@ -616,6 +623,8 @@ interface PageBuilderContextValue {
   // Error handling
   setError: (error: PageBuilderError | null) => void;
   clearError: () => void;
+  // Focus section (for navigating to settings sections)
+  setFocusSection: (section: string | null) => void;
 }
 
 const PageBuilderContext = createContext<PageBuilderContextValue | null>(null);
@@ -850,6 +859,10 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "CLEAR_ERROR" });
   }, []);
 
+  const setFocusSection = useCallback((section: string | null) => {
+    dispatch({ type: "SET_FOCUS_SECTION", payload: section });
+  }, []);
+
   const selectedBlock = useMemo(() => {
     if (!state.page || !state.selection.blockId) return null;
     return findBlockById(state.page.blocks, state.selection.blockId);
@@ -891,6 +904,8 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     // Error handling
     setError,
     clearError,
+    // Focus section
+    setFocusSection,
   };
 
   return (

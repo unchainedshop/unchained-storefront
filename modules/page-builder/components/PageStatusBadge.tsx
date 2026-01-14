@@ -22,6 +22,11 @@ const statusConfig: Record<PageStatus, { label: string; className: string }> = {
     className:
       "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
   },
+  scheduled: {
+    label: "Scheduled",
+    className:
+      "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+  },
   published: {
     label: "Published",
     className:

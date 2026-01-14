@@ -123,7 +123,12 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     updateSEO,
     updatePageMeta,
     activeLocale,
+    setFocusSection,
   } = usePageBuilder();
+  const seoSectionRef = React.useRef<HTMLDivElement>(null);
+  const seoTitleRef = React.useRef<HTMLInputElement>(null);
+  const seoDescriptionRef = React.useRef<HTMLTextAreaElement>(null);
+  const seoOgImageRef = React.useRef<HTMLDivElement>(null);
 
   const handleSaveHistory = () => {
     if (selectedBlock) {
@@ -141,6 +146,60 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     useCollaborationContext();
   const [activeTab, setActiveTab] = useState<TabId>("content");
   const [showCropEditor, setShowCropEditor] = useState(false);
+
+  // Handle focus section navigation from health score
+  useEffect(() => {
+    if (!state.focusSection) return;
+
+    // Map focusSection to the appropriate ref
+    const focusMap: Record<string, React.RefObject<HTMLElement | null>> = {
+      seo: seoSectionRef,
+      "seo-title": seoTitleRef,
+      "seo-description": seoDescriptionRef,
+      "seo-og-image": seoOgImageRef,
+    };
+
+    const targetRef = focusMap[state.focusSection];
+    if (targetRef?.current) {
+      // Scroll to element
+      targetRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      // Focus if it's an input/textarea
+      if (
+        targetRef.current instanceof HTMLInputElement ||
+        targetRef.current instanceof HTMLTextAreaElement
+      ) {
+        setTimeout(() => {
+          (
+            targetRef.current as HTMLInputElement | HTMLTextAreaElement
+          )?.focus();
+          (
+            targetRef.current as HTMLInputElement | HTMLTextAreaElement
+          )?.select();
+        }, 300);
+      }
+
+      // Add highlight effect
+      targetRef.current.classList.add(
+        "ring-2",
+        "ring-blue-400",
+        "ring-offset-2",
+      );
+      setTimeout(() => {
+        targetRef.current?.classList.remove(
+          "ring-2",
+          "ring-blue-400",
+          "ring-offset-2",
+        );
+      }, 2000);
+    }
+
+    // Clear focus section after handling
+    setFocusSection(null);
+  }, [state.focusSection, setFocusSection]);
   const [isCropping, setIsCropping] = useState(false);
   const [cropImageUrl, setCropImageUrl] = useState<string | null>(null);
   // cropTarget format: "content.fieldName" or "style.fieldName"
@@ -280,7 +339,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     const seo = page.seo || {};
     const seoTitle = seo.title?.[activeLocale] || "";
     const seoDescription = seo.description?.[activeLocale] || "";
-    const seoKeywords = seo.keywords?.[activeLocale] || "";
     const seoOgImage = seo.ogImage?.[activeLocale] || "";
     const seoNoIndex = seo.noIndex ?? false;
 
@@ -358,87 +416,93 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
           </Section>
 
           {/* SEO Section */}
-          <Section title="SEO" defaultOpen>
-            <div className="flex items-center gap-1.5 mb-2 px-0.5">
-              <MagnifyingGlassIcon className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
-                Editing for: {activeLocale.toUpperCase()}
-              </span>
-            </div>
+          <div
+            ref={seoSectionRef}
+            className="transition-all duration-300 rounded-lg"
+          >
+            <Section title="SEO" defaultOpen>
+              <div className="flex items-center gap-1.5 mb-2 px-0.5">
+                <MagnifyingGlassIcon className="w-3.5 h-3.5 text-slate-400" />
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                  Editing for: {activeLocale.toUpperCase()}
+                </span>
+              </div>
 
-            <PropertyRow label="Meta Title" inline={false}>
-              <input
-                type="text"
-                value={seoTitle}
-                onChange={(e) => handleSEOChange("title", e.target.value)}
-                placeholder="SEO title (defaults to page title)..."
-                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400"
-              />
-              <p className="text-[10px] text-slate-400 mt-1">
-                {seoTitle.length}/60 characters
-              </p>
-            </PropertyRow>
-
-            <PropertyRow label="Meta Description" inline={false}>
-              <textarea
-                value={seoDescription}
-                onChange={(e) => handleSEOChange("description", e.target.value)}
-                placeholder="Brief description for search engines..."
-                rows={3}
-                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400 resize-none"
-              />
-              <p className="text-[10px] text-slate-400 mt-1">
-                {seoDescription.length}/160 characters
-              </p>
-            </PropertyRow>
-
-            <PropertyRow label="Keywords" inline={false}>
-              <input
-                type="text"
-                value={seoKeywords}
-                onChange={(e) => handleSEOChange("keywords", e.target.value)}
-                placeholder="keyword1, keyword2, keyword3..."
-                className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400"
-              />
-            </PropertyRow>
-
-            <PropertyRow label="OG Image" inline={false}>
-              <MediaPickerField
-                value={seoOgImage}
-                onChange={(v) => handleSEOChange("ogImage", v)}
-                allowedTypes={["image/*"]}
-                compact
-              />
-              <p className="text-[10px] text-slate-400 mt-1">
-                Social sharing image (1200×630px recommended)
-              </p>
-            </PropertyRow>
-
-            <div className="flex items-center justify-between py-1">
-              <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                No Index
-              </label>
-              <button
-                onClick={() => handleSEOChange("noIndex", !seoNoIndex)}
-                className={classNames(
-                  "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
-                  seoNoIndex ? "bg-blue-500" : "bg-slate-200 dark:bg-slate-700",
-                )}
-              >
-                <span
-                  className="inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform"
-                  style={{
-                    transform: seoNoIndex
-                      ? "translateX(18px)"
-                      : "translateX(4px)",
-                  }}
+              <PropertyRow label="Meta Title" inline={false}>
+                <input
+                  ref={seoTitleRef}
+                  type="text"
+                  value={seoTitle}
+                  onChange={(e) => handleSEOChange("title", e.target.value)}
+                  placeholder="SEO title (defaults to page title)..."
+                  className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400 transition-all duration-300 rounded-md"
                 />
-              </button>
-            </div>
-            <p className="text-[10px] text-slate-400 -mt-1">
-              Hide this page from search engines
-            </p>
-          </Section>
+                <p className="text-[10px] text-slate-400 mt-1">
+                  {seoTitle.length}/60 characters
+                </p>
+              </PropertyRow>
+
+              <PropertyRow label="Meta Description" inline={false}>
+                <textarea
+                  ref={seoDescriptionRef}
+                  value={seoDescription}
+                  onChange={(e) =>
+                    handleSEOChange("description", e.target.value)
+                  }
+                  placeholder="Brief description for search engines..."
+                  rows={3}
+                  className="w-full px-2.5 py-1.5 text-[12px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white placeholder-slate-400 resize-none transition-all duration-300 rounded-md"
+                />
+                <p className="text-[10px] text-slate-400 mt-1">
+                  {seoDescription.length}/160 characters
+                </p>
+              </PropertyRow>
+
+              <PropertyRow label="OG Image" inline={false}>
+                <div
+                  ref={seoOgImageRef}
+                  className="transition-all duration-300 rounded-md"
+                >
+                  <MediaPickerField
+                    value={seoOgImage}
+                    onChange={(v) => handleSEOChange("ogImage", v)}
+                    allowedTypes={["image/*"]}
+                    compact
+                  />
+                </div>
+                <p className="text-[10px] text-slate-400 mt-1">
+                  Social sharing image (1200×630px recommended)
+                </p>
+              </PropertyRow>
+
+              <div className="flex items-center justify-between py-1">
+                <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                  No Index
+                </label>
+                <button
+                  onClick={() => handleSEOChange("noIndex", !seoNoIndex)}
+                  className={classNames(
+                    "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
+                    seoNoIndex
+                      ? "bg-blue-500"
+                      : "bg-slate-200 dark:bg-slate-700",
+                  )}
+                >
+                  <span
+                    className="inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform"
+                    style={{
+                      transform: seoNoIndex
+                        ? "translateX(18px)"
+                        : "translateX(4px)",
+                    }}
+                  />
+                </button>
+              </div>
+              <p className="text-[10px] text-slate-400 -mt-1">
+                Hide this page from search engines
+              </p>
+            </Section>
+          </div>
 
           {/* Help text */}
           <div className="px-3 py-4">
