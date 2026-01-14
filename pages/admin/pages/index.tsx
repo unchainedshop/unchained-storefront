@@ -288,22 +288,20 @@ const PagesAdmin: React.FC = () => {
                     {filteredPages.map((page) => (
                       <div
                         key={page.id}
-                        className="group flex items-center justify-between p-5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                        onClick={() => router.push(`/admin/pages/${page.slug}`)}
+                        className="group flex items-center justify-between p-5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
                       >
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center">
                             <DocumentTextIcon className="w-6 h-6 text-slate-500 dark:text-slate-400" />
                           </div>
                           <div>
-                            <Link
-                              href={`/admin/pages/${page.slug}`}
-                              className="font-semibold text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-                            >
+                            <span className="font-semibold text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                               {getLocalizedString(
                                 page.title,
                                 cmsConfig.defaultLocale,
                               )}
-                            </Link>
+                            </span>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-sm text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
                                 /{page.slug}
@@ -326,7 +324,10 @@ const PagesAdmin: React.FC = () => {
                         <div className="flex items-center gap-4">
                           <PageStatusBadge status={page.status} />
 
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div
+                            className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <Link
                               href={`/p/${page.slug}`}
                               target="_blank"

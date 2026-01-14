@@ -218,5 +218,35 @@
     "entityType": "menu",
     "entityId": "menu_1768413584380_nj7hc4e",
     "entityTitle": "main nav"
+  },
+  {
+    "id": "audit_1768418951833_bq9godp",
+    "timestamp": "2026-01-14T19:29:11.833Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768418741446",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768418955756_6yr2esp",
+    "timestamp": "2026-01-14T19:29:15.756Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768418741446",
+    "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768418973665_13w8e83",
+    "timestamp": "2026-01-14T19:29:33.666Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768418741446",
+    "entityTitle": "Untitled Page"
   }
 ]

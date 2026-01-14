@@ -1,0 +1,202 @@
+{
+  "id": "page_1768418741446",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768418741446",
+  "status": "published",
+  "blocks": [
+    {
+      "id": "block_1768418751447_5alanet4y",
+      "type": "hero-banner",
+      "content": {
+        "de": {
+          "heading": "Hoi zäme, ich bin Dnanaaadi",
+          "subheading": "sfklösdalfkjasldfkjasdf",
+          "variant": "image-grid-right"
+        }
+      },
+      "style": {
+        "backgroundColor": "#8c8c8c",
+        "textColor": "#ffffff",
+        "minHeight": 400,
+        "backgroundImage": "/api/media/files/2026/01/media_1768406160327_petmxc.webp"
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768418751447_yab56x9dj",
+      "type": "spacer",
+      "content": {
+        "height": 80,
+        "mobileHeight": 48
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768418751447_ydchahoxv",
+      "type": "hero-banner",
+      "content": {
+        "de": {
+          "heading": "Fosadfsadfsadfsadfasdfasdfunded on a Simple Belief",
+          "subheading": "We believe everyone deserves access to beautifully designed, high-quality products. In 2015, we set out to make that a reality.\nsdfasfasdf\nWhat began as a side project has grown into something much bigger—a community of makers, dreamers, and people who refuse to settle for ordinary.",
+          "variant": "split-right"
+        }
+      },
+      "style": {
+        "backgroundColor": "#ffffff",
+        "textColor": "#1e293b",
+        "minHeight": 450
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768418751447_avcvim86w",
+      "type": "text-content",
+      "content": {
+        "de": {
+          "content": "<p>## Our Values</p>",
+          "headingLevel": "h2"
+        }
+      },
+      "style": {
+        "alignmentX": "center",
+        "padding": {
+          "top": 80,
+          "right": 24,
+          "bottom": 40,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768418751447_vg025qdur",
+      "type": "columns",
+      "content": {
+        "columns": 3,
+        "gap": 40,
+        "layout": "equal",
+        "stackOnMobile": true
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 48,
+          "bottom": 80,
+          "left": 48
+        }
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768418751447_lh2e7yxu7",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Quality Over Quantity We'd rather make one thing exceptionally well than a hundred things that are just okay.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768418751447_k1sdtdvq1",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### People First Behind every order is a real person. We never forget that.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768418751447_g14xw9fxj",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Constant Improvement We're never done learning. Every day is a chance to get better.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768418751447_3h7ezu33u",
+      "type": "hero-banner",
+      "content": {
+        "heading": "The Team Behind It All",
+        "subheading": "We're a small but mighty team of 12 based in Portland, Oregon. We love what we do, and we hope it shows in every product we ship.",
+        "variant": "image-grid-right"
+      },
+      "style": {
+        "backgroundColor": "#f8fafc",
+        "textColor": "#1e293b",
+        "minHeight": 400
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768418751447_47jr0kxnq",
+      "type": "newsletter",
+      "content": {
+        "heading": "Stay Connected",
+        "subheading": "Join our journey. Get updates on new products and behind-the-scenes stories.",
+        "buttonText": "Subscribe",
+        "placeholder": "Your email address",
+        "showConsent": true
+      },
+      "style": {
+        "backgroundColor": "#1c1917",
+        "textColor": "#ffffff",
+        "padding": {
+          "top": 80,
+          "right": 24,
+          "bottom": 80,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-14T19:25:41.446Z",
+  "updatedAt": "2026-01-14T19:29:33.663Z",
+  "versions": [],
+  "publishedAt": "2026-01-14T19:29:33.646Z"
+}

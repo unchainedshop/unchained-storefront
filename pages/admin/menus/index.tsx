@@ -24,9 +24,16 @@ import UnchainedLogo from "../../../modules/page-builder/components/UnchainedLog
 import AdminNavIsland from "../../../modules/page-builder/components/AdminNavIsland";
 import { getLocalizedString } from "../../../modules/page-builder/utils/localization";
 import { cmsConfig } from "../../../lib/cms.config";
-import type { Menu, MenuType, MenuStatus } from "../../../modules/menu-builder/types";
+import type {
+  Menu,
+  MenuType,
+  MenuStatus,
+} from "../../../modules/menu-builder/types";
 
-const menuTypeIcons: Record<MenuType, React.ComponentType<{ className?: string }>> = {
+const menuTypeIcons: Record<
+  MenuType,
+  React.ComponentType<{ className?: string }>
+> = {
   header: GlobeAltIcon,
   sidebar: DevicePhoneMobileIcon,
   footer: RectangleGroupIcon,
@@ -40,12 +47,16 @@ const menuTypeLabels: Record<MenuType, string> = {
 
 const MenuStatusBadge: React.FC<{ status: MenuStatus }> = ({ status }) => {
   const colors = {
-    draft: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-    published: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+    draft:
+      "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+    published:
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
   };
 
   return (
-    <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${colors[status]}`}>
+    <span
+      className={`px-2.5 py-1 text-xs font-medium rounded-full ${colors[status]}`}
+    >
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
   );
@@ -61,7 +72,8 @@ const MenusAdmin: React.FC = () => {
 
   const filteredMenus = menus.filter((menu) => {
     const menuName = getLocalizedString(menu.name, cmsConfig.defaultLocale);
-    const matchesSearch = menuName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch =
+      menuName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       menu.slug.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = typeFilter === "all" || menu.type === typeFilter;
     return matchesSearch && matchesType;
@@ -103,7 +115,10 @@ const MenusAdmin: React.FC = () => {
               {/* Logo & Brand */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-full border border-slate-200 dark:border-slate-700">
-                  <UnchainedLogo size={20} className="text-slate-900 dark:text-white" />
+                  <UnchainedLogo
+                    size={20}
+                    className="text-slate-900 dark:text-white"
+                  />
                   <div className="h-4 w-px bg-slate-300 dark:bg-slate-600" />
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Menu Builder
@@ -131,7 +146,9 @@ const MenusAdmin: React.FC = () => {
                     className="p-3 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-white dark:bg-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md"
                     title="Refresh"
                   >
-                    <ArrowPathIcon className={`w-5 h-5 ${isLoading ? "animate-spin" : ""}`} />
+                    <ArrowPathIcon
+                      className={`w-5 h-5 ${isLoading ? "animate-spin" : ""}`}
+                    />
                   </button>
                   <Link
                     href="/admin/menus/new"
@@ -177,7 +194,9 @@ const MenusAdmin: React.FC = () => {
                   <div className="relative">
                     <select
                       value={typeFilter}
-                      onChange={(e) => setTypeFilter(e.target.value as MenuType | "all")}
+                      onChange={(e) =>
+                        setTypeFilter(e.target.value as MenuType | "all")
+                      }
                       className="appearance-none pl-4 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white text-slate-900 dark:text-white cursor-pointer"
                     >
                       <option value="all">All Types</option>
@@ -191,7 +210,12 @@ const MenusAdmin: React.FC = () => {
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -210,28 +234,35 @@ const MenusAdmin: React.FC = () => {
                       return (
                         <div
                           key={menu.id}
-                          className="group flex items-center justify-between p-5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                          onClick={() =>
+                            router.push(`/admin/menus/${menu.slug}`)
+                          }
+                          className="group flex items-center justify-between p-5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
                         >
                           <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center">
                               <TypeIcon className="w-6 h-6 text-slate-500 dark:text-slate-400" />
                             </div>
                             <div>
-                              <Link
-                                href={`/admin/menus/${menu.slug}`}
-                                className="font-semibold text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-                              >
-                                {getLocalizedString(menu.name, cmsConfig.defaultLocale)}
-                              </Link>
+                              <span className="font-semibold text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                {getLocalizedString(
+                                  menu.name,
+                                  cmsConfig.defaultLocale,
+                                )}
+                              </span>
                               <div className="flex items-center gap-2 mt-1">
                                 <span className="text-sm text-slate-500 dark:text-slate-400">
                                   {menuTypeLabels[menu.type]}
                                 </span>
-                                <span className="text-slate-300 dark:text-slate-600">•</span>
+                                <span className="text-slate-300 dark:text-slate-600">
+                                  •
+                                </span>
                                 <span className="text-sm text-slate-500 dark:text-slate-400 truncate max-w-[150px]">
                                   {menu.slug}
                                 </span>
-                                <span className="text-slate-300 dark:text-slate-600">•</span>
+                                <span className="text-slate-300 dark:text-slate-600">
+                                  •
+                                </span>
                                 <span className="text-sm text-slate-500 dark:text-slate-400">
                                   {menu.items.length} items
                                 </span>
@@ -242,7 +273,10 @@ const MenusAdmin: React.FC = () => {
                           <div className="flex items-center gap-4">
                             <MenuStatusBadge status={menu.status} />
 
-                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div
+                              className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <Link
                                 href={`/admin/menus/${menu.slug}`}
                                 className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all"
@@ -269,7 +303,9 @@ const MenusAdmin: React.FC = () => {
                       <Bars3Icon className="w-8 h-8 text-slate-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-                      {searchQuery || typeFilter !== "all" ? "No menus found" : "No menus yet"}
+                      {searchQuery || typeFilter !== "all"
+                        ? "No menus found"
+                        : "No menus yet"}
                     </h3>
                     <p className="text-slate-500 dark:text-slate-400 text-center max-w-sm mb-6">
                       {searchQuery || typeFilter !== "all"
@@ -302,19 +338,25 @@ const MenusAdmin: React.FC = () => {
                     <div className="text-2xl font-bold text-slate-900 dark:text-white">
                       {stats.total}
                     </div>
-                    <div className="text-sm text-slate-500 dark:text-slate-400">Total</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400">
+                      Total
+                    </div>
                   </div>
                   <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
                     <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
                       {stats.published}
                     </div>
-                    <div className="text-sm text-slate-500 dark:text-slate-400">Published</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400">
+                      Published
+                    </div>
                   </div>
                   <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
                     <div className="text-2xl font-bold text-amber-600 dark:text-amber-400">
                       {stats.draft}
                     </div>
-                    <div className="text-sm text-slate-500 dark:text-slate-400">Drafts</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400">
+                      Drafts
+                    </div>
                   </div>
                 </div>
               </div>
@@ -325,22 +367,27 @@ const MenusAdmin: React.FC = () => {
                   By Type
                 </h3>
                 <div className="space-y-3">
-                  {(["header", "sidebar", "footer"] as MenuType[]).map((type) => {
-                    const TypeIcon = menuTypeIcons[type];
-                    return (
-                      <div key={type} className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <TypeIcon className="w-5 h-5 text-slate-400" />
-                          <span className="text-sm text-slate-600 dark:text-slate-300">
-                            {menuTypeLabels[type]}
+                  {(["header", "sidebar", "footer"] as MenuType[]).map(
+                    (type) => {
+                      const TypeIcon = menuTypeIcons[type];
+                      return (
+                        <div
+                          key={type}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center gap-3">
+                            <TypeIcon className="w-5 h-5 text-slate-400" />
+                            <span className="text-sm text-slate-600 dark:text-slate-300">
+                              {menuTypeLabels[type]}
+                            </span>
+                          </div>
+                          <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                            {stats.byType[type]}
                           </span>
                         </div>
-                        <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                          {stats.byType[type]}
-                        </span>
-                      </div>
-                    );
-                  })}
+                      );
+                    },
+                  )}
                 </div>
               </div>
             </div>
