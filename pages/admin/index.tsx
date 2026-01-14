@@ -1,6 +1,6 @@
 /**
  * CMS Admin Dashboard
- * Clean bento grid layout
+ * Clean bento grid layout - monochrome
  */
 
 import React, { useState, useEffect } from "react";
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
         {/* Main Content */}
         <main className="max-w-[1600px] mx-auto px-6 py-8">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl text-red-700 dark:text-red-400">
+            <div className="mb-6 p-4 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-700 dark:text-slate-300">
               {error}
             </div>
           )}
@@ -215,19 +215,19 @@ export default function AdminDashboard() {
                     <p className="text-sm text-slate-500">Total Pages</p>
                   </div>
                   <div>
-                    <p className="text-4xl font-bold text-emerald-600 dark:text-emerald-400">
+                    <p className="text-4xl font-bold text-slate-900 dark:text-white">
                       {stats?.pages.published || 0}
                     </p>
                     <p className="text-sm text-slate-500">Published</p>
                   </div>
                   <div>
-                    <p className="text-4xl font-bold text-amber-600 dark:text-amber-400">
+                    <p className="text-4xl font-bold text-slate-600 dark:text-slate-400">
                       {stats?.pages.draft || 0}
                     </p>
                     <p className="text-sm text-slate-500">Drafts</p>
                   </div>
                   <div>
-                    <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+                    <p className="text-4xl font-bold text-slate-600 dark:text-slate-400">
                       {stats?.pages.in_review || 0}
                     </p>
                     <p className="text-sm text-slate-500">In Review</p>
@@ -243,8 +243,8 @@ export default function AdminDashboard() {
             >
               <div className="h-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="h-10 w-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <DocumentTextIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <DocumentTextIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                   </div>
                   <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -264,8 +264,8 @@ export default function AdminDashboard() {
             >
               <div className="h-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <PhotoIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <PhotoIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                   </div>
                   <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -287,8 +287,8 @@ export default function AdminDashboard() {
             >
               <div className="h-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="h-10 w-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
-                    <RectangleStackIcon className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <RectangleStackIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                   </div>
                   <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -310,8 +310,8 @@ export default function AdminDashboard() {
             >
               <div className="h-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="h-10 w-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                    <ClipboardDocumentListIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <ClipboardDocumentListIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                   </div>
                   <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -328,8 +328,8 @@ export default function AdminDashboard() {
             <div className="col-span-12 md:col-span-6 lg:col-span-4 row-span-3 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
               <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <PencilIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <div className="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <PencilIcon className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                   </div>
                   <h3 className="font-semibold text-slate-900 dark:text-white">
                     Recent Edits
@@ -369,8 +369,8 @@ export default function AdminDashboard() {
 
             {/* Media Stats */}
             <div className="col-span-6 lg:col-span-4 row-span-1 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 flex items-center gap-5">
-              <div className="h-12 w-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
-                <PhotoIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              <div className="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                <PhotoIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-slate-500 mb-0.5">Media Library</p>
@@ -385,8 +385,8 @@ export default function AdminDashboard() {
 
             {/* Collections Stats */}
             <div className="col-span-6 lg:col-span-4 row-span-1 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 flex items-center gap-5">
-              <div className="h-12 w-12 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0">
-                <RectangleStackIcon className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+              <div className="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                <RectangleStackIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-slate-500 mb-0.5">Collections</p>
@@ -404,14 +404,14 @@ export default function AdminDashboard() {
               <div className="col-span-12 md:col-span-6 lg:col-span-4 row-span-2 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
                 <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                      <EyeIcon className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                    <div className="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                      <EyeIcon className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                     </div>
                     <h3 className="font-semibold text-slate-900 dark:text-white">
                       Pending Reviews
                     </h3>
                   </div>
-                  <span className="px-2.5 py-1 text-xs rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 font-medium">
+                  <span className="px-2.5 py-1 text-xs rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
                     {stats?.pendingReviews.length}
                   </span>
                 </div>
@@ -442,14 +442,14 @@ export default function AdminDashboard() {
               <div className="col-span-12 md:col-span-6 lg:col-span-4 row-span-2 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
                 <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-lg bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center">
-                      <CalendarIcon className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                    <div className="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                      <CalendarIcon className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                     </div>
                     <h3 className="font-semibold text-slate-900 dark:text-white">
                       Scheduled
                     </h3>
                   </div>
-                  <span className="px-2.5 py-1 text-xs rounded-full bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 font-medium">
+                  <span className="px-2.5 py-1 text-xs rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
                     {stats?.scheduledPublishes.length}
                   </span>
                 </div>
@@ -463,7 +463,7 @@ export default function AdminDashboard() {
                       <span className="font-medium text-slate-900 dark:text-white truncate block mb-1">
                         {page.title}
                       </span>
-                      <p className="text-xs text-cyan-600 dark:text-cyan-400">
+                      <p className="text-xs text-slate-500">
                         {page.workflow?.scheduledFor
                           ? new Date(
                               page.workflow.scheduledFor,
@@ -486,14 +486,14 @@ export default function AdminDashboard() {
               <div className="col-span-12 md:col-span-6 lg:col-span-4 row-span-2 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
                 <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-lg bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
-                      <GlobeAltIcon className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+                    <div className="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                      <GlobeAltIcon className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                     </div>
                     <h3 className="font-semibold text-slate-900 dark:text-white">
                       Translations
                     </h3>
                   </div>
-                  <span className="px-2.5 py-1 text-xs rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400 font-medium">
+                  <span className="px-2.5 py-1 text-xs rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
                     {stats?.incompleteTranslations.length} incomplete
                   </span>
                 </div>
