@@ -4,7 +4,12 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { XMarkIcon, CalendarIcon, ClockIcon } from "@heroicons/react/24/outline";
+import {
+  XMarkIcon,
+  CalendarIcon,
+  ClockIcon,
+} from "@heroicons/react/24/outline";
+import AnimatedModal from "../../../common/components/AnimatedModal";
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -41,18 +46,6 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     }
   }, [isOpen, initialDate]);
 
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen && !isSubmitting) {
-        onClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [isOpen, isSubmitting, onClose]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const scheduledDate = new Date(`${date}T${time}`);
@@ -66,18 +59,22 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
   const selectedDateTime = new Date(`${date}T${time}`);
   const isValidFutureDate = selectedDateTime > new Date();
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    if (!isSubmitting) {
+      onClose();
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-[1100] flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={!isSubmitting ? onClose : undefined}
-      />
-
+    <AnimatedModal
+      isOpen={isOpen}
+      onClose={handleClose}
+      zIndex={1100}
+      closeOnBackdrop={!isSubmitting}
+      closeOnEscape={!isSubmitting}
+    >
       {/* Modal */}
-      <div className="relative w-full max-w-md mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl">
+      <div className="w-full max-w-md mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
           <div className="flex items-center gap-3">
@@ -218,7 +215,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
           </div>
         </form>
       </div>
-    </div>
+    </AnimatedModal>
   );
 };
 

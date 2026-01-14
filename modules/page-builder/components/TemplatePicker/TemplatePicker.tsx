@@ -14,6 +14,7 @@ import {
   MegaphoneIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
+import AnimatedModal from "../../../common/components/AnimatedModal";
 import { pageTemplates, type PageTemplate } from "../../templates";
 
 interface TemplatePickerProps {
@@ -58,18 +59,15 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-[1050] flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
+    <AnimatedModal
+      isOpen={isOpen}
+      onClose={onClose}
+      zIndex={1050}
+      backdropClassName="bg-slate-900/60"
+    >
       {/* Modal */}
-      <div className="relative w-full max-w-5xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-5xl max-h-[85vh] mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
           <div>
@@ -227,7 +225,7 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </AnimatedModal>
   );
 };
 

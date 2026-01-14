@@ -5,6 +5,7 @@
 
 import React, { useState, useCallback } from "react";
 import classNames from "classnames";
+import AnimatedModal from "../../common/components/AnimatedModal";
 import {
   XMarkIcon,
   MagnifyingGlassIcon,
@@ -142,18 +143,15 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
     },
   );
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-[1050] flex items-center justify-center p-4">
-      {/* Backdrop with blur */}
-      <div
-        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
+    <AnimatedModal
+      isOpen={isOpen}
+      onClose={onClose}
+      zIndex={1050}
+      backdropClassName="bg-slate-900/60"
+    >
       {/* Modal */}
-      <div className="relative w-full max-w-2xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-2xl max-h-[85vh] mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-3">
@@ -364,7 +362,7 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </AnimatedModal>
   );
 };
 

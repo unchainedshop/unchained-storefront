@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { XMarkIcon, CheckIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import AnimatedModal from "../../../common/components/AnimatedModal";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -34,37 +35,29 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     }
   }, [isOpen]);
 
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen && !isSubmitting) {
-        onClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [isOpen, isSubmitting, onClose]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit(note);
   };
 
-  if (!isOpen) return null;
-
   const isApproval = action === "approve";
 
-  return (
-    <div className="fixed inset-0 z-[1100] flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={!isSubmitting ? onClose : undefined}
-      />
+  const handleClose = () => {
+    if (!isSubmitting) {
+      onClose();
+    }
+  };
 
+  return (
+    <AnimatedModal
+      isOpen={isOpen}
+      onClose={handleClose}
+      zIndex={1100}
+      closeOnBackdrop={!isSubmitting}
+      closeOnEscape={!isSubmitting}
+    >
       {/* Modal */}
-      <div className="relative w-full max-w-md mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl">
+      <div className="w-full max-w-md mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
           <div className="flex items-center gap-3">
@@ -106,9 +99,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           <div className="p-6">
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
               {isApproval ? "Approval Note (Optional)" : "Rejection Reason"}
-              {!isApproval && (
-                <span className="text-red-500 ml-1">*</span>
-              )}
+              {!isApproval && <span className="text-red-500 ml-1">*</span>}
             </label>
             <textarea
               ref={textareaRef}
@@ -188,7 +179,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           </div>
         </form>
       </div>
-    </div>
+    </AnimatedModal>
   );
 };
 

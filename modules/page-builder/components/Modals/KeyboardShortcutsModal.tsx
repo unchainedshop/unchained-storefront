@@ -3,9 +3,10 @@
  * Displays available keyboard shortcuts
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import AnimatedModal from "../../../common/components/AnimatedModal";
 import type { ShortcutDefinition } from "../../hooks/useKeyboardShortcuts";
 import { formatShortcut } from "../../hooks/useKeyboardShortcuts";
 
@@ -29,32 +30,28 @@ const KeyboardShortcutsModal: React.FC<KeyboardShortcutsModalProps> = ({
   onClose,
   shortcuts,
 }) => {
-  if (!isOpen) return null;
-
   // Group shortcuts by category
-  const groupedShortcuts = shortcuts.reduce(
-    (acc, shortcut) => {
-      if (!acc[shortcut.category]) {
-        acc[shortcut.category] = [];
-      }
-      acc[shortcut.category].push(shortcut);
-      return acc;
-    },
-    {} as Record<string, ShortcutDefinition[]>,
+  const groupedShortcuts = useMemo(
+    () =>
+      shortcuts.reduce(
+        (acc, shortcut) => {
+          if (!acc[shortcut.category]) {
+            acc[shortcut.category] = [];
+          }
+          acc[shortcut.category].push(shortcut);
+          return acc;
+        },
+        {} as Record<string, ShortcutDefinition[]>,
+      ),
+    [shortcuts],
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
+    <AnimatedModal isOpen={isOpen} onClose={onClose}>
       {/* Modal */}
       <div
         className={classNames(
-          "relative w-full max-w-md mx-4 rounded-2xl overflow-hidden",
+          "w-full max-w-md mx-4 rounded-2xl overflow-hidden",
           "bg-white dark:bg-slate-900",
           "shadow-2xl",
           "border border-slate-200 dark:border-slate-700",
@@ -114,11 +111,15 @@ const KeyboardShortcutsModal: React.FC<KeyboardShortcutsModalProps> = ({
         {/* Footer */}
         <div className="px-5 py-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
           <p className="text-xs text-slate-400 dark:text-slate-500 text-center">
-            Press <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-200 dark:bg-slate-700 rounded">?</kbd> to show this dialog
+            Press{" "}
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-200 dark:bg-slate-700 rounded">
+              ?
+            </kbd>{" "}
+            to show this dialog
           </p>
         </div>
       </div>
-    </div>
+    </AnimatedModal>
   );
 };
 
