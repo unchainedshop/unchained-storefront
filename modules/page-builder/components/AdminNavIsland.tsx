@@ -51,7 +51,7 @@ const AdminNavIsland: React.FC = () => {
             href="/admin/pages"
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
               isPages
-                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
+                ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
@@ -62,7 +62,7 @@ const AdminNavIsland: React.FC = () => {
             href="/admin/media"
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
               isMedia
-                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
+                ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
@@ -73,7 +73,7 @@ const AdminNavIsland: React.FC = () => {
             href="/admin/menus"
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
               isMenus
-                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
+                ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
@@ -84,7 +84,7 @@ const AdminNavIsland: React.FC = () => {
             href="/admin/collections"
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
               isCollections
-                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
+                ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
@@ -96,10 +96,10 @@ const AdminNavIsland: React.FC = () => {
         {/* Settings - Right */}
         <Link
           href="/admin/settings"
-          className={`p-3 rounded-2xl transition-all ${pillStyles} ${
+          className={`p-3 rounded-2xl transition-all ${
             isSettings
-              ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm !border-transparent"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+              ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
+              : `${pillStyles} text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800`
           }`}
           title="Settings"
         >

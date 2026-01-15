@@ -19,6 +19,7 @@ import {
   ArrowPathIcon,
   RectangleStackIcon,
   BoltIcon,
+  Bars3Icon,
 } from "@heroicons/react/24/outline";
 import UnchainedLogo from "../../modules/page-builder/components/UnchainedLogo";
 import AdminNavIsland from "../../modules/page-builder/components/AdminNavIsland";
@@ -212,7 +213,8 @@ export default function AdminDashboard() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                {/* Quick Actions */}
+                <div className="flex items-center gap-2">
                   <button
                     onClick={fetchStats}
                     disabled={loading}
@@ -225,10 +227,31 @@ export default function AdminDashboard() {
                   </button>
                   <Link
                     href="/admin/pages/new"
-                    className="group inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700"
                   >
-                    <PlusIcon className="w-5 h-5 transition-transform group-hover:rotate-90" />
+                    <DocumentTextIcon className="w-4 h-4" />
                     New Page
+                  </Link>
+                  <Link
+                    href="/admin/media"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700"
+                  >
+                    <PhotoIcon className="w-4 h-4" />
+                    Upload Media
+                  </Link>
+                  <Link
+                    href="/admin/menus/new"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700"
+                  >
+                    <Bars3Icon className="w-4 h-4" />
+                    New Menu
+                  </Link>
+                  <Link
+                    href="/admin/collections/new"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700"
+                  >
+                    <RectangleStackIcon className="w-4 h-4" />
+                    New Collection
                   </Link>
                 </div>
               </div>
@@ -516,48 +539,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
             )}
-
-            {/* Quick Actions Bar */}
-            <div className="col-span-12 row-span-1 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                    <BoltIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900 dark:text-white">
-                      Quick Actions
-                    </h3>
-                    <p className="text-sm text-slate-500">
-                      Jump right into creating
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/admin/pages/new"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium text-slate-900 dark:text-white transition-colors"
-                  >
-                    <DocumentTextIcon className="w-4 h-4" />
-                    New Page
-                  </Link>
-                  <Link
-                    href="/admin/media"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium text-slate-900 dark:text-white transition-colors"
-                  >
-                    <PhotoIcon className="w-4 h-4" />
-                    Upload Media
-                  </Link>
-                  <Link
-                    href="/admin/collections/new"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium text-slate-900 dark:text-white transition-colors"
-                  >
-                    <RectangleStackIcon className="w-4 h-4" />
-                    New Collection
-                  </Link>
-                </div>
-              </div>
-            </div>
           </div>
         </main>
 
