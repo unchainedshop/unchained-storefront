@@ -92,6 +92,35 @@ const SettingsPage: React.FC = () => {
     fetchSettings();
   }, [fetchSettings]);
 
+  // Update CSS variables in real-time for live preview of primary color
+  useEffect(() => {
+    if (settings.primaryColor) {
+      const hex = settings.primaryColor.replace("#", "");
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      const contrastColor = luminance > 0.5 ? "#000000" : "#ffffff";
+      const hoverR = Math.max(0, r - 20);
+      const hoverG = Math.max(0, g - 20);
+      const hoverB = Math.max(0, b - 20);
+      const hoverColor = `#${hoverR.toString(16).padStart(2, "0")}${hoverG.toString(16).padStart(2, "0")}${hoverB.toString(16).padStart(2, "0")}`;
+
+      document.documentElement.style.setProperty(
+        "--admin-primary",
+        settings.primaryColor,
+      );
+      document.documentElement.style.setProperty(
+        "--admin-primary-hover",
+        hoverColor,
+      );
+      document.documentElement.style.setProperty(
+        "--admin-primary-text",
+        contrastColor,
+      );
+    }
+  }, [settings.primaryColor]);
+
   const handleChange = <K extends keyof Settings>(
     key: K,
     value: Settings[K],
@@ -206,7 +235,7 @@ const SettingsPage: React.FC = () => {
                   <button
                     onClick={handleSave}
                     disabled={isSaving || !hasChanges}
-                    className="group inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg"
+                    className="admin-btn-primary group px-6 py-3 font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg"
                   >
                     {isSaving ? (
                       <ArrowPathIcon className="w-5 h-5 animate-spin" />
@@ -330,7 +359,7 @@ const SettingsPage: React.FC = () => {
                               disabled={isDefault}
                               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                                 isEnabled
-                                  ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                                  ? "admin-active"
                                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
                               } ${isDefault ? "opacity-75 cursor-not-allowed" : ""}`}
                             >
@@ -436,14 +465,24 @@ const SettingsPage: React.FC = () => {
                         }
                         className={`relative w-14 h-8 rounded-full transition-colors ${
                           settings.darkModeDefault
-                            ? "bg-slate-900 dark:bg-white"
+                            ? ""
                             : "bg-slate-200 dark:bg-slate-700"
                         }`}
+                        style={
+                          settings.darkModeDefault
+                            ? { backgroundColor: "var(--admin-primary)" }
+                            : undefined
+                        }
                       >
                         <span
-                          className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white dark:bg-slate-900 shadow transition-transform ${
+                          className={`absolute top-1 left-1 w-6 h-6 rounded-full shadow transition-transform ${
                             settings.darkModeDefault ? "translate-x-6" : ""
                           }`}
+                          style={{
+                            backgroundColor: settings.darkModeDefault
+                              ? "var(--admin-primary-text)"
+                              : "white",
+                          }}
                         />
                       </button>
                     </div>
@@ -516,7 +555,7 @@ const SettingsPage: React.FC = () => {
                           onClick={() => handleChange("timeFormat", "24h")}
                           className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                             settings.timeFormat === "24h"
-                              ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                              ? "admin-active"
                               : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                           }`}
                         >
@@ -526,7 +565,7 @@ const SettingsPage: React.FC = () => {
                           onClick={() => handleChange("timeFormat", "12h")}
                           className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                             settings.timeFormat === "12h"
-                              ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                              ? "admin-active"
                               : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                           }`}
                         >

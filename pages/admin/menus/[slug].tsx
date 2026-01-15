@@ -13,7 +13,7 @@ import type { Menu } from "../../../modules/menu-builder/types";
 // Dynamic import to avoid SSR issues with the editor
 const MenuEditor = dynamic(
   () => import("../../../modules/menu-builder/components/MenuEditor"),
-  { ssr: false }
+  { ssr: false },
 );
 
 const EditMenuPage: React.FC = () => {
@@ -92,7 +92,9 @@ const EditMenuPage: React.FC = () => {
         <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center">
           <div className="text-center">
             <ArrowPathIcon className="w-8 h-8 text-slate-400 animate-spin mx-auto mb-4" />
-            <p className="text-slate-600 dark:text-slate-400">Loading menu...</p>
+            <p className="text-slate-600 dark:text-slate-400">
+              Loading menu...
+            </p>
           </div>
         </div>
       </>
@@ -105,10 +107,12 @@ const EditMenuPage: React.FC = () => {
         <MetaTags title="Error - Admin" />
         <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center">
           <div className="text-center">
-            <p className="text-red-600 dark:text-red-400 mb-4">{error || "Menu not found"}</p>
+            <p className="text-red-600 dark:text-red-400 mb-4">
+              {error || "Menu not found"}
+            </p>
             <button
               onClick={handleBack}
-              className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+              className="admin-btn-primary px-4 py-2 font-medium rounded-lg"
             >
               Back to Menus
             </button>
@@ -120,7 +124,9 @@ const EditMenuPage: React.FC = () => {
 
   return (
     <>
-      <MetaTags title={`Edit ${Object.values(menu.name)[0] || menu.slug} - Admin`} />
+      <MetaTags
+        title={`Edit ${Object.values(menu.name)[0] || menu.slug} - Admin`}
+      />
       <MenuEditor
         menu={menu}
         onSave={handleSave}

@@ -5,8 +5,10 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
 import path from "path";
+import { readJSONFile, writeJSONFile } from "../../../lib/jsonStorage";
+import { generateId, nowISO } from "../../../lib/apiUtils";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 const ROLES_FILE = path.join(process.cwd(), "content", "roles.json");
 
@@ -31,7 +33,11 @@ export type Permission =
   | "redirects:read"
   | "redirects:write";
 
-export const ALL_PERMISSIONS: { id: Permission; label: string; group: string }[] = [
+export const ALL_PERMISSIONS: {
+  id: Permission;
+  label: string;
+  group: string;
+}[] = [
   // Pages
   { id: "pages:read", label: "View Pages", group: "Pages" },
   { id: "pages:write", label: "Create/Edit Pages", group: "Pages" },
@@ -47,8 +53,16 @@ export const ALL_PERMISSIONS: { id: Permission; label: string; group: string }[]
   { id: "menus:delete", label: "Delete Menus", group: "Menus" },
   // Collections
   { id: "collections:read", label: "View Collections", group: "Collections" },
-  { id: "collections:write", label: "Create/Edit Collections", group: "Collections" },
-  { id: "collections:delete", label: "Delete Collections", group: "Collections" },
+  {
+    id: "collections:write",
+    label: "Create/Edit Collections",
+    group: "Collections",
+  },
+  {
+    id: "collections:delete",
+    label: "Delete Collections",
+    group: "Collections",
+  },
   // Settings
   { id: "settings:read", label: "View Settings", group: "Settings" },
   { id: "settings:write", label: "Modify Settings", group: "Settings" },
@@ -88,7 +102,8 @@ const defaultRoles: Role[] = [
   {
     id: "editor",
     name: "Editor",
-    description: "Can create and edit content, but cannot publish or manage settings",
+    description:
+      "Can create and edit content, but cannot publish or manage settings",
     permissions: [
       "pages:read",
       "pages:write",
@@ -105,48 +120,41 @@ const defaultRoles: Role[] = [
     id: "viewer",
     name: "Viewer",
     description: "Read-only access to content",
-    permissions: [
-      "pages:read",
-      "media:read",
-      "menus:read",
-      "collections:read",
-    ],
+    permissions: ["pages:read", "media:read", "menus:read", "collections:read"],
     isSystem: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
 ];
 
-async function getRoles(): Promise<RolesData> {
-  try {
-    const data = await fs.readFile(ROLES_FILE, "utf-8");
-    const parsed = JSON.parse(data);
-    // Ensure system roles are always present
-    const existingIds = parsed.roles.map((r: Role) => r.id);
-    const missingSystemRoles = defaultRoles.filter(
-      (r) => r.isSystem && !existingIds.includes(r.id)
-    );
-    return {
-      roles: [...missingSystemRoles, ...parsed.roles],
-    };
-  } catch {
-    return { roles: defaultRoles };
-  }
-}
+/**
+ * Get roles with system roles always present
+ */
+async function getRolesWithDefaults(): Promise<RolesData> {
+  const data = await readJSONFile<RolesData>(ROLES_FILE, { roles: [] });
 
-async function saveRoles(data: RolesData): Promise<void> {
-  const contentDir = path.dirname(ROLES_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-  await fs.writeFile(ROLES_FILE, JSON.stringify(data, null, 2), "utf-8");
+  // Ensure system roles are always present
+  const existingIds = data.roles.map((r) => r.id);
+  const missingSystemRoles = defaultRoles.filter(
+    (r) => r.isSystem && !existingIds.includes(r.id),
+  );
+
+  return {
+    roles: [...missingSystemRoles, ...data.roles],
+  };
 }
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS authentication
+  const auth = await withCMSAuth(req, res);
+  if (!auth.authorized) return;
+
   try {
     if (req.method === "GET") {
-      const data = await getRoles();
+      const data = await getRolesWithDefaults();
       return res.status(200).json({
         roles: data.roles,
         permissions: ALL_PERMISSIONS,
@@ -160,28 +168,30 @@ export default async function handler(
         return res.status(400).json({ error: "Role name is required" });
       }
 
-      const data = await getRoles();
+      const data = await getRolesWithDefaults();
 
       // Check for duplicate name
       const existingRole = data.roles.find(
-        (r) => r.name.toLowerCase() === name.toLowerCase()
+        (r) => r.name.toLowerCase() === name.toLowerCase(),
       );
       if (existingRole) {
-        return res.status(400).json({ error: "A role with this name already exists" });
+        return res
+          .status(400)
+          .json({ error: "A role with this name already exists" });
       }
 
       const newRole: Role = {
-        id: `role_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        id: generateId("role"),
         name,
         description: description || "",
         permissions: permissions || [],
         isSystem: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: nowISO(),
+        updatedAt: nowISO(),
       };
 
       data.roles.push(newRole);
-      await saveRoles(data);
+      await writeJSONFile(ROLES_FILE, data);
 
       return res.status(201).json({ role: newRole });
     }

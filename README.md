@@ -1,18 +1,34 @@
 # Unchained Storefront
 
 <div align="center">
-  
-  [![Next.js](https://img.shields.io/badge/Next.js%2015-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+
+  [![Version](https://img.shields.io/badge/v0.5.0-Prism-blueviolet?style=for-the-badge)](https://github.com/unchainedshop/unchained-storefront)
+  [![Next.js](https://img.shields.io/badge/Next.js%2016-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS%20v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
   [![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)](https://graphql.org/)
   [![Node.js](https://img.shields.io/badge/Node.js%2022-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 
-  **A blazing-fast, modern e-commerce storefront built with Next.js and powered by Unchained Engine**
+  **A blazing-fast, modern e-commerce storefront with built-in Visual CMS, powered by Unchained Engine**
 
   [Documentation](https://docs.unchained.shop)
 
 </div>
+
+---
+
+## 🆕 What's New in v0.5.0 "Prism"
+
+This release introduces a complete **Visual CMS** with dynamic admin theming:
+
+- **Visual Page Builder** - 28+ block types, drag-and-drop editing, inline rich text
+- **Collections** - Custom content types with configurable schemas (blog, team, etc.)
+- **Form Builder** - Visual form creation with submissions management
+- **Menu Builder** - Navigation editor with multi-level support
+- **Media Library** - Full DAM with folders, tagging, and image optimization
+- **Admin Theming** - Dynamic primary color that applies across all admin UI
+- **Settings Panel** - Redirects, roles, permissions, and branding configuration
+- **Audit Logging** - Track all CMS operations with user attribution
 
 ---
 
@@ -117,6 +133,7 @@ npm run compile-translation    # Compile translation files
 ```
 unchained-storefront/
 ├── 📁 modules/                 # Feature modules
+│   ├── admin/                 # Admin panel context & theming
 │   ├── apollo/                # GraphQL client configuration
 │   ├── assortment/            # Product categories
 │   ├── auth/                  # Authentication (password, WebAuthn)
@@ -125,11 +142,16 @@ unchained-storefront/
 │   ├── cms/                   # CMS utilities and audit logging
 │   ├── common/                # Shared components
 │   ├── media/                 # Digital asset management (DAM)
-│   ├── page-builder/          # Visual page builder
+│   ├── menu-builder/          # Navigation menu builder
+│   ├── page-builder/          # Visual page builder (28+ blocks)
 │   ├── products/              # Product pages
 │   ├── orders/                # Order management
 │   └── layout/                # Layout components
-├── 📁 pages/                   # Next.js pages (routes)
+├── 📁 pages/
+│   ├── admin/                 # Admin panel routes
+│   ├── api/                   # API routes (CMS, media, forms)
+│   └── ...                    # Storefront pages
+├── 📁 content/                 # CMS content (JSON files)
 ├── 📁 public/                  # Static assets
 ├── 📁 docs/                    # Documentation
 ├── 📁 i18n/                    # Translation files
@@ -138,9 +160,25 @@ unchained-storefront/
 
 ## 🎨 Theming & Customization
 
-### Example Storefront Customization
+### Admin Panel Theming (v0.5.0+)
 
-In `storefront/styles/globals.css`:
+The admin panel supports dynamic theming via the Settings page (`/admin/settings`):
+- **Primary Color** - Changes all CMS buttons, toggles, and active states
+- **Logo** - Upload custom logos for light and dark modes
+- **Site Name** - Localized site name for each language
+
+The theming uses CSS custom properties that update in real-time:
+```css
+:root {
+  --admin-primary: #1e5ae6;      /* Your brand color */
+  --admin-primary-hover: #1a4fc9; /* Auto-calculated hover state */
+  --admin-primary-text: #ffffff;  /* Auto-calculated contrast text */
+}
+```
+
+### Storefront Customization
+
+In `styles/globals.css`:
 ```css
 :root {
   --primary-color: #0070f3;

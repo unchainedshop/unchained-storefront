@@ -7,6 +7,7 @@ import { useApollo } from "../modules/apollo/apolloClient";
 import Layout from "../modules/layout/components/Layout";
 import getMessages from "../modules/i18n/utils/getMessages";
 import { AppContextWrapper } from "../modules/common/components/AppContextWrapper";
+import { AdminSettingsProvider } from "../modules/admin/context/AdminSettingsContext";
 
 import "../styles/globals.css";
 import PushNotificationWrapper from "../modules/context/push-notification/PushNotificationWrapper";
@@ -35,7 +36,9 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
           <PushNotificationWrapper>
             <Toaster />
             {isAdminPage ? (
-              <Component {...pageProps} />
+              <AdminSettingsProvider>
+                <Component {...pageProps} />
+              </AdminSettingsProvider>
             ) : (
               <Layout hasHeroSection={hasHeroSection}>
                 <Component {...pageProps} />

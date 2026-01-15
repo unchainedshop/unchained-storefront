@@ -5,8 +5,10 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
 import path from "path";
+import { readJSONFile, writeJSONFile } from "../../../lib/jsonStorage";
+import { generateId, nowISO } from "../../../lib/apiUtils";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 const REDIRECTS_FILE = path.join(process.cwd(), "content", "redirects.json");
 
@@ -24,28 +26,19 @@ interface RedirectsData {
   redirects: Redirect[];
 }
 
-async function getRedirects(): Promise<RedirectsData> {
-  try {
-    const data = await fs.readFile(REDIRECTS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return { redirects: [] };
-  }
-}
-
-async function saveRedirects(data: RedirectsData): Promise<void> {
-  const contentDir = path.dirname(REDIRECTS_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-  await fs.writeFile(REDIRECTS_FILE, JSON.stringify(data, null, 2), "utf-8");
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS authentication
+  const auth = await withCMSAuth(req, res);
+  if (!auth.authorized) return;
+
   try {
     if (req.method === "GET") {
-      const data = await getRedirects();
+      const data = await readJSONFile<RedirectsData>(REDIRECTS_FILE, {
+        redirects: [],
+      });
       return res.status(200).json(data);
     }
 
@@ -53,7 +46,9 @@ export default async function handler(
       const { from, to, type = 301, enabled = true } = req.body;
 
       if (!from || !to) {
-        return res.status(400).json({ error: "From and To paths are required" });
+        return res
+          .status(400)
+          .json({ error: "From and To paths are required" });
       }
 
       // Validate paths
@@ -61,26 +56,30 @@ export default async function handler(
         return res.status(400).json({ error: "From path must start with /" });
       }
 
-      const data = await getRedirects();
+      const data = await readJSONFile<RedirectsData>(REDIRECTS_FILE, {
+        redirects: [],
+      });
 
       // Check for duplicate source path
       const existingRedirect = data.redirects.find((r) => r.from === from);
       if (existingRedirect) {
-        return res.status(400).json({ error: "A redirect for this path already exists" });
+        return res
+          .status(400)
+          .json({ error: "A redirect for this path already exists" });
       }
 
       const newRedirect: Redirect = {
-        id: `redirect_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        id: generateId("redirect"),
         from,
         to,
         type: type === 302 ? 302 : 301,
         enabled,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: nowISO(),
+        updatedAt: nowISO(),
       };
 
       data.redirects.push(newRedirect);
-      await saveRedirects(data);
+      await writeJSONFile(REDIRECTS_FILE, data);
 
       return res.status(201).json({ redirect: newRedirect });
     }

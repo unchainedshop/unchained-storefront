@@ -262,7 +262,7 @@ const NewMenuPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isCreating || !name.trim() || !slug.trim()}
-                className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                className="admin-btn-primary px-6 py-3 font-semibold shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
               >
                 {isCreating ? "Creating..." : "Create Menu"}
               </button>

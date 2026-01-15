@@ -8,7 +8,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs/promises";
 import path from "path";
-import type { Form, FormSettings } from "./index";
+import type { Form } from "./index";
+import { readJSONFile, writeJSONFile } from "../../../lib/jsonStorage";
+import { generateSlug, ensureUniqueSlug, nowISO } from "../../../lib/apiUtils";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 const FORMS_FILE = path.join(process.cwd(), "content", "forms.json");
 const SUBMISSIONS_DIR = path.join(process.cwd(), "content", "form-submissions");
@@ -17,32 +20,14 @@ interface FormsData {
   forms: Form[];
 }
 
-async function getForms(): Promise<FormsData> {
-  try {
-    const data = await fs.readFile(FORMS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return { forms: [] };
-  }
-}
-
-async function saveForms(data: FormsData): Promise<void> {
-  const contentDir = path.dirname(FORMS_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-  await fs.writeFile(FORMS_FILE, JSON.stringify(data, null, 2), "utf-8");
-}
-
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS authentication
+  const auth = await withCMSAuth(req, res);
+  if (!auth.authorized) return;
+
   const { id } = req.query;
 
   if (!id || typeof id !== "string") {
@@ -50,7 +35,7 @@ export default async function handler(
   }
 
   try {
-    const data = await getForms();
+    const data = await readJSONFile<FormsData>(FORMS_FILE, { forms: [] });
     const formIndex = data.forms.findIndex((f) => f.id === id);
 
     if (req.method === "GET") {
@@ -71,28 +56,26 @@ export default async function handler(
       // Check for duplicate slug if name changed
       let newSlug = existing.slug;
       if (name && name !== existing.name) {
-        let baseSlug = generateSlug(name);
-        newSlug = baseSlug;
-        let counter = 1;
-        while (data.forms.some((f) => f.slug === newSlug && f.id !== id)) {
-          newSlug = `${baseSlug}-${counter}`;
-          counter++;
-        }
+        const baseSlug = generateSlug(name);
+        newSlug = ensureUniqueSlug(baseSlug, data.forms, id);
       }
 
       const updatedForm: Form = {
         ...existing,
         name: name ?? existing.name,
         slug: newSlug,
-        description: description !== undefined ? description : existing.description,
+        description:
+          description !== undefined ? description : existing.description,
         fields: fields ?? existing.fields,
-        settings: settings ? { ...existing.settings, ...settings } : existing.settings,
+        settings: settings
+          ? { ...existing.settings, ...settings }
+          : existing.settings,
         status: status ?? existing.status,
-        updatedAt: new Date().toISOString(),
+        updatedAt: nowISO(),
       };
 
       data.forms[formIndex] = updatedForm;
-      await saveForms(data);
+      await writeJSONFile(FORMS_FILE, data);
 
       return res.status(200).json({ form: updatedForm });
     }
@@ -113,7 +96,7 @@ export default async function handler(
       }
 
       data.forms.splice(formIndex, 1);
-      await saveForms(data);
+      await writeJSONFile(FORMS_FILE, data);
 
       return res.status(200).json({ success: true });
     }

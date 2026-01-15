@@ -228,7 +228,7 @@ const MediaAdmin: React.FC = () => {
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isUploading}
-                    className="group inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    className="admin-btn-primary group px-6 py-3 font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                   >
                     <CloudArrowUpIcon className="w-5 h-5" />
                     {isUploading ? "Uploading..." : "Upload Files"}
@@ -290,7 +290,7 @@ const MediaAdmin: React.FC = () => {
                   className={
                     "w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors " +
                     (currentFolderId === null
-                      ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                      ? "admin-active"
                       : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800")
                   }
                 >
@@ -368,7 +368,7 @@ const MediaAdmin: React.FC = () => {
                       className={
                         "p-2 rounded-lg transition-colors " +
                         (viewMode === "grid"
-                          ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                          ? "admin-active"
                           : "text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800")
                       }
                     >
@@ -379,7 +379,7 @@ const MediaAdmin: React.FC = () => {
                       className={
                         "p-2 rounded-lg transition-colors " +
                         (viewMode === "list"
-                          ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                          ? "admin-active"
                           : "text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800")
                       }
                     >
@@ -519,7 +519,7 @@ const MediaAdmin: React.FC = () => {
                     </p>
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-all"
+                      className="admin-btn-primary px-5 py-2.5 font-semibold rounded-lg"
                     >
                       <CloudArrowUpIcon className="w-5 h-5" />
                       Upload Files
@@ -651,7 +651,7 @@ const FolderItem: React.FC<FolderItemProps> = ({
         className={
           "w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors " +
           (isSelected
-            ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+            ? "admin-active"
             : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800")
         }
         style={{ paddingLeft: 12 + depth * 12 + "px" }}
@@ -745,13 +745,11 @@ const AssetCard: React.FC<AssetCardProps> = ({
         className={
           "absolute top-2 left-2 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all " +
           (isSelected
-            ? "bg-slate-900 dark:bg-white border-slate-900 dark:border-white"
+            ? "admin-checkbox-selected"
             : "bg-white/80 dark:bg-slate-900/80 border-slate-300 dark:border-slate-600 opacity-0 group-hover:opacity-100")
         }
       >
-        {isSelected && (
-          <CheckIcon className="w-3 h-3 text-white dark:text-slate-900" />
-        )}
+        {isSelected && <CheckIcon className="w-3 h-3" />}
       </div>
       <div className="p-2">
         <p className="text-xs font-medium text-slate-900 dark:text-white truncate">
@@ -811,13 +809,11 @@ const AssetRow: React.FC<AssetRowProps> = ({
         className={
           "w-5 h-5 rounded border-2 flex items-center justify-center transition-all " +
           (isSelected
-            ? "bg-slate-900 dark:bg-white border-slate-900 dark:border-white"
+            ? "admin-checkbox-selected"
             : "border-slate-300 dark:border-slate-600")
         }
       >
-        {isSelected && (
-          <CheckIcon className="w-3 h-3 text-white dark:text-slate-900" />
-        )}
+        {isSelected && <CheckIcon className="w-3 h-3" />}
       </div>
       <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex-shrink-0 overflow-hidden">
         {isImage && asset.thumbnailUrl ? (

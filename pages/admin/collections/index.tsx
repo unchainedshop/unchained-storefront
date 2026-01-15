@@ -176,7 +176,7 @@ const CollectionsAdmin: React.FC = () => {
                   </button>
                   <Link
                     href="/admin/collections/new"
-                    className="group inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    className="admin-btn-primary group px-6 py-3 font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                   >
                     <PlusIcon className="w-5 h-5 transition-transform group-hover:rotate-90" />
                     Create Collection
@@ -348,7 +348,7 @@ const CollectionsAdmin: React.FC = () => {
                     {!searchQuery && typeFilter === "all" && (
                       <Link
                         href="/admin/collections/new"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+                        className="admin-btn-primary px-4 py-2 font-medium rounded-lg"
                       >
                         <PlusIcon className="w-5 h-5" />
                         Create Collection

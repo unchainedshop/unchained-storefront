@@ -1,0 +1,18 @@
+{
+  "siteName": {
+    "en": "Unchained Store",
+    "de": "Unchained Shop"
+  },
+  "defaultLocale": "en",
+  "availableLocales": [
+    "en",
+    "de"
+  ],
+  "logo": "",
+  "darkLogo": "",
+  "primaryColor": "#6ad6ec",
+  "darkModeDefault": false,
+  "adminEmail": "",
+  "dateFormat": "YYYY-MM-DD",
+  "timeFormat": "24h"
+}

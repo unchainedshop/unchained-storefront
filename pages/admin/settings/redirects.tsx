@@ -86,7 +86,9 @@ const RedirectsPage: React.FC = () => {
       setIsAdding(false);
       toast.success("Redirect created");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to create redirect");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to create redirect",
+      );
     } finally {
       setSaving(false);
     }
@@ -112,7 +114,9 @@ const RedirectsPage: React.FC = () => {
       setFormData({ from: "", to: "", type: 301 });
       toast.success("Redirect updated");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to update redirect");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update redirect",
+      );
     } finally {
       setSaving(false);
     }
@@ -129,7 +133,9 @@ const RedirectsPage: React.FC = () => {
       if (!res.ok) throw new Error("Failed to toggle redirect");
 
       const data = await res.json();
-      setRedirects(redirects.map((r) => (r.id === redirect.id ? data.redirect : r)));
+      setRedirects(
+        redirects.map((r) => (r.id === redirect.id ? data.redirect : r)),
+      );
     } catch (error) {
       toast.error("Failed to toggle redirect");
     }
@@ -221,7 +227,7 @@ const RedirectsPage: React.FC = () => {
                   setFormData({ from: "", to: "", type: 301 });
                 }}
                 disabled={isAdding}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg disabled:opacity-50"
+                className="admin-btn-primary px-4 py-2.5 font-medium shadow-lg"
               >
                 <PlusIcon className="w-5 h-5" />
                 Add Redirect
@@ -245,7 +251,9 @@ const RedirectsPage: React.FC = () => {
                     <input
                       type="text"
                       value={formData.from}
-                      onChange={(e) => setFormData({ ...formData, from: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, from: e.target.value })
+                      }
                       placeholder="/old-path"
                       className="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                     />
@@ -253,13 +261,20 @@ const RedirectsPage: React.FC = () => {
                     <input
                       type="text"
                       value={formData.to}
-                      onChange={(e) => setFormData({ ...formData, to: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, to: e.target.value })
+                      }
                       placeholder="/new-path or https://..."
                       className="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                     />
                     <select
                       value={formData.type}
-                      onChange={(e) => setFormData({ ...formData, type: Number(e.target.value) as 301 | 302 })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          type: Number(e.target.value) as 301 | 302,
+                        })
+                      }
                       className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                     >
                       <option value={301}>301</option>
@@ -322,19 +337,31 @@ const RedirectsPage: React.FC = () => {
                             <input
                               type="text"
                               value={formData.from}
-                              onChange={(e) => setFormData({ ...formData, from: e.target.value })}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  from: e.target.value,
+                                })
+                              }
                               className="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                             />
                             <ArrowLongRightIcon className="w-5 h-5 text-slate-400 flex-shrink-0" />
                             <input
                               type="text"
                               value={formData.to}
-                              onChange={(e) => setFormData({ ...formData, to: e.target.value })}
+                              onChange={(e) =>
+                                setFormData({ ...formData, to: e.target.value })
+                              }
                               className="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                             />
                             <select
                               value={formData.type}
-                              onChange={(e) => setFormData({ ...formData, type: Number(e.target.value) as 301 | 302 })}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  type: Number(e.target.value) as 301 | 302,
+                                })
+                              }
                               className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                             >
                               <option value={301}>301</option>
@@ -383,7 +410,9 @@ const RedirectsPage: React.FC = () => {
                           >
                             <div
                               className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
-                                redirect.enabled ? "translate-x-5" : "translate-x-1"
+                                redirect.enabled
+                                  ? "translate-x-5"
+                                  : "translate-x-1"
                               }`}
                             />
                           </button>
@@ -412,7 +441,8 @@ const RedirectsPage: React.FC = () => {
               {redirects.length > 0 && (
                 <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-700">
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    <strong>301</strong> = Permanent redirect (SEO-friendly) &bull; <strong>302</strong> = Temporary redirect
+                    <strong>301</strong> = Permanent redirect (SEO-friendly)
+                    &bull; <strong>302</strong> = Temporary redirect
                   </p>
                 </div>
               )}

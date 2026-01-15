@@ -498,3 +498,65 @@
   transform: scale(0.95);
   cursor: grabbing;
 }
+
+/* =============================================================================
+   ADMIN PRIMARY COLOR STYLES
+   Uses CSS variables set by AdminSettingsProvider
+   ============================================================================= */
+
+:root {
+  --admin-primary: #0f172a;
+  --admin-primary-hover: #1e293b;
+  --admin-primary-text: #ffffff;
+}
+
+/* Admin primary button using CSS variables */
+.admin-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--admin-primary);
+  color: var(--admin-primary-text);
+  font-weight: 500;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.admin-btn-primary:hover:not(:disabled) {
+  background-color: var(--admin-primary-hover);
+}
+
+.admin-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Admin active/selected state (for toggles, tabs, etc.) */
+.admin-active {
+  background-color: var(--admin-primary) !important;
+  color: var(--admin-primary-text) !important;
+}
+
+/* Focus ring using primary color */
+.admin-focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--admin-primary);
+}
+
+/* Admin checkbox/selection indicator using primary color */
+.admin-checkbox-selected {
+  background-color: var(--admin-primary) !important;
+  border-color: var(--admin-primary) !important;
+}
+
+.admin-checkbox-selected svg,
+.admin-checkbox-selected .admin-check-icon {
+  color: var(--admin-primary-text) !important;
+}
+
+/* Admin border ring for selected items */
+.admin-selected-ring {
+  border-color: var(--admin-primary) !important;
+  box-shadow: 0 0 0 2px var(--admin-primary);
+}

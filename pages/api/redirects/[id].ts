@@ -6,9 +6,11 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
 import path from "path";
 import type { Redirect } from "./index";
+import { readJSONFile, writeJSONFile } from "../../../lib/jsonStorage";
+import { nowISO } from "../../../lib/apiUtils";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 const REDIRECTS_FILE = path.join(process.cwd(), "content", "redirects.json");
 
@@ -16,25 +18,14 @@ interface RedirectsData {
   redirects: Redirect[];
 }
 
-async function getRedirects(): Promise<RedirectsData> {
-  try {
-    const data = await fs.readFile(REDIRECTS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return { redirects: [] };
-  }
-}
-
-async function saveRedirects(data: RedirectsData): Promise<void> {
-  const contentDir = path.dirname(REDIRECTS_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-  await fs.writeFile(REDIRECTS_FILE, JSON.stringify(data, null, 2), "utf-8");
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS authentication
+  const auth = await withCMSAuth(req, res);
+  if (!auth.authorized) return;
+
   const { id } = req.query;
 
   if (!id || typeof id !== "string") {
@@ -42,7 +33,9 @@ export default async function handler(
   }
 
   try {
-    const data = await getRedirects();
+    const data = await readJSONFile<RedirectsData>(REDIRECTS_FILE, {
+      redirects: [],
+    });
     const redirectIndex = data.redirects.findIndex((r) => r.id === id);
 
     if (req.method === "GET") {
@@ -63,10 +56,12 @@ export default async function handler(
       // Check for duplicate source path (excluding current redirect)
       if (from && from !== existing.from) {
         const duplicateRedirect = data.redirects.find(
-          (r) => r.from === from && r.id !== id
+          (r) => r.from === from && r.id !== id,
         );
         if (duplicateRedirect) {
-          return res.status(400).json({ error: "A redirect for this path already exists" });
+          return res
+            .status(400)
+            .json({ error: "A redirect for this path already exists" });
         }
       }
 
@@ -81,11 +76,11 @@ export default async function handler(
         to: to ?? existing.to,
         type: type !== undefined ? (type === 302 ? 302 : 301) : existing.type,
         enabled: enabled !== undefined ? enabled : existing.enabled,
-        updatedAt: new Date().toISOString(),
+        updatedAt: nowISO(),
       };
 
       data.redirects[redirectIndex] = updatedRedirect;
-      await saveRedirects(data);
+      await writeJSONFile(REDIRECTS_FILE, data);
 
       return res.status(200).json({ redirect: updatedRedirect });
     }
@@ -96,7 +91,7 @@ export default async function handler(
       }
 
       data.redirects.splice(redirectIndex, 1);
-      await saveRedirects(data);
+      await writeJSONFile(REDIRECTS_FILE, data);
 
       return res.status(200).json({ success: true });
     }

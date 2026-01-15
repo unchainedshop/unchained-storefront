@@ -96,7 +96,9 @@ const RolesPage: React.FC = () => {
       setIsAdding(false);
       toast.success("Role created");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to create role");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to create role",
+      );
     } finally {
       setSaving(false);
     }
@@ -122,7 +124,9 @@ const RolesPage: React.FC = () => {
       setFormData({ name: "", description: "", permissions: [] });
       toast.success("Role updated");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to update role");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update role",
+      );
     } finally {
       setSaving(false);
     }
@@ -150,7 +154,9 @@ const RolesPage: React.FC = () => {
       setRoles(roles.filter((r) => r.id !== id));
       toast.success("Role deleted");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to delete role");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to delete role",
+      );
     }
   };
 
@@ -192,11 +198,14 @@ const RolesPage: React.FC = () => {
   };
 
   // Group permissions by category
-  const permissionGroups = permissions.reduce((acc, perm) => {
-    if (!acc[perm.group]) acc[perm.group] = [];
-    acc[perm.group].push(perm);
-    return acc;
-  }, {} as Record<string, PermissionDef[]>);
+  const permissionGroups = permissions.reduce(
+    (acc, perm) => {
+      if (!acc[perm.group]) acc[perm.group] = [];
+      acc[perm.group].push(perm);
+      return acc;
+    },
+    {} as Record<string, PermissionDef[]>,
+  );
 
   const pillStyles = `
     bg-white/80 dark:bg-slate-900/80
@@ -251,7 +260,7 @@ const RolesPage: React.FC = () => {
                   setFormData({ name: "", description: "", permissions: [] });
                 }}
                 disabled={isAdding}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg disabled:opacity-50"
+                className="admin-btn-primary px-4 py-2.5 font-medium shadow-lg"
               >
                 <PlusIcon className="w-5 h-5" />
                 Add Role
@@ -284,7 +293,9 @@ const RolesPage: React.FC = () => {
                           <input
                             type="text"
                             value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({ ...formData, name: e.target.value })
+                            }
                             placeholder="e.g., Content Manager"
                             className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                           />
@@ -296,7 +307,12 @@ const RolesPage: React.FC = () => {
                           <input
                             type="text"
                             value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                description: e.target.value,
+                              })
+                            }
                             placeholder="Brief description of this role"
                             className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent"
                           />
@@ -309,50 +325,58 @@ const RolesPage: React.FC = () => {
                           Permissions
                         </label>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          {Object.entries(permissionGroups).map(([group, perms]) => {
-                            const allSelected = perms.every((p) =>
-                              formData.permissions.includes(p.id)
-                            );
-                            const someSelected = perms.some((p) =>
-                              formData.permissions.includes(p.id)
-                            );
-                            return (
-                              <div
-                                key={group}
-                                className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
-                              >
-                                <div className="flex items-center justify-between mb-2">
-                                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                                    {group}
-                                  </span>
-                                  <button
-                                    onClick={() => toggleAllInGroup(group, !allSelected)}
-                                    className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-                                  >
-                                    {allSelected ? "None" : "All"}
-                                  </button>
-                                </div>
-                                <div className="space-y-1">
-                                  {perms.map((perm) => (
-                                    <label
-                                      key={perm.id}
-                                      className="flex items-center gap-2 cursor-pointer"
+                          {Object.entries(permissionGroups).map(
+                            ([group, perms]) => {
+                              const allSelected = perms.every((p) =>
+                                formData.permissions.includes(p.id),
+                              );
+                              const someSelected = perms.some((p) =>
+                                formData.permissions.includes(p.id),
+                              );
+                              return (
+                                <div
+                                  key={group}
+                                  className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
+                                >
+                                  <div className="flex items-center justify-between mb-2">
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                      {group}
+                                    </span>
+                                    <button
+                                      onClick={() =>
+                                        toggleAllInGroup(group, !allSelected)
+                                      }
+                                      className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
                                     >
-                                      <input
-                                        type="checkbox"
-                                        checked={formData.permissions.includes(perm.id)}
-                                        onChange={() => togglePermission(perm.id)}
-                                        className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-slate-400"
-                                      />
-                                      <span className="text-sm text-slate-700 dark:text-slate-300">
-                                        {perm.label}
-                                      </span>
-                                    </label>
-                                  ))}
+                                      {allSelected ? "None" : "All"}
+                                    </button>
+                                  </div>
+                                  <div className="space-y-1">
+                                    {perms.map((perm) => (
+                                      <label
+                                        key={perm.id}
+                                        className="flex items-center gap-2 cursor-pointer"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          checked={formData.permissions.includes(
+                                            perm.id,
+                                          )}
+                                          onChange={() =>
+                                            togglePermission(perm.id)
+                                          }
+                                          className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-slate-400"
+                                        />
+                                        <span className="text-sm text-slate-700 dark:text-slate-300">
+                                          {perm.label}
+                                        </span>
+                                      </label>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            },
+                          )}
                         </div>
                       </div>
 
@@ -366,7 +390,7 @@ const RolesPage: React.FC = () => {
                         <button
                           onClick={handleAdd}
                           disabled={saving}
-                          className="px-4 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors disabled:opacity-50"
+                          className="admin-btn-primary px-4 py-2 text-sm font-medium rounded-lg"
                         >
                           {saving ? "Creating..." : "Create Role"}
                         </button>
@@ -401,7 +425,12 @@ const RolesPage: React.FC = () => {
                             <input
                               type="text"
                               value={formData.name}
-                              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  name: e.target.value,
+                                })
+                              }
                               disabled={role.isSystem}
                               className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                             />
@@ -413,7 +442,12 @@ const RolesPage: React.FC = () => {
                             <input
                               type="text"
                               value={formData.description}
-                              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  description: e.target.value,
+                                })
+                              }
                               disabled={role.isSystem}
                               className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                             />
@@ -426,47 +460,55 @@ const RolesPage: React.FC = () => {
                             Permissions
                           </label>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {Object.entries(permissionGroups).map(([group, perms]) => {
-                              const allSelected = perms.every((p) =>
-                                formData.permissions.includes(p.id)
-                              );
-                              return (
-                                <div
-                                  key={group}
-                                  className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
-                                >
-                                  <div className="flex items-center justify-between mb-2">
-                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                                      {group}
-                                    </span>
-                                    <button
-                                      onClick={() => toggleAllInGroup(group, !allSelected)}
-                                      className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-                                    >
-                                      {allSelected ? "None" : "All"}
-                                    </button>
-                                  </div>
-                                  <div className="space-y-1">
-                                    {perms.map((perm) => (
-                                      <label
-                                        key={perm.id}
-                                        className="flex items-center gap-2 cursor-pointer"
+                            {Object.entries(permissionGroups).map(
+                              ([group, perms]) => {
+                                const allSelected = perms.every((p) =>
+                                  formData.permissions.includes(p.id),
+                                );
+                                return (
+                                  <div
+                                    key={group}
+                                    className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
+                                  >
+                                    <div className="flex items-center justify-between mb-2">
+                                      <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        {group}
+                                      </span>
+                                      <button
+                                        onClick={() =>
+                                          toggleAllInGroup(group, !allSelected)
+                                        }
+                                        className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
                                       >
-                                        <input
-                                          type="checkbox"
-                                          checked={formData.permissions.includes(perm.id)}
-                                          onChange={() => togglePermission(perm.id)}
-                                          className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-slate-400"
-                                        />
-                                        <span className="text-sm text-slate-700 dark:text-slate-300">
-                                          {perm.label}
-                                        </span>
-                                      </label>
-                                    ))}
+                                        {allSelected ? "None" : "All"}
+                                      </button>
+                                    </div>
+                                    <div className="space-y-1">
+                                      {perms.map((perm) => (
+                                        <label
+                                          key={perm.id}
+                                          className="flex items-center gap-2 cursor-pointer"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            checked={formData.permissions.includes(
+                                              perm.id,
+                                            )}
+                                            onChange={() =>
+                                              togglePermission(perm.id)
+                                            }
+                                            className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-slate-400"
+                                          />
+                                          <span className="text-sm text-slate-700 dark:text-slate-300">
+                                            {perm.label}
+                                          </span>
+                                        </label>
+                                      ))}
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              },
+                            )}
                           </div>
                         </div>
 
@@ -480,7 +522,7 @@ const RolesPage: React.FC = () => {
                           <button
                             onClick={() => handleUpdate(role.id)}
                             disabled={saving}
-                            className="px-4 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors disabled:opacity-50"
+                            className="admin-btn-primary px-4 py-2 text-sm font-medium rounded-lg"
                           >
                             {saving ? "Saving..." : "Save Changes"}
                           </button>

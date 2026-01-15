@@ -324,7 +324,7 @@ const PagesAdmin: React.FC = () => {
                   </button>
                   <Link
                     href="/admin/pages/new"
-                    className="group inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    className="admin-btn-primary group px-6 py-3 font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                   >
                     <PlusIcon className="w-5 h-5 transition-transform group-hover:rotate-90" />
                     Create Page
@@ -493,7 +493,7 @@ const PagesAdmin: React.FC = () => {
                     </p>
                     <Link
                       href="/admin/pages/new"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-all"
+                      className="admin-btn-primary px-5 py-2.5 font-semibold rounded-lg"
                     >
                       <PlusIcon className="w-5 h-5" />
                       Create your first page

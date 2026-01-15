@@ -1,13 +1,14 @@
 /**
  * Public Form Submission API
- * POST - Submit a form (public endpoint)
+ * POST - Submit a form (public endpoint - no auth required)
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
 import path from "path";
 import type { Form, FormField } from "../index";
 import type { FormSubmission } from "../[id]/submissions";
+import { readJSONFile, writeJSONFile } from "../../../../lib/jsonStorage";
+import { generateId, nowISO } from "../../../../lib/apiUtils";
 
 const FORMS_FILE = path.join(process.cwd(), "content", "forms.json");
 const SUBMISSIONS_DIR = path.join(process.cwd(), "content", "form-submissions");
@@ -20,45 +21,10 @@ interface SubmissionsData {
   submissions: FormSubmission[];
 }
 
-async function getForms(): Promise<FormsData> {
-  try {
-    const data = await fs.readFile(FORMS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return { forms: [] };
-  }
-}
-
-async function saveForms(data: FormsData): Promise<void> {
-  const contentDir = path.dirname(FORMS_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-  await fs.writeFile(FORMS_FILE, JSON.stringify(data, null, 2), "utf-8");
-}
-
-async function getSubmissions(formId: string): Promise<SubmissionsData> {
-  try {
-    const filePath = path.join(SUBMISSIONS_DIR, `${formId}.json`);
-    const data = await fs.readFile(filePath, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return { submissions: [] };
-  }
-}
-
-async function saveSubmissions(formId: string, data: SubmissionsData): Promise<void> {
-  await fs.mkdir(SUBMISSIONS_DIR, { recursive: true });
-  const filePath = path.join(SUBMISSIONS_DIR, `${formId}.json`);
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
-}
-
-function generateId(): string {
-  return `sub_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-}
-
 // Validate submission data against form fields
 function validateSubmission(
   data: Record<string, unknown>,
-  fields: FormField[]
+  fields: FormField[],
 ): { valid: boolean; errors: Record<string, string> } {
   const errors: Record<string, string> = {};
 
@@ -97,10 +63,16 @@ function validateSubmission(
         if (isNaN(num)) {
           errors[field.id] = "Please enter a valid number";
         } else {
-          if (field.validation?.min !== undefined && num < field.validation.min) {
+          if (
+            field.validation?.min !== undefined &&
+            num < field.validation.min
+          ) {
             errors[field.id] = `Minimum value is ${field.validation.min}`;
           }
-          if (field.validation?.max !== undefined && num > field.validation.max) {
+          if (
+            field.validation?.max !== undefined &&
+            num > field.validation.max
+          ) {
             errors[field.id] = `Maximum value is ${field.validation.max}`;
           }
         }
@@ -109,7 +81,10 @@ function validateSubmission(
       case "select":
       case "radio":
         // Validate against options
-        if (field.options && !field.options.some((opt) => opt.value === strValue)) {
+        if (
+          field.options &&
+          !field.options.some((opt) => opt.value === strValue)
+        ) {
           errors[field.id] = "Please select a valid option";
         }
         break;
@@ -119,7 +94,7 @@ function validateSubmission(
         if (Array.isArray(value)) {
           if (field.options) {
             const invalidOptions = value.filter(
-              (v) => !field.options!.some((opt) => opt.value === v)
+              (v) => !field.options!.some((opt) => opt.value === v),
             );
             if (invalidOptions.length > 0) {
               errors[field.id] = "Invalid option selected";
@@ -131,11 +106,19 @@ function validateSubmission(
 
     // Custom validation rules
     if (field.validation && !errors[field.id]) {
-      if (field.validation.minLength && strValue.length < field.validation.minLength) {
-        errors[field.id] = `Minimum length is ${field.validation.minLength} characters`;
+      if (
+        field.validation.minLength &&
+        strValue.length < field.validation.minLength
+      ) {
+        errors[field.id] =
+          `Minimum length is ${field.validation.minLength} characters`;
       }
-      if (field.validation.maxLength && strValue.length > field.validation.maxLength) {
-        errors[field.id] = `Maximum length is ${field.validation.maxLength} characters`;
+      if (
+        field.validation.maxLength &&
+        strValue.length > field.validation.maxLength
+      ) {
+        errors[field.id] =
+          `Maximum length is ${field.validation.maxLength} characters`;
       }
       if (field.validation.pattern) {
         try {
@@ -157,7 +140,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  // Only allow POST
+  // Only allow POST - this is a public endpoint, no auth required
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res.status(405).json({ error: `Method ${req.method} not allowed` });
@@ -171,7 +154,7 @@ export default async function handler(
 
   try {
     // Find form by slug
-    const formsData = await getForms();
+    const formsData = await readJSONFile<FormsData>(FORMS_FILE, { forms: [] });
     const form = formsData.forms.find((f) => f.slug === slug);
 
     if (!form) {
@@ -180,16 +163,28 @@ export default async function handler(
 
     // Check if form is published
     if (form.status !== "published") {
-      return res.status(400).json({ error: "Form is not accepting submissions" });
+      return res
+        .status(400)
+        .json({ error: "Form is not accepting submissions" });
     }
 
     // Check submission limits
+    const submissionsFile = path.join(SUBMISSIONS_DIR, `${form.id}.json`);
+
     if (form.settings.limitSubmissions?.enabled) {
-      const existingSubmissions = await getSubmissions(form.id);
+      const existingSubmissions = await readJSONFile<SubmissionsData>(
+        submissionsFile,
+        { submissions: [] },
+      );
 
       if (form.settings.limitSubmissions.maxTotal) {
-        if (existingSubmissions.submissions.length >= form.settings.limitSubmissions.maxTotal) {
-          return res.status(400).json({ error: "Form has reached maximum submissions" });
+        if (
+          existingSubmissions.submissions.length >=
+          form.settings.limitSubmissions.maxTotal
+        ) {
+          return res
+            .status(400)
+            .json({ error: "Form has reached maximum submissions" });
         }
       }
     }
@@ -204,29 +199,35 @@ export default async function handler(
 
     // Create submission
     const submission: FormSubmission = {
-      id: generateId(),
+      id: generateId("sub"),
       formId: form.id,
       data: submissionData,
       metadata: {
         userAgent: req.headers["user-agent"],
-        ip: (req.headers["x-forwarded-for"] as string)?.split(",")[0] || req.socket.remoteAddress,
+        ip:
+          (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
+          req.socket.remoteAddress,
         referrer: req.headers.referer,
         locale: req.headers["accept-language"]?.split(",")[0],
       },
       status: "new",
-      submittedAt: new Date().toISOString(),
+      submittedAt: nowISO(),
     };
 
     // Save submission
-    const submissionsData = await getSubmissions(form.id);
+    const submissionsData = await readJSONFile<SubmissionsData>(
+      submissionsFile,
+      { submissions: [] },
+    );
     submissionsData.submissions.push(submission);
-    await saveSubmissions(form.id, submissionsData);
+    await writeJSONFile(submissionsFile, submissionsData);
 
     // Update form submission count
     const formIndex = formsData.forms.findIndex((f) => f.id === form.id);
     if (formIndex !== -1) {
-      formsData.forms[formIndex].submissionCount = submissionsData.submissions.length;
-      await saveForms(formsData);
+      formsData.forms[formIndex].submissionCount =
+        submissionsData.submissions.length;
+      await writeJSONFile(FORMS_FILE, formsData);
     }
 
     // TODO: Send email notification if enabled

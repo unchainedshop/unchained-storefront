@@ -5,8 +5,15 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
 import path from "path";
+import { readJSONFile, writeJSONFile } from "../../../lib/jsonStorage";
+import {
+  generateId,
+  generateSlug,
+  ensureUniqueSlug,
+  nowISO,
+} from "../../../lib/apiUtils";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 const FORMS_FILE = path.join(process.cwd(), "content", "forms.json");
 
@@ -84,32 +91,6 @@ interface FormsData {
   forms: Form[];
 }
 
-async function getForms(): Promise<FormsData> {
-  try {
-    const data = await fs.readFile(FORMS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return { forms: [] };
-  }
-}
-
-async function saveForms(data: FormsData): Promise<void> {
-  const contentDir = path.dirname(FORMS_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-  await fs.writeFile(FORMS_FILE, JSON.stringify(data, null, 2), "utf-8");
-}
-
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
-function generateId(): string {
-  return `form_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-}
-
 const defaultSettings: FormSettings = {
   submitButtonText: "Submit",
   successMessage: "Thank you for your submission!",
@@ -128,13 +109,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS authentication
+  const auth = await withCMSAuth(req, res);
+  if (!auth.authorized) return;
+
   try {
     if (req.method === "GET") {
-      const data = await getForms();
+      const data = await readJSONFile<FormsData>(FORMS_FILE, { forms: [] });
 
       // Sort by updatedAt descending
       const sortedForms = [...data.forms].sort(
-        (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        (a, b) =>
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
       );
 
       return res.status(200).json({ forms: sortedForms });
@@ -147,19 +133,14 @@ export default async function handler(
         return res.status(400).json({ error: "Form name is required" });
       }
 
-      const data = await getForms();
+      const data = await readJSONFile<FormsData>(FORMS_FILE, { forms: [] });
 
       // Generate unique slug
-      let baseSlug = generateSlug(name);
-      let slug = baseSlug;
-      let counter = 1;
-      while (data.forms.some((f) => f.slug === slug)) {
-        slug = `${baseSlug}-${counter}`;
-        counter++;
-      }
+      const baseSlug = generateSlug(name);
+      const slug = ensureUniqueSlug(baseSlug, data.forms);
 
       const newForm: Form = {
-        id: generateId(),
+        id: generateId("form"),
         name,
         slug,
         description: description || "",
@@ -167,12 +148,12 @@ export default async function handler(
         settings: { ...defaultSettings, ...settings },
         status: "draft",
         submissionCount: 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: nowISO(),
+        updatedAt: nowISO(),
       };
 
       data.forms.push(newForm);
-      await saveForms(data);
+      await writeJSONFile(FORMS_FILE, data);
 
       return res.status(201).json({ form: newForm });
     }

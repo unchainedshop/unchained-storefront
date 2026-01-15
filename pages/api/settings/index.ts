@@ -5,8 +5,9 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
 import path from "path";
+import { readJSONFile, writeJSONFile } from "../../../lib/jsonStorage";
+import { withCMSAuth } from "../../../lib/adminAuth";
 
 const SETTINGS_FILE = path.join(process.cwd(), "content", "settings.json");
 
@@ -36,30 +37,21 @@ const defaultSettings: Settings = {
   timeFormat: "24h",
 };
 
-async function getSettings(): Promise<Settings> {
-  try {
-    const data = await fs.readFile(SETTINGS_FILE, "utf-8");
-    return { ...defaultSettings, ...JSON.parse(data) };
-  } catch {
-    return defaultSettings;
-  }
-}
-
-async function saveSettings(settings: Settings): Promise<void> {
-  // Ensure content directory exists
-  const contentDir = path.dirname(SETTINGS_FILE);
-  await fs.mkdir(contentDir, { recursive: true });
-
-  await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2), "utf-8");
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // Require CMS authentication
+  const auth = await withCMSAuth(req, res);
+  if (!auth.authorized) return;
+
   try {
     if (req.method === "GET") {
-      const settings = await getSettings();
+      const storedSettings = await readJSONFile<Partial<Settings>>(
+        SETTINGS_FILE,
+        {},
+      );
+      const settings = { ...defaultSettings, ...storedSettings };
       return res.status(200).json({ settings });
     }
 
@@ -91,7 +83,7 @@ export default async function handler(
           .json({ error: "Default locale must be in available locales" });
       }
 
-      await saveSettings(settings);
+      await writeJSONFile(SETTINGS_FILE, settings);
       return res.status(200).json({ success: true, settings });
     }
 

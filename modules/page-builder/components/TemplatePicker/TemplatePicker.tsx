@@ -1,6 +1,6 @@
 /**
  * Template Picker
- * Modal for selecting a page template to start from
+ * Right-side panel for selecting a page template to start from
  */
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -14,7 +14,6 @@ import {
   MegaphoneIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
-import AnimatedModal from "../../../common/components/AnimatedModal";
 import { pageTemplates, type PageTemplate } from "../../templates";
 
 interface TemplatePickerProps {
@@ -68,21 +67,39 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
         e.preventDefault();
         handleConfirm();
       }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, selectedTemplate, handleConfirm]);
+  }, [isOpen, selectedTemplate, handleConfirm, onClose]);
 
   return (
-    <AnimatedModal
-      isOpen={isOpen}
-      onClose={onClose}
-      zIndex={1050}
-      backdropClassName="bg-slate-900/60"
-    >
-      {/* Modal */}
-      <div className="w-full max-w-5xl max-h-[85vh] mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+    <>
+      {/* Backdrop */}
+      <div
+        className={classNames(
+          "fixed inset-0 z-[1050] bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300",
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none",
+        )}
+        onClick={onClose}
+      />
+
+      {/* Right-side Panel */}
+      <div
+        className={classNames(
+          "fixed top-3 right-3 bottom-3 z-[1051] w-full max-w-4xl",
+          "bg-white dark:bg-slate-900 rounded-2xl shadow-2xl",
+          "flex flex-col overflow-hidden",
+          "transition-transform duration-300 ease-out",
+          isOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]",
+        )}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
           <div>
@@ -240,7 +257,7 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
           </div>
         </div>
       </div>
-    </AnimatedModal>
+    </>
   );
 };
 
