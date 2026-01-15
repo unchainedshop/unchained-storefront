@@ -58,13 +58,6 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
     }
   }, [isOpen, filteredTemplates, selectedTemplate]);
 
-  const handleConfirm = useCallback(() => {
-    if (selectedTemplate) {
-      onSelectTemplate(selectedTemplate);
-      onClose();
-    }
-  }, [selectedTemplate, onSelectTemplate, onClose]);
-
   // Handle keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
@@ -72,7 +65,7 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" && selectedTemplate) {
         e.preventDefault();
-        handleConfirm();
+        onSelectTemplate(selectedTemplate);
       }
       if (e.key === "Escape") {
         e.preventDefault();
@@ -115,7 +108,7 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, selectedTemplate, filteredTemplates, handleConfirm, onClose]);
+  }, [isOpen, selectedTemplate, filteredTemplates, onSelectTemplate, onClose]);
 
   return (
     <>
@@ -208,13 +201,11 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
                 return (
                   <button
                     key={template.id}
-                    onClick={() => setSelectedTemplate(template)}
-                    onDoubleClick={() => {
-                      setSelectedTemplate(template);
-                      handleConfirm();
-                    }}
+                    onClick={() => onSelectTemplate(template)}
+                    onFocus={() => setSelectedTemplate(template)}
                     className={classNames(
                       "group relative flex flex-col rounded-xl border-2 overflow-hidden transition-all text-left",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 dark:focus-visible:ring-white focus-visible:ring-offset-2",
                       isSelected
                         ? "border-slate-900 dark:border-white ring-2 ring-slate-900/20 dark:ring-white/20"
                         : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600",
@@ -263,38 +254,16 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
-          <div>
-            {selectedTemplate && (
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Selected:{" "}
-                <span className="font-medium text-slate-900 dark:text-white">
-                  {selectedTemplate.name}
-                </span>
-                {selectedTemplate.blocks.length > 0 && (
-                  <span className="text-slate-500">
-                    {" "}
-                    ({selectedTemplate.blocks.length} blocks)
-                  </span>
-                )}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleConfirm}
-              disabled={!selectedTemplate}
-              className="px-6 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Use Template
-            </button>
-          </div>
+        <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Click a template to use it
+          </p>
+          <button
+            onClick={onClose}
+            className="px-4 py-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </>

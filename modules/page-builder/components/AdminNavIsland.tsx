@@ -1,7 +1,7 @@
 /**
  * Admin Navigation Island
  * Floating glassmorphism navigation for switching between admin pages
- * Features direction-aware hover animation
+ * Features direction-aware hover animation and mobile responsive menu
  */
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -15,6 +15,7 @@ import {
   RectangleStackIcon,
   Cog6ToothIcon,
   ClipboardDocumentListIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import ProfileMenu from "./Toolbar/ProfileMenu";
 
@@ -37,6 +38,7 @@ const AdminNavIsland: React.FC = () => {
     height: 0,
   });
   const [isInitialized, setIsInitialized] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isHome = router.pathname === "/admin";
   const isPages = router.pathname.startsWith("/admin/pages");
@@ -158,80 +160,155 @@ const AdminNavIsland: React.FC = () => {
       "0 2px 12px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.6) inset",
   };
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [router.pathname]);
+
   return (
-    <div className="fixed top-4 left-4 right-4 z-50">
-      <div className="flex items-center justify-between">
-        {/* Home - Left */}
-        <Link
-          href="/admin"
-          className={`p-3 rounded-2xl transition-all duration-200 ${pillStyles} ${
-            isHome
-              ? activeItemStyles
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/25 dark:hover:bg-white/5"
-          }`}
-          title="Home"
-        >
-          <HomeIcon className="w-5 h-5" />
-        </Link>
-
-        {/* Main Nav - Center */}
-        <nav
-          ref={navRef}
-          className={`relative flex items-center gap-1 px-2 py-2 rounded-2xl ${pillStyles}`}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          {/* Animated hover highlight */}
-          <div
-            className="dark:!bg-gradient-to-b dark:!from-white/15 dark:!to-white/5 dark:!border-white/20"
-            style={{
-              ...hoverHighlightStyles,
-              ...highlightStyle,
-            }}
-          />
-
-          {navItems.map((item, index) => (
-            <Link
-              key={item.href}
-              ref={(el) => {
-                itemRefs.current[index] = el;
-              }}
-              href={item.href}
-              className={`relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
-                item.isActive
-                  ? activeItemStyles
-                  : `${inactiveItemStyles} ${
-                      hoveredIndex === index
-                        ? "text-slate-900 dark:text-white"
-                        : ""
-                    }`
-              }`}
-              onMouseEnter={() => !item.isActive && setHoveredIndex(index)}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Settings & Profile - Right (overlapping design) */}
-        <div className="relative flex items-center justify-center">
-          <div className="absolute right-10 top-1 z-20 flex items-center justify-center">
-            <ProfileMenu slideOnHover />
-          </div>
+    <>
+      <div className="fixed top-4 left-4 right-4 z-50">
+        <div className="flex items-center justify-between">
+          {/* Home - Left */}
           <Link
-            href="/admin/settings"
-            className={`relative z-10 p-3 rounded-2xl transition-all duration-200 flex items-center justify-center ${
-              isSettings
+            href="/admin"
+            className={`p-3 rounded-2xl transition-all duration-200 ${pillStyles} ${
+              isHome
                 ? activeItemStyles
-                : "bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/25 dark:hover:bg-white/5"
             }`}
-            title="Settings"
+            title="Home"
           >
-            <Cog6ToothIcon className="w-5 h-5" />
+            <HomeIcon className="w-5 h-5" />
           </Link>
+
+          {/* Main Nav - Center (Desktop) */}
+          <nav
+            ref={navRef}
+            className={`relative hidden lg:flex items-center gap-1 px-2 py-2 rounded-2xl ${pillStyles}`}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            {/* Animated hover highlight */}
+            <div
+              className="dark:!bg-gradient-to-b dark:!from-white/15 dark:!to-white/5 dark:!border-white/20"
+              style={{
+                ...hoverHighlightStyles,
+                ...highlightStyle,
+              }}
+            />
+
+            {navItems.map((item, index) => (
+              <Link
+                key={item.href}
+                ref={(el) => {
+                  itemRefs.current[index] = el;
+                }}
+                href={item.href}
+                className={`relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
+                  item.isActive
+                    ? activeItemStyles
+                    : `${inactiveItemStyles} ${
+                        hoveredIndex === index
+                          ? "text-slate-900 dark:text-white"
+                          : ""
+                      }`
+                }`}
+                onMouseEnter={() => !item.isActive && setHoveredIndex(index)}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Toggle (Tablet/Mobile) */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`lg:hidden p-3 rounded-2xl transition-all duration-200 ${pillStyles} text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white`}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <XMarkIcon className="w-5 h-5" />
+            ) : (
+              <Bars3Icon className="w-5 h-5" />
+            )}
+          </button>
+
+          {/* Settings & Profile - Right (overlapping design) */}
+          <div className="relative flex items-center justify-center">
+            <div className="absolute right-10 top-1 z-20 hidden sm:flex items-center justify-center">
+              <ProfileMenu slideOnHover />
+            </div>
+            <Link
+              href="/admin/settings"
+              className={`relative z-10 p-3 rounded-2xl transition-all duration-200 flex items-center justify-center ${
+                isSettings
+                  ? activeItemStyles
+                  : "bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+              title="Settings"
+            >
+              <Cog6ToothIcon className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* Menu Panel */}
+          <div
+            className={`absolute top-20 left-4 right-4 p-2 rounded-2xl ${pillStyles} animate-in fade-in slide-in-from-top-2 duration-200`}
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    item.isActive
+                      ? activeItemStyles
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/30 dark:hover:bg-white/10"
+                  }`}
+                >
+                  <span className="w-6 h-6">{item.icon}</span>
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+
+              {/* Settings in mobile grid */}
+              <Link
+                href="/admin/settings"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex flex-col items-center gap-2 p-4 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  isSettings
+                    ? activeItemStyles
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/30 dark:hover:bg-white/10"
+                }`}
+              >
+                <Cog6ToothIcon className="w-6 h-6" />
+                <span>Settings</span>
+              </Link>
+            </div>
+
+            {/* Profile section for mobile */}
+            <div className="sm:hidden mt-2 pt-2 border-t border-white/20 dark:border-white/10">
+              <div className="flex items-center justify-center">
+                <ProfileMenu />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

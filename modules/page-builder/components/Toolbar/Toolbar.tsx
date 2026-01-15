@@ -15,8 +15,6 @@ import {
   CheckIcon,
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
-  RectangleStackIcon,
-  PlusIcon,
 } from "@heroicons/react/24/outline";
 import { usePageBuilder } from "../../context/PageBuilderContext";
 import type { Viewport, PageStatus } from "../../types";
@@ -39,8 +37,6 @@ interface ToolbarProps {
   onSave?: () => Promise<void>;
   onPublish?: () => Promise<void>;
   onWorkflowChange?: (newStatus: PageStatus) => Promise<void>;
-  onOpenTemplates?: () => void;
-  onCreatePage?: () => void;
   userRoles?: string[];
   // Autosave props
   autosaveStatus?: AutosaveStatus;
@@ -235,8 +231,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
   onSave,
   onPublish,
   onWorkflowChange,
-  onOpenTemplates,
-  onCreatePage,
   userRoles = ["admin"],
   autosaveStatus,
   autosaveLastSaved,
@@ -373,18 +367,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
         <ToolbarDivider />
 
-        {/* Create new page button */}
-        {onCreatePage && (
-          <ToolbarButton
-            onClick={onCreatePage}
-            title="New Page"
-            size="sm"
-            variant="ghost"
-          >
-            <PlusIcon className="w-4 h-4" />
-          </ToolbarButton>
-        )}
-
         {/* Page title */}
         <div className="flex items-center gap-3">
           <div
@@ -429,20 +411,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
       {/* Center section - Viewport & Zoom (only on xl screens) */}
       <div className="hidden xl:flex flex-1 items-center justify-center gap-4 overflow-hidden mx-6">
-        {/* Templates button */}
-        {onOpenTemplates && (
-          <>
-            <ToolbarButton
-              onClick={onOpenTemplates}
-              title="Templates"
-              size="sm"
-            >
-              <RectangleStackIcon className="w-4 h-4" />
-            </ToolbarButton>
-            <ToolbarDivider />
-          </>
-        )}
-
         {/* Undo/Redo */}
         <UndoRedoButtons />
 

@@ -292,11 +292,18 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
             isSelected={isBlockSelected}
             onUpdate={handleBlockUpdate}
           >
-            {block.children && block.children.length > 0 && (
+            {block.children && block.children.length > 0 ? (
               <div className="min-h-[100px]">
                 {renderBlocks(block.children, block.id)}
               </div>
-            )}
+            ) : blockRegistry[block.type]?.allowChildren && !isPreviewMode ? (
+              <div className="min-h-[100px] flex items-center justify-center m-4">
+                <AddBlockButton
+                  position="center"
+                  onClick={() => handleOpenBlockPicker(0, block.id)}
+                />
+              </div>
+            ) : null}
           </BlockRenderer>
         </BlockWrapper>
       );
@@ -419,8 +426,18 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
           onClose={() => {
             setIsBlockPickerOpen(false);
             setInsertPosition(null);
+            setInsertParentId(null);
           }}
           onSelectBlock={handleSelectBlock}
+          parentBlockType={
+            insertParentId
+              ? (page?.blocks.find((b) => b.id === insertParentId)
+                  ?.type as BlockType) ||
+                (page?.blocks
+                  .flatMap((b) => b.children || [])
+                  .find((b) => b.id === insertParentId)?.type as BlockType)
+              : null
+          }
         />
       </div>
 

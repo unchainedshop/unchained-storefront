@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useCallback, useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import classNames from "classnames";
 import {
   PageBuilderProvider,
@@ -61,6 +62,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
   onBack,
   onCreatePage,
 }) => {
+  const router = useRouter();
   const {
     state,
     setPage,
@@ -75,9 +77,8 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
   } = usePageBuilder();
   const { sidebarTab, isPreviewMode, isFocusMode } = state;
 
-  // Template picker state - show on new pages with no blocks
+  // Template picker state
   const [showTemplatePicker, setShowTemplatePicker] = useState(false);
-  const [hasShownTemplatePicker, setHasShownTemplatePicker] = useState(false);
 
   // Keyboard shortcuts help modal
   const [showShortcutsModal, setShowShortcutsModal] = useState(false);
@@ -87,18 +88,35 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
     setPage(initialPage || createDefaultPage());
   }, [initialPage, setPage]);
 
-  // Show template picker for new empty pages
-  useEffect(() => {
-    if (
-      state.page &&
-      state.page.blocks.length === 0 &&
-      !hasShownTemplatePicker &&
-      !initialPage?.blocks?.length
-    ) {
-      setShowTemplatePicker(true);
-      setHasShownTemplatePicker(true);
+  // Template picker is now opened manually via toolbar button
+
+  // Generate random alphanumeric suffix like "234M3"
+  const generateRandomSuffix = () => {
+    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < 5; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-  }, [state.page, hasShownTemplatePicker, initialPage]);
+    return result;
+  };
+
+  // Handle creating a new blank page
+  const handleCreateNewPage = useCallback(() => {
+    if (!state.page) return;
+
+    const newTitle = `Untitled Page #${generateRandomSuffix()}`;
+
+    setPage({
+      ...state.page,
+      id: `page_${Date.now()}`,
+      title: newTitle,
+      slug: "untitled-page",
+      blocks: [],
+      status: "draft",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  }, [state.page, setPage]);
 
   // Handle template selection
   const handleSelectTemplate = useCallback(
@@ -124,8 +142,12 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
 
       const newBlocks = convertBlocks(template.blocks);
 
+      // Generate new page name from template name with random suffix
+      const newTitle = `${template.name} #${generateRandomSuffix()}`;
+
       setPage({
         ...state.page,
+        title: newTitle,
         blocks: newBlocks,
       });
 
@@ -404,8 +426,6 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
           onSave={handleSave}
           onPublish={handlePublish}
           onWorkflowChange={handleWorkflowChange}
-          onOpenTemplates={() => setShowTemplatePicker(true)}
-          onCreatePage={onCreatePage}
         />
       )}
 
@@ -448,6 +468,48 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
               "ring-1 ring-black/5 dark:ring-white/5",
             )}
           >
+            {/* Page actions */}
+            <div className="flex p-2 gap-2 border-b border-slate-200/50 dark:border-white/10">
+              <button
+                onClick={handleCreateNewPage}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                New
+              </button>
+              <button
+                onClick={() => setShowTemplatePicker(true)}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"
+                  />
+                </svg>
+                Templates
+              </button>
+            </div>
+
             {/* Sidebar tabs */}
             <div className="flex p-2 gap-1">
               <button

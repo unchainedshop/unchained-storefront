@@ -193,8 +193,7 @@ export const pageTemplates: PageTemplate[] = [
         type: "hero-banner",
         content: {
           heading: "Spring Collection 2024",
-          subheading:
-            "Thoughtfully designed. Sustainably made. Built to last.",
+          subheading: "Thoughtfully designed. Sustainably made. Built to last.",
           buttonText: "Explore",
           buttonLink: "/collection/spring",
           variant: "image-grid-right",
@@ -438,7 +437,9 @@ export const pageTemplates: PageTemplate[] = [
         type: "countdown-timer",
         content: {
           heading: "Limited Launch Pricing Ends",
-          endDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+          endDate: new Date(
+            Date.now() + 14 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
           buttonText: "Secure Your Order",
           buttonLink: "#order",
           expiredMessage: "Launch pricing has ended",
@@ -502,7 +503,8 @@ export const pageTemplates: PageTemplate[] = [
         type: "newsletter",
         content: {
           heading: "Be the First to Know",
-          subheading: "New arrivals and exclusive offers, straight to your inbox.",
+          subheading:
+            "New arrivals and exclusive offers, straight to your inbox.",
           buttonText: "Sign Up",
           placeholder: "Your email",
           showConsent: false,
@@ -643,7 +645,9 @@ export const pageTemplates: PageTemplate[] = [
         type: "countdown-timer",
         content: {
           heading: "Launching In",
-          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          endDate: new Date(
+            Date.now() + 30 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
           expiredMessage: "We're live! Explore now.",
         },
         style: {
@@ -725,7 +729,8 @@ export const pageTemplates: PageTemplate[] = [
         type: "hero-banner",
         content: {
           heading: "Our Story",
-          subheading: "What started in a garage is now serving customers worldwide",
+          subheading:
+            "What started in a garage is now serving customers worldwide",
           variant: "centered",
         },
         style: {
@@ -980,6 +985,149 @@ export const pageTemplates: PageTemplate[] = [
     ],
   },
   {
+    id: "editorial",
+    name: "Editorial",
+    description: "Longform article layout for blog posts and news",
+    category: "content",
+    thumbnail: "/templates/editorial.svg",
+    blocks: [
+      {
+        id: uid(),
+        type: "hero-banner",
+        content: {
+          heading: "The Future of Sustainable Fashion",
+          subheading:
+            "How conscious consumers are reshaping the industry—and what it means for the brands that listen.",
+          variant: "centered",
+        },
+        style: {
+          backgroundColor: "#18181b",
+          textColor: "#ffffff",
+          minHeight: 450,
+          alignmentX: "center",
+          alignmentY: "center",
+        },
+      },
+      {
+        id: uid(),
+        type: "text-content",
+        content: {
+          content: "**By Sarah Mitchell** · January 15, 2024 · 8 min read",
+        },
+        style: {
+          alignmentX: "center",
+          padding: { top: 48, right: 24, bottom: 16, left: 24 },
+        },
+      },
+      {
+        id: uid(),
+        type: "text-content",
+        content: {
+          content:
+            "The fashion industry stands at a crossroads. For decades, the pursuit of fast, cheap clothing has come at an enormous cost—to the environment, to workers, and ultimately to the quality of the garments themselves. But a quiet revolution is underway, led not by corporations but by consumers who are voting with their wallets.\n\n## The Shift in Consumer Mindset\n\nIt started slowly, almost imperceptibly. A growing awareness of where our clothes come from. Questions about who made them and under what conditions. A nagging feeling that the joy of a new purchase fades too quickly when the seams start to fray after the third wash.\n\nToday, that slow awakening has become a movement. Research shows that 73% of millennials are willing to pay more for sustainable products, and Gen Z is even more committed to ethical consumption. These aren't just statistics—they represent a fundamental shift in how we think about ownership and value.",
+        },
+        style: {
+          padding: { top: 32, right: 24, bottom: 32, left: 24 },
+          maxWidth: 720,
+        },
+      },
+      {
+        id: uid(),
+        type: "hero-banner",
+        content: {
+          heading: '"The most sustainable garment is the one you already own."',
+          subheading: "— Orsola de Castro, Fashion Revolution",
+          variant: "centered",
+        },
+        style: {
+          backgroundColor: "#f4f4f5",
+          textColor: "#18181b",
+          minHeight: 250,
+          alignmentX: "center",
+        },
+      },
+      {
+        id: uid(),
+        type: "text-content",
+        content: {
+          content:
+            "## What Brands Are Getting Right\n\nThe companies thriving in this new landscape share common traits. They're transparent about their supply chains. They invest in quality over quantity. And perhaps most importantly, they're building genuine relationships with their customers.\n\nPatagonia famously ran an ad telling customers *not* to buy their jacket unless they truly needed it. Counterintuitive? Perhaps. But the message resonated deeply with consumers tired of being sold to. Sales actually increased.\n\n## The Road Ahead\n\nChange won't happen overnight. The infrastructure of fast fashion—from cotton fields to container ships to shopping malls—represents trillions of dollars in investment. Dismantling it requires not just consumer demand but policy changes, technological innovation, and a wholesale rethinking of business models.\n\nBut the direction is clear. The brands that will thrive in the coming decades are those that understand a simple truth: in an age of abundance, scarcity isn't about access—it's about meaning. The clothes we choose to wear say something about who we are and what we value.\n\nThe future of fashion isn't just sustainable. It's intentional.",
+        },
+        style: {
+          padding: { top: 48, right: 24, bottom: 48, left: 24 },
+          maxWidth: 720,
+        },
+      },
+      {
+        id: uid(),
+        type: "spacer",
+        content: { height: 48, mobileHeight: 32 },
+        style: {},
+      },
+      {
+        id: uid(),
+        type: "columns",
+        content: {
+          columns: 3,
+          gap: 32,
+          layout: "equal",
+          stackOnMobile: true,
+        },
+        style: {
+          backgroundColor: "#fafafa",
+          padding: { top: 64, right: 48, bottom: 64, left: 48 },
+        },
+        children: [
+          {
+            id: uid(),
+            type: "text-content",
+            content: {
+              content:
+                "### Share This Article\n\nFound this insightful? Share it with others who care about conscious consumption.",
+            },
+            style: {},
+          },
+          {
+            id: uid(),
+            type: "text-content",
+            content: {
+              content:
+                "### About the Author\n\nSarah Mitchell writes about sustainability, design, and the intersection of commerce and culture.",
+            },
+            style: {},
+          },
+          {
+            id: uid(),
+            type: "text-content",
+            content: {
+              content:
+                "### More Reading\n\n[The True Cost of Fast Fashion →](/blog/true-cost)\n\n[Building a Capsule Wardrobe →](/blog/capsule)",
+            },
+            style: {},
+          },
+        ],
+      },
+      {
+        id: uid(),
+        type: "newsletter",
+        content: {
+          heading: "Get Essays Like This in Your Inbox",
+          subheading:
+            "Weekly insights on design, sustainability, and mindful living. No spam, unsubscribe anytime.",
+          buttonText: "Subscribe",
+          placeholder: "Your email",
+          showConsent: true,
+          consentText: "I agree to receive the newsletter",
+        },
+        style: {
+          backgroundColor: "#18181b",
+          textColor: "#ffffff",
+          padding: { top: 80, right: 24, bottom: 80, left: 24 },
+        },
+      },
+    ],
+  },
+  {
     id: "lookbook",
     name: "Lookbook",
     description: "Visual storytelling with large imagery",
@@ -1077,7 +1225,8 @@ export const pageTemplates: PageTemplate[] = [
         type: "newsletter",
         content: {
           heading: "First Access",
-          subheading: "Be first to shop new collections and get exclusive offers.",
+          subheading:
+            "Be first to shop new collections and get exclusive offers.",
           buttonText: "Join",
           placeholder: "Email",
           showConsent: false,

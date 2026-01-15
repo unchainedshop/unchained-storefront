@@ -68,11 +68,7 @@ const Section: React.FC<SectionProps> = ({ block, children }) => {
           widthClasses[content.containerWidth || "container"],
         )}
       >
-        {children || (
-          <div className="min-h-[100px] flex items-center justify-center text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg m-4">
-            <p className="text-sm">Drop blocks here</p>
-          </div>
-        )}
+        {children}
       </div>
     </Tag>
   );
