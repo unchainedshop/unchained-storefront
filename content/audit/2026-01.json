@@ -488,5 +488,15 @@
     "entityType": "page",
     "entityId": "page_1768507680839",
     "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768515267508_dznphpt",
+    "timestamp": "2026-01-15T22:14:27.508Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768507680839",
+    "entityTitle": "Untitled Page"
   }
 ]

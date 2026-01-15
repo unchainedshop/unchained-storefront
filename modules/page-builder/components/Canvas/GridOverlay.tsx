@@ -9,11 +9,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import classNames from "classnames";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import type {
-  GridTemplate,
-  GridChildPlacement,
-  PageBlock,
-} from "../../types";
+import type { GridTemplate, GridChildPlacement, PageBlock } from "../../types";
 
 interface GridOverlayProps {
   gridId: string;
@@ -29,12 +25,19 @@ interface GridOverlayProps {
 }
 
 // Check if a cell is occupied by any placement (including spanned cells)
+// Also verifies the block actually exists (not just placement data)
 const isCellOccupied = (
   col: number,
   row: number,
   placements: GridChildPlacement[],
+  existingBlockIds: Set<string>,
 ): GridChildPlacement | null => {
   for (const placement of placements) {
+    // Skip placements for blocks that no longer exist
+    if (!existingBlockIds.has(placement.blockId)) {
+      continue;
+    }
+
     const colStart = placement.placement.colStart;
     const rowStart = placement.placement.rowStart;
     const colEnd = colStart + (placement.placement.colSpan || 1) - 1;
@@ -48,14 +51,19 @@ const isCellOccupied = (
 };
 
 // Check if this cell is the origin of a placement
+// Also verifies the block actually exists
 const isPlacementOrigin = (
   col: number,
   row: number,
   placements: GridChildPlacement[],
+  existingBlockIds: Set<string>,
 ): GridChildPlacement | null => {
   return (
     placements.find(
-      (p) => p.placement.colStart === col && p.placement.rowStart === row,
+      (p) =>
+        p.placement.colStart === col &&
+        p.placement.rowStart === row &&
+        existingBlockIds.has(p.blockId),
     ) || null
   );
 };
@@ -81,6 +89,11 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
   const totalCols = template.columns.length;
   const totalRows = template.rows.length;
 
+  // Create set of existing block IDs for quick lookup
+  const existingBlockIds = useMemo(() => {
+    return new Set(childBlocks.map((b) => b.id));
+  }, [childBlocks]);
+
   // Generate all cell positions
   const cells = useMemo(() => {
     const result: Array<{ col: number; row: number }> = [];
@@ -96,14 +109,19 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
     (col: number, row: number, e: React.MouseEvent) => {
       e.stopPropagation();
 
-      const occupiedPlacement = isCellOccupied(col, row, childPlacements);
+      const occupiedPlacement = isCellOccupied(
+        col,
+        row,
+        childPlacements,
+        existingBlockIds,
+      );
       if (occupiedPlacement && onChildSelect) {
         onChildSelect(occupiedPlacement.blockId);
       } else {
         onCellClick(col, row);
       }
     },
-    [childPlacements, onCellClick, onChildSelect],
+    [childPlacements, existingBlockIds, onCellClick, onChildSelect],
   );
 
   const handleMouseEnter = useCallback((col: number, row: number) => {
@@ -134,11 +152,20 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
       }}
     >
       {cells.map(({ col, row }) => {
-        const occupiedPlacement = isCellOccupied(col, row, childPlacements);
-        const isOrigin = isPlacementOrigin(col, row, childPlacements);
+        const occupiedPlacement = isCellOccupied(
+          col,
+          row,
+          childPlacements,
+          existingBlockIds,
+        );
+        const isOrigin = isPlacementOrigin(
+          col,
+          row,
+          childPlacements,
+          existingBlockIds,
+        );
         const isOccupied = !!occupiedPlacement;
-        const isHovered =
-          hoveredCell?.col === col && hoveredCell?.row === row;
+        const isHovered = hoveredCell?.col === col && hoveredCell?.row === row;
         const isSelectedCell =
           selectedCellBlockId &&
           occupiedPlacement?.blockId === selectedCellBlockId;

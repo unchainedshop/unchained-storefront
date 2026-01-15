@@ -290,6 +290,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
           overPosition={overId === block.id ? overPosition : null}
           previousBlockId={previousBlockId}
           nextBlockId={nextBlockId}
+          isGridChild={isGridChild}
           onAddAfter={
             !isPreviewMode && !isGridChild
               ? () => handleOpenBlockPicker(index + 1)

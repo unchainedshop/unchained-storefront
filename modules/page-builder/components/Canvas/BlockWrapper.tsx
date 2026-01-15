@@ -40,6 +40,7 @@ interface BlockWrapperProps {
   overPosition?: "before" | "after" | "inside" | null;
   previousBlockId?: string;
   nextBlockId?: string;
+  isGridChild?: boolean;
   onAddAfter?: () => void;
 }
 
@@ -54,6 +55,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   overPosition = null,
   previousBlockId,
   nextBlockId,
+  isGridChild = false,
   onAddAfter,
 }) => {
   const {
@@ -86,7 +88,8 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   const isHovered = state.hoveredBlockId === block.id;
   const blockDef = blockRegistry[block.type];
   const isCollaborationLocked = isBlockLocked(block.id);
-  const isDraggable = !block.locked && !isCollaborationLocked;
+  // Grid children are not draggable - no sorting support yet
+  const isDraggable = !block.locked && !isCollaborationLocked && !isGridChild;
 
   // Handle mouse enter/leave for hover tracking
   const handleMouseEnter = useCallback(
@@ -232,48 +235,41 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
             : "opacity-0 scale-95 !pointer-events-none",
         )}
       >
-        {/* Move up */}
-        <button
-          className={classNames("p-1.5 rounded-full transition-colors", {
-            "text-slate-600 cursor-not-allowed": isFirst,
-            "text-slate-400 hover:text-white hover:bg-slate-700": !isFirst,
-          })}
-          onClick={handleMoveUp}
-          disabled={isFirst}
-          title="Move up"
-        >
-          <ArrowUpIcon className="w-3.5 h-3.5" />
-        </button>
+        {/* Move up - hidden for grid children */}
+        {!isGridChild && (
+          <button
+            className={classNames("p-1.5 rounded-full transition-colors", {
+              "text-slate-600 cursor-not-allowed": isFirst,
+              "text-slate-400 hover:text-white hover:bg-slate-700": !isFirst,
+            })}
+            onClick={handleMoveUp}
+            disabled={isFirst}
+            title="Move up"
+          >
+            <ArrowUpIcon className="w-3.5 h-3.5" />
+          </button>
+        )}
 
-        {/* Move down */}
-        <button
-          className={classNames("p-1.5 rounded-full transition-colors", {
-            "text-slate-600 cursor-not-allowed": isLast,
-            "text-slate-400 hover:text-white hover:bg-slate-700": !isLast,
-          })}
-          onClick={handleMoveDown}
-          disabled={isLast}
-          title="Move down"
-        >
-          <ArrowDownIcon className="w-3.5 h-3.5" />
-        </button>
+        {/* Move down - hidden for grid children */}
+        {!isGridChild && (
+          <button
+            className={classNames("p-1.5 rounded-full transition-colors", {
+              "text-slate-600 cursor-not-allowed": isLast,
+              "text-slate-400 hover:text-white hover:bg-slate-700": !isLast,
+            })}
+            onClick={handleMoveDown}
+            disabled={isLast}
+            title="Move down"
+          >
+            <ArrowDownIcon className="w-3.5 h-3.5" />
+          </button>
+        )}
 
-        <div className="w-px h-4 bg-slate-700 mx-0.5" />
+        {!isGridChild && <div className="w-px h-4 bg-slate-700 mx-0.5" />}
 
-        {/* Center: Drag handle + label */}
-        <button
-          ref={setActivatorNodeRef}
-          {...listeners}
-          className={classNames(
-            "flex items-center gap-1.5 px-2 py-1 rounded-full touch-none drag-handle",
-            isDraggable
-              ? "cursor-grab active:cursor-grabbing"
-              : "cursor-not-allowed opacity-50",
-          )}
-          title="Drag to move"
-        >
-          <Bars3Icon className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-xs font-medium text-white flex items-center gap-1">
+        {/* Center: Drag handle + label (just label for grid children) */}
+        {isGridChild ? (
+          <span className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-white">
             {block.locked && (
               <LockClosedIcon className="w-3 h-3 text-amber-400" />
             )}
@@ -282,7 +278,30 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
             )}
             {blockDef?.label || block.type}
           </span>
-        </button>
+        ) : (
+          <button
+            ref={setActivatorNodeRef}
+            {...listeners}
+            className={classNames(
+              "flex items-center gap-1.5 px-2 py-1 rounded-full touch-none drag-handle",
+              isDraggable
+                ? "cursor-grab active:cursor-grabbing"
+                : "cursor-not-allowed opacity-50",
+            )}
+            title="Drag to move"
+          >
+            <Bars3Icon className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-xs font-medium text-white flex items-center gap-1">
+              {block.locked && (
+                <LockClosedIcon className="w-3 h-3 text-amber-400" />
+              )}
+              {block.hidden && (
+                <EyeSlashIcon className="w-3 h-3 text-slate-400" />
+              )}
+              {blockDef?.label || block.type}
+            </span>
+          </button>
+        )}
 
         <div className="w-px h-4 bg-slate-700 mx-0.5" />
 

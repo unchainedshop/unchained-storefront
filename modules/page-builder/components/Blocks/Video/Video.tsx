@@ -148,7 +148,7 @@ const Video: React.FC<VideoProps> = ({
       {/* Caption */}
       {content.caption && (
         <p
-          className="mt-3 px-6 text-sm text-center text-slate-500 dark:text-slate-400 flex-shrink-0"
+          className="mt-3 text-sm text-center text-slate-500 dark:text-slate-400 flex-shrink-0"
           style={{ color: style.textColor }}
         >
           {content.caption}

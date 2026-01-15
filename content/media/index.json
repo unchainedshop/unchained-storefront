@@ -273,6 +273,27 @@
       "createdAt": "2026-01-14T23:59:37.252Z",
       "updatedAt": "2026-01-14T23:59:37.252Z",
       "usageCount": 0
+    },
+    "media_1768516086969_zak0pd": {
+      "filename": "2026/01/media_1768516086478_cqir25.png",
+      "originalName": "logo-teaser.png",
+      "mimeType": "image/png",
+      "size": 20409,
+      "dimensions": {
+        "width": 919,
+        "height": 530
+      },
+      "altText": "",
+      "title": "logo-teaser",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "Development User",
+      "id": "media_1768516086969_zak0pd",
+      "createdAt": "2026-01-15T22:28:06.969Z",
+      "updatedAt": "2026-01-15T22:28:06.969Z",
+      "usageCount": 0
     }
   },
   "folders": {
@@ -294,5 +315,5 @@
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-14T23:59:37.253Z"
+  "lastUpdated": "2026-01-15T22:28:06.972Z"
 }

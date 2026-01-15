@@ -1170,8 +1170,8 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       caption: "",
     },
     defaultStyle: {
-      borderRadius: 12,
-      padding: { top: 24, right: 24, bottom: 24, left: 24 },
+      borderRadius: 0,
+      padding: { top: 0, right: 0, bottom: 0, left: 0 },
       margin: { top: 0, right: 0, bottom: 0, left: 0 },
     },
     nesting: {
