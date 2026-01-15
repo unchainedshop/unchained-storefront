@@ -270,167 +270,199 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
   if (!isActive) return null;
 
   return (
-    <div
-      ref={overlayRef}
-      className="grid-overlay absolute inset-0 z-[5]"
-      style={{
-        display: "grid",
-        gridTemplateColumns: template.columns.join(" "),
-        gridTemplateRows: template.rows.join(" "),
-        gap: rowGap ? `${rowGap}px ${gap}px` : `${gap}px`,
-        pointerEvents: "auto",
-      }}
-    >
-      {cells.map(({ col, row }) => {
-        const occupiedPlacement = isCellOccupied(
-          col,
-          row,
-          childPlacements,
-          existingBlockIds,
-        );
-        const isOrigin = isPlacementOrigin(
-          col,
-          row,
-          childPlacements,
-          existingBlockIds,
-        );
-        const isOccupied = !!occupiedPlacement;
-        const isHovered = hoveredCell?.col === col && hoveredCell?.row === row;
-        const isSelectedCell =
-          selectedCellBlockId &&
-          occupiedPlacement?.blockId === selectedCellBlockId;
-        const childLabel = isOrigin ? getChildLabel(isOrigin.blockId) : null;
-        const isResizing = resizeState?.blockId === isOrigin?.blockId;
+    <>
+      {/* Global resize overlay - captures mouse during resize to prevent losing focus */}
+      {resizeState && (
+        <div
+          className="fixed inset-0 z-[9999]"
+          style={{
+            cursor:
+              resizeState.direction === "e"
+                ? "ew-resize"
+                : resizeState.direction === "s"
+                  ? "ns-resize"
+                  : "nwse-resize",
+          }}
+        />
+      )}
+      <div
+        ref={overlayRef}
+        className="grid-overlay absolute inset-0 z-[5]"
+        style={{
+          display: "grid",
+          gridTemplateColumns: template.columns.join(" "),
+          gridTemplateRows: template.rows.join(" "),
+          gap: rowGap ? `${rowGap}px ${gap}px` : `${gap}px`,
+          pointerEvents: "auto",
+        }}
+      >
+        {cells.map(({ col, row }) => {
+          const occupiedPlacement = isCellOccupied(
+            col,
+            row,
+            childPlacements,
+            existingBlockIds,
+          );
+          const isOrigin = isPlacementOrigin(
+            col,
+            row,
+            childPlacements,
+            existingBlockIds,
+          );
+          const isOccupied = !!occupiedPlacement;
+          const isHovered =
+            hoveredCell?.col === col && hoveredCell?.row === row;
+          const isSelectedCell =
+            selectedCellBlockId &&
+            occupiedPlacement?.blockId === selectedCellBlockId;
+          const childLabel = isOrigin ? getChildLabel(isOrigin.blockId) : null;
+          const isResizing = resizeState?.blockId === isOrigin?.blockId;
 
-        // Skip cells that are part of a spanned area (not the origin)
-        if (isOccupied && !isOrigin) {
-          return null;
-        }
+          // Skip cells that are part of a spanned area (not the origin)
+          if (isOccupied && !isOrigin) {
+            return null;
+          }
 
-        // For origin cells with spans, use preview span during resize
-        const colSpan =
-          isResizing && previewSpan
-            ? previewSpan.colSpan
-            : isOrigin?.placement.colSpan || 1;
-        const rowSpan =
-          isResizing && previewSpan
-            ? previewSpan.rowSpan
-            : isOrigin?.placement.rowSpan || 1;
+          // For origin cells with spans, use preview span during resize
+          const colSpan =
+            isResizing && previewSpan
+              ? previewSpan.colSpan
+              : isOrigin?.placement.colSpan || 1;
+          const rowSpan =
+            isResizing && previewSpan
+              ? previewSpan.rowSpan
+              : isOrigin?.placement.rowSpan || 1;
 
-        return (
-          <div
-            key={`cell-${col}-${row}`}
-            className={classNames(
-              "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center group/cell",
-              {
-                // Occupied cell (origin) - spans entire area
-                "border-2 border-solid border-emerald-400 dark:border-emerald-600 bg-emerald-50/50 dark:bg-emerald-900/30":
-                  isOrigin && !isResizing,
-                // Resizing state
-                "border-2 border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-900/30":
-                  isResizing,
-                // Selected cell
-                "!border-blue-500 !border-2 !bg-blue-100/50 dark:!bg-blue-900/40":
-                  isSelectedCell && !isResizing,
-                // Hovered occupied
-                "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset":
-                  isHovered && isOccupied && !isResizing,
-              },
-            )}
-            style={{
-              gridColumn: isOrigin ? `${col} / span ${colSpan}` : col,
-              gridRow: isOrigin ? `${row} / span ${rowSpan}` : row,
-              // Empty cell gets very subtle gradient background
-              ...(!isOccupied && {
-                background:
-                  "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
-              }),
-            }}
-            onClick={(e) => handleCellClick(col, row, e)}
-            onMouseEnter={() => handleMouseEnter(col, row)}
-            onMouseLeave={handleMouseLeave}
-          >
-            {/* Cell coordinates */}
-            <span className="absolute top-1 left-1 text-[9px] font-mono text-slate-400 dark:text-slate-500">
-              {col},{row}
-            </span>
-
-            {/* Empty cell placeholder content */}
-            {!isOccupied && !isHovered && (
-              <div className="flex items-center justify-center text-slate-300">
-                <PlusIcon className="w-8 h-8" />
-              </div>
-            )}
-
-            {/* Child block label (for origins) */}
-            {childLabel && (
-              <span className="absolute bottom-1 left-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 bg-white/80 dark:bg-slate-800/80 px-1 rounded">
-                {childLabel}
+          return (
+            <div
+              key={`cell-${col}-${row}`}
+              className={classNames(
+                "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center group/cell",
+                {
+                  // Occupied cell (origin) - spans entire area
+                  "border-2 border-solid border-emerald-400 dark:border-emerald-600 bg-emerald-50/50 dark:bg-emerald-900/30":
+                    isOrigin && !isResizing,
+                  // Resizing state
+                  "border-2 border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-900/30":
+                    isResizing,
+                  // Selected cell
+                  "!border-blue-500 !border-2 !bg-blue-100/50 dark:!bg-blue-900/40":
+                    isSelectedCell && !isResizing,
+                  // Hovered occupied
+                  "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset":
+                    isHovered && isOccupied && !isResizing,
+                },
+              )}
+              style={{
+                gridColumn: isOrigin ? `${col} / span ${colSpan}` : col,
+                gridRow: isOrigin ? `${row} / span ${rowSpan}` : row,
+                // Empty cell gets very subtle gradient background
+                ...(!isOccupied && {
+                  background:
+                    "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
+                }),
+              }}
+              onClick={(e) => handleCellClick(col, row, e)}
+              onMouseEnter={() => handleMouseEnter(col, row)}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Cell coordinates */}
+              <span className="absolute top-1 left-1 text-[9px] font-mono text-slate-400 dark:text-slate-500">
+                {col},{row}
               </span>
-            )}
 
-            {/* Add button for empty cells on hover */}
-            {!isOccupied && isHovered && (
-              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg">
-                <PlusIcon className="w-6 h-6" />
-              </div>
-            )}
+              {/* Empty cell placeholder content */}
+              {!isOccupied && !isHovered && (
+                <div className="flex items-center justify-center text-slate-300">
+                  <PlusIcon className="w-8 h-8" />
+                </div>
+              )}
 
-            {/* Resize handles for occupied cells */}
-            {isOrigin && onPlacementResize && (
-              <>
-                {/* East (right) resize handle */}
-                <div
-                  className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-8 bg-blue-500 rounded-full cursor-ew-resize opacity-0 group-hover/cell:opacity-100 hover:!opacity-100 hover:scale-110 transition-all z-10"
-                  onMouseDown={(e) =>
-                    handleResizeStart(
-                      e,
-                      isOrigin.blockId,
-                      "e",
-                      isOrigin.placement.colSpan || 1,
-                      isOrigin.placement.rowSpan || 1,
-                    )
-                  }
-                />
-                {/* South (bottom) resize handle */}
-                <div
-                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-8 bg-blue-500 rounded-full cursor-ns-resize opacity-0 group-hover/cell:opacity-100 hover:!opacity-100 hover:scale-110 transition-all z-10"
-                  onMouseDown={(e) =>
-                    handleResizeStart(
-                      e,
-                      isOrigin.blockId,
-                      "s",
-                      isOrigin.placement.colSpan || 1,
-                      isOrigin.placement.rowSpan || 1,
-                    )
-                  }
-                />
-                {/* Southeast (corner) resize handle */}
-                <div
-                  className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-blue-500 rounded-full cursor-nwse-resize opacity-0 group-hover/cell:opacity-100 hover:!opacity-100 hover:scale-125 transition-all z-10"
-                  onMouseDown={(e) =>
-                    handleResizeStart(
-                      e,
-                      isOrigin.blockId,
-                      "se",
-                      isOrigin.placement.colSpan || 1,
-                      isOrigin.placement.rowSpan || 1,
-                    )
-                  }
-                />
-              </>
-            )}
+              {/* Child block label (for origins) */}
+              {childLabel && (
+                <span className="absolute bottom-1 left-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 bg-white/80 dark:bg-slate-800/80 px-1 rounded">
+                  {childLabel}
+                </span>
+              )}
 
-            {/* Span indicator for origins with spanning */}
-            {isOrigin && (colSpan > 1 || rowSpan > 1) && (
-              <span className="absolute top-1 right-1 text-[9px] font-mono text-emerald-500 dark:text-emerald-400">
-                {colSpan}×{rowSpan}
-              </span>
-            )}
-          </div>
-        );
-      })}
-    </div>
+              {/* Add button for empty cells on hover */}
+              {!isOccupied && isHovered && (
+                <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg">
+                  <PlusIcon className="w-6 h-6" />
+                </div>
+              )}
+
+              {/* Resize handles for occupied cells - always visible, more prominent */}
+              {isOrigin && onPlacementResize && (
+                <>
+                  {/* East (right) resize handle */}
+                  <div
+                    className={classNames(
+                      "absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-10 bg-blue-500 rounded-full cursor-ew-resize hover:scale-110 transition-transform z-20 shadow-md",
+                      isResizing
+                        ? "opacity-100"
+                        : "opacity-70 hover:opacity-100",
+                    )}
+                    onMouseDown={(e) =>
+                      handleResizeStart(
+                        e,
+                        isOrigin.blockId,
+                        "e",
+                        isOrigin.placement.colSpan || 1,
+                        isOrigin.placement.rowSpan || 1,
+                      )
+                    }
+                  />
+                  {/* South (bottom) resize handle */}
+                  <div
+                    className={classNames(
+                      "absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-3 w-10 bg-blue-500 rounded-full cursor-ns-resize hover:scale-110 transition-transform z-20 shadow-md",
+                      isResizing
+                        ? "opacity-100"
+                        : "opacity-70 hover:opacity-100",
+                    )}
+                    onMouseDown={(e) =>
+                      handleResizeStart(
+                        e,
+                        isOrigin.blockId,
+                        "s",
+                        isOrigin.placement.colSpan || 1,
+                        isOrigin.placement.rowSpan || 1,
+                      )
+                    }
+                  />
+                  {/* Southeast (corner) resize handle */}
+                  <div
+                    className={classNames(
+                      "absolute -bottom-2 -right-2 w-4 h-4 bg-blue-500 rounded-full cursor-nwse-resize hover:scale-125 transition-transform z-20 shadow-md",
+                      isResizing
+                        ? "opacity-100"
+                        : "opacity-70 hover:opacity-100",
+                    )}
+                    onMouseDown={(e) =>
+                      handleResizeStart(
+                        e,
+                        isOrigin.blockId,
+                        "se",
+                        isOrigin.placement.colSpan || 1,
+                        isOrigin.placement.rowSpan || 1,
+                      )
+                    }
+                  />
+                </>
+              )}
+
+              {/* Span indicator for origins with spanning */}
+              {isOrigin && (colSpan > 1 || rowSpan > 1) && (
+                <span className="absolute top-1 right-1 text-[9px] font-mono text-emerald-500 dark:text-emerald-400">
+                  {colSpan}×{rowSpan}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 

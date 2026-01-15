@@ -33,6 +33,10 @@ interface GridTemplateEditorProps {
   }) => void;
   onAreaClick?: (blockId: string) => void;
   onAreaDelete?: (blockId: string) => void;
+  onAreaResize?: (
+    blockId: string,
+    newSize: { colSpan: number; rowSpan: number },
+  ) => void;
   selectedBlockId?: string | null;
   // Legacy props for compatibility
   selectedCell?: { col: number; row: number } | null;
@@ -55,6 +59,7 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
   onAreaCreate,
   onAreaClick,
   onAreaDelete,
+  onAreaResize,
   selectedBlockId,
 }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -136,6 +141,7 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
             onAreaCreate={handleAreaCreate}
             onAreaClick={onAreaClick || (() => {})}
             onAreaDelete={onAreaDelete}
+            onAreaResize={onAreaResize}
             selectedBlockId={selectedBlockId}
           />
         </div>

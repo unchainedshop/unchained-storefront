@@ -4,7 +4,7 @@
  * Uses @dnd-kit for smooth drag and drop
  */
 
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";

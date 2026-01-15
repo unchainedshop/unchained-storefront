@@ -4,7 +4,7 @@
  * Uses @dnd-kit for smooth drag and drop
  */
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useRef } from "react";
 import classNames from "classnames";
 import {
   DndContext,
@@ -21,6 +21,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import { usePageBuilder } from "../../context/PageBuilderContext";
 import { useDragDrop, type DragData } from "../../hooks/useDragDrop";
 import BlockWrapper from "./BlockWrapper";
@@ -32,6 +33,65 @@ import type { PageBlock, BlockType } from "../../types";
 import { VIEWPORT_WIDTHS } from "../../types";
 import Header from "../../../layout/components/Header";
 import Footer from "../../../layout/components/Footer";
+
+// Floating Add Button - single instance, positioned over hovered gap
+interface FloatingAddButtonProps {
+  position: { top: number; left: number; width: number } | null;
+  onClick: () => void;
+}
+
+const FloatingAddButton: React.FC<FloatingAddButtonProps> = ({
+  position,
+  onClick,
+}) => {
+  if (!position) return null;
+
+  return (
+    <div
+      className="fixed z-[9999] pointer-events-none"
+      style={{
+        top: position.top,
+        left: position.left,
+        width: position.width,
+      }}
+    >
+      <div className="relative h-4 flex items-center justify-center pointer-events-auto">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick();
+          }}
+          className="group absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-10 transition-all duration-300"
+        >
+          {/* Rainbow line */}
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px]">
+            <div className="h-full w-full rainbow-gradient opacity-80 transition-opacity duration-300" />
+          </div>
+
+          {/* Button container */}
+          <div className="relative transition-transform duration-300 scale-125">
+            {/* White outer fade */}
+            <div className="absolute -inset-5 rounded-full bg-white opacity-60 blur-lg transition-all duration-300" />
+
+            {/* Rainbow glow */}
+            <div className="absolute -inset-3 rounded-full rainbow-gradient opacity-90 blur-sm animate-pulse transition-all duration-300" />
+
+            {/* Secondary glow ring */}
+            <div className="absolute -inset-1.5 rounded-full rainbow-gradient opacity-70 blur-[4px] animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
+
+            {/* Button with rainbow border */}
+            <div className="relative w-8 h-8 rounded-full overflow-hidden shadow-xl transition-shadow duration-300">
+              <div className="absolute inset-0 rainbow-gradient opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-[2px] rounded-full bg-white dark:bg-slate-800 flex items-center justify-center">
+                <PlusIcon className="w-4 h-4 text-slate-700 dark:text-white transition-colors duration-300" />
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+};
 
 interface CanvasProps {
   className?: string;

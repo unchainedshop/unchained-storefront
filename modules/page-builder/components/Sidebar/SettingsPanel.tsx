@@ -1425,6 +1425,29 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         deleteBlock(blockId);
       };
 
+      // Handler to resize a child block's placement
+      const handleAreaResize = (
+        blockId: string,
+        newSize: { colSpan: number; rowSpan: number },
+      ) => {
+        const updatedPlacements = (gridContent.childPlacements || []).map(
+          (p) => {
+            if (p.blockId === blockId) {
+              return {
+                ...p,
+                placement: {
+                  ...p.placement,
+                  colSpan: newSize.colSpan,
+                  rowSpan: newSize.rowSpan,
+                },
+              };
+            }
+            return p;
+          },
+        );
+        onChange("childPlacements", updatedPlacements);
+      };
+
       return (
         <div>
           <Section title="Grid Layout">
@@ -1440,6 +1463,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onAreaCreate={handleBentoAreaCreate}
               onAreaClick={handleAreaClick}
               onAreaDelete={handleAreaDelete}
+              onAreaResize={handleAreaResize}
               selectedBlockId={state.selection?.blockId}
             />
           </Section>
