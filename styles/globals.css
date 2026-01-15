@@ -312,11 +312,12 @@
   white-space: nowrap;
   transition:
     background-color 0.2s,
-    color 0.2s;
+    color 0.2s,
+    border-color 0.2s;
   background-color: var(--color-slate-100);
   color: var(--color-slate-600);
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
 }
 
 .dark .category-filter__item {
