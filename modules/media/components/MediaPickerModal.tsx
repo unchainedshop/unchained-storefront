@@ -27,6 +27,25 @@ import type { MediaAsset, MediaFolder } from "../types";
 import { formatFileSize } from "../utils/mediaUtils";
 import CropEditor, { CropArea, AspectRatioPreset } from "./CropEditor";
 
+/**
+ * Truncate a filename with "..." in the middle, preserving the extension
+ */
+function truncateFilename(filename: string, maxLength = 40): string {
+  if (filename.length <= maxLength) return filename;
+
+  const extIndex = filename.lastIndexOf(".");
+  const ext = extIndex > 0 ? filename.slice(extIndex) : "";
+  const name = extIndex > 0 ? filename.slice(0, extIndex) : filename;
+
+  const availableLength = maxLength - ext.length - 3;
+  if (availableLength <= 0) return filename.slice(0, maxLength - 3) + "...";
+
+  const startLength = Math.ceil(availableLength / 2);
+  const endLength = Math.floor(availableLength / 2);
+
+  return name.slice(0, startLength) + "..." + name.slice(-endLength) + ext;
+}
+
 interface MediaPickerModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -320,15 +339,15 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
 
   // Use portal to render at document body level (escape sidebar overflow)
   const modalContent = (
-    <div className="fixed inset-0 z-[1050] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[1050] flex justify-end">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-[fadeIn_150ms_ease-out]"
+        className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm animate-[fadeIn_150ms_ease-out]"
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-4xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-[modalIn_150ms_cubic-bezier(0.16,1,0.3,1)]">
+      {/* Panel */}
+      <div className="relative w-3/4 h-full bg-white dark:bg-slate-900 shadow-2xl flex flex-col overflow-hidden animate-[slideInRight_200ms_cubic-bezier(0.16,1,0.3,1)]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-3">
@@ -440,7 +459,7 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                         <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase mb-3">
                           Folders
                         </h3>
-                        <div className="grid grid-cols-6 gap-3">
+                        <div className="grid grid-cols-4 gap-3">
                           {folders.map((folder) => (
                             <button
                               key={folder.id}
@@ -461,7 +480,7 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
 
                     {/* Assets */}
                     {filteredAssets.length > 0 ? (
-                      <div className="grid grid-cols-6 gap-3">
+                      <div className="grid grid-cols-5 gap-3">
                         {filteredAssets.map((asset) => {
                           const isSelected = selectedAsset?.id === asset.id;
                           const isImage = asset.mimeType.startsWith("image/");
@@ -606,7 +625,7 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
               </div>
               <div>
                 <p className="text-sm font-medium text-slate-900 dark:text-white">
-                  {selectedAsset.originalName}
+                  {truncateFilename(selectedAsset.originalName)}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
                   {formatFileSize(selectedAsset.size)}

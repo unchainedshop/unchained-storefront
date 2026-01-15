@@ -293,10 +293,18 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
             onUpdate={handleBlockUpdate}
           >
             {block.children && block.children.length > 0 ? (
-              <div className="min-h-[100px]">
-                {renderBlocks(block.children, block.id)}
-              </div>
-            ) : blockRegistry[block.type]?.allowChildren && !isPreviewMode ? (
+              // Grid blocks need children passed directly (no wrapper) for CSS Grid to work
+              block.type === "grid" ? (
+                renderBlocks(block.children, block.id)
+              ) : (
+                <div className="min-h-[100px]">
+                  {renderBlocks(block.children, block.id)}
+                </div>
+              )
+            ) : blockRegistry[block.type]?.allowChildren &&
+              !isPreviewMode &&
+              // Don't show AddBlockButton for Grid - it has its own overlay
+              block.type !== "grid" ? (
               <div className="min-h-[100px] flex items-center justify-center m-4">
                 <AddBlockButton
                   position="center"

@@ -395,11 +395,17 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
     case "TOGGLE_OUTLINES":
       return { ...state, showOutlines: action.payload ?? !state.showOutlines };
 
-    case "TOGGLE_PREVIEW":
+    case "TOGGLE_PREVIEW": {
+      const enteringPreview = action.payload ?? !state.isPreviewMode;
       return {
         ...state,
-        isPreviewMode: action.payload ?? !state.isPreviewMode,
+        isPreviewMode: enteringPreview,
+        // Clear selection when entering preview mode
+        selection: enteringPreview
+          ? { blockId: null, parentId: null }
+          : state.selection,
       };
+    }
 
     case "TOGGLE_FOCUS_MODE":
       return {

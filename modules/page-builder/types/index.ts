@@ -76,6 +76,7 @@ export type BlockType =
   | "custom-html"
   | "section"
   | "columns"
+  | "grid"
   | "shoppable-image"
   | "before-after"
   | "faq-accordion"
@@ -334,6 +335,83 @@ export interface ColumnsContent {
   // Layout overrides (optional)
   mobileLayout?: ColumnLayout;
   tabletLayout?: ColumnLayout;
+}
+
+// =============================================================================
+// GRID BLOCK TYPES
+// =============================================================================
+
+/** Grid cell placement for a child block */
+export interface GridCellPlacement {
+  /** Starting column (1-indexed, CSS Grid style) */
+  colStart: number;
+  /** Starting row (1-indexed) */
+  rowStart: number;
+  /** Number of columns to span (default: 1) */
+  colSpan?: number;
+  /** Number of rows to span (default: 1) */
+  rowSpan?: number;
+}
+
+/** Cell-specific styling */
+export interface GridCellStyle {
+  /** Self-alignment within cell */
+  justifySelf?: "start" | "center" | "end" | "stretch";
+  alignSelf?: "start" | "center" | "end" | "stretch";
+  /** Cell-specific background */
+  backgroundColor?: string;
+  /** Cell-specific padding */
+  padding?: { top: number; right: number; bottom: number; left: number };
+  /** Z-index for overlapping cells */
+  zIndex?: number;
+}
+
+/** Child placement metadata (stored in Grid content, NOT in child block) */
+export interface GridChildPlacement {
+  /** The block ID this placement belongs to */
+  blockId: string;
+  /** Cell placement information */
+  placement: GridCellPlacement;
+  /** Cell-specific styling */
+  cellStyle?: GridCellStyle;
+}
+
+/** Track size types for grid columns/rows */
+export type GridTrackSize =
+  | `${number}fr`
+  | `${number}px`
+  | "auto"
+  | "min-content"
+  | "max-content";
+
+/** Grid template for a breakpoint */
+export interface GridTemplate {
+  /** Column definitions - e.g., ["1fr", "2fr", "1fr"] */
+  columns: GridTrackSize[];
+  /** Row definitions - e.g., ["auto", "1fr", "auto"] */
+  rows: GridTrackSize[];
+}
+
+/** Main grid content */
+export interface GridContent {
+  /** Grid template for each breakpoint */
+  template: {
+    desktop: GridTemplate;
+    laptop?: GridTemplate;
+    tablet?: GridTemplate;
+    mobile?: GridTemplate;
+  };
+  /** Gap between cells (pixels) */
+  gap: number;
+  /** Row gap if different from column gap */
+  rowGap?: number;
+  /** Child placement metadata - keyed by child block ID */
+  childPlacements: GridChildPlacement[];
+  /** Auto-flow direction when children exceed explicit placements */
+  autoFlow?: "row" | "column" | "dense";
+  /** Grid alignment */
+  justifyItems?: "start" | "center" | "end" | "stretch";
+  alignItems?: "start" | "center" | "end" | "stretch";
 }
 
 export interface ProductHotspot {
@@ -662,6 +740,7 @@ export type BlockContent =
   | CustomHtmlContent
   | SectionContent
   | ColumnsContent
+  | GridContent
   | ShoppableImageContent
   | BeforeAfterContent
   | FAQAccordionContent

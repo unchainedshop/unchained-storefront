@@ -55,9 +55,13 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
   const objectFitClass =
     objectFitClasses[content.objectFit || "cover"] || "object-cover";
 
+  // When no aspect ratio is set, stretch to fill container (useful for grid cells)
+  const fillContainer =
+    !content.aspectRatio || content.aspectRatio === "original";
+
   const ImageContent = (
     <div
-      className={`overflow-hidden bg-slate-100 dark:bg-slate-800 ${aspectRatioClass}`}
+      className={`overflow-hidden bg-slate-100 dark:bg-slate-800 ${aspectRatioClass} ${fillContainer ? "h-full" : ""}`}
       style={{ borderRadius: style.borderRadius || 0 }}
     >
       {content.src ? (
@@ -81,7 +85,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
   );
 
   return (
-    <figure style={containerStyle}>
+    <figure className={fillContainer ? "h-full" : ""} style={containerStyle}>
       {content.link && !isPreview ? (
         <Link href={content.link} className="block">
           {ImageContent}

@@ -51,6 +51,39 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
   },
 
+  grid: {
+    type: "grid",
+    label: "Grid",
+    description: "CSS Grid layout with precise cell placement and spanning",
+    icon: "table-cells",
+    category: "layout",
+    allowChildren: true,
+    maxChildren: 12,
+    defaultContent: {
+      template: {
+        desktop: {
+          columns: ["1fr", "1fr"],
+          rows: ["1fr"],
+        },
+      },
+      gap: 24,
+      childPlacements: [],
+      autoFlow: "row",
+      justifyItems: "stretch",
+      alignItems: "stretch",
+    },
+    defaultStyle: {
+      padding: { top: 0, right: 0, bottom: 0, left: 0 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+      minHeight: 300,
+    },
+    nesting: {
+      canBeNested: true,
+      allowedParents: ["section"], // Grids can only go in sections
+      forbiddenParents: ["columns", "grid"], // No nested grids or inside columns
+    },
+  },
+
   spacer: {
     type: "spacer",
     label: "Spacer",
@@ -97,6 +130,7 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       src: "",
       alt: "",
       aspectRatio: "original",
+      objectFit: "cover",
     },
     defaultStyle: {
       borderRadius: 8,

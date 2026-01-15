@@ -41,7 +41,8 @@ const Section: React.FC<SectionProps> = ({ block, children }) => {
   };
 
   // Support semantic HTML tags
-  const Tag = (content.htmlTag || "section") as keyof JSX.IntrinsicElements;
+  const Tag = (content.htmlTag ||
+    "section") as keyof React.JSX.IntrinsicElements;
 
   return (
     <Tag

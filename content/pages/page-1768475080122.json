@@ -1,0 +1,157 @@
+{
+  "id": "page_1768475080122",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768475080122",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768475084135_5fengi4gy",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "auto",
+                "auto",
+                "auto",
+                "auto"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768475089286_g8da1aqfg",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              },
+              "cellStyle": {
+                "backgroundColor": "#f94848"
+              }
+            },
+            {
+              "blockId": "block_1768475150469_gi6pvewks",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 100
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768475089286_g8da1aqfg",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>Enter yasflkajsdflksajdf lkasfjlasdfj aslökdfjaslökf jasdlkfjasd ölfjasflökjasdflköajsdflöksaour text here...</p>",
+              "headingLevel": "h2"
+            }
+          },
+          "style": {
+            "padding": {
+              "top": 16,
+              "right": 0,
+              "bottom": 16,
+              "left": 0
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768475150469_gi6pvewks",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>Enter your text here...</p>",
+              "headingLevel": "p"
+            }
+          },
+          "style": {
+            "padding": {
+              "top": 16,
+              "right": 0,
+              "bottom": 16,
+              "left": 0
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        }
+      ]
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-15T11:04:40.122Z",
+  "updatedAt": "2026-01-15T11:06:19.271Z",
+  "versions": []
+}

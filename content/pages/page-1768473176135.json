@@ -1,0 +1,223 @@
+{
+  "id": "page_1768473176135",
+  "title": "Product Launch #QFPTA",
+  "slug": "page-1768473176135",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768473180129_0zxl85im7",
+      "type": "hero-banner",
+      "content": {
+        "heading": "Introducing the Next Generation",
+        "subheading": "Two years in the making. Every detail refined. This is what perfection looks like.",
+        "buttonText": "Pre-Order Now",
+        "buttonLink": "#order",
+        "buttonVariant": "primary",
+        "secondaryButtonText": "Watch Video",
+        "secondaryButtonLink": "#video",
+        "secondaryButtonVariant": "secondary",
+        "variant": "split-left"
+      },
+      "style": {
+        "backgroundColor": "#000000",
+        "textColor": "#ffffff",
+        "minHeight": 650
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768473180129_rkp6or1ps",
+      "type": "spacer",
+      "content": {
+        "height": 100,
+        "mobileHeight": 60
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768473180129_ffazn41we",
+      "type": "text-content",
+      "content": {
+        "de": {
+          "content": "<p>## Why You'll Love It</p>",
+          "headingLevel": "h2"
+        }
+      },
+      "style": {
+        "alignmentX": "center",
+        "padding": {
+          "top": 0,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768473180129_0k1wufh5g",
+      "type": "columns",
+      "content": {
+        "columns": 3,
+        "gap": 48,
+        "layout": "equal",
+        "stackOnMobile": true
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 48,
+          "bottom": 80,
+          "left": 48
+        }
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768473180129_lcih5hq4g",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Precision Engineered Every component is machined to within 0.01mm tolerance. You can feel the difference the moment you pick it up.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768473180129_myx0yzoir",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### All-Day Battery Powered by our most advanced battery technology yet. 72 hours of continuous use on a single charge.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768473180129_b1nhcs35j",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>### Sustainable Materials 100% recycled aluminum body. Carbon-neutral manufacturing. Zero plastic packaging.</p>"
+            }
+          },
+          "style": {
+            "alignmentX": "center"
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768473180129_p80fc9c0b",
+      "type": "hero-banner",
+      "content": {
+        "heading": "See It In Action",
+        "subheading": "Real results from real customers who made the switch.",
+        "buttonText": "View Gallery",
+        "buttonLink": "#gallery",
+        "variant": "image-grid-left"
+      },
+      "style": {
+        "backgroundColor": "#f1f5f9",
+        "textColor": "#0f172a",
+        "minHeight": 450
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768473180129_vjr1s6wro",
+      "type": "testimonials",
+      "content": {
+        "de": {
+          "testimonials": [
+            {
+              "id": "t1",
+              "quote": "This is hands-down the best purchase I've made all year. The build quality is insane.",
+              "author": "Chris R.",
+              "role": "Early Adopter",
+              "rating": 5
+            },
+            {
+              "id": "t2",
+              "quote": "I was skeptical at first, but it completely exceeded my expectations. Worth every penny.",
+              "author": "Emma T.",
+              "role": "Beta Tester",
+              "rating": 5
+            }
+          ],
+          "layout": "grid",
+          "showRating": true,
+          "showAvatar": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 80,
+          "right": 24,
+          "bottom": 80,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768473180129_gtyb611nw",
+      "type": "countdown-timer",
+      "content": {
+        "heading": "Limited Launch Pricing Ends",
+        "endDate": "2026-01-29T10:32:50.502Z",
+        "buttonText": "Secure Your Order",
+        "buttonLink": "#order",
+        "expiredMessage": "Launch pricing has ended"
+      },
+      "style": {
+        "backgroundColor": "#0f172a",
+        "textColor": "#ffffff",
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        }
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-15T10:32:56.135Z",
+  "updatedAt": "2026-01-15T10:33:02.962Z",
+  "versions": []
+}

@@ -26,7 +26,11 @@ const Testimonials: React.FC<TestimonialsProps> = ({
   isPreview,
   isEditing = true,
 }) => {
-  const content = block.content as unknown as TestimonialsContent;
+  const rawContent = block.content as unknown as TestimonialsContent;
+  const content = {
+    ...rawContent,
+    testimonials: rawContent?.testimonials || [],
+  };
   const style = block.style;
   const [currentIndex, setCurrentIndex] = useState(0);
   const { updateBlock, state } = usePageBuilder();
@@ -77,7 +81,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
   }) => (
     <div
       className={classNames(
-        "bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm",
+        "bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm overflow-hidden",
         isCarousel ? "mx-auto max-w-2xl" : "",
       )}
     >
@@ -100,20 +104,18 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 
       {/* Quote */}
       <blockquote className="text-lg text-slate-700 dark:text-slate-300 mb-4">
-        <span className="select-none">"</span>
         <InlineRichText
           blockId={block.id}
           field={`testimonials.${testimonial.id}.quote`}
           value={testimonial.quote || ""}
-          tag="span"
-          className="inline"
+          tag="p"
+          className="quote-marks"
           placeholder="Enter testimonial quote..."
           multiline={true}
           onUpdate={(value) =>
             updateTestimonial(testimonial.id, "quote", value)
           }
         />
-        <span className="select-none">"</span>
       </blockquote>
 
       {/* Author */}

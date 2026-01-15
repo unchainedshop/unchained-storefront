@@ -302,7 +302,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
 
       {/* Block content */}
       <div
-        className={classNames({
+        className={classNames("h-full", {
           "pointer-events-none": block.locked || isCollaborationLocked,
         })}
       >

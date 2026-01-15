@@ -74,7 +74,7 @@ const Footer = () => {
         {formatMessage({ id: "footer", defaultMessage: "Footer" })}
       </h2>
 
-      <div className="px-6 lg:px-8 mx-auto">
+      <div className="px-6 lg:px-8 mx-auto @container">
         <div className="flex space-x-6">
           {footerNavigation.social.map((item) => (
             <a
@@ -89,8 +89,8 @@ const Footer = () => {
         </div>
 
         <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="uppercase text-lg font-semibold text-slate-900 dark:text-white mb-6">
+          <div className="grid grid-cols-1 @[480px]:grid-cols-2 @[768px]:grid-cols-4 gap-8">
+            <div className="uppercase text-lg font-semibold text-slate-900 dark:text-white mb-6 @[480px]:col-span-2 @[768px]:col-span-1">
               {formatMessage({
                 id: "shop_title",
                 defaultMessage: "Unchained Store",
@@ -217,8 +217,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-48 md:flex md:items-center md:justify-between">
-          <div className="text-center md:text-left">
+        <div className="mt-48 @[640px]:flex @[640px]:items-center @[640px]:justify-between">
+          <div className="text-center @[640px]:text-left">
             <p className="text-sm font-medium text-slate-400 dark:text-slate-200">
               <span>&copy;</span>
               <span className="mx-2">{new Date().getFullYear()}</span>
@@ -231,7 +231,7 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="mt-4 flex items-center justify-center md:mt-0">
+          <div className="mt-4 flex items-center justify-center @[640px]:mt-0">
             <div className="flex space-x-8">
               {footerNavigation.bottomLinks.map((item) => (
                 <Link

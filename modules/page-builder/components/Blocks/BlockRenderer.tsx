@@ -23,6 +23,7 @@ import Spacer from "./Spacer/Spacer";
 import CustomHtml from "./CustomHtml/CustomHtml";
 import Section from "./Section/Section";
 import Columns from "./Columns/Columns";
+import Grid from "./Grid/Grid";
 import ShoppableImage from "./ShoppableImage/ShoppableImage";
 import BeforeAfter from "./BeforeAfter/BeforeAfter";
 import FAQAccordion from "./FAQAccordion/FAQAccordion";
@@ -145,6 +146,9 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({
 
     case "columns":
       return <Columns {...commonProps}>{children}</Columns>;
+
+    case "grid":
+      return <Grid {...commonProps}>{children}</Grid>;
 
     case "shoppable-image":
       return <ShoppableImage {...commonProps} />;

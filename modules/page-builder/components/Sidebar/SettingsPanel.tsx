@@ -16,8 +16,11 @@ import {
   MagnifyingGlassIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
-import { usePageBuilder } from "../../context/PageBuilderContext";
-import { blockRegistry } from "../../utils/blockRegistry";
+import {
+  usePageBuilder,
+  findBlockById,
+} from "../../context/PageBuilderContext";
+import { blockRegistry, createBlock } from "../../utils/blockRegistry";
 import { useCollaborationContext } from "../../collaboration/CollaborationContext";
 import MediaPickerField from "../../../media/components/MediaPickerField";
 import FocalPointPicker from "../../../media/components/FocalPointPicker";
@@ -28,17 +31,23 @@ import CropEditor, {
 import LinkPickerField from "./LinkPickerField";
 import ProductCollectionPickerField from "./ProductCollectionPickerField";
 import CollectionPickerField from "./CollectionPickerField";
+import GridTemplateEditor from "./GridTemplateEditor";
+import GridCellEditor from "./GridCellEditor";
+import BlockPickerModal from "../BlockPickerModal";
 import { useAdminSettings } from "../../../admin/context/AdminSettingsContext";
 import CodeEditor from "./CodeEditor";
 import type {
   PageBlock,
   BlockStyle,
+  BlockType,
   AlignmentX,
   AlignmentY,
   LocalizedSEOSettings,
   LocalizedString,
   LocalizedContent,
   BlockContent,
+  GridContent,
+  GridChildPlacement,
 } from "../../types";
 import { getLocalizedContent } from "../../utils/localization";
 import { cmsConfig } from "../../../../lib/cms.config";
@@ -122,6 +131,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     selectedBlock,
     updateBlock,
     selectBlock,
+    addBlock,
+    deleteBlock,
     saveHistory,
     state,
     updateSEO,
@@ -707,7 +718,23 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
   isCropping = false,
   cropTarget = "",
 }) => {
-  const { activeLocale } = usePageBuilder();
+  const {
+    activeLocale,
+    state,
+    updateBlock,
+    addBlock,
+    deleteBlock,
+    selectBlock,
+  } = usePageBuilder();
+
+  // State for block picker in grid bento editor
+  const [isGridBlockPickerOpen, setIsGridBlockPickerOpen] = useState(false);
+  const [pendingGridPlacement, setPendingGridPlacement] = useState<{
+    colStart: number;
+    rowStart: number;
+    colSpan: number;
+    rowSpan: number;
+  } | null>(null);
 
   // Resolve localized content to active locale for display
   const content =
@@ -717,9 +744,68 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
       cmsConfig.fallbackLocale,
     ) || ({} as any);
 
+  // Check if the selected block's parent is a grid
+  const parentId = state.selection.parentId;
+  const parentBlock =
+    parentId && state.page ? findBlockById(state.page.blocks, parentId) : null;
+  const isInsideGrid = parentBlock?.type === "grid";
+  const gridContent = isInsideGrid
+    ? (getLocalizedContent(
+        parentBlock!.content as LocalizedContent<BlockContent>,
+        activeLocale,
+        cmsConfig.fallbackLocale,
+      ) as GridContent)
+    : null;
+  const gridPlacement =
+    gridContent?.childPlacements?.find((p) => p.blockId === block.id) || null;
+  const gridTemplate = gridContent?.template?.desktop || {
+    columns: ["1fr", "1fr"],
+    rows: ["auto"],
+  };
+
+  // Handle grid placement changes
+  const handleGridPlacementChange = (newPlacement: GridChildPlacement) => {
+    if (!parentBlock || !gridContent) return;
+
+    const existingPlacements = gridContent.childPlacements || [];
+    const updatedPlacements = existingPlacements.filter(
+      (p) => p.blockId !== block.id,
+    );
+    updatedPlacements.push(newPlacement);
+
+    updateBlock(parentBlock.id, {
+      content: {
+        childPlacements: updatedPlacements,
+      },
+    });
+  };
+
+  // Grid Cell Editor component for blocks inside grids
+  const gridCellEditorSection = isInsideGrid && gridContent && (
+    <Section title="Grid Cell Position">
+      <GridCellEditor
+        placement={gridPlacement}
+        template={gridTemplate}
+        onChange={handleGridPlacementChange}
+        blockId={block.id}
+      />
+    </Section>
+  );
+
+  // Wrapper to prepend gridCellEditorSection to any block's content settings
+  const wrapWithGridEditor = (content: React.ReactNode) => {
+    if (!gridCellEditorSection) return content;
+    return (
+      <>
+        {gridCellEditorSection}
+        {content}
+      </>
+    );
+  };
+
   switch (block.type) {
     case "section":
-      return (
+      return wrapWithGridEditor(
         <div>
           <Section title="Container">
             <PropertyRow label="Width">
@@ -769,11 +855,11 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               Choose semantic HTML element for accessibility
             </p>
           </Section>
-        </div>
+        </div>,
       );
 
     case "hero-banner":
-      return (
+      return wrapWithGridEditor(
         <div>
           <Section title="Layout">
             <LayoutPicker
@@ -987,7 +1073,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               );
             })}
           </Section>
-        </div>
+        </div>,
       );
 
     case "product-grid":
@@ -1059,7 +1145,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
       );
 
     case "text-content":
-      return (
+      return wrapWithGridEditor(
         <div>
           <Section title="Content">
             <textarea
@@ -1083,11 +1169,11 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               />
             </PropertyRow>
           </Section>
-        </div>
+        </div>,
       );
 
     case "spacer":
-      return (
+      return wrapWithGridEditor(
         <div>
           <Section title="Size">
             <PropertyRow label="Height">
@@ -1109,7 +1195,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               />
             </PropertyRow>
           </Section>
-        </div>
+        </div>,
       );
 
     case "columns": {
@@ -1199,8 +1285,185 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
       );
     }
 
-    case "image":
+    case "grid": {
+      const gridContent = content as unknown as GridContent;
+      const desktopTemplate = gridContent.template?.desktop || {
+        columns: ["1fr", "1fr"],
+        rows: ["auto"],
+      };
+
+      // Handler to create a new block in a bento area - opens block picker
+      const handleBentoAreaCreate = (area: {
+        colStart: number;
+        rowStart: number;
+        colSpan: number;
+        rowSpan: number;
+      }) => {
+        // Store pending placement and open block picker
+        setPendingGridPlacement(area);
+        setIsGridBlockPickerOpen(true);
+      };
+
+      // Handler when block type is selected from picker
+      const handleGridBlockSelect = (
+        blockType: BlockType,
+        overrides?: {
+          content?: Record<string, any>;
+          style?: Record<string, any>;
+        },
+      ) => {
+        if (!pendingGridPlacement) return;
+
+        // Create the selected block type
+        const newBlock = createBlock(blockType) as PageBlock;
+
+        // Apply any overrides (e.g., from hero presets)
+        if (overrides?.content) {
+          newBlock.content = { ...newBlock.content, ...overrides.content };
+        }
+        if (overrides?.style) {
+          newBlock.style = { ...newBlock.style, ...overrides.style };
+        }
+
+        // Add the block as a child of the grid
+        addBlock(newBlock, block.id);
+
+        // Create placement for the new block
+        const currentPlacements = gridContent.childPlacements || [];
+        const newPlacement: GridChildPlacement = {
+          blockId: newBlock.id,
+          placement: {
+            colStart: pendingGridPlacement.colStart,
+            rowStart: pendingGridPlacement.rowStart,
+            colSpan: pendingGridPlacement.colSpan,
+            rowSpan: pendingGridPlacement.rowSpan,
+          },
+        };
+
+        // Update grid's childPlacements
+        onChange("childPlacements", [...currentPlacements, newPlacement]);
+
+        // Select the new block
+        selectBlock(newBlock.id, block.id);
+
+        // Clear pending placement
+        setPendingGridPlacement(null);
+      };
+
+      // Handler to select a child block
+      const handleAreaClick = (blockId: string) => {
+        selectBlock(blockId, block.id);
+      };
+
+      // Handler to delete a child block
+      const handleAreaDelete = (blockId: string) => {
+        // Remove from placements
+        const updatedPlacements = (gridContent.childPlacements || []).filter(
+          (p) => p.blockId !== blockId,
+        );
+        onChange("childPlacements", updatedPlacements);
+
+        // Delete the block
+        deleteBlock(blockId);
+      };
+
       return (
+        <div>
+          <Section title="Grid Layout">
+            <GridTemplateEditor
+              template={desktopTemplate}
+              onChange={(newTemplate) => {
+                onChange("template", {
+                  ...gridContent.template,
+                  desktop: newTemplate,
+                });
+              }}
+              placements={gridContent.childPlacements || []}
+              onAreaCreate={handleBentoAreaCreate}
+              onAreaClick={handleAreaClick}
+              onAreaDelete={handleAreaDelete}
+              selectedBlockId={state.selection?.blockId}
+            />
+          </Section>
+
+          <Section title="Spacing">
+            <PropertyRow label="Gap">
+              <MiniNumberInput
+                value={gridContent.gap || 24}
+                min={0}
+                max={100}
+                onChange={(v) => onChange("gap", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+            <PropertyRow label="Row Gap">
+              <MiniNumberInput
+                value={gridContent.rowGap ?? gridContent.gap ?? 24}
+                min={0}
+                max={100}
+                onChange={(v) => onChange("rowGap", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Auto Flow" defaultOpen={false}>
+            <PropertyRow label="Direction">
+              <MiniSelect
+                value={gridContent.autoFlow || "row"}
+                options={[
+                  { value: "row", label: "Row" },
+                  { value: "column", label: "Column" },
+                  { value: "dense", label: "Dense" },
+                ]}
+                onChange={(v) => onChange("autoFlow", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Alignment" defaultOpen={false}>
+            <PropertyRow label="Justify Items">
+              <SegmentedControl
+                value={gridContent.justifyItems || "stretch"}
+                options={[
+                  { value: "start", label: "Start" },
+                  { value: "center", label: "Center" },
+                  { value: "end", label: "End" },
+                  { value: "stretch", label: "Fill" },
+                ]}
+                onChange={(v) => onChange("justifyItems", v)}
+              />
+            </PropertyRow>
+            <PropertyRow label="Align Items">
+              <SegmentedControl
+                value={gridContent.alignItems || "stretch"}
+                options={[
+                  { value: "start", label: "Start" },
+                  { value: "center", label: "Center" },
+                  { value: "end", label: "End" },
+                  { value: "stretch", label: "Fill" },
+                ]}
+                onChange={(v) => onChange("alignItems", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          {/* Block Picker for grid cell */}
+          <BlockPickerModal
+            isOpen={isGridBlockPickerOpen}
+            onClose={() => {
+              setIsGridBlockPickerOpen(false);
+              setPendingGridPlacement(null);
+            }}
+            onSelectBlock={handleGridBlockSelect}
+            parentBlockType="grid"
+          />
+        </div>
+      );
+    }
+
+    case "image":
+      return wrapWithGridEditor(
         <div>
           <Section title="Image">
             <MediaPickerField
@@ -1282,7 +1545,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onBlur={onBlur}
             />
           </Section>
-        </div>
+        </div>,
       );
 
     case "faq-accordion": {
@@ -3291,6 +3554,9 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
   isCropping = false,
 }) => {
   const style = block.style;
+  // Hide background image controls for image blocks to avoid confusion
+  // (image blocks have their own image picker in Content tab)
+  const showBackgroundImage = block.type !== "image";
 
   return (
     <div>
@@ -3300,16 +3566,18 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
           value={style.backgroundColor || ""}
           onChange={(v) => onChange("backgroundColor", v)}
         />
-        <PropertyRow label="Image" inline={false}>
-          <MediaPickerField
-            value={style.backgroundImage || ""}
-            onChange={(v) => onChange("backgroundImage", v)}
-            onBlur={onBlur}
-            allowedTypes={["image/*"]}
-            compact
-          />
-        </PropertyRow>
-        {style.backgroundImage && (
+        {showBackgroundImage && (
+          <PropertyRow label="Image" inline={false}>
+            <MediaPickerField
+              value={style.backgroundImage || ""}
+              onChange={(v) => onChange("backgroundImage", v)}
+              onBlur={onBlur}
+              allowedTypes={["image/*"]}
+              compact
+            />
+          </PropertyRow>
+        )}
+        {showBackgroundImage && style.backgroundImage && (
           <>
             <PropertyRow label="Focal Point" inline={false}>
               <FocalPointPicker
