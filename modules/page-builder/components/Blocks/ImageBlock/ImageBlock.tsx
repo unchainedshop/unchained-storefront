@@ -43,7 +43,6 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
   const containerStyle: React.CSSProperties = {
     maxWidth: style.maxWidth || undefined,
     margin: style.alignmentX === "center" ? "0 auto" : undefined,
-    borderRadius: style.borderRadius || 0,
   };
 
   const imageStyle: React.CSSProperties = {
@@ -61,8 +60,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
 
   const ImageContent = (
     <div
-      className={`overflow-hidden bg-slate-100 dark:bg-slate-800 ${aspectRatioClass} ${fillContainer ? "h-full" : ""}`}
-      style={{ borderRadius: style.borderRadius || 0 }}
+      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "h-full min-h-[200px]" : ""}`}
     >
       {content.src ? (
         <img
@@ -72,12 +70,16 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
           style={imageStyle}
         />
       ) : (
-        <div className="w-full h-full min-h-[200px] flex items-center justify-center">
-          <div className="text-center">
-            <PhotoIcon className="w-16 h-16 text-slate-300 dark:text-slate-500 mx-auto" />
-            <p className="mt-2 text-sm text-slate-400 dark:text-slate-500">
-              No image selected
-            </p>
+        <div
+          className="w-full h-full min-h-[200px] flex items-center justify-center"
+          style={{
+            background:
+              "linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f1f5f9 100%)",
+          }}
+        >
+          <div className="text-center text-slate-400">
+            <PhotoIcon className="w-6 h-6 mx-auto" />
+            <p className="mt-1 text-xs">Add Image</p>
           </div>
         </div>
       )}
@@ -87,7 +89,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
   return (
     <figure className={fillContainer ? "h-full" : ""} style={containerStyle}>
       {content.link && !isPreview ? (
-        <Link href={content.link} className="block">
+        <Link href={content.link} className="block h-full">
           {ImageContent}
         </Link>
       ) : (

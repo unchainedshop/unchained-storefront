@@ -1,15 +1,16 @@
 /**
  * Page Builder Context
  * State management for the visual page editor
+ *
+ * This context is split into multiple sub-contexts for performance:
+ * - ActionsContext: Stable callbacks (never causes re-renders)
+ * - PageContext: Page data + selection (high-frequency updates)
+ * - UIContext: UI state (medium-frequency updates)
+ * - HistoryContext: Undo/redo state (medium-frequency updates)
+ * - LocaleContext: Active locale (low-frequency updates)
  */
 
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useReducer, useCallback, useMemo, useEffect } from "react";
 import type {
   EditorState,
   EditorAction,
@@ -30,6 +31,20 @@ import type {
 import { blockRegistry } from "../utils/blockRegistry";
 import { cmsConfig } from "../../../lib/cms.config";
 import { copyPageContentToLocale } from "../utils/localization";
+
+// Import split contexts
+import { ActionsContext, type PageBuilderActions } from "./ActionsContext";
+import { PageContext, type PageContextValue } from "./PageContext";
+import { UIContext, type UIContextValue } from "./UIContext";
+import { HistoryContext, type HistoryContextValue } from "./HistoryContext";
+import { LocaleContext, type LocaleContextValue } from "./LocaleContext";
+
+// Re-export hooks for convenience
+export { usePageBuilderActions } from "./ActionsContext";
+export { usePageBuilderPage } from "./PageContext";
+export { usePageBuilderUI } from "./UIContext";
+export { usePageBuilderHistory } from "./HistoryContext";
+export { usePageBuilderLocale } from "./LocaleContext";
 
 const initialState: EditorState = {
   page: null,
@@ -196,8 +211,6 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
       };
 
     case "SELECT_BLOCK": {
-      // Don't switch sidebar tab when selecting - the SettingsPanel is always visible
-      // in the right sidebar, so no need to change the left sidebar tab
       return {
         ...state,
         selection: {
@@ -241,7 +254,6 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
                 const activeLocale = state.activeLocale;
 
                 // Check if content is in legacy (non-localized) format
-                // Legacy content has block keys directly (heading, text) not locale keys (de, fr)
                 const contentKeys = Object.keys(block.content);
                 const isLegacyContent =
                   contentKeys.length > 0 &&
@@ -400,7 +412,6 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
       return {
         ...state,
         isPreviewMode: enteringPreview,
-        // Clear selection when entering preview mode
         selection: enteringPreview
           ? { blockId: null, parentId: null }
           : state.selection,
@@ -535,7 +546,6 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
             action.payload.fromLocale,
             action.payload.toLocale,
           ),
-          // Also copy the page title
           title: {
             ...state.page.title,
             [action.payload.toLocale]:
@@ -576,10 +586,10 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
   }
 }
 
+// Legacy interface for backwards compatibility
 interface PageBuilderContextValue {
   state: EditorState;
   dispatch: React.Dispatch<EditorAction>;
-  // Convenience methods
   selectBlock: (
     blockId: string | null,
     parentId?: string | null,
@@ -624,7 +634,6 @@ interface PageBuilderContextValue {
   selectedBlock: PageBlock | null;
   canUndo: boolean;
   canRedo: boolean;
-  // Localization methods
   activeLocale: string;
   setActiveLocale: (locale: string) => void;
   copyContentToLocale: (fromLocale: string, toLocale: string) => void;
@@ -632,16 +641,15 @@ interface PageBuilderContextValue {
     locale: string,
     status: Partial<TranslationStatus>,
   ) => void;
-  // Hover tracking
   setHoveredBlock: (blockId: string | null) => void;
-  // Error handling
   setError: (error: PageBuilderError | null) => void;
   clearError: () => void;
-  // Focus section (for navigating to settings sections)
   setFocusSection: (section: string | null) => void;
 }
 
-const PageBuilderContext = createContext<PageBuilderContextValue | null>(null);
+// Legacy context for backwards compatibility
+const LegacyPageBuilderContext =
+  React.createContext<PageBuilderContextValue | null>(null);
 
 // Track newly added blocks for entrance animation
 const newlyAddedBlocks = new Set<string>();
@@ -659,6 +667,10 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [state, dispatch] = useReducer(editorReducer, initialState);
 
+  // =========================================================================
+  // ACTIONS (stable - never change, never cause re-renders)
+  // =========================================================================
+
   const selectBlock = useCallback(
     (blockId: string | null, parentId?: string | null, keepTab?: boolean) => {
       dispatch({
@@ -673,7 +685,6 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     (block: PageBlock, parentId?: string, position?: number) => {
       const blockDef = blockRegistry[block.type];
       const label = blockDef?.label || block.type;
-      // Track for entrance animation
       newlyAddedBlocks.add(block.id);
       dispatch({
         type: "SAVE_HISTORY",
@@ -701,27 +712,29 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     [],
   );
 
-  const deleteBlock = useCallback(
-    (blockId: string) => {
-      // Get block info before deleting for history label
-      const block = state.page
-        ? findBlockById(state.page.blocks, blockId)
-        : null;
-      const blockDef = block ? blockRegistry[block.type] : null;
-      const label = blockDef?.label || block?.type || "block";
-      dispatch({
-        type: "SAVE_HISTORY",
-        payload: {
-          action: "delete",
-          label: `Deleted ${label}`,
-          blockType: block?.type,
-          blockId,
-        },
-      });
-      dispatch({ type: "DELETE_BLOCK", payload: { blockId } });
-    },
-    [state.page],
-  );
+  // Note: deleteBlock, moveBlock, duplicateBlock need page reference for history labels
+  // We use a ref to get current page without adding it to dependencies
+  const pageRef = React.useRef(state.page);
+  useEffect(() => {
+    pageRef.current = state.page;
+  }, [state.page]);
+
+  const deleteBlock = useCallback((blockId: string) => {
+    const page = pageRef.current;
+    const block = page ? findBlockById(page.blocks, blockId) : null;
+    const blockDef = block ? blockRegistry[block.type] : null;
+    const label = blockDef?.label || block?.type || "block";
+    dispatch({
+      type: "SAVE_HISTORY",
+      payload: {
+        action: "delete",
+        label: `Deleted ${label}`,
+        blockType: block?.type,
+        blockId,
+      },
+    });
+    dispatch({ type: "DELETE_BLOCK", payload: { blockId } });
+  }, []);
 
   const moveBlock = useCallback(
     (
@@ -729,9 +742,8 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
       targetId: string,
       position: "before" | "after" | "inside",
     ) => {
-      const block = state.page
-        ? findBlockById(state.page.blocks, blockId)
-        : null;
+      const page = pageRef.current;
+      const block = page ? findBlockById(page.blocks, blockId) : null;
       const blockDef = block ? blockRegistry[block.type] : null;
       const label = blockDef?.label || block?.type || "block";
       dispatch({
@@ -748,29 +760,25 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
         payload: { blockId, targetId, position },
       });
     },
-    [state.page],
+    [],
   );
 
-  const duplicateBlockFn = useCallback(
-    (blockId: string) => {
-      const block = state.page
-        ? findBlockById(state.page.blocks, blockId)
-        : null;
-      const blockDef = block ? blockRegistry[block.type] : null;
-      const label = blockDef?.label || block?.type || "block";
-      dispatch({
-        type: "SAVE_HISTORY",
-        payload: {
-          action: "duplicate",
-          label: `Duplicated ${label}`,
-          blockType: block?.type,
-          blockId,
-        },
-      });
-      dispatch({ type: "DUPLICATE_BLOCK", payload: { blockId } });
-    },
-    [state.page],
-  );
+  const duplicateBlockFn = useCallback((blockId: string) => {
+    const page = pageRef.current;
+    const block = page ? findBlockById(page.blocks, blockId) : null;
+    const blockDef = block ? blockRegistry[block.type] : null;
+    const label = blockDef?.label || block?.type || "block";
+    dispatch({
+      type: "SAVE_HISTORY",
+      payload: {
+        action: "duplicate",
+        label: `Duplicated ${label}`,
+        blockType: block?.type,
+        blockId,
+      },
+    });
+    dispatch({ type: "DUPLICATE_BLOCK", payload: { blockId } });
+  }, []);
 
   const setViewport = useCallback((viewport: Viewport) => {
     dispatch({ type: "SET_VIEWPORT", payload: viewport });
@@ -790,6 +798,14 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const toggleSiteFrame = useCallback((forceState?: boolean) => {
     dispatch({ type: "TOGGLE_SITE_FRAME", payload: forceState });
+  }, []);
+
+  const toggleGrid = useCallback((forceState?: boolean) => {
+    dispatch({ type: "TOGGLE_GRID", payload: forceState });
+  }, []);
+
+  const toggleOutlines = useCallback((forceState?: boolean) => {
+    dispatch({ type: "TOGGLE_OUTLINES", payload: forceState });
   }, []);
 
   const undo = useCallback(() => {
@@ -881,65 +897,199 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "SET_FOCUS_SECTION", payload: section });
   }, []);
 
+  // =========================================================================
+  // MEMOIZED CONTEXT VALUES
+  // =========================================================================
+
+  // Actions context value - stable, never changes
+  const actionsValue = useMemo<PageBuilderActions>(
+    () => ({
+      selectBlock,
+      addBlock,
+      updateBlock,
+      deleteBlock,
+      moveBlock,
+      duplicateBlock: duplicateBlockFn,
+      setViewport,
+      setZoom,
+      togglePreview,
+      toggleFocusMode,
+      toggleSiteFrame,
+      toggleGrid,
+      toggleOutlines,
+      undo,
+      redo,
+      saveHistory,
+      setPage,
+      updateSEO,
+      updatePageMeta,
+      setDragState,
+      setSidebarTab,
+      setActiveLocale,
+      copyContentToLocale: copyContentToLocaleFn,
+      updateTranslationStatus,
+      setHoveredBlock,
+      setError,
+      clearError,
+      setFocusSection,
+    }),
+    // All callbacks have [] deps, so this is stable
+    [
+      selectBlock,
+      addBlock,
+      updateBlock,
+      deleteBlock,
+      moveBlock,
+      duplicateBlockFn,
+      setViewport,
+      setZoom,
+      togglePreview,
+      toggleFocusMode,
+      toggleSiteFrame,
+      toggleGrid,
+      toggleOutlines,
+      undo,
+      redo,
+      saveHistory,
+      setPage,
+      updateSEO,
+      updatePageMeta,
+      setDragState,
+      setSidebarTab,
+      setActiveLocale,
+      copyContentToLocaleFn,
+      updateTranslationStatus,
+      setHoveredBlock,
+      setError,
+      clearError,
+      setFocusSection,
+    ],
+  );
+
+  // Selected block (computed)
   const selectedBlock = useMemo(() => {
     if (!state.page || !state.selection.blockId) return null;
     return findBlockById(state.page.blocks, state.selection.blockId);
   }, [state.page, state.selection.blockId]);
 
-  const canUndo = state.historyIndex > 0;
-  const canRedo = state.historyIndex < state.history.length - 1;
+  // Page context value
+  const pageValue = useMemo<PageContextValue>(
+    () => ({
+      page: state.page,
+      selection: state.selection,
+      selectedBlock,
+    }),
+    [state.page, state.selection, selectedBlock],
+  );
 
-  const value: PageBuilderContextValue = {
-    state,
-    dispatch,
-    selectBlock,
-    addBlock,
-    updateBlock,
-    deleteBlock,
-    moveBlock,
-    duplicateBlock: duplicateBlockFn,
-    setViewport,
-    setZoom,
-    togglePreview,
-    toggleFocusMode,
-    toggleSiteFrame,
-    undo,
-    redo,
-    saveHistory,
-    setPage,
-    updateSEO,
-    updatePageMeta,
-    setDragState,
-    setSidebarTab,
-    selectedBlock,
-    canUndo,
-    canRedo,
-    // Localization
-    activeLocale: state.activeLocale,
-    setActiveLocale,
-    copyContentToLocale: copyContentToLocaleFn,
-    updateTranslationStatus,
-    setHoveredBlock,
-    // Error handling
-    setError,
-    clearError,
-    // Focus section
-    setFocusSection,
-  };
+  // UI context value
+  const uiValue = useMemo<UIContextValue>(
+    () => ({
+      viewport: state.viewport,
+      zoom: state.zoom,
+      showGrid: state.showGrid,
+      showOutlines: state.showOutlines,
+      showSiteFrame: state.showSiteFrame,
+      isPreviewMode: state.isPreviewMode,
+      isFocusMode: state.isFocusMode,
+      isDirty: state.isDirty,
+      isSaving: state.isSaving,
+      dragState: state.dragState,
+      sidebarTab: state.sidebarTab,
+      hoveredBlockId: state.hoveredBlockId,
+      error: state.error,
+      focusSection: state.focusSection,
+    }),
+    [
+      state.viewport,
+      state.zoom,
+      state.showGrid,
+      state.showOutlines,
+      state.showSiteFrame,
+      state.isPreviewMode,
+      state.isFocusMode,
+      state.isDirty,
+      state.isSaving,
+      state.dragState,
+      state.sidebarTab,
+      state.hoveredBlockId,
+      state.error,
+      state.focusSection,
+    ],
+  );
+
+  // History context value
+  const historyValue = useMemo<HistoryContextValue>(
+    () => ({
+      history: state.history,
+      historyIndex: state.historyIndex,
+      canUndo: state.historyIndex > 0,
+      canRedo: state.historyIndex < state.history.length - 1,
+    }),
+    [state.history, state.historyIndex],
+  );
+
+  // Locale context value
+  const localeValue = useMemo<LocaleContextValue>(
+    () => ({
+      activeLocale: state.activeLocale,
+    }),
+    [state.activeLocale],
+  );
+
+  // Legacy combined value for backwards compatibility
+  const legacyValue = useMemo<PageBuilderContextValue>(
+    () => ({
+      state,
+      dispatch,
+      ...actionsValue,
+      selectedBlock,
+      canUndo: historyValue.canUndo,
+      canRedo: historyValue.canRedo,
+      activeLocale: state.activeLocale,
+      copyContentToLocale: copyContentToLocaleFn,
+    }),
+    [
+      state,
+      actionsValue,
+      selectedBlock,
+      historyValue.canUndo,
+      historyValue.canRedo,
+      copyContentToLocaleFn,
+    ],
+  );
 
   return (
-    <PageBuilderContext.Provider value={value}>
-      {children}
-    </PageBuilderContext.Provider>
+    <ActionsContext.Provider value={actionsValue}>
+      <PageContext.Provider value={pageValue}>
+        <UIContext.Provider value={uiValue}>
+          <HistoryContext.Provider value={historyValue}>
+            <LocaleContext.Provider value={localeValue}>
+              <LegacyPageBuilderContext.Provider value={legacyValue}>
+                {children}
+              </LegacyPageBuilderContext.Provider>
+            </LocaleContext.Provider>
+          </HistoryContext.Provider>
+        </UIContext.Provider>
+      </PageContext.Provider>
+    </ActionsContext.Provider>
   );
 };
 
+/**
+ * @deprecated Use specific hooks for better performance:
+ * - usePageBuilderActions() - for callbacks only (never re-renders)
+ * - usePageBuilderPage() - for page data and selection
+ * - usePageBuilderUI() - for UI state (viewport, preview, etc.)
+ * - usePageBuilderHistory() - for undo/redo state
+ * - usePageBuilderLocale() - for active locale
+ */
 export const usePageBuilder = (): PageBuilderContextValue => {
-  const context = useContext(PageBuilderContext);
+  const context = React.useContext(LegacyPageBuilderContext);
   if (!context) {
     throw new Error("usePageBuilder must be used within a PageBuilderProvider");
   }
   return context;
 };
 
-export default PageBuilderContext;
+export default LegacyPageBuilderContext;

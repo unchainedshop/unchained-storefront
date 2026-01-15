@@ -309,11 +309,11 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
         {children}
       </div>
 
-      {/* Add block button - positioned at bottom edge */}
+      {/* Add block button - positioned at bottom edge, centered in gap */}
       {onAddAfter && (
         <div
           className={classNames(
-            "absolute -bottom-1 left-0 right-0 z-[15] transition-opacity duration-300",
+            "absolute left-0 right-0 z-[15] transition-opacity duration-300 bottom-0 translate-y-1/2",
             isHovered || isSelected
               ? "opacity-100"
               : "opacity-0 pointer-events-none",

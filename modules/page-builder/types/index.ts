@@ -405,6 +405,8 @@ export interface GridContent {
   gap: number;
   /** Row gap if different from column gap */
   rowGap?: number;
+  /** Horizontal padding on the sides (pixels) */
+  sidePadding?: number;
   /** Child placement metadata - keyed by child block ID */
   childPlacements: GridChildPlacement[];
   /** Auto-flow direction when children exceed explicit placements */

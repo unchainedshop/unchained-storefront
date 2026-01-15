@@ -908,6 +908,11 @@ export const getBlockDefinition = (
   return blockRegistry[type];
 };
 
+// Generate a unique ID for items
+export const generateItemId = (prefix: string = "item"): string => {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+};
+
 export const createBlock = (
   type: BlockType,
   overrides?: Partial<{ content: any; style: any }>,

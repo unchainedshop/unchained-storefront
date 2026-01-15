@@ -31,23 +31,23 @@ const AddBlockButton: React.FC<AddBlockButtonProps> = ({
             e.stopPropagation();
             onClick();
           }}
-          className="group absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-10 bg-transparent hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-all duration-300"
+          className="group absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-10 transition-all duration-300"
         >
-          {/* Rainbow line - appears on hover */}
-          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-[2px]">
+          {/* Rainbow line - appears on hover, stretches full width */}
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px]">
             <div className="h-full w-full rainbow-gradient opacity-0 group-hover:opacity-80 transition-opacity duration-300" />
           </div>
 
           {/* Button container */}
           <div className="relative transition-transform duration-300 group-hover:scale-125">
-            {/* Rainbow glow - large and diffused */}
-            <div className="absolute -inset-3 rounded-full rainbow-gradient opacity-0 blur-md group-hover:opacity-70 transition-all duration-300" />
+            {/* Rainbow glow - large and diffused, animated on hover */}
+            <div className="absolute -inset-4 rounded-full rainbow-gradient opacity-0 blur-lg group-hover:opacity-80 group-hover:animate-pulse transition-all duration-300" />
 
-            {/* Secondary glow ring */}
-            <div className="absolute -inset-2 rounded-full rainbow-gradient opacity-0 blur-sm group-hover:opacity-50 transition-all duration-300" />
+            {/* Secondary glow ring - animated */}
+            <div className="absolute -inset-2 rounded-full rainbow-gradient opacity-0 blur-md group-hover:opacity-60 group-hover:animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
 
             {/* Button with rainbow border */}
-            <div className="relative w-8 h-8 rounded-full overflow-hidden shadow-md group-hover:shadow-lg transition-shadow duration-300">
+            <div className="relative w-8 h-8 rounded-full overflow-hidden shadow-md group-hover:shadow-xl transition-shadow duration-300">
               {/* Rainbow border - subtle default, full on hover */}
               <div className="absolute inset-0 rainbow-gradient opacity-40 group-hover:opacity-100 transition-opacity duration-300" />
 

@@ -6,7 +6,7 @@
 
 import React, { useState, useCallback, useMemo } from "react";
 import classNames from "classnames";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import type {
   GridContent,
   GridTemplate,
@@ -18,7 +18,7 @@ interface GridOverlayProps {
   gridId: string;
   template: GridTemplate;
   childPlacements: GridChildPlacement[];
-  children: PageBlock[];
+  childBlocks: PageBlock[];
   gap: number;
   rowGap?: number;
   onCellClick: (col: number, row: number) => void;
@@ -63,7 +63,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
   gridId,
   template,
   childPlacements,
-  children,
+  childBlocks,
   gap,
   rowGap,
   onCellClick,
@@ -113,7 +113,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
   // Get child block label by ID
   const getChildLabel = (blockId: string): string | null => {
-    const child = children.find((c) => c.id === blockId);
+    const child = childBlocks.find((c) => c.id === blockId);
     return child?.type || null;
   };
 
@@ -146,11 +146,8 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
           <div
             key={`cell-${col}-${row}`}
             className={classNames(
-              "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[80px] rounded-md",
+              "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center",
               {
-                // Empty cell
-                "border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/30 bg-slate-50/30 dark:bg-slate-800/30":
-                  !isOccupied,
                 // Occupied cell (origin)
                 "border-2 border-solid border-emerald-400 dark:border-emerald-600 bg-emerald-50/50 dark:bg-emerald-900/30":
                   isOrigin,
@@ -161,12 +158,18 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
                 "!border-blue-500 !border-2 !bg-blue-100/50 dark:!bg-blue-900/40":
                   isSelectedCell,
                 // Hovered
-                "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset": isHovered,
+                "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset":
+                  isHovered && isOccupied,
               },
             )}
             style={{
               gridColumn: col,
               gridRow: row,
+              // Empty cell gets subtle gradient background
+              ...(!isOccupied && {
+                background:
+                  "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)",
+              }),
             }}
             onClick={(e) => handleCellClick(col, row, e)}
             onMouseEnter={() => handleMouseEnter(col, row)}
@@ -177,6 +180,14 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
               {col},{row}
             </span>
 
+            {/* Empty cell placeholder content */}
+            {!isOccupied && !isHovered && (
+              <div className="text-center text-slate-400">
+                <PhotoIcon className="w-6 h-6 mx-auto" />
+                <p className="mt-1 text-xs">Add Image</p>
+              </div>
+            )}
+
             {/* Child block label (for origins) */}
             {childLabel && (
               <span className="absolute bottom-1 right-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 bg-white/80 dark:bg-slate-800/80 px-1 rounded">
@@ -186,10 +197,8 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
             {/* Add button for empty cells on hover */}
             {!isOccupied && isHovered && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg">
-                  <PlusIcon className="w-5 h-5" />
-                </div>
+              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg">
+                <PlusIcon className="w-6 h-6" />
               </div>
             )}
 

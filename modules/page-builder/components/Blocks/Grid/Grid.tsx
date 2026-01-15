@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo, useCallback, useState } from "react";
+import { PhotoIcon } from "@heroicons/react/24/outline";
 import type {
   PageBlock,
   GridContent,
@@ -128,6 +129,10 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     margin: style.margin
       ? `${style.margin.top}px ${style.margin.right}px ${style.margin.bottom}px ${style.margin.left}px`
       : undefined,
+    marginLeft:
+      content.sidePadding != null ? `${content.sidePadding}px` : undefined,
+    marginRight:
+      content.sidePadding != null ? `${content.sidePadding}px` : undefined,
     backgroundColor: style.backgroundColor,
     borderRadius: style.borderRadius,
   };
@@ -225,14 +230,19 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
       return (
         <div
           key={`placeholder-${idx}`}
-          className="min-h-[80px] flex items-center justify-center text-slate-400 dark:text-slate-500 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50/50 dark:bg-slate-800/50 transition-colors hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-100/50 dark:hover:bg-slate-700/50"
+          className="h-full min-h-[120px] flex items-center justify-center"
+          style={{
+            background:
+              "linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f1f5f9 100%)",
+          }}
           data-grid-placeholder
           data-col={col}
           data-row={row}
         >
-          <span className="text-xs font-mono">
-            {col},{row}
-          </span>
+          <div className="text-center text-slate-400">
+            <PhotoIcon className="w-6 h-6 mx-auto" />
+            <p className="mt-1 text-xs">Add Image</p>
+          </div>
         </div>
       );
     });
@@ -327,7 +337,7 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
           gridId={gridId}
           template={currentTemplate}
           childPlacements={content.childPlacements || []}
-          children={childBlocks}
+          childBlocks={childBlocks}
           gap={content.gap}
           rowGap={content.rowGap}
           onCellClick={handleCellClick}

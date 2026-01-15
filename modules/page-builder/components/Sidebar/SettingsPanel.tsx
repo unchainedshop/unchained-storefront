@@ -20,7 +20,11 @@ import {
   usePageBuilder,
   findBlockById,
 } from "../../context/PageBuilderContext";
-import { blockRegistry, createBlock } from "../../utils/blockRegistry";
+import {
+  blockRegistry,
+  createBlock,
+  generateItemId,
+} from "../../utils/blockRegistry";
 import { useCollaborationContext } from "../../collaboration/CollaborationContext";
 import MediaPickerField from "../../../media/components/MediaPickerField";
 import FocalPointPicker from "../../../media/components/FocalPointPicker";
@@ -1405,6 +1409,15 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 suffix="px"
               />
             </PropertyRow>
+            <PropertyRow label="Side Padding">
+              <MiniNumberInput
+                value={gridContent.sidePadding ?? 0}
+                min={0}
+                max={200}
+                onChange={(v) => onChange("sidePadding", v)}
+                suffix="px"
+              />
+            </PropertyRow>
           </Section>
 
           <Section title="Auto Flow" defaultOpen={false}>
@@ -1633,7 +1646,11 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onClick={() => {
                 const newItems = [
                   ...items,
-                  { id: `faq_${Date.now()}`, question: "", answer: "" },
+                  {
+                    id: generateItemId("faq"),
+                    question: "",
+                    answer: "",
+                  },
                 ];
                 onChange("items", newItems);
               }}
@@ -1786,7 +1803,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 const newPlans = [
                   ...plans,
                   {
-                    id: `plan_${Date.now()}`,
+                    id: generateItemId("plan"),
                     name: "",
                     monthlyPrice: "",
                     yearlyPrice: "",
@@ -1894,7 +1911,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onClick={() => {
                 const newStats = [
                   ...stats,
-                  { id: `stat_${Date.now()}`, value: "", label: "" },
+                  { id: generateItemId("stat"), value: "", label: "" },
                 ];
                 onChange("stats", newStats);
               }}
@@ -1996,7 +2013,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onClick={() => {
                 const newLogos = [
                   ...logos,
-                  { id: `logo_${Date.now()}`, src: "", alt: "" },
+                  { id: generateItemId("logo"), src: "", alt: "" },
                 ];
                 onChange("logos", newLogos);
               }}
@@ -2128,7 +2145,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onClick={() => {
                 const newMembers = [
                   ...members,
-                  { id: `member_${Date.now()}`, name: "", role: "", bio: "" },
+                  { id: generateItemId("member"), name: "", role: "", bio: "" },
                 ];
                 onChange("members", newMembers);
               }}
@@ -2311,7 +2328,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onClick={() => {
                 const newTabs = [
                   ...tabs,
-                  { id: `tab_${Date.now()}`, label: "", content: "" },
+                  { id: generateItemId("tab"), label: "", content: "" },
                 ];
                 onChange("tabs", newTabs);
               }}
@@ -2454,7 +2471,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 const newFeatures = [
                   ...features,
                   {
-                    id: `feature_${Date.now()}`,
+                    id: generateItemId("feature"),
                     icon: "check",
                     title: "",
                     description: "",
@@ -2694,7 +2711,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 const newHotspots = [
                   ...hotspots,
                   {
-                    id: `hotspot_${Date.now()}`,
+                    id: generateItemId("hotspot"),
                     productId: "",
                     label: "",
                     startTime: 0,
@@ -2889,7 +2906,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onClick={() => {
                 const newSizes = [
                   ...sizes,
-                  { id: `size_${Date.now()}`, size: "", measurements: {} },
+                  { id: generateItemId("size"), size: "", measurements: {} },
                 ];
                 onChange("sizes", newSizes);
               }}
@@ -3117,7 +3134,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 const newStores = [
                   ...stores,
                   {
-                    id: `store_${Date.now()}`,
+                    id: generateItemId("store"),
                     name: "",
                     address: "",
                     city: "",
@@ -3324,7 +3341,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 const newPosts = [
                   ...posts,
                   {
-                    id: `post_${Date.now()}`,
+                    id: generateItemId("post"),
                     imageUrl: "",
                     permalink: "",
                     caption: "",

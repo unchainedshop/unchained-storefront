@@ -45,6 +45,9 @@ export function useCollaboration(
   config: CollaborationConfig | null,
 ): UseCollaborationReturn {
   const [state, setState] = useState<CollaborationState>(initialState);
+  const [ydoc, setYdoc] = useState<Y.Doc | null>(null);
+  const [provider, setProvider] = useState<WebsocketProvider | null>(null);
+  const [awareness, setAwareness] = useState<Awareness | null>(null);
   const ydocRef = useRef<Y.Doc | null>(null);
   const providerRef = useRef<WebsocketProvider | null>(null);
   const awarenessRef = useRef<Awareness | null>(null);
@@ -55,7 +58,9 @@ export function useCollaboration(
 
   // Refs to avoid infinite loops in callbacks that depend on frequently changing state
   const stateRef = useRef(state);
-  stateRef.current = state;
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   // Renew locks (update lastActivity) - defined before connect() which uses it
   const renewLocks = useCallback((awareness: Awareness) => {
@@ -129,18 +134,26 @@ export function useCollaboration(
     }));
 
     // Create Yjs document
-    const ydoc = new Y.Doc();
-    ydocRef.current = ydoc;
+    const newYdoc = new Y.Doc();
+    ydocRef.current = newYdoc;
+    setYdoc(newYdoc);
 
     // Create WebSocket provider
-    const provider = new WebsocketProvider(config.wsUrl, config.roomId, ydoc, {
-      connect: true,
-    });
-    providerRef.current = provider;
+    const newProvider = new WebsocketProvider(
+      config.wsUrl,
+      config.roomId,
+      newYdoc,
+      {
+        connect: true,
+      },
+    );
+    providerRef.current = newProvider;
+    setProvider(newProvider);
 
     // Get awareness
-    const awareness = provider.awareness;
-    awarenessRef.current = awareness;
+    const newAwareness = newProvider.awareness;
+    awarenessRef.current = newAwareness;
+    setAwareness(newAwareness);
 
     // Set local user state
     const userColor = getUserColor(config.user.id);
@@ -157,13 +170,13 @@ export function useCollaboration(
       lastActivity: Date.now(),
     };
 
-    awareness.setLocalState(localAwareness);
+    newAwareness.setLocalState(localAwareness);
 
     // Update local user in state
     setState((prev) => ({
       ...prev,
       localUser: {
-        clientId: awareness.clientID,
+        clientId: newAwareness.clientID,
         odId: config.user.id,
         name: config.user.name,
         avatar: config.user.avatar,
@@ -175,7 +188,7 @@ export function useCollaboration(
     }));
 
     // Handle connection status
-    provider.on("status", ({ status }: { status: string }) => {
+    newProvider.on("status", ({ status }: { status: string }) => {
       setState((prev) => ({
         ...prev,
         isConnected: status === "connected",
@@ -184,7 +197,7 @@ export function useCollaboration(
     });
 
     // Handle connection error
-    provider.on("connection-error", (event: Event) => {
+    newProvider.on("connection-error", (event: Event) => {
       setState((prev) => ({
         ...prev,
         connectionError: "Connection failed",
@@ -193,16 +206,16 @@ export function useCollaboration(
     });
 
     // Handle awareness updates
-    awareness.on("change", () => {
-      updateCollaboratorsFromAwareness(awareness, config.user.id);
+    newAwareness.on("change", () => {
+      updateCollaboratorsFromAwareness(newAwareness, config.user.id);
     });
 
     // Initial collaborator sync
-    updateCollaboratorsFromAwareness(awareness, config.user.id);
+    updateCollaboratorsFromAwareness(newAwareness, config.user.id);
 
     // Setup lock renewal interval
     renewIntervalRef.current = setInterval(() => {
-      renewLocks(awareness);
+      renewLocks(newAwareness);
     }, config.lockRenewInterval || DEFAULT_COLLAB_CONFIG.lockRenewInterval!);
   }, [config, updateCollaboratorsFromAwareness, renewLocks]);
 
@@ -224,6 +237,9 @@ export function useCollaboration(
     }
 
     awarenessRef.current = null;
+    setYdoc(null);
+    setProvider(null);
+    setAwareness(null);
     setState(initialState);
   }, []);
 
@@ -340,9 +356,9 @@ export function useCollaboration(
   }, [config, connect]);
 
   return {
-    ydoc: ydocRef.current,
-    provider: providerRef.current,
-    awareness: awarenessRef.current,
+    ydoc,
+    provider,
+    awareness,
     state,
     connect,
     disconnect,
