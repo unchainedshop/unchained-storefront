@@ -1,0 +1,38 @@
+{
+  "id": "page_1768470110022",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768470110022",
+  "status": "approved",
+  "blocks": [],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-15T09:41:50.022Z",
+  "updatedAt": "2026-01-15T09:43:29.009Z",
+  "versions": []
+}

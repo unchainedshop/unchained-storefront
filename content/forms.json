@@ -2,10 +2,63 @@
   "forms": [
     {
       "id": "form_1768439584390_9p0rt",
-      "name": "Untitled Form",
-      "slug": "untitled-form",
+      "name": "mega form",
+      "slug": "mega-form",
       "description": "",
-      "fields": [],
+      "fields": [
+        {
+          "id": "field_1768446501473_e7v18",
+          "type": "radio",
+          "label": "Single Choice",
+          "required": false,
+          "width": "full",
+          "order": 0,
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            },
+            {
+              "label": "Option 2",
+              "value": "option2"
+            }
+          ]
+        },
+        {
+          "id": "field_1768446502339_cxdsj",
+          "type": "date",
+          "label": "Date",
+          "required": false,
+          "width": "full",
+          "order": 1
+        },
+        {
+          "id": "field_1768446503590_94x9h",
+          "type": "file",
+          "label": "File Upload",
+          "required": false,
+          "width": "full",
+          "order": 2
+        },
+        {
+          "id": "field_1768446505006_jm9hv",
+          "type": "checkbox",
+          "label": "Multiple Choice",
+          "required": false,
+          "width": "full",
+          "order": 3,
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            },
+            {
+              "label": "Option 2",
+              "value": "option2"
+            }
+          ]
+        }
+      ],
       "settings": {
         "submitButtonText": "Submit",
         "successMessage": "Thank you for your submission!",
@@ -22,7 +75,7 @@
       "status": "draft",
       "submissionCount": 0,
       "createdAt": "2026-01-15T01:13:04.390Z",
-      "updatedAt": "2026-01-15T01:13:04.390Z"
+      "updatedAt": "2026-01-15T03:08:38.893Z"
     },
     {
       "id": "form_1768440452473_25ee0",
@@ -47,6 +100,30 @@
       "submissionCount": 0,
       "createdAt": "2026-01-15T01:27:32.473Z",
       "updatedAt": "2026-01-15T01:27:32.473Z"
+    },
+    {
+      "id": "form_1768446809134_weyaa",
+      "name": "Untitled Form",
+      "slug": "untitled-form",
+      "description": "",
+      "fields": [],
+      "settings": {
+        "submitButtonText": "Submit",
+        "successMessage": "Thank you for your submission!",
+        "emailNotification": {
+          "enabled": false,
+          "to": [],
+          "subject": "New Form Submission",
+          "includeSubmissionData": true
+        },
+        "captcha": {
+          "enabled": false
+        }
+      },
+      "status": "draft",
+      "submissionCount": 0,
+      "createdAt": "2026-01-15T03:13:29.134Z",
+      "updatedAt": "2026-01-15T03:13:29.134Z"
     }
   ]
 }

@@ -525,21 +525,21 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
     switch (variant) {
       case "text-left":
         return (
-          <div className="relative z-10 flex items-center h-full min-h-[inherit] px-6 @sm:px-8 @md:px-10 @lg:px-24">
+          <div className="relative z-10 flex items-center h-full min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12">
             <div className="max-w-2xl">{renderTextContent("left")}</div>
           </div>
         );
 
       case "text-right":
         return (
-          <div className="relative z-10 flex items-center justify-end h-full min-h-[inherit] px-6 @sm:px-8 @md:px-10 @lg:px-24">
+          <div className="relative z-10 flex items-center justify-end h-full min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12">
             <div className="max-w-2xl">{renderTextContent("right")}</div>
           </div>
         );
 
       case "split-left":
         return (
-          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-8 @md:px-10 @lg:px-24 py-12">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12 py-12">
             <div>{renderTextContent("left")}</div>
             <div>{renderHeroImage()}</div>
           </div>
@@ -547,7 +547,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
       case "split-right":
         return (
-          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-8 @md:px-10 @lg:px-24 py-12">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12 py-12">
             <div className="order-2 @md:order-1">{renderHeroImage()}</div>
             <div className="order-1 @md:order-2">
               {renderTextContent("left")}
@@ -557,7 +557,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
       case "image-grid-right":
         return (
-          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-8 @md:px-10 @lg:px-24 py-12">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12 py-12">
             <div>{renderTextContent("left")}</div>
             <div>{renderImageGrid()}</div>
           </div>
@@ -565,7 +565,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
       case "image-grid-left":
         return (
-          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-6 @sm:px-8 @md:px-10 @lg:px-24 py-12">
+          <div className="relative z-10 grid grid-cols-1 @md:grid-cols-2 gap-8 @md:gap-12 items-center min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12 py-12">
             <div className="order-2 @md:order-1">{renderImageGrid()}</div>
             <div className="order-1 @md:order-2">
               {renderTextContent("left")}
@@ -578,7 +578,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
         return (
           <div
             className={classNames(
-              "relative z-10 flex flex-col h-full min-h-[inherit] px-4 @sm:px-6 @md:px-10 @lg:px-24 w-full",
+              "relative z-10 flex flex-col h-full min-h-[inherit] px-3 @sm:px-4 @md:px-6 @lg:px-12 w-full",
               style.alignmentX === "left"
                 ? "items-start"
                 : style.alignmentX === "right"

@@ -1,0 +1,22 @@
+{
+  "redirects": [
+    {
+      "id": "redirect_1768446440019_gp83j",
+      "from": "/k",
+      "to": "/l",
+      "type": 301,
+      "enabled": true,
+      "createdAt": "2026-01-15T03:07:20.019Z",
+      "updatedAt": "2026-01-15T03:07:20.019Z"
+    },
+    {
+      "id": "redirect_1768446463721_8v3im",
+      "from": "/jjh",
+      "to": "/mk",
+      "type": 301,
+      "enabled": true,
+      "createdAt": "2026-01-15T03:07:43.721Z",
+      "updatedAt": "2026-01-15T03:07:43.721Z"
+    }
+  ]
+}

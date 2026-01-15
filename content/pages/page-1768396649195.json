@@ -24,6 +24,9 @@
             "/api/media/files/2026/01/media_1768393235289_s9sq7k.webp",
             "/api/media/files/2026/01/media_1768343573333_zsk1d3.png"
           ]
+        },
+        "fr": {
+          "heading": "Voller krasser, hey, han es CMS baut"
         }
       },
       "style": {
@@ -254,7 +257,7 @@
     }
   },
   "createdAt": "2026-01-14T13:17:29.195Z",
-  "updatedAt": "2026-01-15T01:15:49.728Z",
+  "updatedAt": "2026-01-15T09:37:09.907Z",
   "versions": [],
   "publishedAt": "2026-01-14T13:21:26.889Z",
   "translations": {
