@@ -135,7 +135,7 @@
 /* Light rainbow gradient - softer pastel colors */
 .rainbow-gradient {
   background: linear-gradient(
-    90deg,
+    135deg,
     #ff9a9e,
     #fecfef,
     #a8edea,
@@ -146,7 +146,7 @@
     #ff9a9e
   );
   background-size: 400% 400%;
-  animation: rainbow-shift 12s ease infinite;
+  animation: rainbow-shift 24s ease infinite;
 }
 
 /* Rainbow border effect using box-shadow */

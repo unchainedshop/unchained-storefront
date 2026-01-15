@@ -3,9 +3,9 @@
  * Container block for grouping other blocks
  */
 
-import React from 'react';
-import classNames from 'classnames';
-import type { PageBlock, SectionContent } from '../../../types';
+import React from "react";
+import classNames from "classnames";
+import type { PageBlock, SectionContent } from "../../../types";
 
 interface SectionProps {
   block: PageBlock;
@@ -25,27 +25,36 @@ const Section: React.FC<SectionProps> = ({ block, children }) => {
       ? `${style.margin.top}px ${style.margin.right}px ${style.margin.bottom}px ${style.margin.left}px`
       : undefined,
     backgroundColor: style.backgroundColor,
-    backgroundImage: style.backgroundImage ? `url(${style.backgroundImage})` : undefined,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundImage: style.backgroundImage
+      ? `url(${style.backgroundImage})`
+      : undefined,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     borderRadius: style.borderRadius,
     minHeight: style.minHeight,
   };
 
   const widthClasses = {
-    full: 'w-full',
-    container: 'max-w-7xl mx-auto',
-    narrow: 'max-w-4xl mx-auto',
+    full: "w-full",
+    container: "max-w-7xl mx-auto",
+    narrow: "max-w-4xl mx-auto",
   };
 
+  // Support semantic HTML tags
+  const Tag = (content.htmlTag || "section") as keyof JSX.IntrinsicElements;
+
   return (
-    <section style={containerStyle} className="relative">
+    <Tag
+      id={content.anchorId || undefined}
+      style={containerStyle}
+      className="relative"
+    >
       {/* Background overlay */}
       {style.backgroundOverlay && style.backgroundOverlay > 0 && (
         <div
           className="absolute inset-0"
           style={{
-            backgroundColor: style.backgroundOverlayColor || '#000000',
+            backgroundColor: style.backgroundOverlayColor || "#000000",
             opacity: style.backgroundOverlay / 100,
             borderRadius: style.borderRadius,
           }}
@@ -53,14 +62,19 @@ const Section: React.FC<SectionProps> = ({ block, children }) => {
       )}
 
       {/* Content */}
-      <div className={classNames('relative', widthClasses[content.containerWidth || 'container'])}>
+      <div
+        className={classNames(
+          "relative",
+          widthClasses[content.containerWidth || "container"],
+        )}
+      >
         {children || (
           <div className="min-h-[100px] flex items-center justify-center text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg m-4">
             <p className="text-sm">Drop blocks here</p>
           </div>
         )}
       </div>
-    </section>
+    </Tag>
   );
 };
 

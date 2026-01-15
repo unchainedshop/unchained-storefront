@@ -28,6 +28,8 @@ import CropEditor, {
 import LinkPickerField from "./LinkPickerField";
 import ProductCollectionPickerField from "./ProductCollectionPickerField";
 import CollectionPickerField from "./CollectionPickerField";
+import { useAdminSettings } from "../../../admin/context/AdminSettingsContext";
+import CodeEditor from "./CodeEditor";
 import type {
   PageBlock,
   BlockStyle,
@@ -716,6 +718,60 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
     ) || ({} as any);
 
   switch (block.type) {
+    case "section":
+      return (
+        <div>
+          <Section title="Container">
+            <PropertyRow label="Width">
+              <SegmentedControl
+                value={content.containerWidth || "container"}
+                options={[
+                  { value: "full", label: "Full" },
+                  { value: "container", label: "Default" },
+                  { value: "narrow", label: "Narrow" },
+                ]}
+                onChange={(v) => onChange("containerWidth", v)}
+              />
+            </PropertyRow>
+            <p className="text-[10px] text-slate-400 mt-2 px-1">
+              Full: edge-to-edge • Default: max 1280px • Narrow: max 896px
+            </p>
+          </Section>
+
+          <Section title="Anchor Link" defaultOpen={false}>
+            <InputField
+              value={content.anchorId || ""}
+              onChange={(v) => onChange("anchorId", v)}
+              onBlur={onBlur}
+              placeholder="about-us"
+            />
+            <p className="text-[10px] text-slate-400 mt-2 px-1">
+              Creates #anchor for in-page navigation
+            </p>
+          </Section>
+
+          <Section title="HTML Tag" defaultOpen={false}>
+            <PropertyRow label="Element">
+              <MiniSelect
+                value={content.htmlTag || "section"}
+                options={[
+                  { value: "section", label: "<section>" },
+                  { value: "div", label: "<div>" },
+                  { value: "article", label: "<article>" },
+                  { value: "aside", label: "<aside>" },
+                  { value: "header", label: "<header>" },
+                  { value: "footer", label: "<footer>" },
+                ]}
+                onChange={(v) => onChange("htmlTag", v)}
+              />
+            </PropertyRow>
+            <p className="text-[10px] text-slate-400 mt-2 px-1">
+              Choose semantic HTML element for accessibility
+            </p>
+          </Section>
+        </div>
+      );
+
     case "hero-banner":
       return (
         <div>
@@ -3170,6 +3226,38 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
       );
     }
 
+    case "custom-html":
+      return (
+        <div className="space-y-4">
+          <Section title="HTML">
+            <CodeEditor
+              value={content.html || ""}
+              onChange={(val) => onChange("html", val)}
+              language="html"
+              placeholder="<div>Your HTML here...</div>"
+              height="200px"
+            />
+          </Section>
+
+          <Section title="CSS (Optional)">
+            <CodeEditor
+              value={content.css || ""}
+              onChange={(val) => onChange("css", val)}
+              language="css"
+              placeholder=".my-class { color: red; }"
+              height="120px"
+            />
+          </Section>
+
+          <div className="px-3 py-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+            <p className="text-[10px] text-amber-700 dark:text-amber-400">
+              ⚠️ Custom HTML is rendered as-is. Ensure your code is safe and
+              well-formed.
+            </p>
+          </div>
+        </div>
+      );
+
     default:
       return (
         <div className="px-3 py-6 text-center">
@@ -3508,33 +3596,98 @@ const SegmentedControl: React.FC<{
   </div>
 );
 
-// Color Input Row
+// Color Input Row - uses dynamic presets from admin settings
 const ColorInputRow: React.FC<{
   label: string;
   value: string;
   onChange: (v: string) => void;
-}> = ({ label, value, onChange }) => (
-  <div className="flex items-center justify-between gap-2">
-    <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0">
-      {label}
-    </label>
-    <div className="flex items-center gap-1.5">
-      <input
-        type="color"
-        value={value || "#000000"}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-6 h-6 rounded border border-slate-200 dark:border-slate-700 cursor-pointer overflow-hidden"
-      />
-      <input
-        type="text"
-        value={value || ""}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="#000"
-        className="w-20 px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 font-mono"
-      />
+}> = ({ label, value, onChange }) => {
+  const [showPresets, setShowPresets] = React.useState(false);
+  const { settings } = useAdminSettings();
+
+  // Build presets: brand color first, then custom presets from settings
+  const presets = React.useMemo(() => {
+    const result: { color: string; label: string; isBrand?: boolean }[] = [
+      { color: settings.primaryColor, label: "Brand", isBrand: true },
+    ];
+    // Add custom presets from settings
+    (settings.colorPresets || []).forEach((preset) => {
+      result.push({ color: preset.color, label: preset.name });
+    });
+    return result;
+  }, [settings.primaryColor, settings.colorPresets]);
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0">
+          {label}
+        </label>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setShowPresets(!showPresets)}
+            className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            title="Color presets"
+          >
+            <svg
+              className="w-4 h-4 text-slate-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+              />
+            </svg>
+          </button>
+          <input
+            type="color"
+            value={value || "#000000"}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-6 h-6 rounded border border-slate-200 dark:border-slate-700 cursor-pointer overflow-hidden"
+          />
+          <input
+            type="text"
+            value={value || ""}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="#000"
+            className="w-20 px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 font-mono"
+          />
+        </div>
+      </div>
+      {showPresets && (
+        <div className="flex flex-wrap gap-1.5 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-md">
+          {presets.map((preset) => {
+            const isSelected =
+              value?.toLowerCase() === preset.color.toLowerCase();
+            return (
+              <button
+                key={preset.label}
+                type="button"
+                onClick={() => onChange(preset.color)}
+                className={classNames(
+                  "w-6 h-6 rounded-md border-2 transition-all hover:scale-110",
+                  isSelected
+                    ? "border-slate-900 dark:border-white ring-2 ring-slate-400/50"
+                    : "border-slate-200 dark:border-slate-600",
+                  preset.isBrand && "ring-1 ring-amber-400/50",
+                )}
+                style={{ backgroundColor: preset.color }}
+                title={
+                  preset.isBrand ? `${preset.label} (Primary)` : preset.label
+                }
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 // Padding Control - Figma-style visual box
 const PaddingControl: React.FC<{

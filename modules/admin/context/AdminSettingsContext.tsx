@@ -12,6 +12,12 @@ import React, {
   ReactNode,
 } from "react";
 
+export interface ColorPreset {
+  id: string;
+  name: string;
+  color: string;
+}
+
 export interface AdminSettings {
   siteName: Record<string, string>;
   defaultLocale: string;
@@ -19,6 +25,7 @@ export interface AdminSettings {
   logo: string;
   darkLogo: string;
   primaryColor: string;
+  colorPresets: ColorPreset[];
   darkModeDefault: boolean;
   adminEmail: string;
   dateFormat: string;
@@ -32,6 +39,7 @@ const defaultSettings: AdminSettings = {
   logo: "",
   darkLogo: "",
   primaryColor: "#0f172a",
+  colorPresets: [],
   darkModeDefault: false,
   adminEmail: "",
   dateFormat: "YYYY-MM-DD",

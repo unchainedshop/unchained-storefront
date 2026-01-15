@@ -197,9 +197,9 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
             )}
             <div className="w-10 h-10 rounded-xl rainbow-gradient flex items-center justify-center">
               {showHeroPresets ? (
-                <PresentationChartBarIcon className="w-5 h-5 text-white" />
+                <PresentationChartBarIcon className="w-5 h-5 text-slate-700" />
               ) : (
-                <SparklesIcon className="w-5 h-5 text-white" />
+                <SparklesIcon className="w-5 h-5 text-slate-700" />
               )}
             </div>
             <div>
@@ -341,7 +341,7 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
             </div>
           ) : (
             /* Block Grid */
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {filteredBlocks.map(([type, block]) => {
                 const IconComponent =
                   typeof block.icon === "string" ? iconMap[block.icon] : null;
@@ -350,17 +350,17 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   <button
                     key={type}
                     onClick={() => handleSelectBlock(type as BlockType)}
-                    className="group flex flex-col items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-xl rainbow-hover hover:shadow-lg transition-all duration-200 text-left"
+                    className="group flex items-start gap-4 p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md transition-all duration-200 text-left"
                   >
-                    <div className="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200">
+                    <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl group-hover:bg-slate-200 dark:group-hover:bg-slate-600 transition-colors">
                       {IconComponent ? (
-                        <IconComponent className="w-6 h-6 text-slate-500 dark:text-slate-400 rainbow-text-group transition-colors" />
+                        <IconComponent className="w-7 h-7 text-slate-600 dark:text-slate-300" />
                       ) : (
-                        <div className="w-6 h-6 bg-slate-200 dark:bg-slate-600 rounded" />
+                        <div className="w-7 h-7 bg-slate-300 dark:bg-slate-500 rounded" />
                       )}
                     </div>
-                    <div className="text-center">
-                      <div className="text-sm font-medium text-slate-900 dark:text-white rainbow-text-group transition-colors">
+                    <div className="flex-1 min-w-0 pt-1">
+                      <div className="text-sm font-semibold text-slate-900 dark:text-white">
                         {block.label}
                       </div>
                       {block.description && (

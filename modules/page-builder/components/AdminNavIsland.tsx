@@ -213,9 +213,9 @@ const AdminNavIsland: React.FC = () => {
           ))}
         </nav>
 
-        {/* Settings & Profile - Right (overlapping design, settings on top) */}
+        {/* Settings & Profile - Right (overlapping design) */}
         <div className="relative flex items-center justify-center">
-          <div className="absolute right-10 top-1 flex items-center justify-center">
+          <div className="absolute right-10 top-1 z-20 flex items-center justify-center">
             <ProfileMenu slideOnHover />
           </div>
           <Link

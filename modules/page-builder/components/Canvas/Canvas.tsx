@@ -156,6 +156,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
 
   const [isBlockPickerOpen, setIsBlockPickerOpen] = useState(false);
   const [insertPosition, setInsertPosition] = useState<number | null>(null);
+  const [insertParentId, setInsertParentId] = useState<string | null>(null);
 
   const {
     page,
@@ -191,8 +192,9 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
   }, [selectBlock]);
 
   const handleOpenBlockPicker = useCallback(
-    (position: number | null = null) => {
+    (position: number | null = null, parentId: string | null = null) => {
       setInsertPosition(position);
+      setInsertParentId(parentId);
       setIsBlockPickerOpen(true);
     },
     [],
@@ -207,11 +209,16 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
       },
     ) => {
       const newBlock = createBlock(blockType, overrides) as PageBlock;
-      addBlock(newBlock, undefined, insertPosition ?? undefined);
+      addBlock(
+        newBlock,
+        insertParentId ?? undefined,
+        insertPosition ?? undefined,
+      );
       setIsBlockPickerOpen(false);
       setInsertPosition(null);
+      setInsertParentId(null);
     },
-    [addBlock, insertPosition],
+    [addBlock, insertPosition, insertParentId],
   );
 
   // Get the currently dragged block for the overlay

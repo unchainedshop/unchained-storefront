@@ -46,6 +46,13 @@ export interface Role {
   updatedAt: string;
 }
 
+// Color preset types
+export interface ColorPreset {
+  id: string;
+  name: string;
+  color: string; // hex color
+}
+
 // Settings types
 export interface CMSSettings {
   siteName: Record<string, string>;
@@ -54,6 +61,7 @@ export interface CMSSettings {
   logo: string;
   darkLogo: string;
   primaryColor: string;
+  colorPresets: ColorPreset[];
   darkModeDefault: boolean;
   adminEmail: string;
   dateFormat: string;

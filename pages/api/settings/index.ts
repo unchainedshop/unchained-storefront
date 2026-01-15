@@ -11,6 +11,12 @@ import { withCMSAuth } from "../../../lib/adminAuth";
 
 const SETTINGS_FILE = path.join(process.cwd(), "content", "settings.json");
 
+interface ColorPreset {
+  id: string;
+  name: string;
+  color: string;
+}
+
 interface Settings {
   siteName: Record<string, string>;
   defaultLocale: string;
@@ -18,11 +24,26 @@ interface Settings {
   logo: string;
   darkLogo: string;
   primaryColor: string;
+  colorPresets: ColorPreset[];
   darkModeDefault: boolean;
   adminEmail: string;
   dateFormat: string;
   timeFormat: string;
 }
+
+const defaultColorPresets: ColorPreset[] = [
+  { id: "preset-1", name: "Slate 900", color: "#0f172a" },
+  { id: "preset-2", name: "Slate 500", color: "#475569" },
+  { id: "preset-3", name: "Slate 50", color: "#f8fafc" },
+  { id: "preset-4", name: "White", color: "#ffffff" },
+  { id: "preset-5", name: "Black", color: "#000000" },
+  { id: "preset-6", name: "Blue", color: "#3b82f6" },
+  { id: "preset-7", name: "Emerald", color: "#10b981" },
+  { id: "preset-8", name: "Amber", color: "#f59e0b" },
+  { id: "preset-9", name: "Red", color: "#ef4444" },
+  { id: "preset-10", name: "Violet", color: "#8b5cf6" },
+  { id: "preset-11", name: "Pink", color: "#ec4899" },
+];
 
 const defaultSettings: Settings = {
   siteName: { en: "Unchained Store", de: "Unchained Shop" },
@@ -31,6 +52,7 @@ const defaultSettings: Settings = {
   logo: "",
   darkLogo: "",
   primaryColor: "#0f172a",
+  colorPresets: defaultColorPresets,
   darkModeDefault: false,
   adminEmail: "",
   dateFormat: "YYYY-MM-DD",

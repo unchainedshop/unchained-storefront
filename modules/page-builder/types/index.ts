@@ -316,6 +316,8 @@ export interface CustomHtmlContent {
 
 export interface SectionContent {
   containerWidth: "full" | "container" | "narrow";
+  htmlTag?: "section" | "div" | "article" | "aside" | "header" | "footer";
+  anchorId?: string;
 }
 
 export type ColumnLayout = "equal" | "1-2" | "2-1" | "1-1-1" | "1-2-1";
