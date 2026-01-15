@@ -388,5 +388,15 @@
     "entityType": "page",
     "entityId": "page_1768425033155",
     "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768439749731_8s88drc",
+    "timestamp": "2026-01-15T01:15:49.731Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768396649195",
+    "entityTitle": "voll krass"
   }
 ]

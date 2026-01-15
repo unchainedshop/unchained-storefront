@@ -3,24 +3,26 @@
  * Edit an existing page with the page builder
  */
 
-import React, { useEffect, useState, useMemo } from 'react';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
-import { usePageEditor } from '../../../modules/page-builder/hooks/usePageEditor';
-import type { Page } from '../../../modules/page-builder/types';
+import React, { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import { usePageEditor } from "../../../modules/page-builder/hooks/usePageEditor";
+import { createInitialTranslations } from "../../../modules/page-builder/utils/localization";
+import { cmsConfig } from "../../../lib/cms.config";
+import type { Page } from "../../../modules/page-builder/types";
 
 // Dynamic import to avoid SSR issues with drag-and-drop
 const PageBuilder = dynamic(
-  () => import('../../../modules/page-builder/components/PageBuilder'),
-  { ssr: false }
+  () => import("../../../modules/page-builder/components/PageBuilder"),
+  { ssr: false },
 );
 
 // Get collaboration WebSocket URL from environment or default
 const getCollaborationWsUrl = (): string | null => {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
 
   // Check if collaboration is enabled
-  if (process.env.NEXT_PUBLIC_ENABLE_COLLABORATION === 'false') {
+  if (process.env.NEXT_PUBLIC_ENABLE_COLLABORATION === "false") {
     return null;
   }
 
@@ -30,20 +32,38 @@ const getCollaborationWsUrl = (): string | null => {
   }
 
   // Default: use same host with WebSocket protocol
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
   return `${protocol}//${window.location.host}/collaboration`;
+};
+
+// Helper to create a new page (used when slug is "new")
+const createNewPage = (): Page => {
+  const timestamp = Date.now();
+  return {
+    id: `page_${timestamp}`,
+    title: { [cmsConfig.defaultLocale]: "Untitled Page" },
+    slug: `page-${timestamp}`,
+    status: "draft",
+    blocks: [],
+    seo: {},
+    translations: createInitialTranslations(cmsConfig.defaultLocale),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    versions: [],
+  };
 };
 
 const EditPagePage: React.FC = () => {
   const router = useRouter();
   const { slug } = router.query;
+  const isNewPage = slug === "new";
   const [page, setPage] = useState<Page | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Use shared hook for save/publish/back
   const { handleSave, handlePublish, handleBack } = usePageEditor({
-    slug: slug as string,
+    slug: isNewPage ? undefined : (slug as string),
     onSlugChange: (newSlug) => router.replace(`/admin/pages/${newSlug}`),
   });
 
@@ -54,27 +74,34 @@ const EditPagePage: React.FC = () => {
 
     // Generate a simple user ID for this session
     const userId =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('pb_user_id') ||
+      typeof window !== "undefined"
+        ? localStorage.getItem("pb_user_id") ||
           (() => {
             const id = `user_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-            localStorage.setItem('pb_user_id', id);
+            localStorage.setItem("pb_user_id", id);
             return id;
           })()
-        : 'anonymous';
+        : "anonymous";
 
     return {
       wsUrl,
       user: {
         id: userId,
-        name: 'Page Editor',
+        name: "Page Editor",
         avatar: undefined,
       },
     };
   }, []);
 
   useEffect(() => {
-    if (!slug || typeof slug !== 'string') return;
+    if (!slug || typeof slug !== "string") return;
+
+    // Handle "new" case - create a new page directly
+    if (slug === "new") {
+      setPage(createNewPage());
+      setIsLoading(false);
+      return;
+    }
 
     const fetchPage = async () => {
       setIsLoading(true);
@@ -83,16 +110,16 @@ const EditPagePage: React.FC = () => {
         const res = await fetch(`/api/pages/${slug}`);
         if (!res.ok) {
           if (res.status === 404) {
-            setError('Page not found');
+            setError("Page not found");
           } else {
-            throw new Error('Failed to load page');
+            throw new Error("Failed to load page");
           }
           return;
         }
         const data = await res.json();
         setPage(data.page);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load page');
+        setError(err instanceof Error ? err.message : "Failed to load page");
       } finally {
         setIsLoading(false);
       }

@@ -8,6 +8,7 @@ import Link from "next/link";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
+  ChevronRightIcon,
   PencilIcon,
   DocumentTextIcon,
   PhotoIcon,
@@ -39,7 +40,10 @@ interface RecentActivityProps {
   isLoadingMore?: boolean;
 }
 
-const actionIcons: Record<AuditAction, React.ComponentType<{ className?: string }>> = {
+const actionIcons: Record<
+  AuditAction,
+  React.ComponentType<{ className?: string }>
+> = {
   create: PlusCircleIcon,
   update: PencilIcon,
   delete: TrashIcon,
@@ -54,7 +58,10 @@ const actionIcons: Record<AuditAction, React.ComponentType<{ className?: string 
   schedule: CalendarIcon,
 };
 
-const entityIcons: Record<AuditEntityType, React.ComponentType<{ className?: string }>> = {
+const entityIcons: Record<
+  AuditEntityType,
+  React.ComponentType<{ className?: string }>
+> = {
   page: DocumentTextIcon,
   media: PhotoIcon,
   folder: FolderIcon,
@@ -117,18 +124,31 @@ const getEntityLink = (entry: AuditEntry): string | null => {
 
 interface ActivityItemProps {
   entry: AuditEntry;
-  isExpanded: boolean;
+  globalExpanded: boolean;
 }
 
-const ActivityItem: React.FC<ActivityItemProps> = ({ entry, isExpanded }) => {
+const ActivityItem: React.FC<ActivityItemProps> = ({
+  entry,
+  globalExpanded,
+}) => {
+  const [isItemExpanded, setIsItemExpanded] = useState(false);
   const ActionIcon = actionIcons[entry.action] || PencilIcon;
   const EntityIcon = entityIcons[entry.entityType] || DocumentTextIcon;
   const link = getEntityLink(entry);
 
+  // Show expanded if either globally expanded or individually expanded
+  const showExpanded = globalExpanded || isItemExpanded;
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsItemExpanded(!isItemExpanded);
+  };
+
   const content = (
-    <div className={`p-4 transition-colors ${link ? "hover:bg-slate-50 dark:hover:bg-slate-800/50" : ""}`}>
+    <div className="p-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50">
       {/* Compact view */}
-      {!isExpanded && (
+      {!showExpanded && (
         <div className="flex items-center gap-3">
           <div className={`shrink-0 ${actionColors[entry.action]}`}>
             <ActionIcon className="w-4 h-4" />
@@ -146,15 +166,24 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ entry, isExpanded }) => {
               {formatRelativeTime(entry.timestamp)}
             </p>
           </div>
+          <button
+            onClick={handleToggle}
+            className="shrink-0 p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            title="Show details"
+          >
+            <ChevronDownIcon className="w-4 h-4 text-slate-400" />
+          </button>
         </div>
       )}
 
       {/* Expanded view */}
-      {isExpanded && (
+      {showExpanded && (
         <div className="space-y-3">
           {/* Header row */}
           <div className="flex items-start gap-3">
-            <div className={`shrink-0 mt-0.5 p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 ${actionColors[entry.action]}`}>
+            <div
+              className={`shrink-0 mt-0.5 p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 ${actionColors[entry.action]}`}
+            >
               <ActionIcon className="w-4 h-4" />
             </div>
             <div className="flex-1 min-w-0">
@@ -175,6 +204,15 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ entry, isExpanded }) => {
                 <span>{formatFullDate(entry.timestamp)}</span>
               </div>
             </div>
+            {!globalExpanded && (
+              <button
+                onClick={handleToggle}
+                className="shrink-0 p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                title="Hide details"
+              >
+                <ChevronUpIcon className="w-4 h-4 text-slate-400" />
+              </button>
+            )}
           </div>
 
           {/* Details row */}
@@ -193,27 +231,42 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ entry, isExpanded }) => {
           {/* Additional details if present */}
           {entry.details && Object.keys(entry.details).length > 0 && (
             <div className="ml-10 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 text-xs">
-              <p className="font-medium text-slate-700 dark:text-slate-300 mb-1.5">Details</p>
+              <p className="font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                Details
+              </p>
               <div className="space-y-1">
                 {Object.entries(entry.details).map(([key, value]) => (
                   <div key={key} className="flex items-start gap-2">
-                    <span className="text-slate-500 capitalize">{key.replace(/_/g, " ")}:</span>
+                    <span className="text-slate-500 capitalize">
+                      {key.replace(/_/g, " ")}:
+                    </span>
                     <span className="text-slate-700 dark:text-slate-300">
-                      {typeof value === "object" ? JSON.stringify(value) : String(value)}
+                      {typeof value === "object"
+                        ? JSON.stringify(value)
+                        : String(value)}
                     </span>
                   </div>
                 ))}
               </div>
             </div>
           )}
+
+          {/* Link to entity */}
+          {link && (
+            <div className="ml-10">
+              <Link
+                href={link}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+              >
+                View {entityTypeLabels[entry.entityType].toLowerCase()}
+                <ChevronRightIcon className="w-3 h-3" />
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
-
-  if (link) {
-    return <Link href={link} className="block">{content}</Link>;
-  }
 
   return content;
 };
@@ -284,7 +337,11 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
       <div className="divide-y divide-slate-100 dark:divide-slate-800">
         {displayedEntries.length > 0 ? (
           displayedEntries.map((entry) => (
-            <ActivityItem key={entry.id} entry={entry} isExpanded={isExpanded} />
+            <ActivityItem
+              key={entry.id}
+              entry={entry}
+              globalExpanded={isExpanded}
+            />
           ))
         ) : (
           <div className="p-8 text-center text-slate-500 text-sm">

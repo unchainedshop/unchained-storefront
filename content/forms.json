@@ -1,0 +1,52 @@
+{
+  "forms": [
+    {
+      "id": "form_1768439584390_9p0rt",
+      "name": "Untitled Form",
+      "slug": "untitled-form",
+      "description": "",
+      "fields": [],
+      "settings": {
+        "submitButtonText": "Submit",
+        "successMessage": "Thank you for your submission!",
+        "emailNotification": {
+          "enabled": false,
+          "to": [],
+          "subject": "New Form Submission",
+          "includeSubmissionData": true
+        },
+        "captcha": {
+          "enabled": false
+        }
+      },
+      "status": "draft",
+      "submissionCount": 0,
+      "createdAt": "2026-01-15T01:13:04.390Z",
+      "updatedAt": "2026-01-15T01:13:04.390Z"
+    },
+    {
+      "id": "form_1768440452473_25ee0",
+      "name": "Untitled Form",
+      "slug": "untitled-form-1",
+      "description": "",
+      "fields": [],
+      "settings": {
+        "submitButtonText": "Submit",
+        "successMessage": "Thank you for your submission!",
+        "emailNotification": {
+          "enabled": false,
+          "to": [],
+          "subject": "New Form Submission",
+          "includeSubmissionData": true
+        },
+        "captcha": {
+          "enabled": false
+        }
+      },
+      "status": "draft",
+      "submissionCount": 0,
+      "createdAt": "2026-01-15T01:27:32.473Z",
+      "updatedAt": "2026-01-15T01:27:32.473Z"
+    }
+  ]
+}

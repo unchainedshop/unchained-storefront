@@ -16,6 +16,10 @@ A comprehensive comparison of the Unchained Visual Page Builder against popular 
 | **Media management** | Built-in DAM | Media library | Full DAM | Media library | Assets manager |
 | **Workflow** | 5-stage + scheduled | Draft/Pending/Published | Custom stages | Draft/Published | No workflow |
 | **Audit logging** | Full audit trail | Revisions only | Activity tracking | Audit logs (EE) | No |
+| **Form builder** | Visual drag-drop | Plugin (Contact Form 7, etc.) | No (needs extension) | No (needs plugin) | No |
+| **Redirects manager** | Built-in 301/302 | Plugin (Redirection) | No | No | No |
+| **Menu builder** | Visual drag-drop | Native menus | No | No | No |
+| **Role-based access** | Built-in RBAC | Capability system | Granular RBAC | RBAC + conditions | Basic ACL |
 | **Self-hosted** | Yes | Yes | Yes | Yes | Yes |
 | **License** | Proprietary | GPL | BSL 1.1 | MIT/EE | MIT |
 
@@ -175,6 +179,80 @@ None of the general-purpose CMS have these out of the box.
 
 ---
 
+### 10. Form Builder
+
+| Aspect | Unchained | Gutenberg | Directus | Strapi | Cockpit |
+|--------|-----------|-----------|----------|--------|---------|
+| Builder type | Visual drag-drop | Plugin-dependent | N/A | N/A | N/A |
+| Field types | 10 (text, email, tel, number, textarea, select, radio, checkbox, date, file) | Plugin-dependent | N/A | N/A | N/A |
+| Validation | Required, min/max, pattern | Plugin-dependent | N/A | N/A | N/A |
+| Submissions inbox | Built-in with status | Plugin-dependent | N/A | N/A | N/A |
+| Email notifications | Configurable recipients | Plugin-dependent | N/A | N/A | N/A |
+| Spam filtering | Status-based (mark as spam) | Plugin-dependent | N/A | N/A | N/A |
+
+**Unchained advantage**: Native form builder with visual drag-drop, submission management, and email notifications - no plugins required.
+
+**WordPress advantage**: Large ecosystem of form plugins (Contact Form 7, Gravity Forms, WPForms) with extensive integrations.
+
+**Headless CMS gap**: Directus, Strapi, and Cockpit don't provide form building - requires custom implementation or third-party services.
+
+---
+
+### 11. URL Redirects Management
+
+| Aspect | Unchained | Gutenberg | Directus | Strapi | Cockpit |
+|--------|-----------|-----------|----------|--------|---------|
+| Redirect types | 301 (permanent), 302 (temporary) | Plugin (Redirection) | N/A | N/A | N/A |
+| Admin UI | Built-in manager | Plugin-dependent | N/A | N/A | N/A |
+| Enable/disable | Per-redirect toggle | Plugin-dependent | N/A | N/A | N/A |
+| Middleware | Next.js middleware integration | .htaccess / PHP | N/A | N/A | N/A |
+
+**Unchained advantage**: Built-in redirect management with instant toggle and Next.js middleware - essential for SEO during site migrations.
+
+---
+
+### 12. Menu Builder
+
+| Aspect | Unchained | Gutenberg | Directus | Strapi | Cockpit |
+|--------|-----------|-----------|----------|--------|---------|
+| Visual editor | Drag-drop with nesting | Native menu editor | N/A | N/A | N/A |
+| Nesting levels | 3 levels supported | Unlimited | N/A | N/A | N/A |
+| Link types | Page, Category, External, Submenu | Custom links, pages, categories | N/A | N/A | N/A |
+| Localization | Per-locale labels | Plugin-dependent | N/A | N/A | N/A |
+| Visibility toggle | Per-item | No | N/A | N/A | N/A |
+
+**Unchained advantage**: Purpose-built menu builder with drag-drop nesting, localization, and visibility controls.
+
+**WordPress advantage**: Native menu system with theme integration and extensive customization.
+
+**Headless CMS gap**: Menu management typically requires custom implementation.
+
+---
+
+### 13. User Roles & Permissions
+
+| Aspect | Unchained | Gutenberg | Directus | Strapi | Cockpit |
+|--------|-----------|-----------|----------|--------|---------|
+| Role management | Built-in admin UI | Capability system | Granular RBAC | RBAC + conditions | Basic ACL |
+| Permission granularity | 18 permissions across 8 groups | ~70 capabilities | Field-level | Collection + field | Collection-level |
+| System roles | Admin, Editor, Viewer (protected) | Admin, Editor, Author, Contributor, Subscriber | Configurable | Configurable | Admin only |
+| Custom roles | Yes | Via plugins | Yes | Yes | No |
+
+**Permission groups in Unchained**:
+- Pages (read, write, delete, publish)
+- Media (read, write, delete)
+- Menus (read, write, delete)
+- Collections (read, write, delete)
+- Settings (read, write)
+- Roles (read, write)
+- Redirects (read, write)
+
+**Directus advantage**: Most granular permissions with field-level access control.
+
+**Unchained advantage**: Simple, purpose-built permission system covering all CMS features.
+
+---
+
 ## Summary
 
 ### Where Unchained Excels
@@ -185,6 +263,10 @@ None of the general-purpose CMS have these out of the box.
 4. **Git-based versioning**: True version control (not just DB snapshots)
 5. **Responsive preview**: 7 breakpoints with zoom control
 6. **Integrated workflow**: Review -> approve -> publish with notes
+7. **Built-in form builder**: Visual drag-drop with submissions inbox - no plugins needed
+8. **SEO redirects**: Native 301/302 redirect management with Next.js middleware
+9. **Menu builder**: Drag-drop with 3-level nesting and localization
+10. **Complete RBAC**: 18 permissions across all CMS features out of the box
 
 ### Where Competitors Excel
 
@@ -197,11 +279,12 @@ None of the general-purpose CMS have these out of the box.
 
 ### Gaps to Consider
 
-1. **Role-based permissions**: Not yet implemented in Unchained
-2. **Visual diff**: Block-level visual comparison (like Notion's version history)
-3. **AI content assistance**: Gutenberg has AI writing tools emerging
-4. **Component marketplace**: No block/template sharing ecosystem
-5. **API-first patterns**: Could expose blocks as headless content API
+1. **Visual diff**: Block-level visual comparison (like Notion's version history)
+2. **AI content assistance**: Gutenberg has AI writing tools emerging
+3. **Component marketplace**: No block/template sharing ecosystem
+4. **API-first patterns**: Could expose blocks as headless content API
+5. **Webhooks**: No outbound notifications on content changes (Directus has Flows)
+6. **Content scheduling calendar**: Visual calendar view for scheduled content
 
 ---
 
@@ -277,5 +360,23 @@ None of the general-purpose CMS have these out of the box.
 +-----------------------------------------------------------+
 |       Media Management (DAM)                               |
 | Folders, Assets, Tags, Usage Tracking, Cropping           |
++-----------------------------------------------------------+
+
++-----------------------------------------------------------+
+|       Additional CMS Features                              |
++-----------------------------------------------------------+
+|                                                           |
+| Form Builder          | Menu Builder      | Settings      |
+| ├─ 10 field types     | ├─ Drag-drop      | ├─ CMS config |
+| ├─ Validation rules   | ├─ 3-level nest   | ├─ Branding   |
+| ├─ Submissions inbox  | ├─ Localization   | ├─ Redirects  |
+| └─ Email notifications| └─ Publish flow   | └─ User roles |
+|                                                           |
++-----------------------------------------------------------+
+|       API Layer (/api/*)                                   |
++-----------------------------------------------------------+
+| /api/forms/*          | /api/menus/*      | /api/roles/*  |
+| /api/redirects/*      | /api/media/*      | /api/settings |
+| /api/pages/*          | /api/collections/*|               |
 +-----------------------------------------------------------+
 ```

@@ -14,7 +14,14 @@ import type { Page } from "../../../modules/page-builder/types";
 // Dynamic import to avoid SSR issues with drag-and-drop
 const PageBuilder = dynamic(
   () => import("../../../modules/page-builder/components/PageBuilder"),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center">
+        <div className="text-slate-500">Loading page builder...</div>
+      </div>
+    ),
+  },
 );
 
 const createNewPage = (): Page => {

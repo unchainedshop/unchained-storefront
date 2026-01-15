@@ -19,6 +19,8 @@ import {
   CubeIcon,
   ClockIcon,
   SparklesIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from "@heroicons/react/24/outline";
 import MetaTags from "../../../modules/common/components/MetaTags";
 import { usePages } from "../../../modules/page-builder/hooks/usePages";
@@ -34,6 +36,123 @@ import type {
   PageBlock,
   BlockType,
 } from "../../../modules/page-builder/types";
+
+interface RecentActivityPanelProps {
+  pages: Page[];
+  formatDate: (date: Date, options: Intl.DateTimeFormatOptions) => string;
+}
+
+const RecentActivityPanel: React.FC<RecentActivityPanelProps> = ({
+  pages,
+  formatDate,
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Sort pages by updatedAt and get all for expanded, 3 for collapsed
+  const sortedPages = useMemo(() => {
+    return [...pages].sort(
+      (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+    );
+  }, [pages]);
+
+  const displayedPages = isExpanded ? sortedPages : sortedPages.slice(0, 3);
+  const hasMore = sortedPages.length > 3;
+
+  return (
+    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="p-5 pb-0">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <ClockIcon className="w-4 h-4 text-emerald-500" />
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+              Recent Activity
+            </h3>
+          </div>
+          {hasMore && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              title={isExpanded ? "Show less" : "Show more"}
+            >
+              {isExpanded ? (
+                <ChevronUpIcon className="w-4 h-4 text-slate-400" />
+              ) : (
+                <ChevronDownIcon className="w-4 h-4 text-slate-400" />
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {sortedPages.length > 0 ? (
+        <div
+          className={`px-5 pb-5 space-y-4 transition-all duration-300 ${
+            isExpanded ? "max-h-[500px] overflow-y-auto" : ""
+          }`}
+        >
+          {displayedPages.map((page) => {
+            const latestVersion = page.versions?.[page.versions.length - 1];
+            const author = latestVersion?.createdBy || "You";
+            return (
+              <Link
+                key={page.id}
+                href={`/admin/pages/${page.slug}`}
+                className="block group"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                    {author.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-slate-900 dark:text-white">
+                        {author}
+                      </span>
+                      <span className="text-xs text-slate-400 dark:text-slate-500">
+                        {formatDate(new Date(page.updatedAt), {
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors truncate">
+                      Updated{" "}
+                      <span className="font-medium">
+                        {getLocalizedString(
+                          page.title,
+                          cmsConfig.defaultLocale,
+                        )}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="px-5 pb-5">
+          <p className="text-sm text-slate-400">No activity yet</p>
+        </div>
+      )}
+
+      {/* Footer with count when expanded */}
+      {hasMore && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full px-5 py-3 text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-t border-slate-100 dark:border-slate-800"
+        >
+          {isExpanded
+            ? "Show less"
+            : `Show ${sortedPages.length - 3} more activities`}
+        </button>
+      )}
+    </div>
+  );
+};
 
 const PagesAdmin: React.FC = () => {
   const router = useRouter();
@@ -397,64 +516,8 @@ const PagesAdmin: React.FC = () => {
             {pages.length > 0 && (
               <div className="lg:w-80 flex-shrink-0">
                 <div className="lg:sticky lg:top-8 space-y-4">
-                  {/* Recent Activity - Now at top */}
-                  <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                      <ClockIcon className="w-4 h-4 text-emerald-500" />
-                      <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-                        Recent Activity
-                      </h3>
-                    </div>
-                    {blockStats.recentlyUpdated.length > 0 ? (
-                      <div className="space-y-4">
-                        {blockStats.recentlyUpdated.map((page) => {
-                          // Get the latest version's author if available
-                          const latestVersion =
-                            page.versions?.[page.versions.length - 1];
-                          const author = latestVersion?.createdBy || "You";
-                          return (
-                            <Link
-                              key={page.id}
-                              href={`/admin/pages/${page.slug}`}
-                              className="block group"
-                            >
-                              <div className="flex items-start gap-3">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                                  {author.charAt(0).toUpperCase()}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-sm font-medium text-slate-900 dark:text-white">
-                                      {author}
-                                    </span>
-                                    <span className="text-xs text-slate-400 dark:text-slate-500">
-                                      {formatDate(new Date(page.updatedAt), {
-                                        month: "short",
-                                        day: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                      })}
-                                    </span>
-                                  </div>
-                                  <p className="text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors truncate">
-                                    Updated{" "}
-                                    <span className="font-medium">
-                                      {getLocalizedString(
-                                        page.title,
-                                        cmsConfig.defaultLocale,
-                                      )}
-                                    </span>
-                                  </p>
-                                </div>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-slate-400">No activity yet</p>
-                    )}
-                  </div>
+                  {/* Recent Activity - Expandable */}
+                  <RecentActivityPanel pages={pages} formatDate={formatDate} />
 
                   {/* Quick Stats Card */}
                   <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-5">

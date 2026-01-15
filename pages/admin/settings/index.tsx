@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import {
   ArrowPathIcon,
   CheckIcon,
@@ -11,6 +12,9 @@ import {
   PaintBrushIcon,
   Cog6ToothIcon,
   ExclamationTriangleIcon,
+  ArrowTopRightOnSquareIcon,
+  ChevronRightIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 import MetaTags from "../../../modules/common/components/MetaTags";
 import UnchainedLogo from "../../../modules/page-builder/components/UnchainedLogo";
@@ -530,6 +534,51 @@ const SettingsPage: React.FC = () => {
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Advanced Settings Links */}
+                <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                  <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+                      Advanced Settings
+                    </h3>
+                  </div>
+                  <div className="divide-y divide-slate-200 dark:divide-slate-800">
+                    <Link
+                      href="/admin/settings/redirects"
+                      className="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <ArrowTopRightOnSquareIcon className="w-5 h-5 text-slate-400" />
+                        <div>
+                          <p className="text-sm font-medium text-slate-900 dark:text-white">
+                            Redirects
+                          </p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            Manage 301/302 redirect rules
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRightIcon className="w-4 h-4 text-slate-400" />
+                    </Link>
+                    <Link
+                      href="/admin/settings/roles"
+                      className="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <ShieldCheckIcon className="w-5 h-5 text-slate-400" />
+                        <div>
+                          <p className="text-sm font-medium text-slate-900 dark:text-white">
+                            User Roles
+                          </p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            Manage roles and permissions
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRightIcon className="w-4 h-4 text-slate-400" />
+                    </Link>
                   </div>
                 </div>
 
