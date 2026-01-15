@@ -30,6 +30,8 @@ import BlockPickerModal from "../BlockPickerModal";
 import { createBlock, blockRegistry } from "../../utils/blockRegistry";
 import type { PageBlock, BlockType } from "../../types";
 import { VIEWPORT_WIDTHS } from "../../types";
+import Header from "../../../layout/components/Header";
+import Footer from "../../../layout/components/Footer";
 
 interface CanvasProps {
   className?: string;
@@ -82,8 +84,64 @@ const BlockDragOverlay: React.FC<{ block: PageBlock | null }> = ({ block }) => {
   );
 };
 
+// Animated switch toggle component
+const SiteFrameToggle: React.FC<{
+  position: "top" | "bottom";
+  isActive: boolean;
+  onClick: () => void;
+}> = ({ position, isActive, onClick }) => (
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick();
+    }}
+    className={classNames(
+      "group flex items-center justify-center gap-3 w-full py-2.5 text-xs font-medium transition-all",
+      position === "top" ? "rounded-t-lg" : "rounded-b-lg",
+      "bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800",
+    )}
+  >
+    {/* Toggle switch */}
+    <div
+      className={classNames(
+        "relative w-9 h-5 rounded-full transition-colors duration-200",
+        isActive
+          ? "bg-slate-700 dark:bg-slate-300"
+          : "bg-slate-300 dark:bg-slate-600",
+      )}
+    >
+      <div
+        className={classNames(
+          "absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ease-out",
+          isActive ? "translate-x-4" : "translate-x-0.5",
+        )}
+      />
+    </div>
+    <span className="min-w-[60px] text-left">
+      {position === "top" ? "Header" : "Footer"}
+    </span>
+  </button>
+);
+
+// Wrapper for Header in canvas - makes it non-sticky and non-interactive
+const CanvasHeader: React.FC = () => (
+  <div className="relative [&_header]:!static [&_header]:!z-auto pointer-events-none opacity-60">
+    <Header onSidebarToggle={() => {}} hasHeroSection={false} />
+    <div className="absolute inset-0 bg-transparent" />
+  </div>
+);
+
+// Wrapper for Footer in canvas - makes it non-interactive
+const CanvasFooter: React.FC = () => (
+  <div className="relative pointer-events-none opacity-60 [&_footer]:!my-0">
+    <Footer />
+    <div className="absolute inset-0 bg-transparent" />
+  </div>
+);
+
 const Canvas: React.FC<CanvasProps> = ({ className }) => {
-  const { state, selectBlock, addBlock, updateBlock } = usePageBuilder();
+  const { state, selectBlock, addBlock, updateBlock, toggleSiteFrame } =
+    usePageBuilder();
   const {
     activeId,
     activeData,
@@ -99,7 +157,15 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
   const [isBlockPickerOpen, setIsBlockPickerOpen] = useState(false);
   const [insertPosition, setInsertPosition] = useState<number | null>(null);
 
-  const { page, viewport, zoom, showGrid, showOutlines, isPreviewMode } = state;
+  const {
+    page,
+    viewport,
+    zoom,
+    showGrid,
+    showOutlines,
+    showSiteFrame,
+    isPreviewMode,
+  } = state;
 
   // Configure sensors for better drag experience
   const sensors = useSensors(
@@ -275,17 +341,30 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
                 }
           }
         >
+          {/* Header toggle */}
+          {!isPreviewMode && (
+            <SiteFrameToggle
+              position="top"
+              isActive={showSiteFrame}
+              onClick={() => toggleSiteFrame()}
+            />
+          )}
+
           {/* Page container */}
           <div
             className={classNames(
               "min-h-screen bg-white dark:bg-slate-900 overflow-hidden",
               {
-                "shadow-xl rounded-lg": !isPreviewMode,
+                "shadow-xl": !isPreviewMode,
+                "rounded-lg": !isPreviewMode && !showSiteFrame,
                 "bg-grid-pattern": showGrid && !isPreviewMode,
                 "canvas-dragging": isDragging,
               },
             )}
           >
+            {/* Header preview */}
+            {showSiteFrame && <CanvasHeader />}
+
             {/* Blocks */}
             {page.blocks.length > 0 ? (
               <SortableContext
@@ -312,7 +391,19 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
                 </div>
               )
             )}
+
+            {/* Footer preview */}
+            {showSiteFrame && <CanvasFooter />}
           </div>
+
+          {/* Footer toggle */}
+          {!isPreviewMode && (
+            <SiteFrameToggle
+              position="bottom"
+              isActive={showSiteFrame}
+              onClick={() => toggleSiteFrame()}
+            />
+          )}
         </div>
 
         {/* Block Picker Modal */}

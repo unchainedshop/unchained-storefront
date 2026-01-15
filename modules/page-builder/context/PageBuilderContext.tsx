@@ -41,6 +41,7 @@ const initialState: EditorState = {
   zoom: 100,
   showGrid: false,
   showOutlines: false,
+  showSiteFrame: false,
   isDirty: false,
   isSaving: false,
   isPreviewMode: false,
@@ -406,6 +407,12 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
         isFocusMode: action.payload ?? !state.isFocusMode,
       };
 
+    case "TOGGLE_SITE_FRAME":
+      return {
+        ...state,
+        showSiteFrame: action.payload ?? !state.showSiteFrame,
+      };
+
     case "SET_SIDEBAR_TAB":
       return { ...state, sidebarTab: action.payload };
 
@@ -590,6 +597,7 @@ interface PageBuilderContextValue {
   setZoom: (zoom: number) => void;
   togglePreview: (forceState?: boolean) => void;
   toggleFocusMode: () => void;
+  toggleSiteFrame: (forceState?: boolean) => void;
   undo: () => void;
   redo: () => void;
   saveHistory: (
@@ -774,6 +782,10 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "TOGGLE_FOCUS_MODE" });
   }, []);
 
+  const toggleSiteFrame = useCallback((forceState?: boolean) => {
+    dispatch({ type: "TOGGLE_SITE_FRAME", payload: forceState });
+  }, []);
+
   const undo = useCallback(() => {
     dispatch({ type: "UNDO" });
   }, []);
@@ -884,6 +896,7 @@ export const PageBuilderProvider: React.FC<{ children: React.ReactNode }> = ({
     setZoom,
     togglePreview,
     toggleFocusMode,
+    toggleSiteFrame,
     undo,
     redo,
     saveHistory,

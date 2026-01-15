@@ -827,6 +827,7 @@ export interface EditorState {
   zoom: number;
   showGrid: boolean;
   showOutlines: boolean;
+  showSiteFrame: boolean;
   isDirty: boolean;
   isSaving: boolean;
   isPreviewMode: boolean;
@@ -922,6 +923,7 @@ export type EditorAction =
   | { type: "TOGGLE_OUTLINES"; payload?: boolean }
   | { type: "TOGGLE_PREVIEW"; payload?: boolean }
   | { type: "TOGGLE_FOCUS_MODE"; payload?: boolean }
+  | { type: "TOGGLE_SITE_FRAME"; payload?: boolean }
   | {
       type: "SET_SIDEBAR_TAB";
       payload: "blocks" | "layers" | "settings" | "history";
