@@ -22,7 +22,10 @@ const GridSizePicker: React.FC<GridSizePickerProps> = ({
   maxRows = 8,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoverCell, setHoverCell] = useState<{ col: number; row: number } | null>(null);
+  const [hoverCell, setHoverCell] = useState<{
+    col: number;
+    row: number;
+  } | null>(null);
 
   const handleCellHover = useCallback((col: number, row: number) => {
     setHoverCell({ col, row });
@@ -34,7 +37,7 @@ const GridSizePicker: React.FC<GridSizePickerProps> = ({
       setIsOpen(false);
       setHoverCell(null);
     },
-    [onChange]
+    [onChange],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -90,11 +93,11 @@ const GridSizePicker: React.FC<GridSizePickerProps> = ({
                 Array.from({ length: maxColumns }).map((_, colIdx) => {
                   const col = colIdx + 1;
                   const row = rowIdx + 1;
-                  const isInSelection =
-                    hoverCell
-                      ? col <= hoverCell.col && row <= hoverCell.row
-                      : col <= columns && row <= rows;
-                  const isCurrentSize = col === columns && row === rows && !hoverCell;
+                  const isInSelection = hoverCell
+                    ? col <= hoverCell.col && row <= hoverCell.row
+                    : col <= columns && row <= rows;
+                  const isCurrentSize =
+                    col === columns && row === rows && !hoverCell;
 
                   return (
                     <button
@@ -103,12 +106,12 @@ const GridSizePicker: React.FC<GridSizePickerProps> = ({
                       onClick={() => handleCellClick(col, row)}
                       className={`w-6 h-6 rounded border-2 transition-all ${
                         isInSelection
-                          ? "border-blue-500 bg-blue-500"
+                          ? "border-slate-900 bg-slate-900 dark:border-slate-300 dark:bg-slate-300"
                           : "border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500"
-                      } ${isCurrentSize ? "ring-2 ring-blue-300 ring-offset-1" : ""}`}
+                      } ${isCurrentSize ? "ring-2 ring-slate-400 ring-offset-1" : ""}`}
                     />
                   );
-                })
+                }),
               )}
             </div>
 
@@ -131,7 +134,7 @@ const GridSizePicker: React.FC<GridSizePickerProps> = ({
                     onClick={() => handleCellClick(preset.cols, preset.rows)}
                     className={`px-2.5 py-1 text-xs rounded-md transition-colors ${
                       columns === preset.cols && rows === preset.rows
-                        ? "bg-blue-500 text-white"
+                        ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
                         : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
                     }`}
                   >

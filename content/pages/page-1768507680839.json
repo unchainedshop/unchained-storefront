@@ -1,0 +1,273 @@
+{
+  "id": "page_1768507680839",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768507680839",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768507685667_ofq6ngxz7",
+      "type": "text-content",
+      "content": {
+        "de": {
+          "content": "<p>Enter your text here...</p>",
+          "headingLevel": "p"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768507742934_wxjl1amg3",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768507748018_8g93xp4z7",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            },
+            {
+              "blockId": "block_1768507750151_drc2yhv75",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            },
+            {
+              "blockId": "block_1768508341769_t9scvqzqn",
+              "placement": {
+                "colStart": 3,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 4
+              }
+            },
+            {
+              "blockId": "block_1768508353552_h72i53382",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 2,
+                "colSpan": 2,
+                "rowSpan": 3
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768507748018_8g93xp4z7",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<blockquote><h3><u>Enter asdfasdfasdf</u></h3><h3><u>sd</u></h3><h3><u>f</u></h3><h3><u>asdf text here...</u></h3><p></p></blockquote><p></p>",
+              "headingLevel": "p"
+            }
+          },
+          "style": {
+            "padding": {
+              "top": 16,
+              "right": 0,
+              "bottom": 16,
+              "left": 0
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768507750151_drc2yhv75",
+          "type": "image",
+          "content": {
+            "src": "",
+            "alt": "",
+            "aspectRatio": "original",
+            "objectFit": "cover"
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768508341769_t9scvqzqn",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768343794763_r6rlmr.avif",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768508353552_h72i53382",
+          "type": "video",
+          "content": {
+            "de": {
+              "url": "https://www.youtube.com/watch?v=hnWya-2-fho",
+              "provider": "youtube",
+              "autoplay": false,
+              "muted": false,
+              "loop": false,
+              "controls": true,
+              "aspectRatio": "16:9",
+              "thumbnail": "",
+              "caption": ""
+            }
+          },
+          "style": {
+            "borderRadius": 12,
+            "padding": {
+              "top": 24,
+              "right": 24,
+              "bottom": 24,
+              "left": 24
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768507785852_fjthlvcqt",
+      "type": "hero-banner",
+      "content": {
+        "de": {
+          "heading": "Fresh Arrivals",
+          "subheading": "Be the first to discover our newest products",
+          "buttonText": "Shop New",
+          "buttonLink": "/new",
+          "secondaryButtonText": "View Catalog",
+          "secondaryButtonLink": "/catalog",
+          "buttonColor": "#0EA5E9"
+        }
+      },
+      "style": {
+        "minHeight": 550,
+        "padding": {
+          "top": 80,
+          "right": 48,
+          "bottom": 80,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignmentX": "right",
+        "alignmentY": "center",
+        "textColor": "#0EA5E9",
+        "backgroundOverlay": 45,
+        "backgroundOverlayColor": "#0d1117",
+        "fullWidth": true,
+        "backgroundColor": "#10B981"
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-15T20:08:00.839Z",
+  "updatedAt": "2026-01-15T20:21:37.497Z",
+  "versions": []
+}

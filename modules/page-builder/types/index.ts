@@ -178,9 +178,13 @@ export interface HeroBannerContent {
   buttonText?: string;
   buttonLink?: string;
   buttonVariant?: ButtonVariant;
+  /** Custom color for primary button (defaults to textColor) */
+  buttonColor?: string;
   secondaryButtonText?: string;
   secondaryButtonLink?: string;
   secondaryButtonVariant?: ButtonVariant;
+  /** Custom color for secondary button (defaults to textColor) */
+  secondaryButtonColor?: string;
   variant?: HeroVariant;
   /** Image URL for split layouts (separate from background) */
   heroImage?: string;
@@ -941,6 +945,21 @@ export interface NestingConfig {
   forbiddenParents?: BlockType[];
 }
 
+/** Documentation for a block - provides help text shown in the editor */
+export interface BlockDocumentation {
+  /** Detailed explanation of what this block does (2-3 sentences) */
+  helpText: string;
+  /** Quick tips for using the block effectively */
+  tips?: string[];
+  /** Example use cases to inspire users */
+  useCases?: string[];
+  /** Settings that are important to understand */
+  keySettings?: Array<{
+    name: string;
+    description: string;
+  }>;
+}
+
 // Block definition for registry
 export interface BlockDefinition {
   type: BlockType;
@@ -960,6 +979,8 @@ export interface BlockDefinition {
   maxChildren?: number;
   /** Nesting rules for this block */
   nesting?: NestingConfig;
+  /** Detailed documentation for the block */
+  documentation?: BlockDocumentation;
 }
 
 // Editor actions

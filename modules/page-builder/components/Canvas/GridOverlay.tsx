@@ -6,7 +6,7 @@
 
 import React, { useState, useCallback, useMemo } from "react";
 import classNames from "classnames";
-import { PlusIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import type {
   GridContent,
   GridTemplate,
@@ -121,12 +121,13 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
   return (
     <div
-      className="grid-overlay absolute inset-0 pointer-events-none z-10"
+      className="grid-overlay absolute inset-0 pointer-events-none z-[5]"
       style={{
         display: "grid",
         gridTemplateColumns: template.columns.join(" "),
         gridTemplateRows: template.rows.join(" "),
         gap: rowGap ? `${rowGap}px ${gap}px` : `${gap}px`,
+        top: "60px", // Leave room for toolbar
       }}
     >
       {cells.map(({ col, row }) => {
@@ -185,9 +186,8 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
             {/* Empty cell placeholder content */}
             {!isOccupied && !isHovered && (
-              <div className="text-center text-slate-400">
-                <PhotoIcon className="w-6 h-6 mx-auto" />
-                <p className="mt-1 text-xs">Add Image</p>
+              <div className="flex items-center justify-center text-slate-300">
+                <PlusIcon className="w-8 h-8" />
               </div>
             )}
 

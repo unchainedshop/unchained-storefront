@@ -257,106 +257,44 @@ const UndoRedoButtons: React.FC = () => {
 
   return (
     <div className="flex items-center gap-1">
-      {/* Undo button group */}
-      <div ref={undoRef} className="relative flex items-center">
-        <div
-          className={classNames(
-            "flex items-center rounded-xl overflow-hidden",
-            "bg-white/40 dark:bg-white/5",
-            "backdrop-blur-xl",
-            "border border-white/60 dark:border-white/10",
-          )}
+      {/* Undo button */}
+      <div
+        className={classNames(
+          "flex items-center rounded-xl overflow-hidden",
+          "bg-white/40 dark:bg-white/5",
+          "backdrop-blur-xl",
+          "border border-white/60 dark:border-white/10",
+        )}
+      >
+        <ActionButton
+          onClick={undo}
+          disabled={!canUndo}
+          title={`Undo (Ctrl+Z)${canUndo ? ` - ${history[historyIndex - 1]?.label || ""}` : ""}`}
+          isFirst
+          isLast
         >
-          <ActionButton
-            onClick={undo}
-            disabled={!canUndo}
-            title={`Undo (Ctrl+Z)${canUndo ? ` - ${history[historyIndex - 1]?.label || ""}` : ""}`}
-            isFirst
-          >
-            <ArrowUturnLeftIcon className="w-4 h-4" />
-          </ActionButton>
-          <ChevronButton
-            onClick={() => {
-              if (canUndo) {
-                setShowUndoMenu(!showUndoMenu);
-                setShowRedoMenu(false);
-              }
-            }}
-            disabled={!canUndo}
-            isOpen={showUndoMenu}
-          />
-        </div>
-
-        {/* Undo dropdown */}
-        <HistoryDropdown
-          isOpen={showUndoMenu && undoEntries.length > 0}
-          onClose={() => setShowUndoMenu(false)}
-          title="Undo History"
-          count={undoEntries.length}
-        >
-          {undoEntries.map((entry, idx) => {
-            const targetIndex = historyIndex - 1 - idx;
-            return (
-              <HistoryDropdownItem
-                key={`${targetIndex}-${entry.timestamp}`}
-                entry={entry}
-                onClick={() => handleUndoTo(targetIndex)}
-                isActive={false}
-              />
-            );
-          })}
-        </HistoryDropdown>
+          <ArrowUturnLeftIcon className="w-4 h-4" />
+        </ActionButton>
       </div>
 
-      {/* Redo button group */}
-      <div ref={redoRef} className="relative flex items-center">
-        <div
-          className={classNames(
-            "flex items-center rounded-xl overflow-hidden",
-            "bg-white/40 dark:bg-white/5",
-            "backdrop-blur-xl",
-            "border border-white/60 dark:border-white/10",
-          )}
+      {/* Redo button */}
+      <div
+        className={classNames(
+          "flex items-center rounded-xl overflow-hidden",
+          "bg-white/40 dark:bg-white/5",
+          "backdrop-blur-xl",
+          "border border-white/60 dark:border-white/10",
+        )}
+      >
+        <ActionButton
+          onClick={redo}
+          disabled={!canRedo}
+          title={`Redo (Ctrl+Shift+Z)${canRedo ? ` - ${history[historyIndex + 1]?.label || ""}` : ""}`}
+          isFirst
+          isLast
         >
-          <ActionButton
-            onClick={redo}
-            disabled={!canRedo}
-            title={`Redo (Ctrl+Shift+Z)${canRedo ? ` - ${history[historyIndex + 1]?.label || ""}` : ""}`}
-            isFirst
-          >
-            <ArrowUturnRightIcon className="w-4 h-4" />
-          </ActionButton>
-          <ChevronButton
-            onClick={() => {
-              if (canRedo) {
-                setShowRedoMenu(!showRedoMenu);
-                setShowUndoMenu(false);
-              }
-            }}
-            disabled={!canRedo}
-            isOpen={showRedoMenu}
-          />
-        </div>
-
-        {/* Redo dropdown */}
-        <HistoryDropdown
-          isOpen={showRedoMenu && redoEntries.length > 0}
-          onClose={() => setShowRedoMenu(false)}
-          title="Redo History"
-          count={redoEntries.length}
-        >
-          {redoEntries.map((entry, idx) => {
-            const targetIndex = historyIndex + 1 + idx;
-            return (
-              <HistoryDropdownItem
-                key={`${targetIndex}-${entry.timestamp}`}
-                entry={entry}
-                onClick={() => handleRedoTo(targetIndex)}
-                isActive={false}
-              />
-            );
-          })}
-        </HistoryDropdown>
+          <ArrowUturnRightIcon className="w-4 h-4" />
+        </ActionButton>
       </div>
     </div>
   );

@@ -188,10 +188,15 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   const wrapperContent = (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{
+        ...style,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
       {...attributes}
       className={classNames(
-        "relative group transition-all duration-200 block-wrapper h-full",
+        "relative group transition-all duration-200 block-wrapper",
         {
           "opacity-50": block.hidden,
           "cursor-not-allowed": isCollaborationLocked,
@@ -221,10 +226,10 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       {/* Combined label + action toolbar - inside component */}
       <div
         className={classNames(
-          "absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg px-1.5 py-1 z-50 transition-all duration-200",
+          "absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg px-1.5 py-1 z-[100] pointer-events-auto transition-all duration-200",
           isSelected || isHovered
             ? "opacity-100 scale-100"
-            : "opacity-0 scale-95 pointer-events-none",
+            : "opacity-0 scale-95 !pointer-events-none",
         )}
       >
         {/* Move up */}
@@ -302,9 +307,13 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
 
       {/* Block content */}
       <div
-        className={classNames("h-full", {
-          "pointer-events-none": block.locked || isCollaborationLocked,
-        })}
+        style={{ flex: 1, minHeight: 0 }}
+        className={classNames(
+          "w-full flex flex-col [&>*]:flex-1 [&>*]:min-h-0",
+          {
+            "pointer-events-none": block.locked || isCollaborationLocked,
+          },
+        )}
       >
         {children}
       </div>

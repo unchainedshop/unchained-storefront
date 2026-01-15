@@ -25,6 +25,33 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Sections are root-level only
     },
+    documentation: {
+      helpText:
+        "Sections are the main building blocks of your page. They act as full-width containers that hold other blocks and can have background colors, images, or gradients. Think of them as horizontal strips that stack vertically to form your page.",
+      tips: [
+        "Use sections to visually separate different content areas",
+        "Add background images with overlays for hero-style sections",
+        "Set an anchor ID to create jump links from navigation menus",
+        "Choose the right semantic HTML tag (section, article, aside) for better SEO",
+      ],
+      useCases: [
+        "Hero section with background image at the top of a landing page",
+        "Alternating light/dark sections to create visual rhythm",
+        "Full-width colored banner to highlight promotions",
+      ],
+      keySettings: [
+        {
+          name: "Container Width",
+          description:
+            "Controls how wide the content inside stretches - 'container' for centered content, 'full' for edge-to-edge",
+        },
+        {
+          name: "Anchor ID",
+          description:
+            "Add an ID like 'about' to link directly to this section with #about URLs",
+        },
+      ],
+    },
   },
 
   columns: {
@@ -48,6 +75,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       canBeNested: true,
       allowedParents: ["section"], // Columns can only go in sections
       forbiddenParents: ["columns"], // No nested columns
+    },
+    documentation: {
+      helpText:
+        "Columns let you place content side-by-side. Perfect for image + text combinations, feature comparisons, or any layout where you need horizontal arrangement. Columns automatically stack on mobile for better readability.",
+      tips: [
+        "Use 2 columns for image + text layouts",
+        "3 columns work well for feature cards or team members",
+        "Adjust the gap to control spacing between columns",
+        "Use asymmetric layouts (1/3 + 2/3) for sidebar-style designs",
+      ],
+      useCases: [
+        "Product image on left, description on right",
+        "Three feature cards side by side",
+        "Contact form next to a map",
+      ],
+      keySettings: [
+        {
+          name: "Layout",
+          description:
+            "Choose equal widths or asymmetric (e.g., 1/3 + 2/3) for different column sizes",
+        },
+        {
+          name: "Gap",
+          description: "Space between columns in pixels",
+        },
+      ],
     },
   },
 
@@ -82,6 +135,33 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       allowedParents: ["section"], // Grids can only go in sections
       forbiddenParents: ["columns", "grid"], // No nested grids or inside columns
     },
+    documentation: {
+      helpText:
+        "Grid provides advanced CSS Grid layouts for complex designs. Unlike Columns, Grid allows items to span multiple rows and columns, enabling magazine-style layouts, bento boxes, and asymmetric designs. Blocks can be precisely positioned in specific cells.",
+      tips: [
+        "Use '1fr' units for flexible columns that share space equally",
+        "Combine fixed (px) and flexible (fr) units for hybrid layouts",
+        "Drag blocks to specific grid cells for precise placement",
+        "Items can span multiple columns/rows for featured content",
+      ],
+      useCases: [
+        "Bento-box style feature showcase",
+        "Magazine layout with large hero + smaller thumbnails",
+        "Dashboard-style widgets of varying sizes",
+      ],
+      keySettings: [
+        {
+          name: "Columns/Rows",
+          description:
+            "Define grid structure using fr (fractional), px, or % units",
+        },
+        {
+          name: "Auto Flow",
+          description:
+            "How items fill empty cells - 'row' fills left-to-right, 'dense' packs tightly",
+        },
+      ],
+    },
   },
 
   spacer: {
@@ -97,6 +177,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     defaultStyle: {},
     nesting: {
       canBeNested: true, // Can be placed anywhere
+    },
+    documentation: {
+      helpText:
+        "Spacer adds empty vertical space between blocks. Use it to create breathing room and visual separation without adding a full section. You can set different heights for desktop and mobile to ensure good proportions on all devices.",
+      tips: [
+        "Use 48-64px for major content separations",
+        "Use 24-32px for minor spacing within sections",
+        "Set smaller mobile heights to save screen space on phones",
+        "Consider using section padding instead for consistent spacing",
+      ],
+      useCases: [
+        "Add breathing room between a heading and content",
+        "Create separation between unrelated blocks in the same section",
+        "Push content down for visual balance",
+      ],
+      keySettings: [
+        {
+          name: "Height",
+          description: "Desktop spacing in pixels",
+        },
+        {
+          name: "Mobile Height",
+          description: "Separate height for mobile devices (usually smaller)",
+        },
+      ],
     },
   },
 
@@ -118,6 +223,28 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: true, // Can be placed anywhere including columns
     },
+    documentation: {
+      helpText:
+        "Text block provides rich text editing with formatting options like bold, italic, links, and lists. Click on the text in the preview to edit inline, or use the settings panel for more control. Perfect for paragraphs, descriptions, and any written content.",
+      tips: [
+        "Double-click text in preview to start inline editing",
+        "Use headings (H1-H6) to create hierarchy and improve SEO",
+        "Add links by selecting text and clicking the link button",
+        "Keep paragraphs short for better readability on mobile",
+      ],
+      useCases: [
+        "Product descriptions and details",
+        "About us content and company story",
+        "Terms, policies, and legal text",
+      ],
+      keySettings: [
+        {
+          name: "Heading Level",
+          description:
+            "Set as H1-H6 for headings (affects SEO) or P for regular paragraphs",
+        },
+      ],
+    },
   },
 
   image: {
@@ -137,6 +264,33 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: true, // Can be placed anywhere including columns
+    },
+    documentation: {
+      helpText:
+        "Display a single image with optional caption and link. Images can be selected from the media library or uploaded directly. Set aspect ratios to maintain consistent proportions, and always add alt text for accessibility and SEO.",
+      tips: [
+        "Always add descriptive alt text for screen readers and SEO",
+        "Use 'cover' fit to fill the container while cropping",
+        "Use 'contain' fit to show the entire image without cropping",
+        "Add a link to make the image clickable",
+      ],
+      useCases: [
+        "Hero images within columns layout",
+        "Illustrative images alongside text content",
+        "Clickable banners linking to promotions",
+      ],
+      keySettings: [
+        {
+          name: "Aspect Ratio",
+          description:
+            "Force a specific ratio (16:9, 4:3, square) or use original image dimensions",
+        },
+        {
+          name: "Object Fit",
+          description:
+            "'Cover' crops to fill, 'contain' fits whole image, 'fill' stretches",
+        },
+      ],
     },
   },
 
@@ -167,6 +321,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Complex block, root-level only
     },
+    documentation: {
+      helpText:
+        "Hero Banner creates impactful full-width banners with large headings, subtext, and call-to-action buttons over background images or colors. Typically used at the top of landing pages to capture attention immediately.",
+      tips: [
+        "Use high-quality images at least 1920px wide",
+        "Add a dark overlay (30-50%) to ensure text readability",
+        "Keep headings short and action-oriented",
+        "Button text should clearly state what happens when clicked",
+      ],
+      useCases: [
+        "Homepage hero with seasonal campaign",
+        "Category landing page header",
+        "Sale or promotion announcement",
+      ],
+      keySettings: [
+        {
+          name: "Min Height",
+          description:
+            "Minimum height in pixels - 400-600px typical for heroes",
+        },
+        {
+          name: "Background Overlay",
+          description: "Darkens the image to improve text contrast (0-100%)",
+        },
+      ],
+    },
   },
 
   "product-grid": {
@@ -192,6 +372,33 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Complex block, root-level only
     },
+    documentation: {
+      helpText:
+        "Product Grid dynamically displays products from your catalog in a responsive grid layout. Products can be automatically selected (bestsellers, new arrivals) or manually curated. Links directly to product pages.",
+      tips: [
+        "4 columns on desktop, 2 on mobile is a common setup",
+        "Use 'bestselling' or 'newest' for automatic curation",
+        "Enable Quick Add for products without variants",
+        "Show sale badges to highlight discounted items",
+      ],
+      useCases: [
+        "Featured products on homepage",
+        "Related products section",
+        "New arrivals or bestsellers showcase",
+      ],
+      keySettings: [
+        {
+          name: "Source",
+          description:
+            "Auto (algorithm-based) or manual (hand-picked products)",
+        },
+        {
+          name: "Sort By",
+          description:
+            "How to order products: bestselling, newest, price, etc.",
+        },
+      ],
+    },
   },
 
   "product-carousel": {
@@ -215,6 +422,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Complex block, root-level only
     },
+    documentation: {
+      helpText:
+        "Product Carousel displays products in a horizontally scrollable slider. Users can swipe or click arrows to browse products. Takes less vertical space than a grid while showing more products.",
+      tips: [
+        "Show arrows for desktop users, dots for mobile orientation",
+        "Autoplay can increase engagement but may annoy some users",
+        "8-12 products is a good range for carousels",
+        "Consider disabling autoplay if products need attention",
+      ],
+      useCases: [
+        "Recently viewed products",
+        "You may also like recommendations",
+        "Category preview on homepage",
+      ],
+      keySettings: [
+        {
+          name: "Auto Play",
+          description: "Automatically scroll through products",
+        },
+        {
+          name: "Auto Play Speed",
+          description: "Milliseconds between slides when auto-playing",
+        },
+      ],
+    },
   },
 
   "category-grid": {
@@ -236,6 +468,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false, // Complex block, root-level only
+    },
+    documentation: {
+      helpText:
+        "Category Grid displays product category cards in a visual grid layout. Each card links to its category page, helping users navigate to product listings. Use compelling category images to encourage exploration.",
+      tips: [
+        "Use high-quality, representative images for each category",
+        "3 columns works well for most category counts",
+        "Keep category names short and clear",
+        "Consider seasonal or featured categories first",
+      ],
+      useCases: [
+        "Shop by category section on homepage",
+        "Department navigation",
+        "Gift guide categories",
+      ],
+      keySettings: [
+        {
+          name: "Category IDs",
+          description: "Select which categories to display",
+        },
+        {
+          name: "Layout",
+          description: "Grid style or masonry for varied image sizes",
+        },
+      ],
     },
   },
 
@@ -263,6 +520,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Complex block, root-level only
     },
+    documentation: {
+      helpText:
+        "Countdown Timer creates urgency by showing time remaining until a sale, launch, or event ends. Displays days, hours, minutes, and seconds counting down to your target date. Shows a custom message when the countdown expires.",
+      tips: [
+        "Use for limited-time offers to create urgency",
+        "Set a clear expired message explaining what to do next",
+        "Pair with a strong CTA button",
+        "Don't overuse - too many countdowns reduce effectiveness",
+      ],
+      useCases: [
+        "Flash sale countdown",
+        "Product launch timer",
+        "Event registration deadline",
+      ],
+      keySettings: [
+        {
+          name: "End Date",
+          description: "When the countdown reaches zero",
+        },
+        {
+          name: "Expired Message",
+          description: "Text shown after countdown ends",
+        },
+      ],
+    },
   },
 
   newsletter: {
@@ -289,6 +571,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Complex block, root-level only
     },
+    documentation: {
+      helpText:
+        "Newsletter block captures email addresses for your mailing list. Includes heading, email input, submit button, and optional GDPR-compliant consent checkbox. Shows success message after submission.",
+      tips: [
+        "Offer an incentive (discount, free guide) to increase signups",
+        "Enable consent checkbox for GDPR compliance in EU",
+        "Keep the form simple - just email is usually enough",
+        "Place in footer or as a dedicated section",
+      ],
+      useCases: [
+        "Email list building on homepage",
+        "Footer newsletter signup",
+        "Pop-up or slide-in signup form",
+      ],
+      keySettings: [
+        {
+          name: "Show Consent",
+          description: "Display GDPR consent checkbox (required in EU)",
+        },
+        {
+          name: "Success Message",
+          description: "Text shown after successful subscription",
+        },
+      ],
+    },
   },
 
   "promo-bar": {
@@ -311,6 +618,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false, // Complex block, root-level only
+    },
+    documentation: {
+      helpText:
+        "Promo Bar displays a slim banner for announcements, typically at the very top of the page. Users can dismiss it with a close button. Great for shipping thresholds, sale announcements, or important notices.",
+      tips: [
+        "Keep message very short - one sentence max",
+        "Use contrasting colors to stand out",
+        "Make dismissible so users can close it",
+        "Include a link if there's a related action",
+      ],
+      useCases: [
+        "Free shipping threshold announcement",
+        "Sale or discount notification",
+        "Holiday hours or shipping deadlines",
+      ],
+      keySettings: [
+        {
+          name: "Dismissible",
+          description: "Whether users can close the bar",
+        },
+        {
+          name: "Link",
+          description: "Optional URL to make the entire bar clickable",
+        },
+      ],
     },
   },
 
@@ -349,6 +681,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false, // Complex block, root-level only
     },
+    documentation: {
+      helpText:
+        "Testimonials showcase customer reviews and quotes to build trust and social proof. Display in a carousel or grid layout with optional star ratings and customer photos.",
+      tips: [
+        "Use real customer names and photos when possible",
+        "Include specific details that make testimonials believable",
+        "Show star ratings to reinforce positive sentiment",
+        "3-5 testimonials is ideal for most pages",
+      ],
+      useCases: [
+        "Social proof section on landing pages",
+        "Customer success stories",
+        "Product review highlights",
+      ],
+      keySettings: [
+        {
+          name: "Layout",
+          description: "Carousel (scroll through) or grid (show all at once)",
+        },
+        {
+          name: "Show Rating",
+          description: "Display star ratings with each testimonial",
+        },
+      ],
+    },
   },
 
   // Custom blocks
@@ -368,6 +725,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: true, // Can be placed anywhere for flexibility
+    },
+    documentation: {
+      helpText:
+        "Custom HTML lets you add raw HTML and CSS code for widgets, embeds, or custom functionality not covered by other blocks. Use with caution - bad HTML can break your page layout.",
+      tips: [
+        "Use for third-party embeds (calendars, forms, widgets)",
+        "Test thoroughly - HTML isn't validated",
+        "Scope CSS to avoid affecting other page elements",
+        "Consider security implications of embedded scripts",
+      ],
+      useCases: [
+        "Third-party widget embeds (Calendly, Typeform)",
+        "Custom animations or interactive elements",
+        "Legacy code that needs to be preserved",
+      ],
+      keySettings: [
+        {
+          name: "HTML",
+          description: "Raw HTML code to render",
+        },
+        {
+          name: "CSS",
+          description: "Scoped CSS styles for the HTML content",
+        },
+      ],
     },
   },
 
@@ -393,6 +775,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: true,
+    },
+    documentation: {
+      helpText:
+        "Shoppable Image adds clickable hotspots to lifestyle images, linking to products. When users hover or click on hotspots, they see product details and can add to cart. Great for showing products in context.",
+      tips: [
+        "Use lifestyle photos showing products in real settings",
+        "Place hotspots precisely on each product in the image",
+        "Don't overcrowd - 3-5 hotspots per image is ideal",
+        "Pulsing hotspots draw attention but can be distracting",
+      ],
+      useCases: [
+        "Shop the look - fashion/outfit images",
+        "Room scene with furniture products",
+        "Recipe image with ingredient products",
+      ],
+      keySettings: [
+        {
+          name: "Show Labels",
+          description: "When to show product names: always, on hover, or never",
+        },
+        {
+          name: "Hotspot Style",
+          description: "Visual style: pulse animation, static dot, or numbered",
+        },
+      ],
     },
   },
 
@@ -420,6 +827,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: true,
+    },
+    documentation: {
+      helpText:
+        "Before/After creates an interactive slider to compare two images. Users can drag the handle to reveal either image. Great for showing transformations, product improvements, or comparing options.",
+      tips: [
+        "Use images with the same dimensions for best results",
+        "Align subjects in both images for dramatic reveals",
+        "Set initial position to highlight the most impactful view",
+        "Vertical orientation works well for tall subjects",
+      ],
+      useCases: [
+        "Product before/after usage results",
+        "Room renovation or makeover reveals",
+        "Design iteration comparisons",
+      ],
+      keySettings: [
+        {
+          name: "Initial Position",
+          description: "Where the slider starts (0-100%, 50% = centered)",
+        },
+        {
+          name: "Orientation",
+          description:
+            "Horizontal (left/right) or vertical (top/bottom) comparison",
+        },
+      ],
     },
   },
 
@@ -455,6 +888,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "FAQ Accordion displays questions and answers in a collapsible format. Users click to expand answers, keeping the page compact while making information discoverable. Great for support pages and product details.",
+      tips: [
+        "Keep questions short and scannable",
+        "Front-load important FAQs at the top",
+        "Use 'allow multiple' to let users open several at once",
+        "Adding structured data (FAQ schema) can improve search visibility",
+      ],
+      useCases: [
+        "Product FAQs on detail pages",
+        "Shipping and returns information",
+        "Support/help center content",
+      ],
+      keySettings: [
+        {
+          name: "Allow Multiple",
+          description: "Whether users can expand multiple answers at once",
+        },
+        {
+          name: "Default Open First",
+          description: "Automatically expand the first question on page load",
+        },
+      ],
     },
   },
 
@@ -520,6 +978,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false,
     },
+    documentation: {
+      helpText:
+        "Pricing Table displays subscription or product tiers in a side-by-side comparison format. Highlight your recommended tier with a badge. Each tier shows price, features, and a CTA button.",
+      tips: [
+        "Highlight the tier you want most customers to choose",
+        "Use odd number of tiers (3 is ideal) for visual balance",
+        "Put the recommended tier in the middle",
+        "Keep feature lists scannable with similar lengths",
+      ],
+      useCases: [
+        "SaaS subscription pricing page",
+        "Membership tier comparison",
+        "Service package options",
+      ],
+      keySettings: [
+        {
+          name: "Highlighted",
+          description: "Make a tier visually stand out as recommended",
+        },
+        {
+          name: "Badge",
+          description: "Label like 'Most Popular' or 'Best Value'",
+        },
+      ],
+    },
   },
 
   stats: {
@@ -547,6 +1030,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false,
     },
+    documentation: {
+      helpText:
+        "Stats displays impressive numbers with labels to build credibility and trust. Use large, bold numbers for metrics like customers served, years in business, or satisfaction rates. Numbers draw attention and communicate scale quickly.",
+      tips: [
+        "Use round numbers (10K vs 9,847) for easier comprehension",
+        "Add suffixes like '+' or '%' to add context",
+        "4 stats in a row works well for most designs",
+        "Choose metrics that matter to your audience",
+      ],
+      useCases: [
+        "Company achievements section",
+        "Product performance metrics",
+        "Trust indicators (customers, ratings, years)",
+      ],
+      keySettings: [
+        {
+          name: "Style",
+          description: "Visual style: simple, bordered, or with icons",
+        },
+        {
+          name: "Columns",
+          description: "How many stats to show per row",
+        },
+      ],
+    },
   },
 
   "logo-cloud": {
@@ -568,6 +1076,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "Logo Cloud displays logos of partners, clients, or press mentions in a row. Builds credibility by showing recognizable brands you work with. Logos can be grayscale for a cohesive, professional look.",
+      tips: [
+        "Use grayscale to prevent colorful logos from clashing",
+        "5-8 logos per row works well visually",
+        "Get proper permission to display other brands' logos",
+        "Use SVG logos for best quality at any size",
+      ],
+      useCases: [
+        "Featured in press mentions",
+        "Client logo showcase",
+        "Partnership and integration logos",
+      ],
+      keySettings: [
+        {
+          name: "Grayscale",
+          description: "Convert all logos to grayscale for visual consistency",
+        },
+        {
+          name: "Show Names",
+          description: "Display company names below each logo",
+        },
+      ],
     },
   },
 
@@ -591,6 +1124,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "Team Grid showcases your team members with photos, names, roles, and optional bios. Humanizes your brand by putting faces to your company. Can include social media links for each member.",
+      tips: [
+        "Use consistent photo styles (same background, lighting, crop)",
+        "Keep bios brief - 1-2 sentences max",
+        "3-4 columns work best for most team sizes",
+        "Consider using a Team collection for easier management",
+      ],
+      useCases: [
+        "About us page team showcase",
+        "Leadership team on corporate pages",
+        "Department or project team introductions",
+      ],
+      keySettings: [
+        {
+          name: "Show Bio",
+          description: "Display short biography text for each member",
+        },
+        {
+          name: "Show Social",
+          description: "Display social media links (LinkedIn, Twitter, etc.)",
+        },
+      ],
     },
   },
 
@@ -618,6 +1176,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: true,
+    },
+    documentation: {
+      helpText:
+        "Video block embeds videos from YouTube, Vimeo, or your own hosted files. Videos can autoplay (muted), loop, and display custom thumbnails. Great for product demos, tutorials, and brand storytelling.",
+      tips: [
+        "Use a custom thumbnail for better visual appeal before play",
+        "Autoplay only works when video is muted (browser restriction)",
+        "16:9 is standard for most videos, use 9:16 for vertical/mobile",
+        "Add captions for accessibility and silent browsing",
+      ],
+      useCases: [
+        "Product demonstration videos",
+        "Customer testimonial videos",
+        "Background video in hero sections (muted, looping)",
+      ],
+      keySettings: [
+        {
+          name: "Provider",
+          description: "YouTube, Vimeo, or custom (self-hosted) video source",
+        },
+        {
+          name: "Aspect Ratio",
+          description:
+            "Video dimensions - 16:9 (widescreen), 4:3, 1:1, or 9:16 (vertical)",
+        },
+      ],
     },
   },
 
@@ -651,6 +1235,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "Tabs organize related content into switchable panels, keeping the page compact while allowing access to multiple sections. Users click tab headers to switch between content without page reload.",
+      tips: [
+        "Keep tab labels short (1-2 words)",
+        "Use 3-5 tabs maximum to avoid overwhelming users",
+        "Put the most important content in the first tab",
+        "Each tab content can include rich text formatting",
+      ],
+      useCases: [
+        "Product details (Overview, Specs, Reviews)",
+        "Service comparisons",
+        "Multi-part content on a single page",
+      ],
+      keySettings: [
+        {
+          name: "Variant",
+          description: "Visual style: underline, pills, or bordered tabs",
+        },
+        {
+          name: "Default Tab",
+          description: "Which tab is shown when the page loads (0 = first tab)",
+        },
+      ],
     },
   },
 
@@ -694,6 +1303,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false,
     },
+    documentation: {
+      helpText:
+        "Feature Grid displays a set of features or benefits with icons, titles, and descriptions in a grid layout. Perfect for highlighting key selling points, service offerings, or product capabilities.",
+      tips: [
+        "Use consistent, meaningful icons that represent each feature",
+        "Keep descriptions to 1-2 sentences",
+        "3 or 6 features work best for visual balance",
+        "Center alignment works for most designs",
+      ],
+      useCases: [
+        "Product or service benefits overview",
+        "Why choose us section",
+        "Feature comparison highlights",
+      ],
+      keySettings: [
+        {
+          name: "Icon Style",
+          description:
+            "How icons are displayed: plain, circle background, or outlined",
+        },
+        {
+          name: "Alignment",
+          description: "Text alignment within each feature card",
+        },
+      ],
+    },
   },
 
   // E-commerce specific blocks
@@ -724,6 +1359,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: true,
+    },
+    documentation: {
+      helpText:
+        "Shoppable Video combines video content with clickable product hotspots that appear at specific timestamps. As products appear in the video, hotspots let viewers shop without leaving the video experience.",
+      tips: [
+        "Plan product appearances when creating video content",
+        "Set hotspots to appear when products are clearly visible",
+        "Keep videos short (30-60 seconds) for best engagement",
+        "Use muted autoplay for background video effect",
+      ],
+      useCases: [
+        "Product demo videos with buy buttons",
+        "Fashion runway with shoppable outfits",
+        "Tutorial videos with featured products",
+      ],
+      keySettings: [
+        {
+          name: "Show Hotspots",
+          description:
+            "When hotspots appear: always visible or at specific timestamps",
+        },
+        {
+          name: "Hotspot Style",
+          description: "Visual style: tag label, dot, or product card popup",
+        },
+      ],
     },
   },
 
@@ -789,6 +1450,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: false,
     },
+    documentation: {
+      helpText:
+        "Size Guide displays a measurement table with unit conversion (cm/inches) and instructions on how to measure. Reduces returns by helping customers choose the right size before purchase.",
+      tips: [
+        "Include all relevant measurements for your product type",
+        "Add 'How to Measure' instructions with an illustration",
+        "Enable cm/inch toggle for international customers",
+        "Use striped tables for better readability",
+      ],
+      useCases: [
+        "Apparel product pages",
+        "Footwear sizing information",
+        "Accessories with size variants",
+      ],
+      keySettings: [
+        {
+          name: "Unit",
+          description: "Default measurement unit: cm or inches",
+        },
+        {
+          name: "Show Unit Toggle",
+          description: "Allow users to switch between cm and inches",
+        },
+      ],
+    },
   },
 
   "store-locator": {
@@ -817,6 +1503,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "Store Locator shows an interactive map with all your physical store locations. Users can search by address or zip code, view store details, get directions, and call stores directly.",
+      tips: [
+        "Include store hours, phone, and address for each location",
+        "Set default center to your primary market",
+        "Enable directions link for one-click navigation",
+        "Add photos of storefronts for visual recognition",
+      ],
+      useCases: [
+        "Retail store finder page",
+        "Service center locations",
+        "Dealer/partner locator",
+      ],
+      keySettings: [
+        {
+          name: "Default Zoom",
+          description: "Initial map zoom level (8-15, higher = closer)",
+        },
+        {
+          name: "List Position",
+          description: "Where the store list appears relative to the map",
+        },
+      ],
     },
   },
 
@@ -848,6 +1559,32 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "Instagram Feed pulls in your latest Instagram posts and displays them in a grid or carousel. Connects your social presence to your website and encourages followers. Requires Instagram API access token.",
+      tips: [
+        "Refresh your access token before it expires (60 days)",
+        "Use square aspect ratio for consistent grid appearance",
+        "8 posts (2 rows of 4) is a common layout",
+        "Enable the follow button to grow your audience",
+      ],
+      useCases: [
+        "Social proof section on homepage",
+        "User-generated content showcase",
+        "Behind-the-scenes brand content",
+      ],
+      keySettings: [
+        {
+          name: "Access Token",
+          description:
+            "Instagram API token (get from Facebook Developer Portal)",
+        },
+        {
+          name: "Show Caption",
+          description: "When to show post captions: always, on hover, or never",
+        },
+      ],
     },
   },
 
@@ -883,6 +1620,31 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
     nesting: {
       canBeNested: false,
+    },
+    documentation: {
+      helpText:
+        "Collection List dynamically displays entries from your custom content collections (Blog, Team, FAQ, etc.). Unlike hardcoded content, collection items are managed separately and automatically appear when published.",
+      tips: [
+        "Create a collection first, then reference it here",
+        "Use link patterns to define how entry URLs are generated",
+        "Filter to published only for live pages",
+        "Sort by date for blogs, by order for curated lists",
+      ],
+      useCases: [
+        "Blog post listing on homepage",
+        "Team member grid from Team collection",
+        "Dynamic FAQ from FAQ collection",
+      ],
+      keySettings: [
+        {
+          name: "Collection Slug",
+          description: "Which collection to pull entries from",
+        },
+        {
+          name: "Link Pattern",
+          description: "URL template like /blog/{slug} for entry links",
+        },
+      ],
     },
   },
 };

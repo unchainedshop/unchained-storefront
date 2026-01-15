@@ -21,7 +21,12 @@ interface BentoGridEditorProps {
   columns: number;
   rows: number;
   placements: GridChildPlacement[];
-  onAreaCreate: (area: { colStart: number; rowStart: number; colSpan: number; rowSpan: number }) => void;
+  onAreaCreate: (area: {
+    colStart: number;
+    rowStart: number;
+    colSpan: number;
+    rowSpan: number;
+  }) => void;
   onAreaClick: (blockId: string) => void;
   onAreaDelete?: (blockId: string) => void;
   selectedBlockId?: string | null;
@@ -29,7 +34,7 @@ interface BentoGridEditorProps {
 
 // Colors for bento areas
 const AREA_COLORS = [
-  "bg-blue-500/20 border-blue-500",
+  "bg-slate-500/20 border-slate-500",
   "bg-emerald-500/20 border-emerald-500",
   "bg-purple-500/20 border-purple-500",
   "bg-amber-500/20 border-amber-500",
@@ -47,8 +52,13 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
   selectedBlockId,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState<{ col: number; row: number } | null>(null);
-  const [dragEnd, setDragEnd] = useState<{ col: number; row: number } | null>(null);
+  const [dragStart, setDragStart] = useState<{
+    col: number;
+    row: number;
+  } | null>(null);
+  const [dragEnd, setDragEnd] = useState<{ col: number; row: number } | null>(
+    null,
+  );
   const gridRef = useRef<HTMLDivElement>(null);
 
   // Convert placements to bento areas with colors
@@ -66,7 +76,12 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
     for (const area of bentoAreas) {
       const colEnd = area.colStart + area.colSpan - 1;
       const rowEnd = area.rowStart + area.rowSpan - 1;
-      if (col >= area.colStart && col <= colEnd && row >= area.rowStart && row <= rowEnd) {
+      if (
+        col >= area.colStart &&
+        col <= colEnd &&
+        row >= area.rowStart &&
+        row <= rowEnd
+      ) {
         return area;
       }
     }
@@ -98,21 +113,27 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
     return true;
   };
 
-  const handleMouseDown = useCallback((col: number, row: number, e: React.MouseEvent) => {
-    e.preventDefault();
-    // Don't start drag on occupied cells
-    if (getCellOccupant(col, row)) return;
+  const handleMouseDown = useCallback(
+    (col: number, row: number, e: React.MouseEvent) => {
+      e.preventDefault();
+      // Don't start drag on occupied cells
+      if (getCellOccupant(col, row)) return;
 
-    setIsDragging(true);
-    setDragStart({ col, row });
-    setDragEnd({ col, row });
-  }, [bentoAreas]);
-
-  const handleMouseEnter = useCallback((col: number, row: number) => {
-    if (isDragging) {
+      setIsDragging(true);
+      setDragStart({ col, row });
       setDragEnd({ col, row });
-    }
-  }, [isDragging]);
+    },
+    [bentoAreas],
+  );
+
+  const handleMouseEnter = useCallback(
+    (col: number, row: number) => {
+      if (isDragging) {
+        setDragEnd({ col, row });
+      }
+    },
+    [isDragging],
+  );
 
   const handleMouseUp = useCallback(() => {
     if (isDragging && dragStart && isSelectionValid()) {
@@ -131,10 +152,13 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
     setDragEnd(null);
   }, [isDragging, dragStart, dragEnd, onAreaCreate]);
 
-  const handleAreaClick = useCallback((e: React.MouseEvent, blockId: string) => {
-    e.stopPropagation();
-    onAreaClick(blockId);
-  }, [onAreaClick]);
+  const handleAreaClick = useCallback(
+    (e: React.MouseEvent, blockId: string) => {
+      e.stopPropagation();
+      onAreaClick(blockId);
+    },
+    [onAreaClick],
+  );
 
   const isCellInSelection = (col: number, row: number): boolean => {
     const bounds = getSelectionBounds();
@@ -177,7 +201,10 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
               const selectionValid = isSelectionValid();
 
               // Skip cells that are part of a multi-cell area (not the origin)
-              if (occupant && (occupant.colStart !== col || occupant.rowStart !== row)) {
+              if (
+                occupant &&
+                (occupant.colStart !== col || occupant.rowStart !== row)
+              ) {
                 return null;
               }
 
@@ -188,7 +215,9 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                   <div
                     key={`area-${occupant.id}`}
                     className={`relative rounded-lg border-2 cursor-pointer transition-all ${occupant.color} ${
-                      isSelected ? "ring-2 ring-blue-500 ring-offset-2" : ""
+                      isSelected
+                        ? "ring-2 ring-slate-900 dark:ring-slate-300 ring-offset-2"
+                        : ""
                     }`}
                     style={{
                       gridColumn: `${occupant.colStart} / span ${occupant.colSpan}`,
@@ -223,7 +252,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                   className={`rounded border-2 border-dashed transition-all cursor-crosshair ${
                     inSelection
                       ? selectionValid
-                        ? "border-blue-500 bg-blue-500/30"
+                        ? "border-slate-900 bg-slate-900/30 dark:border-slate-300 dark:bg-slate-300/30"
                         : "border-red-500 bg-red-500/30"
                       : "border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500"
                   }`}
@@ -237,7 +266,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                   </div>
                 </div>
               );
-            })
+            }),
           )}
         </div>
 
@@ -247,11 +276,12 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
             <span
               className={`inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-medium shadow-lg ${
                 isSelectionValid()
-                  ? "bg-blue-500 text-white"
+                  ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
                   : "bg-red-500 text-white"
               }`}
             >
-              {Math.abs(dragEnd.col - dragStart.col) + 1} × {Math.abs(dragEnd.row - dragStart.row) + 1}
+              {Math.abs(dragEnd.col - dragStart.col) + 1} ×{" "}
+              {Math.abs(dragEnd.row - dragStart.row) + 1}
             </span>
           </div>
         )}
@@ -264,7 +294,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           <span>Empty</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded bg-blue-500/20 border-2 border-blue-500" />
+          <div className="w-3 h-3 rounded bg-slate-500/20 border-2 border-slate-500" />
           <span>Has content</span>
         </div>
       </div>

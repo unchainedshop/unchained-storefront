@@ -124,23 +124,74 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
       if (!state.page) return;
 
       // Convert template blocks to full PageBlocks with new IDs
-      const convertBlocks = (blocks: typeof template.blocks): PageBlock[] => {
-        return blocks.map((block) => {
-          const converted = {
-            id: `block_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
-            type: block.type,
-            content: block.content || {},
-            style: block.style || {},
-            responsive: {},
-            children: block.children
-              ? convertBlocks(block.children)
-              : undefined,
+      // Handles nested grids by updating childPlacements at each level
+      const convertBlock = (
+        block: (typeof template.blocks)[number],
+      ): PageBlock => {
+        const newId = `block_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+
+        // Build ID mapping for this block's children
+        const idMapping: Record<string, string> = {};
+        let convertedChildren: PageBlock[] | undefined;
+
+        if (block.children && block.children.length > 0) {
+          // First pass: generate new IDs and build mapping
+          const childIdPairs = block.children.map((child) => ({
+            oldId: child.id,
+            newId: `block_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+            child,
+          }));
+
+          // Build mapping from old IDs to new IDs
+          childIdPairs.forEach(({ oldId, newId: childNewId }) => {
+            if (oldId) {
+              idMapping[oldId] = childNewId;
+            }
+          });
+
+          // Second pass: convert children with correct IDs
+          convertedChildren = childIdPairs.map(
+            ({ newId: childNewId, child }) => {
+              // Recursively convert this child (handles nested grids)
+              const convertedChild = convertBlock(child);
+              // Override the ID with our pre-generated one
+              return {
+                ...convertedChild,
+                id: childNewId,
+              };
+            },
+          );
+        }
+
+        // Update childPlacements with new IDs if this is a Grid block
+        let content = block.content || {};
+        if (
+          block.type === "grid" &&
+          content.childPlacements &&
+          Array.isArray(content.childPlacements)
+        ) {
+          content = {
+            ...content,
+            childPlacements: content.childPlacements.map(
+              (placement: { blockId: string; placement: unknown }) => ({
+                ...placement,
+                blockId: idMapping[placement.blockId] || placement.blockId,
+              }),
+            ),
           };
-          return converted as unknown as PageBlock;
-        });
+        }
+
+        return {
+          id: newId,
+          type: block.type,
+          content,
+          style: block.style || {},
+          responsive: {},
+          children: convertedChildren,
+        } as unknown as PageBlock;
       };
 
-      const newBlocks = convertBlocks(template.blocks);
+      const newBlocks = template.blocks.map((block) => convertBlock(block));
 
       // Generate new page name from template name with random suffix
       const newTitle = `${template.name} #${generateRandomSuffix()}`;

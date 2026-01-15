@@ -31,18 +31,21 @@ interface Settings {
   timeFormat: string;
 }
 
+// Unchained Brand Color Palette
+// A sophisticated, modern palette that evokes freedom, innovation, and premium quality
 const defaultColorPresets: ColorPreset[] = [
-  { id: "preset-1", name: "Slate 900", color: "#0f172a" },
-  { id: "preset-2", name: "Slate 500", color: "#475569" },
-  { id: "preset-3", name: "Slate 50", color: "#f8fafc" },
-  { id: "preset-4", name: "White", color: "#ffffff" },
-  { id: "preset-5", name: "Black", color: "#000000" },
-  { id: "preset-6", name: "Blue", color: "#3b82f6" },
-  { id: "preset-7", name: "Emerald", color: "#10b981" },
-  { id: "preset-8", name: "Amber", color: "#f59e0b" },
-  { id: "preset-9", name: "Red", color: "#ef4444" },
-  { id: "preset-10", name: "Violet", color: "#8b5cf6" },
-  { id: "preset-11", name: "Pink", color: "#ec4899" },
+  // Core brand colors
+  { id: "midnight", name: "Midnight", color: "#0f172a" },
+  { id: "ocean", name: "Ocean", color: "#0EA5E9" },
+  { id: "emerald", name: "Emerald", color: "#10B981" },
+  // Accent colors
+  { id: "amber", name: "Amber", color: "#F59E0B" },
+  { id: "coral", name: "Coral", color: "#F43F5E" },
+  { id: "violet", name: "Violet", color: "#8B5CF6" },
+  // Neutrals
+  { id: "slate", name: "Slate", color: "#64748B" },
+  { id: "cloud", name: "Cloud", color: "#F1F5F9" },
+  { id: "snow", name: "Snow", color: "#FFFFFF" },
 ];
 
 const defaultSettings: Settings = {
@@ -51,7 +54,7 @@ const defaultSettings: Settings = {
   availableLocales: ["en", "de"],
   logo: "",
   darkLogo: "",
-  primaryColor: "#0f172a",
+  primaryColor: "#0EA5E9", // Ocean - primary brand color
   colorPresets: defaultColorPresets,
   darkModeDefault: false,
   adminEmail: "",

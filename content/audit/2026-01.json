@@ -468,5 +468,15 @@
     "entityType": "page",
     "entityId": "page_1768473176135",
     "entityTitle": "Product Launch #QFPTA"
+  },
+  {
+    "id": "audit_1768503971914_pb6aos6",
+    "timestamp": "2026-01-15T19:06:11.914Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768473176135",
+    "entityTitle": "Product Launch #QFPTA"
   }
 ]

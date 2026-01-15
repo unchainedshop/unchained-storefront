@@ -60,7 +60,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
 
   const ImageContent = (
     <div
-      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "h-full min-h-[200px]" : ""}`}
+      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "flex-1 w-full min-h-[200px]" : ""}`}
     >
       {content.src ? (
         <img
@@ -87,9 +87,16 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
   );
 
   return (
-    <figure className={fillContainer ? "h-full" : ""} style={containerStyle}>
+    <figure
+      className={fillContainer ? "w-full flex flex-col" : ""}
+      style={
+        fillContainer
+          ? { ...containerStyle, flex: 1, minHeight: 0 }
+          : containerStyle
+      }
+    >
       {content.link && !isPreview ? (
-        <Link href={content.link} className="block h-full">
+        <Link href={content.link} className="block flex-1 w-full">
           {ImageContent}
         </Link>
       ) : (
@@ -97,7 +104,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
       )}
 
       {content.caption && (
-        <figcaption className="mt-2 text-sm text-center text-slate-500 dark:text-slate-400">
+        <figcaption className="mt-3 px-6 text-sm text-center text-slate-500 dark:text-slate-400">
           {content.caption}
         </figcaption>
       )}

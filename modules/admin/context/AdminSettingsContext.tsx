@@ -32,14 +32,31 @@ export interface AdminSettings {
   timeFormat: string;
 }
 
+// Unchained Brand Color Palette
+// A sophisticated, modern palette that evokes freedom, innovation, and premium quality
+const unchainedColorPresets: ColorPreset[] = [
+  // Core brand colors
+  { id: "midnight", name: "Midnight", color: "#0f172a" },
+  { id: "ocean", name: "Ocean", color: "#0EA5E9" },
+  { id: "emerald", name: "Emerald", color: "#10B981" },
+  // Accent colors
+  { id: "amber", name: "Amber", color: "#F59E0B" },
+  { id: "coral", name: "Coral", color: "#F43F5E" },
+  { id: "violet", name: "Violet", color: "#8B5CF6" },
+  // Neutrals
+  { id: "slate", name: "Slate", color: "#64748B" },
+  { id: "cloud", name: "Cloud", color: "#F1F5F9" },
+  { id: "snow", name: "Snow", color: "#FFFFFF" },
+];
+
 const defaultSettings: AdminSettings = {
   siteName: { en: "", de: "" },
   defaultLocale: "en",
   availableLocales: ["en", "de"],
   logo: "",
   darkLogo: "",
-  primaryColor: "#0f172a",
-  colorPresets: [],
+  primaryColor: "#0EA5E9",
+  colorPresets: unchainedColorPresets,
   darkModeDefault: false,
   adminEmail: "",
   dateFormat: "YYYY-MM-DD",

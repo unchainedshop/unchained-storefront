@@ -26,10 +26,17 @@ const TextContent: React.FC<TextContentProps> = ({ block, isPreview }) => {
   const style = block.style;
   const { updateBlock, state } = usePageBuilder();
 
+  // Default horizontal padding of 1.5rem (24px) for text rhythm
+  const defaultPadding = { top: 0, right: 24, bottom: 0, left: 24 };
+  const padding = {
+    top: style.padding?.top ?? defaultPadding.top,
+    right: style.padding?.right || defaultPadding.right,
+    bottom: style.padding?.bottom ?? defaultPadding.bottom,
+    left: style.padding?.left || defaultPadding.left,
+  };
+
   const containerStyle: React.CSSProperties = {
-    padding: style.padding
-      ? `${style.padding.top}px ${style.padding.right}px ${style.padding.bottom}px ${style.padding.left}px`
-      : undefined,
+    padding: `${padding.top}px ${padding.right}px ${padding.bottom}px ${padding.left}px`,
     backgroundColor: style.backgroundColor,
     color: style.textColor,
     textAlign: style.alignmentX || "left",
@@ -47,7 +54,16 @@ const TextContent: React.FC<TextContentProps> = ({ block, isPreview }) => {
   const isEditable = !isPreview && !state.isPreviewMode;
 
   return (
-    <div style={containerStyle} className="max-w-4xl mx-auto">
+    <div
+      style={{
+        ...containerStyle,
+        flex: 1,
+        minHeight: 0,
+        display: "grid",
+        alignContent: "center",
+      }}
+      className="w-full"
+    >
       {isEditable ? (
         <RichTextEditor
           content={content.content || ""}

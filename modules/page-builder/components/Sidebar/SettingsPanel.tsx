@@ -40,6 +40,7 @@ import GridCellEditor from "./GridCellEditor";
 import BlockPickerModal from "../BlockPickerModal";
 import { useAdminSettings } from "../../../admin/context/AdminSettingsContext";
 import CodeEditor from "./CodeEditor";
+import HelpPanel from "./HelpPanel";
 import type {
   PageBlock,
   BlockStyle,
@@ -60,7 +61,7 @@ interface SettingsPanelProps {
   className?: string;
 }
 
-type TabId = "content" | "style" | "advanced";
+type TabId = "content" | "style" | "advanced" | "help";
 
 // Collapsible Section Component
 interface SectionProps {
@@ -600,6 +601,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
     { id: "content", label: "Content" },
     { id: "style", label: "Style" },
     { id: "advanced", label: "Advanced" },
+    { id: "help", label: "Help" },
   ];
 
   return (
@@ -685,6 +687,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
             onChange={handleStyleChange}
           />
         )}
+
+        {activeTab === "help" && <HelpPanel blockType={selectedBlock.type} />}
       </div>
 
       {/* Crop Editor Modal */}
@@ -912,6 +916,12 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 onChange={(v) => onChange("buttonVariant", v)}
               />
             </PropertyRow>
+            <ColorInputRow
+              label="Color"
+              value={content.buttonColor || ""}
+              onChange={(v) => onChange("buttonColor", v)}
+              placeholder="Inherit from text"
+            />
           </Section>
 
           <Section title="Secondary Button" defaultOpen={false}>
@@ -928,6 +938,23 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 onBlur={onBlur}
               />
             </PropertyRow>
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.secondaryButtonVariant || "secondary"}
+                options={[
+                  { value: "primary", label: "Filled" },
+                  { value: "secondary", label: "Outline" },
+                  { value: "link", label: "Link" },
+                ]}
+                onChange={(v) => onChange("secondaryButtonVariant", v)}
+              />
+            </PropertyRow>
+            <ColorInputRow
+              label="Color"
+              value={content.secondaryButtonColor || ""}
+              onChange={(v) => onChange("secondaryButtonColor", v)}
+              placeholder="Inherit from text"
+            />
           </Section>
 
           <Section title="Text Readability" defaultOpen={false}>
@@ -3882,12 +3909,13 @@ const SegmentedControl: React.FC<{
 );
 
 // Color Input Row - uses dynamic presets from admin settings
+// Layout: Label, then palette, then picker + hex
 const ColorInputRow: React.FC<{
   label: string;
   value: string;
   onChange: (v: string) => void;
-}> = ({ label, value, onChange }) => {
-  const [showPresets, setShowPresets] = React.useState(false);
+  placeholder?: string;
+}> = ({ label, value, onChange, placeholder = "#000" }) => {
   const { settings } = useAdminSettings();
 
   // Build presets: brand color first, then custom presets from settings
@@ -3903,73 +3931,51 @@ const ColorInputRow: React.FC<{
   }, [settings.primaryColor, settings.colorPresets]);
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between gap-2">
-        <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0">
-          {label}
-        </label>
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => setShowPresets(!showPresets)}
-            className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            title="Color presets"
-          >
-            <svg
-              className="w-4 h-4 text-slate-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-              />
-            </svg>
-          </button>
-          <input
-            type="color"
-            value={value || "#000000"}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-6 h-6 rounded border border-slate-200 dark:border-slate-700 cursor-pointer overflow-hidden"
-          />
-          <input
-            type="text"
-            value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="#000"
-            className="w-20 px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 font-mono"
-          />
-        </div>
+    <div className="space-y-1.5">
+      <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+        {label}
+      </label>
+
+      {/* Color palette + picker inline */}
+      <div className="flex flex-wrap items-center gap-1">
+        {presets.map((preset) => {
+          const isSelected =
+            value?.toLowerCase() === preset.color.toLowerCase();
+          return (
+            <button
+              key={preset.label}
+              type="button"
+              onClick={() => onChange(preset.color)}
+              className={classNames(
+                "w-5 h-5 rounded border-2 transition-all hover:scale-110",
+                isSelected
+                  ? "border-slate-900 dark:border-white"
+                  : "border-transparent",
+                preset.isBrand && !isSelected && "ring-1 ring-amber-400/50",
+              )}
+              style={{ backgroundColor: preset.color }}
+              title={
+                preset.isBrand ? `${preset.label} (Primary)` : preset.label
+              }
+            />
+          );
+        })}
+        {/* Color picker inline with palette */}
+        <input
+          type="color"
+          value={value || "#000000"}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-5 h-5 rounded border border-slate-300 dark:border-slate-600 cursor-pointer overflow-hidden"
+        />
+        {/* Hex input */}
+        <input
+          type="text"
+          value={value || ""}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="w-20 px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-1 focus:ring-slate-400 font-mono"
+        />
       </div>
-      {showPresets && (
-        <div className="flex flex-wrap gap-1.5 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-md">
-          {presets.map((preset) => {
-            const isSelected =
-              value?.toLowerCase() === preset.color.toLowerCase();
-            return (
-              <button
-                key={preset.label}
-                type="button"
-                onClick={() => onChange(preset.color)}
-                className={classNames(
-                  "w-6 h-6 rounded-md border-2 transition-all hover:scale-110",
-                  isSelected
-                    ? "border-slate-900 dark:border-white ring-2 ring-slate-400/50"
-                    : "border-slate-200 dark:border-slate-600",
-                  preset.isBrand && "ring-1 ring-amber-400/50",
-                )}
-                style={{ backgroundColor: preset.color }}
-                title={
-                  preset.isBrand ? `${preset.label} (Primary)` : preset.label
-                }
-              />
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 };

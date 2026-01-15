@@ -40,11 +40,14 @@ const AddBlockButton: React.FC<AddBlockButtonProps> = ({
 
           {/* Button container */}
           <div className="relative transition-transform duration-300 group-hover:scale-125">
-            {/* Rainbow glow - large and diffused, animated on hover */}
-            <div className="absolute -inset-4 rounded-full rainbow-gradient opacity-0 blur-lg group-hover:opacity-80 group-hover:animate-pulse transition-all duration-300" />
+            {/* White outer fade */}
+            <div className="absolute -inset-5 rounded-full bg-white opacity-60 blur-lg transition-all duration-300" />
 
-            {/* Secondary glow ring - animated */}
-            <div className="absolute -inset-2 rounded-full rainbow-gradient opacity-0 blur-md group-hover:opacity-60 group-hover:animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
+            {/* Rainbow glow - crisp outer glow */}
+            <div className="absolute -inset-3 rounded-full rainbow-gradient opacity-0 blur-sm group-hover:opacity-90 group-hover:animate-pulse transition-all duration-300" />
+
+            {/* Secondary glow ring - tighter */}
+            <div className="absolute -inset-1.5 rounded-full rainbow-gradient opacity-0 blur-[4px] group-hover:opacity-70 group-hover:animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
 
             {/* Button with rainbow border */}
             <div className="relative w-8 h-8 rounded-full overflow-hidden shadow-md group-hover:shadow-xl transition-shadow duration-300">

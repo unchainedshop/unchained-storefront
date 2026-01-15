@@ -36,6 +36,377 @@ export const pageTemplates: PageTemplate[] = [
     blocks: [],
   },
 
+  // ============ CREATIVE GRID ============
+  {
+    id: "creative-grid",
+    name: "Creative Grid",
+    description: "Bento-style layout with flowing content and whitespace",
+    category: "content",
+    thumbnail: "/templates/creative-grid.svg",
+    blocks: [
+      // Spacer for breathing room at top
+      {
+        id: uid(),
+        type: "spacer",
+        content: { height: 80, mobileHeight: 40 },
+        style: {},
+      },
+      // Main bento grid section
+      {
+        id: uid(),
+        type: "section",
+        content: {},
+        style: {
+          padding: { top: 0, right: 48, bottom: 0, left: 48 },
+          maxWidth: 1400,
+        },
+        children: [
+          {
+            id: uid(),
+            type: "grid",
+            content: {
+              template: {
+                desktop: {
+                  columns: ["1fr", "1fr", "1fr", "1fr"],
+                  rows: ["auto", "auto", "auto"],
+                },
+                tablet: {
+                  columns: ["1fr", "1fr"],
+                  rows: ["auto", "auto", "auto", "auto"],
+                },
+                mobile: {
+                  columns: ["1fr"],
+                  rows: [
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                  ],
+                },
+              },
+              gap: 24,
+              rowGap: 24,
+              childPlacements: [
+                // Large featured image - spans 2 cols, 2 rows
+                {
+                  blockId: "featured-image",
+                  placement: {
+                    colStart: 1,
+                    rowStart: 1,
+                    colSpan: 2,
+                    rowSpan: 2,
+                  },
+                },
+                // Intro text - top right
+                {
+                  blockId: "intro-text",
+                  placement: {
+                    colStart: 3,
+                    rowStart: 1,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                // Small image - corner
+                {
+                  blockId: "small-image-1",
+                  placement: {
+                    colStart: 4,
+                    rowStart: 1,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                // Pull quote - middle right
+                {
+                  blockId: "pull-quote",
+                  placement: {
+                    colStart: 3,
+                    rowStart: 2,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                // Second text block
+                {
+                  blockId: "body-text",
+                  placement: {
+                    colStart: 4,
+                    rowStart: 2,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                // Bottom row - image
+                {
+                  blockId: "small-image-2",
+                  placement: {
+                    colStart: 1,
+                    rowStart: 3,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                // Bottom row - another image
+                {
+                  blockId: "small-image-3",
+                  placement: {
+                    colStart: 2,
+                    rowStart: 3,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                // Featured text - spans 2 cols
+                {
+                  blockId: "featured-text",
+                  placement: {
+                    colStart: 3,
+                    rowStart: 3,
+                    colSpan: 2,
+                    rowSpan: 1,
+                  },
+                },
+              ],
+              autoFlow: "row",
+              justifyItems: "stretch",
+              alignItems: "stretch",
+            },
+            style: {
+              minHeight: 800,
+            },
+            children: [
+              // Featured image - large hero
+              {
+                id: "featured-image",
+                type: "image",
+                content: {
+                  alt: "Featured image",
+                  aspectRatio: "auto",
+                },
+                style: {
+                  borderRadius: 16,
+                },
+              },
+              // Intro text
+              {
+                id: "intro-text",
+                type: "text-content",
+                content: {
+                  content:
+                    "## Design\n## Philosophy\n\nWe believe in the power of restraint. Every element serves a purpose.",
+                },
+                style: {
+                  padding: { top: 32, right: 24, bottom: 32, left: 24 },
+                  backgroundColor: "#fafafa",
+                  borderRadius: 16,
+                },
+              },
+              // Small image 1
+              {
+                id: "small-image-1",
+                type: "image",
+                content: {
+                  alt: "Detail shot",
+                  aspectRatio: "1:1",
+                },
+                style: {
+                  borderRadius: 16,
+                },
+              },
+              // Pull quote
+              {
+                id: "pull-quote",
+                type: "text-content",
+                content: {
+                  content: `*"Less, but better"*\n\n— Dieter Rams`,
+                },
+                style: {
+                  padding: { top: 48, right: 24, bottom: 48, left: 24 },
+                  backgroundColor: "#0f172a",
+                  textColor: "#ffffff",
+                  borderRadius: 16,
+                  alignmentX: "center",
+                  alignmentY: "center",
+                },
+              },
+              // Body text
+              {
+                id: "body-text",
+                type: "text-content",
+                content: {
+                  content:
+                    "### Crafted with intention\n\nEvery decision—from material selection to packaging—reflects our commitment to thoughtful design.",
+                },
+                style: {
+                  padding: { top: 32, right: 24, bottom: 32, left: 24 },
+                  backgroundColor: "#f8fafc",
+                  borderRadius: 16,
+                },
+              },
+              // Small image 2
+              {
+                id: "small-image-2",
+                type: "image",
+                content: {
+                  alt: "Product detail",
+                  aspectRatio: "4:3",
+                },
+                style: {
+                  borderRadius: 16,
+                },
+              },
+              // Small image 3
+              {
+                id: "small-image-3",
+                type: "image",
+                content: {
+                  alt: "Lifestyle shot",
+                  aspectRatio: "4:3",
+                },
+                style: {
+                  borderRadius: 16,
+                },
+              },
+              // Featured text - wider
+              {
+                id: "featured-text",
+                type: "text-content",
+                content: {
+                  content:
+                    "## The Details Matter\n\nFrom the weight of a button to the fall of a hem, we obsess over the small things. Because when you add up a thousand small decisions made well, you end up with something extraordinary.",
+                },
+                style: {
+                  padding: { top: 48, right: 40, bottom: 48, left: 40 },
+                  backgroundColor: "#fef3c7",
+                  borderRadius: 16,
+                  alignmentY: "center",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      // Generous spacing
+      {
+        id: uid(),
+        type: "spacer",
+        content: { height: 120, mobileHeight: 64 },
+        style: {},
+      },
+      // Second grid - simpler 3-column layout
+      {
+        id: uid(),
+        type: "section",
+        content: {},
+        style: {
+          padding: { top: 0, right: 48, bottom: 0, left: 48 },
+          maxWidth: 1400,
+        },
+        children: [
+          {
+            id: uid(),
+            type: "grid",
+            content: {
+              template: {
+                desktop: {
+                  columns: ["2fr", "1fr"],
+                  rows: ["auto"],
+                },
+                tablet: {
+                  columns: ["1fr", "1fr"],
+                  rows: ["auto"],
+                },
+                mobile: {
+                  columns: ["1fr"],
+                  rows: ["auto", "auto"],
+                },
+              },
+              gap: 48,
+              childPlacements: [
+                {
+                  blockId: "wide-text",
+                  placement: {
+                    colStart: 1,
+                    rowStart: 1,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+                {
+                  blockId: "side-image",
+                  placement: {
+                    colStart: 2,
+                    rowStart: 1,
+                    colSpan: 1,
+                    rowSpan: 1,
+                  },
+                },
+              ],
+              autoFlow: "row",
+              justifyItems: "stretch",
+              alignItems: "center",
+            },
+            style: {},
+            children: [
+              {
+                id: "wide-text",
+                type: "text-content",
+                content: {
+                  content:
+                    "# Our Process\n\nWe start with a question: *what if?*\n\nWhat if we could make something that lasts a lifetime? What if every material was chosen with intention? What if less really could be more?\n\nThese questions guide us through months of prototyping, testing, and refinement. We work with artisans who share our values—people who've spent decades mastering their craft.\n\nThe result is something we're proud to put our name on. Something we hope you'll treasure for years to come.",
+                },
+                style: {
+                  padding: { top: 0, right: 48, bottom: 0, left: 0 },
+                },
+              },
+              {
+                id: "side-image",
+                type: "image",
+                content: {
+                  alt: "Our workshop",
+                  aspectRatio: "3:4",
+                },
+                style: {
+                  borderRadius: 16,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      // Final spacing
+      {
+        id: uid(),
+        type: "spacer",
+        content: { height: 120, mobileHeight: 64 },
+        style: {},
+      },
+      // Call to action
+      {
+        id: uid(),
+        type: "hero-banner",
+        content: {
+          heading: "Experience the Difference",
+          subheading:
+            "Discover our collection of thoughtfully designed pieces.",
+          buttonText: "Shop Now",
+          buttonLink: "/shop",
+          variant: "centered",
+        },
+        style: {
+          backgroundColor: "#0f172a",
+          textColor: "#ffffff",
+          minHeight: 400,
+          padding: { top: 80, right: 24, bottom: 80, left: 24 },
+        },
+      },
+    ],
+  },
+
   // ============ LANDING PAGES ============
   {
     id: "homepage-modern",

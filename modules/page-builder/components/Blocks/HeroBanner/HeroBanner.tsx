@@ -326,51 +326,71 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
           style={textStyle}
         >
           {content.buttonText && content.buttonLink ? (
-            <Link
-              href={isPreview ? "#" : content.buttonLink}
-              className={classNames(
-                "inline-flex items-center px-8 py-3 font-semibold rounded-lg transition-colors",
-                content.buttonVariant === "link"
-                  ? "underline hover:no-underline"
-                  : content.buttonVariant === "secondary"
-                    ? "border-2 border-current hover:bg-white/10"
-                    : "bg-white text-slate-900 hover:bg-slate-100",
-              )}
-              style={
-                content.buttonVariant === "link" ||
-                content.buttonVariant === "secondary"
-                  ? { color: style.textColor || "#ffffff" }
-                  : undefined
-              }
-            >
-              {content.buttonText}
-            </Link>
+            (() => {
+              const btnColor =
+                content.buttonColor || style.textColor || "#ffffff";
+              return (
+                <Link
+                  href={isPreview ? "#" : content.buttonLink}
+                  className={classNames(
+                    "inline-flex items-center px-8 py-3 font-semibold rounded-lg transition-all",
+                    content.buttonVariant === "link"
+                      ? "underline hover:no-underline"
+                      : content.buttonVariant === "secondary"
+                        ? "border-2 border-current hover:bg-white/10"
+                        : "hover:opacity-90 hover:scale-[1.02]",
+                  )}
+                  style={
+                    content.buttonVariant === "link" ||
+                    content.buttonVariant === "secondary"
+                      ? { color: btnColor }
+                      : {
+                          backgroundColor: btnColor,
+                          color: isLightColor(btnColor) ? "#0f172a" : "#ffffff",
+                        }
+                  }
+                >
+                  {content.buttonText}
+                </Link>
+              );
+            })()
           ) : isEditing ? (
             <div className="px-8 py-3 border-2 border-dashed border-white/30 rounded-lg text-white/50 text-sm">
               Add primary button in settings
             </div>
           ) : null}
 
-          {content.secondaryButtonText && content.secondaryButtonLink && (
-            <Link
-              href={isPreview ? "#" : content.secondaryButtonLink}
-              className={classNames(
-                "inline-flex items-center px-8 py-3 font-semibold rounded-lg transition-colors",
-                content.secondaryButtonVariant === "link"
-                  ? "underline hover:no-underline"
-                  : content.secondaryButtonVariant === "primary"
-                    ? "bg-white text-slate-900 hover:bg-slate-100"
-                    : "border-2 border-current hover:bg-white/10",
-              )}
-              style={
-                content.secondaryButtonVariant === "primary"
-                  ? undefined
-                  : { color: style.textColor || "#ffffff" }
-              }
-            >
-              {content.secondaryButtonText}
-            </Link>
-          )}
+          {content.secondaryButtonText &&
+            content.secondaryButtonLink &&
+            (() => {
+              const secBtnColor =
+                content.secondaryButtonColor || style.textColor || "#ffffff";
+              return (
+                <Link
+                  href={isPreview ? "#" : content.secondaryButtonLink}
+                  className={classNames(
+                    "inline-flex items-center px-8 py-3 font-semibold rounded-lg transition-all",
+                    content.secondaryButtonVariant === "link"
+                      ? "underline hover:no-underline"
+                      : content.secondaryButtonVariant === "primary"
+                        ? "hover:opacity-90 hover:scale-[1.02]"
+                        : "border-2 border-current hover:bg-white/10",
+                  )}
+                  style={
+                    content.secondaryButtonVariant === "primary"
+                      ? {
+                          backgroundColor: secBtnColor,
+                          color: isLightColor(secBtnColor)
+                            ? "#0f172a"
+                            : "#ffffff",
+                        }
+                      : { color: secBtnColor }
+                  }
+                >
+                  {content.secondaryButtonText}
+                </Link>
+              );
+            })()}
         </div>
       </>
     );

@@ -5,7 +5,7 @@
  */
 
 import React, { useMemo, useCallback, useState } from "react";
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import type {
   PageBlock,
   GridContent,
@@ -17,7 +17,9 @@ import type {
 import { VIEWPORT_WIDTHS } from "../../../types";
 import { usePageBuilder } from "../../../context/PageBuilderContext";
 import GridOverlay from "../../Canvas/GridOverlay";
+import BlockPickerModal from "../../BlockPickerModal";
 import { createBlock } from "../../../utils/blockRegistry";
+import type { BlockOverrides } from "../../../types";
 
 interface GridProps {
   block: PageBlock;
@@ -73,24 +75,37 @@ const generateResponsiveCSS = (
   const desktopTemplate = template.desktop;
 
   return `
+    #${gridId}-container {
+      container-type: inline-size;
+    }
     #${gridId} {
-      grid-template-columns: ${buildTemplateColumns(mobileTemplate.columns)};
-      grid-template-rows: ${buildTemplateRows(mobileTemplate.rows)};
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
       gap: ${gapStr};
     }
-    @media (min-width: 768px) {
+    /* Reset grid placements on small containers - stack items naturally */
+    #${gridId} > * {
+      grid-column: auto !important;
+      grid-row: auto !important;
+    }
+    @container (min-width: 600px) {
       #${gridId} {
-        grid-template-columns: ${buildTemplateColumns(tabletTemplate.columns)};
-        grid-template-rows: ${buildTemplateRows(tabletTemplate.rows)};
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-rows: auto;
       }
     }
-    @media (min-width: 1280px) {
+    @container (min-width: 900px) {
       #${gridId} {
         grid-template-columns: ${buildTemplateColumns(laptopTemplate.columns)};
         grid-template-rows: ${buildTemplateRows(laptopTemplate.rows)};
       }
+      /* Restore grid placements on larger containers */
+      #${gridId} > * {
+        grid-column: unset !important;
+        grid-row: unset !important;
+      }
     }
-    @media (min-width: 1520px) {
+    @container (min-width: 1200px) {
       #${gridId} {
         grid-template-columns: ${buildTemplateColumns(desktopTemplate.columns)};
         grid-template-rows: ${buildTemplateRows(desktopTemplate.rows)};
@@ -107,8 +122,9 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
   const isInEditor = !!pageBuilder?.state?.page;
   const isSelected = pageBuilder?.state?.selection?.blockId === block.id;
 
-  // State for cell-based add block modal
-  const [pendingCellAdd, setPendingCellAdd] = useState<{
+  // State for block picker modal
+  const [isBlockPickerOpen, setIsBlockPickerOpen] = useState(false);
+  const [pendingPlacement, setPendingPlacement] = useState<{
     col: number;
     row: number;
   } | null>(null);
@@ -137,14 +153,9 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     borderRadius: style.borderRadius,
   };
 
-  // Grid styles (for editor - live viewport preview)
+  // Grid styles - only set non-template properties, let CSS handle responsive columns/rows
   const gridStyle: React.CSSProperties = {
     display: "grid",
-    gridTemplateColumns: buildTemplateColumns(currentTemplate.columns),
-    gridTemplateRows: buildTemplateRows(currentTemplate.rows),
-    gap: content.rowGap
-      ? `${content.rowGap}px ${content.gap}px`
-      : `${content.gap}px`,
     gridAutoFlow: content.autoFlow || "row",
     justifyItems: content.justifyItems || "stretch",
     alignItems: content.alignItems || "stretch",
@@ -152,10 +163,8 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     minHeight: style.minHeight || 100,
   };
 
-  // Generate responsive CSS for production only
-  const responsiveCSS = isInEditor
-    ? ""
-    : generateResponsiveCSS(gridId, content);
+  // Always generate responsive CSS with container queries
+  const responsiveCSS = generateResponsiveCSS(gridId, content);
 
   // Wrap children with placement styles
   const wrappedChildren = useMemo(() => {
@@ -182,6 +191,9 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
         gridRow: placement.rowSpan
           ? `${placement.rowStart} / span ${placement.rowSpan}`
           : String(placement.rowStart),
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       };
 
       // Apply cell-specific styles
@@ -201,7 +213,7 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
       return (
         <div
           style={wrapperStyle}
-          className="h-full min-h-0 overflow-hidden"
+          className="h-full w-full [&>*]:flex-1 [&>*]:min-h-0"
           data-grid-cell={childBlockId}
         >
           {child}
@@ -230,7 +242,7 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
       return (
         <div
           key={`placeholder-${idx}`}
-          className="h-full min-h-[120px] flex items-center justify-center"
+          className="h-full min-h-[120px] flex items-center justify-center pl-4"
           style={{
             background:
               "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
@@ -240,21 +252,34 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
           data-row={row}
         >
           <div className="text-center text-slate-400">
-            <PhotoIcon className="w-6 h-6 mx-auto" />
-            <p className="mt-1 text-xs">Add Image</p>
+            <PlusIcon className="w-5 h-5 mx-auto" />
+            <p className="mt-1 text-xs">
+              {col},{row}
+            </p>
           </div>
         </div>
       );
     });
   }, [currentTemplate, children, isPreview, isInEditor, isSelected]);
 
-  // Handle cell click from overlay - for adding blocks to specific cells
-  const handleCellClick = useCallback(
-    (col: number, row: number) => {
-      if (!pageBuilder?.addBlock || !pageBuilder?.updateBlock) return;
+  // Handle cell click from overlay - open block picker
+  const handleCellClick = useCallback((col: number, row: number) => {
+    setPendingPlacement({ col, row });
+    setIsBlockPickerOpen(true);
+  }, []);
 
-      // Create a new text block
-      const newBlock = createBlock("text-content") as PageBlock;
+  // Handle block selection from picker - add block to grid cell
+  const handleBlockSelect = useCallback(
+    (blockType: BlockType, overrides?: BlockOverrides) => {
+      if (
+        !pendingPlacement ||
+        !pageBuilder?.addBlock ||
+        !pageBuilder?.updateBlock
+      )
+        return;
+
+      // Create the selected block type
+      const newBlock = createBlock(blockType, overrides) as PageBlock;
 
       // Add the block as a child of the grid
       pageBuilder.addBlock(newBlock, block.id);
@@ -264,8 +289,8 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
       const newPlacement: GridChildPlacement = {
         blockId: newBlock.id,
         placement: {
-          colStart: col,
-          rowStart: row,
+          colStart: pendingPlacement.col,
+          rowStart: pendingPlacement.row,
           colSpan: 1,
           rowSpan: 1,
         },
@@ -276,8 +301,12 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
           childPlacements: [...currentPlacements, newPlacement],
         },
       });
+
+      // Close modal and reset state
+      setIsBlockPickerOpen(false);
+      setPendingPlacement(null);
     },
-    [pageBuilder, block.id, content.childPlacements],
+    [pageBuilder, block.id, content.childPlacements, pendingPlacement],
   );
 
   // Handle selecting a child block
@@ -306,8 +335,12 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
   const showOverlay = isInEditor && isSelected && !isPreview;
 
   return (
-    <div style={containerStyle} className="min-h-[50px] relative">
-      {/* Scoped responsive styles for production */}
+    <div
+      id={`${gridId}-container`}
+      style={containerStyle}
+      className="min-h-[50px] relative"
+    >
+      {/* Scoped responsive styles with container queries */}
       {responsiveCSS && (
         <style dangerouslySetInnerHTML={{ __html: responsiveCSS }} />
       )}
@@ -346,6 +379,17 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
           isActive={showOverlay}
         />
       )}
+
+      {/* Block Picker Modal for Grid cells */}
+      <BlockPickerModal
+        isOpen={isBlockPickerOpen}
+        onClose={() => {
+          setIsBlockPickerOpen(false);
+          setPendingPlacement(null);
+        }}
+        onSelectBlock={handleBlockSelect}
+        parentBlockType="grid"
+      />
     </div>
   );
 };

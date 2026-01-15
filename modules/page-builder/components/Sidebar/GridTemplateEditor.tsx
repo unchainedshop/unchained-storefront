@@ -176,7 +176,7 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
                   className={`px-2 py-1 text-[10px] font-mono rounded transition-colors ${
                     editingTrack?.type === "column" &&
                     editingTrack.index === idx
-                      ? "bg-blue-500 text-white"
+                      ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
                       : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600"
                   }`}
                 >
@@ -202,7 +202,7 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
                   }
                   className={`px-2 py-1 text-[10px] font-mono rounded transition-colors ${
                     editingTrack?.type === "row" && editingTrack.index === idx
-                      ? "bg-blue-500 text-white"
+                      ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
                       : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600"
                   }`}
                 >
@@ -237,7 +237,7 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
                       }
                       className={`px-2.5 py-1 text-[10px] rounded transition-colors ${
                         currentSize === preset.value
-                          ? "bg-blue-500 text-white"
+                          ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
                           : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600"
                       }`}
                     >

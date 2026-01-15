@@ -374,15 +374,13 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
 
           {/* Page container */}
           <div
-            className={classNames(
-              "min-h-screen bg-white dark:bg-slate-900 overflow-hidden",
-              {
-                "shadow-xl": !isPreviewMode,
-                "rounded-lg": !isPreviewMode && !showSiteFrame,
-                "bg-grid-pattern": showGrid && !isPreviewMode,
-                "canvas-dragging": isDragging,
-              },
-            )}
+            className={classNames("min-h-screen bg-white dark:bg-slate-900", {
+              "shadow-xl": !isPreviewMode,
+              "rounded-lg": !isPreviewMode && !showSiteFrame,
+              "bg-grid-pattern": showGrid && !isPreviewMode,
+              "canvas-dragging": isDragging,
+              "overflow-hidden": isPreviewMode, // Only clip in preview mode
+            })}
           >
             {/* Header preview */}
             {showSiteFrame && <CanvasHeader />}

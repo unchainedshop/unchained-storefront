@@ -30,6 +30,91 @@
       "responsive": {}
     },
     {
+      "id": "block_1768503590606_aurf140ma",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "1fr"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768503594821_h43eq2z62",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768503594821_h43eq2z62",
+          "type": "video",
+          "content": {
+            "de": {
+              "url": "https://www.youtube.com/watch?v=k38hEIoJu8g&t=3374s",
+              "provider": "youtube",
+              "autoplay": false,
+              "muted": false,
+              "loop": false,
+              "controls": true,
+              "aspectRatio": "16:9",
+              "thumbnail": "",
+              "caption": ""
+            }
+          },
+          "style": {
+            "borderRadius": 12,
+            "padding": {
+              "top": 24,
+              "right": 24,
+              "bottom": 24,
+              "left": 24
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
       "id": "block_1768473180129_rkp6or1ps",
       "type": "spacer",
       "content": {
@@ -40,6 +125,224 @@
       },
       "style": {},
       "responsive": {}
+    },
+    {
+      "id": "block_1768503660155_9jec8xsk6",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768503747755_3zkphx7xi",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 4
+              }
+            },
+            {
+              "blockId": "block_1768503760139_phlth2o8y",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 1,
+                "colSpan": 2,
+                "rowSpan": 2
+              }
+            },
+            {
+              "blockId": "block_1768503769473_g1bl5mzw6",
+              "placement": {
+                "colStart": 4,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 5
+              }
+            },
+            {
+              "blockId": "block_1768503776256_h78phjo3a",
+              "placement": {
+                "colStart": 3,
+                "rowStart": 4,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            },
+            {
+              "blockId": "block_1768503786456_13e5e6r4r",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 3,
+                "colSpan": 1,
+                "rowSpan": 3
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch",
+          "sidePadding": 10
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768503747755_3zkphx7xi",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768435177158_5kcq2y.webp",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768503760139_phlth2o8y",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>Enter your text here...</p>",
+              "headingLevel": "p"
+            }
+          },
+          "style": {
+            "padding": {
+              "top": 16,
+              "right": 0,
+              "bottom": 16,
+              "left": 0
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768503769473_g1bl5mzw6",
+          "type": "video",
+          "content": {
+            "de": {
+              "url": "https://www.youtube.com/watch?v=k38hEIoJu8g&t=3374s",
+              "provider": "youtube",
+              "autoplay": false,
+              "muted": false,
+              "loop": false,
+              "controls": true,
+              "aspectRatio": "16:9",
+              "thumbnail": "",
+              "caption": ""
+            }
+          },
+          "style": {
+            "borderRadius": 12,
+            "padding": {
+              "top": 24,
+              "right": 24,
+              "bottom": 24,
+              "left": 24
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768503776256_h78phjo3a",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768343573333_zsk1d3.png",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768503786456_13e5e6r4r",
+          "type": "video",
+          "content": {
+            "de": {
+              "url": "https://www.youtube.com/watch?v=k38hEIoJu8g&t=3374s",
+              "provider": "youtube",
+              "autoplay": false,
+              "muted": false,
+              "loop": false,
+              "controls": true,
+              "aspectRatio": "16:9",
+              "thumbnail": "",
+              "caption": ""
+            }
+          },
+          "style": {
+            "borderRadius": 12,
+            "padding": {
+              "top": 24,
+              "right": 24,
+              "bottom": 24,
+              "left": 24
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        }
+      ]
     },
     {
       "id": "block_1768473180129_ffazn41we",
@@ -254,6 +557,6 @@
     }
   },
   "createdAt": "2026-01-15T10:32:56.135Z",
-  "updatedAt": "2026-01-15T13:32:06.141Z",
+  "updatedAt": "2026-01-15T19:06:11.897Z",
   "versions": []
 }
