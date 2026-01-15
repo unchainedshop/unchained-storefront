@@ -260,7 +260,14 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
   const viewportWidth =
     viewport === "desktop-xl" ? "100%" : VIEWPORT_WIDTHS[viewport];
 
-  const renderBlocks = (blocks: PageBlock[], parentId?: string) => {
+  const renderBlocks = (
+    blocks: PageBlock[],
+    parentId?: string,
+    parentType?: string,
+  ) => {
+    // Don't show add button for grid children - grid has its own overlay
+    const isGridChild = parentType === "grid";
+
     return blocks.map((block, index) => {
       const isBlockSelected = state.selection.blockId === block.id;
       const previousBlockId = index > 0 ? blocks[index - 1].id : undefined;
@@ -284,7 +291,9 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
           previousBlockId={previousBlockId}
           nextBlockId={nextBlockId}
           onAddAfter={
-            !isPreviewMode ? () => handleOpenBlockPicker(index + 1) : undefined
+            !isPreviewMode && !isGridChild
+              ? () => handleOpenBlockPicker(index + 1)
+              : undefined
           }
         >
           <BlockRenderer
@@ -295,10 +304,10 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
             {block.children && block.children.length > 0 ? (
               // Grid blocks need children passed directly (no wrapper) for CSS Grid to work
               block.type === "grid" ? (
-                renderBlocks(block.children, block.id)
+                renderBlocks(block.children, block.id, block.type)
               ) : (
                 <div className="min-h-[100px]">
-                  {renderBlocks(block.children, block.id)}
+                  {renderBlocks(block.children, block.id, block.type)}
                 </div>
               )
             ) : blockRegistry[block.type]?.allowChildren &&

@@ -130,7 +130,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-    zIndex: isDragging ? 100 : undefined,
+    zIndex: isDragging ? 100 : isSelected ? 10 : isHovered ? 5 : undefined,
   };
 
   const handleClick = useCallback(

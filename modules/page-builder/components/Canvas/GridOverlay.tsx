@@ -1,14 +1,15 @@
 /**
  * Grid Overlay
  * Visual overlay for editing CSS Grid blocks
- * Shows cell boundaries, hover states, and click targets for adding blocks
+ * Features:
+ * - Cell boundaries and hover states
+ * - Click targets for adding blocks
  */
 
 import React, { useState, useCallback, useMemo } from "react";
 import classNames from "classnames";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import type {
-  GridContent,
   GridTemplate,
   GridChildPlacement,
   PageBlock,
@@ -65,7 +66,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
   childPlacements,
   childBlocks,
   gap,
-  rowGap,
+  rowGap: rowGapProp,
   onCellClick,
   onChildSelect,
   selectedCellBlockId,
@@ -76,6 +77,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
     row: number;
   } | null>(null);
 
+  const rowGap = rowGapProp ?? gap;
   const totalCols = template.columns.length;
   const totalRows = template.rows.length;
 
@@ -93,6 +95,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
   const handleCellClick = useCallback(
     (col: number, row: number, e: React.MouseEvent) => {
       e.stopPropagation();
+
       const occupiedPlacement = isCellOccupied(col, row, childPlacements);
       if (occupiedPlacement && onChildSelect) {
         onChildSelect(occupiedPlacement.blockId);
@@ -121,20 +124,21 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
   return (
     <div
-      className="grid-overlay absolute inset-0 pointer-events-none z-[5]"
+      className="grid-overlay absolute inset-0 z-[5]"
       style={{
         display: "grid",
         gridTemplateColumns: template.columns.join(" "),
         gridTemplateRows: template.rows.join(" "),
         gap: rowGap ? `${rowGap}px ${gap}px` : `${gap}px`,
-        top: "60px", // Leave room for toolbar
+        pointerEvents: "auto",
       }}
     >
       {cells.map(({ col, row }) => {
         const occupiedPlacement = isCellOccupied(col, row, childPlacements);
         const isOrigin = isPlacementOrigin(col, row, childPlacements);
         const isOccupied = !!occupiedPlacement;
-        const isHovered = hoveredCell?.col === col && hoveredCell?.row === row;
+        const isHovered =
+          hoveredCell?.col === col && hoveredCell?.row === row;
         const isSelectedCell =
           selectedCellBlockId &&
           occupiedPlacement?.blockId === selectedCellBlockId;

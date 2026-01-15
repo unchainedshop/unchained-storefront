@@ -1647,6 +1647,74 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       ],
     },
   },
+
+  "freeform-canvas": {
+    type: "freeform-canvas",
+    label: "Freeform Canvas",
+    description: "Design freely with draggable, resizable elements on a canvas",
+    icon: "cursor-arrow-ripple",
+    category: "layout",
+    defaultContent: {
+      canvasWidth: 1200,
+      canvasHeight: 600,
+      backgroundColor: "#ffffff",
+      backgroundImage: "",
+      elements: [],
+      snapConfig: {
+        snapToElements: true,
+        snapToCenter: true,
+        snapToGrid: true,
+        gridSize: 20,
+        threshold: 8,
+      },
+      showGrid: true,
+      gridSize: 20,
+      responsive: true,
+      minScale: 0.5,
+    },
+    defaultStyle: {
+      padding: { top: 24, right: 24, bottom: 24, left: 24 },
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+      borderRadius: 8,
+    },
+    nesting: {
+      canBeNested: true,
+      allowedParents: ["section"],
+    },
+    documentation: {
+      helpText:
+        "Freeform Canvas provides a design surface where you can freely position, resize, and style elements. Unlike grid-based layouts, elements can be placed anywhere and overlap. Perfect for creative layouts, infographics, and unique designs that break from traditional structures.",
+      tips: [
+        "Enable grid snapping for aligned designs",
+        "Use shift+drag to maintain aspect ratio while resizing",
+        "Double-click elements to edit their content",
+        "Layer elements using the z-index controls",
+        "Set responsive mode to scale the canvas on smaller screens",
+      ],
+      useCases: [
+        "Creative hero sections with overlapping elements",
+        "Infographics and data visualizations",
+        "Artistic layouts that break from grid constraints",
+        "Custom promotional banners",
+        "Interactive storytelling sections",
+      ],
+      keySettings: [
+        {
+          name: "Canvas Size",
+          description: "Width and height of the design surface in pixels",
+        },
+        {
+          name: "Snap Config",
+          description:
+            "Configure snapping behavior for precise element alignment",
+        },
+        {
+          name: "Responsive",
+          description: "Scale canvas proportionally on smaller screens",
+        },
+      ],
+    },
+  },
 };
 
 export const blockCategories = [

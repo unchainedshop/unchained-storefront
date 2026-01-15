@@ -177,8 +177,11 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     minHeight: style.minHeight || 100,
   };
 
-  // Always generate responsive CSS with container queries
-  const responsiveCSS = generateResponsiveCSS(gridId, content);
+  // Generate responsive CSS only for production (not in editor)
+  // In editor, we use inline styles which would be overridden by !important CSS
+  const responsiveCSS = !isInEditor
+    ? generateResponsiveCSS(gridId, content)
+    : null;
 
   // Wrap children with placement styles
   const wrappedChildren = useMemo(() => {

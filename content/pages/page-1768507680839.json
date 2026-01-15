@@ -113,31 +113,6 @@
       "responsive": {},
       "children": [
         {
-          "id": "block_1768507748018_8g93xp4z7",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<blockquote><h3><u>Enter asdfasdfasdf</u></h3><h3><u>sd</u></h3><h3><u>f</u></h3><h3><u>asdf text here...</u></h3><p></p></blockquote><p></p>",
-              "headingLevel": "p"
-            }
-          },
-          "style": {
-            "padding": {
-              "top": 16,
-              "right": 0,
-              "bottom": 16,
-              "left": 0
-            },
-            "margin": {
-              "top": 0,
-              "right": 0,
-              "bottom": 0,
-              "left": 0
-            }
-          },
-          "responsive": {}
-        },
-        {
           "id": "block_1768507750151_drc2yhv75",
           "type": "image",
           "content": {
@@ -268,6 +243,6 @@
     }
   },
   "createdAt": "2026-01-15T20:08:00.839Z",
-  "updatedAt": "2026-01-15T20:21:37.497Z",
+  "updatedAt": "2026-01-15T21:30:35.381Z",
   "versions": []
 }

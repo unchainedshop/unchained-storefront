@@ -39,6 +39,7 @@ import SizeGuide from "./SizeGuide/SizeGuide";
 import StoreLocator from "./StoreLocator/StoreLocator";
 import InstagramFeed from "./InstagramFeed/InstagramFeed";
 import CollectionList from "./CollectionList/CollectionList";
+import FreeformCanvas from "./FreeformCanvas/FreeformCanvas";
 
 /**
  * Resolve a block's localized content to a single locale
@@ -194,6 +195,9 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({
 
     case "collection-list":
       return <CollectionList {...commonProps} />;
+
+    case "freeform-canvas":
+      return <FreeformCanvas {...commonProps} />;
 
     default:
       return (

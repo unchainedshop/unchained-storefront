@@ -60,7 +60,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
 
   const ImageContent = (
     <div
-      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "w-full min-h-[120px] relative" : ""}`}
+      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "w-full h-full min-h-[120px]" : ""}`}
       style={fillContainer ? { flex: 1 } : undefined}
     >
       {content.src ? (
@@ -72,7 +72,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
         />
       ) : (
         <div
-          className="absolute inset-0 flex items-center justify-center"
+          className="w-full h-full min-h-[120px] flex items-center justify-center"
           style={{
             background:
               "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",

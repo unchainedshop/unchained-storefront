@@ -91,7 +91,8 @@ export type BlockType =
   | "size-guide"
   | "store-locator"
   | "instagram-feed"
-  | "collection-list";
+  | "collection-list"
+  | "freeform-canvas";
 
 export type Viewport =
   | "mobile"
@@ -509,103 +510,6 @@ export interface GridContent {
   alignItems?: "start" | "center" | "end" | "stretch";
 }
 
-// =============================================================================
-// GRID RESIZE SYSTEM TYPES
-// =============================================================================
-
-/** Resize handle position - edges and corners */
-export type ResizeHandle = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
-
-/** Resize behavior modes */
-export type ResizeMode =
-  | "fluid" // Neighbors resize to compensate
-  | "push" // Pushes neighbors, grid grows
-  | "overlap" // Cells can overlap with z-index
-  | "free"; // Pixel-perfect, no grid snapping
-
-/** Snap point types for intelligent snapping */
-export type SnapPointType =
-  | "grid-line" // Grid track boundaries
-  | "cell-edge" // Other cell edges
-  | "golden-ratio" // 1.618 proportions
-  | "thirds" // Rule of thirds
-  | "center"; // Center alignment
-
-/** A snap target during resize */
-export interface SnapPoint {
-  type: SnapPointType;
-  /** Position in pixels relative to grid container */
-  position: number;
-  /** Horizontal or vertical snap */
-  orientation: "horizontal" | "vertical";
-  /** How "magnetic" - higher = snaps from farther away */
-  strength: number;
-  /** Label for UI display */
-  label?: string;
-}
-
-/** Cell bounds during resize operation */
-export interface ResizeBounds {
-  colStart: number;
-  colEnd: number;
-  rowStart: number;
-  rowEnd: number;
-  /** Pixel bounds for visual feedback */
-  pixelBounds?: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-}
-
-/** Cell constraints for min/max sizes */
-export interface CellConstraints {
-  minColSpan?: number;
-  maxColSpan?: number;
-  minRowSpan?: number;
-  maxRowSpan?: number;
-  /** Pixel-based constraints for free mode */
-  minWidth?: number;
-  maxWidth?: number;
-  minHeight?: number;
-  maxHeight?: number;
-}
-
-/** State during active resize operation */
-export interface ResizeState {
-  /** Cell being resized */
-  cellId: string;
-  /** Which handle is being dragged */
-  handle: ResizeHandle;
-  /** Resize behavior mode */
-  mode: ResizeMode;
-  /** Starting bounds */
-  startBounds: ResizeBounds;
-  /** Current bounds during drag */
-  currentBounds: ResizeBounds;
-  /** Map of affected neighbor cells and their new bounds */
-  affectedCells: Record<string, ResizeBounds>;
-  /** Constraints that were hit during resize */
-  constraintsHit: ResizeHandle[];
-  /** Available snap points */
-  snapPoints: SnapPoint[];
-  /** Currently active snap (if any) */
-  activeSnap: SnapPoint | null;
-  /** Starting mouse position */
-  startPosition: { x: number; y: number };
-  /** Current mouse position */
-  currentPosition: { x: number; y: number };
-}
-
-/** Resize event payload */
-export interface ResizeEvent {
-  cellId: string;
-  newBounds: ResizeBounds;
-  affectedCells: Record<string, ResizeBounds>;
-  mode: ResizeMode;
-}
-
 export interface ProductHotspot {
   id: string;
   productId: string;
@@ -917,6 +821,187 @@ export interface CollectionListContent {
   gap: number;
 }
 
+// =============================================================================
+// FREEFORM CANVAS BLOCK TYPES
+// =============================================================================
+
+/** Element type within the freeform canvas */
+export type FreeformElementType =
+  | "rectangle"
+  | "text"
+  | "image"
+  | "button"
+  | "icon";
+
+/** Position and dimensions of a freeform element */
+export interface FreeformElementBounds {
+  /** X position from left in pixels */
+  x: number;
+  /** Y position from top in pixels */
+  y: number;
+  /** Width in pixels */
+  width: number;
+  /** Height in pixels */
+  height: number;
+  /** Rotation in degrees (optional) */
+  rotation?: number;
+}
+
+/** Style properties for freeform elements */
+export interface FreeformElementStyle {
+  /** Background color (supports rgba) */
+  backgroundColor?: string;
+  /** Background gradient */
+  backgroundGradient?: {
+    type: "linear" | "radial";
+    angle?: number;
+    stops: Array<{ color: string; position: number }>;
+  };
+  /** Border properties */
+  border?: {
+    width: number;
+    color: string;
+    style: "solid" | "dashed" | "dotted";
+  };
+  /** Border radius in pixels */
+  borderRadius?: number;
+  /** Box shadow */
+  boxShadow?: {
+    x: number;
+    y: number;
+    blur: number;
+    spread: number;
+    color: string;
+  };
+  /** Opacity (0-1) */
+  opacity?: number;
+  /** Blur backdrop effect in pixels */
+  backdropBlur?: number;
+}
+
+/** Text-specific properties */
+export interface FreeformTextProps {
+  /** Text content (supports basic HTML) */
+  content: string;
+  /** Font size in pixels */
+  fontSize?: number;
+  /** Font weight */
+  fontWeight?: "normal" | "medium" | "semibold" | "bold";
+  /** Text color */
+  color?: string;
+  /** Text alignment */
+  textAlign?: "left" | "center" | "right";
+  /** Line height multiplier */
+  lineHeight?: number;
+  /** Padding inside the text box */
+  padding?: number;
+}
+
+/** Image-specific properties */
+export interface FreeformImageProps {
+  /** Image source URL */
+  src: string;
+  /** Alt text for accessibility */
+  alt?: string;
+  /** Object fit behavior */
+  objectFit?: "cover" | "contain" | "fill";
+  /** Focal point for object-fit: cover */
+  focalPoint?: { x: number; y: number };
+}
+
+/** Button-specific properties */
+export interface FreeformButtonProps {
+  /** Button label text */
+  label: string;
+  /** Link URL */
+  href?: string;
+  /** Button variant */
+  variant?: "primary" | "secondary" | "outline" | "ghost";
+  /** Text color */
+  textColor?: string;
+  /** Background color */
+  backgroundColor?: string;
+  /** Font size */
+  fontSize?: number;
+  /** Padding */
+  padding?: { x: number; y: number };
+}
+
+/** Icon-specific properties */
+export interface FreeformIconProps {
+  /** Icon name (from icon set) */
+  name: string;
+  /** Icon size in pixels */
+  size?: number;
+  /** Icon color */
+  color?: string;
+}
+
+/** A single element within the freeform canvas */
+export interface FreeformElement {
+  /** Unique element ID */
+  id: string;
+  /** Element type */
+  type: FreeformElementType;
+  /** Position and dimensions */
+  bounds: FreeformElementBounds;
+  /** Visual styling */
+  style: FreeformElementStyle;
+  /** Type-specific properties */
+  props:
+    | FreeformTextProps
+    | FreeformImageProps
+    | FreeformButtonProps
+    | FreeformIconProps
+    | Record<string, never>; // Empty object for rectangle
+  /** Z-index for layering */
+  zIndex: number;
+  /** Whether element is locked from editing */
+  locked?: boolean;
+  /** Whether element is hidden */
+  hidden?: boolean;
+  /** Optional name/label for the element */
+  name?: string;
+}
+
+/** Snap guide configuration */
+export interface FreeformSnapConfig {
+  /** Snap to other element edges */
+  snapToElements: boolean;
+  /** Snap to canvas center */
+  snapToCenter: boolean;
+  /** Snap to grid */
+  snapToGrid: boolean;
+  /** Grid size in pixels */
+  gridSize: number;
+  /** Snap threshold in pixels */
+  threshold: number;
+}
+
+/** Canvas content for the freeform block */
+export interface FreeformCanvasContent {
+  /** Canvas width in pixels */
+  canvasWidth: number;
+  /** Canvas height in pixels */
+  canvasHeight: number;
+  /** Background color of canvas */
+  backgroundColor?: string;
+  /** Background image of canvas */
+  backgroundImage?: string;
+  /** All elements on the canvas */
+  elements: FreeformElement[];
+  /** Snap configuration */
+  snapConfig: FreeformSnapConfig;
+  /** Whether to show grid in editor */
+  showGrid: boolean;
+  /** Grid size for display */
+  gridSize: number;
+  /** Whether canvas should scale responsively */
+  responsive: boolean;
+  /** Minimum scale factor for responsive mode */
+  minScale?: number;
+}
+
 export type BlockContent =
   | HeroBannerContent
   | ProductGridContent
@@ -947,7 +1032,8 @@ export type BlockContent =
   | SizeGuideContent
   | StoreLocatorContent
   | InstagramFeedContent
-  | CollectionListContent;
+  | CollectionListContent
+  | FreeformCanvasContent;
 
 export interface PageBlock {
   id: string;
