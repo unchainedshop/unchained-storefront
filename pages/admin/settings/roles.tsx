@@ -540,12 +540,19 @@ const RolesPage: React.FC = () => {
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-4">
                           <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center"
-                            style={{
-                              backgroundColor: role.isSystem
-                                ? "color-mix(in srgb, var(--admin-primary) 15%, white)"
-                                : undefined,
-                            }}
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                              !role.isSystem
+                                ? "bg-slate-100 dark:bg-slate-800"
+                                : ""
+                            }`}
+                            style={
+                              role.isSystem
+                                ? {
+                                    backgroundColor:
+                                      "color-mix(in srgb, var(--admin-primary) 15%, white)",
+                                  }
+                                : undefined
+                            }
                           >
                             {role.isSystem ? (
                               <LockClosedIcon
