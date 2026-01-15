@@ -19,6 +19,11 @@ import { usePageBuilder } from "../../../context/PageBuilderContext";
 import GridOverlay from "../../Canvas/GridOverlay";
 import BlockPickerModal from "../../BlockPickerModal";
 import { createBlock } from "../../../utils/blockRegistry";
+import { buildCellStyleCSS } from "../../../utils/cellPresets";
+import {
+  buildScrollAnimationStyle,
+  getScrollRevealAttributes,
+} from "../../../utils/scrollAnimations";
 import type { BlockOverrides } from "../../../types";
 
 interface GridProps {
@@ -153,9 +158,18 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     borderRadius: style.borderRadius,
   };
 
-  // Grid styles - only set non-template properties, let CSS handle responsive columns/rows
+  // Grid styles - set template properties for editor, CSS handles production responsive
   const gridStyle: React.CSSProperties = {
     display: "grid",
+    gridTemplateColumns: isInEditor
+      ? buildTemplateColumns(currentTemplate.columns)
+      : undefined,
+    gridTemplateRows: isInEditor
+      ? buildTemplateRows(currentTemplate.rows)
+      : undefined,
+    gap: content.rowGap
+      ? `${content.rowGap}px ${content.gap}px`
+      : `${content.gap}px`,
     gridAutoFlow: content.autoFlow || "row",
     justifyItems: content.justifyItems || "stretch",
     alignItems: content.alignItems || "stretch",
@@ -196,25 +210,36 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
         flexDirection: "column",
       };
 
-      // Apply cell-specific styles
+      // Apply cell-specific styles using presets system
       if (cellStyle) {
+        // Get preset and custom styles
+        const presetCSS = buildCellStyleCSS(cellStyle);
+        Object.assign(wrapperStyle, presetCSS);
+
+        // Legacy properties (still supported)
         if (cellStyle.justifySelf)
           wrapperStyle.justifySelf = cellStyle.justifySelf;
         if (cellStyle.alignSelf) wrapperStyle.alignSelf = cellStyle.alignSelf;
-        if (cellStyle.backgroundColor)
-          wrapperStyle.backgroundColor = cellStyle.backgroundColor;
-        if (cellStyle.zIndex) wrapperStyle.zIndex = cellStyle.zIndex;
-        if (cellStyle.padding) {
-          const p = cellStyle.padding;
-          wrapperStyle.padding = `${p.top}px ${p.right}px ${p.bottom}px ${p.left}px`;
-        }
       }
+
+      // Scroll animation styles
+      const scrollAnimation = cellStyle?.scrollAnimation;
+      if (scrollAnimation && scrollAnimation.type !== "none") {
+        Object.assign(wrapperStyle, buildScrollAnimationStyle(scrollAnimation));
+      }
+
+      // Scroll reveal data attributes
+      const scrollRevealAttrs =
+        scrollAnimation && scrollAnimation.type !== "none"
+          ? getScrollRevealAttributes(scrollAnimation)
+          : {};
 
       return (
         <div
           style={wrapperStyle}
-          className="h-full w-full [&>*]:flex-1 [&>*]:min-h-0"
+          className="h-full w-full [&>*]:flex-1 [&>*]:min-h-0 transition-all"
           data-grid-cell={childBlockId}
+          {...scrollRevealAttrs}
         >
           {child}
         </div>

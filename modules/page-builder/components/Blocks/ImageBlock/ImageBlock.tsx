@@ -60,7 +60,8 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
 
   const ImageContent = (
     <div
-      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "flex-1 w-full min-h-[200px]" : ""}`}
+      className={`overflow-hidden ${aspectRatioClass} ${fillContainer ? "w-full min-h-[120px] relative" : ""}`}
+      style={fillContainer ? { flex: 1 } : undefined}
     >
       {content.src ? (
         <img
@@ -71,7 +72,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
         />
       ) : (
         <div
-          className="w-full h-full min-h-[200px] flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center"
           style={{
             background:
               "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
@@ -88,7 +89,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
 
   return (
     <figure
-      className={fillContainer ? "w-full flex flex-col" : ""}
+      className={fillContainer ? "w-full h-full flex flex-col" : ""}
       style={
         fillContainer
           ? { ...containerStyle, flex: 1, minHeight: 0 }
@@ -96,7 +97,11 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
       }
     >
       {content.link && !isPreview ? (
-        <Link href={content.link} className="block flex-1 w-full">
+        <Link
+          href={content.link}
+          className="block w-full flex flex-col"
+          style={{ flex: 1, minHeight: 0 }}
+        >
           {ImageContent}
         </Link>
       ) : (

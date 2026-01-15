@@ -357,6 +357,73 @@ export interface GridCellPlacement {
   rowSpan?: number;
 }
 
+// =============================================================================
+// CELL STYLE PRESETS & ANIMATIONS (Revolutionary Grid Features)
+// =============================================================================
+
+/** Style preset types for grid cells */
+export type CellStylePreset =
+  | "none"
+  | "glass"
+  | "glass-dark"
+  | "neumorphic"
+  | "gradient"
+  | "gradient-radial"
+  | "pattern-dots"
+  | "pattern-grid"
+  | "pattern-noise"
+  | "blur";
+
+/** Gradient configuration for cells */
+export interface CellGradient {
+  from: string;
+  to: string;
+  via?: string; // Optional middle color
+  angle?: number; // For linear gradients (default: 135)
+  type?: "linear" | "radial" | "conic";
+}
+
+/** Pattern configuration for cells */
+export interface CellPattern {
+  type: "dots" | "grid" | "lines" | "noise" | "waves" | "crosses";
+  color?: string;
+  opacity?: number; // 0-100
+  size?: number; // Pattern size in px
+}
+
+/** Scroll reveal animation types */
+export type ScrollRevealType =
+  | "fade"
+  | "slide-up"
+  | "slide-down"
+  | "slide-left"
+  | "slide-right"
+  | "scale"
+  | "blur"
+  | "flip";
+
+/** Scroll animation configuration */
+export interface CellScrollAnimation {
+  type: ScrollRevealType;
+  duration?: number; // ms (default: 600)
+  delay?: number; // ms (default: 0)
+  easing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "spring";
+  /** Trigger threshold (0-1, default: 0.2) */
+  threshold?: number;
+  /** Only animate once vs every time in view */
+  once?: boolean;
+}
+
+/** Hover effect types */
+export type CellHoverEffect =
+  | "none"
+  | "lift"
+  | "scale"
+  | "glow"
+  | "darken"
+  | "lighten"
+  | "border-glow";
+
 /** Cell-specific styling */
 export interface GridCellStyle {
   /** Self-alignment within cell */
@@ -368,6 +435,28 @@ export interface GridCellStyle {
   padding?: { top: number; right: number; bottom: number; left: number };
   /** Z-index for overlapping cells */
   zIndex?: number;
+
+  // === NEW: Style Presets ===
+  /** Quick style preset */
+  preset?: CellStylePreset;
+  /** Custom gradient (overrides preset gradient) */
+  gradient?: CellGradient;
+  /** Background pattern overlay */
+  pattern?: CellPattern;
+  /** Blur intensity for glass effect (px) */
+  blurIntensity?: number;
+  /** Border radius override */
+  borderRadius?: number;
+  /** Border glow color and intensity */
+  borderGlow?: { color: string; intensity: number };
+  /** Box shadow override */
+  boxShadow?: string;
+
+  // === NEW: Animations ===
+  /** Scroll reveal animation */
+  scrollAnimation?: CellScrollAnimation;
+  /** Hover effect */
+  hoverEffect?: CellHoverEffect;
 }
 
 /** Child placement metadata (stored in Grid content, NOT in child block) */
@@ -418,6 +507,103 @@ export interface GridContent {
   /** Grid alignment */
   justifyItems?: "start" | "center" | "end" | "stretch";
   alignItems?: "start" | "center" | "end" | "stretch";
+}
+
+// =============================================================================
+// GRID RESIZE SYSTEM TYPES
+// =============================================================================
+
+/** Resize handle position - edges and corners */
+export type ResizeHandle = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
+
+/** Resize behavior modes */
+export type ResizeMode =
+  | "fluid" // Neighbors resize to compensate
+  | "push" // Pushes neighbors, grid grows
+  | "overlap" // Cells can overlap with z-index
+  | "free"; // Pixel-perfect, no grid snapping
+
+/** Snap point types for intelligent snapping */
+export type SnapPointType =
+  | "grid-line" // Grid track boundaries
+  | "cell-edge" // Other cell edges
+  | "golden-ratio" // 1.618 proportions
+  | "thirds" // Rule of thirds
+  | "center"; // Center alignment
+
+/** A snap target during resize */
+export interface SnapPoint {
+  type: SnapPointType;
+  /** Position in pixels relative to grid container */
+  position: number;
+  /** Horizontal or vertical snap */
+  orientation: "horizontal" | "vertical";
+  /** How "magnetic" - higher = snaps from farther away */
+  strength: number;
+  /** Label for UI display */
+  label?: string;
+}
+
+/** Cell bounds during resize operation */
+export interface ResizeBounds {
+  colStart: number;
+  colEnd: number;
+  rowStart: number;
+  rowEnd: number;
+  /** Pixel bounds for visual feedback */
+  pixelBounds?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+}
+
+/** Cell constraints for min/max sizes */
+export interface CellConstraints {
+  minColSpan?: number;
+  maxColSpan?: number;
+  minRowSpan?: number;
+  maxRowSpan?: number;
+  /** Pixel-based constraints for free mode */
+  minWidth?: number;
+  maxWidth?: number;
+  minHeight?: number;
+  maxHeight?: number;
+}
+
+/** State during active resize operation */
+export interface ResizeState {
+  /** Cell being resized */
+  cellId: string;
+  /** Which handle is being dragged */
+  handle: ResizeHandle;
+  /** Resize behavior mode */
+  mode: ResizeMode;
+  /** Starting bounds */
+  startBounds: ResizeBounds;
+  /** Current bounds during drag */
+  currentBounds: ResizeBounds;
+  /** Map of affected neighbor cells and their new bounds */
+  affectedCells: Record<string, ResizeBounds>;
+  /** Constraints that were hit during resize */
+  constraintsHit: ResizeHandle[];
+  /** Available snap points */
+  snapPoints: SnapPoint[];
+  /** Currently active snap (if any) */
+  activeSnap: SnapPoint | null;
+  /** Starting mouse position */
+  startPosition: { x: number; y: number };
+  /** Current mouse position */
+  currentPosition: { x: number; y: number };
+}
+
+/** Resize event payload */
+export interface ResizeEvent {
+  cellId: string;
+  newBounds: ResizeBounds;
+  affectedCells: Record<string, ResizeBounds>;
+  mode: ResizeMode;
 }
 
 export interface ProductHotspot {

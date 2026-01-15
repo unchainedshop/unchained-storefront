@@ -749,3 +749,108 @@
   content: "\201D";
   color: var(--color-slate-400);
 }
+
+/* =============================================================================
+   SCROLL REVEAL ANIMATIONS
+   CSS-only animations triggered by Intersection Observer
+   ============================================================================= */
+
+/* Scroll Reveal Base Styles */
+[data-scroll-reveal] {
+  opacity: 0;
+  transition-property: opacity, transform, filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+[data-scroll-reveal].is-visible {
+  opacity: 1;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Fade animation */
+[data-scroll-reveal="fade"] {
+  opacity: 0;
+}
+
+/* Slide Up */
+[data-scroll-reveal="slide-up"] {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Slide Down */
+[data-scroll-reveal="slide-down"] {
+  opacity: 0;
+  transform: translateY(-40px);
+}
+
+/* Slide Left */
+[data-scroll-reveal="slide-left"] {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+/* Slide Right */
+[data-scroll-reveal="slide-right"] {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+/* Scale In */
+[data-scroll-reveal="scale"] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Scale Up (from smaller) */
+[data-scroll-reveal="scale-up"] {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Blur In */
+[data-scroll-reveal="blur"] {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+/* Flip */
+[data-scroll-reveal="flip"] {
+  opacity: 0;
+  transform: perspective(600px) rotateX(-10deg);
+}
+
+/* Zoom */
+[data-scroll-reveal="zoom"] {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
+/* Rotate In */
+[data-scroll-reveal="rotate"] {
+  opacity: 0;
+  transform: rotate(-5deg) scale(0.95);
+}
+
+/* Stagger animation delays for children */
+[data-stagger] > *:nth-child(1) { transition-delay: calc(var(--stagger-delay, 100ms) * 0); }
+[data-stagger] > *:nth-child(2) { transition-delay: calc(var(--stagger-delay, 100ms) * 1); }
+[data-stagger] > *:nth-child(3) { transition-delay: calc(var(--stagger-delay, 100ms) * 2); }
+[data-stagger] > *:nth-child(4) { transition-delay: calc(var(--stagger-delay, 100ms) * 3); }
+[data-stagger] > *:nth-child(5) { transition-delay: calc(var(--stagger-delay, 100ms) * 4); }
+[data-stagger] > *:nth-child(6) { transition-delay: calc(var(--stagger-delay, 100ms) * 5); }
+[data-stagger] > *:nth-child(7) { transition-delay: calc(var(--stagger-delay, 100ms) * 6); }
+[data-stagger] > *:nth-child(8) { transition-delay: calc(var(--stagger-delay, 100ms) * 7); }
+[data-stagger] > *:nth-child(9) { transition-delay: calc(var(--stagger-delay, 100ms) * 8); }
+[data-stagger] > *:nth-child(10) { transition-delay: calc(var(--stagger-delay, 100ms) * 9); }
+[data-stagger] > *:nth-child(11) { transition-delay: calc(var(--stagger-delay, 100ms) * 10); }
+[data-stagger] > *:nth-child(12) { transition-delay: calc(var(--stagger-delay, 100ms) * 11); }
+
+/* Disable animations in editor preview mode */
+.preview-mode [data-scroll-reveal] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}

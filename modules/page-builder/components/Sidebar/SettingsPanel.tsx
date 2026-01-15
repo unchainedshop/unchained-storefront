@@ -37,6 +37,7 @@ import ProductCollectionPickerField from "./ProductCollectionPickerField";
 import CollectionPickerField from "./CollectionPickerField";
 import GridTemplateEditor from "./GridTemplateEditor";
 import GridCellEditor from "./GridCellEditor";
+import CellStyleEditor from "./CellStyleEditor";
 import BlockPickerModal from "../BlockPickerModal";
 import { useAdminSettings } from "../../../admin/context/AdminSettingsContext";
 import CodeEditor from "./CodeEditor";
@@ -53,6 +54,7 @@ import type {
   BlockContent,
   GridContent,
   GridChildPlacement,
+  GridCellStyle,
 } from "../../types";
 import { getLocalizedContent } from "../../utils/localization";
 import { cmsConfig } from "../../../../lib/cms.config";
@@ -788,16 +790,41 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
     });
   };
 
+  // Handle cell style changes
+  const handleCellStyleChange = (newStyle: GridCellStyle) => {
+    if (!gridPlacement) {
+      // Create placement with just the style
+      handleGridPlacementChange({
+        blockId: block.id,
+        placement: { colStart: 1, rowStart: 1, colSpan: 1, rowSpan: 1 },
+        cellStyle: newStyle,
+      });
+    } else {
+      handleGridPlacementChange({
+        ...gridPlacement,
+        cellStyle: newStyle,
+      });
+    }
+  };
+
   // Grid Cell Editor component for blocks inside grids
   const gridCellEditorSection = isInsideGrid && gridContent && (
-    <Section title="Grid Cell Position">
-      <GridCellEditor
-        placement={gridPlacement}
-        template={gridTemplate}
-        onChange={handleGridPlacementChange}
-        blockId={block.id}
-      />
-    </Section>
+    <>
+      <Section title="Grid Cell Position">
+        <GridCellEditor
+          placement={gridPlacement}
+          template={gridTemplate}
+          onChange={handleGridPlacementChange}
+          blockId={block.id}
+        />
+      </Section>
+      <Section title="Cell Styling" defaultOpen={false}>
+        <CellStyleEditor
+          cellStyle={gridPlacement?.cellStyle || {}}
+          onChange={handleCellStyleChange}
+        />
+      </Section>
+    </>
   );
 
   // Wrapper to prepend gridCellEditorSection to any block's content settings
@@ -1418,9 +1445,38 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
           </Section>
 
           <Section title="Spacing">
+            {/* Gap Presets */}
+            <div className="mb-3">
+              <p className="text-[10px] text-slate-400 uppercase tracking-wide mb-2">
+                Gap Style
+              </p>
+              <div className="grid grid-cols-4 gap-1">
+                {[
+                  { value: 0, label: "None" },
+                  { value: 8, label: "Tight" },
+                  { value: 24, label: "Normal" },
+                  { value: 48, label: "Loose" },
+                ].map((preset) => (
+                  <button
+                    key={preset.value}
+                    onClick={() => {
+                      onChange("gap", preset.value);
+                      onChange("rowGap", preset.value);
+                    }}
+                    className={`px-2 py-1.5 text-[10px] rounded transition-colors ${
+                      (gridContent.gap || 24) === preset.value
+                        ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
+                        : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600"
+                    }`}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <PropertyRow label="Gap">
               <MiniNumberInput
-                value={gridContent.gap || 24}
+                value={gridContent.gap ?? 24}
                 min={0}
                 max={100}
                 onChange={(v) => onChange("gap", v)}

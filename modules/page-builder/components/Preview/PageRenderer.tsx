@@ -3,7 +3,7 @@
  * Renders a page from page builder data for frontend display
  */
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import BlockRenderer from "../Blocks/BlockRenderer";
 import type { Page, PageBlock } from "../../types";
 import { cmsConfig } from "../../../../lib/cms.config";
@@ -20,6 +20,43 @@ const PageRenderer: React.FC<PageRendererProps> = ({
   locale,
 }) => {
   const activeLocale = locale || cmsConfig.defaultLocale;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Initialize scroll reveal observer for animated cells
+  useEffect(() => {
+    if (typeof window === "undefined" || !containerRef.current) return;
+
+    const elements = containerRef.current.querySelectorAll(
+      "[data-scroll-reveal]",
+    );
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+          const once = element.dataset.once !== "false";
+
+          if (entry.isIntersecting) {
+            element.classList.add("is-visible");
+            if (once) {
+              observer.unobserve(element);
+            }
+          } else if (!once) {
+            element.classList.remove("is-visible");
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [page.blocks]);
 
   const renderBlocks = (blocks: PageBlock[]) => {
     return blocks.map((block) => {
@@ -38,7 +75,7 @@ const PageRenderer: React.FC<PageRendererProps> = ({
   };
 
   return (
-    <div className={className}>
+    <div ref={containerRef} className={className}>
       {page.blocks.length > 0 ? (
         renderBlocks(page.blocks)
       ) : (
