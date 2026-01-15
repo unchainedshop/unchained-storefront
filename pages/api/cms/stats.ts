@@ -9,6 +9,10 @@ import { listPages } from "../../../modules/page-builder/utils/pageStorage";
 import { listAssets } from "../../../modules/media/utils/mediaStorage";
 import { listSchemas } from "../../../modules/collections/utils/schemaStorage";
 import { listEntries } from "../../../modules/collections/utils/entryStorage";
+import {
+  queryAuditLog,
+  type AuditEntry,
+} from "../../../modules/cms/utils/auditLog";
 import type { Page, PageStatus } from "../../../modules/page-builder/types";
 import { cmsConfig } from "../../../lib/cms.config";
 import { getLocalizedString } from "../../../modules/page-builder/utils/localization";
@@ -48,6 +52,8 @@ interface DashboardStats {
   recentEdits: PageStat[];
   incompleteTranslations: PageStat[];
   scheduledPublishes: PageStat[];
+  recentActivity: AuditEntry[];
+  totalActivityCount: number;
 }
 
 /**
@@ -250,6 +256,17 @@ export default async function handler(
         translationCompleteness: calculateTranslationCompleteness(page),
       }));
 
+    // Get recent activity from audit log
+    let recentActivity: AuditEntry[] = [];
+    let totalActivityCount = 0;
+    try {
+      const auditResult = await queryAuditLog({ limit: 15 });
+      recentActivity = auditResult.entries;
+      totalActivityCount = auditResult.total;
+    } catch {
+      // Audit log might not be set up yet
+    }
+
     const stats: DashboardStats = {
       pages: {
         total: pages.length,
@@ -267,6 +284,8 @@ export default async function handler(
       recentEdits,
       incompleteTranslations,
       scheduledPublishes,
+      recentActivity,
+      totalActivityCount,
     };
 
     return res.status(200).json(stats);

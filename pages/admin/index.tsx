@@ -23,7 +23,9 @@ import {
 import UnchainedLogo from "../../modules/page-builder/components/UnchainedLogo";
 import AdminNavIsland from "../../modules/page-builder/components/AdminNavIsland";
 import PageStatusBadge from "../../modules/page-builder/components/PageStatusBadge";
+import RecentActivity from "../../modules/page-builder/components/RecentActivity";
 import type { PageStatus } from "../../modules/page-builder/types";
+import type { AuditEntry } from "../../modules/cms/types/audit";
 
 interface PageStat {
   id: string;
@@ -60,6 +62,8 @@ interface DashboardStats {
   recentEdits: PageStat[];
   incompleteTranslations: PageStat[];
   scheduledPublishes: PageStat[];
+  recentActivity: AuditEntry[];
+  totalActivityCount: number;
 }
 
 const formatBytes = (bytes: number): string => {
@@ -102,6 +106,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [loadingMoreActivity, setLoadingMoreActivity] = useState(false);
 
   useEffect(() => {
     fetchStats();
@@ -119,6 +124,25 @@ export default function AdminDashboard() {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadMoreActivity = async () => {
+    if (!stats || loadingMoreActivity) return;
+    setLoadingMoreActivity(true);
+    try {
+      const offset = stats.recentActivity.length;
+      const response = await fetch(`/api/audit?limit=20&offset=${offset}`);
+      if (!response.ok) throw new Error("Failed to load more activity");
+      const data = await response.json();
+      setStats({
+        ...stats,
+        recentActivity: [...stats.recentActivity, ...data.entries],
+      });
+    } catch (err) {
+      console.error("Failed to load more activity:", err);
+    } finally {
+      setLoadingMoreActivity(false);
     }
   };
 
@@ -350,47 +374,14 @@ export default function AdminDashboard() {
               </div>
             </Link>
 
-            {/* Recent Edits - Tall */}
-            <div className="col-span-12 md:col-span-6 lg:col-span-4 row-span-3 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
-              <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                    <PencilIcon className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-                  </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">
-                    Recent Edits
-                  </h3>
-                </div>
-                <Link
-                  href="/admin/pages"
-                  className="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
-                >
-                  View all
-                </Link>
-              </div>
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                {stats?.recentEdits?.slice(0, 6).map((page) => (
-                  <Link
-                    key={page.id}
-                    href={`/admin/pages/${page.slug}`}
-                    className="block p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-medium text-slate-900 dark:text-white truncate pr-4">
-                        {page.title}
-                      </span>
-                      <PageStatusBadge status={page.status} />
-                    </div>
-                    <p className="text-xs text-slate-500">
-                      {formatRelativeTime(page.updatedAt)}
-                    </p>
-                  </Link>
-                )) || (
-                  <div className="p-8 text-center text-slate-500 text-sm">
-                    No pages yet
-                  </div>
-                )}
-              </div>
+            {/* Recent Activity - Expandable */}
+            <div className="col-span-12 md:col-span-6 lg:col-span-4 row-span-3">
+              <RecentActivity
+                entries={stats?.recentActivity || []}
+                totalCount={stats?.totalActivityCount || 0}
+                onLoadMore={loadMoreActivity}
+                isLoadingMore={loadingMoreActivity}
+              />
             </div>
 
             {/* Media Stats */}
