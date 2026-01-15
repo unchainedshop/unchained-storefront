@@ -4,17 +4,28 @@
  */
 
 import React, { useState, useRef, useEffect } from "react";
-import { PlayIcon, PauseIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
-import type { PageBlock, ShoppableVideoContent, VideoHotspot } from "../../../types";
+import {
+  PlayIcon,
+  PauseIcon,
+  VideoCameraIcon,
+} from "@heroicons/react/24/solid";
+import type {
+  PageBlock,
+  ShoppableVideoContent,
+  VideoHotspot,
+} from "../../../types";
 import VideoHotspotMarker from "./VideoHotspotMarker";
-import ProductCard from "../ShoppableImage/ProductCard";
+import ProductCard from "./ProductCard";
 
 interface ShoppableVideoProps {
   block: PageBlock;
   isPreview?: boolean;
 }
 
-const ShoppableVideo: React.FC<ShoppableVideoProps> = ({ block, isPreview }) => {
+const ShoppableVideo: React.FC<ShoppableVideoProps> = ({
+  block,
+  isPreview,
+}) => {
   const content = block.content as unknown as ShoppableVideoContent;
   const style = block.style;
 
@@ -73,7 +84,11 @@ const ShoppableVideo: React.FC<ShoppableVideoProps> = ({ block, isPreview }) => 
     const url = content.videoUrl;
     if (!url) return null;
 
-    if (content.provider === "youtube" || url.includes("youtube.com") || url.includes("youtu.be")) {
+    if (
+      content.provider === "youtube" ||
+      url.includes("youtube.com") ||
+      url.includes("youtu.be")
+    ) {
       let videoId = "";
       if (url.includes("youtu.be/")) {
         videoId = url.split("youtu.be/")[1]?.split(/[?&]/)[0] || "";
@@ -131,7 +146,8 @@ const ShoppableVideo: React.FC<ShoppableVideoProps> = ({ block, isPreview }) => 
   }
 
   const embedUrl = getVideoEmbed();
-  const isNativeVideo = content.provider === "custom" || content.provider === "hosted";
+  const isNativeVideo =
+    content.provider === "custom" || content.provider === "hosted";
 
   return (
     <div style={containerStyle} className="relative overflow-hidden group">
@@ -218,7 +234,9 @@ const ShoppableVideo: React.FC<ShoppableVideoProps> = ({ block, isPreview }) => 
               onMouseLeave={() => setActiveHotspot(null)}
               onClick={() => {
                 if (isPreview) {
-                  setActiveHotspot(activeHotspot?.id === hotspot.id ? null : hotspot);
+                  setActiveHotspot(
+                    activeHotspot?.id === hotspot.id ? null : hotspot,
+                  );
                 }
               }}
             />

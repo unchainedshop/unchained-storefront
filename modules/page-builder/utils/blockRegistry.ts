@@ -754,55 +754,6 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
   },
 
   // Interactive commerce blocks
-  "shoppable-image": {
-    type: "shoppable-image",
-    label: "Shoppable Image",
-    description: "Lifestyle image with clickable product hotspots",
-    icon: "cursor-arrow-rays",
-    category: "ecommerce",
-    defaultContent: {
-      image: "",
-      altText: "",
-      hotspots: [],
-      showLabels: "hover",
-      hotspotStyle: "pulse",
-      hotspotColor: "#ffffff",
-    },
-    defaultStyle: {
-      borderRadius: 8,
-      padding: { top: 0, right: 0, bottom: 0, left: 0 },
-      margin: { top: 0, right: 0, bottom: 0, left: 0 },
-    },
-    nesting: {
-      canBeNested: true,
-    },
-    documentation: {
-      helpText:
-        "Shoppable Image adds clickable hotspots to lifestyle images, linking to products. When users hover or click on hotspots, they see product details and can add to cart. Great for showing products in context.",
-      tips: [
-        "Use lifestyle photos showing products in real settings",
-        "Place hotspots precisely on each product in the image",
-        "Don't overcrowd - 3-5 hotspots per image is ideal",
-        "Pulsing hotspots draw attention but can be distracting",
-      ],
-      useCases: [
-        "Shop the look - fashion/outfit images",
-        "Room scene with furniture products",
-        "Recipe image with ingredient products",
-      ],
-      keySettings: [
-        {
-          name: "Show Labels",
-          description: "When to show product names: always, on hover, or never",
-        },
-        {
-          name: "Hotspot Style",
-          description: "Visual style: pulse animation, static dot, or numbered",
-        },
-      ],
-    },
-  },
-
   "before-after": {
     type: "before-after",
     label: "Before/After",

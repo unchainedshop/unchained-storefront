@@ -24,7 +24,6 @@ import CustomHtml from "./CustomHtml/CustomHtml";
 import Section from "./Section/Section";
 import Columns from "./Columns/Columns";
 import Grid from "./Grid/Grid";
-import ShoppableImage from "./ShoppableImage/ShoppableImage";
 import BeforeAfter from "./BeforeAfter/BeforeAfter";
 import FAQAccordion from "./FAQAccordion/FAQAccordion";
 import PricingTable from "./PricingTable/PricingTable";
@@ -150,9 +149,6 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({
 
     case "grid":
       return <Grid {...commonProps}>{children}</Grid>;
-
-    case "shoppable-image":
-      return <ShoppableImage {...commonProps} />;
 
     case "before-after":
       return <BeforeAfter {...commonProps} />;

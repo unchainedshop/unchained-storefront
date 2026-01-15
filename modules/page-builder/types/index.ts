@@ -77,7 +77,6 @@ export type BlockType =
   | "section"
   | "columns"
   | "grid"
-  | "shoppable-image"
   | "before-after"
   | "faq-accordion"
   | "pricing-table"
@@ -521,15 +520,6 @@ export interface ProductHotspot {
     y: number;
   };
   label?: string;
-}
-
-export interface ShoppableImageContent {
-  image: string;
-  altText: string;
-  hotspots: ProductHotspot[];
-  showLabels: "always" | "hover" | "never";
-  hotspotStyle: "dot" | "plus" | "pulse";
-  hotspotColor: string;
 }
 
 export interface BeforeAfterContent {
@@ -1018,7 +1008,6 @@ export type BlockContent =
   | SectionContent
   | ColumnsContent
   | GridContent
-  | ShoppableImageContent
   | BeforeAfterContent
   | FAQAccordionContent
   | PricingTableContent

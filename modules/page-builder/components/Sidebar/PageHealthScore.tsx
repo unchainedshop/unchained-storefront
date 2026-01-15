@@ -23,7 +23,6 @@ import type {
   LocalizedSEOSettings,
   ImageBlockContent,
   HeroBannerContent,
-  ShoppableImageContent,
   BeforeAfterContent,
   VideoContent,
   LogoCloudContent,
@@ -299,23 +298,6 @@ function analyzeAccessibility(page: Page, locale: string): CategoryScore {
 
   if (missingAltCount > 0) {
     score -= Math.min(40, missingAltCount * 10);
-  }
-
-  // Check shoppable images for alt text
-  const shoppableImages = findBlocksOfType(page.blocks, ["shoppable-image"]);
-  for (const block of shoppableImages) {
-    const content = getBlockContent<ShoppableImageContent>(block, locale);
-    if (content?.image && !content?.altText) {
-      issues.push({
-        id: `a11y-shoppable-alt-${block.id}`,
-        message: "Shoppable image missing alt text",
-        severity: "error",
-        blockId: block.id,
-        blockType: block.type,
-        fix: "Add descriptive alt text for the shoppable image",
-      });
-      score -= 10;
-    }
   }
 
   // Check before/after images
