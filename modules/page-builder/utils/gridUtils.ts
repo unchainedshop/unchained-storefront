@@ -10,8 +10,52 @@ import type {
 } from "../types";
 
 /**
+ * Parse computed grid track sizes from getComputedStyle
+ * Returns array of pixel values for each track
+ */
+function parseComputedTracks(computedValue: string): number[] {
+  if (!computedValue || computedValue === "none") return [];
+  // Computed grid-template-columns/rows returns space-separated pixel values
+  // e.g., "200px 150px 200px" or "100px 1fr 100px" becomes "100px 200px 100px"
+  return computedValue
+    .split(/\s+/)
+    .map((v) => parseFloat(v))
+    .filter((v) => !isNaN(v) && v > 0);
+}
+
+/**
+ * Get actual track sizes from computed styles or fall back to equal distribution
+ */
+function getTrackSizes(
+  gridElement: HTMLElement,
+  template: GridTemplate,
+  dimension: "columns" | "rows",
+): number[] {
+  const computedStyle = window.getComputedStyle(gridElement);
+  const property =
+    dimension === "columns" ? "gridTemplateColumns" : "gridTemplateRows";
+  const computedTracks = parseComputedTracks(computedStyle[property]);
+
+  const expectedCount = template[dimension].length;
+
+  // Use computed values if they match expected track count
+  if (computedTracks.length === expectedCount) {
+    return computedTracks;
+  }
+
+  // Fall back to equal distribution
+  const rect = gridElement.getBoundingClientRect();
+  const totalSize = dimension === "columns" ? rect.width : rect.height;
+  const gap = parseFloat(computedStyle.gap) || 0;
+  const totalGap = gap * (expectedCount - 1);
+  const trackSize = (totalSize - totalGap) / expectedCount;
+
+  return Array(expectedCount).fill(trackSize);
+}
+
+/**
  * Calculate which grid cell a point is in
- * Used for drag-and-drop targeting
+ * Uses computed grid track sizes for accurate targeting with any track values
  */
 export function calculateGridCell(
   clientX: number,
@@ -23,17 +67,39 @@ export function calculateGridCell(
   const x = clientX - rect.left;
   const y = clientY - rect.top;
 
-  const cols = template.columns.length;
-  const rows = template.rows.length;
+  const computedStyle = window.getComputedStyle(gridElement);
+  const gap = parseFloat(computedStyle.gap) || 0;
 
-  // For simplicity, assume equal cell sizes (works well for fr units)
-  // TODO: Calculate actual sizes based on track values
-  const cellWidth = rect.width / cols;
-  const cellHeight = rect.height / rows;
+  const colSizes = getTrackSizes(gridElement, template, "columns");
+  const rowSizes = getTrackSizes(gridElement, template, "rows");
+
+  // Find column by accumulating widths
+  let col = 1;
+  let accumulatedX = 0;
+  for (let i = 0; i < colSizes.length; i++) {
+    accumulatedX += colSizes[i] + (i > 0 ? gap : 0);
+    if (x < accumulatedX) {
+      col = i + 1;
+      break;
+    }
+    col = i + 1;
+  }
+
+  // Find row by accumulating heights
+  let row = 1;
+  let accumulatedY = 0;
+  for (let i = 0; i < rowSizes.length; i++) {
+    accumulatedY += rowSizes[i] + (i > 0 ? gap : 0);
+    if (y < accumulatedY) {
+      row = i + 1;
+      break;
+    }
+    row = i + 1;
+  }
 
   return {
-    col: Math.max(1, Math.min(Math.floor(x / cellWidth) + 1, cols)),
-    row: Math.max(1, Math.min(Math.floor(y / cellHeight) + 1, rows)),
+    col: Math.max(1, Math.min(col, template.columns.length)),
+    row: Math.max(1, Math.min(row, template.rows.length)),
   };
 }
 
@@ -178,8 +244,14 @@ export function clampPlacement(
 
   const colStart = Math.max(1, Math.min(placement.colStart, cols));
   const rowStart = Math.max(1, Math.min(placement.rowStart, rows));
-  const colSpan = Math.max(1, Math.min(placement.colSpan || 1, cols - colStart + 1));
-  const rowSpan = Math.max(1, Math.min(placement.rowSpan || 1, rows - rowStart + 1));
+  const colSpan = Math.max(
+    1,
+    Math.min(placement.colSpan || 1, cols - colStart + 1),
+  );
+  const rowSpan = Math.max(
+    1,
+    Math.min(placement.rowSpan || 1, rows - rowStart + 1),
+  );
 
   return { colStart, rowStart, colSpan, rowSpan };
 }
