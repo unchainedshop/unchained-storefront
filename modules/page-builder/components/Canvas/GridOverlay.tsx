@@ -4,9 +4,10 @@
  * Features:
  * - Cell boundaries and hover states
  * - Click targets for adding blocks
+ * - Resize handles for adjusting cell spans
  */
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import classNames from "classnames";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import type { GridTemplate, GridChildPlacement, PageBlock } from "../../types";
@@ -20,8 +21,25 @@ interface GridOverlayProps {
   rowGap?: number;
   onCellClick: (col: number, row: number) => void;
   onChildSelect?: (blockId: string) => void;
+  onPlacementResize?: (
+    blockId: string,
+    newPlacement: { colSpan: number; rowSpan: number },
+  ) => void;
   selectedCellBlockId?: string | null;
   isActive: boolean;
+}
+
+type ResizeDirection = "e" | "s" | "se";
+
+interface ResizeState {
+  blockId: string;
+  direction: ResizeDirection;
+  startX: number;
+  startY: number;
+  startColSpan: number;
+  startRowSpan: number;
+  cellWidth: number;
+  cellHeight: number;
 }
 
 // Check if a cell is occupied by any placement (including spanned cells)
@@ -77,6 +95,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
   rowGap: rowGapProp,
   onCellClick,
   onChildSelect,
+  onPlacementResize,
   selectedCellBlockId,
   isActive,
 }) => {
@@ -84,6 +103,12 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
     col: number;
     row: number;
   } | null>(null);
+  const [resizeState, setResizeState] = useState<ResizeState | null>(null);
+  const [previewSpan, setPreviewSpan] = useState<{
+    colSpan: number;
+    rowSpan: number;
+  } | null>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   const rowGap = rowGapProp ?? gap;
   const totalCols = template.columns.length;
@@ -132,6 +157,110 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
     setHoveredCell(null);
   }, []);
 
+  // Calculate cell dimensions from the overlay grid
+  const getCellDimensions = useCallback(() => {
+    if (!overlayRef.current) return { width: 100, height: 100 };
+    const rect = overlayRef.current.getBoundingClientRect();
+    const cellWidth = (rect.width - gap * (totalCols - 1)) / totalCols;
+    const cellHeight = (rect.height - rowGap * (totalRows - 1)) / totalRows;
+    return { width: cellWidth, height: cellHeight };
+  }, [gap, rowGap, totalCols, totalRows]);
+
+  // Start resize operation
+  const handleResizeStart = useCallback(
+    (
+      e: React.MouseEvent,
+      blockId: string,
+      direction: ResizeDirection,
+      currentColSpan: number,
+      currentRowSpan: number,
+    ) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      const dims = getCellDimensions();
+      setResizeState({
+        blockId,
+        direction,
+        startX: e.clientX,
+        startY: e.clientY,
+        startColSpan: currentColSpan,
+        startRowSpan: currentRowSpan,
+        cellWidth: dims.width + gap,
+        cellHeight: dims.height + rowGap,
+      });
+      setPreviewSpan({ colSpan: currentColSpan, rowSpan: currentRowSpan });
+    },
+    [getCellDimensions, gap, rowGap],
+  );
+
+  // Handle resize mouse move (attached to window)
+  React.useEffect(() => {
+    if (!resizeState) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const deltaX = e.clientX - resizeState.startX;
+      const deltaY = e.clientY - resizeState.startY;
+
+      let newColSpan = resizeState.startColSpan;
+      let newRowSpan = resizeState.startRowSpan;
+
+      // Calculate new spans based on direction
+      if (resizeState.direction === "e" || resizeState.direction === "se") {
+        const colDelta = Math.round(deltaX / resizeState.cellWidth);
+        newColSpan = Math.max(
+          1,
+          Math.min(totalCols, resizeState.startColSpan + colDelta),
+        );
+      }
+
+      if (resizeState.direction === "s" || resizeState.direction === "se") {
+        const rowDelta = Math.round(deltaY / resizeState.cellHeight);
+        newRowSpan = Math.max(
+          1,
+          Math.min(totalRows, resizeState.startRowSpan + rowDelta),
+        );
+      }
+
+      // Find the placement to check bounds
+      const placement = childPlacements.find(
+        (p) => p.blockId === resizeState.blockId,
+      );
+      if (placement) {
+        // Ensure we don't exceed grid bounds
+        const maxColSpan = totalCols - placement.placement.colStart + 1;
+        const maxRowSpan = totalRows - placement.placement.rowStart + 1;
+        newColSpan = Math.min(newColSpan, maxColSpan);
+        newRowSpan = Math.min(newRowSpan, maxRowSpan);
+      }
+
+      setPreviewSpan({ colSpan: newColSpan, rowSpan: newRowSpan });
+    };
+
+    const handleMouseUp = () => {
+      if (previewSpan && onPlacementResize) {
+        onPlacementResize(resizeState.blockId, previewSpan);
+      }
+      setResizeState(null);
+      setPreviewSpan(null);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [
+    resizeState,
+    previewSpan,
+    onPlacementResize,
+    totalCols,
+    totalRows,
+    childPlacements,
+  ]);
+
   // Get child block label by ID
   const getChildLabel = (blockId: string): string | null => {
     const child = childBlocks.find((c) => c.id === blockId);
@@ -142,6 +271,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
   return (
     <div
+      ref={overlayRef}
       className="grid-overlay absolute inset-0 z-[5]"
       style={{
         display: "grid",
@@ -170,31 +300,41 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
           selectedCellBlockId &&
           occupiedPlacement?.blockId === selectedCellBlockId;
         const childLabel = isOrigin ? getChildLabel(isOrigin.blockId) : null;
+        const isResizing = resizeState?.blockId === isOrigin?.blockId;
 
         // Skip cells that are part of a spanned area (not the origin)
         if (isOccupied && !isOrigin) {
           return null;
         }
 
-        // For origin cells with spans, render a single block that spans the area
-        const colSpan = isOrigin?.placement.colSpan || 1;
-        const rowSpan = isOrigin?.placement.rowSpan || 1;
+        // For origin cells with spans, use preview span during resize
+        const colSpan =
+          isResizing && previewSpan
+            ? previewSpan.colSpan
+            : isOrigin?.placement.colSpan || 1;
+        const rowSpan =
+          isResizing && previewSpan
+            ? previewSpan.rowSpan
+            : isOrigin?.placement.rowSpan || 1;
 
         return (
           <div
             key={`cell-${col}-${row}`}
             className={classNames(
-              "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center",
+              "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center group/cell",
               {
                 // Occupied cell (origin) - spans entire area
                 "border-2 border-solid border-emerald-400 dark:border-emerald-600 bg-emerald-50/50 dark:bg-emerald-900/30":
-                  isOrigin,
+                  isOrigin && !isResizing,
+                // Resizing state
+                "border-2 border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-900/30":
+                  isResizing,
                 // Selected cell
                 "!border-blue-500 !border-2 !bg-blue-100/50 dark:!bg-blue-900/40":
-                  isSelectedCell,
+                  isSelectedCell && !isResizing,
                 // Hovered occupied
                 "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset":
-                  isHovered && isOccupied,
+                  isHovered && isOccupied && !isResizing,
               },
             )}
             style={{
@@ -224,7 +364,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
             {/* Child block label (for origins) */}
             {childLabel && (
-              <span className="absolute bottom-1 right-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 bg-white/80 dark:bg-slate-800/80 px-1 rounded">
+              <span className="absolute bottom-1 left-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 bg-white/80 dark:bg-slate-800/80 px-1 rounded">
                 {childLabel}
               </span>
             )}
@@ -234,6 +374,51 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
               <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg">
                 <PlusIcon className="w-6 h-6" />
               </div>
+            )}
+
+            {/* Resize handles for occupied cells */}
+            {isOrigin && onPlacementResize && (
+              <>
+                {/* East (right) resize handle */}
+                <div
+                  className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-8 bg-blue-500 rounded-full cursor-ew-resize opacity-0 group-hover/cell:opacity-100 hover:!opacity-100 hover:scale-110 transition-all z-10"
+                  onMouseDown={(e) =>
+                    handleResizeStart(
+                      e,
+                      isOrigin.blockId,
+                      "e",
+                      isOrigin.placement.colSpan || 1,
+                      isOrigin.placement.rowSpan || 1,
+                    )
+                  }
+                />
+                {/* South (bottom) resize handle */}
+                <div
+                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-8 bg-blue-500 rounded-full cursor-ns-resize opacity-0 group-hover/cell:opacity-100 hover:!opacity-100 hover:scale-110 transition-all z-10"
+                  onMouseDown={(e) =>
+                    handleResizeStart(
+                      e,
+                      isOrigin.blockId,
+                      "s",
+                      isOrigin.placement.colSpan || 1,
+                      isOrigin.placement.rowSpan || 1,
+                    )
+                  }
+                />
+                {/* Southeast (corner) resize handle */}
+                <div
+                  className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-blue-500 rounded-full cursor-nwse-resize opacity-0 group-hover/cell:opacity-100 hover:!opacity-100 hover:scale-125 transition-all z-10"
+                  onMouseDown={(e) =>
+                    handleResizeStart(
+                      e,
+                      isOrigin.blockId,
+                      "se",
+                      isOrigin.placement.colSpan || 1,
+                      isOrigin.placement.rowSpan || 1,
+                    )
+                  }
+                />
+              </>
             )}
 
             {/* Span indicator for origins with spanning */}

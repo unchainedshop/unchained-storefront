@@ -345,6 +345,35 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     [pageBuilder, block.id],
   );
 
+  // Handle resizing a child block's placement
+  const handlePlacementResize = useCallback(
+    (blockId: string, newPlacement: { colSpan: number; rowSpan: number }) => {
+      if (!pageBuilder) return;
+
+      const currentPlacements = content.childPlacements || [];
+      const updatedPlacements = currentPlacements.map((p) => {
+        if (p.blockId === blockId) {
+          return {
+            ...p,
+            placement: {
+              ...p.placement,
+              colSpan: newPlacement.colSpan,
+              rowSpan: newPlacement.rowSpan,
+            },
+          };
+        }
+        return p;
+      });
+
+      pageBuilder.updateBlock(block.id, {
+        content: {
+          childPlacements: updatedPlacements,
+        },
+      });
+    },
+    [pageBuilder, block.id, content.childPlacements],
+  );
+
   // Get child blocks for overlay
   const childBlocks = useMemo(() => {
     const result: PageBlock[] = [];
@@ -403,6 +432,7 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
           rowGap={content.rowGap}
           onCellClick={handleCellClick}
           onChildSelect={handleChildSelect}
+          onPlacementResize={handlePlacementResize}
           selectedCellBlockId={null}
           isActive={showOverlay}
         />

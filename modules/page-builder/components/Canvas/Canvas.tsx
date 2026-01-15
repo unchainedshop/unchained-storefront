@@ -98,7 +98,7 @@ const SiteFrameToggle: React.FC<{
     className={classNames(
       "group flex items-center justify-center gap-3 w-full py-2.5 text-xs font-medium transition-all",
       position === "top" ? "rounded-t-lg" : "rounded-b-lg",
-      "bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800",
+      "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
     )}
   >
     {/* Toggle switch */}
