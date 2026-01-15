@@ -365,7 +365,7 @@ const RolesPage: React.FC = () => {
                                           onChange={() =>
                                             togglePermission(perm.id)
                                           }
-                                          className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-slate-400"
+                                          className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-slate-900 dark:accent-white focus:ring-slate-400"
                                         />
                                         <span className="text-sm text-slate-700 dark:text-slate-300">
                                           {perm.label}
@@ -411,7 +411,13 @@ const RolesPage: React.FC = () => {
                       <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                         Edit Role
                         {role.isSystem && (
-                          <span className="ml-2 text-xs font-normal text-amber-600 dark:text-amber-400">
+                          <span
+                            className="ml-2 text-xs font-normal"
+                            style={{
+                              color:
+                                "color-mix(in srgb, var(--admin-primary) 70%, black)",
+                            }}
+                          >
                             (System role - name cannot be changed)
                           </span>
                         )}
@@ -497,7 +503,7 @@ const RolesPage: React.FC = () => {
                                             onChange={() =>
                                               togglePermission(perm.id)
                                             }
-                                            className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-slate-400"
+                                            className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-slate-900 dark:accent-white focus:ring-slate-400"
                                           />
                                           <span className="text-sm text-slate-700 dark:text-slate-300">
                                             {perm.label}
@@ -534,14 +540,21 @@ const RolesPage: React.FC = () => {
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-4">
                           <div
-                            className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                              role.isSystem
-                                ? "bg-amber-100 dark:bg-amber-900/30"
-                                : "bg-slate-100 dark:bg-slate-800"
-                            }`}
+                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            style={{
+                              backgroundColor: role.isSystem
+                                ? "color-mix(in srgb, var(--admin-primary) 15%, white)"
+                                : undefined,
+                            }}
                           >
                             {role.isSystem ? (
-                              <LockClosedIcon className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                              <LockClosedIcon
+                                className="w-6 h-6"
+                                style={{
+                                  color:
+                                    "color-mix(in srgb, var(--admin-primary) 70%, black)",
+                                }}
+                              />
                             ) : (
                               <ShieldCheckIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
                             )}
@@ -552,7 +565,17 @@ const RolesPage: React.FC = () => {
                                 {role.name}
                               </h3>
                               {role.isSystem && (
-                                <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full">
+                                <span
+                                  className="px-2 py-0.5 text-xs font-medium rounded-full border"
+                                  style={{
+                                    backgroundColor:
+                                      "color-mix(in srgb, var(--admin-primary) 8%, transparent)",
+                                    borderColor:
+                                      "color-mix(in srgb, var(--admin-primary) 20%, transparent)",
+                                    color:
+                                      "color-mix(in srgb, var(--admin-primary) 70%, black)",
+                                  }}
+                                >
                                   System
                                 </span>
                               )}

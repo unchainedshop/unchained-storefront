@@ -31,6 +31,7 @@ import {
 } from "../../utils/localization";
 import AutosaveIndicator from "./AutosaveIndicator";
 import type { AutosaveStatus } from "../../hooks/useAutosave";
+import ProfileMenu from "./ProfileMenu";
 
 interface ToolbarProps {
   onBack?: () => void;
@@ -700,6 +701,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
             </>
           )}
         </ToolbarButton>
+
+        {/* Profile menu - subtle */}
+        <div className="flex items-center justify-center h-full ml-1 translate-y-1">
+          <ProfileMenu size="sm" />
+        </div>
       </div>
     </div>
   );
