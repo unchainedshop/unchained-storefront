@@ -104,6 +104,7 @@ export function usePages(options: UsePagesOptions = {}): UsePagesReturn {
         const data = await res.json();
         dismissToast(toastId);
         showSuccessToast("Page duplicated successfully");
+        await fetchPages();
         return data.page;
       } catch (err) {
         dismissToast(toastId);
@@ -113,7 +114,7 @@ export function usePages(options: UsePagesOptions = {}): UsePagesReturn {
         return null;
       }
     },
-    [],
+    [fetchPages],
   );
 
   useEffect(() => {

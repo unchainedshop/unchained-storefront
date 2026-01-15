@@ -127,7 +127,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
       const convertBlocks = (blocks: typeof template.blocks): PageBlock[] => {
         return blocks.map((block) => {
           const converted = {
-            id: `block_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            id: `block_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
             type: block.type,
             content: block.content || {},
             style: block.style || {},

@@ -50,9 +50,6 @@ const LinkPickerField: React.FC<LinkPickerFieldProps> = ({
   // Determine mode based on value
   const isExternalUrl =
     value?.startsWith("http://") || value?.startsWith("https://");
-  const isPageLink =
-    value?.startsWith("/p/") ||
-    pages.some((p) => value === `/p/${p.slug}` || value === `/${p.slug}`);
   const [mode, setMode] = useState<LinkMode>(isExternalUrl ? "url" : "page");
 
   // Fetch pages on mount
