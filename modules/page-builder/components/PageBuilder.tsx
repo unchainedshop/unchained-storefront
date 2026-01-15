@@ -33,6 +33,7 @@ interface PageBuilderProps {
   onSave?: (page: Page) => Promise<void>;
   onPublish?: (page: Page) => Promise<void>;
   onBack?: () => void;
+  onCreatePage?: () => void;
   collaborationConfig?: {
     wsUrl: string;
     user: { id: string; name: string; avatar?: string };
@@ -58,6 +59,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
   onSave,
   onPublish,
   onBack,
+  onCreatePage,
 }) => {
   const {
     state,
@@ -403,6 +405,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
           onPublish={handlePublish}
           onWorkflowChange={handleWorkflowChange}
           onOpenTemplates={() => setShowTemplatePicker(true)}
+          onCreatePage={onCreatePage}
         />
       )}
 

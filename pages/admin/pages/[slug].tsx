@@ -159,12 +159,17 @@ const EditPagePage: React.FC = () => {
     return null;
   }
 
+  const handleCreatePage = () => {
+    router.push("/admin/pages/new");
+  };
+
   return (
     <PageBuilder
       initialPage={page}
       onSave={handleSave}
       onPublish={handlePublish}
       onBack={handleBack}
+      onCreatePage={handleCreatePage}
       collaborationConfig={collaborationConfig}
     />
   );

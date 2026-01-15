@@ -51,6 +51,13 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
       ? pageTemplates
       : pageTemplates.filter((t) => t.category === selectedCategory);
 
+  // Auto-select first template when panel opens
+  useEffect(() => {
+    if (isOpen && !selectedTemplate && filteredTemplates.length > 0) {
+      setSelectedTemplate(filteredTemplates[0]);
+    }
+  }, [isOpen, filteredTemplates, selectedTemplate]);
+
   const handleConfirm = useCallback(() => {
     if (selectedTemplate) {
       onSelectTemplate(selectedTemplate);
@@ -58,7 +65,7 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
     }
   }, [selectedTemplate, onSelectTemplate, onClose]);
 
-  // Handle Enter key to confirm selection
+  // Handle keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
 
@@ -71,11 +78,44 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
         e.preventDefault();
         onClose();
       }
+
+      // Arrow key navigation through templates
+      if (["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) {
+        e.preventDefault();
+        const currentIndex = selectedTemplate
+          ? filteredTemplates.findIndex((t) => t.id === selectedTemplate.id)
+          : -1;
+
+        let newIndex = currentIndex;
+        const cols = 3; // grid-cols-3
+
+        if (e.key === "ArrowRight") {
+          newIndex =
+            currentIndex < filteredTemplates.length - 1 ? currentIndex + 1 : 0;
+        } else if (e.key === "ArrowLeft") {
+          newIndex =
+            currentIndex > 0 ? currentIndex - 1 : filteredTemplates.length - 1;
+        } else if (e.key === "ArrowDown") {
+          newIndex =
+            currentIndex + cols < filteredTemplates.length
+              ? currentIndex + cols
+              : currentIndex % cols;
+        } else if (e.key === "ArrowUp") {
+          newIndex =
+            currentIndex - cols >= 0
+              ? currentIndex - cols
+              : filteredTemplates.length - cols + (currentIndex % cols);
+        }
+
+        if (newIndex >= 0 && newIndex < filteredTemplates.length) {
+          setSelectedTemplate(filteredTemplates[newIndex]);
+        }
+      }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, selectedTemplate, handleConfirm, onClose]);
+  }, [isOpen, selectedTemplate, filteredTemplates, handleConfirm, onClose]);
 
   return (
     <>

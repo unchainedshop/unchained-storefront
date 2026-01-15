@@ -3,9 +3,9 @@
  * Beautiful modal wizard for selecting and adding blocks
  */
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import classNames from "classnames";
-import AnimatedModal from "../../common/components/AnimatedModal";
 import {
   XMarkIcon,
   MagnifyingGlassIcon,
@@ -120,6 +120,21 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
     setSelectedPresetId(null);
   }, []);
 
+  // Handle Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   // Get available block types based on parent context
   const availableBlockTypes = getAvailableBlocksForParent(parentBlockType);
 
@@ -143,17 +158,34 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
     },
   );
 
-  return (
-    <AnimatedModal
-      isOpen={isOpen}
-      onClose={onClose}
-      zIndex={1050}
-      backdropClassName="bg-slate-900/60"
-    >
-      {/* Modal */}
-      <div className="w-full max-w-2xl max-h-[85vh] mx-4 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+  // Use portal to render outside of any stacking context
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <>
+      {/* Backdrop */}
+      <div
+        className={classNames(
+          "fixed inset-0 z-[10000] bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300",
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none",
+        )}
+        onClick={onClose}
+      />
+
+      {/* Right-side Panel */}
+      <div
+        className={classNames(
+          "fixed top-3 right-3 bottom-3 z-[10001] w-[50vw]",
+          "bg-white dark:bg-slate-900 rounded-2xl shadow-2xl",
+          "flex flex-col overflow-hidden",
+          "transition-transform duration-300 ease-out",
+          isOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]",
+        )}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
           <div className="flex items-center gap-3">
             {showHeroPresets && (
               <button
@@ -362,7 +394,8 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
           </div>
         </div>
       </div>
-    </AnimatedModal>
+    </>,
+    document.body,
   );
 };
 

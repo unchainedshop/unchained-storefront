@@ -16,6 +16,7 @@ import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
   RectangleStackIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import { usePageBuilder } from "../../context/PageBuilderContext";
 import type { Viewport, PageStatus } from "../../types";
@@ -39,6 +40,7 @@ interface ToolbarProps {
   onPublish?: () => Promise<void>;
   onWorkflowChange?: (newStatus: PageStatus) => Promise<void>;
   onOpenTemplates?: () => void;
+  onCreatePage?: () => void;
   userRoles?: string[];
   // Autosave props
   autosaveStatus?: AutosaveStatus;
@@ -207,6 +209,7 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
 
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled}
       title={title}
@@ -233,6 +236,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   onPublish,
   onWorkflowChange,
   onOpenTemplates,
+  onCreatePage,
   userRoles = ["admin"],
   autosaveStatus,
   autosaveLastSaved,
@@ -368,6 +372,18 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </button>
 
         <ToolbarDivider />
+
+        {/* Create new page button */}
+        {onCreatePage && (
+          <ToolbarButton
+            onClick={onCreatePage}
+            title="New Page"
+            size="sm"
+            variant="ghost"
+          >
+            <PlusIcon className="w-4 h-4" />
+          </ToolbarButton>
+        )}
 
         {/* Page title */}
         <div className="flex items-center gap-3">

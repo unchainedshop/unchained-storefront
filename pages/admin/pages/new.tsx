@@ -42,18 +42,27 @@ const createNewPage = (): Page => {
 
 const NewPagePage: React.FC = () => {
   const router = useRouter();
-  const [newPage] = useState<Page>(createNewPage);
+  const [pageKey, setPageKey] = useState(() => Date.now());
+  const [newPage, setNewPage] = useState<Page>(createNewPage);
 
   const { handleSave, handlePublish, handleBack } = usePageEditor({
     onSlugChange: (newSlug) => router.replace(`/admin/pages/${newSlug}`),
   });
 
+  const handleCreatePage = () => {
+    // Reset with a fresh page - triggers smooth remount
+    setNewPage(createNewPage());
+    setPageKey(Date.now());
+  };
+
   return (
     <PageBuilder
+      key={pageKey}
       initialPage={newPage}
       onSave={handleSave}
       onPublish={handlePublish}
       onBack={handleBack}
+      onCreatePage={handleCreatePage}
     />
   );
 };
