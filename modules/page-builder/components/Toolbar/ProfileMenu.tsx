@@ -14,6 +14,7 @@ interface ProfileMenuProps {
 }
 
 export const PROFILE_PHOTO_STORAGE_KEY = "cms_profile_photo";
+export const PROFILE_PHOTO_CHANGE_EVENT = "cms_profile_photo_change";
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({
   size = "md",
@@ -30,14 +31,30 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
       setProfilePhoto(stored);
     }
 
-    // Listen for storage changes (when photo is updated in settings)
+    // Listen for storage changes (when photo is updated in another tab)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === PROFILE_PHOTO_STORAGE_KEY) {
         setProfilePhoto(e.newValue);
       }
     };
+
+    // Listen for custom event (when photo is updated in same tab)
+    const handleCustomEvent = (e: CustomEvent<string | null>) => {
+      setProfilePhoto(e.detail);
+    };
+
     window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+    window.addEventListener(
+      PROFILE_PHOTO_CHANGE_EVENT,
+      handleCustomEvent as EventListener,
+    );
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener(
+        PROFILE_PHOTO_CHANGE_EVENT,
+        handleCustomEvent as EventListener,
+      );
+    };
   }, []);
 
   return (

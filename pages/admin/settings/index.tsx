@@ -24,6 +24,7 @@ import UnchainedLogo from "../../../modules/page-builder/components/UnchainedLog
 import AdminNavIsland from "../../../modules/page-builder/components/AdminNavIsland";
 import MediaPickerField from "../../../modules/media/components/MediaPickerField";
 import { cmsConfig } from "../../../lib/cms.config";
+import { PROFILE_PHOTO_CHANGE_EVENT } from "../../../modules/page-builder/components/Toolbar/ProfileMenu";
 
 interface ColorPreset {
   id: string;
@@ -151,6 +152,13 @@ const SettingsPage: React.FC = () => {
           localStorage.setItem(PROFILE_PHOTO_KEY, resizedDataUrl);
           setProfilePhoto(resizedDataUrl);
           setIsUploadingPhoto(false);
+
+          // Dispatch custom event to update ProfileMenu in same tab
+          window.dispatchEvent(
+            new CustomEvent(PROFILE_PHOTO_CHANGE_EVENT, {
+              detail: resizedDataUrl,
+            }),
+          );
         };
         img.src = result;
       };
@@ -163,6 +171,11 @@ const SettingsPage: React.FC = () => {
   const handleRemovePhoto = useCallback(() => {
     localStorage.removeItem(PROFILE_PHOTO_KEY);
     setProfilePhoto(null);
+
+    // Dispatch custom event to update ProfileMenu in same tab
+    window.dispatchEvent(
+      new CustomEvent(PROFILE_PHOTO_CHANGE_EVENT, { detail: null }),
+    );
   }, []);
 
   const fetchSettings = useCallback(async () => {
