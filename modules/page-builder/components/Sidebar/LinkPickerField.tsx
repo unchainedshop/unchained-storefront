@@ -54,21 +54,30 @@ const LinkPickerField: React.FC<LinkPickerFieldProps> = ({
 
   // Fetch pages on mount
   useEffect(() => {
+    const abortController = new AbortController();
+
     const fetchPages = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch("/api/pages");
+        const res = await fetch("/api/pages", {
+          signal: abortController.signal,
+        });
         if (res.ok) {
           const data = await res.json();
           setPages(data.pages || []);
         }
       } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
         console.error("Failed to fetch pages:", err);
       } finally {
-        setIsLoading(false);
+        if (!abortController.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     };
     fetchPages();
+
+    return () => abortController.abort();
   }, []);
 
   // Update mode when value changes externally

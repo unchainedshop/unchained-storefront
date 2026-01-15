@@ -925,7 +925,7 @@ export const createBlock = (
   }
 
   return {
-    id: `block_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    id: `block_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
     type,
     content: { ...definition.defaultContent, ...overrides?.content },
     style: { ...definition.defaultStyle, ...overrides?.style },

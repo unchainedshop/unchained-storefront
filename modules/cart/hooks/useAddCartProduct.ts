@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client';
-import { useMutation } from '@apollo/client/react';
-import { LOGIN_AS_GUEST_MUTATION } from '../../auth/hooks/useLoginAsGuest';
-import useUser from '../../auth/hooks/useUser';
+import { gql } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
+import { LOGIN_AS_GUEST_MUTATION } from "../../auth/hooks/useLoginAsGuest";
+import useUser from "../../auth/hooks/useUser";
 
 export const ADD_CART_PRODUCT_MUTATION = gql`
   mutation AddCartProduct(
@@ -103,9 +103,10 @@ const useAddCartProduct = () => {
         },
         ...options,
       });
-    } catch (err: any) {
-      if (err.message.toLowerCase().includes('not enough in stock')) {
-        alert('Out of stock');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (message.toLowerCase().includes("not enough in stock")) {
+        alert("Out of stock");
       }
     }
   };

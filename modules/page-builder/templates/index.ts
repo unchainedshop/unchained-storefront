@@ -23,7 +23,7 @@ export interface PageTemplate {
 
 // Helper to generate unique IDs
 const uid = () =>
-  `block_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  `block_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
 export const pageTemplates: PageTemplate[] = [
   // ============ BLANK ============
