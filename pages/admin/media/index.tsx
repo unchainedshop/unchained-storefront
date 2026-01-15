@@ -168,8 +168,8 @@ const MediaAdmin: React.FC = () => {
   return (
     <>
       <MetaTags title="Media Library - Admin" />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
-        <div className="relative overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+        <div className="relative pt-16 overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div
             className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
             style={{
@@ -192,9 +192,6 @@ const MediaAdmin: React.FC = () => {
                   <div className="h-4 w-px bg-slate-300 dark:bg-slate-600" />
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Digital Asset Management
-                  </span>
-                  <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full">
-                    v0.2
                   </span>
                 </div>
               </div>

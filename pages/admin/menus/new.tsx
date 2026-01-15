@@ -16,9 +16,17 @@ import MetaTags from "../../../modules/common/components/MetaTags";
 import UnchainedLogo from "../../../modules/page-builder/components/UnchainedLogo";
 import AdminNavIsland from "../../../modules/page-builder/components/AdminNavIsland";
 import { cmsConfig } from "../../../lib/cms.config";
-import type { MenuType, CreateMenuInput } from "../../../modules/menu-builder/types";
+import type {
+  MenuType,
+  CreateMenuInput,
+} from "../../../modules/menu-builder/types";
 
-const menuTypes: { type: MenuType; label: string; description: string; icon: React.ComponentType<{ className?: string }> }[] = [
+const menuTypes: {
+  type: MenuType;
+  label: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+}[] = [
   {
     type: "header",
     label: "Header Menu",
@@ -107,11 +115,11 @@ const NewMenuPage: React.FC = () => {
   return (
     <>
       <MetaTags title="Create Menu - Admin" />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
         {/* Header */}
-        <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative pt-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="py-8">
+            <div className="py-10 md:py-14">
               {/* Back link */}
               <Link
                 href="/admin/menus"
@@ -124,7 +132,10 @@ const NewMenuPage: React.FC = () => {
               {/* Logo & Title */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-full border border-slate-200 dark:border-slate-700">
-                  <UnchainedLogo size={20} className="text-slate-900 dark:text-white" />
+                  <UnchainedLogo
+                    size={20}
+                    className="text-slate-900 dark:text-white"
+                  />
                   <div className="h-4 w-px bg-slate-300 dark:bg-slate-600" />
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Menu Builder
@@ -169,16 +180,20 @@ const NewMenuPage: React.FC = () => {
                         : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
                     }`}
                   >
-                    <Icon className={`w-6 h-6 mb-3 ${
-                      selectedType === type
-                        ? "text-slate-900 dark:text-white"
-                        : "text-slate-400"
-                    }`} />
-                    <div className={`font-semibold ${
-                      selectedType === type
-                        ? "text-slate-900 dark:text-white"
-                        : "text-slate-700 dark:text-slate-300"
-                    }`}>
+                    <Icon
+                      className={`w-6 h-6 mb-3 ${
+                        selectedType === type
+                          ? "text-slate-900 dark:text-white"
+                          : "text-slate-400"
+                      }`}
+                    />
+                    <div
+                      className={`font-semibold ${
+                        selectedType === type
+                          ? "text-slate-900 dark:text-white"
+                          : "text-slate-700 dark:text-slate-300"
+                      }`}
+                    >
                       {label}
                     </div>
                     <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
@@ -219,7 +234,13 @@ const NewMenuPage: React.FC = () => {
                   <input
                     type="text"
                     value={slug}
-                    onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
+                    onChange={(e) =>
+                      setSlug(
+                        e.target.value
+                          .toLowerCase()
+                          .replace(/[^a-z0-9-]/g, "-"),
+                      )
+                    }
                     placeholder="e.g., main-navigation"
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white text-slate-900 dark:text-white placeholder:text-slate-400 font-mono"
                   />

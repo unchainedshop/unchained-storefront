@@ -32,7 +32,10 @@ import type {
   EntryStatus,
 } from "../../../../../modules/collections/types";
 
-const statusColors: Record<EntryStatus, { bg: string; text: string; dot: string }> = {
+const statusColors: Record<
+  EntryStatus,
+  { bg: string; text: string; dot: string }
+> = {
   draft: {
     bg: "bg-slate-100 dark:bg-slate-800",
     text: "text-slate-600 dark:text-slate-400",
@@ -89,7 +92,9 @@ const CollectionEntriesPage: React.FC = () => {
       const data = await res.json();
       setSchema(data.schema);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load collection");
+      setError(
+        err instanceof Error ? err.message : "Failed to load collection",
+      );
     }
   }, [collectionSlug]);
 
@@ -224,7 +229,9 @@ const CollectionEntriesPage: React.FC = () => {
   };
 
   const handleDeleteEntry = async (entrySlug: string) => {
-    const confirmed = window.confirm("Delete this entry? This cannot be undone.");
+    const confirmed = window.confirm(
+      "Delete this entry? This cannot be undone.",
+    );
     if (!confirmed) return;
 
     try {
@@ -253,9 +260,7 @@ const CollectionEntriesPage: React.FC = () => {
       if (!res.ok) throw new Error("Failed to duplicate entry");
 
       const { entry } = await res.json();
-      router.push(
-        `/admin/collections/${collectionSlug}/entries/${entry.slug}`,
-      );
+      router.push(`/admin/collections/${collectionSlug}/entries/${entry.slug}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Duplicate failed");
     } finally {
@@ -292,11 +297,11 @@ const CollectionEntriesPage: React.FC = () => {
       <MetaTags
         title={`${schema ? getLocalizedValue(schema.name, cmsConfig.defaultLocale) : "Entries"} - Admin`}
       />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
         {/* Header */}
-        <div className="relative bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative pt-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="py-6">
+            <div className="py-10 md:py-14">
               <div className="flex items-center gap-4 mb-4">
                 <Link
                   href="/admin/collections"

@@ -33,7 +33,7 @@ export const heroPresets: HeroPreset[] = [
     id: "classic-centered",
     name: "Classic Centered",
     description: "Timeless centered layout with bold CTA",
-    preview: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    preview: "linear-gradient(135deg, #64748b 0%, #475569 100%)",
     content: {
       heading: "Welcome to Our Store",
       subheading: "Discover amazing products at great prices",
@@ -54,7 +54,7 @@ export const heroPresets: HeroPreset[] = [
     id: "left-aligned",
     name: "Left Aligned",
     description: "Modern left-aligned hero with dual CTAs",
-    preview: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+    preview: "linear-gradient(135deg, #a8a29e 0%, #78716c 100%)",
     content: {
       heading: "New Collection",
       subheading: "Explore our latest arrivals and trending styles",
@@ -77,7 +77,7 @@ export const heroPresets: HeroPreset[] = [
     id: "minimal-dark",
     name: "Minimal Dark",
     description: "Clean dark aesthetic with subtle overlay",
-    preview: "linear-gradient(135deg, #232526 0%, #414345 100%)",
+    preview: "linear-gradient(135deg, #1c1917 0%, #292524 100%)",
     content: {
       heading: "Less is More",
       subheading: "Premium quality, minimalist design",
@@ -96,10 +96,10 @@ export const heroPresets: HeroPreset[] = [
     },
   },
   {
-    id: "vibrant-gradient",
-    name: "Vibrant Gradient",
-    description: "Eye-catching gradient background",
-    preview: "linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%)",
+    id: "soft-gradient",
+    name: "Soft Gradient",
+    description: "Gentle gradient with warm tones",
+    preview: "linear-gradient(135deg, #d6d3d1 0%, #a8a29e 50%, #78716c 100%)",
     content: {
       heading: "Summer Sale",
       subheading: "Up to 70% off on selected items",
@@ -113,7 +113,7 @@ export const heroPresets: HeroPreset[] = [
       padding: { top: 80, right: 24, bottom: 80, left: 24 },
       alignmentX: "center",
       alignmentY: "center",
-      textColor: "#ffffff",
+      textColor: "#1c1917",
       backgroundOverlay: 0,
       backgroundOverlayColor: "#000000",
     },
@@ -122,7 +122,7 @@ export const heroPresets: HeroPreset[] = [
     id: "split-bottom",
     name: "Bottom Aligned",
     description: "Content anchored to bottom for impact",
-    preview: "linear-gradient(180deg, #2c3e50 0%, #3498db 100%)",
+    preview: "linear-gradient(180deg, #334155 0%, #1e293b 100%)",
     content: {
       heading: "Discover Excellence",
       subheading: "Crafted with passion, delivered with care",
@@ -143,7 +143,7 @@ export const heroPresets: HeroPreset[] = [
     id: "elegant-light",
     name: "Elegant Light",
     description: "Sophisticated light theme with dark text",
-    preview: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+    preview: "linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%)",
     content: {
       heading: "Timeless Elegance",
       subheading: "Where style meets sophistication",
@@ -155,16 +155,16 @@ export const heroPresets: HeroPreset[] = [
       padding: { top: 100, right: 24, bottom: 100, left: 24 },
       alignmentX: "center",
       alignmentY: "center",
-      textColor: "#1a1a1a",
+      textColor: "#1c1917",
       backgroundOverlay: 10,
       backgroundOverlayColor: "#ffffff",
     },
   },
   {
-    id: "bold-right",
-    name: "Bold Right",
+    id: "muted-right",
+    name: "Muted Right",
     description: "Right-aligned for unique layouts",
-    preview: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+    preview: "linear-gradient(135deg, #6b7280 0%, #4b5563 100%)",
     content: {
       heading: "Fresh Arrivals",
       subheading: "Be the first to discover our newest products",
@@ -187,7 +187,7 @@ export const heroPresets: HeroPreset[] = [
     id: "compact-promo",
     name: "Compact Promo",
     description: "Shorter hero for promotional banners",
-    preview: "linear-gradient(135deg, #eb3349 0%, #f45c43 100%)",
+    preview: "linear-gradient(135deg, #57534e 0%, #44403c 100%)",
     content: {
       heading: "Flash Sale Today",
       subheading: "24 hours only - don't miss out!",
@@ -208,7 +208,7 @@ export const heroPresets: HeroPreset[] = [
     id: "immersive-tall",
     name: "Immersive Full",
     description: "Full viewport height for maximum impact",
-    preview: "linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%)",
+    preview: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)",
     content: {
       heading: "Experience the Extraordinary",
       subheading: "Premium products for discerning customers",
@@ -231,7 +231,7 @@ export const heroPresets: HeroPreset[] = [
     id: "top-aligned",
     name: "Top Aligned",
     description: "Content at top for below-fold emphasis",
-    preview: "linear-gradient(135deg, #8360c3 0%, #2ebf91 100%)",
+    preview: "linear-gradient(135deg, #71717a 0%, #52525b 100%)",
     content: {
       heading: "Welcome Back",
       subheading: "Continue where you left off",

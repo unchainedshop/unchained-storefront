@@ -252,6 +252,27 @@
       "createdAt": "2026-01-14T18:41:08.756Z",
       "updatedAt": "2026-01-14T18:41:08.756Z",
       "usageCount": 0
+    },
+    "media_1768435177252_hz9k7z": {
+      "filename": "2026/01/media_1768435177158_5kcq2y.webp",
+      "originalName": "vedi-westhive-2024_cropped_cropped.webp",
+      "mimeType": "image/webp",
+      "size": 75750,
+      "dimensions": {
+        "width": 872,
+        "height": 374
+      },
+      "altText": "",
+      "title": "vedi-westhive-2024 (cropped) (cropped)",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768435177252_hz9k7z",
+      "createdAt": "2026-01-14T23:59:37.252Z",
+      "updatedAt": "2026-01-14T23:59:37.252Z",
+      "usageCount": 0
     }
   },
   "folders": {
@@ -273,5 +294,5 @@
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-14T18:41:08.758Z"
+  "lastUpdated": "2026-01-14T23:59:37.253Z"
 }

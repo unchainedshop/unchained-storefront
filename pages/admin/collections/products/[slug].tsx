@@ -95,7 +95,9 @@ const ProductCollectionEditorPage: React.FC = () => {
       setStatus(data.status);
       setProductIds(data.productIds || []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load collection");
+      setError(
+        err instanceof Error ? err.message : "Failed to load collection",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -210,11 +212,11 @@ const ProductCollectionEditorPage: React.FC = () => {
       <MetaTags
         title={`Edit ${collection ? getLocalizedValue(collection.name, cmsConfig.defaultLocale) : "Collection"} - Admin`}
       />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
         {/* Header */}
-        <div className="relative bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative pt-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="py-6">
+            <div className="py-10 md:py-14">
               <div className="flex items-center gap-4 mb-4">
                 <Link
                   href="/admin/collections/products"
@@ -245,7 +247,10 @@ const ProductCollectionEditorPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                   {collection
-                    ? getLocalizedValue(collection.name, cmsConfig.defaultLocale)
+                    ? getLocalizedValue(
+                        collection.name,
+                        cmsConfig.defaultLocale,
+                      )
                     : "Loading..."}
                 </h1>
 
@@ -538,7 +543,8 @@ const ProductCollectionEditorPage: React.FC = () => {
             </div>
             <div className="p-4">
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                Enter a product ID to add to this collection. Product IDs can be found in your Unchained Engine admin.
+                Enter a product ID to add to this collection. Product IDs can be
+                found in your Unchained Engine admin.
               </p>
               <button
                 onClick={() => handleAddProduct(productSearch)}

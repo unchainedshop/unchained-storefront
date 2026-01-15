@@ -1,0 +1,15 @@
+{
+  "id": "entry_1768435194196_ebrcc",
+  "collectionSlug": "teams",
+  "slug": "asdf",
+  "status": "published",
+  "content": {
+    "role": {},
+    "bio": {},
+    "photo": "/api/media/files/2026/01/media_1768435177158_5kcq2y.webp",
+    "name": "asdf"
+  },
+  "createdAt": "2026-01-14T23:59:54.195Z",
+  "updatedAt": "2026-01-14T23:59:54.195Z",
+  "createdBy": "dev-user"
+}

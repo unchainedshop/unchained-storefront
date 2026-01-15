@@ -1,0 +1,329 @@
+{
+  "id": "schema_1768435317761_zutf9",
+  "slug": "blogs",
+  "name": {
+    "de": "Blogs",
+    "en": "Blog",
+    "fr": "Blog",
+    "it": "Blog"
+  },
+  "description": {
+    "de": "Blog-Artikel und News",
+    "en": "Blog posts and news articles",
+    "fr": "Articles de blog et actualites",
+    "it": "Articoli del blog e notizie"
+  },
+  "type": "content",
+  "icon": "newspaper",
+  "status": "active",
+  "titleField": "title",
+  "slugField": "title",
+  "previewField": "featured_image",
+  "sortField": "published_date",
+  "sortDirection": "desc",
+  "versioning": true,
+  "workflow": {
+    "enableReview": true,
+    "enableScheduling": true
+  },
+  "groups": [
+    {
+      "name": "content",
+      "label": {
+        "de": "Inhalt",
+        "en": "Content",
+        "fr": "Contenu",
+        "it": "Contenuto"
+      },
+      "icon": "document-text",
+      "order": 0
+    },
+    {
+      "name": "media",
+      "label": {
+        "de": "Medien",
+        "en": "Media",
+        "fr": "Medias",
+        "it": "Media"
+      },
+      "icon": "photo",
+      "order": 1
+    },
+    {
+      "name": "seo",
+      "label": {
+        "de": "SEO",
+        "en": "SEO",
+        "fr": "SEO",
+        "it": "SEO"
+      },
+      "icon": "magnifying-glass",
+      "collapsed": true,
+      "order": 2
+    }
+  ],
+  "fields": [
+    {
+      "id": "field_title",
+      "name": "title",
+      "label": {
+        "de": "Titel",
+        "en": "Title",
+        "fr": "Titre",
+        "it": "Titolo"
+      },
+      "type": "text",
+      "localized": true,
+      "validation": {
+        "required": true,
+        "maxLength": 200
+      },
+      "group": "content",
+      "listColumn": true,
+      "order": 0,
+      "width": "full"
+    },
+    {
+      "id": "field_slug",
+      "name": "slug",
+      "label": {
+        "de": "URL-Slug",
+        "en": "URL Slug",
+        "fr": "Slug URL",
+        "it": "Slug URL"
+      },
+      "type": "slug",
+      "validation": {
+        "required": true,
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "config": {
+        "sourceField": "title"
+      },
+      "group": "content",
+      "order": 1,
+      "width": "half"
+    },
+    {
+      "id": "field_excerpt",
+      "name": "excerpt",
+      "label": {
+        "de": "Auszug",
+        "en": "Excerpt",
+        "fr": "Extrait",
+        "it": "Estratto"
+      },
+      "type": "textarea",
+      "localized": true,
+      "validation": {
+        "maxLength": 500
+      },
+      "description": {
+        "de": "Kurze Zusammenfassung für Vorschauen",
+        "en": "Short summary for previews"
+      },
+      "group": "content",
+      "order": 2,
+      "width": "full"
+    },
+    {
+      "id": "field_content",
+      "name": "content",
+      "label": {
+        "de": "Inhalt",
+        "en": "Content",
+        "fr": "Contenu",
+        "it": "Contenuto"
+      },
+      "type": "richtext",
+      "localized": true,
+      "validation": {
+        "required": true
+      },
+      "config": {
+        "toolbar": [
+          "bold",
+          "italic",
+          "link",
+          "heading",
+          "list",
+          "image",
+          "quote",
+          "code"
+        ]
+      },
+      "group": "content",
+      "order": 3,
+      "width": "full"
+    },
+    {
+      "id": "field_featured_image",
+      "name": "featured_image",
+      "label": {
+        "de": "Beitragsbild",
+        "en": "Featured Image",
+        "fr": "Image principale",
+        "it": "Immagine in evidenza"
+      },
+      "type": "image",
+      "config": {
+        "aspectRatio": "16:9"
+      },
+      "group": "media",
+      "order": 0,
+      "width": "full"
+    },
+    {
+      "id": "field_gallery",
+      "name": "gallery",
+      "label": {
+        "de": "Galerie",
+        "en": "Gallery",
+        "fr": "Galerie",
+        "it": "Galleria"
+      },
+      "type": "gallery",
+      "group": "media",
+      "order": 1,
+      "width": "full"
+    },
+    {
+      "id": "field_author",
+      "name": "author",
+      "label": {
+        "de": "Autor",
+        "en": "Author",
+        "fr": "Auteur",
+        "it": "Autore"
+      },
+      "type": "text",
+      "group": "content",
+      "listColumn": true,
+      "order": 4,
+      "width": "half"
+    },
+    {
+      "id": "field_published_date",
+      "name": "published_date",
+      "label": {
+        "de": "Veröffentlichungsdatum",
+        "en": "Publication Date",
+        "fr": "Date de publication",
+        "it": "Data di pubblicazione"
+      },
+      "type": "datetime",
+      "group": "content",
+      "listColumn": true,
+      "order": 5,
+      "width": "half"
+    },
+    {
+      "id": "field_categories",
+      "name": "categories",
+      "label": {
+        "de": "Kategorien",
+        "en": "Categories",
+        "fr": "Categories",
+        "it": "Categorie"
+      },
+      "type": "multiselect",
+      "group": "content",
+      "order": 6,
+      "width": "half",
+      "config": {
+        "options": [
+          {
+            "value": "news",
+            "label": {
+              "de": "News",
+              "en": "News",
+              "fr": "Actualites",
+              "it": "Notizie"
+            }
+          },
+          {
+            "value": "tutorial",
+            "label": {
+              "de": "Tutorial",
+              "en": "Tutorial",
+              "fr": "Tutoriel",
+              "it": "Tutorial"
+            }
+          },
+          {
+            "value": "announcement",
+            "label": {
+              "de": "Ankündigung",
+              "en": "Announcement",
+              "fr": "Annonce",
+              "it": "Annuncio"
+            }
+          },
+          {
+            "value": "product",
+            "label": {
+              "de": "Produkt",
+              "en": "Product",
+              "fr": "Produit",
+              "it": "Prodotto"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "field_tags",
+      "name": "tags",
+      "label": {
+        "de": "Tags",
+        "en": "Tags",
+        "fr": "Tags",
+        "it": "Tag"
+      },
+      "type": "multiselect",
+      "group": "content",
+      "order": 7,
+      "width": "half",
+      "config": {
+        "options": []
+      }
+    },
+    {
+      "id": "field_meta_title",
+      "name": "meta_title",
+      "label": {
+        "de": "Meta-Titel",
+        "en": "Meta Title",
+        "fr": "Titre meta",
+        "it": "Meta titolo"
+      },
+      "type": "text",
+      "localized": true,
+      "group": "seo",
+      "order": 0,
+      "width": "full"
+    },
+    {
+      "id": "field_meta_description",
+      "name": "meta_description",
+      "label": {
+        "de": "Meta-Beschreibung",
+        "en": "Meta Description",
+        "fr": "Description meta",
+        "it": "Meta descrizione"
+      },
+      "type": "textarea",
+      "localized": true,
+      "validation": {
+        "maxLength": 160
+      },
+      "group": "seo",
+      "order": 1,
+      "width": "full"
+    }
+  ],
+  "createdAt": "2026-01-15T00:01:57.761Z",
+  "updatedAt": "2026-01-15T00:01:57.761Z",
+  "templateSlug": "blog",
+  "createdBy": "dev-user"
+}

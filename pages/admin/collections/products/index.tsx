@@ -25,23 +25,24 @@ import { getLocalizedValue } from "../../../../modules/collections/utils/helpers
 import { cmsConfig } from "../../../../lib/cms.config";
 import type { ProductCollection } from "../../../../modules/collections/types";
 
-const statusColors: Record<string, { bg: string; text: string; dot: string }> = {
-  draft: {
-    bg: "bg-slate-100 dark:bg-slate-800",
-    text: "text-slate-600 dark:text-slate-400",
-    dot: "bg-slate-400",
-  },
-  published: {
-    bg: "bg-emerald-100 dark:bg-emerald-900/30",
-    text: "text-emerald-700 dark:text-emerald-400",
-    dot: "bg-emerald-500",
-  },
-  archived: {
-    bg: "bg-red-100 dark:bg-red-900/30",
-    text: "text-red-700 dark:text-red-400",
-    dot: "bg-red-500",
-  },
-};
+const statusColors: Record<string, { bg: string; text: string; dot: string }> =
+  {
+    draft: {
+      bg: "bg-slate-100 dark:bg-slate-800",
+      text: "text-slate-600 dark:text-slate-400",
+      dot: "bg-slate-400",
+    },
+    published: {
+      bg: "bg-emerald-100 dark:bg-emerald-900/30",
+      text: "text-emerald-700 dark:text-emerald-400",
+      dot: "bg-emerald-500",
+    },
+    archived: {
+      bg: "bg-red-100 dark:bg-red-900/30",
+      text: "text-red-700 dark:text-red-400",
+      dot: "bg-red-500",
+    },
+  };
 
 const ProductCollectionsPage: React.FC = () => {
   const router = useRouter();
@@ -74,7 +75,9 @@ const ProductCollectionsPage: React.FC = () => {
       setTotal(data.total);
       setHasMore(data.hasMore);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load collections");
+      setError(
+        err instanceof Error ? err.message : "Failed to load collections",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -116,11 +119,14 @@ const ProductCollectionsPage: React.FC = () => {
 
   const handleDuplicate = async (slug: string) => {
     try {
-      const res = await fetch(`/api/collections/products/${slug}?action=duplicate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newSlug: `${slug}-copy-${Date.now()}` }),
-      });
+      const res = await fetch(
+        `/api/collections/products/${slug}?action=duplicate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newSlug: `${slug}-copy-${Date.now()}` }),
+        },
+      );
 
       if (!res.ok) throw new Error("Failed to duplicate collection");
 
@@ -136,11 +142,11 @@ const ProductCollectionsPage: React.FC = () => {
   return (
     <>
       <MetaTags title="Product Collections - Admin" />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
         {/* Header */}
-        <div className="relative bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative pt-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="py-6">
+            <div className="py-10 md:py-14">
               <div className="flex items-center gap-4 mb-4">
                 <Link
                   href="/admin/collections"

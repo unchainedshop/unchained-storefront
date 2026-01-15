@@ -93,9 +93,9 @@ const MenusAdmin: React.FC = () => {
   return (
     <>
       <MetaTags title="Menus - Admin" />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
         {/* Hero Header */}
-        <div className="relative overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative pt-16 overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           {/* Decorative grid pattern */}
           <div
             className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"

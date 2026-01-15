@@ -143,20 +143,43 @@ export default function AdminDashboard() {
         <title>Dashboard | Unchained CMS</title>
       </Head>
 
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
-        {/* Header */}
-        <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-          <div className="max-w-[1600px] mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                  <UnchainedLogo className="h-5 w-5 text-slate-900 dark:text-white" />
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+        {/* Hero Header */}
+        <div className="relative pt-16 overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+          <div
+            className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+            style={{
+              backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px),
+                                linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+              backgroundSize: "48px 48px",
+            }}
+          />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-slate-200 dark:bg-slate-800 rounded-full opacity-20 blur-3xl" />
+          <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-slate-300 dark:bg-slate-700 rounded-full opacity-15 blur-3xl" />
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="py-10 md:py-14">
+              {/* Logo & Brand */}
+              <div className="flex items-center gap-3 mb-8">
+                <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-full border border-slate-200 dark:border-slate-700">
+                  <UnchainedLogo
+                    size={20}
+                    className="text-slate-900 dark:text-white"
+                  />
+                  <div className="h-4 w-px bg-slate-300 dark:bg-slate-600" />
+                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    CMS Dashboard
+                  </span>
                 </div>
-                <div>
-                  <h1 className="text-lg font-semibold text-slate-900 dark:text-white">
+              </div>
+
+              {/* Title & Actions */}
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+                <div className="space-y-3">
+                  <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
                     {greeting()}
                   </h1>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-lg text-slate-600 dark:text-slate-400 max-w-md">
                     {currentTime.toLocaleDateString(undefined, {
                       weekday: "long",
                       month: "long",
@@ -164,27 +187,30 @@ export default function AdminDashboard() {
                     })}
                   </p>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={fetchStats}
-                  className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                >
-                  <ArrowPathIcon
-                    className={`w-5 h-5 text-slate-600 dark:text-slate-400 ${loading ? "animate-spin" : ""}`}
-                  />
-                </button>
-                <Link
-                  href="/admin/pages/new"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
-                >
-                  <PlusIcon className="w-5 h-5" />
-                  New Page
-                </Link>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={fetchStats}
+                    disabled={loading}
+                    className="p-3 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-white dark:bg-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md"
+                    title="Refresh"
+                  >
+                    <ArrowPathIcon
+                      className={`w-5 h-5 ${loading ? "animate-spin" : ""}`}
+                    />
+                  </button>
+                  <Link
+                    href="/admin/pages/new"
+                    className="group inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                  >
+                    <PlusIcon className="w-5 h-5 transition-transform group-hover:rotate-90" />
+                    New Page
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Main Content */}
         <main className="max-w-[1600px] mx-auto px-6 py-8">

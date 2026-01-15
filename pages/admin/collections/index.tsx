@@ -75,7 +75,9 @@ const CollectionsAdmin: React.FC = () => {
 
   const filteredSchemas = schemas.filter((schema) => {
     const name = getLocalizedValue(schema.name, cmsConfig.defaultLocale);
-    const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     const matchesType = typeFilter === "all" || schema.type === typeFilter;
     return matchesSearch && matchesType;
   });
@@ -116,9 +118,9 @@ const CollectionsAdmin: React.FC = () => {
   return (
     <>
       <MetaTags title="Collections - Admin" />
-      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="min-h-screen pb-48 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-900">
         {/* Hero Header */}
-        <div className="relative overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative pt-16 overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div
             className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
             style={{
