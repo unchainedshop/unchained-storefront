@@ -165,10 +165,10 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
             style={{
               gridColumn: col,
               gridRow: row,
-              // Empty cell gets subtle gradient background
+              // Empty cell gets very subtle gradient background
               ...(!isOccupied && {
                 background:
-                  "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)",
+                  "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
               }),
             }}
             onClick={(e) => handleCellClick(col, row, e)}

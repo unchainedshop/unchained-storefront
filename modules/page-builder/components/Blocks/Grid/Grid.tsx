@@ -233,7 +233,7 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
           className="h-full min-h-[120px] flex items-center justify-center"
           style={{
             background:
-              "linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f1f5f9 100%)",
+              "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
           }}
           data-grid-placeholder
           data-col={col}
