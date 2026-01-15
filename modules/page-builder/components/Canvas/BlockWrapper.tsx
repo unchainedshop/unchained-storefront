@@ -191,7 +191,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
       style={style}
       {...attributes}
       className={classNames(
-        "relative group transition-all duration-200 block-wrapper",
+        "relative group transition-all duration-200 block-wrapper h-full",
         {
           "opacity-50": block.hidden,
           "cursor-not-allowed": isCollaborationLocked,

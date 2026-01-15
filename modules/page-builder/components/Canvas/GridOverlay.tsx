@@ -139,8 +139,14 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
           occupiedPlacement?.blockId === selectedCellBlockId;
         const childLabel = isOrigin ? getChildLabel(isOrigin.blockId) : null;
 
-        // For spanned cells that are not the origin, show a subdued indicator
-        const isSpannedNonOrigin = isOccupied && !isOrigin;
+        // Skip cells that are part of a spanned area (not the origin)
+        if (isOccupied && !isOrigin) {
+          return null;
+        }
+
+        // For origin cells with spans, render a single block that spans the area
+        const colSpan = isOrigin?.placement.colSpan || 1;
+        const rowSpan = isOrigin?.placement.rowSpan || 1;
 
         return (
           <div
@@ -148,23 +154,20 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
             className={classNames(
               "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center",
               {
-                // Occupied cell (origin)
+                // Occupied cell (origin) - spans entire area
                 "border-2 border-solid border-emerald-400 dark:border-emerald-600 bg-emerald-50/50 dark:bg-emerald-900/30":
                   isOrigin,
-                // Spanned cell (not origin)
-                "border border-dotted border-emerald-300 dark:border-emerald-700 bg-emerald-50/20 dark:bg-emerald-900/10":
-                  isSpannedNonOrigin,
                 // Selected cell
                 "!border-blue-500 !border-2 !bg-blue-100/50 dark:!bg-blue-900/40":
                   isSelectedCell,
-                // Hovered
+                // Hovered occupied
                 "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset":
                   isHovered && isOccupied,
               },
             )}
             style={{
-              gridColumn: col,
-              gridRow: row,
+              gridColumn: isOrigin ? `${col} / span ${colSpan}` : col,
+              gridRow: isOrigin ? `${row} / span ${rowSpan}` : row,
               // Empty cell gets very subtle gradient background
               ...(!isOccupied && {
                 background:
@@ -203,14 +206,11 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
             )}
 
             {/* Span indicator for origins with spanning */}
-            {isOrigin &&
-              (isOrigin.placement.colSpan! > 1 ||
-                isOrigin.placement.rowSpan! > 1) && (
-                <span className="absolute top-1 right-1 text-[9px] font-mono text-emerald-500 dark:text-emerald-400">
-                  {isOrigin.placement.colSpan || 1}×
-                  {isOrigin.placement.rowSpan || 1}
-                </span>
-              )}
+            {isOrigin && (colSpan > 1 || rowSpan > 1) && (
+              <span className="absolute top-1 right-1 text-[9px] font-mono text-emerald-500 dark:text-emerald-400">
+                {colSpan}×{rowSpan}
+              </span>
+            )}
           </div>
         );
       })}
