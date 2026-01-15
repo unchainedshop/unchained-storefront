@@ -11,6 +11,17 @@ import {
   showLoadingToast,
   dismissToast,
 } from "../utils/toast";
+import { cmsConfig } from "../../../lib/cms.config";
+
+// Get displayable title from localized object
+const getPageTitle = (page: Page): string => {
+  if (typeof page.title === "string") return page.title;
+  return (
+    page.title?.[cmsConfig.defaultLocale] ||
+    Object.values(page.title || {})[0] ||
+    "Untitled"
+  );
+};
 
 interface UsePagesOptions {
   autoFetch?: boolean;
@@ -49,7 +60,11 @@ export function usePages(options: UsePagesOptions = {}): UsePagesReturn {
 
   const deletePage = useCallback(
     async (page: Page): Promise<boolean> => {
-      if (!window.confirm(`Are you sure you want to delete "${page.title}"?`)) {
+      if (
+        !window.confirm(
+          `Are you sure you want to delete "${getPageTitle(page)}"?`,
+        )
+      ) {
         return false;
       }
 

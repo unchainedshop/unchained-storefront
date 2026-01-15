@@ -10,12 +10,23 @@ import {
   LinkIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
+import { cmsConfig } from "../../../../lib/cms.config";
 
 interface Page {
   id: string;
   slug: string;
-  title: string;
+  title: Record<string, string>;
 }
+
+// Get displayable title from localized object
+const getPageTitle = (page: Page): string => {
+  if (typeof page.title === "string") return page.title;
+  return (
+    page.title?.[cmsConfig.defaultLocale] ||
+    Object.values(page.title || {})[0] ||
+    "Untitled"
+  );
+};
 
 interface LinkPickerFieldProps {
   value: string;
@@ -140,7 +151,7 @@ const LinkPickerField: React.FC<LinkPickerFieldProps> = ({
               {isLoading
                 ? "Loading..."
                 : selectedPage
-                  ? selectedPage.title
+                  ? getPageTitle(selectedPage)
                   : "Select a page..."}
             </span>
             <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-400" />
@@ -175,7 +186,9 @@ const LinkPickerField: React.FC<LinkPickerFieldProps> = ({
                     >
                       <DocumentTextIcon className="w-3.5 h-3.5 text-slate-400" />
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium truncate">{page.title}</div>
+                        <div className="font-medium truncate">
+                          {getPageTitle(page)}
+                        </div>
                         <div className="text-[10px] text-slate-400 truncate">
                           /p/{page.slug}
                         </div>

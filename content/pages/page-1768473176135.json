@@ -1,6 +1,8 @@
 {
   "id": "page_1768473176135",
-  "title": "Product Launch #QFPTA",
+  "title": {
+    "de": "Product Launch #QFPTA"
+  },
   "slug": "page-1768473176135",
   "status": "draft",
   "blocks": [
@@ -8,15 +10,17 @@
       "id": "block_1768473180129_0zxl85im7",
       "type": "hero-banner",
       "content": {
-        "heading": "Introducing the Next Generation",
-        "subheading": "Two years in the making. Every detail refined. This is what perfection looks like.",
-        "buttonText": "Pre-Order Now",
-        "buttonLink": "#order",
-        "buttonVariant": "primary",
-        "secondaryButtonText": "Watch Video",
-        "secondaryButtonLink": "#video",
-        "secondaryButtonVariant": "secondary",
-        "variant": "split-left"
+        "de": {
+          "heading": "Introducing the Next Generation",
+          "subheading": "Two years in the making. Every detail refined. This is what perfection looks like.",
+          "buttonText": "Pre-Order Now",
+          "buttonLink": "#order",
+          "buttonVariant": "primary",
+          "secondaryButtonText": "Watch Video",
+          "secondaryButtonLink": "#video",
+          "secondaryButtonVariant": "secondary",
+          "variant": "split-left"
+        }
       },
       "style": {
         "backgroundColor": "#000000",
@@ -29,8 +33,10 @@
       "id": "block_1768473180129_rkp6or1ps",
       "type": "spacer",
       "content": {
-        "height": 100,
-        "mobileHeight": 60
+        "de": {
+          "height": 100,
+          "mobileHeight": 60
+        }
       },
       "style": {},
       "responsive": {}
@@ -40,8 +46,11 @@
       "type": "text-content",
       "content": {
         "de": {
-          "content": "<p>## Why You'll Love It</p>",
-          "headingLevel": "h2"
+          "de": {
+            "content": "<p>## Why You'll Love It</p>",
+            "headingLevel": "h2"
+          },
+          "content": "<p></p>"
         }
       },
       "style": {
@@ -59,10 +68,12 @@
       "id": "block_1768473180129_0k1wufh5g",
       "type": "columns",
       "content": {
-        "columns": 3,
-        "gap": 48,
-        "layout": "equal",
-        "stackOnMobile": true
+        "de": {
+          "columns": 3,
+          "gap": 48,
+          "layout": "equal",
+          "stackOnMobile": true
+        }
       },
       "style": {
         "padding": {
@@ -79,7 +90,10 @@
           "type": "text-content",
           "content": {
             "de": {
-              "content": "<p>### Precision Engineered Every component is machined to within 0.01mm tolerance. You can feel the difference the moment you pick it up.</p>"
+              "de": {
+                "content": "<p>### Precision Engineered Every component is machined to within 0.01mm tolerance. You can feel the difference the moment you pick it up.</p>"
+              },
+              "content": "<p></p>"
             }
           },
           "style": {
@@ -92,7 +106,10 @@
           "type": "text-content",
           "content": {
             "de": {
-              "content": "<p>### All-Day Battery Powered by our most advanced battery technology yet. 72 hours of continuous use on a single charge.</p>"
+              "de": {
+                "content": "<p>### All-Day Battery Powered by our most advanced battery technology yet. 72 hours of continuous use on a single charge.</p>"
+              },
+              "content": "<p></p>"
             }
           },
           "style": {
@@ -105,7 +122,10 @@
           "type": "text-content",
           "content": {
             "de": {
-              "content": "<p>### Sustainable Materials 100% recycled aluminum body. Carbon-neutral manufacturing. Zero plastic packaging.</p>"
+              "de": {
+                "content": "<p>### Sustainable Materials 100% recycled aluminum body. Carbon-neutral manufacturing. Zero plastic packaging.</p>"
+              },
+              "content": "<p></p>"
             }
           },
           "style": {
@@ -119,11 +139,13 @@
       "id": "block_1768473180129_p80fc9c0b",
       "type": "hero-banner",
       "content": {
-        "heading": "See It In Action",
-        "subheading": "Real results from real customers who made the switch.",
-        "buttonText": "View Gallery",
-        "buttonLink": "#gallery",
-        "variant": "image-grid-left"
+        "de": {
+          "heading": "See It In Action",
+          "subheading": "Real results from real customers who made the switch.",
+          "buttonText": "View Gallery",
+          "buttonLink": "#gallery",
+          "variant": "image-grid-left"
+        }
       },
       "style": {
         "backgroundColor": "#f1f5f9",
@@ -137,25 +159,27 @@
       "type": "testimonials",
       "content": {
         "de": {
-          "testimonials": [
-            {
-              "id": "t1",
-              "quote": "This is hands-down the best purchase I've made all year. The build quality is insane.",
-              "author": "Chris R.",
-              "role": "Early Adopter",
-              "rating": 5
-            },
-            {
-              "id": "t2",
-              "quote": "I was skeptical at first, but it completely exceeded my expectations. Worth every penny.",
-              "author": "Emma T.",
-              "role": "Beta Tester",
-              "rating": 5
-            }
-          ],
-          "layout": "grid",
-          "showRating": true,
-          "showAvatar": true
+          "de": {
+            "testimonials": [
+              {
+                "id": "t1",
+                "quote": "This is hands-down the best purchase I've made all year. The build quality is insane.",
+                "author": "Chris R.",
+                "role": "Early Adopter",
+                "rating": 5
+              },
+              {
+                "id": "t2",
+                "quote": "I was skeptical at first, but it completely exceeded my expectations. Worth every penny.",
+                "author": "Emma T.",
+                "role": "Beta Tester",
+                "rating": 5
+              }
+            ],
+            "layout": "grid",
+            "showRating": true,
+            "showAvatar": true
+          }
         }
       },
       "style": {
@@ -172,11 +196,13 @@
       "id": "block_1768473180129_gtyb611nw",
       "type": "countdown-timer",
       "content": {
-        "heading": "Limited Launch Pricing Ends",
-        "endDate": "2026-01-29T10:32:50.502Z",
-        "buttonText": "Secure Your Order",
-        "buttonLink": "#order",
-        "expiredMessage": "Launch pricing has ended"
+        "de": {
+          "heading": "Limited Launch Pricing Ends",
+          "endDate": "2026-01-29T10:32:50.502Z",
+          "buttonText": "Secure Your Order",
+          "buttonLink": "#order",
+          "expiredMessage": "Launch pricing has ended"
+        }
       },
       "style": {
         "backgroundColor": "#0f172a",
@@ -191,7 +217,17 @@
       "responsive": {}
     }
   ],
-  "seo": {},
+  "seo": {
+    "ogImage": {
+      "de": "/api/media/files/2026/01/media_1768406160327_petmxc.webp"
+    },
+    "description": {
+      "de": "asdfasdf"
+    },
+    "title": {
+      "de": "asdfasdfasdf"
+    }
+  },
   "translations": {
     "sourceLocale": "de",
     "status": {
@@ -218,6 +254,6 @@
     }
   },
   "createdAt": "2026-01-15T10:32:56.135Z",
-  "updatedAt": "2026-01-15T10:33:02.962Z",
+  "updatedAt": "2026-01-15T13:32:06.141Z",
   "versions": []
 }

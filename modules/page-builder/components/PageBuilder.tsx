@@ -109,7 +109,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
     setPage({
       ...state.page,
       id: `page_${Date.now()}`,
-      title: newTitle,
+      title: { [cmsConfig.defaultLocale]: newTitle },
       slug: "untitled-page",
       blocks: [],
       status: "draft",
@@ -147,7 +147,7 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
 
       setPage({
         ...state.page,
-        title: newTitle,
+        title: { [cmsConfig.defaultLocale]: newTitle },
         blocks: newBlocks,
       });
 
