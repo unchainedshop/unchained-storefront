@@ -131,9 +131,9 @@ const Columns: React.FC<ColumnsProps> = ({ block, children, isPreview }) => {
           Array.from({ length: desktopColumns }).map((_, index) => (
             <div
               key={index}
-              className="min-h-[100px] flex items-center justify-center text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4"
+              className="min-h-[100px] flex items-center justify-center text-periwinkle-400 dark:text-periwinkle-300 border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50 bg-periwinkle-50/30 dark:bg-periwinkle-500/5 rounded-lg p-4"
             >
-              <p className="text-sm">Column {index + 1}</p>
+              <p className="text-sm font-medium">Column {index + 1}</p>
             </div>
           ))}
       </div>

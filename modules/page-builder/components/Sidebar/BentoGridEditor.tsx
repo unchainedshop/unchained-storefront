@@ -30,10 +30,22 @@ interface ResizeState {
   startRowSpan: number;
 }
 
+interface DragMoveState {
+  blockId: string;
+  startX: number;
+  startY: number;
+  startColStart: number;
+  startRowStart: number;
+  colSpan: number;
+  rowSpan: number;
+}
+
 interface BentoGridEditorProps {
   columns: number;
   rows: number;
   placements: GridChildPlacement[];
+  /** IDs of blocks that actually exist - used to filter out orphaned placements */
+  childBlockIds?: string[];
   onAreaCreate: (area: {
     colStart: number;
     rowStart: number;
@@ -46,7 +58,15 @@ interface BentoGridEditorProps {
     blockId: string,
     newSize: { colSpan: number; rowSpan: number },
   ) => void;
+  onAreaMove?: (
+    blockId: string,
+    newPosition: { colStart: number; rowStart: number },
+  ) => void;
   selectedBlockId?: string | null;
+  /** Initial cell height from grid's minRowHeight */
+  initialCellHeight?: number;
+  /** Callback when cell height slider changes - updates grid's minRowHeight */
+  onCellHeightChange?: (height: number) => void;
 }
 
 // Colors for bento areas - subtle monochrome palette
@@ -63,13 +83,26 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
   columns,
   rows,
   placements,
+  childBlockIds,
   onAreaCreate,
   onAreaClick,
   onAreaDelete,
   onAreaResize,
+  onAreaMove,
   selectedBlockId,
+  initialCellHeight,
+  onCellHeightChange,
 }) => {
-  const [cellHeight, setCellHeight] = useState(40);
+  // Filter placements to only include blocks that actually exist
+  const existingBlockIds = childBlockIds ? new Set(childBlockIds) : null;
+  const validPlacements = existingBlockIds
+    ? placements.filter((p) => existingBlockIds.has(p.blockId))
+    : placements;
+  // Scale initial height to fit slider range (24-60) - divide by 2 since canvas uses larger values
+  const scaledInitial = initialCellHeight
+    ? Math.max(24, Math.min(60, Math.round(initialCellHeight / 2)))
+    : 40;
+  const [cellHeight, setCellHeight] = useState(scaledInitial);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<{
     col: number;
@@ -85,6 +118,15 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
   const [previewSpan, setPreviewSpan] = useState<{
     colSpan: number;
     rowSpan: number;
+  } | null>(null);
+
+  // Drag-move state
+  const [dragMoveState, setDragMoveState] = useState<DragMoveState | null>(
+    null,
+  );
+  const [previewPosition, setPreviewPosition] = useState<{
+    colStart: number;
+    rowStart: number;
   } | null>(null);
 
   // Calculate cell size from grid
@@ -128,7 +170,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
     if (!resizeState) return;
 
     const cellSize = getCellSize();
-    const area = placements.find((p) => p.blockId === resizeState.blockId);
+    const area = validPlacements.find((p) => p.blockId === resizeState.blockId);
 
     const handleMouseMove = (e: MouseEvent) => {
       const deltaX = e.clientX - resizeState.startX;
@@ -180,11 +222,93 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
     getCellSize,
     columns,
     rows,
-    placements,
+    validPlacements,
   ]);
 
-  // Convert placements to bento areas with colors
-  const bentoAreas: BentoArea[] = placements.map((p, idx) => ({
+  // Handle drag-move start
+  const handleDragMoveStart = useCallback(
+    (
+      e: React.MouseEvent,
+      blockId: string,
+      currentColStart: number,
+      currentRowStart: number,
+      colSpan: number,
+      rowSpan: number,
+    ) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      setDragMoveState({
+        blockId,
+        startX: e.clientX,
+        startY: e.clientY,
+        startColStart: currentColStart,
+        startRowStart: currentRowStart,
+        colSpan,
+        rowSpan,
+      });
+      setPreviewPosition({
+        colStart: currentColStart,
+        rowStart: currentRowStart,
+      });
+    },
+    [],
+  );
+
+  // Handle drag-move mouse move and up
+  useEffect(() => {
+    if (!dragMoveState) return;
+
+    const cellSize = getCellSize();
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const deltaX = e.clientX - dragMoveState.startX;
+      const deltaY = e.clientY - dragMoveState.startY;
+
+      const colDelta = Math.round(deltaX / cellSize.width);
+      const rowDelta = Math.round(deltaY / cellSize.height);
+
+      let newColStart = dragMoveState.startColStart + colDelta;
+      let newRowStart = dragMoveState.startRowStart + rowDelta;
+
+      // Keep within grid bounds
+      newColStart = Math.max(
+        1,
+        Math.min(newColStart, columns - dragMoveState.colSpan + 1),
+      );
+      newRowStart = Math.max(
+        1,
+        Math.min(newRowStart, rows - dragMoveState.rowSpan + 1),
+      );
+
+      setPreviewPosition({ colStart: newColStart, rowStart: newRowStart });
+    };
+
+    const handleMouseUp = () => {
+      if (previewPosition && onAreaMove) {
+        // Only call if position actually changed
+        if (
+          previewPosition.colStart !== dragMoveState.startColStart ||
+          previewPosition.rowStart !== dragMoveState.startRowStart
+        ) {
+          onAreaMove(dragMoveState.blockId, previewPosition);
+        }
+      }
+      setDragMoveState(null);
+      setPreviewPosition(null);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragMoveState, previewPosition, onAreaMove, getCellSize, columns, rows]);
+
+  // Convert valid placements to bento areas with colors
+  const bentoAreas: BentoArea[] = validPlacements.map((p, idx) => ({
     id: p.blockId,
     colStart: p.placement.colStart,
     rowStart: p.placement.rowStart,
@@ -309,6 +433,10 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           }}
         />
       )}
+      {/* Global drag-move overlay - captures mouse during move */}
+      {dragMoveState && (
+        <div className="fixed inset-0 z-[9999] cursor-grabbing" />
+      )}
       <div className="space-y-2">
         <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-widest">
           Click & drag to create areas
@@ -349,6 +477,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                 if (occupant) {
                   const isSelected = selectedBlockId === occupant.id;
                   const isResizing = resizeState?.blockId === occupant.id;
+                  const isMoving = dragMoveState?.blockId === occupant.id;
 
                   // Use preview span during resize
                   const displayColSpan =
@@ -360,23 +489,50 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                       ? previewSpan.rowSpan
                       : occupant.rowSpan;
 
+                  // Use preview position during move
+                  const displayColStart =
+                    isMoving && previewPosition
+                      ? previewPosition.colStart
+                      : occupant.colStart;
+                  const displayRowStart =
+                    isMoving && previewPosition
+                      ? previewPosition.rowStart
+                      : occupant.rowStart;
+
                   return (
                     <div
                       key={`area-${occupant.id}`}
                       className={classNames(
-                        "relative rounded border cursor-pointer transition-all group/area",
+                        "relative rounded border transition-all group/area",
                         occupant.color,
                         {
                           "ring-1 ring-slate-700 dark:ring-slate-300 ring-offset-1":
-                            isSelected && !isResizing,
-                          "border-dashed border-slate-500": isResizing,
+                            isSelected && !isResizing && !isMoving,
+                          "border-dashed border-slate-500":
+                            isResizing || isMoving,
+                          "cursor-grab": onAreaMove && !isMoving,
+                          "cursor-grabbing": isMoving,
+                          "cursor-pointer": !onAreaMove,
                         },
                       )}
                       style={{
-                        gridColumn: `${occupant.colStart} / span ${displayColSpan}`,
-                        gridRow: `${occupant.rowStart} / span ${displayRowSpan}`,
+                        gridColumn: `${displayColStart} / span ${displayColSpan}`,
+                        gridRow: `${displayRowStart} / span ${displayRowSpan}`,
                       }}
                       onClick={(e) => handleAreaClick(e, occupant.id)}
+                      onMouseDown={(e) => {
+                        // Only start move if not clicking on resize handles
+                        if (onAreaMove && !isResizing) {
+                          handleDragMoveStart(
+                            e,
+                            occupant.id,
+                            occupant.colStart,
+                            occupant.rowStart,
+                            occupant.colSpan,
+                            occupant.rowSpan,
+                          );
+                        }
+                      }}
                     >
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
@@ -530,7 +686,12 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
               min={24}
               max={60}
               value={cellHeight}
-              onChange={(e) => setCellHeight(Number(e.target.value))}
+              onChange={(e) => {
+                const newHeight = Number(e.target.value);
+                setCellHeight(newHeight);
+                // Scale up for canvas (multiply by 2 to get actual minRowHeight)
+                onCellHeightChange?.(newHeight * 2);
+              }}
               className="w-12 h-1 accent-slate-400 cursor-pointer"
             />
           </div>

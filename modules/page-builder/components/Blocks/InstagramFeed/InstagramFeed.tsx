@@ -11,7 +11,11 @@ import {
   HeartIcon,
   ChatBubbleOvalLeftIcon,
 } from "@heroicons/react/24/solid";
-import type { PageBlock, InstagramFeedContent, InstagramPost } from "../../../types";
+import type {
+  PageBlock,
+  InstagramFeedContent,
+  InstagramPost,
+} from "../../../types";
 
 interface InstagramFeedProps {
   block: PageBlock;
@@ -81,13 +85,13 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
     return (
       <div
         style={containerStyle}
-        className="flex flex-col items-center justify-center py-16 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600"
+        className="flex flex-col items-center justify-center py-16 px-4 bg-periwinkle-50/30 dark:bg-periwinkle-500/5 rounded-xl border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50"
       >
-        <InstagramIcon className="w-12 h-12 text-slate-400 mb-3" />
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium text-center">
+        <InstagramIcon className="w-12 h-12 text-periwinkle-400 dark:text-periwinkle-300 mb-3" />
+        <p className="text-periwinkle-400 dark:text-periwinkle-300 text-sm font-medium text-center">
           Connect your Instagram account or add posts manually
         </p>
-        <p className="text-slate-400 dark:text-slate-500 text-xs mt-1">
+        <p className="text-periwinkle-300 dark:text-periwinkle-400 text-xs mt-1">
           @{content.username || "username"}
         </p>
       </div>
@@ -161,13 +165,15 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
   // Carousel navigation
   const handlePrevSlide = () => {
     setCurrentSlide((prev) =>
-      prev === 0 ? Math.max(0, visiblePosts.length - content.columns) : prev - 1
+      prev === 0
+        ? Math.max(0, visiblePosts.length - content.columns)
+        : prev - 1,
     );
   };
 
   const handleNextSlide = () => {
     setCurrentSlide((prev) =>
-      prev >= visiblePosts.length - content.columns ? 0 : prev + 1
+      prev >= visiblePosts.length - content.columns ? 0 : prev + 1,
     );
   };
 
@@ -244,7 +250,9 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
                 <div
                   key={post.id}
                   className="flex-shrink-0"
-                  style={{ width: `calc(${100 / content.columns}% - ${content.gap}px)` }}
+                  style={{
+                    width: `calc(${100 / content.columns}% - ${content.gap}px)`,
+                  }}
                 >
                   {renderPost(post)}
                 </div>
@@ -305,8 +313,7 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
           >
-            <InstagramIcon className="w-5 h-5" />
-            @{content.username}
+            <InstagramIcon className="w-5 h-5" />@{content.username}
           </a>
         </div>
       )}

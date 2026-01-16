@@ -174,11 +174,11 @@ const CollectionList: React.FC<CollectionListProps> = ({
   if (!content.collectionSlug && canEdit) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-16 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600"
+        className="flex flex-col items-center justify-center py-16 px-4 bg-periwinkle-50/30 dark:bg-periwinkle-500/5 rounded-xl border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50"
         style={containerStyle}
       >
-        <RectangleStackIcon className="w-10 h-10 text-slate-400 mb-3" />
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+        <RectangleStackIcon className="w-10 h-10 text-periwinkle-400 dark:text-periwinkle-300 mb-3" />
+        <p className="text-periwinkle-400 dark:text-periwinkle-300 text-sm font-medium">
           Select a collection in the settings panel
         </p>
       </div>
@@ -231,11 +231,11 @@ const CollectionList: React.FC<CollectionListProps> = ({
   if (entries.length === 0) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-16 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
+        className="flex flex-col items-center justify-center py-16 px-4 bg-periwinkle-50/30 dark:bg-periwinkle-500/5 rounded-xl"
         style={containerStyle}
       >
-        <RectangleStackIcon className="w-10 h-10 text-slate-400 mb-3" />
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+        <RectangleStackIcon className="w-10 h-10 text-periwinkle-400 dark:text-periwinkle-300 mb-3" />
+        <p className="text-periwinkle-400 dark:text-periwinkle-300 text-sm font-medium">
           No entries found in this collection
         </p>
       </div>

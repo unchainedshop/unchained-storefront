@@ -25,6 +25,8 @@ interface GridTemplateEditorProps {
   template: GridTemplate;
   onChange: (template: GridTemplate) => void;
   placements?: GridChildPlacement[];
+  /** IDs of blocks that actually exist as children - for filtering orphaned placements */
+  childBlockIds?: string[];
   onAreaCreate?: (area: {
     colStart: number;
     rowStart: number;
@@ -37,7 +39,15 @@ interface GridTemplateEditorProps {
     blockId: string,
     newSize: { colSpan: number; rowSpan: number },
   ) => void;
+  onAreaMove?: (
+    blockId: string,
+    newPosition: { colStart: number; rowStart: number },
+  ) => void;
   selectedBlockId?: string | null;
+  /** Initial cell height from grid's minRowHeight */
+  initialCellHeight?: number;
+  /** Callback when cell height slider changes - updates grid's minRowHeight */
+  onCellHeightChange?: (height: number) => void;
   // Legacy props for compatibility
   selectedCell?: { col: number; row: number } | null;
   onCellSelect?: (col: number, row: number) => void;
@@ -56,11 +66,14 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
   template,
   onChange,
   placements = [],
+  childBlockIds,
   onAreaCreate,
   onAreaClick,
   onAreaDelete,
   onAreaResize,
   selectedBlockId,
+  initialCellHeight,
+  onCellHeightChange,
 }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [editingTrack, setEditingTrack] = useState<{
@@ -138,11 +151,14 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
             columns={columns.length}
             rows={rows.length}
             placements={placements}
+            childBlockIds={childBlockIds}
             onAreaCreate={handleAreaCreate}
             onAreaClick={onAreaClick || (() => {})}
             onAreaDelete={onAreaDelete}
             onAreaResize={onAreaResize}
             selectedBlockId={selectedBlockId}
+            initialCellHeight={initialCellHeight}
+            onCellHeightChange={onCellHeightChange}
           />
         </div>
       )}

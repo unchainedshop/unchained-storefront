@@ -71,16 +71,10 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ block, isPreview }) => {
           style={imageStyle}
         />
       ) : (
-        <div
-          className="w-full h-full min-h-[120px] flex items-center justify-center"
-          style={{
-            background:
-              "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
-          }}
-        >
-          <div className="text-center text-slate-400">
-            <PhotoIcon className="w-6 h-6 mx-auto" />
-            <p className="mt-1 text-xs">Add Image</p>
+        <div className="w-full h-full min-h-[120px] flex items-center justify-center border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50 bg-periwinkle-50/30 dark:bg-periwinkle-500/5">
+          <div className="text-center text-periwinkle-400 dark:text-periwinkle-300">
+            <PhotoIcon className="w-8 h-8 mx-auto" />
+            <p className="mt-2 text-sm font-medium">Add Image</p>
           </div>
         </div>
       )}

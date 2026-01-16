@@ -12,7 +12,11 @@ import {
   MagnifyingGlassIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
-import type { PageBlock, StoreLocatorContent, StoreLocation } from "../../../types";
+import type {
+  PageBlock,
+  StoreLocatorContent,
+  StoreLocation,
+} from "../../../types";
 
 interface StoreLocatorProps {
   block: PageBlock;
@@ -24,7 +28,9 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
   const style = block.style;
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedStore, setSelectedStore] = useState<StoreLocation | null>(null);
+  const [selectedStore, setSelectedStore] = useState<StoreLocation | null>(
+    null,
+  );
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: style.backgroundColor,
@@ -46,14 +52,14 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
         store.city.toLowerCase().includes(query) ||
         store.address.toLowerCase().includes(query) ||
         store.postalCode?.toLowerCase().includes(query) ||
-        store.country.toLowerCase().includes(query)
+        store.country.toLowerCase().includes(query),
     );
   }, [content.stores, searchQuery]);
 
   // Generate Google Maps directions URL
   const getDirectionsUrl = (store: StoreLocation) => {
     const address = encodeURIComponent(
-      `${store.address}, ${store.city}, ${store.state || ""} ${store.postalCode || ""}, ${store.country}`
+      `${store.address}, ${store.city}, ${store.state || ""} ${store.postalCode || ""}, ${store.country}`,
     );
     return `https://www.google.com/maps/dir/?api=1&destination=${address}`;
   };
@@ -73,10 +79,10 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
     return (
       <div
         style={containerStyle}
-        className="flex flex-col items-center justify-center py-16 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600"
+        className="flex flex-col items-center justify-center py-16 px-4 bg-periwinkle-50/30 dark:bg-periwinkle-500/5 rounded-xl border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50"
       >
-        <MapIcon className="w-12 h-12 text-slate-400 mb-3" />
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+        <MapIcon className="w-12 h-12 text-periwinkle-400 dark:text-periwinkle-300 mb-3" />
+        <p className="text-periwinkle-400 dark:text-periwinkle-300 text-sm font-medium">
           Add store locations in the settings panel
         </p>
       </div>
@@ -98,7 +104,9 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
             <h3 className="text-2xl font-bold mb-2">{content.heading}</h3>
           )}
           {content.subheading && (
-            <p className="text-slate-600 dark:text-slate-400">{content.subheading}</p>
+            <p className="text-slate-600 dark:text-slate-400">
+              {content.subheading}
+            </p>
           )}
         </div>
       )}
@@ -201,7 +209,9 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
                     {store.hours && (
                       <p className="flex items-start gap-2">
                         <ClockIcon className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                        <span className="whitespace-pre-line">{store.hours}</span>
+                        <span className="whitespace-pre-line">
+                          {store.hours}
+                        </span>
                       </p>
                     )}
                   </div>
@@ -259,7 +269,9 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
         )}
 
         {/* Map */}
-        <div className={`flex-grow ${content.listPosition === "bottom" ? "order-first" : ""}`}>
+        <div
+          className={`flex-grow ${content.listPosition === "bottom" ? "order-first" : ""}`}
+        >
           <div
             className="relative rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800"
             style={{ minHeight: 400 }}
@@ -304,7 +316,9 @@ const StoreLocator: React.FC<StoreLocatorProps> = ({ block, isPreview }) => {
               <div
                 key={store.id}
                 className={`absolute transform -translate-x-1/2 -translate-y-full cursor-pointer transition-all ${
-                  selectedStore?.id === store.id ? "scale-125 z-10" : "hover:scale-110"
+                  selectedStore?.id === store.id
+                    ? "scale-125 z-10"
+                    : "hover:scale-110"
                 }`}
                 style={{
                   // Simplified positioning (in production, use proper map projection)

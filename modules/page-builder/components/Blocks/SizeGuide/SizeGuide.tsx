@@ -48,8 +48,10 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ block, isPreview }) => {
 
   const tableStyles = {
     simple: "",
-    striped: "[&_tbody_tr:nth-child(odd)]:bg-slate-50 dark:[&_tbody_tr:nth-child(odd)]:bg-slate-800/50",
-    bordered: "border border-slate-200 dark:border-slate-700 [&_th]:border [&_th]:border-slate-200 dark:[&_th]:border-slate-700 [&_td]:border [&_td]:border-slate-200 dark:[&_td]:border-slate-700",
+    striped:
+      "[&_tbody_tr:nth-child(odd)]:bg-slate-50 dark:[&_tbody_tr:nth-child(odd)]:bg-slate-800/50",
+    bordered:
+      "border border-slate-200 dark:border-slate-700 [&_th]:border [&_th]:border-slate-200 dark:[&_th]:border-slate-700 [&_td]:border [&_td]:border-slate-200 dark:[&_td]:border-slate-700",
   };
 
   // Empty state
@@ -57,10 +59,10 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ block, isPreview }) => {
     return (
       <div
         style={containerStyle}
-        className="flex flex-col items-center justify-center py-16 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600"
+        className="flex flex-col items-center justify-center py-16 px-4 bg-periwinkle-50/30 dark:bg-periwinkle-500/5 rounded-xl border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50"
       >
-        <TableCellsIcon className="w-12 h-12 text-slate-400 mb-3" />
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+        <TableCellsIcon className="w-12 h-12 text-periwinkle-400 dark:text-periwinkle-300 mb-3" />
+        <p className="text-periwinkle-400 dark:text-periwinkle-300 text-sm font-medium">
           Configure size measurements in the settings panel
         </p>
       </div>
@@ -76,7 +78,9 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ block, isPreview }) => {
             <h3 className="text-2xl font-bold mb-2">{content.heading}</h3>
           )}
           {content.subheading && (
-            <p className="text-slate-600 dark:text-slate-400">{content.subheading}</p>
+            <p className="text-slate-600 dark:text-slate-400">
+              {content.subheading}
+            </p>
           )}
         </div>
       )}
@@ -86,7 +90,9 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ block, isPreview }) => {
         {/* Unit Toggle */}
         {content.showUnitToggle && (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-600 dark:text-slate-400">Unit:</span>
+            <span className="text-sm text-slate-600 dark:text-slate-400">
+              Unit:
+            </span>
             <div className="flex rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
               <button
                 onClick={() => setUnit("cm")}
@@ -140,7 +146,9 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ block, isPreview }) => {
             <div className={content.howToMeasureImage ? "md:w-2/3" : "w-full"}>
               <div
                 className="prose prose-sm dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: content.howToMeasureContent }}
+                dangerouslySetInnerHTML={{
+                  __html: content.howToMeasureContent,
+                }}
               />
             </div>
           </div>

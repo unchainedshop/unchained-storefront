@@ -131,12 +131,12 @@ const ShoppableVideo: React.FC<ShoppableVideoProps> = ({
     return (
       <div
         style={containerStyle}
-        className="relative aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden"
+        className="relative aspect-video rounded-lg overflow-hidden border-2 border-dashed border-periwinkle-300 dark:border-periwinkle-400/50 bg-periwinkle-50/30 dark:bg-periwinkle-500/5"
       >
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <VideoCameraIcon className="w-16 h-16 text-slate-300 dark:text-slate-500 mx-auto" />
-            <p className="mt-2 text-sm text-slate-400 dark:text-slate-500">
+          <div className="text-center text-periwinkle-400 dark:text-periwinkle-300">
+            <VideoCameraIcon className="w-12 h-12 mx-auto" />
+            <p className="mt-3 text-sm font-medium">
               Add a video URL to create shoppable hotspots
             </p>
           </div>

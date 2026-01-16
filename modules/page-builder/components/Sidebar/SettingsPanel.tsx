@@ -1347,6 +1347,9 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         rows: ["auto"],
       };
 
+      // Get actual child block IDs for filtering orphaned placements
+      const childBlockIds = block.children?.map((c) => c.id) || [];
+
       // Handler to create a new block in a bento area - opens block picker
       const handleBentoAreaCreate = (area: {
         colStart: number;
@@ -1449,7 +1452,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         <div>
           <Section title="Grid Layout">
             <GridTemplateEditor
-              key={`grid-editor-${(gridContent.childPlacements || []).map((p) => `${p.blockId}:${p.placement.colSpan}x${p.placement.rowSpan}`).join(",")}`}
+              key={`grid-editor-${childBlockIds.join(",")}-${(gridContent.childPlacements || []).map((p) => `${p.blockId}:${p.placement.colSpan}x${p.placement.rowSpan}`).join(",")}`}
               template={desktopTemplate}
               onChange={(newTemplate) => {
                 onChange("template", {
@@ -1458,11 +1461,14 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 });
               }}
               placements={gridContent.childPlacements || []}
+              childBlockIds={childBlockIds}
               onAreaCreate={handleBentoAreaCreate}
               onAreaClick={handleAreaClick}
               onAreaDelete={handleAreaDelete}
               onAreaResize={handleAreaResize}
               selectedBlockId={state.selection?.blockId}
+              initialCellHeight={gridContent.minRowHeight ?? 80}
+              onCellHeightChange={(height) => onChange("minRowHeight", height)}
             />
           </Section>
 
