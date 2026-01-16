@@ -75,7 +75,6 @@ export type BlockType =
   | "spacer"
   | "custom-html"
   | "section"
-  | "columns"
   | "grid"
   | "before-after"
   | "faq-accordion"
@@ -294,6 +293,7 @@ export interface NewsletterContent {
   successMessage: string;
   showConsent: boolean;
   consentText?: string;
+  variant?: "centered" | "left" | "right" | "inline" | "stacked";
 }
 
 export interface PromoBarContent {
@@ -333,22 +333,6 @@ export interface SectionContent {
   containerWidth: "full" | "container" | "narrow";
   htmlTag?: "section" | "div" | "article" | "aside" | "header" | "footer";
   anchorId?: string;
-}
-
-export type ColumnLayout = "equal" | "1-2" | "2-1" | "1-1-1" | "1-2-1";
-
-export interface ColumnsContent {
-  columns: number;
-  gap: number;
-  layout: ColumnLayout;
-  // Responsive columns per breakpoint
-  mobileColumns?: number;
-  tabletColumns?: number;
-  tabletLgColumns?: number;
-  laptopColumns?: number;
-  // Layout overrides (optional)
-  mobileLayout?: ColumnLayout;
-  tabletLayout?: ColumnLayout;
 }
 
 // =============================================================================

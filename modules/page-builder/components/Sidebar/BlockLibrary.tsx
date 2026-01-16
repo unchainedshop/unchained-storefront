@@ -153,17 +153,17 @@ const BlockLibrary: React.FC = () => {
             <span className="text-[9px]">Export</span>
           </button>
         </div>
-        <div className="space-y-0.5">
+        <div className="flex items-center gap-2">
           <Link
             href="/admin/pages"
-            className="flex items-center gap-2 px-2 py-1.5 rounded-md text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/50 transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/50 transition-colors"
           >
             <DocumentTextIcon className="w-3 h-3" />
             All Pages
           </Link>
           <Link
             href="/admin/media"
-            className="flex items-center gap-2 px-2 py-1.5 rounded-md text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/50 transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/50 transition-colors"
           >
             <PhotoIcon className="w-3 h-3" />
             Media Library

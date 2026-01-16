@@ -1253,93 +1253,6 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         </div>,
       );
 
-    case "columns": {
-      const desktopCols = content.columns || 2;
-      const laptopCols = content.laptopColumns ?? desktopCols;
-      const tabletLgCols = content.tabletLgColumns ?? laptopCols;
-      const tabletCols = content.tabletColumns ?? tabletLgCols;
-      const mobileCols = content.mobileColumns ?? 1;
-
-      const columnOptions = [
-        { value: "1", label: "1" },
-        { value: "2", label: "2" },
-        { value: "3", label: "3" },
-        { value: "4", label: "4" },
-      ];
-
-      return (
-        <div>
-          <Section title="Layout">
-            <PropertyRow label="Gap">
-              <MiniNumberInput
-                value={content.gap || 24}
-                min={0}
-                max={100}
-                onChange={(v) => onChange("gap", v)}
-                suffix="px"
-              />
-            </PropertyRow>
-          </Section>
-
-          <Section title="Columns per Breakpoint">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 px-1">
-                <span>DESKTOP</span>
-                <span>1520px+</span>
-              </div>
-              <PropertyRow label="Desktop">
-                <SegmentedControl
-                  value={String(desktopCols)}
-                  options={columnOptions}
-                  onChange={(v) => {
-                    onBatchChange({ columns: Number(v), layout: "equal" });
-                  }}
-                />
-              </PropertyRow>
-              <PropertyRow label="Laptop">
-                <SegmentedControl
-                  value={String(laptopCols)}
-                  options={columnOptions}
-                  onChange={(v) => onChange("laptopColumns", Number(v))}
-                />
-              </PropertyRow>
-
-              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 px-1 pt-2">
-                <span>TABLET</span>
-                <span>768px - 1279px</span>
-              </div>
-              <PropertyRow label="Tablet Landscape">
-                <SegmentedControl
-                  value={String(tabletLgCols)}
-                  options={columnOptions}
-                  onChange={(v) => onChange("tabletLgColumns", Number(v))}
-                />
-              </PropertyRow>
-              <PropertyRow label="Tablet">
-                <SegmentedControl
-                  value={String(tabletCols)}
-                  options={columnOptions}
-                  onChange={(v) => onChange("tabletColumns", Number(v))}
-                />
-              </PropertyRow>
-
-              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 px-1 pt-2">
-                <span>MOBILE</span>
-                <span>390px</span>
-              </div>
-              <PropertyRow label="Mobile">
-                <SegmentedControl
-                  value={String(mobileCols)}
-                  options={columnOptions}
-                  onChange={(v) => onChange("mobileColumns", Number(v))}
-                />
-              </PropertyRow>
-            </div>
-          </Section>
-        </div>
-      );
-    }
-
     case "grid": {
       const gridContent = content as unknown as GridContent;
       const desktopTemplate = gridContent.template?.desktop || {
@@ -3664,6 +3577,79 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               well-formed.
             </p>
           </div>
+        </div>
+      );
+
+    case "newsletter":
+      return (
+        <div className="space-y-4">
+          <Section title="Layout">
+            <PropertyRow label="Style">
+              <MiniSelect
+                value={content.variant || "centered"}
+                options={[
+                  { value: "centered", label: "Centered" },
+                  { value: "left", label: "Left" },
+                  { value: "right", label: "Right" },
+                  { value: "inline", label: "Inline" },
+                  { value: "stacked", label: "Stacked" },
+                ]}
+                onChange={(v) => onChange("variant", v)}
+              />
+            </PropertyRow>
+          </Section>
+
+          <Section title="Text">
+            <InputField
+              value={content.heading || ""}
+              onChange={(v) => onChange("heading", v)}
+              onBlur={onBlur}
+              placeholder="Heading"
+            />
+            <InputField
+              value={content.subheading || ""}
+              onChange={(v) => onChange("subheading", v)}
+              onBlur={onBlur}
+              placeholder="Subheading (optional)"
+            />
+          </Section>
+
+          <Section title="Form">
+            <InputField
+              value={content.placeholder || ""}
+              onChange={(v) => onChange("placeholder", v)}
+              onBlur={onBlur}
+              placeholder="Email placeholder"
+            />
+            <InputField
+              value={content.buttonText || ""}
+              onChange={(v) => onChange("buttonText", v)}
+              onBlur={onBlur}
+              placeholder="Button text"
+            />
+            <InputField
+              value={content.successMessage || ""}
+              onChange={(v) => onChange("successMessage", v)}
+              onBlur={onBlur}
+              placeholder="Success message"
+            />
+          </Section>
+
+          <Section title="Consent" defaultOpen={false}>
+            <ToggleRow
+              label="Show consent checkbox"
+              checked={content.showConsent ?? false}
+              onChange={(v) => onChange("showConsent", v)}
+            />
+            {content.showConsent && (
+              <InputField
+                value={content.consentText || ""}
+                onChange={(v) => onChange("consentText", v)}
+                onBlur={onBlur}
+                placeholder="I agree to receive marketing emails"
+              />
+            )}
+          </Section>
         </div>
       );
 

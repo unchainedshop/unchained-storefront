@@ -534,6 +534,36 @@
       ]
     },
     {
+      "id": "block_1768531201882_3gmte7tqr",
+      "type": "newsletter",
+      "content": {
+        "heading": "Subscribe & Save 10%",
+        "subheading": "Join our newsletter for exclusive deals",
+        "buttonText": "Subscribe",
+        "placeholder": "Enter your email",
+        "successMessage": "Thank you for subscribing!",
+        "showConsent": true,
+        "consentText": "I agree to receive marketing emails"
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignmentX": "center",
+        "backgroundColor": "#f1f5f9"
+      },
+      "responsive": {}
+    },
+    {
       "id": "block_1768525540252_aol4xpd3v",
       "type": "spacer",
       "content": {
@@ -597,6 +627,6 @@
     }
   },
   "createdAt": "2026-01-15T10:20:20.663Z",
-  "updatedAt": "2026-01-16T02:15:36.891Z",
+  "updatedAt": "2026-01-16T02:40:04.037Z",
   "versions": []
 }

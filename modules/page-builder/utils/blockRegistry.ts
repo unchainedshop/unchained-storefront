@@ -54,56 +54,6 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     },
   },
 
-  columns: {
-    type: "columns",
-    label: "Columns",
-    description: "Multi-column layout for side-by-side content",
-    icon: "view-columns",
-    category: "layout",
-    allowChildren: true,
-    maxChildren: 4,
-    defaultContent: {
-      columns: 2,
-      gap: 24,
-      layout: "equal",
-    },
-    defaultStyle: {
-      padding: { top: 0, right: 0, bottom: 0, left: 0 },
-      margin: { top: 0, right: 0, bottom: 0, left: 0 },
-    },
-    nesting: {
-      canBeNested: true,
-      allowedParents: ["section"], // Columns can only go in sections
-      forbiddenParents: ["columns"], // No nested columns
-    },
-    documentation: {
-      helpText:
-        "Columns let you place content side-by-side. Perfect for image + text combinations, feature comparisons, or any layout where you need horizontal arrangement. Columns automatically stack on mobile for better readability.",
-      tips: [
-        "Use 2 columns for image + text layouts",
-        "3 columns work well for feature cards or team members",
-        "Adjust the gap to control spacing between columns",
-        "Use asymmetric layouts (1/3 + 2/3) for sidebar-style designs",
-      ],
-      useCases: [
-        "Product image on left, description on right",
-        "Three feature cards side by side",
-        "Contact form next to a map",
-      ],
-      keySettings: [
-        {
-          name: "Layout",
-          description:
-            "Choose equal widths or asymmetric (e.g., 1/3 + 2/3) for different column sizes",
-        },
-        {
-          name: "Gap",
-          description: "Space between columns in pixels",
-        },
-      ],
-    },
-  },
-
   grid: {
     type: "grid",
     label: "Grid",
@@ -133,7 +83,7 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
     nesting: {
       canBeNested: true,
       allowedParents: ["section"], // Grids can only go in sections
-      forbiddenParents: ["columns", "grid"], // No nested grids or inside columns
+      forbiddenParents: ["grid"], // No nested grids
     },
     documentation: {
       helpText:

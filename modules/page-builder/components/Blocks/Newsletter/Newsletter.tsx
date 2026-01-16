@@ -1,6 +1,6 @@
 /**
  * Newsletter Block
- * Email subscription form with customizable content
+ * Email subscription form with customizable content and layout variants
  */
 
 import React, { useState } from 'react';
@@ -14,6 +14,7 @@ interface NewsletterProps {
 const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
   const content = block.content as unknown as NewsletterContent;
   const style = block.style;
+  const variant = content.variant || 'centered';
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -34,9 +35,9 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
       ? `${style.padding.top}px ${style.padding.right}px ${style.padding.bottom}px ${style.padding.left}px`
       : undefined,
     backgroundColor: style.backgroundColor,
-    textAlign: style.alignmentX || 'center',
   };
 
+  // Success state - always centered
   if (isSubmitted) {
     return (
       <div style={containerStyle}>
@@ -67,29 +68,156 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
     );
   }
 
+  // Shared form component
+  const renderForm = (formClass?: string, inputClass?: string) => (
+    <form onSubmit={handleSubmit} className={formClass || "space-y-4"}>
+      <div className={inputClass || "flex flex-col sm:flex-row gap-3"}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={content.placeholder}
+          required
+          className="flex-1 px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors whitespace-nowrap"
+        >
+          {content.buttonText}
+        </button>
+      </div>
+
+      {content.showConsent && content.consentText && (
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            required
+            className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500"
+          />
+          <span style={{ color: style.textColor }} className="opacity-80">
+            {content.consentText}
+          </span>
+        </label>
+      )}
+    </form>
+  );
+
+  // Shared text content component
+  const renderText = (textAlign?: 'left' | 'center' | 'right') => (
+    <div style={{ textAlign: textAlign || 'inherit' }}>
+      {content.heading && (
+        <h2
+          className="text-2xl md:text-3xl font-bold mb-2"
+          style={{ color: style.textColor }}
+        >
+          {content.heading}
+        </h2>
+      )}
+      {content.subheading && (
+        <p
+          className="text-lg opacity-80"
+          style={{ color: style.textColor }}
+        >
+          {content.subheading}
+        </p>
+      )}
+    </div>
+  );
+
+  // Inline variant: text on left, form on right
+  if (variant === 'inline') {
+    return (
+      <div style={containerStyle}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-12">
+            <div className="flex-1">
+              {renderText('left')}
+            </div>
+            <div className="flex-1 lg:max-w-md">
+              {renderForm("space-y-3")}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Stacked variant: full width with larger form
+  if (variant === 'stacked') {
+    return (
+      <div style={containerStyle}>
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-8">
+            {renderText('center')}
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex flex-col gap-3 max-w-xl mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={content.placeholder}
+                required
+                className="w-full px-5 py-4 text-lg rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="submit"
+                className="w-full px-6 py-4 text-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+              >
+                {content.buttonText}
+              </button>
+            </div>
+            {content.showConsent && content.consentText && (
+              <label className="flex items-center justify-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  required
+                  className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500"
+                />
+                <span style={{ color: style.textColor }} className="opacity-80">
+                  {content.consentText}
+                </span>
+              </label>
+            )}
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // Left, Right, and Centered variants
+  const alignmentClass = {
+    left: 'text-left items-start',
+    right: 'text-right items-end ml-auto',
+    centered: 'text-center items-center mx-auto',
+  }[variant] || 'text-center items-center mx-auto';
+
+  const formContainerClass = {
+    left: '',
+    right: 'ml-auto',
+    centered: 'mx-auto',
+  }[variant] || 'mx-auto';
+
+  const consentJustify = {
+    left: 'justify-start',
+    right: 'justify-end',
+    centered: 'justify-center',
+  }[variant] || 'justify-center';
+
   return (
     <div style={containerStyle}>
-      <div className="max-w-2xl mx-auto">
-        {content.heading && (
-          <h2
-            className="text-2xl md:text-3xl font-bold mb-2"
-            style={{ color: style.textColor }}
-          >
-            {content.heading}
-          </h2>
-        )}
-
-        {content.subheading && (
-          <p
-            className="text-lg mb-6 opacity-80"
-            style={{ color: style.textColor }}
-          >
-            {content.subheading}
-          </p>
-        )}
+      <div className={`max-w-2xl ${alignmentClass}`}>
+        <div className="mb-6">
+          {renderText(variant as 'left' | 'center' | 'right')}
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <div className={`flex flex-col sm:flex-row gap-3 max-w-md ${formContainerClass}`}>
             <input
               type="email"
               value={email}
@@ -100,14 +228,14 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+              className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors whitespace-nowrap"
             >
               {content.buttonText}
             </button>
           </div>
 
           {content.showConsent && content.consentText && (
-            <label className="flex items-center justify-center gap-2 text-sm">
+            <label className={`flex items-center gap-2 text-sm ${consentJustify}`}>
               <input
                 type="checkbox"
                 checked={consent}
