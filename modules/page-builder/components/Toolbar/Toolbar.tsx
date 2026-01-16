@@ -65,9 +65,14 @@ const Dropdown: React.FC<DropdownProps> = ({
   triggerRef,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<{ top: number; left: number }>({
+  const [position, setPosition] = useState<{
+    top: number;
+    left: number;
+    ready: boolean;
+  }>({
     top: 0,
     left: 0,
+    ready: false,
   });
 
   useEffect(() => {
@@ -86,9 +91,13 @@ const Dropdown: React.FC<DropdownProps> = ({
     if (isOpen && triggerRef?.current) {
       const rect = triggerRef.current.getBoundingClientRect();
       setPosition({
-        top: rect.bottom + 8,
+        top: rect.bottom + 6,
         left: align === "right" ? rect.right : rect.left,
+        ready: true,
       });
+    } else if (!isOpen) {
+      // Reset ready state when closed
+      setPosition((prev) => ({ ...prev, ready: false }));
     }
   }, [isOpen, triggerRef, align]);
 
@@ -96,6 +105,9 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   // Use fixed positioning when triggerRef is provided
   const useFixed = !!triggerRef;
+
+  // Don't render until position is calculated for fixed positioning
+  if (useFixed && !position.ready) return null;
 
   return (
     <>
@@ -116,15 +128,14 @@ const Dropdown: React.FC<DropdownProps> = ({
             : undefined
         }
         className={classNames(
-          useFixed ? "z-50" : "absolute top-full mt-2 z-50",
-          // Glassmorphism: translucent bg + heavy blur + subtle border
-          "bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl backdrop-saturate-150",
-          "rounded-2xl",
-          "shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
-          "border border-white/50 dark:border-white/10",
-          "ring-1 ring-black/5 dark:ring-white/5",
-          "py-2 overflow-hidden",
-          "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200",
+          useFixed ? "z-50" : "absolute top-full mt-1.5 z-50",
+          // Clean white background with subtle blur
+          "bg-white dark:bg-slate-900/95 backdrop-blur-xl",
+          "rounded-xl",
+          "shadow-[0_4px_20px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)]",
+          "border border-slate-200/80 dark:border-slate-700/40",
+          "py-1.5 overflow-hidden",
+          "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-150",
           width,
           !useFixed && (align === "right" ? "right-0" : "left-0"),
         )}
@@ -158,49 +169,45 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   className,
 }) => {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+    "inline-flex items-center justify-center gap-1.5 font-medium whitespace-nowrap transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-slate-400/50";
 
   const variants = {
     ghost: classNames(
-      "rounded-xl",
+      "rounded-lg",
       active
-        ? "bg-white/60 dark:bg-white/10 backdrop-blur-xl text-slate-900 dark:text-white shadow-sm"
-        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5",
+        ? "bg-slate-100/80 dark:bg-slate-800/60 text-slate-900 dark:text-white"
+        : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/30",
       disabled &&
         "!text-slate-300 dark:!text-slate-600 cursor-not-allowed hover:bg-transparent",
     ),
     glass: classNames(
-      "rounded-xl bg-white/50 dark:bg-white/10 backdrop-blur-xl",
-      "border border-white/60 dark:border-white/10",
-      "shadow-sm",
+      "rounded-lg bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm",
+      "border border-slate-200/50 dark:border-slate-700/30",
       active
-        ? "text-slate-900 dark:text-white ring-2 ring-white/50 dark:ring-white/20"
-        : "text-slate-700 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-white/15",
+        ? "text-slate-900 dark:text-white border-slate-300/60 dark:border-slate-600/40"
+        : "text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800/50",
       disabled && "!text-slate-400 dark:!text-slate-500 cursor-not-allowed",
     ),
     secondary: classNames(
-      "rounded-xl bg-white/60 dark:bg-white/10 backdrop-blur-xl",
-      "border border-white/70 dark:border-white/15",
-      "text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-white/15",
-      "shadow-sm hover:shadow-md",
+      "rounded-lg bg-white/50 dark:bg-slate-800/40 backdrop-blur-sm",
+      "border border-slate-200/60 dark:border-slate-700/40",
+      "text-slate-600 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800/50",
       disabled &&
-        "!text-slate-400 dark:!text-slate-500 !bg-white/30 cursor-not-allowed",
+        "!text-slate-400 dark:!text-slate-500 !bg-white/20 cursor-not-allowed",
     ),
     primary: classNames(
-      "rounded-xl",
-      "bg-gradient-to-b from-slate-800 to-slate-900 dark:from-white dark:to-slate-100",
+      "rounded-lg",
+      "bg-slate-900 dark:bg-white",
       "text-white dark:text-slate-900",
-      "shadow-lg shadow-slate-900/25 dark:shadow-white/25",
-      "hover:shadow-xl hover:shadow-slate-900/30 dark:hover:shadow-white/30",
-      "hover:from-slate-700 hover:to-slate-800 dark:hover:from-slate-50 dark:hover:to-white",
-      "border border-slate-700 dark:border-white/80",
+      "hover:bg-slate-800 dark:hover:bg-slate-100",
+      "shadow-sm",
       disabled && "!bg-slate-300 dark:!bg-slate-600 cursor-not-allowed",
     ),
   };
 
   const sizes = {
-    sm: "h-8 px-3 text-xs",
-    md: "h-9 px-4 text-sm",
+    sm: "h-7 px-2.5 text-[11px]",
+    md: "h-8 px-3 text-xs",
   };
 
   return (
@@ -221,9 +228,9 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   );
 };
 
-// Frosted divider
+// Subtle divider
 const ToolbarDivider: React.FC = () => (
-  <div className="w-px h-6 bg-gradient-to-b from-slate-300/50 via-slate-400/30 to-slate-300/50 dark:from-white/20 dark:via-white/10 dark:to-white/20 mx-3" />
+  <div className="w-px h-4 bg-slate-200/80 dark:bg-slate-700/50 mx-2" />
 );
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -335,32 +342,33 @@ const Toolbar: React.FC<ToolbarProps> = ({
   return (
     <div
       className={classNames(
-        "h-14 flex items-center px-4 sticky top-0 z-50",
-        // Glassmorphism background
-        "bg-white/60 dark:bg-slate-900/60",
-        "backdrop-blur-2xl backdrop-saturate-150",
-        // Subtle border with gradient
-        "border-b border-white/50 dark:border-white/10",
-        // Soft shadow for depth
-        "shadow-[0_1px_3px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.02)]",
-        "dark:shadow-[0_1px_3px_rgba(0,0,0,0.3),0_1px_2px_rgba(0,0,0,0.2)]",
+        "h-12 flex items-center px-3 sticky top-0 z-50",
+        // Clean background with subtle blur
+        "bg-white/80 dark:bg-slate-900/80",
+        "backdrop-blur-xl",
+        // Thin border
+        "border-b border-slate-200/60 dark:border-slate-700/40",
       )}
     >
       {/* Left section */}
-      <div className="flex items-center gap-3 flex-shrink-0">
+      <div className="flex items-center gap-2 flex-shrink-0">
         {/* Logo + Brand */}
         <button
           type="button"
           onClick={onBack}
           className={classNames(
-            "flex items-center gap-2 px-3 py-1.5 rounded-xl",
-            onBack && "cursor-pointer hover:bg-white/50 dark:hover:bg-white/5",
-            "transition-all duration-200",
+            "flex items-center gap-1.5 px-2 py-1 rounded-lg",
+            onBack &&
+              "cursor-pointer hover:bg-slate-100/60 dark:hover:bg-slate-800/40",
+            "transition-colors duration-150",
           )}
           title={onBack ? "Back to Pages" : undefined}
         >
-          <UnchainedLogo size={14} className="text-slate-900 dark:text-white" />
-          <span className="hidden md:block text-[13px] font-semibold text-slate-700 dark:text-slate-200 tracking-tight">
+          <UnchainedLogo
+            size={13}
+            className="text-slate-700 dark:text-slate-200"
+          />
+          <span className="hidden md:block text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-tight">
             Buildor
           </span>
         </button>
@@ -368,13 +376,13 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <ToolbarDivider />
 
         {/* Page title */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <div
             className={classNames(
-              "relative px-3 py-1.5 rounded-xl transition-all duration-200",
+              "relative px-2 py-1 rounded-lg transition-all duration-150",
               titleFocused
-                ? "bg-white/70 dark:bg-white/10 backdrop-blur-xl ring-2 ring-slate-400/30 dark:ring-white/20 shadow-inner"
-                : "hover:bg-white/40 dark:hover:bg-white/5",
+                ? "bg-slate-100/70 dark:bg-slate-800/50 ring-1 ring-slate-300/50 dark:ring-slate-600/40"
+                : "hover:bg-slate-100/40 dark:hover:bg-slate-800/30",
             )}
           >
             <input
@@ -391,7 +399,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
               }
               onFocus={() => setTitleFocused(true)}
               onBlur={() => setTitleFocused(false)}
-              className="text-[15px] font-semibold bg-transparent border-none focus:outline-none focus:ring-0 text-slate-900 dark:text-white w-[120px] sm:w-[180px] md:w-[240px] placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              className="text-[13px] font-medium bg-transparent border-none focus:outline-none focus:ring-0 text-slate-700 dark:text-slate-200 w-[120px] sm:w-[160px] md:w-[200px] placeholder:text-slate-400 dark:placeholder:text-slate-500"
               placeholder="Untitled Page"
             />
           </div>
@@ -410,7 +418,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Center section - Viewport & Zoom (only on xl screens) */}
-      <div className="hidden xl:flex flex-1 items-center justify-center gap-4 overflow-hidden mx-6">
+      <div className="hidden xl:flex flex-1 items-center justify-center gap-3 overflow-hidden mx-4">
         {/* Undo/Redo */}
         <UndoRedoButtons />
 
@@ -421,14 +429,13 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
         <ToolbarDivider />
 
-        {/* Viewport switcher - glassmorphism segmented control */}
-        <div className="relative flex items-center gap-3">
+        {/* Viewport switcher - clean segmented control */}
+        <div className="relative flex items-center gap-2">
           <div
             className={classNames(
-              "flex items-center p-1 rounded-xl",
-              "bg-white/40 dark:bg-white/5",
-              "backdrop-blur-xl",
-              "border border-white/60 dark:border-white/10",
+              "flex items-center p-0.5 rounded-lg",
+              "bg-slate-100/60 dark:bg-slate-800/40",
+              "border border-slate-200/50 dark:border-slate-700/30",
             )}
           >
             {viewportCategories.map((category) => {
@@ -443,14 +450,14 @@ const Toolbar: React.FC<ToolbarProps> = ({
                     }
                   }}
                   className={classNames(
-                    "relative p-2 rounded-lg transition-all duration-200",
+                    "relative p-1.5 rounded transition-all duration-150",
                     isActive
-                      ? "bg-white/80 dark:bg-white/15 shadow-sm text-slate-900 dark:text-white"
-                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-white/5",
+                      ? "bg-white dark:bg-slate-700 shadow-sm text-slate-700 dark:text-slate-200"
+                      : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300",
                   )}
                   title={category.label}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3.5 h-3.5" />
                 </button>
               );
             })}
@@ -461,16 +468,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
             ref={viewportButtonRef}
             onClick={() => setShowViewportMenu(!showViewportMenu)}
             className={classNames(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap",
-              "text-xs font-medium text-slate-600 dark:text-slate-300",
-              "hover:bg-white/50 dark:hover:bg-white/5",
-              "transition-all duration-200",
+              "flex items-center gap-1 px-2 py-1 rounded-lg whitespace-nowrap",
+              "text-[11px] font-medium text-slate-500 dark:text-slate-400",
+              "hover:bg-slate-100/50 dark:hover:bg-slate-800/30",
+              "transition-colors duration-150",
             )}
           >
             <span className="tabular-nums">{VIEWPORT_WIDTHS[viewport]}px</span>
             <ChevronDownIcon
               className={classNames(
-                "w-3 h-3 transition-transform duration-200",
+                "w-2.5 h-2.5 transition-transform duration-150",
                 showViewportMenu && "rotate-180",
               )}
             />
@@ -480,15 +487,15 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <Dropdown
             isOpen={showViewportMenu}
             onClose={() => setShowViewportMenu(false)}
-            width="min-w-[220px]"
+            width="min-w-[200px]"
             triggerRef={viewportButtonRef}
           >
             {(["mobile", "tablet", "desktop"] as const).map((category, idx) => (
               <div key={category}>
                 {idx > 0 && (
-                  <div className="my-2 mx-3 border-t border-slate-200/50 dark:border-white/10" />
+                  <div className="my-1 mx-2 border-t border-slate-100 dark:border-slate-800" />
                 )}
-                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                <div className="px-3 py-1 text-[9px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                   {category}
                 </div>
                 {allViewportOptions
@@ -501,20 +508,20 @@ const Toolbar: React.FC<ToolbarProps> = ({
                         setShowViewportMenu(false);
                       }}
                       className={classNames(
-                        "w-full flex items-center justify-between px-4 py-2.5 text-sm transition-all duration-150",
-                        "hover:bg-white/50 dark:hover:bg-white/5",
+                        "w-full flex items-center justify-between px-3 py-1.5 text-[11px] transition-colors duration-100",
+                        "hover:bg-slate-50 dark:hover:bg-slate-800/50",
                         viewport === option.id
-                          ? "text-slate-900 dark:text-white font-semibold bg-white/30 dark:bg-white/5"
-                          : "text-slate-600 dark:text-slate-400",
+                          ? "text-slate-800 dark:text-slate-200 font-medium bg-slate-50 dark:bg-slate-800/30"
+                          : "text-slate-500 dark:text-slate-400",
                       )}
                     >
                       <span>{option.label}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-400 dark:text-slate-500 tabular-nums">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] text-slate-400 dark:text-slate-500 tabular-nums">
                           {option.width}px
                         </span>
                         {viewport === option.id && (
-                          <CheckIcon className="w-4 h-4 text-slate-900 dark:text-white" />
+                          <CheckIcon className="w-3 h-3 text-slate-600 dark:text-slate-300" />
                         )}
                       </div>
                     </button>
@@ -530,16 +537,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
             ref={zoomButtonRef}
             onClick={() => setShowZoomMenu(!showZoomMenu)}
             className={classNames(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap",
-              "text-xs font-medium text-slate-600 dark:text-slate-300",
-              "hover:bg-white/50 dark:hover:bg-white/5",
-              "transition-all duration-200",
+              "flex items-center gap-1 px-2 py-1 rounded-lg whitespace-nowrap",
+              "text-[11px] font-medium text-slate-500 dark:text-slate-400",
+              "hover:bg-slate-100/50 dark:hover:bg-slate-800/30",
+              "transition-colors duration-150",
             )}
           >
             <span className="tabular-nums">{zoom}%</span>
             <ChevronDownIcon
               className={classNames(
-                "w-3 h-3 transition-transform duration-200",
+                "w-2.5 h-2.5 transition-transform duration-150",
                 showZoomMenu && "rotate-180",
               )}
             />
@@ -549,7 +556,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
             isOpen={showZoomMenu}
             onClose={() => setShowZoomMenu(false)}
             align="right"
-            width="min-w-[120px]"
+            width="min-w-[100px]"
             triggerRef={zoomButtonRef}
           >
             {zoomOptions.map((z) => (
@@ -560,15 +567,15 @@ const Toolbar: React.FC<ToolbarProps> = ({
                   setShowZoomMenu(false);
                 }}
                 className={classNames(
-                  "w-full flex items-center justify-between px-4 py-2.5 text-sm transition-all duration-150",
-                  "hover:bg-white/50 dark:hover:bg-white/5",
+                  "w-full flex items-center justify-between px-3 py-1.5 text-[11px] transition-colors duration-100",
+                  "hover:bg-slate-50 dark:hover:bg-slate-800/50",
                   zoom === z
-                    ? "text-slate-900 dark:text-white font-semibold bg-white/30 dark:bg-white/5"
-                    : "text-slate-600 dark:text-slate-400",
+                    ? "text-slate-800 dark:text-slate-200 font-medium bg-slate-50 dark:bg-slate-800/30"
+                    : "text-slate-500 dark:text-slate-400",
                 )}
               >
                 <span className="tabular-nums">{z}%</span>
-                {zoom === z && <CheckIcon className="w-4 h-4" />}
+                {zoom === z && <CheckIcon className="w-3 h-3" />}
               </button>
             ))}
           </Dropdown>
@@ -576,9 +583,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Right section - Actions */}
-      <div className="flex items-center gap-3 flex-shrink-0 ml-auto">
+      <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
         {/* Collaboration presence - hide on small screens */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2">
           <PresenceAvatars maxVisible={4} />
           <ConnectionStatus showLabel={false} />
         </div>
@@ -596,9 +603,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
             size="sm"
           >
             {isFocusMode ? (
-              <ArrowsPointingOutIcon className="w-4 h-4" />
+              <ArrowsPointingOutIcon className="w-3.5 h-3.5" />
             ) : (
-              <ArrowsPointingInIcon className="w-4 h-4" />
+              <ArrowsPointingInIcon className="w-3.5 h-3.5" />
             )}
           </ToolbarButton>
         </div>
@@ -609,7 +616,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
           active={isPreviewMode}
           size="sm"
         >
-          <EyeIcon className="w-4 h-4" />
+          <EyeIcon className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Preview</span>
         </ToolbarButton>
 
@@ -629,65 +636,83 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <ToolbarDivider />
         </div>
 
-        {/* Save button - glassmorphism */}
-        <ToolbarButton
-          onClick={handleSave}
-          disabled={
-            (!isDirty && autosaveStatus !== "error") ||
-            autosaveStatus === "saving"
-          }
-          variant="secondary"
-          size="sm"
-          title={
-            autosaveStatus === "error"
-              ? "Retry save"
-              : isDirty
-                ? "Save now (Cmd+S)"
-                : "All changes saved"
-          }
-        >
-          {autosaveStatus === "saving" ? (
-            <>
-              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="3"
+        {/* Save button with rainbow glow when dirty */}
+        <div className="relative">
+          <ToolbarButton
+            onClick={handleSave}
+            disabled={
+              (!isDirty && autosaveStatus !== "error") ||
+              autosaveStatus === "saving"
+            }
+            variant="secondary"
+            size="sm"
+            className={
+              isDirty && autosaveStatus !== "saving"
+                ? "!bg-[linear-gradient(135deg,rgba(255,255,255,0.95)_0%,rgba(255,255,255,0.5)_100%)] dark:!bg-[linear-gradient(135deg,rgba(30,41,59,0.95)_0%,rgba(30,41,59,0.5)_100%)]"
+                : undefined
+            }
+            title={
+              autosaveStatus === "error"
+                ? "Retry save"
+                : isDirty
+                  ? "Save now (Cmd+S)"
+                  : "All changes saved"
+            }
+          >
+            {autosaveStatus === "saving" ? (
+              <>
+                <svg className="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                <span className="hidden sm:inline">Saving</span>
+              </>
+            ) : (
+              <>
+                <svg
+                  className="w-3.5 h-3.5"
                   fill="none"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              <span className="hidden sm:inline">Saving</span>
-            </>
-          ) : (
-            <>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              <span className="hidden sm:inline">Save</span>
-            </>
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="hidden sm:inline">Save</span>
+              </>
+            )}
+          </ToolbarButton>
+          {/* Rainbow glow around button when dirty */}
+          {isDirty && autosaveStatus !== "saving" && (
+            <div
+              className="absolute -inset-0.5 rounded-lg opacity-40 blur-sm animate-rainbow-glow -z-10"
+              style={{
+                background:
+                  "linear-gradient(90deg, #e879a9, #f0a870, #7dd3c0, #a99be0, #e879a9)",
+                backgroundSize: "300% 100%",
+              }}
+            />
           )}
-        </ToolbarButton>
+        </div>
 
-        {/* Profile menu - subtle */}
-        <div className="flex items-center justify-center h-full ml-1 translate-y-1">
+        {/* Profile menu */}
+        <div className="flex items-center justify-center h-full ml-0.5">
           <ProfileMenu size="sm" />
         </div>
       </div>

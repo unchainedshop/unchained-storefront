@@ -80,18 +80,18 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition || "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
+    transition: transition || "transform 150ms cubic-bezier(0.25, 1, 0.5, 1)",
   };
 
   const getBlockColor = () => {
     if (block.type.includes("hero") || block.type.includes("banner"))
-      return "bg-slate-700";
-    if (block.type.includes("product")) return "bg-slate-500";
+      return "bg-slate-600 dark:bg-slate-400";
+    if (block.type.includes("product")) return "bg-slate-500 dark:bg-slate-500";
     if (block.type.includes("section") || block.type.includes("column"))
-      return "bg-slate-600";
+      return "bg-slate-500 dark:bg-slate-500";
     if (block.type.includes("newsletter") || block.type.includes("promo"))
-      return "bg-slate-500";
-    return "bg-slate-400";
+      return "bg-slate-400 dark:bg-slate-500";
+    return "bg-slate-400 dark:bg-slate-500";
   };
 
   return (
@@ -99,56 +99,56 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
       {/* Drop indicator line */}
       <div
         className={classNames(
-          "h-0.5 mx-2 rounded-full transition-all duration-200",
-          isOver ? "drop-indicator--active opacity-100" : "opacity-0",
+          "h-px mx-1.5 transition-all duration-150",
+          isOver ? "bg-slate-400 dark:bg-slate-500 opacity-100" : "opacity-0",
         )}
       />
 
       <div
         {...listeners}
         className={classNames(
-          "group flex items-center gap-1.5 py-2 px-2 rounded-lg transition-all duration-150 cursor-grab active:cursor-grabbing",
+          "group flex items-center gap-1 py-1.5 px-1.5 rounded transition-all duration-100 cursor-grab active:cursor-grabbing",
           isDragging && "opacity-30 scale-95",
           isSelected
-            ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
+            ? "bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800"
             : isOver
-              ? "bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-300 dark:ring-blue-600"
-              : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300",
+              ? "bg-slate-100 dark:bg-slate-800"
+              : "hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400",
         )}
-        style={{ paddingLeft: `${depth * 12 + 8}px` }}
+        style={{ paddingLeft: `${depth * 10 + 6}px` }}
         onClick={onSelect}
       >
-        {/* Drag handle - always visible */}
-        <span className="w-4 h-4 flex items-center justify-center opacity-40 group-hover:opacity-70 transition-opacity">
-          <Bars2Icon className="w-3.5 h-3.5" />
+        {/* Drag handle */}
+        <span className="w-3.5 h-3.5 flex items-center justify-center opacity-30 group-hover:opacity-60 transition-opacity">
+          <Bars2Icon className="w-3 h-3" />
         </span>
 
         {/* Expand/collapse icon */}
-        <span className="w-4 h-4 flex items-center justify-center flex-shrink-0">
+        <span className="w-3.5 h-3.5 flex items-center justify-center flex-shrink-0">
           {hasChildren ? (
-            <ChevronDownIcon className="w-3.5 h-3.5" />
+            <ChevronDownIcon className="w-3 h-3" />
           ) : blockDef?.allowChildren ? (
-            <ChevronRightIcon className="w-3.5 h-3.5 opacity-30" />
+            <ChevronRightIcon className="w-3 h-3 opacity-20" />
           ) : null}
         </span>
 
         {/* Block type indicator */}
         <span
           className={classNames(
-            "w-2 h-2 rounded-full flex-shrink-0",
+            "w-1.5 h-1.5 rounded-full flex-shrink-0",
             getBlockColor(),
           )}
         />
 
         {/* Block name */}
-        <span className="flex-1 truncate text-sm font-medium">
+        <span className="flex-1 truncate text-[11px] font-medium">
           {blockDef?.label || block.type}
         </span>
 
         {/* Quick actions */}
         <div
           className={classNames(
-            "flex items-center gap-0.5 transition-opacity",
+            "flex items-center transition-opacity",
             isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100",
           )}
           onClick={(e) => e.stopPropagation()}
@@ -159,25 +159,29 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
               onToggleHidden();
             }}
             className={classNames(
-              "p-1 rounded transition-colors",
+              "p-0.5 rounded transition-colors",
               isSelected
                 ? "hover:bg-white/20"
-                : "hover:bg-slate-200 dark:hover:bg-slate-700",
+                : "hover:bg-slate-100 dark:hover:bg-slate-700",
             )}
             title={block.hidden ? "Show" : "Hide"}
           >
             {block.hidden ? (
               <EyeSlashIcon
                 className={classNames(
-                  "w-3.5 h-3.5",
-                  isSelected ? "text-white/60" : "text-slate-400",
+                  "w-3 h-3",
+                  isSelected
+                    ? "text-white/50"
+                    : "text-slate-300 dark:text-slate-600",
                 )}
               />
             ) : (
               <EyeIcon
                 className={classNames(
-                  "w-3.5 h-3.5",
-                  isSelected ? "text-white/80" : "text-slate-500",
+                  "w-3 h-3",
+                  isSelected
+                    ? "text-white/70"
+                    : "text-slate-400 dark:text-slate-500",
                 )}
               />
             )}
@@ -188,25 +192,27 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
               onToggleLocked();
             }}
             className={classNames(
-              "p-1 rounded transition-colors",
+              "p-0.5 rounded transition-colors",
               isSelected
                 ? "hover:bg-white/20"
-                : "hover:bg-slate-200 dark:hover:bg-slate-700",
+                : "hover:bg-slate-100 dark:hover:bg-slate-700",
             )}
             title={block.locked ? "Unlock" : "Lock"}
           >
             {block.locked ? (
               <LockClosedIcon
                 className={classNames(
-                  "w-3.5 h-3.5",
+                  "w-3 h-3",
                   isSelected ? "text-amber-300" : "text-amber-500",
                 )}
               />
             ) : (
               <LockOpenIcon
                 className={classNames(
-                  "w-3.5 h-3.5",
-                  isSelected ? "text-white/60" : "text-slate-400",
+                  "w-3 h-3",
+                  isSelected
+                    ? "text-white/50"
+                    : "text-slate-300 dark:text-slate-600",
                 )}
               />
             )}
@@ -224,22 +230,11 @@ const SortableLayerItem: React.FC<SortableLayerItemProps> = ({
 const DragOverlayItem: React.FC<{ block: PageBlock }> = ({ block }) => {
   const blockDef = blockRegistry[block.type];
 
-  const getBlockColor = () => {
-    if (block.type.includes("hero") || block.type.includes("banner"))
-      return "bg-purple-500";
-    if (block.type.includes("product")) return "bg-emerald-500";
-    if (block.type.includes("section") || block.type.includes("column"))
-      return "bg-blue-500";
-    return "bg-slate-500";
-  };
-
   return (
-    <div className="drag-overlay flex items-center gap-2.5 px-4 py-3 rounded-xl">
-      <Bars2Icon className="w-4 h-4 text-slate-400" />
-      <span
-        className={classNames("w-2.5 h-2.5 rounded-full", getBlockColor())}
-      />
-      <span className="text-sm font-semibold text-white">
+    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 dark:bg-slate-200 shadow-lg">
+      <Bars2Icon className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+      <span className="text-[11px] font-medium text-white dark:text-slate-800">
         {blockDef?.label || block.type}
       </span>
     </div>
@@ -271,7 +266,7 @@ const LayersPanel: React.FC<LayersPanelProps> = ({ className }) => {
           className,
         )}
       >
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-[11px] text-slate-400 dark:text-slate-500">
           No page loaded
         </p>
       </div>
@@ -336,7 +331,7 @@ const LayersPanel: React.FC<LayersPanelProps> = ({ className }) => {
         onToggleLocked={() => updateBlock(block.id, { locked: !block.locked })}
       >
         {hasChildren && (
-          <div className="ml-3 border-l border-slate-200 dark:border-slate-700">
+          <div className="ml-2 border-l border-slate-100 dark:border-slate-800">
             {block.children!.map((child) =>
               renderLayer(child, depth + 1, block.id),
             )}
@@ -349,15 +344,19 @@ const LayersPanel: React.FC<LayersPanelProps> = ({ className }) => {
   return (
     <div className={classNames("h-full flex flex-col", className)}>
       {/* Header */}
-      <div className="p-4 border-b border-slate-200 dark:border-slate-700">
-        <h3 className="font-medium text-slate-900 dark:text-white">Layers</h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-          {page.blocks.length} {page.blocks.length === 1 ? "block" : "blocks"}
-        </p>
+      <div className="px-3 py-2.5 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between">
+          <h3 className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+            Layers
+          </h3>
+          <span className="text-[10px] text-slate-400 dark:text-slate-500 tabular-nums">
+            {page.blocks.length}
+          </span>
+        </div>
       </div>
 
       {/* Tree view */}
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto p-1.5">
         {page.blocks.length > 0 ? (
           <DndContext
             sensors={sensors}
@@ -376,7 +375,7 @@ const LayersPanel: React.FC<LayersPanelProps> = ({ className }) => {
 
             <DragOverlay
               dropAnimation={{
-                duration: 200,
+                duration: 150,
                 easing: "cubic-bezier(0.25, 1, 0.5, 1)",
               }}
             >
@@ -384,7 +383,7 @@ const LayersPanel: React.FC<LayersPanelProps> = ({ className }) => {
             </DragOverlay>
           </DndContext>
         ) : (
-          <div className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">
+          <div className="text-[11px] text-slate-400 dark:text-slate-500 text-center py-6">
             No blocks yet
           </div>
         )}

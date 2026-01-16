@@ -31,15 +31,10 @@ const AddBlockButton: React.FC<AddBlockButtonProps> = ({
             e.stopPropagation();
             onClick();
           }}
-          className="group absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-10 transition-all duration-300"
+          className="group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer transition-all duration-300"
         >
-          {/* Rainbow line - appears on hover, stretches full width */}
-          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px]">
-            <div className="h-full w-full rainbow-gradient opacity-0 group-hover:opacity-80 transition-opacity duration-300" />
-          </div>
-
           {/* Button container */}
-          <div className="relative transition-transform duration-300 group-hover:scale-125">
+          <div className="relative transition-transform duration-300 group-hover:scale-110">
             {/* White outer fade */}
             <div className="absolute -inset-5 rounded-full bg-white opacity-60 blur-lg transition-all duration-300" />
 

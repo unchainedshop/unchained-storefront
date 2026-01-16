@@ -178,75 +178,81 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
       <div
         className={classNames(
           "fixed top-3 right-3 bottom-3 z-[10001] w-[50vw]",
-          "bg-white dark:bg-slate-900 rounded-2xl shadow-2xl",
-          "flex flex-col overflow-hidden",
+          "rounded-2xl flex flex-col overflow-hidden",
+          // Glassmorphism
+          "bg-white/80 dark:bg-slate-900/80",
+          "backdrop-blur-2xl backdrop-saturate-150",
+          "border border-white/60 dark:border-white/10",
+          "shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
           "transition-transform duration-300 ease-out",
           isOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]",
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-slate-200/50 dark:border-slate-700/50">
+          <div className="flex items-center gap-2.5">
             {showHeroPresets && (
               <button
                 onClick={handleBack}
-                className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors mr-1"
+                className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors mr-0.5"
               >
-                <ArrowLeftIcon className="w-5 h-5" />
+                <ArrowLeftIcon className="w-3.5 h-3.5" />
               </button>
             )}
-            <div className="w-10 h-10 rounded-xl rainbow-gradient flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
               {showHeroPresets ? (
-                <PresentationChartBarIcon className="w-5 h-5 text-slate-700" />
+                <PresentationChartBarIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
               ) : (
-                <SparklesIcon className="w-5 h-5 text-slate-700" />
+                <SparklesIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
               )}
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+              <h2 className="text-[13px] font-medium text-slate-700 dark:text-slate-200">
                 {showHeroPresets ? "Choose Hero Style" : "Add Block"}
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-[10px] text-slate-400 dark:text-slate-500">
                 {showHeroPresets
                   ? "Select a preset to start with"
                   : parentBlockType
-                    ? `Choose a component to add inside ${blockRegistry[parentBlockType]?.label || parentBlockType}`
-                    : "Choose a component to add to your page"}
+                    ? `Add inside ${blockRegistry[parentBlockType]?.label || parentBlockType}`
+                    : "Choose a component to add"}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors"
           >
-            <XMarkIcon className="w-5 h-5" />
+            <XMarkIcon className="w-4 h-4" />
           </button>
         </div>
 
         {!showHeroPresets && (
           <>
             {/* Search */}
-            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="px-4 py-2.5 border-b border-slate-200/50 dark:border-slate-700/50">
               <div className="relative">
-                <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <MagnifyingGlassIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search components..."
-                  className="w-full pl-12 pr-4 py-3 text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-400 focus:bg-white dark:focus:bg-slate-700 transition-all"
+                  className="w-full pl-8 pr-3 py-1.5 text-[11px] bg-white/50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/50 rounded-lg focus:outline-none focus:border-slate-300 dark:focus:border-slate-600 focus:ring-1 focus:ring-slate-200 dark:focus:ring-slate-700 transition-colors text-slate-600 dark:text-slate-300 placeholder:text-slate-400"
                   autoFocus
                 />
               </div>
             </div>
 
             {/* Categories */}
-            <div className="category-filter">
+            <div className="flex flex-wrap gap-1 px-4 py-2.5 border-b border-slate-200/50 dark:border-slate-700/50">
               <button
                 onClick={() => setSelectedCategory(null)}
                 className={classNames(
-                  "category-filter__item",
-                  selectedCategory === null && "category-filter__item--active",
+                  "px-2.5 py-1 text-[10px] font-medium rounded-md transition-all",
+                  selectedCategory === null
+                    ? "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm"
+                    : "text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50",
                 )}
               >
                 All
@@ -256,9 +262,10 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
                   className={classNames(
-                    "category-filter__item",
-                    selectedCategory === category.id &&
-                      "category-filter__item--active",
+                    "px-2.5 py-1 text-[10px] font-medium rounded-md transition-all",
+                    selectedCategory === category.id
+                      ? "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm"
+                      : "text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50",
                   )}
                 >
                   {category.label}
@@ -269,10 +276,10 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
         )}
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4">
           {showHeroPresets ? (
             /* Hero Preset Grid */
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {heroPresets.map((preset) => (
                 <button
                   key={preset.id}
@@ -280,21 +287,21 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   onMouseEnter={() => setSelectedPresetId(preset.id)}
                   onMouseLeave={() => setSelectedPresetId(null)}
                   className={classNames(
-                    "group relative flex flex-col overflow-hidden rounded-xl border-2 transition-all duration-200",
+                    "group relative flex flex-col overflow-hidden rounded-xl border transition-all duration-150",
                     selectedPresetId === preset.id
-                      ? "border-slate-900 dark:border-white shadow-lg shadow-slate-900/20 dark:shadow-white/20"
-                      : "border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500",
+                      ? "border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-800 shadow-md"
+                      : "border-slate-200/80 dark:border-slate-700/80 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-sm",
                   )}
                 >
                   {/* Preview Thumbnail */}
                   <div
-                    className="h-24 w-full flex items-center justify-center relative"
+                    className="h-20 w-full flex items-center justify-center relative"
                     style={{ background: preset.preview }}
                   >
                     {/* Mini preview of alignment */}
                     <div
                       className={classNames(
-                        "absolute inset-4 flex flex-col gap-1",
+                        "absolute inset-3 flex flex-col gap-1",
                         preset.style.alignmentX === "left" && "items-start",
                         preset.style.alignmentX === "center" && "items-center",
                         preset.style.alignmentX === "right" && "items-end",
@@ -304,23 +311,23 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                         preset.style.alignmentY === "bottom" && "justify-end",
                       )}
                     >
-                      <div className="w-16 h-2 bg-white/80 rounded" />
-                      <div className="w-12 h-1.5 bg-white/50 rounded" />
-                      <div className="w-8 h-1.5 bg-white/70 rounded mt-1" />
+                      <div className="w-12 h-1.5 bg-white/80 rounded" />
+                      <div className="w-10 h-1 bg-white/50 rounded" />
+                      <div className="w-6 h-1 bg-white/70 rounded mt-0.5" />
                     </div>
                     {/* Selection indicator */}
                     {selectedPresetId === preset.id && (
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-slate-900 dark:bg-white rounded-full flex items-center justify-center">
-                        <CheckIcon className="w-4 h-4 text-white dark:text-slate-900" />
+                      <div className="absolute top-1.5 right-1.5 w-5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full flex items-center justify-center shadow-sm">
+                        <CheckIcon className="w-3 h-3 text-white dark:text-slate-900" />
                       </div>
                     )}
                   </div>
                   {/* Info */}
-                  <div className="p-3 bg-white dark:bg-slate-800 text-left">
-                    <div className="text-sm font-medium text-slate-900 dark:text-white">
+                  <div className="p-2.5 text-left">
+                    <div className="text-[11px] font-medium text-slate-700 dark:text-slate-200">
                       {preset.name}
                     </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
                       {preset.description}
                     </div>
                   </div>
@@ -328,20 +335,20 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
               ))}
             </div>
           ) : filteredBlocks.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
-                <MagnifyingGlassIcon className="w-8 h-8 text-slate-400" />
+            <div className="flex flex-col items-center justify-center py-10 text-center">
+              <div className="w-10 h-10 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center mb-2.5">
+                <MagnifyingGlassIcon className="w-5 h-5 text-slate-300 dark:text-slate-600" />
               </div>
-              <p className="text-slate-500 dark:text-slate-400 font-medium">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 No blocks found
               </p>
-              <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
                 Try a different search term
               </p>
             </div>
           ) : (
             /* Block Grid */
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-2">
               {filteredBlocks.map(([type, block]) => {
                 const IconComponent =
                   typeof block.icon === "string" ? iconMap[block.icon] : null;
@@ -350,21 +357,21 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
                   <button
                     key={type}
                     onClick={() => handleSelectBlock(type as BlockType)}
-                    className="group flex items-start gap-4 p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md transition-all duration-200 text-left"
+                    className="group flex items-start gap-2.5 p-2.5 bg-white/50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/50 rounded-xl hover:border-slate-300 dark:hover:border-slate-600 hover:bg-white dark:hover:bg-slate-800 hover:shadow-sm transition-all duration-150 text-left"
                   >
-                    <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl group-hover:bg-slate-200 dark:group-hover:bg-slate-600 transition-colors">
+                    <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-slate-100/80 dark:bg-slate-700/50 rounded-lg group-hover:bg-slate-100 dark:group-hover:bg-slate-700 transition-colors">
                       {IconComponent ? (
-                        <IconComponent className="w-7 h-7 text-slate-600 dark:text-slate-300" />
+                        <IconComponent className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                       ) : (
-                        <div className="w-7 h-7 bg-slate-300 dark:bg-slate-500 rounded" />
+                        <div className="w-4 h-4 bg-slate-300 dark:bg-slate-500 rounded" />
                       )}
                     </div>
-                    <div className="flex-1 min-w-0 pt-1">
-                      <div className="text-sm font-semibold text-slate-900 dark:text-white">
+                    <div className="flex-1 min-w-0 pt-0.5">
+                      <div className="text-[11px] font-medium text-slate-600 dark:text-slate-300">
                         {block.label}
                       </div>
                       {block.description && (
-                        <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-2">
                           {block.description}
                         </div>
                       )}
@@ -377,19 +384,20 @@ const BlockPickerModal: React.FC<BlockPickerModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div className="px-4 py-2 border-t border-slate-200/50 dark:border-slate-700/50">
+          <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
             <span>
               {showHeroPresets
-                ? `${heroPresets.length} hero styles available`
-                : `${filteredBlocks.length} components available`}
+                ? `${heroPresets.length} hero styles`
+                : `${filteredBlocks.length} components`}
             </span>
             <span className="flex items-center gap-1">
-              Press{" "}
-              <kbd className="px-1.5 py-0.5 bg-white dark:bg-slate-700 rounded shadow-sm font-mono">
+              <kbd className="px-1 py-0.5 bg-slate-100/80 dark:bg-slate-800/80 rounded text-[9px] font-mono text-slate-400 dark:text-slate-500">
                 Esc
-              </kbd>{" "}
-              to close
+              </kbd>
+              <span className="text-slate-400 dark:text-slate-500">
+                to close
+              </span>
             </span>
           </div>
         </div>

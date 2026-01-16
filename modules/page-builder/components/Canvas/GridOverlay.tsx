@@ -337,29 +337,28 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
             <div
               key={`cell-${col}-${row}`}
               className={classNames(
-                "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-150 min-h-[120px] flex items-center justify-center group/cell",
+                "grid-overlay-cell relative pointer-events-auto cursor-pointer transition-all duration-100 min-h-[120px] flex items-center justify-center group/cell",
                 {
                   // Occupied cell (origin) - spans entire area
-                  "border-2 border-solid border-emerald-400 dark:border-emerald-600 bg-emerald-50/50 dark:bg-emerald-900/30":
+                  "border border-slate-300 dark:border-slate-600 bg-slate-50/80 dark:bg-slate-800/50":
                     isOrigin && !isResizing,
                   // Resizing state
-                  "border-2 border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-900/30":
+                  "border border-dashed border-slate-400 dark:border-slate-500 bg-slate-100/50 dark:bg-slate-800/40":
                     isResizing,
                   // Selected cell
-                  "!border-blue-500 !border-2 !bg-blue-100/50 dark:!bg-blue-900/40":
+                  "!border-slate-500 dark:!border-slate-400 !bg-slate-100/60 dark:!bg-slate-800/60":
                     isSelectedCell && !isResizing,
                   // Hovered occupied
-                  "ring-2 ring-blue-400 dark:ring-blue-500 ring-inset":
+                  "ring-1 ring-slate-400 dark:ring-slate-500 ring-inset":
                     isHovered && isOccupied && !isResizing,
                 },
               )}
               style={{
                 gridColumn: isOrigin ? `${col} / span ${colSpan}` : col,
                 gridRow: isOrigin ? `${row} / span ${rowSpan}` : row,
-                // Empty cell gets very subtle gradient background
+                // Empty cell gets subtle background
                 ...(!isOccupied && {
-                  background:
-                    "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
+                  background: "rgba(248, 250, 252, 0.6)",
                 }),
               }}
               onClick={(e) => handleCellClick(col, row, e)}
@@ -367,41 +366,41 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
               onMouseLeave={handleMouseLeave}
             >
               {/* Cell coordinates */}
-              <span className="absolute top-1 left-1 text-[9px] font-mono text-slate-400 dark:text-slate-500">
+              <span className="absolute top-1 left-1 text-[8px] font-mono text-slate-300 dark:text-slate-600">
                 {col},{row}
               </span>
 
               {/* Empty cell placeholder content */}
               {!isOccupied && !isHovered && (
-                <div className="flex items-center justify-center text-slate-300">
-                  <PlusIcon className="w-8 h-8" />
+                <div className="flex items-center justify-center text-slate-200 dark:text-slate-700">
+                  <PlusIcon className="w-6 h-6" />
                 </div>
               )}
 
               {/* Child block label (for origins) */}
               {childLabel && (
-                <span className="absolute bottom-1 left-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 bg-white/80 dark:bg-slate-800/80 px-1 rounded">
+                <span className="absolute bottom-1 left-1 text-[8px] font-medium text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-900/80 px-1 rounded">
                   {childLabel}
                 </span>
               )}
 
               {/* Add button for empty cells on hover */}
               {!isOccupied && isHovered && (
-                <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg">
-                  <PlusIcon className="w-6 h-6" />
+                <div className="w-8 h-8 rounded-full bg-slate-700 dark:bg-slate-300 text-white dark:text-slate-800 flex items-center justify-center shadow-md">
+                  <PlusIcon className="w-4 h-4" />
                 </div>
               )}
 
-              {/* Resize handles for occupied cells - always visible, more prominent */}
+              {/* Resize handles for occupied cells - subtle, visible on hover */}
               {isOrigin && onPlacementResize && (
                 <>
                   {/* East (right) resize handle */}
                   <div
                     className={classNames(
-                      "absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-10 bg-blue-500 rounded-full cursor-ew-resize hover:scale-110 transition-transform z-20 shadow-md",
+                      "absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-8 bg-slate-500 dark:bg-slate-400 rounded-full cursor-ew-resize hover:scale-110 hover:bg-slate-600 dark:hover:bg-slate-300 transition-all z-20",
                       isResizing
                         ? "opacity-100"
-                        : "opacity-70 hover:opacity-100",
+                        : "opacity-60 hover:opacity-100",
                     )}
                     onMouseDown={(e) =>
                       handleResizeStart(
@@ -416,10 +415,10 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
                   {/* South (bottom) resize handle */}
                   <div
                     className={classNames(
-                      "absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-3 w-10 bg-blue-500 rounded-full cursor-ns-resize hover:scale-110 transition-transform z-20 shadow-md",
+                      "absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-8 bg-slate-500 dark:bg-slate-400 rounded-full cursor-ns-resize hover:scale-110 hover:bg-slate-600 dark:hover:bg-slate-300 transition-all z-20",
                       isResizing
                         ? "opacity-100"
-                        : "opacity-70 hover:opacity-100",
+                        : "opacity-60 hover:opacity-100",
                     )}
                     onMouseDown={(e) =>
                       handleResizeStart(
@@ -434,7 +433,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
                   {/* Southeast (corner) resize handle */}
                   <div
                     className={classNames(
-                      "absolute -bottom-2 -right-2 w-4 h-4 bg-blue-500 rounded-full cursor-nwse-resize hover:scale-125 transition-transform z-20 shadow-md",
+                      "absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-slate-600 dark:bg-slate-300 rounded-full cursor-nwse-resize hover:scale-125 hover:bg-slate-700 dark:hover:bg-slate-200 transition-all z-20",
                       isResizing
                         ? "opacity-100"
                         : "opacity-70 hover:opacity-100",
@@ -454,7 +453,7 @@ const GridOverlay: React.FC<GridOverlayProps> = ({
 
               {/* Span indicator for origins with spanning */}
               {isOrigin && (colSpan > 1 || rowSpan > 1) && (
-                <span className="absolute top-1 right-1 text-[9px] font-mono text-emerald-500 dark:text-emerald-400">
+                <span className="absolute top-1 right-1 text-[8px] font-mono text-slate-400 dark:text-slate-500">
                   {colSpan}×{rowSpan}
                 </span>
               )}

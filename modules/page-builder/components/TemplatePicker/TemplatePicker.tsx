@@ -127,34 +127,38 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
       <div
         className={classNames(
           "fixed top-3 right-3 bottom-3 z-[1051] w-full max-w-4xl",
-          "bg-white dark:bg-slate-900 rounded-2xl shadow-2xl",
-          "flex flex-col overflow-hidden",
+          "rounded-2xl flex flex-col overflow-hidden",
+          // Glassmorphism
+          "bg-white/80 dark:bg-slate-900/80",
+          "backdrop-blur-2xl backdrop-saturate-150",
+          "border border-white/60 dark:border-white/10",
+          "shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
           "transition-transform duration-300 ease-out",
           isOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]",
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200/50 dark:border-slate-700/50">
           <div>
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+            <h2 className="text-base font-medium text-slate-700 dark:text-slate-200">
               Choose a Template
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
               Start with a pre-built layout or begin from scratch
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors"
           >
-            <XMarkIcon className="w-5 h-5" />
+            <XMarkIcon className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content */}
         <div className="flex-1 flex overflow-hidden">
           {/* Sidebar - Categories */}
-          <div className="w-56 border-r border-slate-100 dark:border-slate-800 p-4 flex flex-col gap-1">
+          <div className="w-48 border-r border-slate-200/50 dark:border-slate-700/50 p-3 flex flex-col gap-0.5">
             {(Object.keys(categoryInfo) as CategoryFilter[]).map((category) => {
               const { label, icon: Icon } = categoryInfo[category];
               const isActive = selectedCategory === category;
@@ -168,20 +172,22 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   className={classNames(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors",
+                    "flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all",
                     isActive
-                      ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
-                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800",
+                      ? "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm"
+                      : "text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50",
                   )}
                 >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
-                  <span className="flex-1 text-sm font-medium">{label}</span>
+                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  <span className="flex-1 text-[11px] font-medium">
+                    {label}
+                  </span>
                   <span
                     className={classNames(
-                      "text-xs px-2 py-0.5 rounded-full",
+                      "text-[10px] px-1.5 py-0.5 rounded-full",
                       isActive
-                        ? "bg-white/20 dark:bg-slate-900/20"
-                        : "bg-slate-100 dark:bg-slate-800",
+                        ? "bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
+                        : "bg-slate-100/50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500",
                     )}
                   >
                     {count}
@@ -192,8 +198,8 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
           </div>
 
           {/* Template Grid */}
-          <div className="flex-1 overflow-auto p-6">
-            <div className="grid grid-cols-3 gap-4">
+          <div className="flex-1 overflow-auto p-4">
+            <div className="grid grid-cols-3 gap-3">
               {filteredTemplates.map((template) => {
                 const isSelected = selectedTemplate?.id === template.id;
                 const isBlank = template.id === "blank";
@@ -204,11 +210,12 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
                     onClick={() => onSelectTemplate(template)}
                     onFocus={() => setSelectedTemplate(template)}
                     className={classNames(
-                      "group relative flex flex-col rounded-xl border-2 overflow-hidden transition-all text-left",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 dark:focus-visible:ring-white focus-visible:ring-offset-2",
+                      "group relative flex flex-col rounded-xl overflow-hidden transition-all text-left",
+                      "border",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2",
                       isSelected
-                        ? "border-slate-900 dark:border-white ring-2 ring-slate-900/20 dark:ring-white/20"
-                        : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600",
+                        ? "border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-800 shadow-md"
+                        : "border-slate-200/80 dark:border-slate-700/80 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-sm",
                     )}
                   >
                     {/* Thumbnail */}
@@ -216,14 +223,14 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
                       className={classNames(
                         "aspect-[4/3] flex items-center justify-center",
                         isBlank
-                          ? "bg-slate-50 dark:bg-slate-800"
-                          : "bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700",
+                          ? "bg-slate-50/80 dark:bg-slate-800/80"
+                          : "bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-750",
                       )}
                     >
                       {isBlank ? (
-                        <div className="flex flex-col items-center gap-2 text-slate-400">
-                          <DocumentIcon className="w-12 h-12" />
-                          <span className="text-xs">Empty Canvas</span>
+                        <div className="flex flex-col items-center gap-1.5 text-slate-300 dark:text-slate-600">
+                          <DocumentIcon className="w-10 h-10" />
+                          <span className="text-[10px]">Empty Canvas</span>
                         </div>
                       ) : (
                         <TemplatePreview template={template} />
@@ -231,19 +238,19 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
                     </div>
 
                     {/* Info */}
-                    <div className="p-3 bg-white dark:bg-slate-900">
-                      <h3 className="font-medium text-slate-900 dark:text-white text-sm">
+                    <div className="p-2.5">
+                      <h3 className="font-medium text-slate-700 dark:text-slate-200 text-[11px]">
                         {template.name}
                       </h3>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-2">
                         {template.description}
                       </p>
                     </div>
 
                     {/* Selected indicator */}
                     {isSelected && (
-                      <div className="absolute top-3 right-3 w-6 h-6 bg-slate-900 dark:bg-white rounded-full flex items-center justify-center shadow-lg">
-                        <CheckIcon className="w-4 h-4 text-white dark:text-slate-900" />
+                      <div className="absolute top-2 right-2 w-5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full flex items-center justify-center shadow-sm">
+                        <CheckIcon className="w-3 h-3 text-white dark:text-slate-900" />
                       </div>
                     )}
                   </button>
@@ -254,13 +261,13 @@ const TemplatePicker: React.FC<TemplatePickerProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+        <div className="px-4 py-2.5 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500">
             Click a template to use it
           </p>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="px-3 py-1 text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded transition-colors"
           >
             Cancel
           </button>

@@ -1,0 +1,246 @@
+{
+  "id": "page_1768521573165",
+  "title": {
+    "de": "Untitled Page #APVPQ"
+  },
+  "slug": "untitled-page",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768521577915_ab8p9wrci",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768521618948_ymmmhyrvb",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 2,
+                "rowSpan": 3
+              }
+            },
+            {
+              "blockId": "block_1768521625331_8cigq9bfs",
+              "placement": {
+                "colStart": 3,
+                "rowStart": 1,
+                "colSpan": 3,
+                "rowSpan": 2
+              }
+            },
+            {
+              "blockId": "block_1768521631415_mflsym8xi",
+              "placement": {
+                "colStart": 3,
+                "rowStart": 3,
+                "colSpan": 2,
+                "rowSpan": 2
+              }
+            },
+            {
+              "blockId": "block_1768521648631_ol4j7z5oz",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 5,
+                "colSpan": 3,
+                "rowSpan": 2
+              }
+            },
+            {
+              "blockId": "block_1768521764598_jz6m00uvv",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 4,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768521618948_ymmmhyrvb",
+          "type": "text-content",
+          "content": {
+            "de": {
+              "content": "<p>Enter your text here...</p>",
+              "headingLevel": "p"
+            },
+            "fr": {
+              "content": "<p>Enter your text here...asdf</p>"
+            }
+          },
+          "style": {
+            "padding": {
+              "top": 16,
+              "right": 0,
+              "bottom": 16,
+              "left": 0
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768521625331_8cigq9bfs",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768516086478_cqir25.png",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768521631415_mflsym8xi",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768516086478_cqir25.png",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768521648631_ol4j7z5oz",
+          "type": "video",
+          "content": {
+            "url": "",
+            "provider": "youtube",
+            "autoplay": false,
+            "muted": false,
+            "loop": false,
+            "controls": true,
+            "aspectRatio": "16:9",
+            "thumbnail": "",
+            "caption": ""
+          },
+          "style": {
+            "borderRadius": 0,
+            "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768521764598_jz6m00uvv",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768343804182_yt5c80.jpg",
+              "alt": "",
+              "aspectRatio": "1:1",
+              "objectFit": "cover",
+              "focalPoint": {
+                "x": 36,
+                "y": 24
+              }
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        }
+      ]
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-15T23:59:33.165Z",
+  "updatedAt": "2026-01-16T00:19:15.675Z",
+  "versions": []
+}

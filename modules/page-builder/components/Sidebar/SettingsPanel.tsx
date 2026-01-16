@@ -80,22 +80,22 @@ const Section: React.FC<SectionProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-slate-100 dark:border-slate-800/50">
+    <div className="border-b border-slate-100/80 dark:border-slate-800/30">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-2.5 px-3 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
+        className="w-full flex items-center justify-between py-2 px-3 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors"
       >
-        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+        <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
           {title}
         </span>
         <ChevronDownIcon
           className={classNames(
-            "w-3.5 h-3.5 text-slate-400 transition-transform duration-200",
+            "w-3 h-3 text-slate-300 dark:text-slate-600 transition-transform duration-200",
             !isOpen && "-rotate-90",
           )}
         />
       </button>
-      {isOpen && <div className="px-3 pb-3 space-y-2">{children}</div>}
+      {isOpen && <div className="px-3 pb-3 space-y-2.5">{children}</div>}
     </div>
   );
 };
@@ -609,9 +609,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
   return (
     <div className={classNames("h-full flex flex-col", className)}>
       {/* Header - Compact */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100 dark:border-slate-800/50">
+      <div className="flex items-center justify-between px-3 py-2.5 border-b border-slate-200/50 dark:border-slate-700/50">
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold text-slate-900 dark:text-white">
+          <span className="text-[12px] font-medium text-slate-700 dark:text-slate-200">
             {blockDef?.label || selectedBlock.type}
           </span>
           {selectedBlock.hidden && (
@@ -623,29 +623,26 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ className }) => {
         </div>
         <button
           onClick={() => selectBlock(null)}
-          className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
+          className="p-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors"
         >
           <XMarkIcon className="w-4 h-4 text-slate-400" />
         </button>
       </div>
 
-      {/* Tabs - Figma style */}
-      <div className="flex border-b border-slate-100 dark:border-slate-800/50">
+      {/* Tabs - Light style */}
+      <div className="flex gap-0.5 p-1.5 mx-2 mt-1.5 bg-slate-100/50 dark:bg-slate-800/30 rounded-lg">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={classNames(
-              "flex-1 px-3 py-2 text-[11px] font-medium transition-colors relative",
+              "flex-1 px-2.5 py-1.5 text-[11px] font-medium rounded-md transition-all",
               activeTab === tab.id
-                ? "text-slate-900 dark:text-white"
-                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
+                ? "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm"
+                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white",
             )}
           >
             {tab.label}
-            {activeTab === tab.id && (
-              <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
-            )}
           </button>
         ))}
       </div>
@@ -1452,6 +1449,7 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         <div>
           <Section title="Grid Layout">
             <GridTemplateEditor
+              key={`grid-editor-${(gridContent.childPlacements || []).map((p) => `${p.blockId}:${p.placement.colSpan}x${p.placement.rowSpan}`).join(",")}`}
               template={desktopTemplate}
               onChange={(newTemplate) => {
                 onChange("template", {
@@ -1522,6 +1520,15 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 min={0}
                 max={200}
                 onChange={(v) => onChange("sidePadding", v)}
+                suffix="px"
+              />
+            </PropertyRow>
+            <PropertyRow label="Min Row Height">
+              <MiniNumberInput
+                value={gridContent.minRowHeight ?? 80}
+                min={24}
+                max={400}
+                onChange={(v) => onChange("minRowHeight", v)}
                 suffix="px"
               />
             </PropertyRow>
@@ -3681,6 +3688,8 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
   // Hide background image controls for image blocks to avoid confusion
   // (image blocks have their own image picker in Content tab)
   const showBackgroundImage = block.type !== "image";
+  // Show video background controls for hero-banner blocks
+  const showBackgroundVideo = block.type === "hero-banner";
 
   return (
     <div>
@@ -3745,6 +3754,57 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({
                   {isCropping ? "Cropping..." : "Crop Image"}
                 </button>
               </PropertyRow>
+            )}
+          </>
+        )}
+        {/* Video background controls for hero blocks */}
+        {showBackgroundVideo && (
+          <>
+            <PropertyRow label="Video" inline={false}>
+              <MediaPickerField
+                value={style.backgroundVideo || ""}
+                onChange={(v) => onChange("backgroundVideo", v)}
+                onBlur={onBlur}
+                allowedTypes={["video/*"]}
+                compact
+              />
+            </PropertyRow>
+            {style.backgroundVideo && (
+              <>
+                <PropertyRow label="Poster" inline={false}>
+                  <MediaPickerField
+                    value={style.backgroundVideoPoster || ""}
+                    onChange={(v) => onChange("backgroundVideoPoster", v)}
+                    onBlur={onBlur}
+                    allowedTypes={["image/*"]}
+                    compact
+                  />
+                </PropertyRow>
+                <ToggleRow
+                  label="Autoplay"
+                  checked={style.backgroundVideoAutoplay !== false}
+                  onChange={(v) => onChange("backgroundVideoAutoplay", v)}
+                />
+                <ToggleRow
+                  label="Loop"
+                  checked={style.backgroundVideoLoop !== false}
+                  onChange={(v) => onChange("backgroundVideoLoop", v)}
+                />
+                <ToggleRow
+                  label="Muted"
+                  checked={style.backgroundVideoMuted !== false}
+                  onChange={(v) => onChange("backgroundVideoMuted", v)}
+                />
+                <PropertyRow label="Overlay">
+                  <MiniNumberInput
+                    value={style.backgroundOverlay || 0}
+                    min={0}
+                    max={100}
+                    onChange={(v) => onChange("backgroundOverlay", v)}
+                    suffix="%"
+                  />
+                </PropertyRow>
+              </>
             )}
           </>
         )}
@@ -3866,7 +3926,7 @@ const AdvancedSettings: React.FC<AdvancedSettingsProps> = ({ block }) => {
 
 // ============ Compact UI Components ============
 
-// Mini Input Field
+// Mini Input Field - Ultra-thin design
 const InputField: React.FC<{
   value: string;
   onChange: (v: string) => void;
@@ -3880,11 +3940,11 @@ const InputField: React.FC<{
     onChange={(e) => onChange(e.target.value)}
     onBlur={onBlur}
     placeholder={placeholder}
-    className="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 placeholder:text-slate-400"
+    className="w-full px-2.5 py-1 text-[11px] text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/50 rounded focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-colors"
   />
 );
 
-// Mini Number Input
+// Mini Number Input - Ultra-thin design
 const MiniNumberInput: React.FC<{
   value: number;
   onChange: (v: number) => void;
@@ -3899,17 +3959,17 @@ const MiniNumberInput: React.FC<{
       onChange={(e) => onChange(Number(e.target.value))}
       min={min}
       max={max}
-      className="w-full px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 text-right pr-6 tabular-nums"
+      className="w-full px-2 py-1 text-[11px] text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/50 rounded focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 text-right pr-6 tabular-nums transition-colors"
     />
     {suffix && (
-      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none">
+      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 dark:text-slate-500 pointer-events-none font-medium">
         {suffix}
       </span>
     )}
   </div>
 );
 
-// Mini Select
+// Mini Select - Ultra-thin design
 const MiniSelect: React.FC<{
   value: string;
   options: { value: string; label: string }[];
@@ -3918,7 +3978,7 @@ const MiniSelect: React.FC<{
   <select
     value={value}
     onChange={(e) => onChange(e.target.value)}
-    className="w-full px-2 py-1 text-[11px] bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-400 appearance-none cursor-pointer"
+    className="w-full px-2 py-1 text-[11px] text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/50 rounded focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 appearance-none cursor-pointer transition-colors"
   >
     {options.map((opt) => (
       <option key={opt.value} value={opt.value}>
@@ -3928,7 +3988,7 @@ const MiniSelect: React.FC<{
   </select>
 );
 
-// Toggle Row
+// Toggle Row - Ultra-thin design
 const ToggleRow: React.FC<{
   label: string;
   checked: boolean;
@@ -3941,31 +4001,31 @@ const ToggleRow: React.FC<{
     <button
       onClick={() => onChange(!checked)}
       className={classNames(
-        "w-7 h-4 rounded-full transition-colors relative",
+        "w-6 h-3.5 rounded-full transition-all relative",
         checked
-          ? "bg-slate-900 dark:bg-white"
+          ? "bg-slate-800 dark:bg-slate-200"
           : "bg-slate-200 dark:bg-slate-700",
       )}
     >
       <div
         className={classNames(
-          "absolute top-0.5 w-3 h-3 rounded-full transition-transform",
+          "absolute top-0.5 w-2.5 h-2.5 rounded-full shadow-sm transition-transform",
           checked
-            ? "bg-white dark:bg-slate-900 translate-x-3.5"
-            : "bg-white dark:bg-slate-400 translate-x-0.5",
+            ? "bg-white dark:bg-slate-900 translate-x-3"
+            : "bg-white dark:bg-slate-500 translate-x-0.5",
         )}
       />
     </button>
   </div>
 );
 
-// Segmented Control
+// Segmented Control - Ultra-thin design
 const SegmentedControl: React.FC<{
   value: string;
   options: { value: string; label: string }[];
   onChange: (v: string) => void;
 }> = ({ value, options, onChange }) => (
-  <div className="flex bg-slate-100 dark:bg-slate-800 rounded-md p-0.5 gap-0.5">
+  <div className="flex bg-slate-100/60 dark:bg-slate-800/40 rounded p-0.5 gap-px">
     {options.map((opt) => (
       <button
         key={opt.value}
@@ -3976,10 +4036,10 @@ const SegmentedControl: React.FC<{
           onChange(opt.value);
         }}
         className={classNames(
-          "flex-1 px-3 py-1.5 text-[10px] font-medium rounded transition-all cursor-pointer",
+          "flex-1 px-2.5 py-1 text-[10px] font-medium rounded-sm transition-all cursor-pointer",
           value === opt.value
-            ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm"
-            : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
+            ? "bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 shadow-sm"
+            : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300",
         )}
       >
         {opt.label}
@@ -4213,14 +4273,14 @@ const LayoutPicker: React.FC<{
             key={layout.value}
             onClick={() => onChange(layout.value)}
             className={classNames(
-              "flex flex-col items-center p-2 rounded-lg transition-all",
+              "flex flex-col items-center p-2 rounded-xl border transition-all",
               isSelected
-                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
-                : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700",
+                ? "bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-500 text-slate-700 dark:text-slate-200 shadow-sm"
+                : "bg-slate-50/50 dark:bg-slate-800/50 border-slate-200/80 dark:border-slate-700/50 text-slate-400 dark:text-slate-500 hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600",
             )}
             title={layout.label}
           >
-            <Icon className="w-6 h-6" />
+            <Icon className="w-5 h-5" />
             <span className="text-[9px] mt-1 font-medium truncate w-full text-center">
               {layout.label}
             </span>

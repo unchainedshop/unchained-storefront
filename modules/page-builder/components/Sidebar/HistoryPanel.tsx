@@ -93,7 +93,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
           className,
         )}
       >
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-[11px] text-slate-400 dark:text-slate-500">
           {formatMessage({
             id: "pb_history_no_page",
             defaultMessage: "No page loaded",
@@ -127,12 +127,12 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
   return (
     <div className={classNames("h-full flex flex-col", className)}>
       {/* Header with tabs */}
-      <div className="border-b border-slate-200 dark:border-slate-700">
-        <div className="px-4 pt-3 pb-0">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <ClockIcon className="w-5 h-5 text-slate-500" />
-              <h3 className="font-medium text-slate-900 dark:text-white">
+      <div className="border-b border-slate-100/80 dark:border-slate-800/50">
+        <div className="px-3 pt-2.5 pb-0">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-1.5">
+              <ClockIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+              <h3 className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
                 {formatMessage({
                   id: "pb_history_title",
                   defaultMessage: "History",
@@ -143,23 +143,26 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
               <button
                 onClick={() => fetchHistory()}
                 disabled={isLoading}
-                className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
+                className="p-1 hover:bg-slate-100/80 dark:hover:bg-slate-800/50 rounded-md transition-colors"
                 title={formatMessage({
                   id: "pb_history_refresh",
                   defaultMessage: "Refresh",
                 })}
               >
                 <ArrowPathIcon
-                  className={classNames("w-4 h-4 text-slate-500", {
-                    "animate-spin": isLoading,
-                  })}
+                  className={classNames(
+                    "w-3.5 h-3.5 text-slate-400 dark:text-slate-500",
+                    {
+                      "animate-spin": isLoading,
+                    },
+                  )}
                 />
               </button>
             )}
           </div>
 
           {/* Tab buttons */}
-          <div className="flex gap-1">
+          <div className="flex gap-0.5">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -168,20 +171,20 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={classNames(
-                    "flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-t-lg transition-colors",
+                    "flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-[10px] font-medium rounded-t-md transition-colors outline-none focus:outline-none focus:ring-0",
                     isActive
-                      ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-b-0 border-slate-200 dark:border-slate-700"
-                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50",
+                      ? "bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-b-0 border-slate-200/80 dark:border-slate-700/50"
+                      : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50/50 dark:hover:bg-slate-800/30",
                   )}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3 h-3" />
                   <span>{tab.label}</span>
                   <span
                     className={classNames(
-                      "text-xs px-1.5 py-0.5 rounded-full",
+                      "text-[9px] px-1 py-0.5 rounded",
                       isActive
-                        ? "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
-                        : "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400",
+                        ? "bg-slate-100/80 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400"
+                        : "bg-slate-200/50 dark:bg-slate-700/30 text-slate-400 dark:text-slate-500",
                     )}
                   >
                     {tab.count}
@@ -194,15 +197,15 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto bg-white dark:bg-slate-800">
+      <div className="flex-1 overflow-y-auto bg-white/50 dark:bg-slate-800/30">
         {activeTab === "session" ? (
           <SessionHistory />
         ) : (
           <>
             {isLoading && commits.length === 0 ? (
-              <div className="flex items-center justify-center h-32">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
-                  <ArrowPathIcon className="w-4 h-4 animate-spin" />
+              <div className="flex items-center justify-center h-28">
+                <div className="flex items-center gap-1.5 text-[10px] text-slate-400 dark:text-slate-500">
+                  <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
                   {formatMessage({
                     id: "pb_history_loading",
                     defaultMessage: "Loading history...",
@@ -210,14 +213,14 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
                 </div>
               </div>
             ) : error ? (
-              <div className="flex flex-col items-center justify-center h-32 px-4">
-                <ExclamationTriangleIcon className="w-8 h-8 text-amber-500 mb-2" />
-                <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
+              <div className="flex flex-col items-center justify-center h-28 px-4">
+                <ExclamationTriangleIcon className="w-6 h-6 text-slate-400 mb-1.5" />
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center">
                   {error}
                 </p>
                 <button
                   onClick={() => fetchHistory()}
-                  className="mt-2 text-sm text-blue-600 hover:text-blue-700"
+                  className="mt-1.5 text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                 >
                   {formatMessage({
                     id: "pb_history_retry",
@@ -226,9 +229,9 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
                 </button>
               </div>
             ) : commits.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-32 px-4">
-                <CloudIcon className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-2" />
-                <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
+              <div className="flex flex-col items-center justify-center h-28 px-4">
+                <CloudIcon className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-1.5" />
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center leading-relaxed">
                   {formatMessage({
                     id: "pb_history_empty",
                     defaultMessage:
@@ -251,11 +254,11 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
 
       {/* Preview indicator (only for versions tab) */}
       {activeTab === "versions" && selectedCommit && (
-        <div className="p-3 border-t border-slate-200 dark:border-slate-700 bg-amber-50 dark:bg-amber-900/20">
+        <div className="px-3 py-1.5 border-t border-slate-100/80 dark:border-slate-800/50">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-              <span className="text-xs text-amber-700 dark:text-amber-300">
+            <div className="flex items-center gap-1.5">
+              <div className="w-1 h-1 rounded-full bg-slate-400 dark:bg-slate-500 animate-pulse" />
+              <span className="text-[9px] text-slate-400 dark:text-slate-500">
                 {formatMessage({
                   id: "pb_history_previewing",
                   defaultMessage: "Previewing version",
@@ -264,7 +267,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({
             </div>
             <button
               onClick={clearPreview}
-              className="text-xs text-amber-600 dark:text-amber-400 hover:underline"
+              className="text-[9px] text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400"
             >
               {formatMessage({
                 id: "pb_history_exit_preview",

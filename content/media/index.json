@@ -294,6 +294,27 @@
       "createdAt": "2026-01-15T22:28:06.969Z",
       "updatedAt": "2026-01-15T22:28:06.969Z",
       "usageCount": 0
+    },
+    "media_1768521003451_6im2lp": {
+      "filename": "2026/01/media_1768521003393_wf8d68.webp",
+      "originalName": "unchained-logo-2025-square_cropped.webp",
+      "mimeType": "image/webp",
+      "size": 4278,
+      "dimensions": {
+        "width": 366,
+        "height": 275
+      },
+      "altText": "",
+      "title": "unchained-logo-2025-square (cropped)",
+      "description": "",
+      "tags": [],
+      "folderId": null,
+      "usageLocations": [],
+      "uploadedBy": "admin",
+      "id": "media_1768521003451_6im2lp",
+      "createdAt": "2026-01-15T23:50:03.451Z",
+      "updatedAt": "2026-01-15T23:50:03.451Z",
+      "usageCount": 0
     }
   },
   "folders": {
@@ -315,5 +336,5 @@
     }
   },
   "tags": [],
-  "lastUpdated": "2026-01-15T22:28:06.972Z"
+  "lastUpdated": "2026-01-15T23:50:03.451Z"
 }

@@ -191,6 +191,7 @@ const BlockWrapper: React.FC<BlockWrapperProps> = ({
   const wrapperContent = (
     <div
       ref={setNodeRef}
+      data-block-id={block.id}
       style={{
         ...style,
         height: "100%",

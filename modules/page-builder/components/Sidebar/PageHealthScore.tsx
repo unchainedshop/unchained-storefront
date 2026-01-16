@@ -623,19 +623,19 @@ const ScoreCircle: React.FC<ScoreCircleProps> = ({ score, size = "lg" }) => {
   };
 
   const getScoreRingColor = (s: number) => {
-    if (s >= 80) return "stroke-slate-700 dark:stroke-slate-300";
+    if (s >= 80) return "stroke-slate-600 dark:stroke-slate-300";
     if (s >= 60) return "stroke-slate-500 dark:stroke-slate-400";
     return "stroke-slate-400 dark:stroke-slate-500";
   };
 
   const dimensions =
-    size === "lg" ? { size: 56, stroke: 5 } : { size: 40, stroke: 4 };
+    size === "lg" ? { size: 48, stroke: 3 } : { size: 32, stroke: 2.5 };
   const radius = (dimensions.size - dimensions.stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <div className={`relative ${size === "lg" ? "w-14 h-14" : "w-10 h-10"}`}>
+    <div className={`relative ${size === "lg" ? "w-12 h-12" : "w-8 h-8"}`}>
       <svg
         className="transform -rotate-90"
         width={dimensions.size}
@@ -647,7 +647,7 @@ const ScoreCircle: React.FC<ScoreCircleProps> = ({ score, size = "lg" }) => {
           r={radius}
           fill="none"
           strokeWidth={dimensions.stroke}
-          className="stroke-slate-200 dark:stroke-slate-700"
+          className="stroke-slate-200/80 dark:stroke-slate-700/60"
         />
         <circle
           cx={dimensions.size / 2}
@@ -663,8 +663,8 @@ const ScoreCircle: React.FC<ScoreCircleProps> = ({ score, size = "lg" }) => {
       </svg>
       <div
         className={`absolute inset-0 flex items-center justify-center ${
-          size === "lg" ? "text-base" : "text-xs"
-        } font-bold ${getScoreColor(score)}`}
+          size === "lg" ? "text-[13px]" : "text-[10px]"
+        } font-semibold ${getScoreColor(score)}`}
       >
         {score}
       </div>
@@ -697,72 +697,70 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   };
 
   const getScoreBadgeBg = (s: number) => {
-    if (s >= 80) return "bg-slate-200 dark:bg-slate-700";
-    if (s >= 60) return "bg-slate-100 dark:bg-slate-700/50";
-    return "bg-slate-100/50 dark:bg-slate-800";
+    if (s >= 80) return "bg-slate-100 dark:bg-slate-700/50";
+    if (s >= 60) return "bg-slate-100/80 dark:bg-slate-700/30";
+    return "bg-slate-100/50 dark:bg-slate-800/50";
   };
 
   const getSeverityIcon = (severity: IssueSeverity) => {
     switch (severity) {
       case "error":
         return (
-          <XCircleIcon className="w-4 h-4 text-slate-600 dark:text-slate-400 flex-shrink-0" />
+          <XCircleIcon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400 flex-shrink-0" />
         );
       case "warning":
         return (
-          <ExclamationTriangleIcon className="w-4 h-4 text-slate-500 dark:text-slate-400 flex-shrink-0" />
+          <ExclamationTriangleIcon className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 flex-shrink-0" />
         );
       default:
         return (
-          <CheckCircleIcon className="w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" />
+          <CheckCircleIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 flex-shrink-0" />
         );
     }
   };
 
   return (
-    <div className="rounded-xl bg-slate-50 dark:bg-slate-800/50 overflow-hidden">
+    <div className="overflow-hidden">
       <button
         onClick={() => hasIssues && setIsExpanded(!isExpanded)}
-        className={`w-full flex items-center gap-3 p-3 text-left transition-colors ${
-          hasIssues ? "hover:bg-slate-100 dark:hover:bg-slate-800" : ""
+        className={`w-full flex items-center gap-2 py-1.5 text-left transition-colors ${
+          hasIssues ? "hover:bg-slate-50/50 dark:hover:bg-slate-800/30" : ""
         }`}
         disabled={!hasIssues}
       >
-        <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 shadow-sm flex items-center justify-center flex-shrink-0">
-          <Icon className="w-4 h-4 text-slate-600 dark:text-slate-300" />
+        <div className="w-6 h-6 rounded flex items-center justify-center flex-shrink-0">
+          <Icon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-slate-900 dark:text-white">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-medium text-slate-600 dark:text-slate-300">
               {label}
             </span>
             {hasIssues && (
-              <span className="text-xs text-slate-500 dark:text-slate-400">
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">
                 ({category.issues.length})
               </span>
             )}
           </div>
         </div>
-        <div
-          className={`px-2 py-0.5 rounded-full text-xs font-semibold ${getScoreBadgeBg(
-            category.score,
-          )} ${getScoreColor(category.score)}`}
+        <span
+          className={`text-[10px] font-medium ${getScoreColor(category.score)}`}
         >
           {category.score}%
-        </div>
+        </span>
         {hasIssues && (
-          <div className="text-slate-400">
+          <div className="text-slate-300 dark:text-slate-600">
             {isExpanded ? (
-              <ChevronDownIcon className="w-4 h-4" />
+              <ChevronDownIcon className="w-3.5 h-3.5" />
             ) : (
-              <ChevronRightIcon className="w-4 h-4" />
+              <ChevronRightIcon className="w-3.5 h-3.5" />
             )}
           </div>
         )}
       </button>
 
       {isExpanded && hasIssues && (
-        <div className="px-3 pb-3 space-y-2">
+        <div className="pl-8 pr-1 pb-2 space-y-1">
           {category.issues.map((issue) => {
             // Only clickable if issue has a specific target (block or field)
             const isClickable = issue.blockId || issue.focusField;
@@ -776,29 +774,22 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             return (
               <div
                 key={issue.id}
-                className={`p-2.5 rounded-lg bg-white dark:bg-slate-900/50 ${
+                className={`py-1 ${
                   isClickable
-                    ? "cursor-pointer hover:ring-1 hover:ring-slate-300 dark:hover:ring-slate-600"
+                    ? "cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/30 rounded -mx-1 px-1"
                     : ""
                 }`}
                 onClick={handleClick}
               >
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-1.5">
                   {getSeverityIcon(issue.severity)}
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                    <p className="text-[10px] text-slate-600 dark:text-slate-400">
                       {issue.message}
                     </p>
                     {issue.fix && (
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      <p className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5">
                         {issue.fix}
-                      </p>
-                    )}
-                    {isClickable && (
-                      <p className="text-xs text-blue-500 dark:text-blue-400 mt-1">
-                        {issue.blockId
-                          ? "Click to select block"
-                          : "Click to edit"}
                       </p>
                     )}
                   </div>
@@ -862,24 +853,24 @@ const PageHealthScore: React.FC = () => {
 
   if (!state.page) {
     return (
-      <div className="p-5 text-center text-slate-500 dark:text-slate-400">
-        <p className="text-sm">No page loaded</p>
+      <div className="py-4 text-center text-slate-400 dark:text-slate-500">
+        <p className="text-[11px]">No page loaded</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {/* Overall Score */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <ScoreCircle score={analysis.overall} size="lg" />
         <div className="flex-1">
           <p
-            className={`text-lg font-bold ${getOverallColor(analysis.overall)}`}
+            className={`text-[13px] font-semibold ${getOverallColor(analysis.overall)}`}
           >
             {getOverallLabel(analysis.overall)}
           </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500">
             {totalIssues === 0
               ? "No issues found"
               : `${totalIssues} issue${totalIssues !== 1 ? "s" : ""} found${
@@ -890,7 +881,7 @@ const PageHealthScore: React.FC = () => {
       </div>
 
       {/* Category Scores */}
-      <div className="space-y-2">
+      <div className="space-y-0">
         <CategoryCard
           icon={MagnifyingGlassIcon}
           label="SEO"

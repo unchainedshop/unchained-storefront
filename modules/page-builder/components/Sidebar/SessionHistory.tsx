@@ -41,25 +41,25 @@ const getActionIcon = (action: HistoryActionType) => {
   }
 };
 
-// Get color for action type
+// Get color for action type (minimal - text only, no backgrounds)
 const getActionColor = (action: HistoryActionType) => {
   switch (action) {
     case "add":
-      return "text-green-500 bg-green-100 dark:bg-green-900/30";
+      return "text-slate-500 dark:text-slate-400";
     case "delete":
-      return "text-red-500 bg-red-100 dark:bg-red-900/30";
+      return "text-slate-500 dark:text-slate-400";
     case "move":
-      return "text-blue-500 bg-blue-100 dark:bg-blue-900/30";
+      return "text-slate-500 dark:text-slate-400";
     case "duplicate":
-      return "text-purple-500 bg-purple-100 dark:bg-purple-900/30";
+      return "text-slate-500 dark:text-slate-400";
     case "update":
-      return "text-amber-500 bg-amber-100 dark:bg-amber-900/30";
+      return "text-slate-500 dark:text-slate-400";
     case "restore":
-      return "text-cyan-500 bg-cyan-100 dark:bg-cyan-900/30";
+      return "text-slate-500 dark:text-slate-400";
     case "initial":
-      return "text-slate-500 bg-slate-100 dark:bg-slate-800";
+      return "text-slate-400 dark:text-slate-500";
     default:
-      return "text-slate-500 bg-slate-100 dark:bg-slate-800";
+      return "text-slate-400 dark:text-slate-500";
   }
 };
 
@@ -103,46 +103,40 @@ const SessionHistoryItem: React.FC<SessionHistoryItemProps> = ({
     <button
       onClick={onClick}
       className={classNames(
-        "w-full flex items-start gap-3 px-3 py-2 text-left transition-colors rounded-lg",
+        "w-full flex items-center gap-2 py-1.5 text-left transition-colors",
         {
-          "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800":
-            isActive,
-          "hover:bg-slate-50 dark:hover:bg-slate-800/50": !isActive,
-          "opacity-50": index > 0 && !isCurrent && !isActive,
+          "bg-slate-50/50 dark:bg-slate-800/30": isActive,
+          "hover:bg-slate-50/30 dark:hover:bg-slate-800/20": !isActive,
+          "opacity-40": index > 0 && !isCurrent && !isActive,
         },
       )}
     >
       {/* Icon */}
-      <div
-        className={classNames(
-          "flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center",
-          colorClass,
-        )}
-      >
-        <Icon className="w-4 h-4" />
+      <div className={classNames("flex-shrink-0", colorClass)}>
+        <Icon className="w-3.5 h-3.5" />
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span
-            className={classNames(
-              "text-sm font-medium truncate",
-              isActive
-                ? "text-blue-700 dark:text-blue-300"
-                : "text-slate-700 dark:text-slate-300",
-            )}
-          >
-            {entry.label}
-          </span>
-          {isCurrent && (
-            <CheckCircleIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
+      <div className="flex-1 min-w-0 flex items-center gap-2">
+        <span
+          className={classNames(
+            "text-[11px] truncate",
+            isActive
+              ? "text-slate-700 dark:text-slate-200 font-medium"
+              : "text-slate-600 dark:text-slate-400",
           )}
-        </div>
-        <span className="text-xs text-slate-500 dark:text-slate-400">
-          {formatRelativeTime(entry.timestamp)}
+        >
+          {entry.label}
         </span>
+        {isCurrent && (
+          <CheckCircleIcon className="w-3 h-3 text-slate-400 dark:text-slate-500 flex-shrink-0" />
+        )}
       </div>
+
+      {/* Time */}
+      <span className="text-[9px] text-slate-400 dark:text-slate-500 flex-shrink-0">
+        {formatRelativeTime(entry.timestamp)}
+      </span>
     </button>
   );
 };
@@ -185,12 +179,12 @@ const SessionHistory: React.FC<SessionHistoryProps> = ({
     return (
       <div
         className={classNames(
-          "flex flex-col items-center justify-center h-32 px-4",
+          "flex flex-col items-center justify-center h-24 px-3",
           className,
         )}
       >
-        <DocumentIcon className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-2" />
-        <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
+        <DocumentIcon className="w-5 h-5 text-slate-300 dark:text-slate-600 mb-1.5" />
+        <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center">
           {formatMessage({
             id: "pb_session_history_empty",
             defaultMessage: "No actions yet",
@@ -203,36 +197,35 @@ const SessionHistory: React.FC<SessionHistoryProps> = ({
   return (
     <div className={classNames("flex flex-col", className)}>
       {/* Header with undo/redo counts */}
-      <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700">
-        <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            {formatMessage({
-              id: "pb_session_history_title",
-              defaultMessage: "Session Changes",
+      <div className="px-3 py-2 flex items-center justify-between">
+        <span className="text-[10px] text-slate-400 dark:text-slate-500">
+          {history.length}{" "}
+          {formatMessage({
+            id: "pb_session_history_changes",
+            defaultMessage: "changes",
+          })}
+        </span>
+        <div className="flex items-center gap-1.5 text-[9px] text-slate-400 dark:text-slate-500">
+          <span
+            className={classNames({
+              "text-slate-600 dark:text-slate-300": canUndo,
             })}
-          </h4>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <span
-              className={classNames({
-                "text-blue-600 dark:text-blue-400": canUndo,
-              })}
-            >
-              {historyIndex} undo
-            </span>
-            <span className="text-slate-300 dark:text-slate-600">|</span>
-            <span
-              className={classNames({
-                "text-blue-600 dark:text-blue-400": canRedo,
-              })}
-            >
-              {history.length - historyIndex - 1} redo
-            </span>
-          </div>
+          >
+            {historyIndex} undo
+          </span>
+          <span>·</span>
+          <span
+            className={classNames({
+              "text-slate-600 dark:text-slate-300": canRedo,
+            })}
+          >
+            {history.length - historyIndex - 1} redo
+          </span>
         </div>
       </div>
 
       {/* Timeline */}
-      <div className="flex-1 overflow-y-auto p-2 space-y-1">
+      <div className="flex-1 overflow-y-auto px-3 pb-2 space-y-0.5">
         {visibleHistory.map(({ entry, originalIndex }) => (
           <SessionHistoryItem
             key={`${originalIndex}-${entry.timestamp}`}
@@ -246,8 +239,8 @@ const SessionHistory: React.FC<SessionHistoryProps> = ({
       </div>
 
       {/* Footer hint */}
-      <div className="px-4 py-2 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-        <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+      <div className="px-3 py-1.5 border-t border-slate-100/80 dark:border-slate-800/50">
+        <p className="text-[9px] text-slate-400 dark:text-slate-500 text-center">
           {formatMessage({
             id: "pb_session_history_hint",
             defaultMessage: "Click to jump to any state",

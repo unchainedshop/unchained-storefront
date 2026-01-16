@@ -34,58 +34,54 @@ import { VIEWPORT_WIDTHS } from "../../types";
 import Header from "../../../layout/components/Header";
 import Footer from "../../../layout/components/Footer";
 
-// Floating Add Button - single instance, positioned over hovered gap
+// Floating Add Button - single instance, fixed in viewport at nearest gap
 interface FloatingAddButtonProps {
   position: { top: number; left: number; width: number } | null;
   onClick: () => void;
+  visible: boolean;
 }
 
 const FloatingAddButton: React.FC<FloatingAddButtonProps> = ({
   position,
   onClick,
+  visible,
 }) => {
-  if (!position) return null;
+  if (!position || !visible) return null;
 
   return (
     <div
-      className="fixed z-[9999] pointer-events-none"
+      className="fixed z-[9999] transition-all duration-150 ease-out"
       style={{
         top: position.top,
         left: position.left,
         width: position.width,
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
       }}
     >
-      <div className="relative h-4 flex items-center justify-center pointer-events-auto">
+      <div className="relative h-0 flex items-center justify-center">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onClick();
           }}
-          className="group absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-10 transition-all duration-300"
+          className="group absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-8 w-full transition-all duration-200"
         >
-          {/* Rainbow line */}
-          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px]">
-            <div className="h-full w-full rainbow-gradient opacity-80 transition-opacity duration-300" />
-          </div>
+          {/* Line with gradient */}
+          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-slate-300/80 to-transparent dark:via-slate-600/80" />
 
-          {/* Button container */}
-          <div className="relative transition-transform duration-300 scale-125">
-            {/* White outer fade */}
-            <div className="absolute -inset-5 rounded-full bg-white opacity-60 blur-lg transition-all duration-300" />
+          {/* Rainbow glow behind button */}
+          <div
+            className="absolute w-10 h-10 rounded-full opacity-40 blur-md animate-pulse"
+            style={{
+              background:
+                "conic-gradient(from 0deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b)",
+            }}
+          />
 
-            {/* Rainbow glow */}
-            <div className="absolute -inset-3 rounded-full rainbow-gradient opacity-90 blur-sm animate-pulse transition-all duration-300" />
-
-            {/* Secondary glow ring */}
-            <div className="absolute -inset-1.5 rounded-full rainbow-gradient opacity-70 blur-[4px] animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
-
-            {/* Button with rainbow border */}
-            <div className="relative w-8 h-8 rounded-full overflow-hidden shadow-xl transition-shadow duration-300">
-              <div className="absolute inset-0 rainbow-gradient opacity-100 transition-opacity duration-300" />
-              <div className="absolute inset-[2px] rounded-full bg-white dark:bg-slate-800 flex items-center justify-center">
-                <PlusIcon className="w-4 h-4 text-slate-700 dark:text-white transition-colors duration-300" />
-              </div>
-            </div>
+          {/* Button */}
+          <div className="relative w-6 h-6 rounded-full bg-slate-700 dark:bg-slate-300 flex items-center justify-center shadow-lg hover:scale-110 transition-all">
+            <PlusIcon className="w-3.5 h-3.5 text-white dark:text-slate-800" />
           </div>
         </button>
       </div>
@@ -128,17 +124,16 @@ const BlockDragOverlay: React.FC<{ block: PageBlock | null }> = ({ block }) => {
   const blockDef = blockRegistry[block.type];
 
   return (
-    <div className="drag-overlay flex items-center gap-3 rounded-xl px-4 py-3 cursor-grabbing">
-      <div className="w-8 h-8 rounded-lg rainbow-gradient flex items-center justify-center shadow-inner">
-        <span className="text-slate-700 text-base">
+    <div className="flex items-center gap-2 rounded-lg px-3 py-2 bg-slate-800 dark:bg-slate-200 shadow-lg cursor-grabbing">
+      <div className="w-6 h-6 rounded bg-slate-700 dark:bg-slate-300 flex items-center justify-center">
+        <span className="text-slate-300 dark:text-slate-600 text-xs">
           {getBlockIcon(blockDef?.icon)}
         </span>
       </div>
       <div className="flex flex-col">
-        <span className="text-sm font-semibold text-white">
+        <span className="text-[11px] font-medium text-white dark:text-slate-800">
           {blockDef?.label || block.type}
         </span>
-        <span className="text-[10px] text-slate-400">Drag to reorder</span>
       </div>
     </div>
   );
@@ -150,37 +145,41 @@ const SiteFrameToggle: React.FC<{
   isActive: boolean;
   onClick: () => void;
 }> = ({ position, isActive, onClick }) => (
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      onClick();
-    }}
+  <div
     className={classNames(
-      "group flex items-center justify-center gap-3 w-full py-2.5 text-xs font-medium transition-all",
-      position === "top" ? "rounded-t-lg" : "rounded-b-lg",
-      "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
+      "h-6 flex items-center",
+      position === "top" ? "justify-end pr-3" : "justify-end pr-3",
     )}
   >
-    {/* Toggle switch */}
-    <div
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
       className={classNames(
-        "relative w-9 h-5 rounded-full transition-colors duration-200",
-        isActive
-          ? "bg-slate-700 dark:bg-slate-300"
-          : "bg-slate-300 dark:bg-slate-600",
+        "group flex items-center gap-1.5 text-[10px] font-medium transition-colors",
+        "text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400",
       )}
     >
+      {/* Toggle switch */}
       <div
         className={classNames(
-          "absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ease-out",
-          isActive ? "translate-x-4" : "translate-x-0.5",
+          "relative w-6 h-3.5 rounded-full transition-colors duration-150",
+          isActive
+            ? "bg-slate-500 dark:bg-slate-400"
+            : "bg-slate-200 dark:bg-slate-700",
         )}
-      />
-    </div>
-    <span className="min-w-[60px] text-left">
-      {position === "top" ? "Header" : "Footer"}
-    </span>
-  </button>
+      >
+        <div
+          className={classNames(
+            "absolute top-0.5 w-2.5 h-2.5 rounded-full bg-white shadow-sm transition-transform duration-150 ease-out",
+            isActive ? "translate-x-3" : "translate-x-0.5",
+          )}
+        />
+      </div>
+      <span>{position === "top" ? "Header" : "Footer"}</span>
+    </button>
+  </div>
 );
 
 // Wrapper for Header in canvas - makes it non-sticky and non-interactive
@@ -218,6 +217,17 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
   const [insertPosition, setInsertPosition] = useState<number | null>(null);
   const [insertParentId, setInsertParentId] = useState<string | null>(null);
 
+  // Floating add button state
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const [floatingButtonPos, setFloatingButtonPos] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    insertIndex: number;
+  } | null>(null);
+  const [isMouseInCanvas, setIsMouseInCanvas] = useState(false);
+  const blockRefsMap = useRef<Map<string, HTMLElement>>(new Map());
+
   const {
     page,
     viewport,
@@ -250,6 +260,113 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
   const handleCanvasClick = useCallback(() => {
     selectBlock(null);
   }, [selectBlock]);
+
+  // Track mouse movement to position floating add button
+  const handleCanvasMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (isPreviewMode || isDragging || !page || page.blocks.length === 0) {
+        setFloatingButtonPos(null);
+        return;
+      }
+
+      const canvasEl = canvasRef.current;
+      if (!canvasEl) return;
+
+      // Get all block wrapper elements
+      const blockWrappers = canvasEl.querySelectorAll("[data-block-id]");
+      if (blockWrappers.length === 0) {
+        setFloatingButtonPos(null);
+        return;
+      }
+
+      const mouseY = e.clientY;
+      const mouseX = e.clientX;
+      let nearestGap: {
+        y: number;
+        insertIndex: number;
+        rect: DOMRect;
+      } | null = null;
+      let minDistance = Infinity;
+      const THRESHOLD = 80; // Distance in px to trigger the button
+
+      // Calculate gaps between blocks
+      const wrapperRects: { rect: DOMRect; index: number }[] = [];
+      let topLevelIndex = 0;
+      blockWrappers.forEach((wrapper) => {
+        // Only consider top-level blocks (parent is not a block)
+        const parentBlock = wrapper.parentElement?.closest("[data-block-id]");
+        if (!parentBlock) {
+          wrapperRects.push({
+            rect: wrapper.getBoundingClientRect(),
+            index: topLevelIndex++,
+          });
+        }
+      });
+
+      // Sort by top position
+      wrapperRects.sort((a, b) => a.rect.top - b.rect.top);
+
+      // Only show if mouse is horizontally within a block's bounds
+      const isWithinBlockBounds = wrapperRects.some(
+        ({ rect }) => mouseX >= rect.left && mouseX <= rect.right,
+      );
+      if (!isWithinBlockBounds) {
+        setFloatingButtonPos(null);
+        return;
+      }
+
+      // Check gap before first block
+      if (wrapperRects.length > 0) {
+        const firstRect = wrapperRects[0].rect;
+        const gapY = firstRect.top;
+        const distance = Math.abs(mouseY - gapY);
+        if (distance < minDistance && distance < THRESHOLD) {
+          minDistance = distance;
+          nearestGap = { y: gapY, insertIndex: 0, rect: firstRect };
+        }
+      }
+
+      // Check gaps between blocks and after last block
+      for (let i = 0; i < wrapperRects.length; i++) {
+        const currentRect = wrapperRects[i].rect;
+        const gapY = currentRect.bottom;
+        const distance = Math.abs(mouseY - gapY);
+        if (distance < minDistance && distance < THRESHOLD) {
+          minDistance = distance;
+          nearestGap = { y: gapY, insertIndex: i + 1, rect: currentRect };
+        }
+      }
+
+      if (nearestGap) {
+        setFloatingButtonPos({
+          top: nearestGap.y,
+          left: nearestGap.rect.left,
+          width: nearestGap.rect.width,
+          insertIndex: nearestGap.insertIndex,
+        });
+      } else {
+        setFloatingButtonPos(null);
+      }
+    },
+    [isPreviewMode, isDragging, page],
+  );
+
+  const handleCanvasMouseLeave = useCallback(() => {
+    setIsMouseInCanvas(false);
+    setFloatingButtonPos(null);
+  }, []);
+
+  const handleCanvasMouseEnter = useCallback(() => {
+    setIsMouseInCanvas(true);
+  }, []);
+
+  const handleFloatingButtonClick = useCallback(() => {
+    if (floatingButtonPos) {
+      setInsertPosition(floatingButtonPos.insertIndex);
+      setInsertParentId(null);
+      setIsBlockPickerOpen(true);
+    }
+  }, [floatingButtonPos]);
 
   const handleOpenBlockPicker = useCallback(
     (position: number | null = null, parentId: string | null = null) => {
@@ -351,11 +468,6 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
           previousBlockId={previousBlockId}
           nextBlockId={nextBlockId}
           isGridChild={isGridChild}
-          onAddAfter={
-            !isPreviewMode && !isGridChild
-              ? () => handleOpenBlockPicker(index + 1)
-              : undefined
-          }
         >
           <BlockRenderer
             block={block}
@@ -407,6 +519,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
       measuring={measuringConfig}
     >
       <div
+        ref={canvasRef}
         className={classNames(
           "flex-1 overflow-auto",
           isPreviewMode
@@ -415,6 +528,9 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
           className,
         )}
         onClick={handleCanvasClick}
+        onMouseMove={handleCanvasMouseMove}
+        onMouseLeave={handleCanvasMouseLeave}
+        onMouseEnter={handleCanvasMouseEnter}
       >
         {/* Canvas frame */}
         <div
@@ -495,6 +611,18 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
             />
           )}
         </div>
+
+        {/* Floating Add Button - single instance following mouse */}
+        <FloatingAddButton
+          position={floatingButtonPos}
+          onClick={handleFloatingButtonClick}
+          visible={
+            isMouseInCanvas &&
+            !isDragging &&
+            !isPreviewMode &&
+            !!floatingButtonPos
+          }
+        />
 
         {/* Block Picker Modal */}
         <BlockPickerModal

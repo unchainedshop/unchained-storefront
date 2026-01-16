@@ -1,186 +1,446 @@
 {
   "id": "page_1768472420663",
-  "title": "Modern Homepage #CIG7P",
+  "title": {
+    "de": "Creative Grid #H446H"
+  },
   "slug": "page-1768472420663",
-  "status": "draft",
+  "status": "in_review",
   "blocks": [
     {
-      "id": "block_1768472427696_2tmkhvhz6",
-      "type": "hero-banner",
-      "content": {
-        "heading": "Crafted for Those Who Appreciate Quality",
-        "subheading": "Discover our curated collection of premium products, designed to elevate your everyday experience.",
-        "buttonText": "Shop Collection",
-        "buttonLink": "/shop",
-        "secondaryButtonText": "Our Story",
-        "secondaryButtonLink": "/about",
-        "variant": "split-left"
-      },
-      "style": {
-        "backgroundColor": "#0f172a",
-        "textColor": "#ffffff",
-        "minHeight": 600,
-        "padding": {
-          "top": 0,
-          "right": 0,
-          "bottom": 0,
-          "left": 0
-        }
-      },
-      "responsive": {}
-    },
-    {
-      "id": "block_1768472427696_tifbrxp86",
+      "id": "block_1768525540252_arxqno69p",
       "type": "spacer",
       "content": {
         "height": 80,
-        "mobileHeight": 48
+        "mobileHeight": 40
       },
       "style": {},
       "responsive": {}
     },
     {
-      "id": "block_1768472427696_k9u0op1hb",
-      "type": "text-content",
-      "content": {
-        "de": {
-          "content": "<p>## Bestsellers</p>",
-          "headingLevel": "h2"
-        }
-      },
-      "style": {
-        "alignmentX": "center",
-        "padding": {
-          "top": 0,
-          "right": 24,
-          "bottom": 24,
-          "left": 24
-        }
-      },
-      "responsive": {}
-    },
-    {
-      "id": "block_1768472427696_iygv50ds8",
-      "type": "product-grid",
-      "content": {
-        "source": "auto",
-        "limit": 4,
-        "columns": 4,
-        "mobileColumns": 2,
-        "showSaleBadge": true,
-        "showQuickAdd": true
-      },
+      "id": "block_1768525540252_dig9iysoq",
+      "type": "section",
+      "content": {},
       "style": {
         "padding": {
           "top": 0,
-          "right": 24,
-          "bottom": 64,
-          "left": 24
-        }
-      },
-      "responsive": {}
-    },
-    {
-      "id": "block_1768472427696_dvy7hcw3e",
-      "type": "hero-banner",
-      "content": {
-        "heading": "New Season Arrivals",
-        "subheading": "Fresh styles just landed. Be the first to shop.",
-        "buttonText": "View New In",
-        "buttonLink": "/new",
-        "variant": "split-right"
-      },
-      "style": {
-        "backgroundColor": "#f8fafc",
-        "textColor": "#0f172a",
-        "minHeight": 450
-      },
-      "responsive": {}
-    },
-    {
-      "id": "block_1768472427696_u5ydlzfol",
-      "type": "spacer",
-      "content": {
-        "height": 64,
-        "mobileHeight": 48
-      },
-      "style": {},
-      "responsive": {}
-    },
-    {
-      "id": "block_1768472427696_gjs8fchks",
-      "type": "columns",
-      "content": {
-        "columns": 3,
-        "gap": 32,
-        "layout": "equal",
-        "stackOnMobile": true
-      },
-      "style": {
-        "padding": {
-          "top": 0,
-          "right": 24,
-          "bottom": 64,
-          "left": 24
-        }
+          "right": 48,
+          "bottom": 0,
+          "left": 48
+        },
+        "maxWidth": 1400
       },
       "responsive": {},
       "children": [
         {
-          "id": "block_1768472427696_r7eope0bw",
-          "type": "text-content",
+          "id": "block_1768525540252_fwyndzpsq",
+          "type": "grid",
           "content": {
-            "de": {
-              "content": "<p>### Free Shipping Complimentary delivery on all orders over $75. No code needed.</p>"
-            }
+            "template": {
+              "desktop": {
+                "columns": [
+                  "1fr",
+                  "1fr",
+                  "1fr",
+                  "1fr"
+                ],
+                "rows": [
+                  "auto",
+                  "auto",
+                  "auto"
+                ]
+              },
+              "tablet": {
+                "columns": [
+                  "1fr",
+                  "1fr"
+                ],
+                "rows": [
+                  "auto",
+                  "auto",
+                  "auto",
+                  "auto"
+                ]
+              },
+              "mobile": {
+                "columns": [
+                  "1fr"
+                ],
+                "rows": [
+                  "auto",
+                  "auto",
+                  "auto",
+                  "auto",
+                  "auto",
+                  "auto",
+                  "auto"
+                ]
+              }
+            },
+            "gap": 24,
+            "rowGap": 24,
+            "childPlacements": [
+              {
+                "blockId": "block_1768525540252_gezhuxuef",
+                "placement": {
+                  "colStart": 1,
+                  "rowStart": 1,
+                  "colSpan": 2,
+                  "rowSpan": 2
+                }
+              },
+              {
+                "blockId": "block_1768525540252_27d2w689s",
+                "placement": {
+                  "colStart": 3,
+                  "rowStart": 1,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_6xv0hk0un",
+                "placement": {
+                  "colStart": 4,
+                  "rowStart": 1,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_apapouj8l",
+                "placement": {
+                  "colStart": 3,
+                  "rowStart": 2,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_qm8j8d4ln",
+                "placement": {
+                  "colStart": 4,
+                  "rowStart": 2,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_qf2k9kr7z",
+                "placement": {
+                  "colStart": 1,
+                  "rowStart": 3,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_s6cguz2y5",
+                "placement": {
+                  "colStart": 2,
+                  "rowStart": 3,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_rs1ciwual",
+                "placement": {
+                  "colStart": 3,
+                  "rowStart": 3,
+                  "colSpan": 2,
+                  "rowSpan": 1
+                }
+              }
+            ],
+            "autoFlow": "row",
+            "justifyItems": "stretch",
+            "alignItems": "stretch"
           },
           "style": {
-            "alignmentX": "center"
+            "minHeight": 800
           },
-          "responsive": {}
-        },
-        {
-          "id": "block_1768472427696_8r7u2juim",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<p>### Easy Returns 30-day hassle-free returns. We'll cover the shipping both ways.</p>"
+          "responsive": {},
+          "children": [
+            {
+              "id": "block_1768525540252_gezhuxuef",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_27d2w689s",
+              "type": "text-content",
+              "content": {
+                "de": {
+                  "content": "<p>## Design ## Philosophy We believe in the power of restraint. Every element serves a purpose.</p>"
+                }
+              },
+              "style": {
+                "padding": {
+                  "top": 32,
+                  "right": 24,
+                  "bottom": 32,
+                  "left": 24
+                },
+                "backgroundColor": "#fafafa",
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_6xv0hk0un",
+              "type": "image",
+              "content": {
+                "alt": "Detail shot",
+                "aspectRatio": "1:1"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_apapouj8l",
+              "type": "text-content",
+              "content": {
+                "de": {
+                  "content": "<p>*\"Less, but better\"* — Dieter Rams</p>"
+                }
+              },
+              "style": {
+                "padding": {
+                  "top": 48,
+                  "right": 24,
+                  "bottom": 48,
+                  "left": 24
+                },
+                "backgroundColor": "#0f172a",
+                "textColor": "#ffffff",
+                "borderRadius": 16,
+                "alignmentX": "center",
+                "alignmentY": "center"
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_qm8j8d4ln",
+              "type": "text-content",
+              "content": {
+                "de": {
+                  "content": "<p>### Crafted with intention Every decision—from material selection to packaging—reflects our commitment to thoughtful design.</p>"
+                }
+              },
+              "style": {
+                "padding": {
+                  "top": 32,
+                  "right": 24,
+                  "bottom": 32,
+                  "left": 24
+                },
+                "backgroundColor": "#f8fafc",
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_qf2k9kr7z",
+              "type": "image",
+              "content": {
+                "alt": "Product detail",
+                "aspectRatio": "4:3"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_s6cguz2y5",
+              "type": "image",
+              "content": {
+                "alt": "Lifestyle shot",
+                "aspectRatio": "4:3"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_rs1ciwual",
+              "type": "text-content",
+              "content": {
+                "de": {
+                  "content": "<p>## The Details Matter From the weight of a button to the fall of a hem, we obsess over the small things. Because when you add up a thousand small decisions made well, you end up with something extraordinary.</p>"
+                }
+              },
+              "style": {
+                "padding": {
+                  "top": 48,
+                  "right": 40,
+                  "bottom": 48,
+                  "left": 40
+                },
+                "backgroundColor": "#fef3c7",
+                "borderRadius": 16,
+                "alignmentY": "center"
+              },
+              "responsive": {}
             }
-          },
-          "style": {
-            "alignmentX": "center"
-          },
-          "responsive": {}
-        },
-        {
-          "id": "block_1768472427696_aydumfia8",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<p>### Secure Checkout Your payment info is encrypted and secure. Shop with confidence.</p>"
-            }
-          },
-          "style": {
-            "alignmentX": "center"
-          },
-          "responsive": {}
+          ]
         }
       ]
     },
     {
-      "id": "block_1768472427696_cl2aotuxs",
-      "type": "newsletter",
+      "id": "block_1768525540252_a86hcjkik",
+      "type": "spacer",
       "content": {
-        "heading": "Join the Community",
-        "subheading": "Get 15% off your first order plus exclusive access to new arrivals and special offers.",
-        "buttonText": "Subscribe",
-        "placeholder": "Enter your email",
-        "showConsent": true,
-        "consentText": "I agree to receive marketing emails"
+        "height": 120,
+        "mobileHeight": 64
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768525540252_n8ay3cl2g",
+      "type": "section",
+      "content": {},
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 48,
+          "bottom": 0,
+          "left": 48
+        },
+        "maxWidth": 1400
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768525540252_fcchhc02w",
+          "type": "grid",
+          "content": {
+            "template": {
+              "desktop": {
+                "columns": [
+                  "2fr",
+                  "1fr"
+                ],
+                "rows": [
+                  "auto"
+                ]
+              },
+              "tablet": {
+                "columns": [
+                  "1fr",
+                  "1fr"
+                ],
+                "rows": [
+                  "auto"
+                ]
+              },
+              "mobile": {
+                "columns": [
+                  "1fr"
+                ],
+                "rows": [
+                  "auto",
+                  "auto"
+                ]
+              }
+            },
+            "gap": 48,
+            "childPlacements": [
+              {
+                "blockId": "block_1768525540252_q7gd845iv",
+                "placement": {
+                  "colStart": 1,
+                  "rowStart": 1,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              },
+              {
+                "blockId": "block_1768525540252_dkwwmaxm0",
+                "placement": {
+                  "colStart": 2,
+                  "rowStart": 1,
+                  "colSpan": 1,
+                  "rowSpan": 1
+                }
+              }
+            ],
+            "autoFlow": "row",
+            "justifyItems": "stretch",
+            "alignItems": "center"
+          },
+          "style": {},
+          "responsive": {},
+          "children": [
+            {
+              "id": "block_1768525540252_q7gd845iv",
+              "type": "text-content",
+              "content": {
+                "de": {
+                  "content": "<p># Our Process We start with a question: *what if?* What if we could make something that lasts a lifetime? What if every material was chosen with intention? What if less really could be more? These questions guide us through months of prototyping, testing, and refinement. We work with artisans who share our values—people who've spent decades mastering their craft. The result is something we're proud to put our name on. Something we hope you'll treasure for years to come.</p>"
+                }
+              },
+              "style": {
+                "padding": {
+                  "top": 0,
+                  "right": 48,
+                  "bottom": 0,
+                  "left": 0
+                }
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768525540252_dkwwmaxm0",
+              "type": "image",
+              "content": {
+                "alt": "Our workshop",
+                "aspectRatio": "3:4"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_1768525540252_aol4xpd3v",
+      "type": "spacer",
+      "content": {
+        "height": 120,
+        "mobileHeight": 64
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768525540252_l263jrlmp",
+      "type": "hero-banner",
+      "content": {
+        "heading": "Experience the Difference",
+        "subheading": "Discover our collection of thoughtfully designed pieces.",
+        "buttonText": "Shop Now",
+        "buttonLink": "/shop",
+        "variant": "centered"
       },
       "style": {
         "backgroundColor": "#0f172a",
         "textColor": "#ffffff",
+        "minHeight": 400,
         "padding": {
           "top": 80,
           "right": 24,
@@ -218,6 +478,6 @@
     }
   },
   "createdAt": "2026-01-15T10:20:20.663Z",
-  "updatedAt": "2026-01-15T10:20:33.026Z",
+  "updatedAt": "2026-01-16T01:05:44.526Z",
   "versions": []
 }

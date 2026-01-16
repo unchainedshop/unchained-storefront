@@ -179,60 +179,54 @@ const LocaleRow: React.FC<LocaleRowProps> = ({
   const isComplete = status.completeness >= 100;
 
   return (
-    <div
-      className={`rounded-lg overflow-hidden transition-colors ${
-        isActive
-          ? "bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-300 dark:ring-slate-600"
-          : "bg-slate-50 dark:bg-slate-800/50"
-      }`}
-    >
+    <div className="overflow-hidden">
       {/* Main row */}
       <div
-        className={`flex items-center gap-2 p-2.5 cursor-pointer ${
-          hasIssues ? "hover:bg-slate-100 dark:hover:bg-slate-800" : ""
-        }`}
+        className={`flex items-center gap-2 py-1.5 cursor-pointer transition-colors ${
+          hasIssues ? "hover:bg-slate-50/50 dark:hover:bg-slate-800/30" : ""
+        } ${isActive ? "bg-slate-50/30 dark:bg-slate-800/20" : ""}`}
         onClick={() => {
           onSelect();
           if (hasIssues) setIsExpanded(!isExpanded);
         }}
       >
         {/* Expand icon */}
-        <div className="w-4 h-4 flex items-center justify-center text-slate-400">
+        <div className="w-4 flex items-center justify-center text-slate-300 dark:text-slate-600">
           {hasIssues ? (
             isExpanded ? (
-              <ChevronDownIcon className="w-3.5 h-3.5" />
+              <ChevronDownIcon className="w-3 h-3" />
             ) : (
-              <ChevronRightIcon className="w-3.5 h-3.5" />
+              <ChevronRightIcon className="w-3 h-3" />
             )
           ) : null}
         </div>
 
         {/* Locale */}
-        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase w-6">
+        <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase w-5">
           {status.locale}
         </span>
 
         {/* Source badge */}
         {status.isSource && (
-          <span className="px-1.5 py-0.5 text-[10px] font-medium bg-slate-200 text-slate-700 rounded dark:bg-slate-700 dark:text-slate-300">
+          <span className="text-[9px] font-medium text-slate-400 dark:text-slate-500">
             Source
           </span>
         )}
 
         {/* Progress bar */}
-        <div className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div className="flex-1 h-0.5 bg-slate-200/60 dark:bg-slate-700/40 rounded-full overflow-hidden">
           <div
-            className="h-full transition-all duration-300 bg-slate-600 dark:bg-slate-400"
+            className="h-full transition-all duration-300 bg-slate-400 dark:bg-slate-500"
             style={{ width: `${status.completeness}%` }}
           />
         </div>
 
         {/* Percentage or checkmark */}
-        <div className="w-10 text-right">
+        <div className="w-8 text-right">
           {isComplete ? (
-            <CheckCircleIcon className="w-4 h-4 text-slate-600 dark:text-slate-400 inline" />
+            <CheckCircleIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 inline" />
           ) : (
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
+            <span className="text-[10px] text-slate-400 dark:text-slate-500">
               {status.completeness}%
             </span>
           )}
@@ -241,25 +235,20 @@ const LocaleRow: React.FC<LocaleRowProps> = ({
 
       {/* Expanded content - untranslated blocks */}
       {isExpanded && hasIssues && (
-        <div className="px-2.5 pb-2.5 space-y-1.5">
+        <div className="pl-6 pr-1 pb-2 space-y-1">
           {/* Copy from source button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               onCopyFromSource();
             }}
-            className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+            className="w-full flex items-center justify-center gap-1.5 py-1 text-slate-500 dark:text-slate-400 text-[10px] hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
           >
-            <DocumentDuplicateIcon className="w-3.5 h-3.5" />
+            <DocumentDuplicateIcon className="w-3 h-3" />
             Copy all from {sourceLocale.toUpperCase()}
           </button>
 
           {/* Untranslated blocks list */}
-          <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide px-1 pt-1">
-            {status.untranslatedBlocks.length} block
-            {status.untranslatedBlocks.length !== 1 ? "s" : ""} need translation
-          </div>
-
           {status.untranslatedBlocks.slice(0, 5).map((block) => (
             <div
               key={block.id}
@@ -267,29 +256,23 @@ const LocaleRow: React.FC<LocaleRowProps> = ({
                 e.stopPropagation();
                 onBlockClick(block.id);
               }}
-              className="flex items-start gap-2 p-2 rounded bg-white dark:bg-slate-900/50 cursor-pointer hover:ring-1 hover:ring-slate-300 dark:hover:ring-slate-600 transition-all"
+              className="flex items-start gap-1.5 py-1 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/30 rounded -mx-1 px-1"
             >
-              <ExclamationCircleIcon className="w-4 h-4 text-slate-500 dark:text-slate-400 flex-shrink-0 mt-0.5" />
+              <ExclamationCircleIcon className="w-3 h-3 text-slate-400 dark:text-slate-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                <span className="text-[10px] text-slate-600 dark:text-slate-400">
                   {block.label}
-                </div>
-                {block.missingFields.length > 0 && (
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
-                    Missing: {block.missingFields.join(", ")}
-                    {block.missingFields.length < 3 ? "" : "..."}
-                  </div>
-                )}
+                </span>
               </div>
-              <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
+              <span className="text-[9px] text-slate-400 dark:text-slate-500">
                 {block.completeness}%
-              </div>
+              </span>
             </div>
           ))}
 
           {status.untranslatedBlocks.length > 5 && (
-            <div className="text-[10px] text-slate-500 dark:text-slate-400 text-center py-1">
-              +{status.untranslatedBlocks.length - 5} more blocks
+            <div className="text-[9px] text-slate-400 dark:text-slate-500 text-center">
+              +{status.untranslatedBlocks.length - 5} more
             </div>
           )}
         </div>
@@ -356,17 +339,17 @@ const TranslationOverview: React.FC = () => {
   return (
     <div className="space-y-2">
       {/* Compact summary */}
-      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+      <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
         <span>
           {overallStats.complete}/{overallStats.total} complete
         </span>
-        <span className="font-medium text-slate-700 dark:text-slate-300">
+        <span className="font-medium text-slate-600 dark:text-slate-400">
           {overallStats.avg}% avg
         </span>
       </div>
 
       {/* Locale rows */}
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         {localeStatuses.map((status) => (
           <LocaleRow
             key={status.locale}

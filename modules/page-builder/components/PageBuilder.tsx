@@ -506,27 +506,17 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
 
       {/* Main content */}
       <div className="flex-1 flex overflow-hidden p-3 gap-3 relative z-0">
-        {/* Left Sidebar - Glassmorphism */}
+        {/* Left Sidebar */}
         {!isPreviewMode && !isFocusMode && (
-          <div
-            className={classNames(
-              "w-72 flex flex-col overflow-hidden rounded-2xl",
-              // Glassmorphism
-              "bg-white/70 dark:bg-slate-900/70",
-              "backdrop-blur-2xl backdrop-saturate-150",
-              "border border-white/50 dark:border-white/10",
-              "shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
-              "ring-1 ring-black/5 dark:ring-white/5",
-            )}
-          >
-            {/* Page actions */}
-            <div className="flex p-2 gap-2 border-b border-slate-200/50 dark:border-white/10">
+          <div className="w-72 flex flex-col gap-2">
+            {/* Page actions - outside glassmorphism panel */}
+            <div className="flex px-1 gap-1.5">
               <button
                 onClick={handleCreateNewPage}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 text-[11px] font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="w-3.5 h-3.5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -542,10 +532,10 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
               </button>
               <button
                 onClick={() => setShowTemplatePicker(true)}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 text-[11px] font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="w-3.5 h-3.5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -561,50 +551,63 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
               </button>
             </div>
 
-            {/* Sidebar tabs */}
-            <div className="flex p-2 gap-1">
-              <button
-                onClick={() => handleSetSidebarTab("blocks")}
-                className={classNames(
-                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
-                  sidebarTab === "blocks"
-                    ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
-                )}
-              >
-                Overview
-              </button>
-              <button
-                onClick={() => handleSetSidebarTab("layers")}
-                className={classNames(
-                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
-                  sidebarTab === "layers"
-                    ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
-                )}
-              >
-                Layers
-              </button>
-              <button
-                onClick={() => handleSetSidebarTab("history")}
-                className={classNames(
-                  "flex-1 px-3 py-2.5 text-xs font-medium rounded-xl transition-all duration-200",
-                  sidebarTab === "history"
-                    ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
-                )}
-              >
-                History
-              </button>
-            </div>
-
-            {/* Sidebar content */}
-            <div className="flex-1 overflow-hidden">
-              {sidebarTab === "blocks" && <BlockLibrary />}
-              {sidebarTab === "layers" && <LayersPanel />}
-              {sidebarTab === "history" && (
-                <HistoryPanel onPageRestored={handlePageRestored} />
+            {/* Glassmorphism panel */}
+            <div
+              className={classNames(
+                "flex-1 flex flex-col overflow-hidden rounded-2xl",
+                // Glassmorphism
+                "bg-white/70 dark:bg-slate-900/70",
+                "backdrop-blur-2xl backdrop-saturate-150",
+                "border border-white/50 dark:border-white/10",
+                "shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
+                "ring-1 ring-black/5 dark:ring-white/5",
               )}
+            >
+              {/* Sidebar tabs */}
+              <div className="flex px-2.5 py-1.5 gap-0.5 bg-slate-100/50 dark:bg-slate-800/30 mx-2.5 mt-2 rounded-lg">
+                <button
+                  onClick={() => handleSetSidebarTab("blocks")}
+                  className={classNames(
+                    "flex-1 px-2.5 py-1.5 text-[11px] font-medium rounded-md transition-all duration-150",
+                    sidebarTab === "blocks"
+                      ? "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm"
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white",
+                  )}
+                >
+                  Overview
+                </button>
+                <button
+                  onClick={() => handleSetSidebarTab("layers")}
+                  className={classNames(
+                    "flex-1 px-2.5 py-1.5 text-[11px] font-medium rounded-md transition-all duration-150",
+                    sidebarTab === "layers"
+                      ? "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm"
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white",
+                  )}
+                >
+                  Layers
+                </button>
+                <button
+                  onClick={() => handleSetSidebarTab("history")}
+                  className={classNames(
+                    "flex-1 px-2.5 py-1.5 text-[11px] font-medium rounded-md transition-all duration-150",
+                    sidebarTab === "history"
+                      ? "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm"
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white",
+                  )}
+                >
+                  History
+                </button>
+              </div>
+
+              {/* Sidebar content */}
+              <div className="flex-1 overflow-hidden">
+                {sidebarTab === "blocks" && <BlockLibrary />}
+                {sidebarTab === "layers" && <LayersPanel />}
+                {sidebarTab === "history" && (
+                  <HistoryPanel onPageRestored={handlePageRestored} />
+                )}
+              </div>
             </div>
           </div>
         )}

@@ -125,6 +125,16 @@ export interface BlockStyle {
   backgroundFocalPoint?: { x: number; y: number };
   /** Object fit behavior for background image */
   backgroundObjectFit?: "cover" | "contain" | "fill";
+  /** Background video URL for hero sections */
+  backgroundVideo?: string;
+  /** Poster/thumbnail image shown while video loads */
+  backgroundVideoPoster?: string;
+  /** Whether background video should autoplay (default: true) */
+  backgroundVideoAutoplay?: boolean;
+  /** Whether background video should loop (default: true) */
+  backgroundVideoLoop?: boolean;
+  /** Whether background video should be muted (default: true, required for autoplay) */
+  backgroundVideoMuted?: boolean;
   padding?: {
     top: number;
     right: number;
@@ -393,14 +403,18 @@ export interface CellPattern {
 
 /** Scroll reveal animation types */
 export type ScrollRevealType =
+  | "none"
   | "fade"
   | "slide-up"
   | "slide-down"
   | "slide-left"
   | "slide-right"
   | "scale"
+  | "scale-up"
   | "blur"
-  | "flip";
+  | "flip"
+  | "zoom"
+  | "rotate";
 
 /** Scroll animation configuration */
 export interface CellScrollAnimation {
@@ -498,6 +512,8 @@ export interface GridContent {
   gap: number;
   /** Row gap if different from column gap */
   rowGap?: number;
+  /** Minimum row height in pixels (for editor preview) */
+  minRowHeight?: number;
   /** Horizontal padding on the sides (pixels) */
   sidePadding?: number;
   /** Child placement metadata - keyed by child block ID */
@@ -1242,6 +1258,12 @@ export interface BlockDefinition {
   nesting?: NestingConfig;
   /** Detailed documentation for the block */
   documentation?: BlockDocumentation;
+}
+
+/** Overrides for block creation from templates/presets */
+export interface BlockOverrides {
+  content?: Record<string, unknown>;
+  style?: Record<string, unknown>;
 }
 
 // Editor actions

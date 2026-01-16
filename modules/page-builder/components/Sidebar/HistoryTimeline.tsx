@@ -3,10 +3,10 @@
  * Displays commits in a vertical timeline format
  */
 
-import React from 'react';
-import { useIntl } from 'react-intl';
-import HistoryItem from './HistoryItem';
-import type { GitCommit } from '../../types/history';
+import React from "react";
+import { useIntl } from "react-intl";
+import HistoryItem from "./HistoryItem";
+import type { GitCommit } from "../../types/history";
 
 interface HistoryTimelineProps {
   commits: GitCommit[];
@@ -52,21 +52,21 @@ const HistoryTimeline: React.FC<HistoryTimelineProps> = ({
   const dateGroups = Object.entries(groupedCommits);
 
   return (
-    <div className="py-2">
+    <div className="py-1">
       {dateGroups.map(([date, groupCommits], groupIndex) => (
         <div key={date}>
           {/* Date header */}
-          <div className="sticky top-0 bg-white dark:bg-slate-900 px-4 py-2 z-10">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+          <div className="px-3 py-1.5">
+            <span className="text-[9px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
               {isToday(date)
                 ? formatMessage({
-                    id: 'pb_history_today',
-                    defaultMessage: 'Today',
+                    id: "pb_history_today",
+                    defaultMessage: "Today",
                   })
                 : isYesterday(date)
                   ? formatMessage({
-                      id: 'pb_history_yesterday',
-                      defaultMessage: 'Yesterday',
+                      id: "pb_history_yesterday",
+                      defaultMessage: "Yesterday",
                     })
                   : date}
             </span>
@@ -75,7 +75,7 @@ const HistoryTimeline: React.FC<HistoryTimelineProps> = ({
           {/* Timeline items */}
           <div className="relative">
             {/* Vertical line */}
-            <div className="absolute left-6 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-700" />
+            <div className="absolute left-[18px] top-0 bottom-0 w-px bg-slate-200/60 dark:bg-slate-700/40" />
 
             {groupCommits.map((commit, index) => (
               <HistoryItem

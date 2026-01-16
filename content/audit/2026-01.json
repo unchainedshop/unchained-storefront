@@ -498,5 +498,55 @@
     "entityType": "page",
     "entityId": "page_1768507680839",
     "entityTitle": "Untitled Page"
+  },
+  {
+    "id": "audit_1768521885743_juka9s2",
+    "timestamp": "2026-01-16T00:04:45.743Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768521573165",
+    "entityTitle": "Untitled Page #APVPQ"
+  },
+  {
+    "id": "audit_1768522224684_l4p9leu",
+    "timestamp": "2026-01-16T00:10:24.684Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768521573165",
+    "entityTitle": "Untitled Page #APVPQ"
+  },
+  {
+    "id": "audit_1768522755677_t86098j",
+    "timestamp": "2026-01-16T00:19:15.677Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768521573165",
+    "entityTitle": "Untitled Page #APVPQ"
+  },
+  {
+    "id": "audit_1768524758794_xm39fnx",
+    "timestamp": "2026-01-16T00:52:38.794Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768472420663",
+    "entityTitle": "Modern Homepage #CIG7P"
+  },
+  {
+    "id": "audit_1768525544529_csa1xfw",
+    "timestamp": "2026-01-16T01:05:44.529Z",
+    "userId": "dev-user",
+    "userName": "Development User",
+    "action": "update",
+    "entityType": "page",
+    "entityId": "page_1768472420663",
+    "entityTitle": "Creative Grid #H446H"
   }
 ]

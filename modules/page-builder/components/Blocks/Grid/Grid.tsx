@@ -51,7 +51,20 @@ const buildTemplateColumns = (columns: GridTrackSize[]): string => {
 };
 
 // Build CSS grid-template-rows string
-const buildTemplateRows = (rows: GridTrackSize[]): string => {
+const buildTemplateRows = (
+  rows: GridTrackSize[],
+  minRowHeight?: number,
+): string => {
+  if (minRowHeight) {
+    // Apply minRowHeight to each row
+    return rows
+      .map((row) => {
+        if (row === "auto") return `minmax(${minRowHeight}px, auto)`;
+        if (row === "1fr") return `minmax(${minRowHeight}px, 1fr)`;
+        return row;
+      })
+      .join(" ");
+  }
   return rows.join(" ");
 };
 
@@ -165,7 +178,7 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
       ? buildTemplateColumns(currentTemplate.columns)
       : undefined,
     gridTemplateRows: isInEditor
-      ? buildTemplateRows(currentTemplate.rows)
+      ? buildTemplateRows(currentTemplate.rows, content.minRowHeight)
       : undefined,
     gap: content.rowGap
       ? `${content.rowGap}px ${content.gap}px`
@@ -265,27 +278,16 @@ const Grid: React.FC<GridProps> = ({ block, children, isPreview }) => {
     const totalCells =
       currentTemplate.columns.length * currentTemplate.rows.length;
     return Array.from({ length: totalCells }).map((_, idx) => {
-      const col = (idx % currentTemplate.columns.length) + 1;
-      const row = Math.floor(idx / currentTemplate.columns.length) + 1;
       return (
         <div
           key={`placeholder-${idx}`}
-          className="h-full min-h-[120px] flex items-center justify-center pl-4"
+          className="h-full min-h-[80px]"
           style={{
             background:
               "linear-gradient(135deg, #fafbfc 0%, #f5f7f9 50%, #fafbfc 100%)",
           }}
           data-grid-placeholder
-          data-col={col}
-          data-row={row}
-        >
-          <div className="text-center text-slate-400">
-            <PlusIcon className="w-5 h-5 mx-auto" />
-            <p className="mt-1 text-xs">
-              {col},{row}
-            </p>
-          </div>
-        </div>
+        />
       );
     });
   }, [currentTemplate, children, isPreview, isInEditor, isSelected]);

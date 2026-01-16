@@ -49,14 +49,14 @@ interface BentoGridEditorProps {
   selectedBlockId?: string | null;
 }
 
-// Colors for bento areas
+// Colors for bento areas - subtle monochrome palette
 const AREA_COLORS = [
-  "bg-slate-500/20 border-slate-500",
-  "bg-emerald-500/20 border-emerald-500",
-  "bg-purple-500/20 border-purple-500",
-  "bg-amber-500/20 border-amber-500",
-  "bg-rose-500/20 border-rose-500",
-  "bg-cyan-500/20 border-cyan-500",
+  "bg-slate-200/60 dark:bg-slate-700/40 border-slate-400 dark:border-slate-500",
+  "bg-slate-300/50 dark:bg-slate-600/40 border-slate-500 dark:border-slate-400",
+  "bg-slate-200/50 dark:bg-slate-700/30 border-slate-400 dark:border-slate-500",
+  "bg-slate-300/40 dark:bg-slate-600/30 border-slate-500 dark:border-slate-400",
+  "bg-slate-200/40 dark:bg-slate-700/25 border-slate-400 dark:border-slate-500",
+  "bg-slate-300/30 dark:bg-slate-600/25 border-slate-500 dark:border-slate-400",
 ];
 
 const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
@@ -69,6 +69,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
   onAreaResize,
   selectedBlockId,
 }) => {
+  const [cellHeight, setCellHeight] = useState(40);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<{
     col: number;
@@ -88,16 +89,14 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
 
   // Calculate cell size from grid
   const getCellSize = useCallback(() => {
-    if (!gridRef.current) return { width: 40, height: 40 };
+    if (!gridRef.current) return { width: 40, height: cellHeight };
     const gridRect = gridRef.current.getBoundingClientRect();
     const gap = 4; // gap-1 = 4px
-    const padding = 16; // p-2 = 8px * 2
+    const padding = 12; // p-1.5 = 6px * 2
     const availableWidth = gridRect.width - padding;
-    const availableHeight = gridRect.height - padding;
     const cellWidth = (availableWidth - gap * (columns - 1)) / columns;
-    const cellHeight = (availableHeight - gap * (rows - 1)) / rows;
     return { width: cellWidth + gap, height: cellHeight + gap };
-  }, [columns, rows]);
+  }, [columns, rows, cellHeight]);
 
   // Handle resize start
   const handleResizeStart = useCallback(
@@ -310,15 +309,15 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           }}
         />
       )}
-      <div className="space-y-3">
-        <p className="text-[10px] text-slate-400 uppercase tracking-wide">
+      <div className="space-y-2">
+        <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-widest">
           Click & drag to create areas
         </p>
 
         {/* Bento Grid */}
         <div
           ref={gridRef}
-          className="relative bg-slate-100 dark:bg-slate-800/50 rounded-lg p-2 select-none"
+          className="relative bg-slate-50 dark:bg-slate-800/30 rounded p-1.5 select-none border border-slate-100 dark:border-slate-800"
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
@@ -327,7 +326,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
             className="grid gap-1"
             style={{
               gridTemplateColumns: `repeat(${columns}, 1fr)`,
-              gridTemplateRows: `repeat(${rows}, 40px)`,
+              gridTemplateRows: `repeat(${rows}, ${cellHeight}px)`,
             }}
           >
             {Array.from({ length: rows }).map((_, rowIdx) =>
@@ -365,12 +364,12 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                     <div
                       key={`area-${occupant.id}`}
                       className={classNames(
-                        "relative rounded-lg border-2 cursor-pointer transition-all group/area",
+                        "relative rounded border cursor-pointer transition-all group/area",
                         occupant.color,
                         {
-                          "ring-2 ring-slate-900 dark:ring-slate-300 ring-offset-2":
+                          "ring-1 ring-slate-700 dark:ring-slate-300 ring-offset-1":
                             isSelected && !isResizing,
-                          "border-dashed border-blue-500": isResizing,
+                          "border-dashed border-slate-500": isResizing,
                         },
                       )}
                       style={{
@@ -380,7 +379,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                       onClick={(e) => handleAreaClick(e, occupant.id)}
                     >
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+                        <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
                           {displayColSpan}×{displayRowSpan}
                         </span>
                       </div>
@@ -392,18 +391,18 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                             e.stopPropagation();
                             onAreaDelete(occupant.id);
                           }}
-                          className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-md hover:bg-red-600 transition-colors z-10"
+                          className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-slate-600 dark:bg-slate-400 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-700 dark:hover:bg-slate-300 transition-colors z-10"
                         >
-                          <TrashIcon className="w-3 h-3 text-white" />
+                          <TrashIcon className="w-2.5 h-2.5 text-white dark:text-slate-800" />
                         </button>
                       )}
 
-                      {/* Resize handles */}
-                      {onAreaResize && (
+                      {/* Resize handles - only visible on hover/selected */}
+                      {onAreaResize && (isSelected || isResizing) && (
                         <>
-                          {/* East (right) resize handle */}
+                          {/* East (right) resize edge */}
                           <div
-                            className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-6 bg-blue-500 rounded-full cursor-ew-resize opacity-0 group-hover/area:opacity-70 hover:!opacity-100 transition-opacity z-10"
+                            className="absolute top-2 bottom-2 -right-px w-1 cursor-ew-resize group/handle z-10"
                             onMouseDown={(e) =>
                               handleResizeStart(
                                 e,
@@ -413,10 +412,12 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                                 occupant.rowSpan,
                               )
                             }
-                          />
-                          {/* South (bottom) resize handle */}
+                          >
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-4 bg-slate-400 dark:bg-slate-500 rounded-full opacity-60 group-hover/handle:opacity-100 group-hover/handle:bg-slate-600 dark:group-hover/handle:bg-slate-300 transition-all" />
+                          </div>
+                          {/* South (bottom) resize edge */}
                           <div
-                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-6 bg-blue-500 rounded-full cursor-ns-resize opacity-0 group-hover/area:opacity-70 hover:!opacity-100 transition-opacity z-10"
+                            className="absolute left-2 right-2 -bottom-px h-1 cursor-ns-resize group/handle z-10"
                             onMouseDown={(e) =>
                               handleResizeStart(
                                 e,
@@ -426,10 +427,12 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                                 occupant.rowSpan,
                               )
                             }
-                          />
+                          >
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-0.5 w-4 bg-slate-400 dark:bg-slate-500 rounded-full opacity-60 group-hover/handle:opacity-100 group-hover/handle:bg-slate-600 dark:group-hover/handle:bg-slate-300 transition-all" />
+                          </div>
                           {/* Southeast (corner) resize handle */}
                           <div
-                            className="absolute -bottom-1 -right-1 w-3 h-3 bg-blue-500 rounded-full cursor-nwse-resize opacity-0 group-hover/area:opacity-70 hover:!opacity-100 transition-opacity z-10"
+                            className="absolute -bottom-1 -right-1 w-3 h-3 cursor-nwse-resize group/handle z-10 flex items-center justify-center"
                             onMouseDown={(e) =>
                               handleResizeStart(
                                 e,
@@ -439,7 +442,9 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                                 occupant.rowSpan,
                               )
                             }
-                          />
+                          >
+                            <div className="w-1.5 h-1.5 bg-slate-500 dark:bg-slate-400 rounded-sm opacity-80 group-hover/handle:opacity-100 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
+                          </div>
                         </>
                       )}
                     </div>
@@ -450,19 +455,19 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                 return (
                   <div
                     key={`cell-${col}-${row}`}
-                    className={`rounded border-2 border-dashed transition-all cursor-crosshair ${
+                    className={`rounded border border-dashed transition-all cursor-crosshair ${
                       inSelection
                         ? selectionValid
-                          ? "border-slate-900 bg-slate-900/30 dark:border-slate-300 dark:bg-slate-300/30"
-                          : "border-red-500 bg-red-500/30"
-                        : "border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500"
+                          ? "border-slate-600 bg-slate-600/20 dark:border-slate-400 dark:bg-slate-400/20"
+                          : "border-slate-400 bg-slate-400/20"
+                        : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
                     }`}
                     onMouseDown={(e) => handleMouseDown(col, row, e)}
                     onMouseEnter={() => handleMouseEnter(col, row)}
                   >
                     <div className="w-full h-full flex items-center justify-center">
                       {!inSelection && (
-                        <PlusIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
+                        <PlusIcon className="w-3 h-3 text-slate-200 dark:text-slate-700" />
                       )}
                     </div>
                   </div>
@@ -475,10 +480,10 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           {isDragging && dragStart && dragEnd && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
               <span
-                className={`inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-medium shadow-lg ${
+                className={`inline-flex items-center justify-center px-2 py-0.5 rounded text-[10px] font-medium shadow-sm ${
                   isSelectionValid()
-                    ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
-                    : "bg-red-500 text-white"
+                    ? "bg-slate-700 text-white dark:bg-slate-300 dark:text-slate-800"
+                    : "bg-slate-400 text-white"
                 }`}
               >
                 {Math.abs(dragEnd.col - dragStart.col) + 1} ×{" "}
@@ -488,15 +493,31 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           )}
         </div>
 
-        {/* Legend */}
-        <div className="flex items-center gap-3 text-[10px] text-slate-400">
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded border-2 border-dashed border-slate-300" />
-            <span>Empty</span>
+        {/* Legend & Height control */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-[9px] text-slate-400 dark:text-slate-500">
+            <div className="flex items-center gap-1">
+              <div className="w-2.5 h-2.5 rounded border border-dashed border-slate-200 dark:border-slate-700" />
+              <span>Empty</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-2.5 h-2.5 rounded bg-slate-200/60 dark:bg-slate-700/40 border border-slate-400 dark:border-slate-500" />
+              <span>Content</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded bg-slate-500/20 border-2 border-slate-500" />
-            <span>Has content</span>
+          {/* Height slider */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] text-slate-400 dark:text-slate-500">
+              H
+            </span>
+            <input
+              type="range"
+              min={24}
+              max={60}
+              value={cellHeight}
+              onChange={(e) => setCellHeight(Number(e.target.value))}
+              className="w-12 h-1 accent-slate-400 cursor-pointer"
+            />
           </div>
         </div>
       </div>

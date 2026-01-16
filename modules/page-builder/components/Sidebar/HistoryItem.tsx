@@ -3,17 +3,17 @@
  * Individual commit in the timeline
  */
 
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { useIntl } from 'react-intl';
+import React, { useState } from "react";
+import classNames from "classnames";
+import { useIntl } from "react-intl";
 import {
   EyeIcon,
   ArrowUturnLeftIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   UserCircleIcon,
-} from '@heroicons/react/24/outline';
-import type { GitCommit } from '../../types/history';
+} from "@heroicons/react/24/outline";
+import type { GitCommit } from "../../types/history";
 
 interface HistoryItemProps {
   commit: GitCommit;
@@ -37,98 +37,95 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
 
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   return (
     <div
       className={classNames(
-        'relative pl-10 pr-3 py-3 transition-colors',
+        "relative pl-8 pr-3 py-1.5 transition-colors",
         isSelected
-          ? 'bg-blue-50 dark:bg-blue-900/20'
-          : 'hover:bg-slate-50 dark:hover:bg-slate-800/50',
+          ? "bg-slate-50/50 dark:bg-slate-800/30"
+          : "hover:bg-slate-50/30 dark:hover:bg-slate-800/20",
       )}
     >
       {/* Timeline dot */}
       <div
         className={classNames(
-          'absolute left-4 top-4 w-4 h-4 rounded-full border-2 bg-white dark:bg-slate-900',
+          "absolute left-[15px] top-[10px] w-2 h-2 rounded-full",
           isFirst
-            ? 'border-green-500 ring-2 ring-green-200 dark:ring-green-900'
+            ? "bg-slate-500 dark:bg-slate-400"
             : isSelected
-              ? 'border-blue-500'
-              : 'border-slate-300 dark:border-slate-600',
+              ? "bg-slate-400 dark:bg-slate-500"
+              : "bg-slate-300 dark:bg-slate-600",
         )}
       />
 
       {/* Content */}
       <div className="min-w-0">
         {/* Header row */}
-        <div className="flex items-center justify-between gap-2 mb-1">
+        <div className="flex items-center justify-between gap-2">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="flex items-center gap-1 text-left min-w-0 flex-1"
           >
             {isExpanded ? (
-              <ChevronDownIcon className="w-3 h-3 text-slate-400 flex-shrink-0" />
+              <ChevronDownIcon className="w-2.5 h-2.5 text-slate-400 flex-shrink-0" />
             ) : (
-              <ChevronRightIcon className="w-3 h-3 text-slate-400 flex-shrink-0" />
+              <ChevronRightIcon className="w-2.5 h-2.5 text-slate-400 flex-shrink-0" />
             )}
-            <span className="text-sm font-medium text-slate-900 dark:text-white truncate">
+            <span className="text-[11px] text-slate-600 dark:text-slate-400 truncate">
               {commit.message ||
                 formatMessage({
-                  id: 'pb_history_no_message',
-                  defaultMessage: 'No message',
+                  id: "pb_history_no_message",
+                  defaultMessage: "No message",
                 })}
             </span>
           </button>
-          <span className="text-xs text-slate-500 dark:text-slate-400 flex-shrink-0">
+          <span className="text-[9px] text-slate-400 dark:text-slate-500 flex-shrink-0">
             {formatTime(commit.date)}
           </span>
         </div>
 
         {/* Author and hash */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-          <UserCircleIcon className="w-3.5 h-3.5" />
+        <div className="flex items-center gap-1.5 text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 ml-3.5">
           <span className="truncate">{commit.author}</span>
-          <span className="text-slate-300 dark:text-slate-600">|</span>
-          <code className="text-slate-400 dark:text-slate-500">
-            {commit.shortHash}
-          </code>
+          <span>·</span>
+          <code className="font-mono">{commit.shortHash}</code>
         </div>
 
         {/* Expanded details and actions */}
         {isExpanded && (
-          <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
+          <div className="mt-2 pt-2 border-t border-slate-100/80 dark:border-slate-800/50 ml-3.5">
             {/* Full message if truncated */}
             {commit.message && commit.message.length > 40 && (
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 whitespace-pre-wrap">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mb-2 whitespace-pre-wrap">
                 {commit.message}
               </p>
             )}
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={onPreview}
                 disabled={isLoading}
                 className={classNames(
-                  'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
+                  "flex items-center gap-1 px-2 py-1 text-[10px] rounded transition-colors",
                   isSelected
-                    ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600',
+                    ? "text-slate-600 dark:text-slate-300"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                 )}
               >
                 {isLoading ? (
-                  <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <EyeIcon className="w-3.5 h-3.5" />
+                  <EyeIcon className="w-3 h-3" />
                 )}
                 {formatMessage({
-                  id: 'pb_history_preview',
-                  defaultMessage: 'Preview',
+                  id: "pb_history_preview",
+                  defaultMessage: "Preview",
                 })}
               </button>
 
@@ -136,27 +133,27 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
                 onClick={onRestore}
                 disabled={isFirst}
                 className={classNames(
-                  'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
+                  "flex items-center gap-1 px-2 py-1 text-[10px] rounded transition-colors",
                   isFirst
-                    ? 'bg-slate-50 dark:bg-slate-800 text-slate-300 dark:text-slate-600 cursor-not-allowed'
-                    : 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/60',
+                    ? "text-slate-300 dark:text-slate-600 cursor-not-allowed"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                 )}
                 title={
                   isFirst
                     ? formatMessage({
-                        id: 'pb_history_current_version',
-                        defaultMessage: 'This is the current version',
+                        id: "pb_history_current_version",
+                        defaultMessage: "This is the current version",
                       })
                     : formatMessage({
-                        id: 'pb_history_restore_tooltip',
-                        defaultMessage: 'Restore this version',
+                        id: "pb_history_restore_tooltip",
+                        defaultMessage: "Restore this version",
                       })
                 }
               >
-                <ArrowUturnLeftIcon className="w-3.5 h-3.5" />
+                <ArrowUturnLeftIcon className="w-3 h-3" />
                 {formatMessage({
-                  id: 'pb_history_restore',
-                  defaultMessage: 'Restore',
+                  id: "pb_history_restore",
+                  defaultMessage: "Restore",
                 })}
               </button>
             </div>

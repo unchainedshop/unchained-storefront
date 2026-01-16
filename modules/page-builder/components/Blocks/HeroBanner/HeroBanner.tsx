@@ -1,12 +1,17 @@
 /**
  * Hero Banner Block
  * Full-width hero section with multiple layout variants
+ * Supports image and video backgrounds
  */
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
 import classNames from "classnames";
-import { PhotoIcon, ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import {
+  PhotoIcon,
+  ArrowUpTrayIcon,
+  VideoCameraIcon,
+} from "@heroicons/react/24/outline";
 import type {
   PageBlock,
   HeroBannerContent,
@@ -50,39 +55,64 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
   const { updateBlock } = usePageBuilder();
   const [showMediaPicker, setShowMediaPicker] = useState(false);
   const [mediaPickerTarget, setMediaPickerTarget] = useState<
-    "background" | "hero" | "grid-0" | "grid-1" | "grid-2"
+    "background" | "background-video" | "hero" | "grid-0" | "grid-1" | "grid-2"
   >("background");
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const variant = content.variant || "centered";
+
+  // Video playback settings
+  const hasBackgroundVideo = !!style.backgroundVideo;
+  const videoAutoplay = style.backgroundVideoAutoplay !== false; // Default true
+  const videoLoop = style.backgroundVideoLoop !== false; // Default true
+  const videoMuted = style.backgroundVideoMuted !== false; // Default true (required for autoplay)
+
+  // Ensure video plays on mount (some browsers block autoplay)
+  useEffect(() => {
+    if (videoRef.current && hasBackgroundVideo && videoAutoplay) {
+      videoRef.current.play().catch(() => {
+        // Autoplay was blocked, that's fine - user can interact
+      });
+    }
+  }, [hasBackgroundVideo, videoAutoplay]);
 
   // Check if the block is empty
   const isEmpty =
     !content.heading &&
     !content.subheading &&
     !style.backgroundImage &&
+    !style.backgroundVideo &&
     !style.backgroundColor;
-  const hasNoBackground = !style.backgroundImage && !style.backgroundColor;
+  const hasNoBackground =
+    !style.backgroundImage && !style.backgroundVideo && !style.backgroundColor;
 
-  // Handle image selection
-  const handleImageSelect = (asset: MediaAsset) => {
-    const imageUrl = asset.url || asset.thumbnailUrl;
-    if (!imageUrl) {
+  // Handle media selection (images and videos)
+  const handleMediaSelect = (asset: MediaAsset) => {
+    const mediaUrl = asset.url || asset.thumbnailUrl;
+    if (!mediaUrl) {
       setShowMediaPicker(false);
       return;
     }
 
     if (mediaPickerTarget === "background") {
       updateBlock(block.id, {
-        style: { backgroundImage: imageUrl },
+        style: { backgroundImage: mediaUrl },
+      });
+    } else if (mediaPickerTarget === "background-video") {
+      updateBlock(block.id, {
+        style: {
+          backgroundVideo: mediaUrl,
+          backgroundVideoPoster: asset.thumbnailUrl || style.backgroundImage,
+        },
       });
     } else if (mediaPickerTarget === "hero") {
       updateBlock(block.id, {
-        content: { heroImage: imageUrl },
+        content: { heroImage: mediaUrl },
       });
     } else if (mediaPickerTarget.startsWith("grid-")) {
       const index = parseInt(mediaPickerTarget.split("-")[1]);
       const gridImages = [...(content.gridImages || [])];
-      gridImages[index] = imageUrl;
+      gridImages[index] = mediaUrl;
       updateBlock(block.id, {
         content: { gridImages },
       });
@@ -91,7 +121,13 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
   };
 
   const openMediaPicker = (
-    target: "background" | "hero" | "grid-0" | "grid-1" | "grid-2",
+    target:
+      | "background"
+      | "background-video"
+      | "hero"
+      | "grid-0"
+      | "grid-1"
+      | "grid-2",
   ) => {
     setMediaPickerTarget(target);
     setShowMediaPicker(true);
@@ -104,8 +140,9 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
   const containerStyle: React.CSSProperties = {
     minHeight: style.minHeight || 500,
     backgroundColor: isEmpty ? undefined : style.backgroundColor || "#1e293b",
+    // Only use CSS background image for centered variant when no video is present
     backgroundImage:
-      variant === "centered" && style.backgroundImage
+      variant === "centered" && style.backgroundImage && !hasBackgroundVideo
         ? `url(${style.backgroundImage})`
         : undefined,
     backgroundSize: style.backgroundObjectFit || "cover",
@@ -130,28 +167,42 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
 
           {/* Main content area */}
           <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-[inherit] px-4 py-12">
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 flex-wrap justify-center">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   openMediaPicker("background");
                 }}
-                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all w-56"
+                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all w-44"
               >
                 <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center mb-3">
                   <ArrowUpTrayIcon className="w-6 h-6 text-slate-400" />
                 </div>
                 <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Upload Image
+                  Image
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-                  Add a background image
+                  Background image
                 </p>
               </button>
 
-              <span className="text-sm text-slate-400 dark:text-slate-500 font-medium">
-                or
-              </span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openMediaPicker("background-video");
+                }}
+                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all w-44"
+              >
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-3">
+                  <VideoCameraIcon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Video
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+                  Background video
+                </p>
+              </button>
 
               <button
                 onClick={(e) => {
@@ -168,7 +219,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
                     },
                   });
                 }}
-                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all w-56"
+                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all w-44"
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center mb-3">
                   <PhotoIcon className="w-6 h-6 text-white/80" />
@@ -177,7 +228,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
                   Solid Color
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-                  Start with a color background
+                  Color background
                 </p>
               </button>
             </div>
@@ -205,8 +256,12 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
             <MediaPickerModal
               isOpen={showMediaPicker}
               onClose={() => setShowMediaPicker(false)}
-              onSelect={handleImageSelect}
-              allowedTypes={["image/*"]}
+              onSelect={handleMediaSelect}
+              allowedTypes={
+                mediaPickerTarget === "background-video"
+                  ? ["video/*"]
+                  : ["image/*"]
+              }
             />
           </Suspense>
         )}
@@ -630,15 +685,48 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
         className="@container relative overflow-hidden"
         style={containerStyle}
       >
-        {/* Background image for non-centered layouts */}
-        {variant !== "centered" && style.backgroundImage && (
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${style.backgroundImage})` }}
-          />
+        {/* Background image for non-centered layouts (when no video) */}
+        {variant !== "centered" &&
+          style.backgroundImage &&
+          !hasBackgroundVideo && (
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${style.backgroundImage})` }}
+            />
+          )}
+
+        {/* Background video */}
+        {hasBackgroundVideo && (
+          <div className="absolute inset-0 overflow-hidden">
+            <video
+              ref={videoRef}
+              className="absolute inset-0 w-full h-full object-cover"
+              src={style.backgroundVideo}
+              poster={style.backgroundVideoPoster || style.backgroundImage}
+              autoPlay={videoAutoplay}
+              loop={videoLoop}
+              muted={videoMuted}
+              playsInline
+              preload="auto"
+            />
+            {/* Video change overlay for editing */}
+            {isEditing && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openMediaPicker("background-video");
+                }}
+                className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/40 opacity-0 hover:opacity-100 transition-all group/video cursor-pointer"
+              >
+                <span className="px-4 py-2 bg-white text-slate-900 rounded-lg font-medium text-sm shadow-lg transform scale-95 group-hover/video:scale-100 transition-transform">
+                  Change Video
+                </span>
+              </button>
+            )}
+          </div>
         )}
 
-        {/* Background placeholder pattern when no image */}
+        {/* Background placeholder pattern when no image/video */}
         {hasNoBackground && !isEmpty && isEditing && (
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.05)_25%,rgba(0,0,0,0.05)_50%,transparent_50%,transparent_75%,rgba(0,0,0,0.05)_75%)] bg-[length:20px_20px]" />
@@ -664,8 +752,12 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
           <MediaPickerModal
             isOpen={showMediaPicker}
             onClose={() => setShowMediaPicker(false)}
-            onSelect={handleImageSelect}
-            allowedTypes={["image/*"]}
+            onSelect={handleMediaSelect}
+            allowedTypes={
+              mediaPickerTarget === "background-video"
+                ? ["video/*"]
+                : ["image/*"]
+            }
           />
         </Suspense>
       )}
