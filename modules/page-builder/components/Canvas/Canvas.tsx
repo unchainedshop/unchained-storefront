@@ -445,11 +445,19 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
     // Don't show add button for grid children - grid has its own overlay
     const isGridChild = parentType === "grid";
 
-    return blocks.map((block, index) => {
+    // Filter hidden blocks in preview mode
+    const visibleBlocks = isPreviewMode
+      ? blocks.filter((b) => !b.hidden)
+      : blocks;
+
+    return visibleBlocks.map((block, index) => {
       const isBlockSelected = state.selection.blockId === block.id;
-      const previousBlockId = index > 0 ? blocks[index - 1].id : undefined;
+      const previousBlockId =
+        index > 0 ? visibleBlocks[index - 1].id : undefined;
       const nextBlockId =
-        index < blocks.length - 1 ? blocks[index + 1].id : undefined;
+        index < visibleBlocks.length - 1
+          ? visibleBlocks[index + 1].id
+          : undefined;
 
       const handleBlockUpdate = (updates: Partial<PageBlock>) => {
         updateBlock(block.id, updates);

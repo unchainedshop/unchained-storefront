@@ -62,8 +62,22 @@ const PageRenderer: React.FC<PageRendererProps> = ({
     return blocks.map((block) => {
       if (block.hidden) return null;
 
+      const isFullWidth = block.style?.fullWidth;
+
       return (
-        <div key={block.id}>
+        <div
+          key={block.id}
+          className={isFullWidth ? "full-width-block" : undefined}
+          style={
+            isFullWidth
+              ? {
+                  width: "100vw",
+                  marginLeft: "calc(-50vw + 50%)",
+                  maxWidth: "none",
+                }
+              : undefined
+          }
+        >
           <BlockRenderer block={block} isPreview locale={activeLocale}>
             {block.children &&
               block.children.length > 0 &&

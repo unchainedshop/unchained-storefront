@@ -1425,10 +1425,15 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         deleteBlock(blockId);
       };
 
-      // Handler to resize a child block's placement
+      // Handler to resize a child block's placement (supports position changes for n/w resize)
       const handleAreaResize = (
         blockId: string,
-        newSize: { colSpan: number; rowSpan: number },
+        newPlacement: {
+          colStart?: number;
+          rowStart?: number;
+          colSpan: number;
+          rowSpan: number;
+        },
       ) => {
         const updatedPlacements = (gridContent.childPlacements || []).map(
           (p) => {
@@ -1437,8 +1442,14 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
                 ...p,
                 placement: {
                   ...p.placement,
-                  colSpan: newSize.colSpan,
-                  rowSpan: newSize.rowSpan,
+                  ...(newPlacement.colStart !== undefined && {
+                    colStart: newPlacement.colStart,
+                  }),
+                  ...(newPlacement.rowStart !== undefined && {
+                    rowStart: newPlacement.rowStart,
+                  }),
+                  colSpan: newPlacement.colSpan,
+                  rowSpan: newPlacement.rowSpan,
                 },
               };
             }
@@ -1467,8 +1478,6 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
               onAreaDelete={handleAreaDelete}
               onAreaResize={handleAreaResize}
               selectedBlockId={state.selection?.blockId}
-              initialCellHeight={gridContent.minRowHeight ?? 80}
-              onCellHeightChange={(height) => onChange("minRowHeight", height)}
             />
           </Section>
 

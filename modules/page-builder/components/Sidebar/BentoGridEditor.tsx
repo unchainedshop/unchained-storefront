@@ -19,13 +19,15 @@ interface BentoArea {
   color: string;
 }
 
-type ResizeDirection = "e" | "s" | "se";
+type ResizeDirection = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
 
 interface ResizeState {
   blockId: string;
   direction: ResizeDirection;
   startX: number;
   startY: number;
+  startColStart: number;
+  startRowStart: number;
   startColSpan: number;
   startRowSpan: number;
 }
@@ -56,17 +58,18 @@ interface BentoGridEditorProps {
   onAreaDelete?: (blockId: string) => void;
   onAreaResize?: (
     blockId: string,
-    newSize: { colSpan: number; rowSpan: number },
+    newPlacement: {
+      colStart?: number;
+      rowStart?: number;
+      colSpan: number;
+      rowSpan: number;
+    },
   ) => void;
   onAreaMove?: (
     blockId: string,
     newPosition: { colStart: number; rowStart: number },
   ) => void;
   selectedBlockId?: string | null;
-  /** Initial cell height from grid's minRowHeight */
-  initialCellHeight?: number;
-  /** Callback when cell height slider changes - updates grid's minRowHeight */
-  onCellHeightChange?: (height: number) => void;
 }
 
 // Colors for bento areas - subtle monochrome palette
@@ -90,19 +93,14 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
   onAreaResize,
   onAreaMove,
   selectedBlockId,
-  initialCellHeight,
-  onCellHeightChange,
 }) => {
   // Filter placements to only include blocks that actually exist
   const existingBlockIds = childBlockIds ? new Set(childBlockIds) : null;
   const validPlacements = existingBlockIds
     ? placements.filter((p) => existingBlockIds.has(p.blockId))
     : placements;
-  // Scale initial height to fit slider range (24-60) - divide by 2 since canvas uses larger values
-  const scaledInitial = initialCellHeight
-    ? Math.max(24, Math.min(60, Math.round(initialCellHeight / 2)))
-    : 40;
-  const [cellHeight, setCellHeight] = useState(scaledInitial);
+  // Fixed cell height for the preview grid
+  const cellHeight = 40;
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<{
     col: number;
@@ -115,7 +113,9 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
 
   // Resize state
   const [resizeState, setResizeState] = useState<ResizeState | null>(null);
-  const [previewSpan, setPreviewSpan] = useState<{
+  const [previewPlacement, setPreviewPlacement] = useState<{
+    colStart: number;
+    rowStart: number;
     colSpan: number;
     rowSpan: number;
   } | null>(null);
@@ -146,6 +146,8 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
       e: React.MouseEvent,
       blockId: string,
       direction: ResizeDirection,
+      currentColStart: number,
+      currentRowStart: number,
       currentColSpan: number,
       currentRowSpan: number,
     ) => {
@@ -157,10 +159,17 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
         direction,
         startX: e.clientX,
         startY: e.clientY,
+        startColStart: currentColStart,
+        startRowStart: currentRowStart,
         startColSpan: currentColSpan,
         startRowSpan: currentRowSpan,
       });
-      setPreviewSpan({ colSpan: currentColSpan, rowSpan: currentRowSpan });
+      setPreviewPlacement({
+        colStart: currentColStart,
+        rowStart: currentRowStart,
+        colSpan: currentColSpan,
+        rowSpan: currentRowSpan,
+      });
     },
     [],
   );
@@ -170,42 +179,67 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
     if (!resizeState) return;
 
     const cellSize = getCellSize();
-    const area = validPlacements.find((p) => p.blockId === resizeState.blockId);
 
     const handleMouseMove = (e: MouseEvent) => {
       const deltaX = e.clientX - resizeState.startX;
       const deltaY = e.clientY - resizeState.startY;
 
+      const colDelta = Math.round(deltaX / cellSize.width);
+      const rowDelta = Math.round(deltaY / cellSize.height);
+
+      let newColStart = resizeState.startColStart;
+      let newRowStart = resizeState.startRowStart;
       let newColSpan = resizeState.startColSpan;
       let newRowSpan = resizeState.startRowSpan;
 
-      if (resizeState.direction === "e" || resizeState.direction === "se") {
-        const colDelta = Math.round(deltaX / cellSize.width);
+      const dir = resizeState.direction;
+
+      // Handle east (right) edge - increase width
+      if (dir === "e" || dir === "se" || dir === "ne") {
         newColSpan = Math.max(1, resizeState.startColSpan + colDelta);
-      }
-
-      if (resizeState.direction === "s" || resizeState.direction === "se") {
-        const rowDelta = Math.round(deltaY / cellSize.height);
-        newRowSpan = Math.max(1, resizeState.startRowSpan + rowDelta);
-      }
-
-      // Ensure we don't exceed grid bounds
-      if (area) {
-        const maxColSpan = columns - area.placement.colStart + 1;
-        const maxRowSpan = rows - area.placement.rowStart + 1;
+        const maxColSpan = columns - newColStart + 1;
         newColSpan = Math.min(newColSpan, maxColSpan);
+      }
+
+      // Handle west (left) edge - move start and adjust width
+      if (dir === "w" || dir === "sw" || dir === "nw") {
+        const potentialColStart = resizeState.startColStart + colDelta;
+        const maxColEnd =
+          resizeState.startColStart + resizeState.startColSpan - 1;
+        newColStart = Math.max(1, Math.min(potentialColStart, maxColEnd));
+        newColSpan = maxColEnd - newColStart + 1;
+      }
+
+      // Handle south (bottom) edge - increase height
+      if (dir === "s" || dir === "se" || dir === "sw") {
+        newRowSpan = Math.max(1, resizeState.startRowSpan + rowDelta);
+        const maxRowSpan = rows - newRowStart + 1;
         newRowSpan = Math.min(newRowSpan, maxRowSpan);
       }
 
-      setPreviewSpan({ colSpan: newColSpan, rowSpan: newRowSpan });
+      // Handle north (top) edge - move start and adjust height
+      if (dir === "n" || dir === "ne" || dir === "nw") {
+        const potentialRowStart = resizeState.startRowStart + rowDelta;
+        const maxRowEnd =
+          resizeState.startRowStart + resizeState.startRowSpan - 1;
+        newRowStart = Math.max(1, Math.min(potentialRowStart, maxRowEnd));
+        newRowSpan = maxRowEnd - newRowStart + 1;
+      }
+
+      setPreviewPlacement({
+        colStart: newColStart,
+        rowStart: newRowStart,
+        colSpan: newColSpan,
+        rowSpan: newRowSpan,
+      });
     };
 
     const handleMouseUp = () => {
-      if (previewSpan && onAreaResize) {
-        onAreaResize(resizeState.blockId, previewSpan);
+      if (previewPlacement && onAreaResize) {
+        onAreaResize(resizeState.blockId, previewPlacement);
       }
       setResizeState(null);
-      setPreviewSpan(null);
+      setPreviewPlacement(null);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -215,15 +249,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [
-    resizeState,
-    previewSpan,
-    onAreaResize,
-    getCellSize,
-    columns,
-    rows,
-    validPlacements,
-  ]);
+  }, [resizeState, previewPlacement, onAreaResize, getCellSize, columns, rows]);
 
   // Handle drag-move start
   const handleDragMoveStart = useCallback(
@@ -425,11 +451,14 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           className="fixed inset-0 z-[9999]"
           style={{
             cursor:
-              resizeState.direction === "e"
+              resizeState.direction === "e" || resizeState.direction === "w"
                 ? "ew-resize"
-                : resizeState.direction === "s"
+                : resizeState.direction === "n" || resizeState.direction === "s"
                   ? "ns-resize"
-                  : "nwse-resize",
+                  : resizeState.direction === "nw" ||
+                      resizeState.direction === "se"
+                    ? "nwse-resize"
+                    : "nesw-resize",
           }}
         />
       )}
@@ -479,23 +508,34 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                   const isResizing = resizeState?.blockId === occupant.id;
                   const isMoving = dragMoveState?.blockId === occupant.id;
 
-                  // Use preview span during resize
+                  // Use preview placement during resize
                   const displayColSpan =
-                    isResizing && previewSpan
-                      ? previewSpan.colSpan
+                    isResizing && previewPlacement
+                      ? previewPlacement.colSpan
                       : occupant.colSpan;
                   const displayRowSpan =
-                    isResizing && previewSpan
-                      ? previewSpan.rowSpan
+                    isResizing && previewPlacement
+                      ? previewPlacement.rowSpan
                       : occupant.rowSpan;
+                  // Also use preview for start positions during resize (for n/w edges)
+                  const resizeColStart =
+                    isResizing && previewPlacement
+                      ? previewPlacement.colStart
+                      : occupant.colStart;
+                  const resizeRowStart =
+                    isResizing && previewPlacement
+                      ? previewPlacement.rowStart
+                      : occupant.rowStart;
 
-                  // Use preview position during move
-                  const displayColStart =
-                    isMoving && previewPosition
+                  // Use preview position during move OR resize
+                  const displayColStart = isResizing
+                    ? resizeColStart
+                    : isMoving && previewPosition
                       ? previewPosition.colStart
                       : occupant.colStart;
-                  const displayRowStart =
-                    isMoving && previewPosition
+                  const displayRowStart = isResizing
+                    ? resizeRowStart
+                    : isMoving && previewPosition
                       ? previewPosition.rowStart
                       : occupant.rowStart;
 
@@ -556,10 +596,10 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                       {/* Resize handles - visible on hover or when resizing */}
                       {onAreaResize && (
                         <>
-                          {/* East (right) resize edge */}
+                          {/* North (top) resize edge */}
                           <div
                             className={classNames(
-                              "absolute top-2 bottom-2 -right-px w-1.5 cursor-ew-resize group/handle z-10",
+                              "absolute left-2 right-2 -top-px h-1.5 cursor-ns-resize group/handle z-10",
                               isResizing
                                 ? "opacity-100"
                                 : "opacity-0 group-hover/area:opacity-100",
@@ -568,13 +608,15 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                               handleResizeStart(
                                 e,
                                 occupant.id,
-                                "e",
+                                "n",
+                                occupant.colStart,
+                                occupant.rowStart,
                                 occupant.colSpan,
                                 occupant.rowSpan,
                               )
                             }
                           >
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-0.5 w-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
                           </div>
                           {/* South (bottom) resize edge */}
                           <div
@@ -589,12 +631,124 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                                 e,
                                 occupant.id,
                                 "s",
+                                occupant.colStart,
+                                occupant.rowStart,
                                 occupant.colSpan,
                                 occupant.rowSpan,
                               )
                             }
                           >
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-0.5 w-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
+                          </div>
+                          {/* West (left) resize edge */}
+                          <div
+                            className={classNames(
+                              "absolute top-2 bottom-2 -left-px w-1.5 cursor-ew-resize group/handle z-10",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
+                            onMouseDown={(e) =>
+                              handleResizeStart(
+                                e,
+                                occupant.id,
+                                "w",
+                                occupant.colStart,
+                                occupant.rowStart,
+                                occupant.colSpan,
+                                occupant.rowSpan,
+                              )
+                            }
+                          >
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
+                          </div>
+                          {/* East (right) resize edge */}
+                          <div
+                            className={classNames(
+                              "absolute top-2 bottom-2 -right-px w-1.5 cursor-ew-resize group/handle z-10",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
+                            onMouseDown={(e) =>
+                              handleResizeStart(
+                                e,
+                                occupant.id,
+                                "e",
+                                occupant.colStart,
+                                occupant.rowStart,
+                                occupant.colSpan,
+                                occupant.rowSpan,
+                              )
+                            }
+                          >
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
+                          </div>
+                          {/* Northwest (corner) resize handle */}
+                          <div
+                            className={classNames(
+                              "absolute -top-1 -left-1 w-3.5 h-3.5 cursor-nwse-resize group/handle z-10 flex items-center justify-center",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
+                            onMouseDown={(e) =>
+                              handleResizeStart(
+                                e,
+                                occupant.id,
+                                "nw",
+                                occupant.colStart,
+                                occupant.rowStart,
+                                occupant.colSpan,
+                                occupant.rowSpan,
+                              )
+                            }
+                          >
+                            <div className="w-2 h-2 bg-slate-600 dark:bg-slate-300 rounded-sm group-hover/handle:scale-125 group-hover/handle:bg-slate-800 dark:group-hover/handle:bg-slate-100 transition-all shadow-sm" />
+                          </div>
+                          {/* Northeast (corner) resize handle */}
+                          <div
+                            className={classNames(
+                              "absolute -top-1 -right-1 w-3.5 h-3.5 cursor-nesw-resize group/handle z-10 flex items-center justify-center",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
+                            onMouseDown={(e) =>
+                              handleResizeStart(
+                                e,
+                                occupant.id,
+                                "ne",
+                                occupant.colStart,
+                                occupant.rowStart,
+                                occupant.colSpan,
+                                occupant.rowSpan,
+                              )
+                            }
+                          >
+                            <div className="w-2 h-2 bg-slate-600 dark:bg-slate-300 rounded-sm group-hover/handle:scale-125 group-hover/handle:bg-slate-800 dark:group-hover/handle:bg-slate-100 transition-all shadow-sm" />
+                          </div>
+                          {/* Southwest (corner) resize handle */}
+                          <div
+                            className={classNames(
+                              "absolute -bottom-1 -left-1 w-3.5 h-3.5 cursor-nesw-resize group/handle z-10 flex items-center justify-center",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
+                            onMouseDown={(e) =>
+                              handleResizeStart(
+                                e,
+                                occupant.id,
+                                "sw",
+                                occupant.colStart,
+                                occupant.rowStart,
+                                occupant.colSpan,
+                                occupant.rowSpan,
+                              )
+                            }
+                          >
+                            <div className="w-2 h-2 bg-slate-600 dark:bg-slate-300 rounded-sm group-hover/handle:scale-125 group-hover/handle:bg-slate-800 dark:group-hover/handle:bg-slate-100 transition-all shadow-sm" />
                           </div>
                           {/* Southeast (corner) resize handle */}
                           <div
@@ -609,6 +763,8 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                                 e,
                                 occupant.id,
                                 "se",
+                                occupant.colStart,
+                                occupant.rowStart,
                                 occupant.colSpan,
                                 occupant.rowSpan,
                               )
@@ -664,36 +820,15 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
           )}
         </div>
 
-        {/* Legend & Height control */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 text-[9px] text-slate-400 dark:text-slate-500">
-            <div className="flex items-center gap-1">
-              <div className="w-2.5 h-2.5 rounded border border-dashed border-slate-200 dark:border-slate-700" />
-              <span>Empty</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2.5 h-2.5 rounded bg-slate-200/60 dark:bg-slate-700/40 border border-slate-400 dark:border-slate-500" />
-              <span>Content</span>
-            </div>
+        {/* Legend */}
+        <div className="flex items-center gap-3 text-[9px] text-slate-400 dark:text-slate-500">
+          <div className="flex items-center gap-1">
+            <div className="w-2.5 h-2.5 rounded border border-dashed border-slate-200 dark:border-slate-700" />
+            <span>Empty</span>
           </div>
-          {/* Height slider */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[9px] text-slate-400 dark:text-slate-500">
-              H
-            </span>
-            <input
-              type="range"
-              min={24}
-              max={60}
-              value={cellHeight}
-              onChange={(e) => {
-                const newHeight = Number(e.target.value);
-                setCellHeight(newHeight);
-                // Scale up for canvas (multiply by 2 to get actual minRowHeight)
-                onCellHeightChange?.(newHeight * 2);
-              }}
-              className="w-12 h-1 accent-slate-400 cursor-pointer"
-            />
+          <div className="flex items-center gap-1">
+            <div className="w-2.5 h-2.5 rounded bg-slate-200/60 dark:bg-slate-700/40 border border-slate-400 dark:border-slate-500" />
+            <span>Content</span>
           </div>
         </div>
       </div>

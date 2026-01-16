@@ -37,17 +37,18 @@ interface GridTemplateEditorProps {
   onAreaDelete?: (blockId: string) => void;
   onAreaResize?: (
     blockId: string,
-    newSize: { colSpan: number; rowSpan: number },
+    newPlacement: {
+      colStart?: number;
+      rowStart?: number;
+      colSpan: number;
+      rowSpan: number;
+    },
   ) => void;
   onAreaMove?: (
     blockId: string,
     newPosition: { colStart: number; rowStart: number },
   ) => void;
   selectedBlockId?: string | null;
-  /** Initial cell height from grid's minRowHeight */
-  initialCellHeight?: number;
-  /** Callback when cell height slider changes - updates grid's minRowHeight */
-  onCellHeightChange?: (height: number) => void;
   // Legacy props for compatibility
   selectedCell?: { col: number; row: number } | null;
   onCellSelect?: (col: number, row: number) => void;
@@ -72,8 +73,6 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
   onAreaDelete,
   onAreaResize,
   selectedBlockId,
-  initialCellHeight,
-  onCellHeightChange,
 }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [editingTrack, setEditingTrack] = useState<{
@@ -157,8 +156,6 @@ const GridTemplateEditor: React.FC<GridTemplateEditorProps> = ({
             onAreaDelete={onAreaDelete}
             onAreaResize={onAreaResize}
             selectedBlockId={selectedBlockId}
-            initialCellHeight={initialCellHeight}
-            onCellHeightChange={onCellHeightChange}
           />
         </div>
       )}

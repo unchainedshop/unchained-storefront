@@ -14,7 +14,9 @@
         "mobileHeight": 40
       },
       "style": {},
-      "responsive": {}
+      "responsive": {},
+      "locked": false,
+      "hidden": false
     },
     {
       "id": "block_1768525540252_dig9iysoq",
@@ -35,126 +37,129 @@
           "id": "block_1768525540252_fwyndzpsq",
           "type": "grid",
           "content": {
-            "template": {
-              "desktop": {
-                "columns": [
-                  "1fr",
-                  "1fr",
-                  "1fr",
-                  "1fr"
-                ],
-                "rows": [
-                  "auto",
-                  "auto",
-                  "auto"
-                ]
-              },
-              "tablet": {
-                "columns": [
-                  "1fr",
-                  "1fr"
-                ],
-                "rows": [
-                  "auto",
-                  "auto",
-                  "auto",
-                  "auto"
-                ]
-              },
-              "mobile": {
-                "columns": [
-                  "1fr"
-                ],
-                "rows": [
-                  "auto",
-                  "auto",
-                  "auto",
-                  "auto",
-                  "auto",
-                  "auto",
-                  "auto"
-                ]
-              }
-            },
-            "gap": 24,
-            "rowGap": 24,
-            "childPlacements": [
-              {
-                "blockId": "block_1768525540252_gezhuxuef",
-                "placement": {
-                  "colStart": 1,
-                  "rowStart": 1,
-                  "colSpan": 2,
-                  "rowSpan": 2
+            "de": {
+              "template": {
+                "desktop": {
+                  "columns": [
+                    "1fr",
+                    "1fr",
+                    "1fr",
+                    "1fr"
+                  ],
+                  "rows": [
+                    "auto",
+                    "auto",
+                    "auto"
+                  ]
+                },
+                "tablet": {
+                  "columns": [
+                    "1fr",
+                    "1fr"
+                  ],
+                  "rows": [
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto"
+                  ]
+                },
+                "mobile": {
+                  "columns": [
+                    "1fr"
+                  ],
+                  "rows": [
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto",
+                    "auto"
+                  ]
                 }
               },
-              {
-                "blockId": "block_1768525540252_27d2w689s",
-                "placement": {
-                  "colStart": 3,
-                  "rowStart": 1,
-                  "colSpan": 1,
-                  "rowSpan": 1
+              "gap": 24,
+              "rowGap": 24,
+              "childPlacements": [
+                {
+                  "blockId": "block_1768525540252_gezhuxuef",
+                  "placement": {
+                    "colStart": 1,
+                    "rowStart": 1,
+                    "colSpan": 2,
+                    "rowSpan": 2
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_27d2w689s",
+                  "placement": {
+                    "colStart": 3,
+                    "rowStart": 1,
+                    "colSpan": 1,
+                    "rowSpan": 1
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_6xv0hk0un",
+                  "placement": {
+                    "colStart": 4,
+                    "rowStart": 1,
+                    "colSpan": 1,
+                    "rowSpan": 1
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_apapouj8l",
+                  "placement": {
+                    "colStart": 3,
+                    "rowStart": 2,
+                    "colSpan": 1,
+                    "rowSpan": 1
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_qm8j8d4ln",
+                  "placement": {
+                    "colStart": 4,
+                    "rowStart": 2,
+                    "colSpan": 1,
+                    "rowSpan": 1
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_qf2k9kr7z",
+                  "placement": {
+                    "colStart": 1,
+                    "rowStart": 3,
+                    "colSpan": 1,
+                    "rowSpan": 1
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_s6cguz2y5",
+                  "placement": {
+                    "colStart": 2,
+                    "rowStart": 3,
+                    "colSpan": 1,
+                    "rowSpan": 1
+                  }
+                },
+                {
+                  "blockId": "block_1768525540252_rs1ciwual",
+                  "placement": {
+                    "colStart": 3,
+                    "rowStart": 3,
+                    "colSpan": 2,
+                    "rowSpan": 1
+                  }
                 }
-              },
-              {
-                "blockId": "block_1768525540252_6xv0hk0un",
-                "placement": {
-                  "colStart": 4,
-                  "rowStart": 1,
-                  "colSpan": 1,
-                  "rowSpan": 1
-                }
-              },
-              {
-                "blockId": "block_1768525540252_apapouj8l",
-                "placement": {
-                  "colStart": 3,
-                  "rowStart": 2,
-                  "colSpan": 1,
-                  "rowSpan": 1
-                }
-              },
-              {
-                "blockId": "block_1768525540252_qm8j8d4ln",
-                "placement": {
-                  "colStart": 4,
-                  "rowStart": 2,
-                  "colSpan": 1,
-                  "rowSpan": 1
-                }
-              },
-              {
-                "blockId": "block_1768525540252_qf2k9kr7z",
-                "placement": {
-                  "colStart": 1,
-                  "rowStart": 3,
-                  "colSpan": 1,
-                  "rowSpan": 1
-                }
-              },
-              {
-                "blockId": "block_1768525540252_s6cguz2y5",
-                "placement": {
-                  "colStart": 2,
-                  "rowStart": 3,
-                  "colSpan": 1,
-                  "rowSpan": 1
-                }
-              },
-              {
-                "blockId": "block_1768525540252_rs1ciwual",
-                "placement": {
-                  "colStart": 3,
-                  "rowStart": 3,
-                  "colSpan": 2,
-                  "rowSpan": 1
-                }
-              }
-            ],
-            "autoFlow": "row",
-            "justifyItems": "stretch",
-            "alignItems": "stretch"
+              ],
+              "autoFlow": "row",
+              "justifyItems": "stretch",
+              "alignItems": "stretch",
+              "minRowHeight": 80
+            }
           },
           "style": {
             "minHeight": 800
@@ -163,6 +168,114 @@
           "children": [
             {
               "id": "block_1768525540252_gezhuxuef",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529556394_3mktm5krg",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529556211_qrmsnaz0a",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529556011_4a9aedum3",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529555794_reetbntyq",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529554694_a6lgqibkd",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529554028_r115h81nn",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529553461_tu82la9kk",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529552578_sw8767s6u",
+              "type": "image",
+              "content": {
+                "alt": "Featured image",
+                "aspectRatio": "auto"
+              },
+              "style": {
+                "borderRadius": 16
+              },
+              "responsive": {}
+            },
+            {
+              "id": "block_1768529551412_t5glh3rva",
               "type": "image",
               "content": {
                 "alt": "Featured image",
@@ -293,9 +406,12 @@
               },
               "responsive": {}
             }
-          ]
+          ],
+          "hidden": true,
+          "locked": false
         }
-      ]
+      ],
+      "hidden": true
     },
     {
       "id": "block_1768525540252_a86hcjkik",
@@ -431,15 +547,18 @@
       "id": "block_1768525540252_l263jrlmp",
       "type": "hero-banner",
       "content": {
-        "heading": "Experience the Difference",
-        "subheading": "Discover our collection of thoughtfully designed pieces.",
-        "buttonText": "Shop Now",
-        "buttonLink": "/shop",
-        "variant": "centered"
+        "de": {
+          "heading": "Experience the Difference",
+          "subheading": "Discover our collection of thoughtfully designed pieces.",
+          "buttonText": "Shop Now",
+          "buttonLink": "/shop",
+          "variant": "split-left",
+          "heroImage": "/api/media/files/2026/01/media_1768343794763_r6rlmr.avif"
+        }
       },
       "style": {
         "backgroundColor": "#0f172a",
-        "textColor": "#ffffff",
+        "textColor": "#6BE4D3",
         "minHeight": 400,
         "padding": {
           "top": 80,
@@ -478,6 +597,6 @@
     }
   },
   "createdAt": "2026-01-15T10:20:20.663Z",
-  "updatedAt": "2026-01-16T01:05:44.526Z",
+  "updatedAt": "2026-01-16T02:15:36.891Z",
   "versions": []
 }

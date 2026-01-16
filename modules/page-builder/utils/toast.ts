@@ -20,14 +20,20 @@ const ERROR_MESSAGES: Record<ErrorCode, string> = {
   UNKNOWN: "An unexpected error occurred",
 };
 
-// Neutral dark toast style
+// Frost glassmorphism toast style - white frosted glass
 const TOAST_STYLE = {
-  background: "#18181b",
-  color: "#fafafa",
-  borderRadius: "12px",
+  background: "rgba(255, 255, 255, 0.75)",
+  color: "#0f172a",
+  borderRadius: "16px",
   padding: "12px 16px",
-  fontSize: "14px",
-  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+  fontSize: "12px",
+  fontWeight: 500,
+  letterSpacing: "0.01em",
+  border: "1px solid rgba(255, 255, 255, 0.6)",
+  boxShadow:
+    "0 8px 32px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5)",
+  backdropFilter: "blur(24px) saturate(180%)",
+  WebkitBackdropFilter: "blur(24px) saturate(180%)",
 };
 
 interface ToastOptions {
@@ -47,8 +53,8 @@ export function showSuccessToast(
     id: options?.id,
     style: TOAST_STYLE,
     iconTheme: {
-      primary: "#fafafa",
-      secondary: "#18181b",
+      primary: "#0d9488",
+      secondary: "rgba(255, 255, 255, 0.9)",
     },
   });
 }
@@ -65,8 +71,8 @@ export function showErrorToast(
     id: options?.id,
     style: TOAST_STYLE,
     iconTheme: {
-      primary: "#fafafa",
-      secondary: "#18181b",
+      primary: "#dc2626",
+      secondary: "rgba(255, 255, 255, 0.9)",
     },
   });
 }
