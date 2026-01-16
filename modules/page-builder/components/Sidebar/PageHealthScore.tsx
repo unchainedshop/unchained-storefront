@@ -57,8 +57,17 @@ interface CategoryScore {
   issues: HealthIssue[];
 }
 
+interface ContentStats {
+  wordCount: number;
+  readingTime: number; // minutes
+  imageCount: number;
+  blockCount: number;
+  blockTypes: number;
+}
+
 interface HealthAnalysis {
   overall: number;
+  content: ContentStats;
   seo: CategoryScore;
   accessibility: CategoryScore;
   performance: CategoryScore;
@@ -123,6 +132,114 @@ function getAllBlocks(blocks: PageBlock[]): PageBlock[] {
     }
   }
   return result;
+}
+
+function extractTextFromBlock(block: PageBlock, locale: string): string {
+  const content = block.content as Record<string, unknown>;
+  const texts: string[] = [];
+
+  // Extract text from common content fields
+  const textFields = [
+    "heading",
+    "subheading",
+    "text",
+    "body",
+    "title",
+    "description",
+    "quote",
+    "buttonText",
+    "secondaryButtonText",
+    "caption",
+    "label",
+  ];
+
+  for (const field of textFields) {
+    const value = content[field];
+    if (typeof value === "string" && value) {
+      texts.push(value);
+    } else if (typeof value === "object" && value) {
+      // Localized string
+      const localized = value as Record<string, string>;
+      const text =
+        localized[locale] || localized["en"] || Object.values(localized)[0];
+      if (text) texts.push(text);
+    }
+  }
+
+  // Extract from arrays (testimonials, FAQs, features, etc.)
+  const arrayFields = [
+    "testimonials",
+    "faqs",
+    "features",
+    "items",
+    "stats",
+    "tiers",
+  ];
+  for (const field of arrayFields) {
+    const arr = content[field];
+    if (Array.isArray(arr)) {
+      for (const item of arr) {
+        if (typeof item === "object" && item) {
+          for (const key of Object.keys(item)) {
+            const val = (item as Record<string, unknown>)[key];
+            if (
+              typeof val === "string" &&
+              val.length > 0 &&
+              val.length < 1000
+            ) {
+              texts.push(val);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return texts.join(" ");
+}
+
+function countWords(text: string): number {
+  // Strip HTML tags
+  const stripped = text.replace(/<[^>]*>/g, " ");
+  // Split by whitespace and filter empty strings
+  const words = stripped.split(/\s+/).filter((word) => word.length > 0);
+  return words.length;
+}
+
+function analyzeContent(page: Page, locale: string): ContentStats {
+  const allBlocks = getAllBlocks(page.blocks);
+
+  // Count words from all blocks
+  let totalText = "";
+  for (const block of allBlocks) {
+    totalText += " " + extractTextFromBlock(block, locale);
+  }
+  const wordCount = countWords(totalText);
+
+  // Reading time: average 200 words per minute
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  // Count images
+  const imageBlocks = findBlocksOfType(page.blocks, ["image"]);
+  const heroBlocks = findBlocksOfType(page.blocks, ["hero-banner"]);
+  let imageCount = imageBlocks.length;
+  // Count hero images
+  for (const hero of heroBlocks) {
+    const content = hero.content as Record<string, unknown>;
+    if (content.heroImage) imageCount++;
+    if (hero.style?.backgroundImage) imageCount++;
+  }
+
+  // Block diversity
+  const blockTypes = new Set(allBlocks.map((b) => b.type)).size;
+
+  return {
+    wordCount,
+    readingTime,
+    imageCount,
+    blockCount: allBlocks.length,
+    blockTypes,
+  };
 }
 
 // =============================================================================
@@ -583,6 +700,13 @@ function analyzePageHealth(page: Page | null, locale: string): HealthAnalysis {
   if (!page) {
     return {
       overall: 0,
+      content: {
+        wordCount: 0,
+        readingTime: 0,
+        imageCount: 0,
+        blockCount: 0,
+        blockTypes: 0,
+      },
       seo: { score: 0, maxScore: 100, issues: [] },
       accessibility: { score: 0, maxScore: 100, issues: [] },
       performance: { score: 0, maxScore: 100, issues: [] },
@@ -590,6 +714,7 @@ function analyzePageHealth(page: Page | null, locale: string): HealthAnalysis {
     };
   }
 
+  const content = analyzeContent(page, locale);
   const seo = analyzeSEO(page, locale);
   const accessibility = analyzeAccessibility(page, locale);
   const performance = analyzePerformance(page);
@@ -603,7 +728,7 @@ function analyzePageHealth(page: Page | null, locale: string): HealthAnalysis {
       mobile.score * 0.2,
   );
 
-  return { overall, seo, accessibility, performance, mobile };
+  return { overall, content, seo, accessibility, performance, mobile };
 }
 
 // =============================================================================
@@ -876,6 +1001,40 @@ const PageHealthScore: React.FC = () => {
               : `${totalIssues} issue${totalIssues !== 1 ? "s" : ""} found${
                   errorCount > 0 ? ` (${errorCount} critical)` : ""
                 }`}
+          </p>
+        </div>
+      </div>
+
+      {/* Content Stats */}
+      <div className="grid grid-cols-4 gap-1.5 py-2 border-y border-slate-100 dark:border-slate-800/50">
+        <div className="text-center">
+          <p className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
+            {analysis.content.wordCount.toLocaleString()}
+          </p>
+          <p className="text-[9px] text-slate-400 dark:text-slate-500">words</p>
+        </div>
+        <div className="text-center">
+          <p className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
+            {analysis.content.readingTime}
+          </p>
+          <p className="text-[9px] text-slate-400 dark:text-slate-500">
+            min read
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
+            {analysis.content.imageCount}
+          </p>
+          <p className="text-[9px] text-slate-400 dark:text-slate-500">
+            images
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
+            {analysis.content.blockCount}
+          </p>
+          <p className="text-[9px] text-slate-400 dark:text-slate-500">
+            blocks
           </p>
         </div>
       </div>
