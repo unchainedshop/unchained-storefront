@@ -86,8 +86,8 @@ const LogoCloud: React.FC<LogoCloudProps> = ({
                     )}
                   />
                 ) : (
-                  <div className="h-10 w-24 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-                    <BuildingOfficeIcon className="w-6 h-6 text-slate-400" />
+                  <div className="h-10 w-24 rounded-lg bg-white/40 dark:bg-white/5 backdrop-blur-md border border-slate-200/50 dark:border-white/10 flex items-center justify-center">
+                    <BuildingOfficeIcon className="w-6 h-6 text-slate-400 dark:text-slate-500" />
                   </div>
                 )}
                 {content.showNames && (
@@ -108,14 +108,21 @@ const LogoCloud: React.FC<LogoCloudProps> = ({
                   href={logo.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:scale-105 transition-transform"
+                  className="hover:scale-105 transition-transform duration-200 ease-out"
                 >
                   {LogoContent}
                 </a>
               );
             }
 
-            return <div key={logo.id}>{LogoContent}</div>;
+            return (
+              <div
+                key={logo.id}
+                className="hover:scale-105 transition-transform duration-200 ease-out"
+              >
+                {LogoContent}
+              </div>
+            );
           })}
         </div>
       </div>

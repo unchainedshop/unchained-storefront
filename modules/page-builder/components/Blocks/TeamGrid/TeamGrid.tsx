@@ -104,9 +104,12 @@ const TeamGrid: React.FC<TeamGridProps> = ({
           )}
         >
           {content.members.map((member) => (
-            <div key={member.id} className="text-center">
+            <div
+              key={member.id}
+              className="text-center p-6 rounded-xl bg-white/40 dark:bg-white/5 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/10 transition-all duration-150 ease-out"
+            >
               {/* Photo */}
-              <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+              <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-slate-100/80 dark:bg-white/5 ring-2 ring-slate-200/50 dark:ring-white/10">
                 {member.image ? (
                   <img
                     src={member.image}
@@ -115,7 +118,7 @@ const TeamGrid: React.FC<TeamGridProps> = ({
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <UserIcon className="w-12 h-12 text-slate-400" />
+                    <UserIcon className="w-12 h-12 text-slate-400 dark:text-slate-500" />
                   </div>
                 )}
               </div>

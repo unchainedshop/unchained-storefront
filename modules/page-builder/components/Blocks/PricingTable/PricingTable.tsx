@@ -136,16 +136,22 @@ const PricingTable: React.FC<PricingTableProps> = ({
             <div
               key={tier.id}
               className={classNames(
-                "relative flex flex-col rounded-2xl p-8 transition-all",
+                "relative flex flex-col rounded-2xl p-8",
+                // Frost glassmorphism
+                "shadow-[0_4px_24px_rgba(0,0,0,0.06)]",
+                "hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)]",
+                "transition-all duration-300 ease-out",
                 tier.highlighted
-                  ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl scale-105 z-10"
-                  : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700",
+                  ? // Highlighted: grey glass style
+                    "bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600"
+                  : // Standard: frosted glass
+                    "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600",
               )}
             >
-              {/* Badge */}
+              {/* Badge - Grey glass style */}
               {(tier.badge || canEdit) && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-3 py-1 text-xs font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full">
+                  <span className="px-3 py-1 text-xs font-semibold bg-slate-800/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-slate-900 rounded-full">
                     <InlineRichText
                       blockId={block.id}
                       field={`tiers.${tier.id}.badge`}
@@ -166,12 +172,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 field={`tiers.${tier.id}.name`}
                 value={tier.name || ""}
                 tag="h3"
-                className={classNames(
-                  "text-xl font-bold mb-2",
-                  tier.highlighted
-                    ? "text-white dark:text-slate-900"
-                    : "text-slate-900 dark:text-white",
-                )}
+                className="text-xl font-bold mb-2 text-slate-900 dark:text-white"
                 placeholder="Tier name..."
                 multiline={false}
                 enableLinks={false}
@@ -184,12 +185,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 field={`tiers.${tier.id}.description`}
                 value={tier.description || ""}
                 tag="p"
-                className={classNames(
-                  "text-sm mb-6",
-                  tier.highlighted
-                    ? "text-slate-300 dark:text-slate-600"
-                    : "text-slate-500 dark:text-slate-400",
-                )}
+                className="text-sm mb-6 text-slate-500 dark:text-slate-400"
                 placeholder="Description..."
                 multiline={false}
                 onUpdate={(value) => updateTier(tier.id, "description", value)}
@@ -202,12 +198,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                   field={`tiers.${tier.id}.price`}
                   value={tier.price || ""}
                   tag="span"
-                  className={classNames(
-                    "text-4xl font-bold",
-                    tier.highlighted
-                      ? "text-white dark:text-slate-900"
-                      : "text-slate-900 dark:text-white",
-                  )}
+                  className="text-4xl font-bold text-slate-900 dark:text-white"
                   placeholder="$0"
                   multiline={false}
                   enableLinks={false}
@@ -219,12 +210,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                     field={`tiers.${tier.id}.period`}
                     value={tier.period ? `/${tier.period}` : ""}
                     tag="span"
-                    className={classNames(
-                      "text-sm ml-1",
-                      tier.highlighted
-                        ? "text-slate-400 dark:text-slate-500"
-                        : "text-slate-500 dark:text-slate-400",
-                    )}
+                    className="text-sm ml-1 text-slate-500 dark:text-slate-400"
                     placeholder="/month"
                     multiline={false}
                     enableLinks={false}
@@ -239,25 +225,13 @@ const PricingTable: React.FC<PricingTableProps> = ({
               <ul className="flex-1 space-y-3 mb-8">
                 {tier.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <CheckIcon
-                      className={classNames(
-                        "w-5 h-5 flex-shrink-0 mt-0.5",
-                        tier.highlighted
-                          ? "text-green-400 dark:text-green-600"
-                          : "text-green-500",
-                      )}
-                    />
+                    <CheckIcon className="w-5 h-5 flex-shrink-0 mt-0.5 text-slate-400 dark:text-slate-500" />
                     <InlineRichText
                       blockId={block.id}
                       field={`tiers.${tier.id}.features.${idx}`}
                       value={feature || ""}
                       tag="span"
-                      className={classNames(
-                        "text-sm",
-                        tier.highlighted
-                          ? "text-slate-300 dark:text-slate-600"
-                          : "text-slate-600 dark:text-slate-300",
-                      )}
+                      className="text-sm text-slate-600 dark:text-slate-300"
                       placeholder="Feature..."
                       multiline={false}
                       onUpdate={(value) =>
@@ -268,16 +242,9 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 ))}
               </ul>
 
-              {/* CTA Button */}
+              {/* CTA Button - Frost style */}
               {canEdit ? (
-                <div
-                  className={classNames(
-                    "w-full py-3 px-6 text-center font-semibold rounded-lg transition-colors",
-                    tier.highlighted
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-                      : "bg-slate-900 dark:bg-white text-white dark:text-slate-900",
-                  )}
-                >
+                <div className="w-full py-3 px-6 text-center font-semibold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 transition-all duration-200">
                   <InlineRichText
                     blockId={block.id}
                     field={`tiers.${tier.id}.buttonText`}
@@ -294,12 +261,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
               ) : (
                 <Link
                   href={isPreview ? "#" : tier.buttonLink}
-                  className={classNames(
-                    "w-full py-3 px-6 text-center font-semibold rounded-lg transition-colors",
-                    tier.highlighted
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-                      : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100",
-                  )}
+                  className="w-full py-3 px-6 text-center font-semibold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200"
                 >
                   {tier.buttonText}
                 </Link>

@@ -68,9 +68,12 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
 
   const iconStyleClasses = {
     none: "",
-    circle: "rounded-full bg-slate-100 dark:bg-slate-800 p-3",
-    square: "rounded-none bg-slate-100 dark:bg-slate-800 p-3",
-    rounded: "rounded-xl bg-slate-100 dark:bg-slate-800 p-3",
+    circle:
+      "rounded-full bg-white/40 dark:bg-white/5 backdrop-blur-md p-3 ring-1 ring-slate-200/50 dark:ring-white/10",
+    square:
+      "rounded-none bg-white/40 dark:bg-white/5 backdrop-blur-md p-3 ring-1 ring-slate-200/50 dark:ring-white/10",
+    rounded:
+      "rounded-xl bg-white/40 dark:bg-white/5 backdrop-blur-md p-3 ring-1 ring-slate-200/50 dark:ring-white/10",
   };
 
   if (content.features.length === 0 && isEditing) {
@@ -193,14 +196,21 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
                 <Link
                   key={feature.id}
                   href={feature.link}
-                  className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 p-4 -m-4 rounded-xl transition-colors"
+                  className="group p-4 -m-4 rounded-xl hover:bg-white/60 dark:hover:bg-white/10 transition-all duration-150 ease-out"
                 >
                   {FeatureContent}
                 </Link>
               );
             }
 
-            return <div key={feature.id}>{FeatureContent}</div>;
+            return (
+              <div
+                key={feature.id}
+                className="p-4 -m-4 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 transition-all duration-150 ease-out"
+              >
+                {FeatureContent}
+              </div>
+            );
           })}
         </div>
       </div>

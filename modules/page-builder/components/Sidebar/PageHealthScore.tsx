@@ -492,7 +492,7 @@ function analyzeMobile(page: Page): CategoryScore {
   const mobileRelevantTypes: BlockType[] = [
     "hero-banner",
     "product-grid",
-    "columns",
+    "grid",
     "pricing-table",
     "stats",
     "team-grid",
@@ -537,23 +537,23 @@ function analyzeMobile(page: Page): CategoryScore {
     score -= 10;
   }
 
-  // Check for columns blocks without mobile configuration
-  const columnBlocks = findBlocksOfType(page.blocks, ["columns"]);
-  const columnsWithoutMobile = columnBlocks.filter(
+  // Check for grid blocks without mobile configuration
+  const gridBlocks = findBlocksOfType(page.blocks, ["grid"]);
+  const gridsWithoutMobile = gridBlocks.filter(
     (b) =>
       !b.responsive?.mobile || Object.keys(b.responsive.mobile).length === 0,
   );
 
-  if (columnsWithoutMobile.length > 0) {
+  if (gridsWithoutMobile.length > 0) {
     issues.push({
-      id: "mobile-columns",
-      message: `${columnsWithoutMobile.length} column block(s) without mobile layout`,
+      id: "mobile-grid",
+      message: `${gridsWithoutMobile.length} grid block(s) without mobile layout`,
       severity: "warning",
-      blockId: columnsWithoutMobile[0].id,
-      blockType: "columns",
-      fix: "Configure mobile column behavior for better small-screen layout",
+      blockId: gridsWithoutMobile[0].id,
+      blockType: "grid",
+      fix: "Configure mobile grid behavior for better small-screen layout",
     });
-    score -= Math.min(20, columnsWithoutMobile.length * 5);
+    score -= Math.min(20, gridsWithoutMobile.length * 5);
   }
 
   // Check for large fixed heights

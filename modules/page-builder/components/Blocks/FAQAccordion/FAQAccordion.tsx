@@ -117,14 +117,14 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
             return (
               <div
                 key={item.id}
-                className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+                className="rounded-xl overflow-hidden bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200/50 dark:border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 ease-out"
               >
                 <div
                   onClick={() => !canEdit && toggleItem(item.id)}
                   className={classNames(
                     "w-full flex items-center justify-between px-6 py-5 text-left transition-colors",
                     !canEdit &&
-                      "cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50",
+                      "cursor-pointer hover:bg-white/80 dark:hover:bg-white/10",
                   )}
                 >
                   <div className="flex-1 pr-4">

@@ -132,7 +132,7 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
 
         {/* Hover overlay */}
         <div
-          className={`absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] flex items-center justify-center transition-all duration-300 ${
             isHovered ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -192,13 +192,13 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
           )}
         </div>
 
-        {/* Follow Button */}
+        {/* Follow Button - Frost Primary Button */}
         {content.showFollowButton && content.username && (
           <a
             href={`https://instagram.com/${content.username}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white font-medium text-sm hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium text-sm hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 ease-out"
           >
             <InstagramIcon className="w-4 h-4" />
             {content.followButtonText || `Follow @${content.username}`}
@@ -265,7 +265,7 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
             <>
               <button
                 onClick={handlePrevSlide}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full flex items-center justify-center bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 ease-out"
               >
                 <svg
                   className="w-5 h-5 text-slate-700 dark:text-slate-300"
@@ -283,7 +283,7 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({ block, isPreview }) => {
               </button>
               <button
                 onClick={handleNextSlide}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full flex items-center justify-center bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 ease-out"
               >
                 <svg
                   className="w-5 h-5 text-slate-700 dark:text-slate-300"

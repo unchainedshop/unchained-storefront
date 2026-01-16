@@ -194,11 +194,14 @@ export const findParentBlock = (
 
 function editorReducer(state: EditorState, action: EditorAction): EditorState {
   switch (action.type) {
-    case "SET_PAGE":
+    case "SET_PAGE": {
+      // Mark new pages (no versions) as dirty so Save is enabled
+      const isNewPage =
+        !action.payload.versions || action.payload.versions.length === 0;
       return {
         ...state,
         page: action.payload,
-        isDirty: false,
+        isDirty: isNewPage,
         history: [
           {
             blocks: action.payload.blocks,
@@ -209,6 +212,7 @@ function editorReducer(state: EditorState, action: EditorAction): EditorState {
         ],
         historyIndex: 0,
       };
+    }
 
     case "SELECT_BLOCK": {
       return {

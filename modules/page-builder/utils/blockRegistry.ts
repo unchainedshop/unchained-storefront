@@ -969,7 +969,38 @@ export const blockRegistry: Record<BlockType, BlockDefinition> = {
       columns: 5,
       grayscale: true,
       showNames: false,
-      logos: [],
+      logos: [
+        {
+          id: "logo_1",
+          name: "Google",
+          image: "https://cdn.simpleicons.org/google",
+          link: "",
+        },
+        {
+          id: "logo_2",
+          name: "Microsoft",
+          image: "https://cdn.simpleicons.org/microsoft",
+          link: "",
+        },
+        {
+          id: "logo_3",
+          name: "Apple",
+          image: "https://cdn.simpleicons.org/apple",
+          link: "",
+        },
+        {
+          id: "logo_4",
+          name: "Amazon",
+          image: "https://cdn.simpleicons.org/amazon",
+          link: "",
+        },
+        {
+          id: "logo_5",
+          name: "Netflix",
+          image: "https://cdn.simpleicons.org/netflix",
+          link: "",
+        },
+      ],
     },
     defaultStyle: {
       padding: { top: 48, right: 24, bottom: 48, left: 24 },

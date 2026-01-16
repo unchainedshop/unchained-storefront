@@ -58,5 +58,5 @@ export type {
   SpacerContent,
   CustomHtmlContent,
   SectionContent,
-  ColumnsContent,
+  GridContent,
 } from "./types";

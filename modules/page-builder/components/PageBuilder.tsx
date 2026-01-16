@@ -100,23 +100,12 @@ const PageBuilderInner: React.FC<PageBuilderProps> = ({
     return result;
   };
 
-  // Handle creating a new blank page
+  // Handle creating a new blank page - navigate to new page route
   const handleCreateNewPage = useCallback(() => {
-    if (!state.page) return;
-
-    const newTitle = `Untitled Page #${generateRandomSuffix()}`;
-
-    setPage({
-      ...state.page,
-      id: `page_${Date.now()}`,
-      title: { [cmsConfig.defaultLocale]: newTitle },
-      slug: "untitled-page",
-      blocks: [],
-      status: "draft",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
-  }, [state.page, setPage]);
+    if (onCreatePage) {
+      onCreatePage();
+    }
+  }, [onCreatePage]);
 
   // Handle template selection
   const handleSelectTemplate = useCallback(

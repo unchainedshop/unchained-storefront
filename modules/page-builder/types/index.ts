@@ -1006,7 +1006,6 @@ export type BlockContent =
   | SpacerContent
   | CustomHtmlContent
   | SectionContent
-  | ColumnsContent
   | GridContent
   | BeforeAfterContent
   | FAQAccordionContent

@@ -100,7 +100,7 @@ const Video: React.FC<VideoProps> = ({
       style={{ ...containerStyle, flex: 1, minHeight: 0 }}
       className="w-full h-full flex flex-col"
     >
-      <div className="relative flex-1 overflow-hidden bg-slate-900">
+      <div className="relative flex-1 overflow-hidden rounded-2xl bg-slate-900/90 backdrop-blur-sm border border-slate-200/20 dark:border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.12)]">
         {/* Thumbnail with play button (if not auto-playing) */}
         {!isPlaying && content.thumbnail && (
           <button
@@ -112,8 +112,8 @@ const Video: React.FC<VideoProps> = ({
               alt=""
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] group-hover:bg-slate-900/50 transition-all duration-300 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-white/90 dark:bg-white/80 backdrop-blur-xl flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.2)] group-hover:scale-110 group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.25)] transition-all duration-300 ease-out">
                 <PlayIcon className="w-8 h-8 text-slate-900 ml-1" />
               </div>
             </div>

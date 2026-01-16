@@ -120,43 +120,40 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
             <div
               key={product.id}
               className={classNames(
-                "group relative overflow-hidden rounded-2xl",
-                "bg-white/80 dark:bg-white/5",
-                "backdrop-blur-xl backdrop-saturate-150",
-                "border border-slate-200/60 dark:border-white/10",
-                "shadow-[0_4px_24px_rgba(0,0,0,0.06)]",
-                "hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)]",
-                "hover:border-slate-300/80 dark:hover:border-white/20",
-                "hover:-translate-y-1",
-                "transition-all duration-300 ease-out",
+                "group relative overflow-hidden rounded-xl",
+                // Frost Card
+                "bg-white/60 dark:bg-white/5",
+                "backdrop-blur-lg",
+                "border border-slate-200/50 dark:border-white/10",
+                "shadow-[0_2px_12px_rgba(0,0,0,0.04)]",
+                "hover:bg-white/80 dark:hover:bg-white/10",
+                "hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]",
+                "transition-all duration-200 ease-out",
               )}
             >
               {/* Product Image */}
-              <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50">
+              <div className="relative aspect-square bg-slate-50 dark:bg-slate-800/50">
                 {product?.media?.length ? (
                   <img
                     src={product?.media?.[0]?.file?.url}
                     alt={product?.media?.[0]?.file?.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <PhotoIcon className="w-12 h-12 text-slate-300 dark:text-slate-600" />
+                    <PhotoIcon className="w-10 h-10 text-slate-300 dark:text-slate-600" />
                   </div>
                 )}
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
                 {/* Badges */}
-                <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
+                <div className="absolute top-2.5 left-2.5 right-2.5 flex items-start justify-between">
                   {content.showSaleBadge && (product as any).sale && (
-                    <span className="px-2.5 py-1 bg-red-500/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full shadow-[0_2px_8px_rgba(239,68,68,0.4)]">
+                    <span className="px-2 py-1 bg-red-500 text-white text-[11px] font-semibold rounded-md">
                       Sale
                     </span>
                   )}
                   {(product as any)?.tags?.includes("new") && (
-                    <span className="px-2.5 py-1 ml-auto bg-white/90 dark:bg-white/10 backdrop-blur-sm text-slate-800 dark:text-white text-xs font-semibold rounded-full border border-slate-200/60 dark:border-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+                    <span className="px-2 py-1 ml-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[11px] font-semibold rounded-md">
                       New
                     </span>
                   )}
@@ -164,19 +161,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
 
                 {/* Quick Add - Frost style */}
                 {content.showQuickAdd && (
-                  <div className="absolute bottom-3 left-3 right-3">
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5">
                     <button
                       className={classNames(
-                        "w-full py-2.5 px-4 flex items-center justify-center gap-2",
-                        "bg-white/90 dark:bg-white/10",
-                        "backdrop-blur-xl backdrop-saturate-150",
+                        "w-full py-2 px-3 flex items-center justify-center gap-1.5",
+                        "bg-white/90 dark:bg-slate-900/90",
+                        "backdrop-blur-md",
                         "text-slate-900 dark:text-white text-sm font-medium",
-                        "rounded-xl border border-slate-200/60 dark:border-white/20",
-                        "shadow-[0_4px_16px_rgba(0,0,0,0.1)]",
-                        "hover:bg-white dark:hover:bg-white/20",
-                        "hover:shadow-[0_4px_20px_rgba(0,0,0,0.15)]",
-                        "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0",
-                        "transition-all duration-300 ease-out",
+                        "rounded-lg border border-slate-200/60 dark:border-white/10",
+                        "opacity-0 group-hover:opacity-100",
+                        "transition-opacity duration-200",
                       )}
                     >
                       <ShoppingBagIcon className="w-4 h-4" />
@@ -187,11 +181,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
               </div>
 
               {/* Product Info */}
-              <div className="p-4">
-                <h3 className="font-medium text-slate-900 dark:text-white truncate group-hover:text-slate-700 dark:group-hover:text-slate-100 transition-colors">
+              <div className="p-3">
+                <h3 className="font-medium text-slate-900 dark:text-white text-sm truncate">
                   {product?.texts?.title}
                 </h3>
-                <p className="mt-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-100/80 dark:bg-white/5 px-2 py-0.5 rounded-md inline-block">
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                   {formatPrice(product?.simulatedPrice)}
                 </p>
               </div>

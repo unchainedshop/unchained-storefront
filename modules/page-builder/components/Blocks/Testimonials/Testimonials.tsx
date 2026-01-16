@@ -3,7 +3,7 @@
  * Customer testimonials in carousel or grid layout
  */
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import classNames from "classnames";
 import {
   ChevronLeftIcon,
@@ -36,6 +36,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({
   const { updateBlock, state } = usePageBuilder();
   const canEdit = isEditing && !state.isPreviewMode;
 
+  // Use ref to avoid recreating callback on every content change
+  const contentRef = useRef(content);
+  contentRef.current = content;
+
   // Handler for updating individual testimonial fields
   const updateTestimonial = useCallback(
     (
@@ -43,14 +47,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({
       field: "quote" | "author" | "role",
       value: string,
     ) => {
-      const updatedTestimonials = content.testimonials.map((t) =>
+      const updatedTestimonials = contentRef.current.testimonials.map((t) =>
         t.id === testimonialId ? { ...t, [field]: value } : t,
       );
       updateBlock(block.id, {
         content: { testimonials: updatedTestimonials },
       });
     },
-    [block.id, content.testimonials, updateBlock],
+    [block.id, updateBlock],
   );
 
   const containerStyle: React.CSSProperties = {
@@ -81,7 +85,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({
   }) => (
     <div
       className={classNames(
-        "bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm overflow-hidden",
+        // Frost Secondary Card
+        "rounded-xl p-6 overflow-hidden",
+        "bg-white/60 dark:bg-white/5",
+        "backdrop-blur-lg",
+        "border border-slate-200/50 dark:border-white/10",
+        "shadow-[0_2px_12px_rgba(0,0,0,0.04)]",
+        "hover:bg-white/80 dark:hover:bg-white/10",
+        "transition-all duration-200 ease-out",
         isCarousel ? "mx-auto max-w-2xl" : "",
       )}
     >
@@ -121,7 +132,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
       {/* Author */}
       <div className="flex items-center gap-3">
         {content.showAvatar && (
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 flex-shrink-0">
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100/80 dark:bg-white/5 flex-shrink-0">
             {testimonial.avatar ? (
               <img
                 src={testimonial.avatar}
@@ -169,10 +180,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({
     return (
       <div style={containerStyle}>
         <div className="max-w-4xl mx-auto relative">
-          {/* Navigation */}
+          {/* Navigation - Frost Icon Buttons */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 w-10 h-10 bg-white dark:bg-slate-800 rounded-full shadow-lg flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 w-10 h-10 rounded-full flex items-center justify-center bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 ease-out"
           >
             <ChevronLeftIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
           </button>
@@ -184,7 +195,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 w-10 h-10 bg-white dark:bg-slate-800 rounded-full shadow-lg flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 w-10 h-10 rounded-full flex items-center justify-center bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 ease-out"
           >
             <ChevronRightIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
           </button>
