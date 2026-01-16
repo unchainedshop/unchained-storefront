@@ -1,0 +1,194 @@
+{
+  "id": "page_1768533536138",
+  "title": {
+    "de": "Untitled Page"
+  },
+  "slug": "page-1768533536138",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768533541221_w84wr5oz2",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "1fr",
+                "1fr",
+                "1fr"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768533548504_sze2a67cu",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            },
+            {
+              "blockId": "block_1768533552921_8zvfgzz34",
+              "placement": {
+                "colStart": 3,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 3
+              }
+            },
+            {
+              "blockId": "block_1768533558854_payqoscoo",
+              "placement": {
+                "colStart": 4,
+                "rowStart": 1,
+                "colSpan": 2,
+                "rowSpan": 2
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768533548504_sze2a67cu",
+          "type": "custom-html",
+          "content": {
+            "html": "<div>Custom HTML content</div>",
+            "css": ""
+          },
+          "style": {
+            "padding": {
+              "top": 24,
+              "right": 24,
+              "bottom": 24,
+              "left": 24
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            },
+            "backgroundColor": "#8983F3"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768533552921_8zvfgzz34",
+          "type": "custom-html",
+          "content": {
+            "html": "<div>Custom HTML content</div>",
+            "css": ""
+          },
+          "style": {
+            "padding": {
+              "top": 24,
+              "right": 24,
+              "bottom": 24,
+              "left": 24
+            },
+            "margin": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            },
+            "backgroundColor": "#8983F3",
+            "textColor": "#0f172a"
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768533558854_payqoscoo",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768393235289_s9sq7k.webp",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8,
+            "backgroundColor": "#6B64E8"
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768533660588_ppxxfxg5z",
+      "type": "image",
+      "content": {
+        "src": "",
+        "alt": "",
+        "aspectRatio": "original",
+        "objectFit": "cover"
+      },
+      "style": {
+        "borderRadius": 8
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-16T03:18:56.138Z",
+  "updatedAt": "2026-01-16T03:22:31.148Z",
+  "versions": []
+}

@@ -42,7 +42,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
     return (
       <div style={containerStyle}>
         <div className="max-w-2xl mx-auto text-center">
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/40 dark:to-green-800/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_4px_16px_rgba(34,197,94,0.15)]">
             <svg
               className="w-8 h-8 text-green-600 dark:text-green-400"
               fill="none"
@@ -78,11 +78,11 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder={content.placeholder}
           required
-          className="flex-1 px-4 py-3 rounded-xl bg-white/80 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/40 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-300/50 dark:focus:ring-slate-600/50 focus:border-slate-300 dark:focus:border-slate-600 transition-all duration-200 ease-out"
+          className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-slate-600 focus:border-slate-300 dark:focus:border-slate-600 transition-all duration-200 ease-out shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]"
         />
         <button
           type="submit"
-          className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 ease-out whitespace-nowrap"
+          className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] transition-all duration-200 ease-out whitespace-nowrap"
         >
           {content.buttonText}
         </button>
@@ -152,11 +152,11 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={content.placeholder}
                 required
-                className="w-full px-5 py-4 text-lg rounded-xl bg-white/80 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/40 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-300/50 dark:focus:ring-slate-600/50 transition-all duration-200 ease-out"
+                className="w-full px-5 py-4 text-lg rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-slate-600 transition-all duration-200 ease-out shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]"
               />
               <button
                 type="submit"
-                className="w-full px-6 py-4 text-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 ease-out"
+                className="w-full px-6 py-4 text-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] transition-all duration-200 ease-out"
               >
                 {content.buttonText}
               </button>
@@ -220,11 +220,11 @@ const Newsletter: React.FC<NewsletterProps> = ({ block, isPreview }) => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={content.placeholder}
               required
-              className="flex-1 px-4 py-3 rounded-xl bg-white/80 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/40 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-300/50 dark:focus:ring-slate-600/50 transition-all duration-200 ease-out"
+              className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-slate-600 transition-all duration-200 ease-out shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]"
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 ease-out whitespace-nowrap"
+              className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] transition-all duration-200 ease-out whitespace-nowrap"
             >
               {content.buttonText}
             </button>

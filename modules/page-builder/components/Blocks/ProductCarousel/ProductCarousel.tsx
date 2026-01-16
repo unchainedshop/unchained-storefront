@@ -112,16 +112,16 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
             <button
               onClick={handlePrev}
               disabled={currentIndex === 0}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-out"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-11 h-11 rounded-full flex items-center justify-center bg-gradient-to-br from-white to-slate-100 dark:from-slate-700 dark:to-slate-800 border border-slate-200/80 dark:border-slate-600/50 shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.12)] hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200"
             >
-              <ChevronLeftIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+              <ChevronLeftIcon className="w-5 h-5 text-slate-600 dark:text-slate-300" />
             </button>
             <button
               onClick={handleNext}
               disabled={currentIndex >= maxIndex}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-out"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-11 h-11 rounded-full flex items-center justify-center bg-gradient-to-br from-white to-slate-100 dark:from-slate-700 dark:to-slate-800 border border-slate-200/80 dark:border-slate-600/50 shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.12)] hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200"
             >
-              <ChevronRightIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+              <ChevronRightIcon className="w-5 h-5 text-slate-600 dark:text-slate-300" />
             </button>
           </>
         )}
@@ -136,7 +136,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
           >
             {products.map((product) => (
               <div key={product.id} className="flex-shrink-0 w-1/4 group">
-                <div className="rounded-2xl overflow-hidden bg-white/80 dark:bg-white/5 backdrop-blur-xl backdrop-saturate-150 border border-slate-200/60 dark:border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)] hover:border-slate-300/80 dark:hover:border-white/20 transition-all duration-300 ease-out">
+                <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 border border-slate-200/80 dark:border-slate-700/50 shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 ease-out">
                   <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50">
                     {product?.media?.length ? (
                       <img
@@ -151,7 +151,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
                     )}
                   </div>
                   <div className="p-4">
-                    <h3 className="font-medium text-slate-900 dark:text-white truncate group-hover:text-slate-700 dark:group-hover:text-slate-100 transition-colors">
+                    <h3 className="font-medium text-slate-900 dark:text-white truncate">
                       {product?.texts.title}
                     </h3>
                     <p className="mt-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-100/80 dark:bg-white/5 px-2 py-0.5 rounded-md inline-block">
@@ -166,15 +166,15 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ block }) => {
 
         {/* Dots */}
         {content.showDots && (
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2.5 mt-8">
             {Array.from({ length: maxIndex + 1 }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
+                className={`rounded-full transition-all duration-200 ${
                   index === currentIndex
-                    ? "bg-slate-900 dark:bg-white"
-                    : "bg-slate-300 dark:bg-slate-600"
+                    ? "w-6 h-2 bg-slate-800 dark:bg-white"
+                    : "w-2 h-2 bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                 }`}
               />
             ))}

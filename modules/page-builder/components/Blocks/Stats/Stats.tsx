@@ -116,7 +116,7 @@ const Stats: React.FC<StatsProps> = ({
         return (
           <div
             key={stat.id}
-            className="rounded-xl p-8 bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200/50 dark:border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-200 ease-out"
+            className="rounded-2xl p-8 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 border border-slate-200/80 dark:border-slate-700/50 shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out"
           >
             {renderValue(
               "text-4xl md:text-5xl font-bold mb-2",

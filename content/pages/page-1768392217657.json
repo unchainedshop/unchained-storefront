@@ -34,57 +34,6 @@
       "responsive": {}
     },
     {
-      "id": "block_1768392220547_16v9uw6u2",
-      "type": "columns",
-      "content": {
-        "de": {
-          "columns": 2,
-          "gap": 48,
-          "layout": "equal"
-        }
-      },
-      "style": {
-        "padding": {
-          "top": 64,
-          "right": 24,
-          "bottom": 64,
-          "left": 24
-        }
-      },
-      "responsive": {},
-      "children": [
-        {
-          "id": "block_1768392220547_jujl7mwnt",
-          "type": "image",
-          "content": {
-            "de": {
-              "src": "",
-              "alt": "About us image",
-              "aspectRatio": "4:3"
-            }
-          },
-          "style": {
-            "borderRadius": 12
-          },
-          "responsive": {}
-        },
-        {
-          "id": "block_1768392220547_dvbwgt579",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<p>## Who We Are We are a passionate team dedicated to creating products that make a difference in people's lives. Founded in 2010, we've grown from a small startup to a trusted brand serving customers worldwide. Our mission is simple: deliver exceptional quality at fair prices while treating our customers like family.</p>",
-              "headingLevel": "h2"
-            }
-          },
-          "style": {
-            "alignmentY": "center"
-          },
-          "responsive": {}
-        }
-      ]
-    },
-    {
       "id": "block_1768392220547_qgsl6wcao",
       "type": "text-content",
       "content": {
@@ -105,73 +54,119 @@
       "responsive": {}
     },
     {
-      "id": "block_1768392220547_jef3yuta6",
-      "type": "columns",
+      "id": "block_1768533336303_0pc0s0i8k",
+      "type": "freeform-canvas",
       "content": {
         "de": {
-          "columns": 3,
-          "gap": 32,
-          "layout": "equal"
+          "canvasWidth": 1200,
+          "canvasHeight": 600,
+          "backgroundColor": "#ffffff",
+          "backgroundImage": "",
+          "elements": [
+            {
+              "id": "el_1768533340487_eenwvi9",
+              "type": "text",
+              "bounds": {
+                "x": 50,
+                "y": 50,
+                "width": 250,
+                "height": 80
+              },
+              "style": {
+                "backgroundColor": "transparent"
+              },
+              "props": {
+                "content": "Double-click to edit",
+                "fontSize": 16,
+                "fontWeight": "normal",
+                "color": "#1f2937",
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "padding": 12
+              },
+              "zIndex": 1
+            },
+            {
+              "id": "el_1768533341587_ntr1r9l",
+              "type": "image",
+              "bounds": {
+                "x": 420,
+                "y": 340,
+                "width": 300,
+                "height": 200
+              },
+              "style": {
+                "borderRadius": 8,
+                "opacity": 1
+              },
+              "props": {
+                "src": "/api/media/files/2026/01/media_1768521003393_wf8d68.webp",
+                "alt": "2026/01/media_1768521003393_wf8d68.webp",
+                "objectFit": "cover"
+              },
+              "zIndex": 2
+            },
+            {
+              "id": "el_1768533343420_0ioi2dd",
+              "type": "button",
+              "bounds": {
+                "x": 620,
+                "y": 180,
+                "width": 160,
+                "height": 48
+              },
+              "style": {
+                "borderRadius": 6
+              },
+              "props": {
+                "label": "Button",
+                "href": "#",
+                "variant": "primary",
+                "backgroundColor": "#3b82f6",
+                "textColor": "#ffffff",
+                "fontSize": 14,
+                "padding": {
+                  "x": 24,
+                  "y": 12
+                }
+              },
+              "zIndex": 3
+            }
+          ],
+          "snapConfig": {
+            "snapToElements": true,
+            "snapToCenter": true,
+            "snapToGrid": true,
+            "gridSize": 20,
+            "threshold": 8
+          },
+          "showGrid": true,
+          "gridSize": 20,
+          "responsive": true,
+          "minScale": 0.5
         }
       },
       "style": {
         "padding": {
-          "top": 16,
+          "top": 24,
           "right": 24,
-          "bottom": 64,
+          "bottom": 24,
           "left": 24
-        }
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "borderRadius": 8
       },
-      "responsive": {},
-      "children": [
-        {
-          "id": "block_1768392220547_f5r07mqe8",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<p>### Quality First We never compromise on quality. Every product is crafted with care.</p>",
-              "headingLevel": "h3"
-            }
-          },
-          "style": {
-            "alignmentX": "center"
-          },
-          "responsive": {}
-        },
-        {
-          "id": "block_1768392220547_iq6v5wuv7",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<p>### Customer Focus Your satisfaction is our priority. We're here to help 24/7.</p>",
-              "headingLevel": "h3"
-            }
-          },
-          "style": {
-            "alignmentX": "center"
-          },
-          "responsive": {}
-        },
-        {
-          "id": "block_1768392220547_d1xo997sl",
-          "type": "text-content",
-          "content": {
-            "de": {
-              "content": "<p>### Sustainability We're committed to reducing our environmental footprint.</p>",
-              "headingLevel": "h3"
-            }
-          },
-          "style": {
-            "alignmentX": "center"
-          },
-          "responsive": {}
-        }
-      ]
+      "responsive": {}
     }
   ],
   "seo": {},
   "createdAt": "2026-01-14T12:03:37.657Z",
-  "updatedAt": "2026-01-14T16:01:20.909Z",
+  "updatedAt": "2026-01-16T03:15:55.651Z",
   "versions": [],
   "publishedAt": "2026-01-14T16:01:20.899Z",
   "translations": {

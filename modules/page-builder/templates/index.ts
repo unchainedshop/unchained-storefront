@@ -211,7 +211,7 @@ export const pageTemplates: PageTemplate[] = [
                   type: "text-content",
                   content: {
                     content:
-                      "## Design\n## Philosophy\n\nWe believe in the power of restraint. Every element serves a purpose.",
+                      "## The Art of\n## Subtraction\n\nIn a world of excess, we choose essence. Every curve considered. Every material earned its place.",
                   },
                   style: {
                     padding: { top: 32, right: 24, bottom: 32, left: 24 },
@@ -236,7 +236,7 @@ export const pageTemplates: PageTemplate[] = [
                   id: pullQuoteId,
                   type: "text-content",
                   content: {
-                    content: `*"Less, but better"*\n\n— Dieter Rams`,
+                    content: `*"Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away."*\n\n— Antoine de Saint-Exupéry`,
                   },
                   style: {
                     padding: { top: 48, right: 24, bottom: 48, left: 24 },
@@ -253,7 +253,7 @@ export const pageTemplates: PageTemplate[] = [
                   type: "text-content",
                   content: {
                     content:
-                      "### Crafted with intention\n\nEvery decision—from material selection to packaging—reflects our commitment to thoughtful design.",
+                      "### Made to Endure\n\nWe source materials that age with grace—developing character, not wear. Objects that become companions, not disposables.",
                   },
                   style: {
                     padding: { top: 32, right: 24, bottom: 32, left: 24 },
@@ -291,7 +291,7 @@ export const pageTemplates: PageTemplate[] = [
                   type: "text-content",
                   content: {
                     content:
-                      "## The Details Matter\n\nFrom the weight of a button to the fall of a hem, we obsess over the small things. Because when you add up a thousand small decisions made well, you end up with something extraordinary.",
+                      "## Where Craft Meets Calm\n\nWe believe the objects we surround ourselves with shape how we feel. That's why we obsess over every seam, every finish, every moment of interaction. The result? Things that don't just work—they resonate.",
                   },
                   style: {
                     padding: { top: 48, right: 40, bottom: 48, left: 40 },
@@ -371,7 +371,7 @@ export const pageTemplates: PageTemplate[] = [
                   type: "text-content",
                   content: {
                     content:
-                      "# Our Process\n\nWe start with a question: *what if?*\n\nWhat if we could make something that lasts a lifetime? What if every material was chosen with intention? What if less really could be more?\n\nThese questions guide us through months of prototyping, testing, and refinement. We work with artisans who share our values—people who've spent decades mastering their craft.\n\nThe result is something we're proud to put our name on. Something we hope you'll treasure for years to come.",
+                      "# The Slow Path\n\nIn a culture of instant everything, we take our time.\n\nEach piece begins as a conversation—between hand and material, tradition and innovation, what exists and what could be. We prototype relentlessly. We discard more than we keep.\n\nOur makers aren't vendors; they're collaborators. Some have been perfecting their craft longer than we've been alive. They teach us patience. They remind us that *good enough* never is.\n\nWhat emerges is worth the wait. Objects with presence. Things that feel inevitable, as if they were always meant to exist.",
                   },
                   style: {
                     padding: { top: 0, right: 48, bottom: 0, left: 0 },
@@ -404,10 +404,10 @@ export const pageTemplates: PageTemplate[] = [
           id: uid(),
           type: "hero-banner",
           content: {
-            heading: "Experience the Difference",
+            heading: "Begin Your Collection",
             subheading:
-              "Discover our collection of thoughtfully designed pieces.",
-            buttonText: "Shop Now",
+              "Objects that elevate the everyday. Designed with intention, made to last a lifetime.",
+            buttonText: "Explore the Collection",
             buttonLink: "/shop",
             variant: "centered",
           },

@@ -294,7 +294,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
                 <Link
                   key={entry.id}
                   href={link}
-                  className="group block rounded-2xl overflow-hidden bg-white/80 dark:bg-white/5 backdrop-blur-xl backdrop-saturate-150 border border-slate-200/60 dark:border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)] hover:border-slate-300/80 dark:hover:border-white/20 hover:-translate-y-1 transition-all duration-300 ease-out"
+                  className="group block rounded-2xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 border border-slate-200/80 dark:border-slate-700/50 shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 ease-out"
                 >
                   {image && (
                     <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50">
@@ -307,7 +307,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
                   )}
                   <div className="p-5">
                     <h3
-                      className="font-semibold text-lg mb-2 group-hover:text-slate-700 dark:group-hover:text-slate-100 transition-colors line-clamp-2"
+                      className="font-semibold text-lg mb-2 line-clamp-2"
                       style={{ color: style.textColor }}
                     >
                       {title}
@@ -318,8 +318,11 @@ const CollectionList: React.FC<CollectionListProps> = ({
                       </p>
                     )}
                     {content.showReadMore && (
-                      <span className="inline-block mt-3 text-sm font-medium text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
-                        {content.readMoreText || "Read more"} &rarr;
+                      <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-slate-900 dark:text-white group-hover:gap-2 transition-all">
+                        {content.readMoreText || "Read more"}
+                        <span className="transition-transform group-hover:translate-x-0.5">
+                          &rarr;
+                        </span>
                       </span>
                     )}
                   </div>
@@ -344,7 +347,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
                 <Link
                   key={entry.id}
                   href={link}
-                  className="group flex gap-6 p-4 rounded-2xl bg-white/80 dark:bg-white/5 backdrop-blur-xl backdrop-saturate-150 border border-slate-200/60 dark:border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)] hover:border-slate-300/80 dark:hover:border-white/20 transition-all duration-300 ease-out"
+                  className="group flex gap-6 p-4 rounded-2xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 border border-slate-200/80 dark:border-slate-700/50 shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out"
                 >
                   {image && (
                     <div className="w-32 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50">
@@ -357,7 +360,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
                   )}
                   <div className="flex-1 min-w-0">
                     <h3
-                      className="font-semibold text-lg mb-1 group-hover:text-slate-700 dark:group-hover:text-slate-100 transition-colors"
+                      className="font-semibold text-lg mb-1"
                       style={{ color: style.textColor }}
                     >
                       {title}

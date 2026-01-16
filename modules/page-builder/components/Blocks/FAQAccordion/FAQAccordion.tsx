@@ -117,14 +117,14 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
             return (
               <div
                 key={item.id}
-                className="rounded-xl overflow-hidden bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200/50 dark:border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 ease-out"
+                className="rounded-2xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 border border-slate-200/80 dark:border-slate-700/50 shadow-[0_4px_16px_rgba(0,0,0,0.05)] transition-shadow duration-300"
               >
                 <div
                   onClick={() => !canEdit && toggleItem(item.id)}
                   className={classNames(
-                    "w-full flex items-center justify-between px-6 py-5 text-left transition-colors",
+                    "w-full flex items-center justify-between px-6 py-5 text-left",
                     !canEdit &&
-                      "cursor-pointer hover:bg-white/80 dark:hover:bg-white/10",
+                      "cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/50",
                   )}
                 >
                   <div className="flex-1 pr-4">
@@ -147,11 +147,11 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
                       e.stopPropagation();
                       toggleItem(item.id);
                     }}
-                    className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700/50 hover:bg-slate-200 dark:hover:bg-slate-600/50 transition-colors"
                   >
                     <ChevronDownIcon
                       className={classNames(
-                        "w-5 h-5 text-slate-500 flex-shrink-0 transition-transform duration-200",
+                        "w-4 h-4 text-slate-500 dark:text-slate-400 flex-shrink-0 transition-transform duration-200",
                         isOpen && "rotate-180",
                       )}
                     />
@@ -163,7 +163,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({
                     isOpen ? "max-h-[500px]" : "max-h-0",
                   )}
                 >
-                  <div className="px-6 pb-5">
+                  <div className="px-6 pb-5 border-t border-slate-100 dark:border-slate-700/50 pt-4">
                     <InlineRichText
                       blockId={block.id}
                       field={`items.${item.id}.answer`}

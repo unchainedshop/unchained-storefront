@@ -4059,10 +4059,18 @@ const ColorInputRow: React.FC<{
 }> = ({ label, value, onChange, placeholder = "#000" }) => {
   const { settings } = useAdminSettings();
 
-  // Build presets: brand color first, then custom presets from settings
+  // Build presets: brand color first, theme colors, then custom presets
   const presets = React.useMemo(() => {
     const result: { color: string; label: string; isBrand?: boolean }[] = [
       { color: settings.primaryColor, label: "Brand", isBrand: true },
+      // Theme colors
+      { color: "#ffffff", label: "White" },
+      { color: "#f8fafc", label: "Slate 50" },
+      { color: "#f1f5f9", label: "Slate 100" },
+      { color: "#e2e8f0", label: "Slate 200" },
+      { color: "#1e293b", label: "Slate 800" },
+      { color: "#0f172a", label: "Slate 900" },
+      { color: "#000000", label: "Black" },
     ];
     // Add custom presets from settings
     (settings.colorPresets || []).forEach((preset) => {
