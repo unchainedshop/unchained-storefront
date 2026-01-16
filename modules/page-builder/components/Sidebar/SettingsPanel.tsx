@@ -1227,31 +1227,101 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({
         </div>,
       );
 
-    case "spacer":
+    case "spacer": {
+      // Tailwind spacing presets (matching the spacing scale)
+      const spacingPresets = [
+        { value: 8, desc: "XS" },
+        { value: 16, desc: "S" },
+        { value: 24, desc: "M" },
+        { value: 32, desc: "L" },
+        { value: 48, desc: "XL" },
+        { value: 64, desc: "2XL" },
+        { value: 96, desc: "3XL" },
+        { value: 128, desc: "4XL" },
+      ];
+      const currentHeight = content.height || 48;
+      const currentMobileHeight = content.mobileHeight || content.height || 24;
+
+      const SpacingButton = ({
+        preset,
+        isSelected,
+        onClick,
+      }: {
+        preset: { value: number; desc: string };
+        isSelected: boolean;
+        onClick: () => void;
+      }) => (
+        <button
+          onClick={onClick}
+          className={classNames(
+            "relative flex flex-col items-center justify-center py-2.5 px-1 rounded-xl border transition-all duration-200",
+            isSelected
+              ? "bg-gradient-to-br from-slate-800 to-slate-900 dark:from-white dark:to-slate-100 border-slate-700 dark:border-slate-200 shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+              : "bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 border-slate-200/80 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)]",
+          )}
+        >
+          <span
+            className={classNames(
+              "text-[10px] font-medium",
+              isSelected
+                ? "text-slate-400 dark:text-slate-500"
+                : "text-slate-400 dark:text-slate-500",
+            )}
+          >
+            {preset.desc}
+          </span>
+          <span
+            className={classNames(
+              "text-sm font-semibold",
+              isSelected
+                ? "text-white dark:text-slate-900"
+                : "text-slate-700 dark:text-slate-300",
+            )}
+          >
+            {preset.value}
+          </span>
+          {/* Visual height indicator bar */}
+          <div
+            className={classNames(
+              "absolute bottom-1 left-1/2 -translate-x-1/2 w-0.5 rounded-full transition-colors",
+              isSelected
+                ? "bg-white/30 dark:bg-slate-900/30"
+                : "bg-slate-200 dark:bg-slate-700",
+            )}
+            style={{ height: Math.min(preset.value / 8, 12) }}
+          />
+        </button>
+      );
+
       return wrapWithGridEditor(
         <div>
-          <Section title="Size">
-            <PropertyRow label="Height">
-              <MiniNumberInput
-                value={content.height || 48}
-                min={8}
-                max={200}
-                onChange={(v) => onChange("height", v)}
-                suffix="px"
-              />
-            </PropertyRow>
-            <PropertyRow label="Mobile">
-              <MiniNumberInput
-                value={content.mobileHeight || content.height || 24}
-                min={8}
-                max={200}
-                onChange={(v) => onChange("mobileHeight", v)}
-                suffix="px"
-              />
-            </PropertyRow>
+          <Section title="Desktop">
+            <div className="grid grid-cols-4 gap-2">
+              {spacingPresets.map((preset) => (
+                <SpacingButton
+                  key={preset.value}
+                  preset={preset}
+                  isSelected={currentHeight === preset.value}
+                  onClick={() => onChange("height", preset.value)}
+                />
+              ))}
+            </div>
+          </Section>
+          <Section title="Mobile">
+            <div className="grid grid-cols-4 gap-2">
+              {spacingPresets.map((preset) => (
+                <SpacingButton
+                  key={preset.value}
+                  preset={preset}
+                  isSelected={currentMobileHeight === preset.value}
+                  onClick={() => onChange("mobileHeight", preset.value)}
+                />
+              ))}
+            </div>
           </Section>
         </div>,
       );
+    }
 
     case "grid": {
       const gridContent = content as unknown as GridContent;

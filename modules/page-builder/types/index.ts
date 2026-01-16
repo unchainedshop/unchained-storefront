@@ -658,6 +658,7 @@ export interface FeatureGridContent {
   subheading?: string;
   features: FeatureItem[];
   columns: 2 | 3 | 4;
+  mobileColumns?: 1 | 2;
   iconStyle: "none" | "circle" | "square" | "rounded";
   alignment: "left" | "center";
 }

@@ -85,12 +85,18 @@ function getBlockContent<T>(block: PageBlock, locale: string): T | null {
   );
 }
 
-function countBlocks(blocks: PageBlock[]): number {
+// Layout/container blocks that don't count as "content" blocks
+const LAYOUT_BLOCK_TYPES: BlockType[] = ["grid", "section", "spacer"];
+
+function countBlocks(blocks: PageBlock[], countLayoutBlocks = false): number {
   let count = 0;
   for (const block of blocks) {
-    count++;
+    // Only count content blocks, not layout containers
+    if (countLayoutBlocks || !LAYOUT_BLOCK_TYPES.includes(block.type)) {
+      count++;
+    }
     if (block.children) {
-      count += countBlocks(block.children);
+      count += countBlocks(block.children, countLayoutBlocks);
     }
   }
   return count;
@@ -135,15 +141,29 @@ function getAllBlocks(blocks: PageBlock[]): PageBlock[] {
 }
 
 function extractTextFromBlock(block: PageBlock, locale: string): string {
-  const content = block.content as Record<string, unknown>;
+  // Content is LocalizedContent: { en: { heading: "Hello" }, de: { heading: "Hallo" } }
+  const localizedContent = block.content as unknown as Record<
+    string,
+    Record<string, unknown>
+  >;
+  const content =
+    localizedContent[locale] ||
+    localizedContent["en"] ||
+    Object.values(localizedContent)[0];
+
+  if (!content || typeof content !== "object") {
+    return "";
+  }
+
   const texts: string[] = [];
 
-  // Extract text from common content fields
+  // Extract text from common content fields (direct strings)
   const textFields = [
     "heading",
     "subheading",
     "text",
     "body",
+    "content", // TextContent block uses this
     "title",
     "description",
     "quote",
@@ -151,18 +171,19 @@ function extractTextFromBlock(block: PageBlock, locale: string): string {
     "secondaryButtonText",
     "caption",
     "label",
+    "question",
+    "answer",
+    "name",
+    "placeholder",
+    "successMessage",
+    "consentText",
+    "expiredMessage",
   ];
 
   for (const field of textFields) {
     const value = content[field];
     if (typeof value === "string" && value) {
       texts.push(value);
-    } else if (typeof value === "object" && value) {
-      // Localized string
-      const localized = value as Record<string, string>;
-      const text =
-        localized[locale] || localized["en"] || Object.values(localized)[0];
-      if (text) texts.push(text);
     }
   }
 
@@ -174,6 +195,9 @@ function extractTextFromBlock(block: PageBlock, locale: string): string {
     "items",
     "stats",
     "tiers",
+    "logos",
+    "tabs",
+    "members",
   ];
   for (const field of arrayFields) {
     const arr = content[field];
@@ -185,7 +209,9 @@ function extractTextFromBlock(block: PageBlock, locale: string): string {
             if (
               typeof val === "string" &&
               val.length > 0 &&
-              val.length < 1000
+              val.length < 2000 &&
+              !val.startsWith("http") && // Skip URLs
+              !val.startsWith("/") // Skip paths
             ) {
               texts.push(val);
             }
@@ -206,6 +232,91 @@ function countWords(text: string): number {
   return words.length;
 }
 
+function isRealImage(url: string | undefined | null): boolean {
+  if (!url || typeof url !== "string") return false;
+  // Skip placeholder/default images
+  const placeholderPatterns = [
+    "cdn.simpleicons.org",
+    "via.placeholder.com",
+    "placehold.co",
+    "placeholder.com",
+    "dummyimage.com",
+    "picsum.photos",
+    "placekitten.com",
+    "loremflickr.com",
+  ];
+  const lowerUrl = url.toLowerCase();
+  return !placeholderPatterns.some((pattern) => lowerUrl.includes(pattern));
+}
+
+function countImagesInBlock(block: PageBlock, locale: string): number {
+  let count = 0;
+
+  // Get localized content
+  const localizedContent = block.content as unknown as Record<
+    string,
+    Record<string, unknown>
+  >;
+  const content =
+    localizedContent[locale] ||
+    localizedContent["en"] ||
+    Object.values(localizedContent)[0];
+
+  // Count background images from style
+  if (isRealImage(block.style?.backgroundImage)) count++;
+
+  if (!content || typeof content !== "object") return count;
+
+  // Image block
+  if (block.type === "image" && isRealImage(content.src as string)) count++;
+
+  // Hero banner
+  if (block.type === "hero-banner") {
+    if (isRealImage(content.heroImage as string)) count++;
+    if (Array.isArray(content.gridImages)) {
+      count += (content.gridImages as string[]).filter(isRealImage).length;
+    }
+  }
+
+  // Before/After
+  if (block.type === "before-after") {
+    if (isRealImage(content.beforeImage as string)) count++;
+    if (isRealImage(content.afterImage as string)) count++;
+  }
+
+  // Video thumbnails
+  if (
+    (block.type === "video" || block.type === "shoppable-video") &&
+    isRealImage(content.thumbnail as string)
+  ) {
+    count++;
+  }
+
+  // Team members with images (only count real images, not placeholders)
+  if (block.type === "team-grid" && Array.isArray(content.members)) {
+    count += (content.members as Array<{ image?: string }>).filter((m) =>
+      isRealImage(m.image),
+    ).length;
+  }
+
+  // Logo cloud - skip counting logos as they're often placeholder/brand icons
+  // Only count if explicitly uploaded (not simpleicons etc)
+  if (block.type === "logo-cloud" && Array.isArray(content.logos)) {
+    count += (content.logos as Array<{ image?: string }>).filter((l) =>
+      isRealImage(l.image),
+    ).length;
+  }
+
+  // Testimonials with avatars
+  if (block.type === "testimonials" && Array.isArray(content.testimonials)) {
+    count += (content.testimonials as Array<{ avatar?: string }>).filter((t) =>
+      isRealImage(t.avatar),
+    ).length;
+  }
+
+  return count;
+}
+
 function analyzeContent(page: Page, locale: string): ContentStats {
   const allBlocks = getAllBlocks(page.blocks);
 
@@ -219,25 +330,26 @@ function analyzeContent(page: Page, locale: string): ContentStats {
   // Reading time: average 200 words per minute
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
-  // Count images
-  const imageBlocks = findBlocksOfType(page.blocks, ["image"]);
-  const heroBlocks = findBlocksOfType(page.blocks, ["hero-banner"]);
-  let imageCount = imageBlocks.length;
-  // Count hero images
-  for (const hero of heroBlocks) {
-    const content = hero.content as Record<string, unknown>;
-    if (content.heroImage) imageCount++;
-    if (hero.style?.backgroundImage) imageCount++;
+  // Count images from all blocks
+  let imageCount = 0;
+  for (const block of allBlocks) {
+    imageCount += countImagesInBlock(block, locale);
   }
 
-  // Block diversity
-  const blockTypes = new Set(allBlocks.map((b) => b.type)).size;
+  // Count content blocks (exclude layout containers like grid, section, spacer)
+  const contentBlockCount = countBlocks(page.blocks, false);
+
+  // Block diversity (only count content block types)
+  const contentBlocks = allBlocks.filter(
+    (b) => !LAYOUT_BLOCK_TYPES.includes(b.type),
+  );
+  const blockTypes = new Set(contentBlocks.map((b) => b.type)).size;
 
   return {
     wordCount,
     readingTime,
     imageCount,
-    blockCount: allBlocks.length,
+    blockCount: contentBlockCount,
     blockTypes,
   };
 }
@@ -502,7 +614,8 @@ function analyzePerformance(page: Page): CategoryScore {
   let score = 100;
   const maxScore = 100;
 
-  const totalBlocks = countBlocks(page.blocks);
+  // For performance, count ALL blocks including layout containers
+  const totalBlocks = countBlocks(page.blocks, true);
   const nestingDepth = getMaxNestingDepth(page.blocks);
 
   // Block count check (30 points max deduction)

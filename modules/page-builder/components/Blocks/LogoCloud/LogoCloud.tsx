@@ -7,6 +7,7 @@ import React from "react";
 import classNames from "classnames";
 import { PlusIcon, BuildingOfficeIcon } from "@heroicons/react/24/outline";
 import type { PageBlock, LogoCloudContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
 
 interface LogoCloudProps {
   block: PageBlock;
@@ -21,6 +22,8 @@ const LogoCloud: React.FC<LogoCloudProps> = ({
 }) => {
   const content = block.content as unknown as LogoCloudContent;
   const style = block.style;
+  const { state } = usePageBuilder();
+  const isMobileViewport = state.viewport === "mobile";
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: style.backgroundColor,
@@ -29,12 +32,8 @@ const LogoCloud: React.FC<LogoCloudProps> = ({
       : undefined,
   };
 
-  const columnClasses = {
-    3: "grid-cols-3",
-    4: "grid-cols-2 md:grid-cols-4",
-    5: "grid-cols-3 md:grid-cols-5",
-    6: "grid-cols-3 md:grid-cols-6",
-  };
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport ? 3 : content.columns || 5;
 
   if (content.logos.length === 0 && isEditing) {
     return (
@@ -67,10 +66,10 @@ const LogoCloud: React.FC<LogoCloudProps> = ({
 
         {/* Logos Grid */}
         <div
-          className={classNames(
-            "grid gap-8 items-center justify-items-center",
-            columnClasses[content.columns || 5],
-          )}
+          className="grid gap-8 items-center justify-items-center"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
         >
           {content.logos.map((logo) => {
             const LogoContent = (

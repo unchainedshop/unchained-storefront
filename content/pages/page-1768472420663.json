@@ -47,7 +47,7 @@
                     "1fr"
                   ],
                   "rows": [
-                    "auto",
+                    "2fr",
                     "auto",
                     "auto"
                   ]
@@ -182,8 +182,11 @@
               "id": "block_1768529556394_3mktm5krg",
               "type": "image",
               "content": {
-                "alt": "Featured image",
-                "aspectRatio": "auto"
+                "de": {
+                  "alt": "Featured image",
+                  "aspectRatio": "auto",
+                  "src": "/api/media/files/2026/01/media_1768393235289_s9sq7k.webp"
+                }
               },
               "style": {
                 "borderRadius": 16
@@ -291,7 +294,7 @@
               "type": "text-content",
               "content": {
                 "de": {
-                  "content": "<p>## Design ## Philosophy We believe in the power of restraint. Every element serves a purpose.</p>"
+                  "content": "<p>## Design ## Philosophy We believe in the power of restraint. Every element serves a purpose.asflkjas flkjas fölkasjfd aslökfj aslködfj asdlkfjasdl öfasdf</p>"
                 }
               },
               "style": {
@@ -414,6 +417,54 @@
       "hidden": true
     },
     {
+      "id": "block_1768555361978_2u61tl44q",
+      "type": "spacer",
+      "content": {
+        "height": 48,
+        "mobileHeight": 24
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768555353595_l8xj6b7lw",
+      "type": "spacer",
+      "content": {
+        "height": 48,
+        "mobileHeight": 24
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768555322028_w7j6qejsq",
+      "type": "product-carousel",
+      "content": {
+        "source": "auto",
+        "limit": 8,
+        "autoPlay": false,
+        "autoPlaySpeed": 5000,
+        "showArrows": true,
+        "showDots": true
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundColor": "#B0ACFA"
+      },
+      "responsive": {}
+    },
+    {
       "id": "block_1768525540252_a86hcjkik",
       "type": "spacer",
       "content": {
@@ -534,6 +585,129 @@
       ]
     },
     {
+      "id": "block_1768555760478_1ipr8ior6",
+      "type": "grid",
+      "content": {
+        "de": {
+          "template": {
+            "desktop": {
+              "columns": [
+                "1fr",
+                "1fr"
+              ],
+              "rows": [
+                "1fr"
+              ]
+            }
+          },
+          "gap": 24,
+          "childPlacements": [
+            {
+              "blockId": "block_1768555766011_exfufnqf6",
+              "placement": {
+                "colStart": 1,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            },
+            {
+              "blockId": "block_1768555770078_vxht5h5a5",
+              "placement": {
+                "colStart": 2,
+                "rowStart": 1,
+                "colSpan": 1,
+                "rowSpan": 1
+              }
+            }
+          ],
+          "autoFlow": "row",
+          "justifyItems": "stretch",
+          "alignItems": "stretch"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": [
+        {
+          "id": "block_1768555766011_exfufnqf6",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768516086478_cqir25.png",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        },
+        {
+          "id": "block_1768555770078_vxht5h5a5",
+          "type": "image",
+          "content": {
+            "de": {
+              "src": "/api/media/files/2026/01/media_1768521003393_wf8d68.webp",
+              "alt": "",
+              "aspectRatio": "original",
+              "objectFit": "cover"
+            }
+          },
+          "style": {
+            "borderRadius": 8
+          },
+          "responsive": {}
+        }
+      ]
+    },
+    {
+      "id": "block_1768555752011_cauk39eag",
+      "type": "newsletter",
+      "content": {
+        "heading": "Subscribe & Save 10%",
+        "subheading": "Join our newsletter for exclusive deals",
+        "buttonText": "Subscribe",
+        "placeholder": "Enter your email",
+        "successMessage": "Thank you for subscribing!",
+        "showConsent": true,
+        "consentText": "I agree to receive marketing emails"
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignmentX": "center",
+        "backgroundColor": "#f1f5f9"
+      },
+      "responsive": {}
+    },
+    {
       "id": "block_1768531201882_3gmte7tqr",
       "type": "newsletter",
       "content": {
@@ -578,7 +752,7 @@
       "type": "hero-banner",
       "content": {
         "de": {
-          "heading": "Experience the Difference",
+          "heading": "Experience the Di asdfasdfasdf fference",
           "subheading": "Discover our collection of thoughtfully designed pieces.",
           "buttonText": "Shop Now",
           "buttonLink": "/shop",
@@ -627,6 +801,6 @@
     }
   },
   "createdAt": "2026-01-15T10:20:20.663Z",
-  "updatedAt": "2026-01-16T02:40:04.037Z",
+  "updatedAt": "2026-01-16T09:30:57.876Z",
   "versions": []
 }

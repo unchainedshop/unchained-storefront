@@ -26,6 +26,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
   const style = block.style;
   const { updateBlock, state } = usePageBuilder();
   const canEdit = isEditing && !state.isPreviewMode;
+  const isMobileViewport = state.viewport === "mobile";
 
   // Handler for updating individual tier fields
   const updateTier = useCallback(
@@ -75,11 +76,8 @@ const PricingTable: React.FC<PricingTableProps> = ({
       : undefined,
   };
 
-  const columnClasses = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-3",
-    4: "md:grid-cols-4",
-  };
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport ? 1 : content.tiers?.length || 3;
 
   if (content.tiers.length === 0 && isEditing) {
     return (
@@ -127,10 +125,10 @@ const PricingTable: React.FC<PricingTableProps> = ({
 
         {/* Tiers Grid */}
         <div
-          className={classNames(
-            "grid gap-6",
-            columnClasses[content.columns || 3],
-          )}
+          className="grid gap-6"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
         >
           {content.tiers.map((tier) => (
             <div

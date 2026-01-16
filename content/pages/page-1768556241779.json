@@ -1,0 +1,1131 @@
+{
+  "id": "page_1768556241779",
+  "title": {
+    "de": "all components"
+  },
+  "slug": "page-1768556241779",
+  "status": "draft",
+  "blocks": [
+    {
+      "id": "block_1768556244029_j0wf67tlg",
+      "type": "spacer",
+      "content": {
+        "height": 48,
+        "mobileHeight": 24
+      },
+      "style": {},
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556351462_hbmqxvhlz",
+      "type": "category-grid",
+      "content": {
+        "categoryIds": [],
+        "columns": 3,
+        "mobileColumns": 1,
+        "showTitle": true,
+        "layout": "grid"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556368195_tlbghae5h",
+      "type": "instagram-feed",
+      "content": {
+        "heading": "Follow Us on Instagram",
+        "subheading": "",
+        "username": "",
+        "accessToken": "",
+        "posts": [],
+        "columns": 4,
+        "mobileColumns": 2,
+        "gap": 8,
+        "showCaption": "hover",
+        "limit": 8,
+        "layout": "grid",
+        "showFollowButton": true,
+        "followButtonText": "",
+        "aspectRatio": "square"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556362079_dzfjv0p9e",
+      "type": "feature-grid",
+      "content": {
+        "de": {
+          "heading": "Why Choose Us",
+          "subheading": "Everything you need to succeed",
+          "columns": 3,
+          "iconStyle": "circle",
+          "alignment": "center",
+          "features": [
+            {
+              "id": "feat_1",
+              "icon": "bolt",
+              "title": "Lightning Fast",
+              "description": "Optimized for speed and performance."
+            },
+            {
+              "id": "feat_2",
+              "icon": "shield-check",
+              "title": "Secure by Default",
+              "description": "Enterprise-grade security built in."
+            },
+            {
+              "id": "feat_3",
+              "icon": "sparkles",
+              "title": "Easy to Use",
+              "description": "Intuitive interface for everyone."
+            }
+          ]
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556357012_s68bnqahi",
+      "type": "testimonials",
+      "content": {
+        "de": {
+          "testimonials": [
+            {
+              "id": "1",
+              "quote": "Amazing products and fast shipping!",
+              "author": "Jane Doe",
+              "role": "Verified Customer",
+              "rating": 5
+            },
+            {
+              "id": "2",
+              "quote": "Great customer service and quality items.",
+              "author": "John Smith",
+              "role": "Verified Customer",
+              "rating": 5
+            }
+          ],
+          "layout": "carousel",
+          "showRating": true,
+          "showAvatar": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundColor": "#ffffff"
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556354245_3cz4lhkr3",
+      "type": "newsletter",
+      "content": {
+        "heading": "Subscribe & Save 10%",
+        "subheading": "Join our newsletter for exclusive deals",
+        "buttonText": "Subscribe",
+        "placeholder": "Enter your email",
+        "successMessage": "Thank you for subscribing!",
+        "showConsent": true,
+        "consentText": "I agree to receive marketing emails"
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignmentX": "center",
+        "backgroundColor": "#f1f5f9"
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556305095_9hfhbxbl1",
+      "type": "size-guide",
+      "content": {
+        "heading": "Size Guide",
+        "subheading": "Find your perfect fit",
+        "measurementColumns": [
+          "Chest",
+          "Waist",
+          "Hips",
+          "Length"
+        ],
+        "sizes": [
+          {
+            "id": "size_xs",
+            "size": "XS",
+            "measurements": {
+              "Chest": "86",
+              "Waist": "71",
+              "Hips": "91",
+              "Length": "66"
+            }
+          },
+          {
+            "id": "size_s",
+            "size": "S",
+            "measurements": {
+              "Chest": "91",
+              "Waist": "76",
+              "Hips": "96",
+              "Length": "68"
+            }
+          },
+          {
+            "id": "size_m",
+            "size": "M",
+            "measurements": {
+              "Chest": "97",
+              "Waist": "81",
+              "Hips": "102",
+              "Length": "70"
+            }
+          },
+          {
+            "id": "size_l",
+            "size": "L",
+            "measurements": {
+              "Chest": "102",
+              "Waist": "86",
+              "Hips": "107",
+              "Length": "72"
+            }
+          },
+          {
+            "id": "size_xl",
+            "size": "XL",
+            "measurements": {
+              "Chest": "107",
+              "Waist": "91",
+              "Hips": "112",
+              "Length": "74"
+            }
+          }
+        ],
+        "unit": "cm",
+        "showUnitToggle": true,
+        "showHowToMeasure": true,
+        "howToMeasureContent": "<p><strong>Chest:</strong> Measure around the fullest part of your chest.</p><p><strong>Waist:</strong> Measure around your natural waistline.</p><p><strong>Hips:</strong> Measure around the fullest part of your hips.</p>",
+        "howToMeasureImage": "",
+        "tableStyle": "striped"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556344745_qg5mzasls",
+      "type": "grid",
+      "content": {
+        "template": {
+          "desktop": {
+            "columns": [
+              "1fr",
+              "1fr"
+            ],
+            "rows": [
+              "1fr"
+            ]
+          }
+        },
+        "gap": 24,
+        "childPlacements": [],
+        "autoFlow": "row",
+        "justifyItems": "stretch",
+        "alignItems": "stretch"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "minHeight": 300
+      },
+      "responsive": {},
+      "children": []
+    },
+    {
+      "id": "block_1768556342145_t07mztfeu",
+      "type": "text-content",
+      "content": {
+        "de": {
+          "content": "<p>Enter your text here...</p>",
+          "headingLevel": "p"
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556336829_4vihfb892",
+      "type": "product-carousel",
+      "content": {
+        "source": "auto",
+        "limit": 8,
+        "autoPlay": false,
+        "autoPlaySpeed": 5000,
+        "showArrows": true,
+        "showDots": true
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556332495_vf9lxfbn6",
+      "type": "custom-html",
+      "content": {
+        "html": "<div>Custom HTML content</div>",
+        "css": ""
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "right": 24,
+          "bottom": 24,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556327579_wt9927x50",
+      "type": "stats",
+      "content": {
+        "de": {
+          "heading": "",
+          "subheading": "",
+          "columns": 4,
+          "style": "simple",
+          "stats": [
+            {
+              "id": "stat_1",
+              "value": "10K",
+              "label": "Customers",
+              "suffix": "+"
+            },
+            {
+              "id": "stat_2",
+              "value": "99",
+              "label": "Uptime",
+              "suffix": "%"
+            },
+            {
+              "id": "stat_3",
+              "value": "24",
+              "label": "Support",
+              "suffix": "/7"
+            },
+            {
+              "id": "stat_4",
+              "value": "50",
+              "label": "Countries",
+              "suffix": "+"
+            }
+          ]
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556325095_m91m9fp2t",
+      "type": "team-grid",
+      "content": {
+        "heading": "Meet Our Team",
+        "subheading": "The people behind the product",
+        "columns": 3,
+        "showBio": true,
+        "showSocial": true,
+        "members": []
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556321695_lxbhm6kyf",
+      "type": "tabs",
+      "content": {
+        "defaultTab": 0,
+        "variant": "underline",
+        "alignment": "left",
+        "tabs": [
+          {
+            "id": "tab_1",
+            "label": "Overview",
+            "content": "This is the overview content."
+          },
+          {
+            "id": "tab_2",
+            "label": "Features",
+            "content": "This is the features content."
+          },
+          {
+            "id": "tab_3",
+            "label": "Specs",
+            "content": "This is the specs content."
+          }
+        ]
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556319712_s11wmkn99",
+      "type": "shoppable-video",
+      "content": {
+        "videoUrl": "",
+        "provider": "custom",
+        "thumbnail": "",
+        "autoplay": false,
+        "muted": true,
+        "loop": true,
+        "controls": true,
+        "aspectRatio": "16:9",
+        "hotspots": [],
+        "showHotspots": "always",
+        "hotspotStyle": "tag",
+        "hotspotColor": "#ffffff"
+      },
+      "style": {
+        "borderRadius": 8,
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556317528_eeb4rpmj1",
+      "type": "store-locator",
+      "content": {
+        "heading": "Find a Store",
+        "subheading": "Visit us in person",
+        "stores": [],
+        "defaultZoom": 12,
+        "defaultCenter": {
+          "lat": 40.7128,
+          "lng": -74.006
+        },
+        "showSearch": true,
+        "showList": true,
+        "listPosition": "left",
+        "mapStyle": "standard",
+        "markerColor": "#3B82F6",
+        "showDirectionsLink": true,
+        "showPhoneLink": true
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556315129_yh18kj22x",
+      "type": "collection-list",
+      "content": {
+        "collectionSlug": "",
+        "heading": "",
+        "subheading": "",
+        "layout": "grid",
+        "columns": 3,
+        "mobileColumns": 1,
+        "limit": 6,
+        "sortBy": "createdAt",
+        "sortOrder": "desc",
+        "publishedOnly": true,
+        "displayFields": [],
+        "showImage": true,
+        "showExcerpt": true,
+        "showReadMore": true,
+        "readMoreText": "Read more",
+        "linkPattern": "",
+        "gap": 24
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556310862_57nt91t8x",
+      "type": "freeform-canvas",
+      "content": {
+        "canvasWidth": 1200,
+        "canvasHeight": 600,
+        "backgroundColor": "#ffffff",
+        "backgroundImage": "",
+        "elements": [],
+        "snapConfig": {
+          "snapToElements": true,
+          "snapToCenter": true,
+          "snapToGrid": true,
+          "gridSize": 20,
+          "threshold": 8
+        },
+        "showGrid": true,
+        "gridSize": 20,
+        "responsive": true,
+        "minScale": 0.5
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "right": 24,
+          "bottom": 24,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "borderRadius": 8
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556301328_tlonqoxkv",
+      "type": "video",
+      "content": {
+        "url": "",
+        "provider": "youtube",
+        "autoplay": false,
+        "muted": false,
+        "loop": false,
+        "controls": true,
+        "aspectRatio": "16:9",
+        "thumbnail": "",
+        "caption": ""
+      },
+      "style": {
+        "borderRadius": 0,
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556296612_u26osss3c",
+      "type": "logo-cloud",
+      "content": {
+        "heading": "Trusted by leading companies",
+        "columns": 5,
+        "grayscale": true,
+        "showNames": false,
+        "logos": [
+          {
+            "id": "logo_1",
+            "name": "Google",
+            "image": "https://cdn.simpleicons.org/google",
+            "link": ""
+          },
+          {
+            "id": "logo_2",
+            "name": "Microsoft",
+            "image": "https://cdn.simpleicons.org/microsoft",
+            "link": ""
+          },
+          {
+            "id": "logo_3",
+            "name": "Apple",
+            "image": "https://cdn.simpleicons.org/apple",
+            "link": ""
+          },
+          {
+            "id": "logo_4",
+            "name": "Amazon",
+            "image": "https://cdn.simpleicons.org/amazon",
+            "link": ""
+          },
+          {
+            "id": "logo_5",
+            "name": "Netflix",
+            "image": "https://cdn.simpleicons.org/netflix",
+            "link": ""
+          }
+        ]
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556247162_1zl0kjdi3",
+      "type": "section",
+      "content": {
+        "containerWidth": "container"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "fullWidth": true
+      },
+      "responsive": {},
+      "children": []
+    },
+    {
+      "id": "block_1768556278195_ucsu9zvi6",
+      "type": "faq-accordion",
+      "content": {
+        "de": {
+          "heading": "Frequently Asked Questions",
+          "subheading": "",
+          "items": [
+            {
+              "id": "faq_1",
+              "question": "What is your return policy?",
+              "answer": "We offer a 30-day hassle-free return policy on all items."
+            },
+            {
+              "id": "faq_2",
+              "question": "How long does shipping take?",
+              "answer": "Standard shipping takes 3-5 business days. Express shipping is available."
+            }
+          ],
+          "allowMultiple": false,
+          "defaultOpenFirst": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556275529_rz4u5us7j",
+      "type": "promo-bar",
+      "content": {
+        "de": {
+          "text": "Free shipping on orders over $100",
+          "dismissible": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 12,
+          "right": 24,
+          "bottom": 12,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundColor": "#1e293b",
+        "textColor": "#ffffff",
+        "alignmentX": "center",
+        "fullWidth": true
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556272745_vjfonboh9",
+      "type": "countdown-timer",
+      "content": {
+        "endDate": "2026-01-23T09:37:21.983Z",
+        "heading": "Flash Sale Ends In",
+        "buttonText": "Shop the Sale",
+        "buttonLink": "/shop",
+        "expiredMessage": "Sale has ended"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignmentX": "center",
+        "backgroundColor": "#1e293b",
+        "textColor": "#ffffff"
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556260628_0pbv44ff3",
+      "type": "before-after",
+      "content": {
+        "beforeImage": "",
+        "afterImage": "",
+        "beforeLabel": "Before",
+        "afterLabel": "After",
+        "initialPosition": 50,
+        "orientation": "horizontal",
+        "showLabels": true
+      },
+      "style": {
+        "borderRadius": 8,
+        "maxWidth": 800,
+        "alignmentX": "center",
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556257812_d94t0cf8v",
+      "type": "testimonials",
+      "content": {
+        "de": {
+          "testimonials": [
+            {
+              "id": "1",
+              "quote": "Amazing products and fast shipping!",
+              "author": "Jane Doe",
+              "role": "Verified Customer",
+              "rating": 5
+            },
+            {
+              "id": "2",
+              "quote": "Great customer service and quality items.",
+              "author": "John Smith",
+              "role": "Verified Customer",
+              "rating": 5
+            }
+          ],
+          "layout": "carousel",
+          "showRating": true,
+          "showAvatar": true
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "backgroundColor": "#ffffff"
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556265995_4kkmh750j",
+      "type": "pricing-table",
+      "content": {
+        "de": {
+          "heading": "Simple, Transparent Pricing",
+          "subheading": "Choose the plan that works for you",
+          "columns": 3,
+          "tiers": [
+            {
+              "id": "tier_1",
+              "name": "Starter",
+              "price": "$9",
+              "period": "month",
+              "description": "Perfect for getting started",
+              "features": [
+                "5 projects",
+                "Basic support",
+                "1GB storage"
+              ],
+              "buttonText": "Get Started",
+              "buttonLink": "#"
+            },
+            {
+              "id": "tier_2",
+              "name": "Pro",
+              "price": "$29",
+              "period": "month",
+              "description": "Best for growing teams",
+              "features": [
+                "Unlimited projects",
+                "Priority support",
+                "10GB storage",
+                "Advanced analytics"
+              ],
+              "buttonText": "Start Free Trial",
+              "buttonLink": "#",
+              "highlighted": true,
+              "badge": "Most Popular"
+            },
+            {
+              "id": "tier_3",
+              "name": "Enterprise",
+              "price": "$99",
+              "period": "month",
+              "description": "For large organizations",
+              "features": [
+                "Everything in Pro",
+                "Custom integrations",
+                "Dedicated support",
+                "SLA guarantee"
+              ],
+              "buttonText": "Contact Sales",
+              "buttonLink": "#"
+            }
+          ]
+        }
+      },
+      "style": {
+        "padding": {
+          "top": 64,
+          "right": 24,
+          "bottom": 64,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556255445_5h0t31008",
+      "type": "image",
+      "content": {
+        "src": "",
+        "alt": "",
+        "aspectRatio": "original",
+        "objectFit": "cover"
+      },
+      "style": {
+        "borderRadius": 8
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556253262_mohyklmj3",
+      "type": "product-grid",
+      "content": {
+        "source": "auto",
+        "limit": 8,
+        "columns": 4,
+        "mobileColumns": 2,
+        "showOutOfStock": true,
+        "showSaleBadge": true,
+        "showQuickAdd": false,
+        "sortBy": "bestselling"
+      },
+      "style": {
+        "padding": {
+          "top": 48,
+          "right": 24,
+          "bottom": 48,
+          "left": 24
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "responsive": {}
+    },
+    {
+      "id": "block_1768556250628_y97awj6ce",
+      "type": "hero-banner",
+      "content": {
+        "heading": "Discover Excellence",
+        "subheading": "Crafted with passion, delivered with care",
+        "buttonText": "Start Shopping",
+        "buttonLink": "/shop"
+      },
+      "style": {
+        "minHeight": 650,
+        "padding": {
+          "top": 24,
+          "right": 48,
+          "bottom": 80,
+          "left": 48
+        },
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignmentX": "left",
+        "alignmentY": "bottom",
+        "textColor": "#ffffff",
+        "backgroundOverlay": 35,
+        "backgroundOverlayColor": "#0a0a0a",
+        "fullWidth": true
+      },
+      "responsive": {}
+    }
+  ],
+  "seo": {},
+  "translations": {
+    "sourceLocale": "de",
+    "status": {
+      "de": {
+        "locale": "de",
+        "status": "completed",
+        "completeness": 100
+      },
+      "fr": {
+        "locale": "fr",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "it": {
+        "locale": "it",
+        "status": "not_started",
+        "completeness": 0
+      },
+      "en": {
+        "locale": "en",
+        "status": "not_started",
+        "completeness": 0
+      }
+    }
+  },
+  "createdAt": "2026-01-16T09:37:21.779Z",
+  "updatedAt": "2026-01-16T09:39:36.518Z",
+  "versions": []
+}

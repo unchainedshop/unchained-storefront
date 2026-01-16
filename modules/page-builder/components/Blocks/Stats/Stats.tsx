@@ -25,6 +25,7 @@ const Stats: React.FC<StatsProps> = ({
   const style = block.style;
   const { updateBlock, state } = usePageBuilder();
   const canEdit = isEditing && !state.isPreviewMode;
+  const isMobileViewport = state.viewport === "mobile";
 
   // Handler for updating individual stat fields
   const updateStat = useCallback(
@@ -46,11 +47,8 @@ const Stats: React.FC<StatsProps> = ({
       : undefined,
   };
 
-  const columnClasses = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-3",
-    4: "md:grid-cols-4",
-  };
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport ? 2 : content.columns || 4;
 
   if (content.stats.length === 0 && isEditing) {
     return (
@@ -191,10 +189,10 @@ const Stats: React.FC<StatsProps> = ({
 
         {/* Stats Grid */}
         <div
-          className={classNames(
-            "grid gap-8",
-            columnClasses[content.columns || 4],
-          )}
+          className="grid gap-8"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
         >
           {content.stats.map(renderStat)}
         </div>

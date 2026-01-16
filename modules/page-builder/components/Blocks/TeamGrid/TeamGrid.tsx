@@ -25,6 +25,7 @@ const TeamGrid: React.FC<TeamGridProps> = ({
   const style = block.style;
   const { updateBlock, state } = usePageBuilder();
   const canEdit = isEditing && !state.isPreviewMode;
+  const isMobileViewport = state.viewport === "mobile";
 
   // Handler for updating individual member fields
   const updateMember = useCallback(
@@ -46,11 +47,8 @@ const TeamGrid: React.FC<TeamGridProps> = ({
       : undefined,
   };
 
-  const columnClasses = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-3",
-    4: "md:grid-cols-4",
-  };
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport ? 1 : content.columns || 3;
 
   if (content.members.length === 0 && isEditing) {
     return (
@@ -98,10 +96,10 @@ const TeamGrid: React.FC<TeamGridProps> = ({
 
         {/* Team Grid */}
         <div
-          className={classNames(
-            "grid gap-8",
-            columnClasses[content.columns || 3],
-          )}
+          className="grid gap-8"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
         >
           {content.members.map((member) => (
             <div

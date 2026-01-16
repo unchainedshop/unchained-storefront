@@ -39,6 +39,7 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
   const style = block.style;
   const { updateBlock, state } = usePageBuilder();
   const canEdit = isEditing && !state.isPreviewMode;
+  const isMobileViewport = state.viewport === "mobile";
 
   // Handler for updating individual feature fields
   const updateFeature = useCallback(
@@ -64,6 +65,11 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
     2: "md:grid-cols-2",
     3: "md:grid-cols-3",
     4: "md:grid-cols-4",
+  };
+
+  const mobileColumnClasses = {
+    1: "grid-cols-1",
+    2: "grid-cols-2",
   };
 
   const iconStyleClasses = {
@@ -127,10 +133,12 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({
 
         {/* Features Grid */}
         <div
-          className={classNames(
-            "grid gap-8",
-            columnClasses[content.columns || 3],
-          )}
+          className="grid gap-8"
+          style={{
+            gridTemplateColumns: isMobileViewport
+              ? `repeat(${content.mobileColumns || 1}, minmax(0, 1fr))`
+              : `repeat(${content.columns || 3}, minmax(0, 1fr))`,
+          }}
         >
           {content.features.map((feature) => {
             const IconComponent = getIcon(feature.icon);

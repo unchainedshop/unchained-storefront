@@ -3,10 +3,11 @@
  * Displays product categories in a grid layout
  */
 
-import React from 'react';
-import classNames from 'classnames';
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import type { PageBlock, CategoryGridContent } from '../../../types';
+import React from "react";
+import classNames from "classnames";
+import { PhotoIcon } from "@heroicons/react/24/outline";
+import type { PageBlock, CategoryGridContent } from "../../../types";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
 
 interface CategoryGridProps {
   block: PageBlock;
@@ -15,34 +16,24 @@ interface CategoryGridProps {
 
 // Mock categories for preview
 const mockCategories = [
-  { id: '1', title: 'Women', image: null },
-  { id: '2', title: 'Men', image: null },
-  { id: '3', title: 'Accessories', image: null },
-  { id: '4', title: 'Shoes', image: null },
-  { id: '5', title: 'Sale', image: null },
-  { id: '6', title: 'New Arrivals', image: null },
+  { id: "1", title: "Women", image: null },
+  { id: "2", title: "Men", image: null },
+  { id: "3", title: "Accessories", image: null },
+  { id: "4", title: "Shoes", image: null },
+  { id: "5", title: "Sale", image: null },
+  { id: "6", title: "New Arrivals", image: null },
 ];
 
 const CategoryGrid: React.FC<CategoryGridProps> = ({ block }) => {
   const content = block.content as unknown as CategoryGridContent;
   const style = block.style;
+  const { state } = usePageBuilder();
+  const isMobileViewport = state.viewport === "mobile";
 
   const categories =
     content.categoryIds?.length > 0
       ? mockCategories.filter((c) => content.categoryIds.includes(c.id))
       : mockCategories.slice(0, content.columns || 3);
-
-  const gridCols = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-4',
-  };
-
-  const mobileGridCols = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-  };
 
   const containerStyle: React.CSSProperties = {
     padding: style.padding
@@ -51,23 +42,29 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ block }) => {
     backgroundColor: style.backgroundColor,
   };
 
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport
+    ? content.mobileColumns || 1
+    : content.columns || 3;
+
   return (
     <div style={containerStyle}>
       <div className="max-w-7xl mx-auto">
         <div
-          className={classNames(
-            'grid gap-4',
-            mobileGridCols[content.mobileColumns as keyof typeof mobileGridCols] || 'grid-cols-1',
-            `md:${gridCols[content.columns as keyof typeof gridCols] || 'grid-cols-3'}`
-          )}
+          className="grid gap-4"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
         >
           {categories.map((category, index) => (
             <div
               key={category.id}
               className={classNames(
-                'relative overflow-hidden rounded-lg group cursor-pointer',
+                "relative overflow-hidden rounded-lg group cursor-pointer",
                 // First two categories are larger if using masonry layout
-                content.layout === 'masonry' && index < 2 ? 'aspect-[4/3]' : 'aspect-square'
+                content.layout === "masonry" && index < 2
+                  ? "aspect-[4/3]"
+                  : "aspect-square",
               )}
             >
               {/* Background */}

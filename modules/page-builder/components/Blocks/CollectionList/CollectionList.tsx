@@ -33,6 +33,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
   const style = block.style;
   const { state } = usePageBuilder();
   const canEdit = isEditing && !state.isPreviewMode;
+  const isMobileViewport = state.viewport === "mobile";
 
   const [entries, setEntries] = useState<CollectionEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -89,16 +90,10 @@ const CollectionList: React.FC<CollectionListProps> = ({
       : undefined,
   };
 
-  const columnClasses = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-3",
-    4: "md:grid-cols-4",
-  };
-
-  const mobileColumnClasses = {
-    1: "grid-cols-1",
-    2: "grid-cols-2",
-  };
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport
+    ? content.mobileColumns || 1
+    : content.columns || 3;
 
   // Get display fields from content or use defaults
   const displayFields = content.displayFields?.length
@@ -192,11 +187,10 @@ const CollectionList: React.FC<CollectionListProps> = ({
           <div className="animate-pulse">
             <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-4" />
             <div
-              className={classNames(
-                "grid gap-6",
-                mobileColumnClasses[content.mobileColumns || 1],
-                columnClasses[content.columns || 3],
-              )}
+              className="grid gap-6"
+              style={{
+                gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+              }}
             >
               {[...Array(content.limit || 3)].map((_, i) => (
                 <div
@@ -275,12 +269,11 @@ const CollectionList: React.FC<CollectionListProps> = ({
         {/* Grid Layout */}
         {(content.layout === "grid" || content.layout === "cards") && (
           <div
-            className={classNames(
-              "grid",
-              mobileColumnClasses[content.mobileColumns || 1],
-              columnClasses[content.columns || 3],
-            )}
-            style={{ gap: content.gap || 24 }}
+            className="grid"
+            style={{
+              gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+              gap: content.gap || 24,
+            }}
           >
             {entries.map((entry) => {
               const image = content.showImage ? getImage(entry) : undefined;

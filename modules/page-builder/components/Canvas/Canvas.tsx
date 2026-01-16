@@ -50,26 +50,26 @@ const FloatingAddButton: React.FC<FloatingAddButtonProps> = ({
 
   return (
     <div
-      className="fixed z-[9999] transition-all duration-150 ease-out"
+      className="fixed z-[9999] transition-all duration-150 ease-out pointer-events-none"
       style={{
         top: position.top,
         left: position.left,
         width: position.width,
         opacity: visible ? 1 : 0,
-        pointerEvents: visible ? "auto" : "none",
       }}
     >
       <div className="relative h-0 flex items-center justify-center">
+        {/* Line with gradient - decorative only */}
+        <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-slate-300/80 to-transparent dark:via-slate-600/80 pointer-events-none" />
+
+        {/* Clickable button area - only the center circle */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             onClick();
           }}
-          className="group absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer h-8 w-full transition-all duration-200"
+          className="group absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer pointer-events-auto"
         >
-          {/* Line with gradient */}
-          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-slate-300/80 to-transparent dark:via-slate-600/80" />
-
           {/* Rainbow glow behind button */}
           <div
             className="absolute w-10 h-10 rounded-full opacity-40 blur-md animate-pulse"

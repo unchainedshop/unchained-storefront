@@ -9,6 +9,7 @@ import { PhotoIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import type { PageBlock, ProductGridContent } from "../../../types";
 import useProducts from "../../../../products/hooks/useProducts";
 import formatPrice from "../../../../common/utils/formatPrice";
+import { usePageBuilder } from "../../../context/PageBuilderContext";
 
 interface ProductGridProps {
   block: PageBlock;
@@ -77,25 +78,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
   const { products: allProducts } = useProducts();
   const content = block.content as unknown as ProductGridContent;
   const style = block.style;
+  const { state } = usePageBuilder();
+  const isMobileViewport = state.viewport === "mobile";
 
   const products = [...allProducts, ...mockProducts]
     .filter(Boolean)
     .slice(0, content.limit || 8);
 
-  const gridCols = {
-    1: "grid-cols-1",
-    2: "grid-cols-2",
-    3: "grid-cols-3",
-    4: "grid-cols-4",
-    5: "grid-cols-5",
-    6: "grid-cols-6",
-  };
-
-  const mobileGridCols = {
-    1: "grid-cols-1",
-    2: "grid-cols-2",
-    3: "grid-cols-3",
-  };
+  // Compute columns based on simulated viewport
+  const columns = isMobileViewport
+    ? content.mobileColumns || 2
+    : content.columns || 4;
 
   const containerStyle: React.CSSProperties = {
     padding: style.padding
@@ -108,13 +101,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ block }) => {
     <div style={containerStyle}>
       <div className="max-w-7xl mx-auto">
         <div
-          className={classNames(
-            "grid gap-6",
-            mobileGridCols[
-              content.mobileColumns as keyof typeof mobileGridCols
-            ] || "grid-cols-2",
-            `md:${gridCols[content.columns as keyof typeof gridCols] || "grid-cols-4"}`,
-          )}
+          className="grid gap-6"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          }}
         >
           {products.map((product) => (
             <div
