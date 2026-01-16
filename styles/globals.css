@@ -1013,3 +1013,248 @@
 .resize-constraint-hit {
   animation: constraint-hit 0.4s ease-in-out;
 }
+
+/* =============================================================================
+   FROST DESIGN SYSTEM
+   Glassmorphism minimalist style for admin interfaces
+
+   Naming: "Frost" - evokes frosted glass, clean, premium aesthetic
+
+   Core principles:
+   - Semi-transparent backgrounds with heavy blur
+   - Subtle white/light borders
+   - Large soft shadows
+   - Minimal, small typography
+   - Monochromatic slate color scheme
+   - Rounded corners (xl/2xl)
+   ============================================================================= */
+
+/* Frost Card - Primary container style */
+.frost-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.dark .frost-card {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Frost Panel - Larger container (modals, sidebars) */
+.frost-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(32px) saturate(150%);
+  -webkit-backdrop-filter: blur(32px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.dark .frost-panel {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Frost Button - Primary action */
+.frost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+  transition: all 0.2s ease;
+}
+
+.frost-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.dark .frost-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f1f5f9;
+}
+
+.dark .frost-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Frost Button Ghost - Secondary action */
+.frost-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  color: #64748b;
+  transition: all 0.15s ease;
+}
+
+.frost-btn-ghost:hover {
+  background: rgba(241, 245, 249, 0.8);
+  color: #334155;
+}
+
+.dark .frost-btn-ghost {
+  color: #94a3b8;
+}
+
+.dark .frost-btn-ghost:hover {
+  background: rgba(51, 65, 85, 0.5);
+  color: #e2e8f0;
+}
+
+/* Frost Input - Form field */
+.frost-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 0.75rem;
+  color: #1e293b;
+  transition: all 0.15s ease;
+}
+
+.frost-input::placeholder {
+  color: #94a3b8;
+}
+
+.frost-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
+}
+
+.dark .frost-input {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(71, 85, 105, 0.5);
+  color: #f1f5f9;
+}
+
+.dark .frost-input::placeholder {
+  color: #64748b;
+}
+
+.dark .frost-input:focus {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(100, 116, 139, 0.6);
+}
+
+/* Frost Divider - Subtle separator */
+.frost-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(148, 163, 184, 0.3),
+    transparent
+  );
+}
+
+.dark .frost-divider {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(71, 85, 105, 0.5),
+    transparent
+  );
+}
+
+/* Frost Badge - Small label/tag */
+.frost-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  border-radius: 9999px;
+  color: #64748b;
+}
+
+.dark .frost-badge {
+  background: rgba(51, 65, 85, 0.5);
+  border-color: rgba(71, 85, 105, 0.5);
+  color: #94a3b8;
+}
+
+/* Frost Text Sizes - Typography scale */
+.frost-text-xs { font-size: 0.625rem; line-height: 1rem; }    /* 10px */
+.frost-text-sm { font-size: 0.6875rem; line-height: 1rem; }   /* 11px */
+.frost-text-base { font-size: 0.75rem; line-height: 1.25rem; } /* 12px */
+.frost-text-lg { font-size: 0.8125rem; line-height: 1.25rem; } /* 13px */
+
+/* Frost Backdrop - Overlay behind modals */
+.frost-backdrop {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Frost Glow - Subtle ambient effect */
+.frost-glow {
+  position: relative;
+}
+
+.frost-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.4)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.frost-glow:hover::before {
+  opacity: 1;
+}
+
+/* Frost Transition - Smooth state changes */
+.frost-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Frost Shadow Scale */
+.frost-shadow-sm { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+.frost-shadow { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); }
+.frost-shadow-lg { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12); }
+.frost-shadow-xl { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.16); }
+
+.dark .frost-shadow-sm { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+.dark .frost-shadow { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); }
+.dark .frost-shadow-lg { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+.dark .frost-shadow-xl { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5); }

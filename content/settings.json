@@ -13,49 +13,64 @@
   "primaryColor": "#0EA5E9",
   "colorPresets": [
     {
-      "id": "midnight",
-      "name": "Midnight",
-      "color": "#0f172a"
+      "id": "cream",
+      "name": "Cream",
+      "color": "#FFFCEA"
     },
     {
-      "id": "ocean",
-      "name": "Ocean",
-      "color": "#0EA5E9"
+      "id": "cream-dark",
+      "name": "Cream Dark",
+      "color": "#FFF9D6"
     },
     {
-      "id": "emerald",
-      "name": "Emerald",
-      "color": "#10B981"
+      "id": "mint",
+      "name": "Mint",
+      "color": "#A5F2E7"
     },
     {
-      "id": "amber",
-      "name": "Amber",
-      "color": "#F59E0B"
+      "id": "mint-dark",
+      "name": "Mint Dark",
+      "color": "#6BE4D3"
     },
     {
-      "id": "coral",
-      "name": "Coral",
-      "color": "#F43F5E"
+      "id": "periwinkle",
+      "name": "Periwinkle",
+      "color": "#8983F3"
     },
     {
-      "id": "violet",
-      "name": "Violet",
-      "color": "#8B5CF6"
+      "id": "periwinkle-light",
+      "name": "Periwinkle Light",
+      "color": "#B0ACFA"
     },
     {
-      "id": "slate",
-      "name": "Slate",
-      "color": "#64748B"
+      "id": "periwinkle-dark",
+      "name": "Periwinkle Dark",
+      "color": "#6B64E8"
     },
     {
-      "id": "cloud",
-      "name": "Cloud",
-      "color": "#F1F5F9"
+      "id": "deep-purple",
+      "name": "Deep Purple",
+      "color": "#3A0077"
+    },
+    {
+      "id": "purple-mid",
+      "name": "Purple Mid",
+      "color": "#5C1F99"
+    },
+    {
+      "id": "purple-light",
+      "name": "Purple Light",
+      "color": "#7E3FBB"
     },
     {
       "id": "snow",
       "name": "Snow",
       "color": "#FFFFFF"
+    },
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "color": "#0f172a"
     }
   ],
   "darkModeDefault": false,

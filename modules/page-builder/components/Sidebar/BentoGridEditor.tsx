@@ -397,12 +397,17 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                         </button>
                       )}
 
-                      {/* Resize handles - only visible on hover/selected */}
-                      {onAreaResize && (isSelected || isResizing) && (
+                      {/* Resize handles - visible on hover or when resizing */}
+                      {onAreaResize && (
                         <>
                           {/* East (right) resize edge */}
                           <div
-                            className="absolute top-2 bottom-2 -right-px w-1 cursor-ew-resize group/handle z-10"
+                            className={classNames(
+                              "absolute top-2 bottom-2 -right-px w-1.5 cursor-ew-resize group/handle z-10",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
                             onMouseDown={(e) =>
                               handleResizeStart(
                                 e,
@@ -413,11 +418,16 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                               )
                             }
                           >
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-4 bg-slate-400 dark:bg-slate-500 rounded-full opacity-60 group-hover/handle:opacity-100 group-hover/handle:bg-slate-600 dark:group-hover/handle:bg-slate-300 transition-all" />
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
                           </div>
                           {/* South (bottom) resize edge */}
                           <div
-                            className="absolute left-2 right-2 -bottom-px h-1 cursor-ns-resize group/handle z-10"
+                            className={classNames(
+                              "absolute left-2 right-2 -bottom-px h-1.5 cursor-ns-resize group/handle z-10",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
                             onMouseDown={(e) =>
                               handleResizeStart(
                                 e,
@@ -428,11 +438,16 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                               )
                             }
                           >
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-0.5 w-4 bg-slate-400 dark:bg-slate-500 rounded-full opacity-60 group-hover/handle:opacity-100 group-hover/handle:bg-slate-600 dark:group-hover/handle:bg-slate-300 transition-all" />
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-0.5 w-5 bg-slate-500 dark:bg-slate-400 rounded-full group-hover/handle:scale-110 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
                           </div>
                           {/* Southeast (corner) resize handle */}
                           <div
-                            className="absolute -bottom-1 -right-1 w-3 h-3 cursor-nwse-resize group/handle z-10 flex items-center justify-center"
+                            className={classNames(
+                              "absolute -bottom-1 -right-1 w-3.5 h-3.5 cursor-nwse-resize group/handle z-10 flex items-center justify-center",
+                              isResizing
+                                ? "opacity-100"
+                                : "opacity-0 group-hover/area:opacity-100",
+                            )}
                             onMouseDown={(e) =>
                               handleResizeStart(
                                 e,
@@ -443,7 +458,7 @@ const BentoGridEditor: React.FC<BentoGridEditorProps> = ({
                               )
                             }
                           >
-                            <div className="w-1.5 h-1.5 bg-slate-500 dark:bg-slate-400 rounded-sm opacity-80 group-hover/handle:opacity-100 group-hover/handle:bg-slate-700 dark:group-hover/handle:bg-slate-200 transition-all" />
+                            <div className="w-2 h-2 bg-slate-600 dark:bg-slate-300 rounded-sm group-hover/handle:scale-125 group-hover/handle:bg-slate-800 dark:group-hover/handle:bg-slate-100 transition-all shadow-sm" />
                           </div>
                         </>
                       )}
