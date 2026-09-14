@@ -23,7 +23,6 @@ const Header: React.FC<HeaderProps> = ({
   const isOnSearchPage = router.pathname.includes('search');
   const { formatMessage } = useIntl();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOverHero, setIsOverHero] = useState(hasHeroSection);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const desktopSearchRef = useRef<HTMLInputElement>(null);
@@ -32,23 +31,14 @@ const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     if (!hasHeroSection) return;
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      if (scrollY > 100) {
-        setIsScrolled(true);
-        setIsOverHero(false);
-      } else {
-        setIsScrolled(false);
-        setIsOverHero(true);
-      }
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 100);
 
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasHeroSection]);
 
-  const isHeroMode = hasHeroSection && isOverHero && !isScrolled;
+  const isHeroMode = hasHeroSection && !isScrolled;
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

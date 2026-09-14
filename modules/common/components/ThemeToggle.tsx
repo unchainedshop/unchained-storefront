@@ -1,76 +1,38 @@
 import { MoonIcon, SunIcon } from '@heroicons/react/20/solid';
-import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Button from './Button';
 
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
   const [theme, setTheme] = useLocalStorage('theme', 'light');
 
+  // Honour a persisted theme, else the system preference, on first mount.
   useEffect(() => {
-    if (
+    const dark =
       localStorage.theme === 'dark' ||
       (!('theme' in localStorage) &&
-        typeof window !== 'undefined' &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.getElementsByTagName('html')[0].classList.add('dark');
-      setIsDark(true);
-    } else {
-      document.getElementsByTagName('html')[0].classList.remove('dark');
-      setIsDark(false);
-    }
+        window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
   }, []);
 
+  // Reflect explicit user toggles (persistence handled by useLocalStorage).
   useEffect(() => {
-    if (theme === 'dark') {
-      document.getElementsByTagName('html')[0].classList.add('dark');
-      localStorage.theme = 'dark';
-    } else {
-      document.getElementsByTagName('html')[0].classList.remove('dark');
-      localStorage.theme = 'light';
-    }
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
-
-  const handleToggleTheme = () => {
-    if (theme === 'dark') {
-      setTheme('light');
-      setIsDark(false);
-    } else {
-      setTheme('dark');
-      setIsDark(true);
-    }
-  };
 
   return (
     <div className="absolute right-0 top-2 mx-2 flex items-center sm:top-5">
       <Button
         type="button"
         variant="link"
-        onClick={handleToggleTheme}
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         aria-label="Toggle theme"
         className="hover:cursor-pointer p-0"
         fullWidth={false}
       >
-        <SunIcon
-          className={classNames(
-            'h-8 w-8 text-black transition-all delay-1000 ease-out',
-            {
-              hidden: isDark,
-              block: !isDark,
-            },
-          )}
-        />
-        <MoonIcon
-          className={classNames(
-            'h-8 w-8 text-white transition-all delay-1000 ease-out',
-            {
-              hidden: !isDark,
-              block: isDark,
-            },
-          )}
-        />
+        {/* Icon visibility is driven by the `.dark` class on <html> — no JS state. */}
+        <SunIcon className="block h-8 w-8 text-black transition-all ease-out dark:hidden" />
+        <MoonIcon className="hidden h-8 w-8 text-white transition-all ease-out dark:block" />
       </Button>
     </div>
   );

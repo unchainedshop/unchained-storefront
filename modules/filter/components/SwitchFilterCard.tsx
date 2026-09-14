@@ -11,66 +11,27 @@ const SwitchFilterCard = ({ title, searchParamName }) => {
 
   const isChecked = selectedValue === 'true';
 
-  const handleToggle = () => {
-    setFilterValues(searchParamName, [isChecked ? 'false' : 'true']);
-  };
-
-  const handleReset = () => {
-    setFilterValues(searchParamName, []);
-  };
-
   return (
     <FilterCard title={title}>
-      <div className="d-flex flex-column gap-3 mt-2">
-        <label
-          className="d-flex align-items-center gap-3"
-          style={{ cursor: 'pointer' }}
-        >
-          <div
-            onClick={handleToggle}
-            style={{
-              position: 'relative',
-              width: '46px',
-              height: '24px',
-              backgroundColor: isChecked ? '#007bff' : '#cbd5e1',
-              borderRadius: '9999px',
-              transition: 'background-color 0.25s ease',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: '3px',
-                left: isChecked ? '26px' : '3px',
-                width: '18px',
-                height: '18px',
-                background: '#fff',
-                borderRadius: '50%',
-                transition: 'left 0.25s ease',
-              }}
-            />
-          </div>
+      <div className="mt-2 flex flex-col gap-3">
+        {/* Native checkbox + CSS-only knob (no JS-computed styles) */}
+        <label className="flex cursor-pointer items-center gap-3">
+          <input
+            type="checkbox"
+            className="peer sr-only"
+            checked={isChecked}
+            onChange={() =>
+              setFilterValues(searchParamName, [isChecked ? 'false' : 'true'])
+            }
+          />
+          <span className="relative h-6 w-[46px] rounded-full bg-slate-300 transition-colors peer-checked:bg-blue-500 after:absolute after:top-[3px] after:left-[3px] after:h-[18px] after:w-[18px] after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:after:translate-x-[22px]" />
         </label>
 
         {selectedValue ? (
           <button
             type="button"
-            onClick={handleReset}
-            style={{
-              alignSelf: 'flex-start',
-              background: 'transparent',
-              color: '#6b7280',
-              border: '1px solid #d1d5db',
-              borderRadius: '6px',
-              padding: '3px 10px',
-              fontSize: '0.8rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#f3f4f6')}
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = 'transparent')
-            }
+            onClick={() => setFilterValues(searchParamName, [])}
+            className="self-start rounded-md border border-slate-300 px-2.5 py-0.5 text-xs text-slate-500 transition-colors hover:bg-slate-100"
           >
             Reset
           </button>
