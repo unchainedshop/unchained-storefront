@@ -4,25 +4,35 @@ import FormattedPrice from '../common/components/FormattedPrice';
 const OrderDetailBilling = ({ order }) => {
   const { formatMessage } = useIntl();
 
-  // Calculate correct total manually as a workaround for backend calculation issue
-  const calculateTotal = () => {
-    const itemsAmount = order?.itemsTotal?.amount || 0;
-    const taxAmount = order?.totalTax?.amount || 0;
-    const deliveryAmount = order?.totalDelivery?.amount || 0;
-    const paymentAmount = order?.totalPayment?.amount || 0;
-    const discountAmount = order?.totalDiscount?.amount || 0;
+  const currencyCode =
+    order?.total?.currencyCode || order?.itemsTotal?.currencyCode || 'CHF';
 
-    const calculatedTotal =
-      itemsAmount + taxAmount + deliveryAmount + paymentAmount - discountAmount;
+  // The engine's order.total is the authoritative grand total and is correct
+  // for both net (tax added on top) and gross (tax-inclusive) pricing. Only
+  // fall back to a manual sum if it is somehow unavailable.
+  const calculatedTotal =
+    order?.total?.amount != null
+      ? { amount: order.total.amount, currencyCode }
+      : {
+          amount:
+            (order?.itemsTotal?.amount || 0) +
+            (order?.totalTax?.amount || 0) +
+            (order?.totalDelivery?.amount || 0) +
+            (order?.totalPayment?.amount || 0) -
+            (order?.totalDiscount?.amount || 0),
+          currencyCode,
+        };
 
-    return {
-      amount: calculatedTotal,
-      currencyCode:
-        order?.total?.currencyCode || order?.itemsTotal?.currencyCode || 'CHF',
-    };
-  };
-
-  const calculatedTotal = calculateTotal();
+  // Tax is "included" (gross pricing) when the item/fee/discount lines already
+  // sum to the grand total; otherwise it is added on top (net pricing). This
+  // keeps the breakdown internally consistent for both models.
+  const taxIncluded =
+    order?.total?.amount != null &&
+    (order?.itemsTotal?.amount || 0) +
+      (order?.totalDelivery?.amount || 0) +
+      (order?.totalPayment?.amount || 0) -
+      (order?.totalDiscount?.amount || 0) ===
+      order.total.amount;
 
   return (
     <div className="space-y-6">
@@ -76,10 +86,15 @@ const OrderDetailBilling = ({ order }) => {
           {order?.totalTax && order?.totalTax?.amount > 0 && (
             <div className="flex justify-between">
               <span className="text-slate-600 dark:text-slate-400">
-                {formatMessage({
-                  id: 'tax',
-                  defaultMessage: 'Tax',
-                })}
+                {taxIncluded
+                  ? formatMessage({
+                      id: 'tax_included',
+                      defaultMessage: 'incl. Tax',
+                    })
+                  : formatMessage({
+                      id: 'tax',
+                      defaultMessage: 'Tax',
+                    })}
               </span>
               <span className="text-slate-900 dark:text-white font-medium">
                 <FormattedPrice price={order?.totalTax} />
