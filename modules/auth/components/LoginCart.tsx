@@ -6,8 +6,8 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
+import { useApolloClient } from '@apollo/client/react';
 import useUser from '../hooks/useUser';
-import { useApollo } from '../../apollo/apolloClient';
 import logOut from '../hooks/logOut';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 
@@ -16,7 +16,7 @@ const LoginCart = () => {
   const { formatMessage } = useIntl();
   const { isCartOpen, toggleCart } = useAppContext();
   const router = useRouter();
-  const apollo = useApollo({ locale: router.locale }, {});
+  const apollo = useApolloClient();
 
   const onLogout = async () => {
     try {

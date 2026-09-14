@@ -13,7 +13,6 @@ const AddBookmarkMutation = gql`
 const useBookmarkProduct = () => {
   const [bookmarkProductMutation] = useMutation<any>(AddBookmarkMutation, {
     refetchQueries: [{ query: USER_QUERY }],
-    awaitRefetchQueries: true,
   });
 
   const bookmarkProduct = async ({ productId }) => {

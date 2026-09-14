@@ -16,34 +16,21 @@ const AddDiscount = ({ orderId }) => {
   };
 
   const onSubmitError = async (e) => {
-    if (e.message.includes('CODE_NOT_VALID')) {
-      return {
-        code: {
-          type: 'manual',
-          message: formatMessage({
-            id: 'invalid_discount_code',
-            defaultMessage: 'Invalid Code',
-          }),
-        },
-      };
-    }
-
-    if (
-      e.message.includes('CODE_ALREADY_REDEEMED') ||
-      e.message.includes('CODE_ALREADY_PRESENT')
-    ) {
-      return {
-        code: {
-          type: 'manual',
-          message: formatMessage({
-            id: 'discount_code_already_used',
-            defaultMessage: 'Code already used',
-          }),
-        },
-      };
-    }
-
-    return null;
+    const alreadyUsed = /already/i.test(e?.message || '');
+    return {
+      code: {
+        type: 'manual',
+        message: alreadyUsed
+          ? formatMessage({
+              id: 'discount_code_already_used',
+              defaultMessage: 'Code already used',
+            })
+          : formatMessage({
+              id: 'invalid_discount_code',
+              defaultMessage: 'Invalid Code',
+            }),
+      },
+    };
   };
 
   return (

@@ -12,7 +12,7 @@ import '../styles/globals.css';
 import PushNotificationWrapper from '../modules/context/push-notification/PushNotificationWrapper';
 
 const UnchainedApp = ({ Component, pageProps, router }) => {
-  const apollo = useApollo(pageProps, { locale: router.locale });
+  const apollo = useApollo(router.locale);
   const messages = getMessages(router.locale);
 
   // Check if the current page has hero section based on route

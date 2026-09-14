@@ -13,7 +13,6 @@ const RemoveBookmarkMutation = gql`
 const useRemoveBookmark = () => {
   const [removeBookmarkMutation] = useMutation<any>(RemoveBookmarkMutation, {
     refetchQueries: [{ query: USER_QUERY }],
-    awaitRefetchQueries: true,
   });
 
   const removeBookmark = async ({ bookmarkId }) => {

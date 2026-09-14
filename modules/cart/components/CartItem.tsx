@@ -25,41 +25,22 @@ const CartItem = ({
 }) => {
   const { updateCartItem } = useUpdateCartItemMutation();
   const { removeCartItem } = useRemoveCartItem();
-  const [previousQuantity, setPreviousQuantity] = useState(quantity);
+  // Local buffer so the user can type freely; the committed quantity always
+  // comes from the `quantity` prop (the Apollo-cached server value).
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
   const { formatMessage } = useIntl();
 
-  const handleChange = (e) => {
-    const amount = e.target.value;
-    setCurrentQuantity(amount);
-  };
+  const handleChange = (e) => setCurrentQuantity(e.target.value);
+
   useEffect(() => {
     setCurrentQuantity(quantity);
   }, [quantity]);
 
-  const handleBlur = (e) => {
+  const handleBlur = () => {
     const amount = parseFloat(currentQuantity);
-    let newValue = 0;
-    if (Number.isNaN(amount) || amount < 0 || e.target.value === '0') {
-      newValue = 1;
-      setCurrentQuantity(1);
-    } else {
-      newValue = 0;
-      const difference = Math.abs(amount - previousQuantity);
-      if (previousQuantity < amount) {
-        newValue = previousQuantity + difference;
-      } else {
-        newValue = previousQuantity - difference;
-      }
-    }
-    if (previousQuantity !== newValue) {
-      updateCartItem({
-        itemId: _id,
-        quantity: newValue,
-      });
-
-      setPreviousQuantity(amount);
-    }
+    const newValue = Number.isNaN(amount) || amount < 1 ? 1 : amount;
+    setCurrentQuantity(newValue);
+    if (newValue !== quantity) updateCartItem({ itemId: _id, quantity: newValue });
   };
 
   return (
@@ -130,7 +111,7 @@ const CartItem = ({
                     type="button"
                     className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-0 dark:text-slate-200"
                     aria-label="Decrease cart item"
-                    disabled={currentQuantity === 1}
+                    disabled={quantity <= 1}
                     onClick={() =>
                       updateCartItem({
                         itemId: _id,
