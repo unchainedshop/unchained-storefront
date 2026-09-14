@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "react-image-gallery/styles/css/image-gallery.css" layer(utilities);
+@import "react-image-gallery/styles/image-gallery.css" layer(utilities);
 
 @custom-variant dark (&:is(.dark *));
 

@@ -32,9 +32,9 @@ const OrderDetail = ({ order }) => {
       content: 'confirmed',
       visible: order?.status !== 'REJECTED',
     },
-    FULLFILLED: {
+    FULFILLED: {
       id: 3,
-      content: 'fullfilled',
+      content: 'fulfilled',
       visible: order?.status !== 'REJECTED',
     },
   };

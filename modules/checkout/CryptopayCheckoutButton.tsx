@@ -150,7 +150,7 @@ const CryptopayCheckoutButton = ({ order }) => {
   useEffect(() => {
     if (
       orderData?.order?.status === 'CONFIRMED' ||
-      orderData?.order?.status === 'FULLFILLED'
+      orderData?.order?.status === 'FULFILLED'
     ) {
       router.replace(`/order/${order._id}/success`);
     }

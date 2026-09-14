@@ -54,18 +54,6 @@ const OrderDeliveryPickUpFragment = gql`
         altitute
       }
     }
-    pickUpLocations {
-      _id
-      name
-      address {
-        ...AddressFragment
-      }
-      geoPoint {
-        latitude
-        longitude
-        altitute
-      }
-    }
   }
   ${AddressFragment}
 `;

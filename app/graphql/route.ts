@@ -1,12 +1,16 @@
-import { parse, serialize } from 'cookie';
+import { parseSetCookie, stringifySetCookie } from 'cookie';
 
 export const dynamic = 'force-dynamic';
 
-function rewriteCookie(setCookieHeader) {
-  if (!setCookieHeader) return null;
-  const cookies = parse(setCookieHeader);
-  const tokenKey = Object.keys(cookies).find((k) => k.includes('token'));
-  return serialize(tokenKey, cookies[tokenKey], {
+function rewriteCookie(setCookieHeaders: string[]) {
+  const tokenHeader = setCookieHeaders.find((header) =>
+    parseSetCookie(header).name?.includes('token'),
+  );
+  if (!tokenHeader) return null;
+  const { name, value } = parseSetCookie(tokenHeader);
+  return stringifySetCookie({
+    name,
+    value,
     path: '/',
     httpOnly: true,
     secure: false,
@@ -51,7 +55,7 @@ export async function POST(request: Request) {
     },
   );
   const buffer = await res.arrayBuffer();
-  const rewrittenCookie = rewriteCookie(res.headers.get('set-cookie'));
+  const rewrittenCookie = rewriteCookie(res.headers.getSetCookie());
   return new Response(buffer, {
     status: res.status,
     statusText: res.statusText,

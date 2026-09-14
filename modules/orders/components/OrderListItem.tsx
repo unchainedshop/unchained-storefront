@@ -20,7 +20,7 @@ const OrderListItem = ({ order }) => {
       text: formatMessage({ id: 'confirmed', defaultMessage: 'Confirmed' }),
       date: 'confirmed',
     },
-    FULLFILLED: {
+    FULFILLED: {
       text: formatMessage({ id: 'fulfilled', defaultMessage: 'FulFilled' }),
       icon: (
         <CheckCircleIcon
@@ -28,7 +28,7 @@ const OrderListItem = ({ order }) => {
           aria-hidden="true"
         />
       ),
-      date: 'fullfilled',
+      date: 'fulfilled',
     },
   };
 
