@@ -59,6 +59,10 @@ const CheckoutDeliverySelector = ({
   const { formatMessage } = useIntl();
   if (!providers.length) return null;
 
+  const pickUpLocations =
+    providers.find(({ _id }) => _id === currentDelivery?.provider?._id)
+      ?.pickUpLocations || [];
+
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -116,7 +120,7 @@ const CheckoutDeliverySelector = ({
         </div>
       </div>
 
-      {currentDelivery?.pickUpLocations?.length > 0 && onSelectLocation && (
+      {pickUpLocations.length > 0 && onSelectLocation && (
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
             {formatMessage({
@@ -125,7 +129,7 @@ const CheckoutDeliverySelector = ({
             })}
           </h3>
           <div className="flex flex-wrap gap-2">
-            {currentDelivery.pickUpLocations.map((loc) => {
+            {pickUpLocations.map((loc) => {
               const isSelected =
                 currentDelivery?.activePickUpLocation?._id === loc._id;
               return (
