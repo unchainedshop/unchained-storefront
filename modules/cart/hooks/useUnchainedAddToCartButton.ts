@@ -46,7 +46,7 @@ const useUnchainedAddToCartButton = ({
 
   const submitForm = async () => {
     if (!quantity) setQuantity(1);
-    await addCartProduct({ productId, quantity: quantity || 1, configuration });
+    return addCartProduct({ productId, quantity: quantity || 1, configuration });
   };
 
   return {
