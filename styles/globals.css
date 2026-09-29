@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "react-image-gallery/styles/image-gallery.css" layer(utilities);
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 

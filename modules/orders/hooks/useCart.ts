@@ -137,6 +137,15 @@ export const CART_CHECKOUT_QUERY = gql`
             amount
             currencyCode
           }
+          ... on DeliveryProviderPickUp {
+            pickUpLocations {
+              _id
+              name
+              address {
+                ...AddressFragment
+              }
+            }
+          }
         }
         contact {
           telNumber

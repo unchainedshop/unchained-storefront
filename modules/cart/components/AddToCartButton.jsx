@@ -33,7 +33,8 @@ const AddToCartButton = ({ productId, ...product }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     toast.dismiss();
-    await submitForm();
+    const added = await submitForm();
+    if (!added) return;
     toast.custom(
       (t) => (
         <div className="fixed top-20 left-0 right-0 z-[1060] pointer-events-none">

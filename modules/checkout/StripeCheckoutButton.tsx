@@ -20,12 +20,12 @@ const StripeCheckoutButton = ({ order }) => {
   const signStripeMutation = async () => {
     try {
       const transactionContext = {};
-      const { data } = await sign({
+      const signed = await sign({
         orderPaymentId: order.payment._id,
         transactionContext,
       });
-      if (data?.signPaymentProviderForCheckout) {
-        setClientSecret(data.signPaymentProviderForCheckout);
+      if (signed) {
+        setClientSecret(signed);
       }
     } catch (e) {
       console.error(e);

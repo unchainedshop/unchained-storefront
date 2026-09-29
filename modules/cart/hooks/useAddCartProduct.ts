@@ -91,22 +91,26 @@ const useAddCartProduct = () => {
   ) => {
     try {
       if (!user) {
-        await loginAsGuestMutation({
-          awaitRefetchQueries: true,
-        });
-        await client.resetStore();
+        await loginAsGuestMutation();
       }
       await addCartProductMutation({
         variables: {
           ...variables,
           orderId: user?.cart?._id,
         },
+        // A guest login only changes who `me` is, so refetch the User query
+        // once the product is in the cart. Resetting the whole store instead
+        // unmounts the product page, which aborts its refetches and made the
+        // first add-to-cart of a new visitor fail silently.
+        refetchQueries: user ? [] : ['User'],
         ...options,
       });
+      return true;
     } catch (err: any) {
       if (err.message.toLowerCase().includes('not enough in stock')) {
         alert('Out of stock');
       }
+      return false;
     }
   };
 

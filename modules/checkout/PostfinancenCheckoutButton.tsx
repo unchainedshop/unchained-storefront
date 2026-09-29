@@ -15,12 +15,12 @@ const PostfinancenCheckoutButton = ({ order }) => {
         cancelRedirectUrl: `${window.location.origin}/checkout`,
         failedRedirectUrl: `${window.location.origin}/checkout?error=1`,
       };
-      const { data } = await sign({
+      const signed = await sign({
         orderPaymentId: order.payment._id,
         transactionContext,
       });
-      if (data?.signPaymentProviderForCheckout) {
-        const paymentResponse = JSON.parse(data.signPaymentProviderForCheckout);
+      if (signed) {
+        const paymentResponse = JSON.parse(signed);
         const paymentLink = paymentResponse?.location;
         if (paymentLink) {
           document.location.href = paymentLink;

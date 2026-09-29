@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 const en = JSON.parse(fs.readFileSync('./i18n/en.json', 'utf-8'));
 const dePath = './i18n/de.json';
 const de = JSON.parse(fs.readFileSync(dePath, 'utf-8'));
