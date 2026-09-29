@@ -23,14 +23,12 @@ const DatatransCheckoutButton = ({ order }) => {
           errorUrl,
         },
       };
-      const { data } = await sign({
+      const signed = await sign({
         orderPaymentId: order.payment._id,
         transactionContext,
       });
-      if (data?.signPaymentProviderForCheckout) {
-        const { location } = JSON.parse(
-          data.signPaymentProviderForCheckout || {},
-        );
+      if (signed) {
+        const { location } = JSON.parse(signed);
         if (location) {
           document.location.href = location;
         }
