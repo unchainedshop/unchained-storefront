@@ -20,16 +20,10 @@ const QuotationList = ({ quotations }) => {
   return (
     <section
       id="quotations-view"
-      className="space-y-6 mt-5 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="space-y-6"
       aria-labelledby="account-details-heading"
     >
-      <div className="max-w-5xl mx-auto mt-6">
-        <h2 className="text-2xl font-semibold text-foreground mb-4">
-          {formatMessage({
-            id: 'quotation_list_title',
-            defaultMessage: 'Quotation Requests',
-          })}
-        </h2>
+      <div>
 
         <div className="grid gap-4">
           {quotations.map((q) => {

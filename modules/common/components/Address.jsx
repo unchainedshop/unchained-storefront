@@ -58,12 +58,12 @@ const Address = ({ user }) => {
     <section
       id="address"
       aria-labelledby="address"
-      className="mt-10 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="mt-6 first:mt-0"
     >
       <div className="space-y-6">
         <Form onSubmit={onSubmit}>
-          <div className="shadow sm:overflow-hidden sm:rounded-md">
-            <div className="bg-surface py-6 px-4 sm:p-6">
+          <div className="card overflow-hidden">
+            <div className="p-5 sm:p-6">
               <div className="flex items-center justify-between">
                 <h1
                   id="address-heading"

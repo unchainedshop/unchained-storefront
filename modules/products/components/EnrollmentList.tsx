@@ -20,23 +20,13 @@ const EnrollmentList = ({ enrollments }) => {
   return (
     <section
       id="subscriptions-view"
-      className="space-y-6 mt-5 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
-      aria-labelledby="account-details-heading"
-    >
-      <h3
-        id="account-details-heading"
-        className="text-lg font-medium leading-6 text-foreground"
-      >
-        {formatMessage({
-          id: 'subscriptions',
-          defaultMessage: 'Subscriptions',
-        })}
-      </h3>
+      className="space-y-4"
+          >
       {enrollments.map((enrollment) => {
         const { _id, enrollmentNumber, status, periods, plan, user, expires } =
           enrollment;
         return (
-          <div key={enrollment._id}>
+          <div key={enrollment._id} className="card p-5">
             <div className="flex justify-between items-center mb-2">
               <div>
                 <Link

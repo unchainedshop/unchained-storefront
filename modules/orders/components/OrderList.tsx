@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import SearchField from '../../common/components/SearchField';
 import OrderListItem from './OrderListItem';
@@ -6,32 +7,36 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="bg-surface">
-      <div className="mx-4 max-w-full px-4 pt-16 sm:px-6 lg:px-8">
-        <div className="max-w-full">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            {formatMessage({
-              id: 'order_history',
-              defaultMessage: 'Order History',
-            })}
-          </h1>
-          <p className="mt-2 text-sm text-subtle-foreground">
-            {formatMessage({
-              id: 'manage_orders',
-              defaultMessage:
-                'Check the status of recent orders, manage returns, and download invoices.',
-            })}
-          </p>
-        </div>
+    <div>
+      <div>
+        <p className="-mt-4 mb-6 text-sm text-muted-foreground">
+          {formatMessage({
+            id: 'manage_orders',
+            defaultMessage:
+              'Check the status of recent orders, manage returns, and download invoices.',
+          })}
+        </p>
 
-        <div className="my-4">
+        <div className="mb-6 max-w-sm">
           <SearchField
             defaultValue={queryString}
             onInputChange={setQueryString}
           />
         </div>
 
-        <div className="mt-4 sm:mt-8">
+        {!orders?.length ? (
+          <div className="flex flex-col items-center rounded-xl border border-dashed border-input px-6 py-16 text-center">
+            <p className="font-semibold">
+              {queryString
+                ? formatMessage({ id: 'no_orders_match', defaultMessage: 'No orders match your search.' })
+                : formatMessage({ id: 'no_orders_yet', defaultMessage: "You haven't placed any orders yet." })}
+            </p>
+            <Link href="/shop" className="btn btn-primary mt-6">
+              {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
+            </Link>
+          </div>
+        ) : (
+        <div className="card mt-4 p-5 sm:mt-0 sm:p-6">
           <h2 className="sr-only">
             {formatMessage({
               id: 'recent_orders',
@@ -39,7 +44,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
             })}
           </h2>
 
-          <dl className="divide-y divide-input border-b text-base text-muted-foreground sm:grid sm:space-y-0 lg:flex-none">
+          <dl className="divide-y divide-border text-base text-muted-foreground sm:grid sm:space-y-0 lg:flex-none">
             <div className="hidden sm:block sm:pb-6">
               <div className="flex-auto sm:grid sm:grid-cols-6 sm:gap-x-6 lg:gap-x-8">
                 <div className="flex justify-between sm:block">
@@ -98,6 +103,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
             ))}
           </dl>
         </div>
+        )}
       </div>
     </div>
   );

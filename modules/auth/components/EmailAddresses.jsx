@@ -39,11 +39,11 @@ const EmailAddresses = ({ emails }) => {
   return (
     <section
       id="email"
-      className="mt-10 space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="mt-6 first:mt-0"
       aria-labelledby="email-addresses-heading"
     >
-      <div className="shadow sm:overflow-hidden sm:rounded-md">
-        <div className="bg-surface py-6 px-4 sm:p-6">
+      <div className="card overflow-hidden">
+        <div className="p-5 sm:p-6">
           <div>
             <h3
               id="email-addresses-heading"
