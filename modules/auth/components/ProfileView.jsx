@@ -59,11 +59,11 @@ const ProfileView = ({ user }) => {
     >
       <Form onSubmit={onSubmit}>
         <div className="shadow sm:overflow-hidden sm:rounded-md">
-          <div className="bg-white py-6 px-4 dark:bg-slate-900 dark:text-slate-200 sm:p-6">
+          <div className="bg-surface py-6 px-4 sm:p-6">
             <div className="flex items-center justify-between">
               <h3
                 id="account-details-heading"
-                className="text-lg font-medium leading-6 text-slate-900 dark:text-white"
+                className="text-lg font-medium leading-6 text-foreground"
               >
                 {formatMessage({
                   id: "account",
@@ -87,7 +87,7 @@ const ProfileView = ({ user }) => {
             <div className="mt-6 grid grid-cols-1 gap-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
+                  <label className="block text-sm font-medium text-subtle-foreground mb-2">
                     {formatMessage({
                       id: "first_name",
                       defaultMessage: "First name",
@@ -100,14 +100,14 @@ const ProfileView = ({ user }) => {
                       className="w-full"
                     />
                   ) : (
-                    <div className="text-sm text-slate-900 dark:text-white py-2">
+                    <div className="text-sm text-foreground py-2">
                       {user?.profile?.address?.firstName || "—"}
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
+                  <label className="block text-sm font-medium text-subtle-foreground mb-2">
                     {formatMessage({
                       id: "last_name",
                       defaultMessage: "Last name",
@@ -120,7 +120,7 @@ const ProfileView = ({ user }) => {
                       className="w-full"
                     />
                   ) : (
-                    <div className="text-sm text-slate-900 dark:text-white py-2">
+                    <div className="text-sm text-foreground py-2">
                       {user?.profile?.address?.lastName || "—"}
                     </div>
                   )}
@@ -128,7 +128,7 @@ const ProfileView = ({ user }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
+                <label className="block text-sm font-medium text-subtle-foreground mb-2">
                   {formatMessage({
                     id: "company",
                     defaultMessage: "Company",
@@ -141,7 +141,7 @@ const ProfileView = ({ user }) => {
                     className="w-full"
                   />
                 ) : (
-                  <div className="text-sm text-slate-900 dark:text-white py-2">
+                  <div className="text-sm text-foreground py-2">
                     {user?.profile?.address?.company || "—"}
                   </div>
                 )}
@@ -149,7 +149,7 @@ const ProfileView = ({ user }) => {
             </div>
           </div>
           {updateProfile && (
-            <div className="bg-slate-50 px-4 py-3 text-right dark:bg-slate-800 sm:px-6">
+            <div className="bg-muted px-4 py-3 text-right sm:px-6">
               <div className="flex justify-end space-x-3">
                 <Button
                   type="button"

@@ -7,7 +7,7 @@ const UserTokenList = ({ tokens }) => {
 
   if (!tokens?.length) {
     return (
-      <div className="text-center text-gray-500 mt-10">
+      <div className="text-center text-subtle-foreground mt-10">
         {formatMessage({
           id: 'no_user_tokens',
           defaultMessage: 'No tokens found.',
@@ -23,7 +23,7 @@ const UserTokenList = ({ tokens }) => {
       aria-labelledby="account-details-heading"
     >
       <div className="max-w-5xl mx-auto mt-6">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-2xl font-semibold text-foreground mb-4">
           {formatMessage({
             id: 'my_tokens_header',
             defaultMessage: 'My tokens',

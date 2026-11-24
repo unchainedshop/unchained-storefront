@@ -40,7 +40,7 @@ const AddDiscount = ({ orderId }) => {
       defaultValues={{ code: '' }}
       className="w-full"
     >
-      <div className="flex flex-col sm:flex-row items-stretch gap-3 bg-slate-50 dark:bg-slate-800 p-3 rounded-lg shadow-sm">
+      <div className="flex flex-col sm:flex-row items-stretch gap-3 bg-muted p-3 rounded-lg shadow-sm">
         <div className="flex-1">
           <TextField
             type="text"
@@ -62,7 +62,7 @@ const AddDiscount = ({ orderId }) => {
           <SubmitButton
             type="submit"
             variant="primary"
-            className="px-5 py-2.5 text-sm font-medium rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 transition-all duration-200"
+            className="px-5 py-2.5 text-sm font-medium rounded-md bg-primary hover:bg-primary-hover text-primary-foreground transition-all duration-200"
             text={formatMessage({
               id: 'apply_discount',
               defaultMessage: 'Apply Discount',

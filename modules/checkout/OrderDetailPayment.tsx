@@ -16,7 +16,7 @@ const OrderDetailPayment = ({ order }) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="py-4 text-lg font-medium text-slate-900 dark:text-slate-200">
+        <h2 className="py-4 text-lg font-medium text-foreground">
           {formatMessage({
             id: 'paid',
             defaultMessage: 'Paid',
@@ -33,13 +33,13 @@ const OrderDetailPayment = ({ order }) => {
         </span>
       </div>
 
-      <div className="border-t border-slate-50 dark:border-0 px-4 py-4 sm:px-6">
-        <span className="mb-5  block">
-          <span className="font-medium text-slate-600 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300">
+      <div className="border-t border-border dark:border-0 px-4 py-4 sm:px-6">
+        <span className="mb-5 block">
+          <span className="font-medium text-muted-foreground hover:text-subtle-foreground">
             {getInterfaceLabel(order.payment?.provider?.interface)}
           </span>
         </span>
-        <div className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-200">
+        <div className="mt-3 text-sm font-medium text-subtle-foreground">
           {formatMessage({
             id: 'method',
             defaultMessage: 'Method',
@@ -55,7 +55,7 @@ const OrderDetailPayment = ({ order }) => {
             />
           ))}
         </span>
-        <div className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-200 print:hidden">
+        <div className="mt-3 text-sm font-medium text-subtle-foreground print:hidden">
           {formatMessage({
             id: 'payment_status',
             defaultMessage: 'Payment status',

@@ -24,14 +24,14 @@ const LoginCodePage = () => {
   if (!failed) return <Loading />;
 
   return (
-    <div className="mx-auto mt-16 max-w-md rounded-xl bg-white p-8 text-center shadow-xl dark:bg-slate-700">
-      <h2 className="text-2xl font-semibold text-red-800 dark:text-red-300">
+    <div className="mx-auto mt-16 max-w-md rounded-xl bg-surface p-8 text-center shadow-xl">
+      <h2 className="text-2xl font-semibold text-danger">
         {formatMessage({
           id: 'login-link-invalid',
           defaultMessage: 'This login link is invalid or has expired',
         })}
       </h2>
-      <p className="mt-3 text-slate-700 dark:text-slate-200">
+      <p className="mt-3 text-muted-foreground">
         {formatMessage({
           id: 'login-link-invalid-hint',
           defaultMessage:
@@ -40,7 +40,7 @@ const LoginCodePage = () => {
       </p>
       <Link
         href="/login"
-        className="mt-6 inline-block rounded bg-slate-800 px-4 py-2 text-white"
+        className="mt-6 inline-block rounded bg-primary px-4 py-2 text-primary-foreground"
       >
         {formatMessage({ id: 'log_in', defaultMessage: 'Log In' })}
       </Link>

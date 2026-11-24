@@ -53,7 +53,7 @@ const AnimatedCheckmark = ({
   return (
     <div className={`inline-flex items-center justify-center ${className}`}>
       <CheckCircleIcon
-        className={`${sizeClasses[size]} text-green-500 ${animationClasses}`}
+        className={`${sizeClasses[size]} text-success ${animationClasses}`}
         aria-hidden="true"
       />
     </div>

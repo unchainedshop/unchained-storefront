@@ -24,7 +24,7 @@ const OrderListItem = ({ order }) => {
       text: formatMessage({ id: 'fulfilled', defaultMessage: 'FulFilled' }),
       icon: (
         <CheckCircleIcon
-          className="h-5 w-5 text-green-500"
+          className="h-5 w-5 text-success"
           aria-hidden="true"
         />
       ),
@@ -34,9 +34,9 @@ const OrderListItem = ({ order }) => {
 
   return (
     <Link href={`/order/${order?._id}`} className="w-full">
-      <div className="w-full py-6 px-2 hover:bg-slate-400 hover:text-white sm:grid sm:grid-cols-6 sm:gap-x-6 lg:gap-x-8">
+      <div className="w-full py-6 px-2 hover:bg-muted-strong hover:text-white sm:grid sm:grid-cols-6 sm:gap-x-6 lg:gap-x-8">
         <div className="flex justify-between sm:block">
-          <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
+          <dt className="font-medium text-foreground sm:hidden">
             {formatMessage({
               id: 'order_date',
               defaultMessage: 'Order date',
@@ -49,7 +49,7 @@ const OrderListItem = ({ order }) => {
           </dd>
         </div>
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
+          <dt className="font-medium text-foreground sm:hidden">
             {formatMessage({
               id: 'order_number',
               defaultMessage: 'Order number',
@@ -58,7 +58,7 @@ const OrderListItem = ({ order }) => {
           <dd className="sm:mt-1">{order?.orderNumber}</dd>
         </div>
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
+          <dt className="font-medium text-foreground sm:hidden">
             {formatMessage({
               id: 'total_amount',
               defaultMessage: 'Total amount',
@@ -69,7 +69,7 @@ const OrderListItem = ({ order }) => {
           </dd>
         </div>
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
+          <dt className="font-medium text-foreground sm:hidden">
             {formatMessage({
               id: 'payment_status',
               defaultMessage: 'Payment status',
@@ -78,7 +78,7 @@ const OrderListItem = ({ order }) => {
           <dd className="sm:mt-1">{order?.payment?.status}</dd>
         </div>
         <div className="flex items-center justify-between pt-6 sm:pt-0">
-          <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
+          <dt className="font-medium text-foreground sm:hidden">
             {formatMessage({
               id: 'status',
               defaultMessage: 'Status',
@@ -104,7 +104,7 @@ const OrderListItem = ({ order }) => {
           </dd>
         </div>
         <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-slate-900 dark:text-slate-100 sm:hidden">
+          <dt className="font-medium text-foreground sm:hidden">
             {formatMessage({
               id: 'delivery_status',
               defaultMessage: 'Delivery status',

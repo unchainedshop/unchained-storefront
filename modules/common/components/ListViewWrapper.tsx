@@ -28,26 +28,26 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
         {(title || subtitle) && (
           <div className="mb-8">
             {title && (
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">
+              <h1 className="text-3xl font-semibold tracking-tight text-foreground mb-2">
                 {title}
               </h1>
             )}
             {subtitle && (
-              <p className="text-lg text-slate-600 dark:text-slate-300">
+              <p className="text-lg text-muted-foreground">
                 {subtitle}
               </p>
             )}
           </div>
         )}
         <div className="flex justify-end mb-4">
-          <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
+          <div className="flex bg-muted rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
               className={classNames(
                 'p-2 rounded-md transition-colors',
                 viewMode === 'grid'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200',
+                  ? 'bg-surface text-foreground shadow-sm'
+                  : 'text-subtle-foreground hover:text-muted-foreground ',
               )}
             >
               <Squares2X2Icon className="w-4 h-4" />
@@ -57,8 +57,8 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
               className={classNames(
                 'p-2 rounded-md transition-colors',
                 viewMode === 'list'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200',
+                  ? 'bg-surface text-foreground shadow-sm'
+                  : 'text-subtle-foreground hover:text-muted-foreground ',
               )}
             >
               <ListBulletIcon className="w-4 h-4" />

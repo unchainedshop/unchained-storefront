@@ -6,16 +6,16 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="bg-white dark:bg-slate-950">
+    <div className="bg-surface">
       <div className="mx-4 max-w-full px-4 pt-16 sm:px-6 lg:px-8">
         <div className="max-w-full">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             {formatMessage({
               id: 'order_history',
               defaultMessage: 'Order History',
             })}
           </h1>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-2 text-sm text-subtle-foreground">
             {formatMessage({
               id: 'manage_orders',
               defaultMessage:
@@ -39,11 +39,11 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
             })}
           </h2>
 
-          <dl className="divide-y divide-slate-300 border-b text-base text-slate-600 dark:text-slate-300 sm:grid sm:space-y-0 lg:flex-none">
+          <dl className="divide-y divide-input border-b text-base text-muted-foreground sm:grid sm:space-y-0 lg:flex-none">
             <div className="hidden sm:block sm:pb-6">
               <div className="flex-auto sm:grid sm:grid-cols-6 sm:gap-x-6 lg:gap-x-8">
                 <div className="flex justify-between sm:block">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'order_date',
                       defaultMessage: 'Order date',
@@ -51,7 +51,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'order_number',
                       defaultMessage: 'Order number',
@@ -59,7 +59,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'total_amount',
                       defaultMessage: 'Total amount',
@@ -67,7 +67,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'payment_status',
                       defaultMessage: 'Payment status',
@@ -75,7 +75,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'order_status',
                       defaultMessage: 'Order status',
@@ -83,7 +83,7 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
                   </dt>
                 </div>
                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'Delivery_status',
                       defaultMessage: 'Delivery status',

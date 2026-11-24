@@ -41,7 +41,7 @@ const CheckboxField = ({ ...props }) => {
         })}
         className={classNames('form-check-input', className, {
           'color-red': !!props.error,
-          'border-slate-200': ![error],
+          'border-border': ![error],
         })}
       />
     </FieldWrapper>

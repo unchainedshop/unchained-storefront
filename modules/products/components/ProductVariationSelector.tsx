@@ -25,7 +25,7 @@ const ProductVariationSelector = ({
 
         return (
           <div key={variation._id}>
-            <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">
               {variation.texts?.title}
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -35,12 +35,12 @@ const ProductVariationSelector = ({
                   type="button"
                   disabled={!option.isAvailable}
                   className={classNames('px-3 py-1 border rounded-md text-sm', {
-                    'bg-slate-900 text-white':
+                    'bg-primary text-primary-foreground':
                       selectedOptions[variation.key] === option.value,
-                    'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-white':
+                    'bg-muted text-foreground ':
                       option.isAvailable &&
                       selectedOptions[variation.key] !== option.value,
-                    'bg-slate-200 text-slate-400 cursor-not-allowed':
+                    'bg-muted-strong text-subtle-foreground cursor-not-allowed':
                       !option.isAvailable,
                   })}
                   onClick={() =>

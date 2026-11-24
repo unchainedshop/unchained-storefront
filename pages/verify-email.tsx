@@ -44,17 +44,17 @@ const VerifyEmail = () => {
 
   if (result.success === null) return <Loading />;
   return (
-    <div className="flex items-center justify-center min-h-screen p-5 dark:bg-slate-500 min-w-screen">
+    <div className="flex items-center justify-center min-h-screen p-5 min-w-screen">
       <div
         className={classNames(
-          'max-w-xl p-8 text-center  bg-white shadow-xl lg:max-w-3xl rounded-xl lg:p-12 ',
+          'max-w-xl p-8 text-center bg-surface shadow-xl lg:max-w-3xl rounded-xl lg:p-12 ',
           {
-            'text-stone-800': result.success,
-            'text-red-800': !result.success,
+            'text-foreground': result.success,
+            'text-danger': !result.success,
           },
         )}
       >
-        <h3 className="text-2xl text-slate-800">
+        <h3 className="text-2xl text-foreground">
           {result.success ? 'Email Verified successfully' : result.message}
         </h3>
         <div className="flex justify-center">
@@ -65,7 +65,7 @@ const VerifyEmail = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-24 h-24 text-green-400"
+              className="w-24 h-24 text-success"
             >
               <path
                 strokeLinecap="round"
@@ -80,7 +80,7 @@ const VerifyEmail = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-24 h-24 text-red-400"
+              className="w-24 h-24 text-danger"
             >
               <path
                 strokeLinecap="round"
@@ -91,7 +91,7 @@ const VerifyEmail = () => {
           )}
         </div>
 
-        <p className="text-slate-800">
+        <p className="text-foreground">
           {result.success
             ? formatMessage({
                 id: 'thank-you-for-verifying',
@@ -107,7 +107,7 @@ const VerifyEmail = () => {
           <Link href="/" legacyBehavior>
             <a
               type="button"
-              className="px-4 py-2 text-white bg-slate-800 rounded"
+              className="px-4 py-2 text-primary-foreground bg-primary rounded"
             >
               {formatMessage({
                 id: 'go-home',

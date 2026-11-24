@@ -13,7 +13,7 @@ const ProductQuotationButton = ({ product }) => {
     <div className="pt-4">
       <Link
         href={`/quotation/request/${product?.texts?.slug}`}
-        className="inline-flex items-center justify-center rounded-md text-sm font-medium w-full px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white transition-all duration-300"
+        className="inline-flex items-center justify-center rounded-md text-sm font-medium w-full px-4 py-2 bg-primary hover:bg-primary-hover text-primary-foreground transition-all duration-300"
       >
         <ChatBubbleLeftIcon className="h-5 w-5 mr-2" />
         {intl.formatMessage({

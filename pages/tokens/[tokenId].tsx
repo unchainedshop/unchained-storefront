@@ -32,17 +32,17 @@ const TokenDetailPage = () => {
 
   const statusClasses =
     status === 'CENTRALIZED'
-      ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
-      : 'bg-amber-50 text-amber-700 ring-amber-200';
+      ? 'bg-success-soft text-success ring-success'
+      : 'bg-warning-soft text-warning ring-warning';
 
   const productImage =
     ercMetadata?.image || product?.media?.[0]?.file?.url || null;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-muted py-8 px-4">
       <div className="mx-auto max-w-5xl space-y-8">        
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-foreground">
             {formatMessage({
               id: 'token_detail_title',
               defaultMessage: 'Token Detail',
@@ -65,7 +65,7 @@ const TokenDetailPage = () => {
               value={
                 <a
                   href={`/download/${_id}?hash=${accessKey}`}
-                  className="inline-flex items-center gap-2 rounded-lg bg-slate-600 px-4 py-2 text-white font-medium  hover:bg-slate-700 transition"
+                  className="btn btn-primary"
                   
                 >
                   Zugangscode anzeigen
@@ -102,7 +102,7 @@ const TokenDetailPage = () => {
         
         <Section title="🛍️ Product Info">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">            
-            <div className="relative h-64 w-full overflow-hidden rounded-xl bg-gray-100">
+            <div className="relative h-64 w-full overflow-hidden rounded-xl bg-muted">
               {productImage ? (
                 <Image
                   src={productImage}
@@ -113,7 +113,7 @@ const TokenDetailPage = () => {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
-                  <PhotoIcon className="h-14 w-14 text-gray-400" />
+                  <PhotoIcon className="h-14 w-14 text-subtle-foreground" />
                 </div>
               )}
             </div>
@@ -128,7 +128,7 @@ const TokenDetailPage = () => {
                 value={
                   <Link
                     href={`/product/${product.texts.slug}`}
-                    className="text-blue-600 hover:text-blue-800 font-medium underline"
+                    className="text-accent hover:text-accent font-medium underline"
                   >
                     {product.texts.title}
                   </Link>
@@ -153,18 +153,18 @@ const TokenDetailPage = () => {
 };
 
 const Section = ({ title, children }) => (
-  <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm space-y-6">
-    <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+  <section className="rounded-2xl border border-border bg-surface p-6 shadow-sm space-y-6">
+    <h2 className="text-xl font-semibold text-foreground">{title}</h2>
     {children}
   </section>
 );
 
 const InfoItem = ({ id, label, value, formatMessage }) => (
   <div>
-    <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">
+    <dt className="text-xs font-semibold uppercase tracking-wide text-subtle-foreground mb-1">
       {formatMessage({ id, defaultMessage: label })}
     </dt>
-    <dd className="text-gray-900 break-words">{value}</dd>
+    <dd className="text-foreground break-words">{value}</dd>
   </div>
 );
 

@@ -50,10 +50,10 @@ const OrderSuccessTankYouPage = () => {
             colors={['#059669', '#10b981', '#34d399', '#6ee7b7']}
           />
 
-          <FadeInSection className="mt-10 mx-auto max-w-6xl bg-white dark:bg-slate-900 p-8 rounded-lg border border-slate-200 dark:border-0 print:hidden">
+          <FadeInSection className="mt-10 mx-auto max-w-6xl bg-surface p-8 rounded-lg border border-border dark:border-0 print:hidden">
             <div className="flex items-center gap-4 mb-6">
               <AnimatedCheckmark size="lg" delay={500} />
-              <h1 className="text-2xl text-slate-900 dark:text-white">
+              <h1 className="text-2xl text-foreground">
                 {intl.formatMessage({
                   id: 'order_confirmation',
                   defaultMessage: 'Order Confirmation',
@@ -62,7 +62,7 @@ const OrderSuccessTankYouPage = () => {
             </div>
 
             <FadeInSection delay={400}>
-              <div className="space-y-3 text-slate-600 dark:text-slate-300">
+              <div className="space-y-3 text-muted-foreground">
                 <p>
                   {intl.formatMessage({
                     id: 'order_received_processing',

@@ -87,8 +87,8 @@ const Checkout = () => {
 
         <div className="lg:col-span-1">
           <div className="sticky top-16">
-            <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
-              <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+            <div className="bg-muted rounded-lg p-6">
+              <h2 className="text-lg font-medium text-foreground mb-6">
                 {formatMessage({
                   id: 'order_summary',
                   defaultMessage: 'Order Summary',
@@ -99,7 +99,7 @@ const Checkout = () => {
                 {cart.items?.length > 0 ? (
                   cart.items.map((item) => (
                     <div key={item._id} className="flex gap-4">
-                      <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-md overflow-hidden flex-shrink-0">
+                      <div className="w-16 h-16 bg-muted-strong rounded-md overflow-hidden flex-shrink-0">
                         {item.product.media?.[0]?.file?.url ? (
                           <img
                             src={item.product.media[0].file.url}
@@ -108,7 +108,7 @@ const Checkout = () => {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-slate-400 text-xs">
+                            <span className="text-subtle-foreground text-xs">
                               No image
                             </span>
                           </div>
@@ -116,19 +116,19 @@ const Checkout = () => {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                        <h3 className="text-sm font-medium text-foreground truncate">
                           {item.product.texts?.title || 'Untitled Product'}
                         </h3>
                         {item.product.texts?.subtitle && (
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                          <p className="text-xs text-subtle-foreground mt-1">
                             {item.product.texts.subtitle}
                           </p>
                         )}
                         <div className="flex justify-between items-center mt-2">
-                          <span className="text-sm text-slate-600 dark:text-slate-300">
+                          <span className="text-sm text-muted-foreground">
                             Qty: {item.quantity}
                           </span>
-                          <span className="text-sm font-medium text-slate-900 dark:text-white">
+                          <span className="text-sm font-medium text-foreground">
                             <FormattedPrice price={item.total} />
                           </span>
                         </div>
@@ -137,7 +137,7 @@ const Checkout = () => {
                   ))
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-slate-500 dark:text-slate-400">
+                    <p className="text-subtle-foreground">
                       {formatMessage({
                         id: 'your_cart_is_empty',
                         defaultMessage: 'Your cart is empty',
@@ -148,8 +148,8 @@ const Checkout = () => {
               </div>
               {cart.items?.length > 0 && (
                 <>
-                  <div className="border-t border-slate-200 dark:border-0 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                  <div className="border-t border-border dark:border-0 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm text-muted-foreground">
                       <span>
                         {formatMessage({
                           id: 'subtotal',
@@ -161,7 +161,7 @@ const Checkout = () => {
                       </span>
                     </div>
 
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                    <div className="flex justify-between text-sm text-muted-foreground">
                       <span>
                         {formatMessage({
                           id: 'shipping',
@@ -180,7 +180,7 @@ const Checkout = () => {
                       </span>
                     </div>
 
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                    <div className="flex justify-between text-sm text-muted-foreground">
                       <span>
                         {formatMessage({
                           id: 'tax',
@@ -216,7 +216,7 @@ const Checkout = () => {
                         })}
                       </div>
                     </div>
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                    <div className="flex justify-between text-sm text-muted-foreground">
                       <span>
                         {formatMessage({
                           id: 'total_discounts',
@@ -229,7 +229,7 @@ const Checkout = () => {
                     </div>
 
                     {cart.payment?.fee && (
-                      <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
+                      <div className="flex justify-between text-sm text-muted-foreground">
                         <span>
                           {formatMessage({
                             id: 'payment_fee',
@@ -243,8 +243,8 @@ const Checkout = () => {
                     )}
                   </div>
                   <AddDiscount orderId={cart?._id} />
-                  <div className="border-t border-slate-200 dark:border-0 pt-4 mt-4">
-                    <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
+                  <div className="border-t border-border dark:border-0 pt-4 mt-4">
+                    <div className="flex justify-between text-lg font-medium text-foreground">
                       <span>
                         {formatMessage({
                           id: 'order_total',

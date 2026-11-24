@@ -32,7 +32,7 @@ const LoginCart = () => {
       {!user?.isGuest && (
         <Link
           href="/account"
-          className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
+          className="text-muted-foreground hover:text-foreground transition-colors p-2"
         >
           <UserCircleIcon className="h-6 w-6" />
         </Link>
@@ -40,12 +40,12 @@ const LoginCart = () => {
 
       {/* Cart Button */}
       <button
-        className="relative text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
+        className="relative text-muted-foreground hover:text-foreground transition-colors p-2"
         onClick={() => toggleCart(!isCartOpen)}
       >
         <ShoppingCartIcon className="h-6 w-6" />
         {user?.cart?.items?.length ? (
-          <span className="absolute -top-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
+          <span className="absolute -top-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
             {user?.cart?.items.reduce((acc, item) => acc + item.quantity, 0)}
           </span>
         ) : null}
@@ -55,7 +55,7 @@ const LoginCart = () => {
       <button
         onClick={onLogout}
         title={formatMessage({ id: 'logout', defaultMessage: 'Logout' })}
-        className="text-slate-600 hover:text-red-600 dark:text-slate-300 dark:hover:text-red-400 transition-colors p-2"
+        className="text-muted-foreground hover:text-danger transition-colors p-2"
       >
         <ArrowRightOnRectangleIcon className="h-6 w-6" />
       </button>
@@ -64,12 +64,12 @@ const LoginCart = () => {
     <div className="flex items-center gap-x-3">
       <Link
         href="/login"
-        className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
+        className="text-muted-foreground hover:text-foreground transition-colors p-2"
       >
         <UserCircleIcon className="h-6 w-6" />
       </Link>
       <button
-        className="relative text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2"
+        className="relative text-muted-foreground hover:text-foreground transition-colors p-2"
         onClick={() => toggleCart(!isCartOpen)}
       >
         <ShoppingCartIcon className="h-6 w-6" />

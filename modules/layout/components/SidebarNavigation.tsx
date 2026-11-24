@@ -169,7 +169,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     <>
       {/* Backdrop with smooth fade */}
       <div
-        className={`fixed inset-0 z-[1030] bg-slate-950/50 backdrop-blur-sm transition-all duration-300 ease-out ${
+        className={`fixed inset-0 z-[1030] bg-overlay backdrop-blur-sm transition-all duration-300 ease-out ${
           isAnimating ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
@@ -177,7 +177,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
       {/* Drawer - Even higher z-index */}
       <div
-        className={`fixed top-3 sm:top-5 bottom-3 sm:bottom-3 left-3 sm:left-5 z-[1040] w-xs sm:w-sm lg:w-md xl:w-lg transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
+        className={`fixed top-3 sm:top-5 bottom-3 sm:bottom-3 left-3 sm:left-5 z-[1040] w-xs sm:w-sm lg:w-md xl:w-lg transform rounded-lg bg-muted backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${
           isAnimating
             ? 'translate-x-0 opacity-100 scale-100'
             : '-translate-x-16 opacity-0 scale-95 pointer-events-none'
@@ -194,7 +194,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
           >
             <button
               onClick={onClose}
-              className="rounded-lg p-2 text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
+              className="rounded-lg p-2 text-muted-foreground hover:text-foreground transition-colors"
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
@@ -223,7 +223,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                       {item.isExpandable ? (
                         <button
                           onClick={item.onClick}
-                          className={`flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left ${'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
+                          className={`flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left ${'text-muted-foreground hover:text-foreground '}`}
                           style={{
                             transitionDelay: isAnimating
                               ? `${300 + index * 50}ms`
@@ -239,8 +239,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                           onClick={onClose}
                           className={`block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out ${
                             isCurrentPage(item.href)
-                              ? 'text-slate-900 dark:text-white'
-                              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                              ? 'text-foreground '
+                              : 'text-muted-foreground hover:text-foreground '
                           }`}
                           style={{
                             transitionDelay: isAnimating
@@ -267,11 +267,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                 <div className="flex items-center mb-6">
                   <button
                     onClick={handleBackClick}
-                    className="p-2 mr-3 rounded-lg text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
+                    className="p-2 mr-3 rounded-lg text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <ArrowLeftIcon className="h-6 w-6" />
                   </button>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                  <h2 className="text-xl font-semibold text-foreground">
                     {formatMessage({
                       id: 'categories',
                       defaultMessage: 'Categories',
@@ -284,7 +284,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                       <li key={category._id}>
                         <button
                           onClick={() => handleCategoryClick(category)}
-                          className="flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                          className="flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left text-muted-foreground hover:text-foreground"
                         >
                           <span>{category.texts?.title}</span>
                           {getChildCategories(category.texts?.slug).length >
@@ -307,11 +307,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                 <div className="flex items-center mb-6">
                   <button
                     onClick={handleBackClick}
-                    className="p-2 mr-3 rounded-lg text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
+                    className="p-2 mr-3 rounded-lg text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <ArrowLeftIcon className="h-6 w-6" />
                   </button>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                  <h2 className="text-xl font-semibold text-foreground">
                     {selectedCategory?.texts?.title}
                   </h2>
                 </div>
@@ -322,7 +322,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                       <Link
                         href={`/shop/${selectedCategory.texts?.slug}`}
                         onClick={onClose}
-                        className="block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700"
+                        className="block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-foreground border-b border-border"
                       >
                         {formatMessage({
                           id: 'view_all',
@@ -338,7 +338,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                           <Link
                             href={`/shop/${childCategory.texts?.slug}`}
                             onClick={onClose}
-                            className="block px-4 py-4 text-xl font-medium transition-all duration-300 ease-out text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                            className="block px-4 py-4 text-xl font-medium transition-all duration-300 ease-out text-muted-foreground hover:text-foreground"
                           >
                             {childCategory.texts?.title}
                           </Link>
@@ -353,7 +353,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
           {/* Footer with staggered animation */}
           <div
-            className={`px-4 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 transition-all duration-300 delay-300 ${
+            className={`px-4 pt-6 mt-6 border-t border-border transition-all duration-300 delay-300 ${
               isAnimating
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-4 opacity-0'
@@ -362,8 +362,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
             {/* Language Selector */}
             <div className="mb-4 flex flex-wrap justify-between items-center gap-3">
               <div className="flex items-center gap-2">
-                <GlobeAltIcon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
-                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                <GlobeAltIcon className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm font-medium text-muted-foreground">
                   {formatMessage({
                     id: 'language',
                     defaultMessage: 'Language',
@@ -377,8 +377,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                     onClick={() => handleLanguageChange(lang.code)}
                     className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                       locale === lang.code
-                        ? 'bg-slate-200 text-slate-800 dark:bg-slate-100 dark:text-slate-900'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+                        ? 'bg-muted-strong text-foreground '
+                        : 'bg-muted text-muted-foreground hover:bg-muted-strong '
                     }`}
                   >
                     <span>{lang.flag}</span>
@@ -390,13 +390,13 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
             {/* Shipping Info */}
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-slate-600 dark:text-slate-400">
+              <span className="text-sm text-muted-foreground">
                 {formatMessage({
                   id: 'shipping_to',
                   defaultMessage: 'Shipping to',
                 })}
               </span>
-              <span className="text-sm font-medium text-slate-900 dark:text-white flex items-center">
+              <span className="text-sm font-medium text-foreground flex items-center">
                 <span className="mr-2">🇨🇭</span>
                 {formatMessage({
                   id: 'country_switzerland',
@@ -406,7 +406,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
             </div>
 
             {/* Copyright */}
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-subtle-foreground">
               © {new Date().getFullYear()} Store. All rights reserved.
             </p>
           </div>

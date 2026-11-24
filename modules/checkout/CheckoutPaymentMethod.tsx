@@ -76,8 +76,8 @@ const PaymentOption = ({ provider, selected, onSelect }) => {
       onClick={() => onSelect(provider._id)}
       className={`flex justify-between items-center p-5 rounded-xl cursor-pointer transition-all border shadow-sm hover:shadow-md ${
         selected
-          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
-          : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900'
+          ? 'border-accent bg-accent-soft shadow-md'
+          : 'border-border bg-surface '
       }`}
     >
       <div className="flex items-center space-x-4">
@@ -86,15 +86,15 @@ const PaymentOption = ({ provider, selected, onSelect }) => {
           name="paymentProviderId"
           checked={selected}
           onChange={() => onSelect(provider._id)}
-          className="h-5 w-5 text-blue-600 focus:ring-blue-500"
+          className="h-5 w-5 text-accent focus:ring-ring"
           aria-checked={selected}
         />
-        <span className="font-medium text-slate-800 dark:text-slate-200 text-base">
+        <span className="font-medium text-foreground text-base">
           <FormattedMessage {...label} />
         </span>
       </div>
       {selected && (
-        <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+        <span className="text-sm font-semibold text-accent">
           {formatMessage({ id: 'selected', defaultMessage: 'Selected' })}
         </span>
       )}
@@ -125,8 +125,8 @@ const CheckoutPaymentMethod = ({
   const CheckoutButton = CheckoutButtons[interfaceId] ?? (() => null);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
-      <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
+    <div className="bg-surface rounded-2xl p-6 border border-border shadow-md">
+      <h2 className="text-2xl font-semibold text-foreground mb-6">
         {formatMessage({
           id: 'payment-method',
           defaultMessage: 'Payment method',

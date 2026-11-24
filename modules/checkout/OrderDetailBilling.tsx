@@ -37,13 +37,13 @@ const OrderDetailBilling = ({ order }) => {
   return (
     <div className="space-y-6">
       <div>
-        <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">
+        <h4 className="text-sm font-medium text-subtle-foreground mb-3">
           {formatMessage({
             id: 'billing_address',
             defaultMessage: 'Billing address',
           })}
         </h4>
-        <div className="text-sm text-slate-900 dark:text-white space-y-1">
+        <div className="text-sm text-foreground space-y-1">
           <div className="font-medium">
             {order?.billingAddress?.firstName} {order?.billingAddress?.lastName}
           </div>
@@ -58,26 +58,26 @@ const OrderDetailBilling = ({ order }) => {
         </div>
       </div>
 
-      <div className="border-t border-slate-200 dark:border-0 pt-6">
+      <div className="border-t border-border dark:border-0 pt-6">
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-slate-600 dark:text-slate-400">
+            <span className="text-muted-foreground">
               {formatMessage({
                 id: 'subtotal',
                 defaultMessage: 'Subtotal',
               })}
             </span>
-            <span className="text-slate-900 dark:text-white font-medium">
+            <span className="text-foreground font-medium">
               <FormattedPrice price={order?.itemsTotal} />
             </span>
           </div>
 
           {order?.totalDelivery && order?.totalDelivery?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">
+              <span className="text-muted-foreground">
                 Shipping
               </span>
-              <span className="text-slate-900 dark:text-white font-medium">
+              <span className="text-foreground font-medium">
                 <FormattedPrice price={order?.totalDelivery} />
               </span>
             </div>
@@ -85,7 +85,7 @@ const OrderDetailBilling = ({ order }) => {
 
           {order?.totalTax && order?.totalTax?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">
+              <span className="text-muted-foreground">
                 {taxIncluded
                   ? formatMessage({
                       id: 'tax_included',
@@ -96,7 +96,7 @@ const OrderDetailBilling = ({ order }) => {
                       defaultMessage: 'Tax',
                     })}
               </span>
-              <span className="text-slate-900 dark:text-white font-medium">
+              <span className="text-foreground font-medium">
                 <FormattedPrice price={order?.totalTax} />
               </span>
             </div>
@@ -104,8 +104,8 @@ const OrderDetailBilling = ({ order }) => {
 
           {order?.totalPayment && order?.totalPayment?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">Fees</span>
-              <span className="text-slate-900 dark:text-white font-medium">
+              <span className="text-muted-foreground">Fees</span>
+              <span className="text-foreground font-medium">
                 <FormattedPrice price={order?.totalPayment} />
               </span>
             </div>
@@ -113,24 +113,24 @@ const OrderDetailBilling = ({ order }) => {
 
           {order?.totalDiscount && order?.totalDiscount?.amount > 0 && (
             <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">
+              <span className="text-muted-foreground">
                 Discount
               </span>
-              <span className="text-slate-900 dark:text-white font-medium">
+              <span className="text-foreground font-medium">
                 -<FormattedPrice price={order?.totalDiscount} />
               </span>
             </div>
           )}
 
-          <div className="border-t border-slate-200 dark:border-0 pt-3 mt-4">
+          <div className="border-t border-border dark:border-0 pt-3 mt-4">
             <div className="flex justify-between items-center">
-              <span className="font-medium text-slate-900 dark:text-white">
+              <span className="font-medium text-foreground">
                 {formatMessage({
                   id: 'total',
                   defaultMessage: 'Total',
                 })}
               </span>
-              <span className="font-semibold text-xl text-slate-900 dark:text-white">
+              <span className="font-semibold text-xl text-foreground">
                 <FormattedPrice price={calculatedTotal} />
               </span>
             </div>

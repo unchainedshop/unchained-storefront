@@ -17,7 +17,7 @@ const Categories = () => {
           defaultMessage: 'Product Categories',
         })}
       />
-      <div className="min-h-screen w-screen ml-[calc(-50vw+50%)] bg-white dark:bg-slate-900">
+      <div className="min-h-screen w-screen ml-[calc(-50vw+50%)] bg-surface">
         {loading ? (
           <div className="flex min-h-screen items-center justify-center">
             <Loading />
@@ -25,15 +25,15 @@ const Categories = () => {
         ) : (
           <>
             {/* Hero Section */}
-            <section className="w-full bg-gradient-to-br from-slate-50 to-slate-100 py-16 dark:from-slate-800 dark:to-slate-900">
+            <section className="w-full bg-gradient-to-br from-muted to-muted py-16">
               <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
-                <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                <h1 className="mb-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
                   {formatMessage({
                     id: 'shop_by_category',
                     defaultMessage: 'Shop by Category',
                   })}
                 </h1>
-                <p className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+                <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
                   {formatMessage({
                     id: 'categories_description',
                     defaultMessage:

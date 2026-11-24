@@ -48,14 +48,14 @@ const OrderDetail = ({ order }) => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
           <FadeInSection delay={100}>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-8">
               <OrderDetailHeader order={order} />
             </div>
           </FadeInSection>
 
           <FadeInSection delay={200}>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-8">
+              <h3 className="text-lg font-medium text-foreground mb-6">
                 {formatMessage({
                   id: 'order_items',
                   defaultMessage: 'Order Items',
@@ -72,8 +72,8 @@ const OrderDetail = ({ order }) => {
           </FadeInSection>
 
           <FadeInSection delay={400}>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-8">
+              <h3 className="text-lg font-medium text-foreground mb-6">
                 {formatMessage({
                   id: 'order_status',
                   defaultMessage: 'Order status',
@@ -90,7 +90,7 @@ const OrderDetail = ({ order }) => {
 
         <div className="lg:col-span-4 space-y-8">
           <FadeInSection className="print:hidden">
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-6 text-center">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-6 text-center">
               <Button
                 text={formatMessage({
                   id: 'print',
@@ -106,8 +106,8 @@ const OrderDetail = ({ order }) => {
           </FadeInSection>
 
           <FadeInSection delay={300}>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-8">
+              <h3 className="text-lg font-medium text-foreground mb-6">
                 {formatMessage({
                   id: 'order_summary',
                   defaultMessage: 'Order Summary',
@@ -118,8 +118,8 @@ const OrderDetail = ({ order }) => {
           </FadeInSection>
 
           <FadeInSection delay={400}>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-8">
+              <h3 className="text-lg font-medium text-foreground mb-6">
                 {formatMessage({
                   id: 'delivery',
                   defaultMessage: 'Delivery',
@@ -130,8 +130,8 @@ const OrderDetail = ({ order }) => {
           </FadeInSection>
 
           <FadeInSection delay={500}>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-8">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
+            <div className="bg-surface rounded-xl border border-border dark:border-0 p-8">
+              <h3 className="text-lg font-medium text-foreground mb-6">
                 {formatMessage({
                   id: 'payment',
                   defaultMessage: 'Payment',

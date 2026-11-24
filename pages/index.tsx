@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <>
       <MetaTags title={formatMessage({ id: 'home', defaultMessage: 'Home' })} />
-      <div className="min-h-screen bg-white dark:bg-slate-950">
+      <div className="min-h-screen bg-surface">
         {/* Hero Section */}
         <section
           id="hero-section"
@@ -44,7 +44,7 @@ const Home = () => {
               loader={defaultNextImageLoader}
               priority
             />
-            <div className="absolute inset-0 bg-slate-950 bg-opacity-30" />
+            <div className="absolute inset-0 bg-primary bg-opacity-30" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="container mx-auto px-2 text-center text-white">
                 <h1 className="mb-4 text-4xl text-white/50 font-semibold tracking-tight sm:text-5xl">
@@ -63,7 +63,7 @@ const Home = () => {
                   href="https://github.com/unchainedshop/storefront"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center px-3 py-1.5 text-base font-medium rounded-md text-slate-50 hover:text-white border-2 border-slate-800 hover:border-slate-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  className="mt-4 inline-flex items-center px-3 py-1.5 text-base font-medium rounded-md text-subtle-foreground hover:text-white border-2 border-primary hover:border-primary transition-colors duration-200 shadow-lg hover:shadow-xl"
                 >
                   {formatMessage({
                     id: 'view_on_github',
@@ -79,13 +79,13 @@ const Home = () => {
         <section className="py-16">
           <div className="px-4 sm:px-6 lg:px-8 mb-12">
             <div className="text-center">
-              <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">
                 {formatMessage({
                   id: 'browse_categories',
                   defaultMessage: 'Browse Categories',
                 })}
               </h2>
-              <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
+              <p className="mt-4 text-lg text-muted-foreground">
                 {formatMessage({
                   id: 'categories_subtitle',
                   defaultMessage:
@@ -111,16 +111,16 @@ const Home = () => {
         </section>
 
         {/* Products Section */}
-        <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900">
+        <section className="w-screen ml-[calc(-50vw+50%)] py-16 px-4 sm:px-6 lg:px-8 bg-muted">
           <div className="container px-6 lg:px-8 mx-auto">
             <div className="text-center">
-              <h2 className="text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">
                 {formatMessage({
                   id: 'all_products',
                   defaultMessage: 'All Products',
                 })}
               </h2>
-              <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
+              <p className="mt-4 text-lg text-muted-foreground">
                 {formatMessage({
                   id: 'products_subtitle',
                   defaultMessage: 'Discover our complete collection',
@@ -132,7 +132,7 @@ const Home = () => {
               <Loading />
             ) : productsError ? (
               <div className="text-center py-12">
-                <p className="text-red-600 dark:text-red-400">
+                <p className="text-danger">
                   Error loading products: {productsError.message}
                 </p>
               </div>
@@ -152,7 +152,7 @@ const Home = () => {
               </ListViewWrapper>
             ) : (
               <div className="text-center py-12">
-                <p className="text-slate-600 dark:text-slate-400">
+                <p className="text-muted-foreground">
                   {formatMessage({
                     id: 'no_products',
                     defaultMessage: 'No products available',

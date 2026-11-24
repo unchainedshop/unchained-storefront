@@ -52,7 +52,7 @@ const ProductList = ({
                 defaultMessage: 'Load More',
               })}
               type="button"
-              className="dark:text-white"
+              className=""
               onClick={onLoadMore}
             />
           </div>

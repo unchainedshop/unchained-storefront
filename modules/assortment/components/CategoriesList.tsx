@@ -15,8 +15,8 @@ const CategoriesList = ({
   const [tree]: categoryItem[] =
     Object.entries(assortment).map(([, assort]) => assort) || [];
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-0 p-6 shadow-sm">
-      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+    <div className="bg-surface rounded-xl border border-border dark:border-0 p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-foreground mb-4">
         {tree?.navigationTitle}
       </h3>
 
@@ -26,10 +26,10 @@ const CategoriesList = ({
             <Link
               key={_id}
               href={`${currentPath}/${texts.slug}`}
-              className="block p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
+              className="block p-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors duration-200"
             >
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-slate-400 dark:bg-slate-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-muted-strong rounded-full flex-shrink-0" />
                 <span className="font-medium">{texts?.title}</span>
               </div>
             </Link>

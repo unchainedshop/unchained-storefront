@@ -41,7 +41,7 @@ const AddToCartButton = ({ productId, ...product }) => {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-end">
               <div
-                className={`w-full sm:w-96 pointer-events-auto transform rounded-lg bg-white/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/95 ${
+                className={`w-full sm:w-96 pointer-events-auto transform rounded-lg bg-surface/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                   t.visible
                     ? "translate-x-0 opacity-100 scale-100"
                     : "translate-x-16 opacity-0 scale-95"
@@ -57,13 +57,13 @@ const AddToCartButton = ({ productId, ...product }) => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-base font-semibold text-slate-900 dark:text-white truncate">
+                      <p className="text-base font-semibold text-foreground truncate">
                         {productTitle}
                       </p>
-                      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 truncate">
+                      <p className="mt-1 text-sm text-subtle-foreground truncate">
                         {productSubTitle}
                       </p>
-                      <div className="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
+                      <div className="mt-2 text-sm font-medium text-success">
                         {quantity} x{" "}
                         {formatMessage({
                           id: "added-to-cart",
@@ -76,7 +76,7 @@ const AddToCartButton = ({ productId, ...product }) => {
                     <button
                       type="button"
                       onClick={() => toast.dismiss(t.id)}
-                      className="flex-1 rounded-md border border-slate-200 bg-white py-2 px-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:scale-[1.02] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                      className="flex-1 rounded-md border border-border bg-surface py-2 px-3 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:scale-[1.02]"
                     >
                       {formatMessage({
                         id: "continue_shopping",
@@ -89,7 +89,7 @@ const AddToCartButton = ({ productId, ...product }) => {
                         toast.dismiss(t.id);
                         router.push("/checkout");
                       }}
-                      className="flex-1 rounded-md bg-slate-900 py-2 px-3 text-sm font-medium text-white transition-all duration-200 hover:bg-slate-800 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
+                      className="flex-1 rounded-md bg-primary py-2 px-3 text-sm font-medium text-primary-foreground transition-all duration-200 hover:bg-primary-hover hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     >
                       {formatMessage({
                         id: "to_checkout",
@@ -113,12 +113,12 @@ const AddToCartButton = ({ productId, ...product }) => {
   return (
     <form onSubmit={onSubmit}>
       <fieldset className="flex gap-3" disabled={isAddInProgress}>
-        <div className="flex items-center border-slate-300 dark:border-slate-800 border rounded-md">
+        <div className="flex items-center border-input border rounded-md">
           <button
             aria-label="decrease"
             type="button"
             onClick={decreaseQuantity}
-            className="w-20 h-9 hover:bg-white dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-md flex items-center justify-center transition-all duration-200 ease-in-out"
+            className="w-20 h-9 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-ring rounded-md flex items-center justify-center transition-all duration-200 ease-in-out"
           >
             <span
               aria-label="minus icon"
@@ -129,7 +129,7 @@ const AddToCartButton = ({ productId, ...product }) => {
           </button>
 
           <input
-            className="rounded-md text-center block w-full py-2 -my-[-2px] mx-[2px] border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800 sm:text-sm bg-white dark:bg-slate-950 dark:text-white transition-all duration-200 ease-in-out"
+            className="rounded-md text-center block w-full py-2 -my-[-2px] mx-[2px] border-input focus:outline-none focus:ring-2 focus:ring-ring sm:text-sm bg-surface transition-all duration-200 ease-in-out"
             type="text"
             min={1}
             max={maxQuantity}
@@ -140,7 +140,7 @@ const AddToCartButton = ({ productId, ...product }) => {
             aria-label="increase"
             type="button"
             onClick={increaseQuantity}
-            className="w-20 h-9 hover:bg-white dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-800 rounded-md flex items-center justify-center transition-all duration-200 ease-in-out"
+            className="w-20 h-9 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-ring rounded-md flex items-center justify-center transition-all duration-200 ease-in-out"
           >
             <span
               aria-label="plus icon"

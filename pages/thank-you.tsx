@@ -71,7 +71,7 @@ const ThankYou = () => {
                 className="flex items-center gap-3 mb-4"
               >
                 <AnimatedCheckmark size="lg" delay={800} />
-                <h1 className="text-sm font-medium text-green-600 dark:text-green-400">
+                <h1 className="text-sm font-medium text-success">
                   {formatMessage({
                     id: 'thank_you',
                     defaultMessage: 'Thank you!',
@@ -80,7 +80,7 @@ const ThankYou = () => {
               </FadeInSection>
 
               <FadeInSection delay={400}>
-                <p className="mt-2 text-4xl tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                <p className="mt-2 text-4xl tracking-tight text-foreground sm:text-5xl">
                   {formatMessage({
                     id: 'thank_you_header',
                     defaultMessage: 'Thank You for Placing this Order with Us!',
@@ -89,7 +89,7 @@ const ThankYou = () => {
               </FadeInSection>
 
               <FadeInSection delay={600}>
-                <p className="mt-6 text-base text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="mt-6 text-base text-subtle-foreground leading-relaxed">
                   {formatMessage({
                     id: 'thank_you_description',
                     defaultMessage:
@@ -98,7 +98,7 @@ const ThankYou = () => {
                 </p>
               </FadeInSection>
               <FadeInSection delay={800}>
-                <div className="mt-8 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+                <div className="mt-8 bg-gradient-to-r from-success-soft to-accent rounded-xl p-6 border border-success/40">
                   <div className="md:grid md:grid-cols-2 md:gap-6">
                     <div>
                       <FormattedMessage
@@ -112,12 +112,12 @@ const ThankYou = () => {
                             <dl className="text-sm font-medium">{chunks}</dl>
                           ),
                           dt: (chunks) => (
-                            <dt className="text-slate-900 dark:text-white font-semibold">
+                            <dt className="text-foreground font-semibold">
                               {chunks}
                             </dt>
                           ),
                           dd: (chunks) => (
-                            <dd className="mt-2 text-lg font-semibold text-green-700 dark:text-green-400">
+                            <dd className="mt-2 text-lg font-semibold text-success">
                               <CountUpAnimation
                                 end={
                                   parseInt(
@@ -152,12 +152,12 @@ const ThankYou = () => {
                             </dl>
                           ),
                           dt: (chunks) => (
-                            <dt className="text-slate-900 dark:text-white font-semibold">
+                            <dt className="text-foreground font-semibold">
                               {chunks}
                             </dt>
                           ),
                           dd: (chunks) => (
-                            <dd className="mt-2 text-slate-700 dark:text-slate-300 font-medium">
+                            <dd className="mt-2 text-muted-foreground font-medium">
                               {chunks}
                             </dd>
                           ),
@@ -169,12 +169,12 @@ const ThankYou = () => {
                 </div>
               </FadeInSection>
               <FadeInSection delay={1000}>
-                <div className="mt-8 text-slate-700 dark:text-slate-300">
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+                <div className="mt-8 text-muted-foreground">
+                  <h3 className="text-lg font-semibold text-foreground mb-4">
                     Order Summary
                   </h3>
-                  <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:bg-slate-900 dark:border-0 overflow-hidden">
-                    <ul className="divide-y divide-slate-200 dark:divide-slate-700">
+                  <div className="rounded-xl border border-border bg-surface shadow-sm dark:border-0 overflow-hidden">
+                    <ul className="divide-y divide-border">
                       {(order?.items || []).map((item, index) => (
                         <FadeInSection
                           key={item._id}
@@ -189,15 +189,15 @@ const ThankYou = () => {
               </FadeInSection>
 
               <FadeInSection delay={1400}>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
+                <h3 className="text-lg font-semibold text-foreground mb-6">
                   Delivery & Payment Details
                 </h3>
               </FadeInSection>
 
               <FadeInSection delay={1500}>
-                <dl className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-600">
+                <dl className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
                   <div>
-                    <dt className="font-medium text-slate-900 dark:text-white">
+                    <dt className="font-medium text-foreground">
                       {formatMessage({
                         id: 'shipping_address',
                         defaultMessage: 'Shipping Address',
@@ -205,7 +205,7 @@ const ThankYou = () => {
                     </dt>
                     <dd className="mt-2">
                       {order?.delivery?.provider?.type === 'SHIPPING' ? (
-                        <address className="mt-3 not-italic text-slate-500 dark:text-slate-300">
+                        <address className="mt-3 not-italic text-subtle-foreground">
                           <span className="block">
                             {order?.delivery?.address?.firstName}&nbsp;
                             {order?.delivery?.address?.lastName}
@@ -236,7 +236,7 @@ const ThankYou = () => {
                   </div>
 
                   <div>
-                    <dt className="font-medium text-slate-900 dark:text-white">
+                    <dt className="font-medium text-foreground">
                       {formatMessage({
                         id: 'payment-information',
                         defaultMessage: 'Payment Information',
@@ -249,22 +249,22 @@ const ThankYou = () => {
                         </p>
                       </div>
                       <div className="ml-4 mt-4">
-                        <p className="text-slate-500 dark:text-slate-300">
+                        <p className="text-subtle-foreground">
                           {order?.payment?.provider?.interface?.label}
                           &nbsp;&nbsp;
                           {order?.payment?.provider?.interface?.version}
                         </p>
                       </div>
                       <div className="ml-4 mt-4">
-                        <p className="text-slate-500 dark:text-slate-300">
+                        <p className="text-subtle-foreground">
                           <span>{order?.payment?.provider?.type}</span>
-                          <span className="mx-2 inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
+                          <span className="mx-2 inline-flex items-center rounded-full bg-success-soft px-3 py-0.5 text-sm font-medium text-success">
                             {order?.payment?.status}
                           </span>
                         </p>
                       </div>
                       <div className="ml-4 mt-4">
-                        <p className="text-slate-600 dark:text-slate-300">
+                        <p className="text-muted-foreground">
                           <FormattedPrice price={order?.payment?.fee} />
                         </p>
                       </div>
@@ -273,7 +273,7 @@ const ThankYou = () => {
                           {order?.payment?.paid ? (
                             <div className="flex items-center">
                               <AnimatedCheckmark size="sm" delay={1500} />
-                              <span className="mx-2 text-green-700 dark:text-green-400 font-medium">
+                              <span className="mx-2 text-success font-medium">
                                 {formatMessage({
                                   id: 'paid_on',
                                   defaultMessage: 'paid on',
@@ -281,7 +281,7 @@ const ThankYou = () => {
                               </span>
                               <time
                                 dateTime={order?.paid}
-                                className="text-slate-600 dark:text-slate-300"
+                                className="text-muted-foreground"
                               >
                                 {formatDateTime(order?.payment?.paid)}
                               </time>
@@ -295,10 +295,10 @@ const ThankYou = () => {
               </FadeInSection>
 
               <FadeInSection delay={1600}>
-                <div className="mt-8 border-t border-slate-200 dark:border-0 py-8 text-center">
+                <div className="mt-8 border-t border-border dark:border-0 py-8 text-center">
                   <Link
                     href="/shop"
-                    className="inline-flex items-center px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+                    className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary-hover transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   >
                     {formatMessage({
                       id: 'continue_shopping',

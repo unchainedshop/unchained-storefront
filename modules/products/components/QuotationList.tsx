@@ -9,7 +9,7 @@ const QuotationList = ({ quotations }) => {
 
   if (!quotations?.length)
     return (
-      <div className="text-center text-gray-500 mt-10">
+      <div className="text-center text-subtle-foreground mt-10">
         {formatMessage({
           id: 'quotation_list_empty',
           defaultMessage: 'No quotations found.',
@@ -24,7 +24,7 @@ const QuotationList = ({ quotations }) => {
       aria-labelledby="account-details-heading"
     >
       <div className="max-w-5xl mx-auto mt-6">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-2xl font-semibold text-foreground mb-4">
           {formatMessage({
             id: 'quotation_list_title',
             defaultMessage: 'Quotation Requests',
@@ -37,29 +37,29 @@ const QuotationList = ({ quotations }) => {
             const expiresAt = q.expires ? formatDateTime(q.expires) : null;
             const statusColor =
               q.status === 'REQUESTED'
-                ? 'bg-blue-100 text-blue-700'
+                ? 'bg-accent-soft text-accent'
                 : q.status === 'REJECTED'
-                  ? 'bg-red-100 text-red-700'
+                  ? 'bg-danger-soft text-danger'
                   : q.status === 'FULFILLED'
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-gray-100 text-gray-500';
+                    ? 'bg-success-soft text-success'
+                    : 'bg-muted text-subtle-foreground';
 
             return (
               <div
                 key={q._id}
-                className="bg-white shadow-md rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition"
+                className="bg-surface shadow-md rounded-2xl p-5 border border-border hover:shadow-lg transition"
               >
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex flex-col">
                     <Link
                       href={`/product/${q.product?.texts?.slug}`}
-                      className="text-lg font-semibold text-blue-600 hover:underline"
+                      className="text-lg font-semibold text-accent hover:underline"
                     >
                       {q.product?.texts?.title || 'Untitled Product'}
                     </Link>
                     <Link
                       href={`/quotation/${q._id}`}
-                      className="text-lg font-semibold text-blue-600 hover:underline"
+                      className="text-lg font-semibold text-accent hover:underline"
                     >
                       <>
                         {formatMessage({
@@ -78,8 +78,8 @@ const QuotationList = ({ quotations }) => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
-                  <p className="font-medium text-gray-500">
+                <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+                  <p className="font-medium text-subtle-foreground">
                     {formatMessage({
                       id: 'quotation_user',
                       defaultMessage: 'Requested By:',
@@ -87,7 +87,7 @@ const QuotationList = ({ quotations }) => {
                   </p>
                   <p>{q.user?.name || 'Anonymous'}</p>
 
-                  <p className="font-medium text-gray-500">
+                  <p className="font-medium text-subtle-foreground">
                     {formatMessage({
                       id: 'quotation_email',
                       defaultMessage: 'Email:',
@@ -95,7 +95,7 @@ const QuotationList = ({ quotations }) => {
                   </p>
                   <p>{q.user?.primaryEmail?.address || '—'}</p>
 
-                  <p className="font-medium text-gray-500">
+                  <p className="font-medium text-subtle-foreground">
                     {formatMessage({
                       id: 'quotation_created',
                       defaultMessage: 'Created:',
@@ -103,7 +103,7 @@ const QuotationList = ({ quotations }) => {
                   </p>
                   <p>{createdAt}</p>
 
-                  <p className="font-medium text-gray-500">
+                  <p className="font-medium text-subtle-foreground">
                     {formatMessage({
                       id: 'quotation_currency',
                       defaultMessage: 'Currency:',
@@ -113,7 +113,7 @@ const QuotationList = ({ quotations }) => {
 
                   {expiresAt && (
                     <>
-                      <p className="font-medium text-gray-500">
+                      <p className="font-medium text-subtle-foreground">
                         {formatMessage({
                           id: 'quotation_expires',
                           defaultMessage: 'Expires:',
@@ -124,11 +124,11 @@ const QuotationList = ({ quotations }) => {
                   )}
                 </div>
                 {q?.configuration?.length > 0 && (
-                  <div className="mt-4 border-t pt-3 ">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-1 w-100">
+                  <div className="mt-4 border-t pt-3">
+                    <h3 className="text-sm font-semibold text-muted-foreground mb-1 w-100">
                       Dialog
                     </h3>
-                    <ul className="text-sm text-gray-600 space-y-1">
+                    <ul className="text-sm text-muted-foreground space-y-1">
                       {q.configuration.map((conf, idx) => (
                         <li key={idx}>
                           <span className="font-medium">{conf.key}:</span>{' '}

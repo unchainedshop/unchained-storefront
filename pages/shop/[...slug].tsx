@@ -80,11 +80,11 @@ const CategoryDetail = () => {
         imageUrl={getMediaUrl({ media })}
       />
 
-      <div className="min-h-screen bg-white dark:bg-slate-950">
+      <div className="min-h-screen bg-surface">
         <form onSubmit={handleSearch} className="mb-8">
           <div className="relative mx-auto max-w-2xl">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-              <MagnifyingGlassIcon className="h-5 w-5 text-slate-400" />
+              <MagnifyingGlassIcon className="h-5 w-5 text-subtle-foreground" />
             </div>
             <input
               type="text"
@@ -94,7 +94,7 @@ const CategoryDetail = () => {
                 id: 'search_placeholder',
                 defaultMessage: 'Search...',
               })}
-              className="block w-full rounded-xl border border-slate-300 bg-white py-4 pl-12 pr-4 text-slate-900 placeholder-slate-500 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:bg-slate-900 dark:text-white dark:placeholder-slate-400"
+              className="block w-full rounded-xl border border-input bg-surface py-4 pl-12 pr-4 text-foreground placeholder-subtle-foreground focus:border-input focus:outline-none focus:ring-1 focus:ring-ring dark:border-0"
             />
           </div>
         </form>
@@ -113,7 +113,7 @@ const CategoryDetail = () => {
               {(viewMode) => (
                 <Fragment>
                   <div className="mb-6 flex items-center justify-between">
-                    <div className="text-sm text-slate-600 dark:text-slate-300">
+                    <div className="text-sm text-muted-foreground">
                       {filteredProducts} products
                     </div>
                   </div>

@@ -47,7 +47,7 @@ const RangeFilterCard = ({ title, searchParamName, rangeItems = [] }) => {
   return (
     <FilterCard title={title}>
       <div className="mt-3">
-        <div className="mb-2 flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300">
+        <div className="mb-2 flex justify-between text-sm font-medium text-muted-foreground">
           <span>{value[0]}</span>
           <span>{value[1]}</span>
         </div>
@@ -58,20 +58,20 @@ const RangeFilterCard = ({ title, searchParamName, rangeItems = [] }) => {
           step={1}
           value={value}
           onInput={onSliderChange}
-          className="accent-blue-600"
+          className="accent-accent"
         />
 
         <div className="mt-3 flex gap-2">
           <button
             onClick={apply}
-            className="flex-1 rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+            className="btn btn-primary btn-sm flex-1"
           >
             {formatMessage({ id: 'apply', defaultMessage: 'Apply' })}
           </button>
 
           <button
             onClick={reset}
-            className="flex-1 rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors"
+            className="flex-1 rounded-lg border border-input px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors"
           >
             {formatMessage({ id: 'reset', defaultMessage: 'Reset' })}
           </button>

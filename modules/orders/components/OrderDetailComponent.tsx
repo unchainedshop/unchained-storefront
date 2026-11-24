@@ -25,11 +25,11 @@ const OrderDetailComponent = ({ order }) => {
   const { user } = useUser();
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950">
+    <div className="bg-muted">
       <div className="mx-auto max-w-full px-4 pt-16 sm:py-24 sm:px-6 lg:max-w-full lg:px-8">
         <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex sm:items-baseline sm:space-x-4">
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
+            <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
               {formatMessage({
                 id: 'order_num',
                 defaultMessage: `Order #`,
@@ -37,14 +37,14 @@ const OrderDetailComponent = ({ order }) => {
               <span>{order?.orderNumber}</span>
             </h1>
           </div>
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+          <p className="text-sm text-muted-foreground">
             {formatMessage({
               id: 'order_placed',
               defaultMessage: 'Order placed',
             })}
             <time
               dateTime="2021-03-22"
-              className="ml-2 font-medium text-slate-900 dark:text-slate-100"
+              className="ml-2 font-medium text-foreground"
             >
               {formatDateTime(order?.ordered)}
             </time>
@@ -60,12 +60,12 @@ const OrderDetailComponent = ({ order }) => {
             })}
           </h2>
 
-          <div className="mt-6 flex flex-wrap  justify-between">
+          <div className="mt-6 flex flex-wrap justify-between">
             {order?.items?.map((item) => (
               <Link
                 key={item._id}
                 href={getProductHref(item?.product?.texts?.slug)}
-                className="rounded-lg w-50 border border-t border-b border-slate-200 bg-white shadow-xs transition-transform hover:scale-105 hover:border-slate-600 dark:bg-slate-950 dark:hover:border-dslate-400 md:px-0"
+                className="rounded-lg w-50 border border-t border-b border-border bg-surface shadow-xs transition-transform hover:scale-105 hover:border-primary dark:hover:border-dslate-400 md:px-0"
               >
                 <div className="flex w-full justify-between p-4">
                   <div className="flex">
@@ -79,22 +79,22 @@ const OrderDetailComponent = ({ order }) => {
                         layout="fill"
                         objectFit="contain"
                         loader={defaultNextImageLoader}
-                        className="h-full w-full flex-none rounded-md bg-slate-100 object-fill object-center dark:bg-slate-500"
+                        className="h-full w-full flex-none rounded-md bg-muted object-fill object-center"
                       />
                     </div>
                     <div className="ml-4 max-w-1/2">
-                      <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                      <h3 className="text-lg font-medium text-foreground">
                         {item?.product?.texts?.title}
                       </h3>
-                      <p className="text-slate-400">
+                      <p className="text-subtle-foreground">
                         {item?.product?.texts?.subtitle}
                       </p>
-                      <p className="text-slate-900 dark:text-slate-100">
+                      <p className="text-foreground">
                         {item?.product?.texts?.description}
                       </p>
                     </div>
                   </div>
-                  <p className="text-right font-medium text-slate-900 dark:text-slate-100">
+                  <p className="text-right font-medium text-foreground">
                     <FormattedPrice price={item.total} />
                   </p>
                 </div>
@@ -112,16 +112,16 @@ const OrderDetailComponent = ({ order }) => {
             })}
           </h2>
 
-          <div className="bg-slate-100 py-6 px-4 dark:bg-slate-500 sm:rounded-lg sm:px-6 lg:flex lg:gap-x-8 lg:px-8 lg:py-8">
+          <div className="bg-muted py-6 px-4 sm:rounded-lg sm:px-6 lg:flex lg:gap-x-8 lg:px-8 lg:py-8">
             <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:w-7/12 lg:flex-auto">
               <div>
-                <dt className="text-base font-medium text-slate-900 dark:text-slate-100">
+                <dt className="text-base font-medium text-foreground">
                   {formatMessage({
                     id: 'delivery_address',
                     defaultMessage: 'Delivery address',
                   })}
                 </dt>
-                <dd className="mt-3 text-slate-500 dark:text-slate-300">
+                <dd className="mt-3 text-subtle-foreground">
                   <span className="block">
                     {user?.profile?.address?.firstName}&nbsp;
                     {user?.profile?.address?.lastName}
@@ -144,7 +144,7 @@ const OrderDetailComponent = ({ order }) => {
               </div>
 
               <div>
-                <dt className="text-lg font-medium text-slate-900 dark:text-white">
+                <dt className="text-lg font-medium text-foreground">
                   {formatMessage({
                     id: 'delivery_information',
                     defaultMessage: 'Delivery Information',
@@ -152,30 +152,30 @@ const OrderDetailComponent = ({ order }) => {
                 </dt>
                 <dd className="-ml-4 -mt-1">
                   <div className="ml-4 mt-4">
-                    <span className="block text-slate-500 dark:text-slate-300">
+                    <span className="block text-subtle-foreground">
                       {order?.delivery?.provider?.interface?.label}&nbsp;&nbsp;
                       {order?.delivery?.provider?.interface?.version}
                     </span>
                   </div>
                   <div className="ml-4 mt-4">
-                    <span className="text-slate-500 dark:text-slate-300">
+                    <span className="text-subtle-foreground">
                       {order?.delivery?.provider?.type}
                     </span>
-                    <span className="mx-2 inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
+                    <span className="mx-2 inline-flex items-center rounded-full bg-success-soft px-3 py-0.5 text-sm font-medium text-success">
                       {order?.delivery?.status}
                     </span>
                   </div>
                   <div className="ml-4 mt-4">
-                    <span className="block text-slate-500 dark:text-slate-300">
+                    <span className="block text-subtle-foreground">
                       <FormattedPrice price={order?.delivery?.fee} />
                     </span>
                   </div>
                   <div className="ml-4 mt-4">
-                    <p className="text-slate-600">
+                    <p className="text-muted-foreground">
                       {order?.delivery?.delivered ? (
                         <>
                           <CheckCircleIcon
-                            className="h-5 w-5 text-green-500"
+                            className="h-5 w-5 text-success"
                             aria-hidden="true"
                           />
                           <span className="mx-2">
@@ -198,7 +198,7 @@ const OrderDetailComponent = ({ order }) => {
             {order?.documents && (
               <dl className="mt-8 text-sm lg:col-span-5 lg:mt-0">
                 <div className="flex items-center justify-between pb-4">
-                  <dt className="font-medium text-slate-900 dark:text-slate-100">
+                  <dt className="font-medium text-foreground">
                     {formatMessage({
                       id: 'document',
                       defaultMessage: 'Document',
@@ -206,8 +206,8 @@ const OrderDetailComponent = ({ order }) => {
                   </dt>
                 </div>
                 <div>
-                  <dd className="mt-1 text-sm text-slate-900 dark:text-slate-100">
-                    <ul className="divide-y divide-slate-200 rounded-md border border-slate-200">
+                  <dd className="mt-1 text-sm text-foreground">
+                    <ul className="divide-y divide-border rounded-md border border-border">
                       {order?.documents?.map((document) => (
                         <li
                           key={document._id}
@@ -215,7 +215,7 @@ const OrderDetailComponent = ({ order }) => {
                         >
                           <div className="flex w-0 flex-1 items-center">
                             <PaperClipIcon
-                              className="h-5 w-5 flex-shrink-0 text-slate-400"
+                              className="h-5 w-5 flex-shrink-0 text-subtle-foreground"
                               aria-hidden="true"
                             />
                             <span className="ml-2 w-0 flex-1 truncate">
@@ -225,7 +225,7 @@ const OrderDetailComponent = ({ order }) => {
                           <div className="ml-4 flex-shrink-0">
                             <a
                               href={document.url}
-                              className="font-medium text-blue-600 hover:text-blue-500 dark:text-fuchsia-500 dark:hover:text-fuchsia-600"
+                              className="font-medium text-accent hover:text-accent"
                             >
                               {formatMessage({
                                 id: 'download',
@@ -252,16 +252,16 @@ const OrderDetailComponent = ({ order }) => {
             })}
           </h2>
 
-          <div className="bg-slate-100 py-6 px-4 dark:bg-slate-950 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
+          <div className="bg-muted py-6 px-4 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
             <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
               <div>
-                <dt className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                <dt className="text-lg font-medium text-foreground">
                   {formatMessage({
                     id: 'billing_address',
                     defaultMessage: 'Billing address',
                   })}
                 </dt>
-                <dd className="mt-3 text-slate-500 dark:text-slate-300">
+                <dd className="mt-3 text-subtle-foreground">
                   <span className="block">
                     {order?.billingAddress?.firstName}&nbsp;
                     {order?.billingAddress?.lastName}
@@ -283,7 +283,7 @@ const OrderDetailComponent = ({ order }) => {
                 </dd>
               </div>
               <div>
-                <dt className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                <dt className="text-lg font-medium text-foreground">
                   {formatMessage({
                     id: 'payment-information',
                     defaultMessage: 'Payment Information',
@@ -298,22 +298,22 @@ const OrderDetailComponent = ({ order }) => {
                         </p>
                       </div>
                       <div className="ml-4 mt-4">
-                        <p className="text-slate-500 dark:text-slate-300">
+                        <p className="text-subtle-foreground">
                           {order?.payment?.provider?.interface?.label}
                           &nbsp;&nbsp;
                           {order?.payment?.provider?.interface?.version}
                         </p>
                       </div>
                       <div className="ml-4 mt-4">
-                        <p className="text-slate-500 dark:text-slate-300">
+                        <p className="text-subtle-foreground">
                           <span>{order?.payment?.provider?.type}</span>
-                          <span className="mx-2 inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
+                          <span className="mx-2 inline-flex items-center rounded-full bg-success-soft px-3 py-0.5 text-sm font-medium text-success">
                             {order?.payment?.status}
                           </span>
                         </p>
                       </div>
                       <div className="ml-4 mt-4">
-                        <p className="text-slate-600 dark:text-slate-300">
+                        <p className="text-muted-foreground">
                           <FormattedPrice price={order?.payment?.fee} />
                         </p>
                       </div>
@@ -322,7 +322,7 @@ const OrderDetailComponent = ({ order }) => {
                           {order?.payment?.paid ? (
                             <>
                               <CheckCircleIcon
-                                className="h-5 w-5 text-green-500"
+                                className="h-5 w-5 text-success"
                                 aria-hidden="true"
                               />
                               <span className="mx-2">
@@ -344,39 +344,39 @@ const OrderDetailComponent = ({ order }) => {
               </div>
             </dl>
 
-            <dl className="mt-8 divide-y divide-slate-200 text-sm lg:col-span-5 lg:mt-0">
+            <dl className="mt-8 divide-y divide-border text-sm lg:col-span-5 lg:mt-0">
               <div className="flex items-center justify-between pb-4">
-                <dt className="text-slate-600 dark:text-slate-300">
+                <dt className="text-muted-foreground">
                   {formatMessage({
                     id: 'subtotal',
                     defaultMessage: 'Subtotal',
                   })}
                 </dt>
-                <dd className="font-medium text-slate-900 dark:text-dslate-400">
+                <dd className="font-medium text-foreground dark:text-dslate-400">
                   <FormattedPrice price={order?.total} />
                 </dd>
               </div>
               {order?.delivery?.fee && (
                 <div className="flex items-center justify-between py-4">
-                  <dt className="text-slate-600 dark:text-slate-300">
+                  <dt className="text-muted-foreground">
                     {formatMessage({
                       id: 'shipping',
                       defaultMessage: 'Shipping',
                     })}
                   </dt>
-                  <dd className="font-medium text-slate-900 dark:text-slate-100">
+                  <dd className="font-medium text-foreground">
                     <FormattedPrice price={order.delivery.fee} />
                   </dd>
                 </div>
               )}
               <div className="flex items-center justify-between pt-4">
-                <dt className="font-medium text-slate-900 dark:text-slate-100">
+                <dt className="font-medium text-foreground">
                   {formatMessage({
                     id: 'order_total',
                     defaultMessage: 'Total',
                   })}
                 </dt>
-                <dd className="font-medium text-slate-600 dark:text-dslate-400">
+                <dd className="font-medium text-muted-foreground dark:text-dslate-400">
                   <FormattedPrice price={order?.total} />
                 </dd>
               </div>

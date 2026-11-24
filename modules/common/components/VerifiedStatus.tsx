@@ -16,7 +16,7 @@ const Verified = ({
         ? activeIcon || (
             <CheckBadgeIcon
               className={classNames(
-                'h-5 w-5 text-green-400',
+                'h-5 w-5 text-success',
                 iconClassName,
                 activeClassName,
               )}
@@ -25,7 +25,7 @@ const Verified = ({
         : inActiveIcon || (
             <XCircleIcon
               className={classNames(
-                'h-5 w-5 text-red-400',
+                'h-5 w-5 text-danger',
                 iconClassName,
                 inActiveClassName,
               )}

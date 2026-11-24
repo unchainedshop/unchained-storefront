@@ -86,7 +86,7 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow-md rounded-2xl p-8 border border-gray-200 space-y-8">
+    <div className="max-w-2xl mx-auto bg-surface shadow-md rounded-2xl p-8 border border-border space-y-8">
       <h2 className="text-3xl font-semibold text-center">
         Subscribe to {product?.name || 'Product'}
       </h2>
@@ -102,25 +102,25 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
                 onClick={() => setSelectedPlan(plan)}
                 className={`w-full text-left p-3 rounded-xl border transition ${
                   selectedPlan?._id === plan._id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:bg-gray-50'
+                    ? 'border-accent bg-accent-soft'
+                    : 'border-border hover:bg-muted'
                 }`}
               >
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{plan.name}</span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-subtle-foreground">
                     {plan.price?.amount
                       ? `$${plan.price.amount}/${plan.billingInterval ?? 'mo'}`
                       : 'Custom Price'}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-subtle-foreground">
                   {plan.description || 'Plan details not available.'}
                 </p>
               </button>
             ))
           ) : (
-            <p className="text-sm text-gray-500">No plans available.</p>
+            <p className="text-sm text-subtle-foreground">No plans available.</p>
           )}
         </div>
 
@@ -131,7 +131,7 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
             min={1}
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-24 border border-gray-300 rounded-lg p-2 text-center"
+            className="w-24 border border-input rounded-lg p-2 text-center"
           />
         </div>
       </section>
@@ -272,13 +272,13 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
       <button
         onClick={handleSubscribe}
         disabled={loadingState}
-        className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+        className="btn btn-primary btn-lg w-full"
       >
         {loadingState ? 'Processing...' : 'Subscribe Now'}
       </button>
 
       {message && (
-        <p className="mt-3 text-center text-sm font-medium text-gray-700">
+        <p className="mt-3 text-center text-sm font-medium text-muted-foreground">
           {message}
         </p>
       )}

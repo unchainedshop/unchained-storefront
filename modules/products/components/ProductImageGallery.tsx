@@ -20,7 +20,7 @@ const ProductImageGallery = ({ product, isBundle }) => {
       />
       {isBundle && (
         <div className="absolute top-3 left-3 z-10">
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-500 text-white shadow-sm">
+          <span className="badge badge-warning shadow-sm">
             {intl.formatMessage({
               id: 'bundle_badge',
               defaultMessage: 'Bundle',

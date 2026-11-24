@@ -40,10 +40,10 @@ const Option = ({
       className={classNames(
         'option inline-flex flex-col items-start justify-center p-3 mb-2 border rounded-lg transition-all duration-200 text-left',
         {
-          'bg-slate-900 text-white border-slate-900': isActive,
-          'bg-white text-slate-700 border-slate-300 hover:border-slate-500 hover:shadow-sm':
+          'bg-primary text-primary-foreground border-primary': isActive,
+          'bg-surface text-muted-foreground border-input hover:border-input hover:shadow-sm':
             !isActive && !isDisabled,
-          'bg-gray-100 text-gray-400 border-gray-200 pointer-events-none cursor-not-allowed':
+          'bg-muted text-subtle-foreground border-border pointer-events-none cursor-not-allowed':
             isDisabled,
         },
       )}
@@ -51,7 +51,7 @@ const Option = ({
       <span className="font-medium">{title}</span>
       {assignment && (
         <>
-          <span className="text-sm text-slate-500 mt-1">
+          <span className="text-sm text-subtle-foreground mt-1">
             {assignment.product.texts.title}
           </span>
           <ProductPrice product={assignment.product} />
@@ -85,7 +85,7 @@ const ProductVariants = ({ proxy, activeProductId }) => {
 
       {proxy.variations.map((variation) => (
         <div key={variation._id} className="variant space-y-2">
-          <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+          <h4 className="text-sm font-medium text-muted-foreground">
             {variation.texts.title}
           </h4>
           <div className="flex flex-wrap gap-2">

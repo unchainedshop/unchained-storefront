@@ -43,13 +43,13 @@ const BookmarkToast = ({
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
       }`}
     >
-      <div className="flex items-center space-x-2 rounded-lg bg-white px-4 py-3 shadow-lg dark:bg-slate-900">
+      <div className="flex items-center space-x-2 rounded-lg bg-surface px-4 py-3 shadow-lg">
         {isBookmarked ? (
-          <CheckCircleIcon className="h-5 w-5 text-green-500" />
+          <CheckCircleIcon className="h-5 w-5 text-success" />
         ) : (
-          <XCircleIcon className="h-5 w-5 text-red-500" />
+          <XCircleIcon className="h-5 w-5 text-danger" />
         )}
-        <span className="text-sm font-medium text-slate-900 dark:text-white">
+        <span className="text-sm font-medium text-foreground">
           {message || defaultMessage}
         </span>
       </div>

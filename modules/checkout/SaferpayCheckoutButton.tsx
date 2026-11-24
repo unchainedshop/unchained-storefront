@@ -101,8 +101,8 @@ const SaferpayCheckoutButton = ({ order }) => {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-4 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-sm">
-      <h2 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+    <div className="flex flex-col space-y-4 bg-surface p-6 rounded-lg shadow-sm">
+      <h2 className="text-lg font-medium text-foreground">
         {formatMessage({
           id: 'checkout_payment',
           defaultMessage: 'Checkout Payment',
@@ -111,8 +111,8 @@ const SaferpayCheckoutButton = ({ order }) => {
 
       {loading && (
         <div className="flex items-center justify-center space-x-2 py-4">
-          <div className="spinner border-t-2 border-slate-900 dark:border-white rounded-full w-5 h-5 animate-spin" />
-          <span className="text-slate-700 dark:text-slate-300">
+          <div className="spinner border-t-2 border-primary rounded-full w-5 h-5 animate-spin" />
+          <span className="text-muted-foreground">
             {formatMessage({
               id: 'payment_preparing',
               defaultMessage: 'Preparing payment...',
@@ -127,7 +127,7 @@ const SaferpayCheckoutButton = ({ order }) => {
           <a
             href={locationUrl}
             rel="noopener noreferrer"
-            className="w-full text-center py-2 px-4 bg-slate-900 dark:bg-slate-700 text-white rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-600"
+            className="w-full text-center py-2 px-4 bg-primary text-primary-foreground rounded-md hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
           >
             {formatMessage({
               id: 'continue_to_payment',
@@ -141,7 +141,7 @@ const SaferpayCheckoutButton = ({ order }) => {
         window.location.search.includes('transactionId') && (
           <button
             onClick={handleCompleteOrder}
-            className="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            className="w-full py-2 px-4 bg-success text-white rounded-md hover:bg-success/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success"
           >
             {formatMessage({
               id: 'complete_order',
@@ -151,7 +151,7 @@ const SaferpayCheckoutButton = ({ order }) => {
         )}
 
       {message && (
-        <div className="text-sm text-center text-slate-600 dark:text-slate-300 mt-2">
+        <div className="text-sm text-center text-muted-foreground mt-2">
           {message}
         </div>
       )}

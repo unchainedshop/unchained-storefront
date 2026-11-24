@@ -17,7 +17,7 @@ const PasswordField = ({ ...props }) => {
         role="button"
         tabIndex={-1}
         aria-label="toggle password visibility"
-        className="absolute right-3 top-[calc(100%-2.25rem)] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 rounded p-1 transition-colors"
+        className="absolute right-3 top-[calc(100%-2.25rem)] cursor-pointer hover:bg-muted rounded p-1 transition-colors"
         onClick={togglePassword}
         onKeyUp={togglePassword}
       >

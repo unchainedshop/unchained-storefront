@@ -25,10 +25,10 @@ const GetCurrentStep = ({
   switch (parseInt(step, 10)) {
     case 2:
       return (
-        <div className="bg-white">
+        <div className="bg-surface">
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-brown-600"
+            className="block text-sm font-medium text-muted-foreground"
           >
             {formatMessage({
               id: "password",
@@ -44,7 +44,7 @@ const GetCurrentStep = ({
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-xs focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
+              className="bg-surface block w-full appearance-none rounded-md border border-input px-3 py-2 shadow-xs focus:border-danger focus:outline-none focus:ring-danger sm:text-sm"
             />
           </div>
         </div>
@@ -54,7 +54,7 @@ const GetCurrentStep = ({
         <div>
           <label
             htmlFor="username-or-email"
-            className="block text-sm font-medium text-brown-600"
+            className="block text-sm font-medium text-muted-foreground"
           >
             {!acceptEmail
               ? formatMessage({
@@ -70,7 +70,7 @@ const GetCurrentStep = ({
             <input
               id="username-or-email"
               name="usernameOrEmail"
-              className="bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-xs focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
+              className="bg-surface block w-full appearance-none rounded-md border border-input px-3 py-2 shadow-xs focus:border-danger focus:outline-none focus:ring-danger sm:text-sm"
               type="text"
               autoComplete="email username"
               required
@@ -236,14 +236,14 @@ const LogInForm = () => {
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight dark:text-white ">
+          <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight">
             {formatMessage({ id: "log_in", defaultMessage: "Log In" })}
           </h2>
           {!emailSupportDisabled ? (
-            <p className="mt-2 text-center text-sm text-slate-600 dark:text-white">
+            <p className="mt-2 text-center text-sm text-muted-foreground">
               <Link
                 href="/forgot-password"
-                className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-white"
+                className="ml-1 font-medium text-muted-foreground hover:text-foreground"
               >
                 {formatMessage({
                   id: "forgot_password",
@@ -259,7 +259,7 @@ const LogInForm = () => {
             id="previous-button"
             name="previous-button"
             onClick={loginCodeSent ? cancelLoginCode : previousStep}
-            className="text-red-600 text-sm mx-auto block mt-5"
+            className="text-danger text-sm mx-auto block mt-5"
           >
             {formatMessage({
               id: "back",
@@ -268,7 +268,7 @@ const LogInForm = () => {
           </button>
         )}
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md bg-white dark:bg-slate-500">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md bg-surface">
           <div
             className={classNames("py-8 px-4 shadow sm:rounded-lg sm:px-10")}
           >
@@ -276,7 +276,7 @@ const LogInForm = () => {
               <form onSubmit={onSubmit}>
                 {loginCodeSent ? (
                   <div>
-                    <p className="mb-3 text-sm text-slate-600 dark:text-slate-200">
+                    <p className="mb-3 text-sm text-muted-foreground">
                       {formatMessage(
                         {
                           id: "login-code-sent",
@@ -288,7 +288,7 @@ const LogInForm = () => {
                     </p>
                     <label
                       htmlFor="login-code"
-                      className="block text-sm font-medium text-brown-600"
+                      className="block text-sm font-medium text-muted-foreground"
                     >
                       {formatMessage({
                         id: "login-code",
@@ -305,7 +305,7 @@ const LogInForm = () => {
                       required
                       value={loginCode}
                       onChange={(e) => setLoginCode(e.target.value)}
-                      className="mt-1 bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 tracking-widest shadow-xs focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
+                      className="mt-1 bg-surface block w-full appearance-none rounded-md border border-input px-3 py-2 tracking-widest shadow-xs focus:border-danger focus:outline-none focus:ring-danger sm:text-sm"
                     />
                   </div>
                 ) : (
@@ -320,9 +320,9 @@ const LogInForm = () => {
                     acceptEmail={!emailSupportDisabled}
                   />
                 )}
-                {error && <div className="mt-3 text-red-600">{error}</div>}
+                {error && <div className="mt-3 text-danger">{error}</div>}
                 {showPasswordNav && (
-                  <p className="text-center font-semibold text-red-700 cursor-pointer">
+                  <p className="text-center font-semibold text-danger cursor-pointer">
                     <button type="button" onClick={nextStep}>
                       {formatMessage({
                         id: "use-password-to-authenticate",
@@ -340,14 +340,14 @@ const LogInForm = () => {
                       id: "continue",
                       defaultMessage: "Continue",
                     })}
-                    className="flex w-full justify-center rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   />
                   {step === 1 && !loginCodeSent && canUseLoginCode && (
                     <button
                       type="button"
                       disabled={requesting}
                       onClick={onRequestLoginCode}
-                      className="mt-3 flex w-full justify-center rounded-md border border-slate-300 bg-white py-2 px-4 text-sm font-medium text-slate-800 shadow-xs hover:bg-slate-50 disabled:opacity-50"
+                      className="mt-3 flex w-full justify-center rounded-md border border-input bg-surface py-2 px-4 text-sm font-medium text-foreground shadow-xs hover:bg-muted disabled:opacity-50"
                     >
                       {formatMessage({
                         id: "email-me-login-code",
@@ -357,14 +357,14 @@ const LogInForm = () => {
                   )}
                 </div>
               </form>
-              <div className="text-sm text-slate-800 dark:text-slate-200">
+              <div className="text-sm text-foreground">
                 {formatMessage({
                   id: "dont-have-account",
                   defaultMessage: `Don't have an account?`,
                 })}
                 <Link
                   href="/sign-up"
-                  className="ml-1 font-medium text-slate-600 hover:text-slate-800 dark:text-slate-800 "
+                  className="ml-1 font-medium text-muted-foreground hover:text-foreground"
                 >
                   {formatMessage({
                     id: "join-now",

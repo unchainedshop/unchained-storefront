@@ -16,9 +16,9 @@ const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
   };
 
   return (
-    <div className="mt-4 bg-white dark:bg-slate-900 rounded-lg p-4 border border-slate-200 dark:border-0 space-y-4">
+    <div className="mt-4 bg-surface rounded-lg p-4 border border-border dark:border-0 space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        <h3 className="text-sm font-medium text-muted-foreground">
           {formatMessage({
             id: 'delivery_address',
             defaultMessage: 'Delivery address',
@@ -28,7 +28,7 @@ const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
           <button
             type="button"
             onClick={toggleEditMode}
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+            className="text-accent hover:text-accent text-sm"
           >
             {formatMessage({
               id: 'edit-address',
@@ -66,7 +66,7 @@ const CheckoutDeliverySelector = ({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        <h3 className="text-sm font-medium text-muted-foreground">
           {formatMessage({
             id: 'delivery_method',
             defaultMessage: 'Delivery Method',
@@ -88,10 +88,10 @@ const CheckoutDeliverySelector = ({
                 className={classNames(
                   'px-4 py-2 rounded-md border text-sm transition-colors',
                   {
-                    'bg-slate-900 text-white border-slate-900': isSelected,
-                    'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-white':
+                    'bg-primary text-primary-foreground border-primary': isSelected,
+                    'bg-muted text-foreground ':
                       !isSelected && provider.isActive,
-                    'bg-slate-200 text-slate-400 cursor-not-allowed':
+                    'bg-muted-strong text-subtle-foreground cursor-not-allowed':
                       !provider.isActive,
                   },
                 )}
@@ -110,7 +110,7 @@ const CheckoutDeliverySelector = ({
                       provider.type
                     )}
                   </span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-subtle-foreground">
                     <FormattedPrice price={price} />
                   </span>
                 </div>
@@ -122,7 +122,7 @@ const CheckoutDeliverySelector = ({
 
       {pickUpLocations.length > 0 && onSelectLocation && (
         <div className="space-y-2">
-          <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+          <h3 className="text-sm font-medium text-muted-foreground">
             {formatMessage({
               id: 'pickup_location',
               defaultMessage: 'Pickup Location',
@@ -139,8 +139,8 @@ const CheckoutDeliverySelector = ({
                   className={classNames(
                     'px-4 py-2 rounded-md border text-left text-sm transition-colors flex-1 min-w-[150px]',
                     {
-                      'bg-slate-900 text-white border-slate-900': isSelected,
-                      'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-white':
+                      'bg-primary text-primary-foreground border-primary': isSelected,
+                      'bg-muted text-foreground ':
                         !isSelected,
                     },
                   )}
@@ -150,7 +150,7 @@ const CheckoutDeliverySelector = ({
                 >
                   <div>
                     <span className="font-medium">{loc.name}</span>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    <p className="text-xs text-subtle-foreground mt-1">
                       {loc.address.addressLine}, {loc.address.city}
                     </p>
                   </div>

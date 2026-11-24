@@ -14,28 +14,28 @@ const PriceTiers = ({ leveledCatalogPrices, compact = false }) => {
       .map((tier) => `${tier.maxQuantity}+ ${formatPrice(tier.price)}`);
 
     return (
-      <div className="text-sm text-gray-700">
+      <div className="text-sm text-muted-foreground">
         <span className="font-semibold text-lg">
           <FormattedPrice price={firstTier.price} />
         </span>
         {bulkTiers.length > 0 && (
-          <span className="ml-2 text-gray-500">({bulkTiers.join(', ')})</span>
+          <span className="ml-2 text-subtle-foreground">({bulkTiers.join(', ')})</span>
         )}
       </div>
     );
   }
 
   return (
-    <ul className="text-sm text-gray-700 space-y-1">
+    <ul className="text-sm text-muted-foreground space-y-1">
       {tiers.map((tier, i) => (
         <li key={i} className="flex items-center gap-2">
           <span
-            className={`font-medium text-gray-700 ${i === 0 ? 'text-lg' : ''}`}
+            className={`font-medium text-muted-foreground ${i === 0 ? 'text-lg' : ''}`}
           >
             {i === 0 ? '' : `${tier.maxQuantity}+`}
           </span>
           <span
-            className={`font-semibold text-gray-900 ${i === 0 ? 'text-xl' : ''}`}
+            className={`font-semibold text-foreground ${i === 0 ? 'text-xl' : ''}`}
           >
             <FormattedPrice price={tier.price} />
           </span>

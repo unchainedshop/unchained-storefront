@@ -67,14 +67,14 @@ const ForgotPasswordForm = () => {
           })}
         </SubmitButton>
       </div>
-      <p className="text-center text-sm text-slate-400">
+      <p className="text-center text-sm text-subtle-foreground">
         {formatMessage({
           id: "dont_have_account",
           defaultMessage: "Don't have an account yet?",
         })}
         <Link
           href="/sign-up"
-          className="ml-1 font-semibold text-slate-500 dark:text-slate-400 focus:text-slate-600 dark:hover:text-slate-300 focus:underline focus:outline-none"
+          className="ml-1 font-semibold text-subtle-foreground focus:text-muted-foreground focus:underline focus:outline-none"
         >
           {formatMessage({ id: "sign_up", defaultMessage: "Sign up" })}
         </Link>

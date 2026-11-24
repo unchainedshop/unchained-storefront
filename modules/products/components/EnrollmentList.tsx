@@ -9,7 +9,7 @@ const EnrollmentList = ({ enrollments }) => {
 
   if (!enrollments?.length) {
     return (
-      <div className="text-center text-gray-500 mt-10">
+      <div className="text-center text-subtle-foreground mt-10">
         {formatMessage({
           id: 'enrollments.empty',
           defaultMessage: 'No enrollments found.',
@@ -25,7 +25,7 @@ const EnrollmentList = ({ enrollments }) => {
     >
       <h3
         id="account-details-heading"
-        className="text-lg font-medium leading-6 text-slate-900 dark:text-white"
+        className="text-lg font-medium leading-6 text-foreground"
       >
         {formatMessage({
           id: 'subscriptions',
@@ -41,7 +41,7 @@ const EnrollmentList = ({ enrollments }) => {
               <div>
                 <Link
                   key={_id}
-                  className="text-blue-600 hover:underline font-medium"
+                  className="text-accent hover:underline font-medium"
                   href={`/enrollment?_id=${_id}`}
                 >
                   <p>
@@ -54,17 +54,17 @@ const EnrollmentList = ({ enrollments }) => {
                     </span>
                   </p>
                 </Link>
-                <p className="text-gray-700 font-semibold">
+                <p className="text-muted-foreground font-semibold">
                   {user?.name || '—'}
                 </p>
               </div>
               <span
                 className={`px-3 py-1 text-sm rounded-full ${
                   status === 'ACTIVE'
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-success-soft text-success'
                     : status === 'TERMINATED'
-                      ? 'bg-red-100 text-red-700'
-                      : 'bg-gray-100 text-gray-500'
+                      ? 'bg-danger-soft text-danger'
+                      : 'bg-muted text-subtle-foreground'
                 }`}
               >
                 {status}
@@ -83,7 +83,7 @@ const EnrollmentList = ({ enrollments }) => {
             </div>
 
             <div className="mb-2">
-              <p className="text-gray-500 text-sm font-medium">
+              <p className="text-subtle-foreground text-sm font-medium">
                 {formatMessage({
                   id: 'product',
                   defaultMessage: 'Product',
@@ -93,23 +93,23 @@ const EnrollmentList = ({ enrollments }) => {
               {plan?.product ? (
                 <Link
                   href={`/product/${plan.product.texts?.slug}`}
-                  className="text-blue-600 hover:underline font-medium"
+                  className="text-accent hover:underline font-medium"
                 >
                   {plan.product.texts?.title}
                 </Link>
               ) : (
-                <p className="text-gray-400">—</p>
+                <p className="text-subtle-foreground">—</p>
               )}
             </div>
 
             <div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className="text-subtle-foreground text-sm font-medium">
                 {formatMessage({
                   id: 'enrollment_periods',
                   defaultMessage: 'Enrollment Periods:',
                 })}
               </p>
-              <ul className="text-gray-700 ml-2 list-disc">
+              <ul className="text-muted-foreground ml-2 list-disc">
                 {periods?.map((period, idx) => (
                   <li key={`${idx}${period.start}`}>
                     {period.isTrial

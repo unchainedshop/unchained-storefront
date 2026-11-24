@@ -70,11 +70,11 @@ const PaypalCheckoutButton = ({ order }) => {
   if (!clientId) return null;
 
   return (
-    <div className="flex flex-col space-y-4 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-sm">
+    <div className="flex flex-col space-y-4 bg-surface p-6 rounded-lg shadow-sm">
       {loading && (
         <div className="flex items-center justify-center space-x-2 py-4">
-          <div className="spinner border-t-2 border-slate-900 dark:border-white rounded-full w-5 h-5 animate-spin" />
-          <span className="text-slate-700 dark:text-slate-300">
+          <div className="spinner border-t-2 border-primary rounded-full w-5 h-5 animate-spin" />
+          <span className="text-muted-foreground">
             {formatMessage({
               id: 'payment_preparing',
               defaultMessage: 'Preparing payment...',
@@ -127,7 +127,7 @@ const PaypalCheckoutButton = ({ order }) => {
         />
       </PayPalScriptProvider>
       {message && (
-        <div className="text-sm text-center text-slate-600 dark:text-slate-300 mt-2">
+        <div className="text-sm text-center text-muted-foreground mt-2">
           {message}
         </div>
       )}

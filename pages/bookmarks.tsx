@@ -16,12 +16,12 @@ const Bookmarks = () => {
       <MetaTags
         title={formatMessage({ id: 'bookmarks', defaultMessage: 'Bookmarks' })}
       />
-      <div className="min-h-screen bg-white dark:bg-slate-950">
+      <div className="min-h-screen bg-surface">
         <ListViewWrapper>
           {(viewMode) => (
             <div className="container mx-auto py-8" key={viewMode}>
               <div className="mb-8">
-                <h1 className="text-3xl tracking-tight text-slate-900 dark:text-white">
+                <h1 className="text-3xl tracking-tight text-foreground">
                   {formatMessage({
                     id: 'bookmarks_title',
                     defaultMessage: 'Bookmarks',

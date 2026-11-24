@@ -16,7 +16,7 @@ const AccordionItem = ({
         type="button"
         onClick={() => setShow(!show)}
         className={classNames(
-          'relative w-full cursor-pointer border bg-white text-slate-500 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800',
+          'relative w-full cursor-pointer border bg-surface text-subtle-foreground hover:bg-muted ',
           headerCSS,
         )}
       >
@@ -43,7 +43,7 @@ const AccordionItem = ({
       {show ? (
         <div
           className={classNames(
-            'rounded-lg p-0 text-slate-400 dark:text-white ',
+            'rounded-lg p-0 text-subtle-foreground ',
             bodyCSS,
           )}
         >

@@ -9,9 +9,9 @@ const CategoryListItem = ({ category }) => {
 
   return (
     <Link href={`shop/${category?.texts?.slug}`} className="group block">
-      <div className="bg-white dark:bg-slate-950 transition-all duration-300">
+      <div className="bg-surface transition-all duration-300">
         {/* Image Container */}
-        <div className="relative aspect-[5/3.2] overflow-hidden bg-slate-50 dark:bg-slate-900 rounded-md mb-4">
+        <div className="relative aspect-[5/3.2] overflow-hidden bg-muted rounded-md mb-4">
           {mediaUrl ? (
             <Image
               src={mediaUrl}
@@ -23,9 +23,9 @@ const CategoryListItem = ({ category }) => {
               loader={defaultNextImageLoader}
             />
           ) : (
-            <div className="flex items-center justify-center h-full bg-slate-100 dark:bg-slate-700 rounded-md">
+            <div className="flex items-center justify-center h-full bg-muted rounded-md">
               <svg
-                className="h-18 w-18 text-slate-400 dark:text-slate-500"
+                className="h-18 w-18 text-subtle-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -43,11 +43,11 @@ const CategoryListItem = ({ category }) => {
 
         {/* Content Below Image */}
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white leading-tight transition-colors duration-200 group-hover:text-slate-700 dark:group-hover:text-slate-200">
+          <h3 className="text-lg font-semibold text-foreground leading-tight transition-colors duration-200 group-hover:text-muted-foreground">
             {category.texts?.title}
           </h3>
           {category.texts?.subtitle && (
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-muted-foreground">
               {category.texts.subtitle}
             </p>
           )}

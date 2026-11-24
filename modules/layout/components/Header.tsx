@@ -54,8 +54,8 @@ const Header: React.FC<HeaderProps> = ({
     <header
       className={`sticky top-0 z-[1020] transition-all duration-300 ease-in-out print:hidden ${
         isHeroMode
-          ? 'bg-slate-950 backdrop-blur-sm'
-          : 'border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-900 dark:bg-slate-950/95'
+          ? 'bg-primary backdrop-blur-sm'
+          : 'border-b border-border bg-surface/95 backdrop-blur-sm '
       }`}
     >
       <div className="relative container mx-auto">
@@ -66,8 +66,8 @@ const Header: React.FC<HeaderProps> = ({
               aria-label="menu"
               className={`rounded-md p-2 transition-all duration-200 ${
                 isHeroMode
-                  ? 'text-white/80 hover:bg-white/10 hover:text-white'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+                  ? 'text-white/80 hover:bg-surface/10 hover:text-white'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground '
               }`}
               onClick={onSidebarToggle}
             >
@@ -79,8 +79,8 @@ const Header: React.FC<HeaderProps> = ({
                 aria-label="search"
                 className={`rounded-md p-2 transition-all duration-200 sm:hidden ${
                   isHeroMode
-                    ? 'text-white/80 hover:bg-white/10 hover:text-white'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+                    ? 'text-white/80 hover:bg-surface/10 hover:text-white'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground '
                 }`}
                 onClick={() => setSearchOpen((s) => !s)}
               >
@@ -97,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({
             <Link
               href="/"
               className={`text-md font-semibold tracking-tight transition-colors duration-200 ${
-                isHeroMode ? 'text-white' : 'text-slate-900 dark:text-white'
+                isHeroMode ? 'text-white' : 'text-foreground '
               }`}
             >
               {formatMessage({
@@ -111,10 +111,10 @@ const Header: React.FC<HeaderProps> = ({
             {!isOnSearchPage ? (
               <form
                 onSubmit={handleSearchSubmit}
-                className={`hidden sm:flex items-center rounded-full border px-3 py-1 text-sm focus-within:ring-2 focus-within:ring-blue-500 transition-all duration-300 ease-in-out ${
+                className={`hidden sm:flex items-center rounded-full border px-3 py-1 text-sm focus-within:ring-2 focus-within:ring-ring transition-all duration-300 ease-in-out ${
                   isHeroMode
-                    ? 'border-white/30 bg-white/10 text-white placeholder-white/70'
-                    : 'border-slate-300 bg-white text-slate-900 dark:bg-slate-800 dark:border-slate-700 dark:text-white'
+                    ? 'border-white/30 bg-surface/10 text-white placeholder-white/70'
+                    : 'border-input bg-surface text-foreground '
                 }`}
               >
                 <MagnifyingGlassIcon className="h-4 w-4 mr-2 opacity-70 flex-shrink-0" />
@@ -129,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({
                   className={`bg-transparent outline-none w-32 focus:w-64 transition-all duration-300 ease-in-out ${
                     isHeroMode
                       ? 'placeholder-white/60 text-white'
-                      : 'text-slate-900 dark:text-white'
+                      : 'text-foreground '
                   }`}
                 />
               </form>
@@ -154,8 +154,8 @@ const Header: React.FC<HeaderProps> = ({
             searchOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
           } ${
             isHeroMode
-              ? 'bg-slate-950 text-white border-t border-white/20'
-              : 'bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800'
+              ? 'bg-primary text-primary-foreground border-t border-white/20'
+              : 'bg-surface border-t border-border '
           }`}
         >
           <form
@@ -178,8 +178,8 @@ const Header: React.FC<HeaderProps> = ({
               aria-label="search"
               className={`rounded-md p-2 transition-all duration-200 sm:hidden ${
                 isHeroMode
-                  ? 'text-white/80 hover:bg-white/10 hover:text-white'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+                  ? 'text-white/80 hover:bg-surface/10 hover:text-white'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground '
               }`}
             >
               <MagnifyingGlassIcon className="h-6 w-6" />

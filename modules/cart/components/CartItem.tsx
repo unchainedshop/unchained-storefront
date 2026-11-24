@@ -45,7 +45,7 @@ const CartItem = ({
 
   return (
     <li
-      className="flex pb-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 transition-all duration-200 hover:scale-[1.01]"
+      className="flex pb-3 p-3 rounded-lg bg-muted transition-all duration-200 hover:scale-[1.01]"
       key={_id}
     >
       <div className="relative h-20 w-20 flex-shrink-0 rounded-md overflow-hidden shadow-sm">
@@ -61,8 +61,8 @@ const CartItem = ({
             className="transition-transform duration-300 hover:scale-105"
           />
         ) : (
-          <div className="relative h-full w-full flex items-center justify-center bg-slate-100 dark:bg-slate-950">
-            <PhotoIcon className="h-8 w-8 text-slate-300 dark:text-slate-500" />
+          <div className="relative h-full w-full flex items-center justify-center bg-muted">
+            <PhotoIcon className="h-8 w-8 text-subtle-foreground" />
           </div>
         )}
       </div>
@@ -73,7 +73,7 @@ const CartItem = ({
             <h4 className="text-sm">
               <Link
                 href={getProductHref(product?.texts?.slug)}
-                className="font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 dark:text-slate-100 dark:hover:text-slate-300"
+                className="font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {product?.texts && product?.texts.title}
               </Link>
@@ -83,7 +83,7 @@ const CartItem = ({
             <div className="ml-4 flow-root flex-shrink-0">
               <button
                 type="button"
-                className="-m-2.5 flex items-center justify-center p-2.5 text-slate-400 hover:text-red-500 transition-all duration-200 hover:scale-110 hover:bg-red-50 rounded-md dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-900/20"
+                className="-m-2.5 flex items-center justify-center p-2.5 text-subtle-foreground hover:text-danger transition-all duration-200 hover:scale-110 hover:bg-danger-soft rounded-md"
                 onClick={() => removeCartItem({ itemId: _id })}
               >
                 <span className="sr-only">
@@ -96,7 +96,7 @@ const CartItem = ({
         </div>
 
         <div className="flex flex-wrap flex-1 lg:items-end lg:justify-between pt-2">
-          <p className="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+          <p className="mt-1 text-sm font-medium text-foreground">
             <FormattedPrice price={unitPrice} />
           </p>
 
@@ -109,7 +109,7 @@ const CartItem = ({
                 <div className="flex items-end justify-center gap-1">
                   <button
                     type="button"
-                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-0 dark:text-slate-200"
+                    className="rounded-md border border-input p-1 text-muted-foreground shadow-sm transition-all duration-200 hover:scale-105 focus:border-input focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50 disabled:cursor-not-allowed dark:border-0"
                     aria-label="Decrease cart item"
                     disabled={quantity <= 1}
                     onClick={() =>
@@ -124,13 +124,13 @@ const CartItem = ({
                   <input
                     type="text"
                     pattern="\d+"
-                    className="h-8 w-12 border border-slate-300 rounded-md text-center text-sm font-medium transition-all duration-200 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 dark:bg-slate-950 dark:border-0 dark:text-slate-100"
+                    className="h-8 w-12 border border-input rounded-md text-center text-sm font-medium transition-all duration-200 focus:border-input focus:ring-1 focus:ring-ring dark:border-0"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     value={currentQuantity}
                   />
                   <button
-                    className="rounded-md border border-slate-300 p-1 text-slate-700 shadow-sm transition-all duration-200 hover:scale-105 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:text-slate-200 dark:hover:bg-slate-600"
+                    className="rounded-md border border-input p-1 text-muted-foreground shadow-sm transition-all duration-200 hover:scale-105 focus:border-input focus:outline-none focus:ring-1 focus:ring-ring dark:border-0"
                     aria-label="Increase cart item"
                     type="button"
                     onClick={() =>

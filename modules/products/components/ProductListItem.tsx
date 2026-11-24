@@ -16,7 +16,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
   const availableTokens = totalSupply - mintedTokens;
 
   return (
-    <div className="text-xs text-slate-700 dark:text-slate-300 space-y-0.5">
+    <div className="text-xs text-muted-foreground space-y-0.5">
       {product?.contractStandard && (
         <p>
           <span className="font-medium">
@@ -45,7 +45,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
             })}{' '}
           </span>
           {totalSupply}{' '}
-          <span className="text-slate-500 dark:text-slate-400">
+          <span className="text-subtle-foreground">
             ({formatMessage({ id: 'available', defaultMessage: 'Available:' })}{' '}
             {availableTokens})
           </span>
@@ -67,7 +67,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
 };
 
 const PlanProductMetadata = ({ plan, formatMessage }) => (
-  <div className="text-xs text-slate-700 dark:text-slate-300 space-y-0.5">
+  <div className="text-xs text-muted-foreground space-y-0.5">
     {plan?.usageCalculationType && (
       <p>
         <span className="font-medium">
@@ -115,8 +115,8 @@ const ProductListItem = ({ product }) => {
   const isPlanProduct = !!plan;
 
   return (
-    <div className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-900 dark:border-0">
-      <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
+    <div className="group relative bg-surface border border-border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:border-0">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         <Link href={getProductHref(product?.texts?.slug)}>
           {firstMediaUrl ? (
             <Image
@@ -129,14 +129,14 @@ const ProductListItem = ({ product }) => {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">
-              <PhotoIcon className="h-12 w-12 text-slate-400 dark:text-slate-500" />
+              <PhotoIcon className="h-12 w-12 text-subtle-foreground" />
             </div>
           )}
         </Link>
 
         {isBundle && (
           <div className="absolute top-3 left-3 z-10">
-            <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-500 text-white shadow-sm">
+            <span className="badge badge-warning shadow-sm">
               {formatMessage({ id: 'bundle_badge', defaultMessage: 'Bundle' })}
             </span>
           </div>
@@ -147,13 +147,13 @@ const ProductListItem = ({ product }) => {
         <div>
           <div className="flex items-center justify-between gap-2">
             <Link href={getProductHref(product?.texts?.slug)}>
-              <h3 className="text-base font-semibold text-slate-900 dark:text-white transition-colors duration-200 hover:text-slate-700 dark:hover:text-slate-200">
+              <h3 className="text-base font-semibold text-foreground transition-colors duration-200 hover:text-muted-foreground">
                 {product?.texts?.title}
               </h3>
             </Link>
 
             {isBundle && (
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full bg-warning-soft text-warning border border-warning/40">
                 {formatMessage({
                   id: 'bundle_badge',
                   defaultMessage: 'Bundle',
@@ -163,13 +163,13 @@ const ProductListItem = ({ product }) => {
           </div>
 
           {product?.texts?.subtitle && (
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-muted-foreground">
               {product.texts.subtitle}
             </p>
           )}
 
           {product?.texts?.description && (
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
+            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
               {product.texts.description}
             </p>
           )}
@@ -188,7 +188,7 @@ const ProductListItem = ({ product }) => {
         </div>
 
         <div className="flex items-center justify-between mt-3">
-          <div className="text-sm font-semibold text-slate-900 dark:text-white">
+          <div className="text-sm font-semibold text-foreground">
             <ProductPrice product={product} compact />
           </div>
         </div>

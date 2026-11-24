@@ -14,12 +14,12 @@ const Conditions = () => {
         })}
       />
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-semibold text-slate-900 dark:text-white mb-8">
+        <h1 className="text-4xl font-semibold text-foreground mb-8">
           Terms & Conditions: The Legal Fiction
         </h1>
 
         <div className="prose prose-slate dark:prose-invert max-w-none space-y-6">
-          <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             By reading this sentence, you have legally agreed to everything
             below, including things we haven&apos;t written yet and terms that
             may spontaneously change while you&apos;re reading them. Please
@@ -27,10 +27,10 @@ const Conditions = () => {
             what you&apos;ve just gotten yourself into.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             1. Acceptance of Terms (Whether You Like It or Not)
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             By using this website, breathing near your computer, or thinking
             about our products, you agree to be bound by these terms. If you
             disagree with any part of these terms, please feel free to
@@ -40,10 +40,10 @@ const Conditions = () => {
             without notice, and definitely without caring about your opinion.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             2. Use of Service
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             You may use our service for any lawful purpose, excluding but not
             limited to: using it to become famous, solving world hunger, or
             impressing your friends. You agree not to use our service to
@@ -52,10 +52,10 @@ const Conditions = () => {
             us being very disappointed in you.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             3. Intellectual Property Rights (We Own Everything, Obviously)
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             All content on this site belongs to us, including your thoughts
             while browsing. By using this site, you grant us perpetual,
             irrevocable rights to any ideas you have while here. If you have a
@@ -64,10 +64,10 @@ const Conditions = () => {
             we&apos;ll probably forget about it anyway.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             4. User Conduct
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             Users agree to behave reasonably, which we define as &quot;better
             than we do.&quot; You may not engage in any activity that disrupts
             our service, hurts our feelings, or makes us question our life
@@ -75,10 +75,10 @@ const Conditions = () => {
             pretending we didn&apos;t see your messages.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             5. Disclaimers (We&apos;re Not Responsible for Anything)
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             Our service is provided &quot;as is,&quot; which is legal speak for
             &quot;good luck with that.&quot; We make no warranties about the
             functionality, reliability, or sanity of our service. If our website
@@ -89,10 +89,10 @@ const Conditions = () => {
             dance.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             6. Limitation of Liability
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             In no event shall we be liable for anything, ever. If you&apos;re
             struck by lightning while using our service, that&apos;s your
             problem. If our website somehow causes a zombie apocalypse, please
@@ -101,10 +101,10 @@ const Conditions = () => {
             requires you to provide exact change.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             7. Termination
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             We may terminate your access to our service at any time, for any
             reason, or for no reason at all. Maybe we just don&apos;t like your
             username. Maybe Mercury is in retrograde. Maybe we&apos;re having a
@@ -113,10 +113,10 @@ const Conditions = () => {
             given how little there was to remember.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             8. Governing Law
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             These terms are governed by the laws of physics, common sense, and
             whatever feels right at the moment. Any disputes will be resolved by
             rock-paper-scissors, best two out of three. If you choose rock every
@@ -124,10 +124,10 @@ const Conditions = () => {
             abilities.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             9. Changes to Terms
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             We reserve the right to change these terms whenever we want, however
             we want. We might notify you, or we might not. We might change them
             while you&apos;re reading them. We might change them in dreams. Your
@@ -135,10 +135,10 @@ const Conditions = () => {
             changed them to, even if we haven&apos;t told you what that is yet.
           </p>
 
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-4">
+          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
             10. Final Thoughts
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             If you&apos;ve read this far, you either have remarkable dedication
             to understanding legal documents or concerning amounts of free time.
             Either way, we respect that. These terms are about as enforceable as
@@ -146,7 +146,7 @@ const Conditions = () => {
             playing along.
           </p>
 
-          <p className="text-sm text-slate-500 dark:text-slate-400 italic mt-8">
+          <p className="text-sm text-subtle-foreground italic mt-8">
             *These terms were written by someone who clearly enjoyed writing
             them way more than anyone will enjoy reading them. Legal validity
             not guaranteed.*

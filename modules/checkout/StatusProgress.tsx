@@ -20,7 +20,7 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                 {index !== status.length - 1 ? (
                   <span
                     className={classNames(
-                      currentId > index + 1 ? 'bg-slate-500' : 'bg-slate-200',
+                      currentId > index + 1 ? 'bg-muted-foreground' : 'bg-muted-strong',
                       'absolute top-2.5 left-2.5 -ml-px h-full w-0.5',
                     )}
                     aria-hidden="true"
@@ -30,7 +30,7 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                   <div>
                     <span
                       className={classNames(
-                        currentId > index ? 'bg-slate-500' : 'bg-slate-600',
+                        currentId > index ? 'bg-muted-foreground' : 'bg-muted-foreground',
                         'flex h-5 w-5 items-center justify-center rounded-full',
                       )}
                     >
@@ -44,8 +44,8 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                   </div>
                   <div className="ml-4 flex min-w-0 flex-1 items-center justify-between">
                     <div className="flex-auto">
-                      <p className="text-sm text-slate-500">
-                        <span className="flex w-full items-center justify-between font-medium capitalize text-slate-900 dark:text-slate-200">
+                      <p className="text-sm text-subtle-foreground">
+                        <span className="flex w-full items-center justify-between font-medium capitalize text-foreground">
                           {value}
                           {timeline[value]?.Component &&
                             timeline[value].Component}
@@ -53,7 +53,7 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                       </p>
                     </div>
                     {currentId >= timeline[value].id ? (
-                      <div className="whitespace-nowrap text-right text-sm text-slate-500 dark:text-slate-200 ml-4">
+                      <div className="whitespace-nowrap text-right text-sm text-subtle-foreground ml-4">
                         {data[timeline[value].content]
                           ? formatDateTime(data[timeline[value].content], {
                               dateStyle: 'short',
@@ -93,15 +93,15 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
           </span>
         </p>
         <div className="mt-2 print:hidden" aria-hidden="true">
-          <div className="mt-2 hidden text-sm font-medium text-slate-600 sm:flex">
+          <div className="mt-2 hidden text-sm font-medium text-muted-foreground sm:flex">
             {status.map(({ value, label }) => (
               <div key={`${value}${label}`} className="sm:flex-auto">
                 <div className="relative mb-4 mr-1">
                   <span
                     className={classNames(
                       currentId >= timeline[value].id
-                        ? 'bg-slate-400'
-                        : 'bg-slate-200',
+                        ? 'bg-muted-strong'
+                        : 'bg-muted-strong',
                       'absolute top-0 left-0 -ml-px h-2 w-full',
                     )}
                     aria-hidden="true"
@@ -110,8 +110,8 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                 <div
                   className={classNames(
                     currentId >= timeline[value].id
-                      ? 'text-slate-600'
-                      : 'text-slate-600',
+                      ? 'text-muted-foreground'
+                      : 'text-muted-foreground',
                     'text-center',
                   )}
                 >
@@ -120,7 +120,7 @@ const StatusProgress = ({ data, statusTypes, timeline }) => {
                       ? timeline[value].Component
                       : value}
                   </span>
-                  <span className="block text-slate-900 dark:text-slate-200">
+                  <span className="block text-foreground">
                     {currentId >= timeline[value].id
                       ? formatDateTime(data[timeline[value].content], {
                           dateStyle: 'short',

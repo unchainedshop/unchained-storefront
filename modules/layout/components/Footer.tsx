@@ -68,7 +68,7 @@ const Footer = () => {
   return (
     <footer
       aria-labelledby="footer-heading"
-      className="my-32 container mx-auto bg-white dark:bg-slate-950 print:hidden"
+      className="my-32 container mx-auto bg-surface print:hidden"
     >
       <h2 id="footer-heading" className="sr-only">
         {formatMessage({ id: 'footer', defaultMessage: 'Footer' })}
@@ -80,7 +80,7 @@ const Footer = () => {
             <a
               key={item.name}
               href={item.href}
-              className="text-slate-400 hover:text-slate-500"
+              className="text-subtle-foreground hover:text-subtle-foreground"
             >
               <span className="sr-only">{item.name}</span>
               <item.icon className="h-6 w-6" aria-hidden="true" />
@@ -90,7 +90,7 @@ const Footer = () => {
 
         <div className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="uppercase text-lg font-semibold text-slate-900 dark:text-white mb-6">
+            <div className="uppercase text-lg font-semibold text-foreground mb-6">
               {formatMessage({
                 id: 'shop_title',
                 defaultMessage: 'Unchained Store',
@@ -99,7 +99,7 @@ const Footer = () => {
 
             {/* Categories Section */}
             <div>
-              <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
+              <h3 className="text-sm font-semibold text-subtle-foreground">
                 {formatMessage({
                   id: 'categories',
                   defaultMessage: 'Categories',
@@ -116,7 +116,7 @@ const Footer = () => {
                       >
                         <Link
                           href={`/shop/${rootCategory.texts?.slug}`}
-                          className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                          className="text-foreground hover:text-subtle-foreground"
                         >
                           {rootCategory.texts?.title}
                         </Link>
@@ -134,7 +134,7 @@ const Footer = () => {
                             <div key={childCategory._id} className="mt-2">
                               <Link
                                 href={`/shop/${childCategory.texts?.slug}`}
-                                className="text-sm font-medium text-slate-600 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 ml-4 block"
+                                className="text-sm font-medium text-muted-foreground hover:text-subtle-foreground ml-4 block"
                               >
                                 {childCategory.texts?.title}
                               </Link>
@@ -148,7 +148,7 @@ const Footer = () => {
 
             <div>
               <div>
-                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
+                <h3 className="text-sm font-semibold text-subtle-foreground">
                   {formatMessage({
                     id: 'company',
                     defaultMessage: 'Company',
@@ -159,7 +159,7 @@ const Footer = () => {
                     <li key={item.name} className="text-sm font-medium">
                       <Link
                         href={item.href}
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                        className="text-foreground hover:text-subtle-foreground"
                       >
                         {item.name}
                       </Link>
@@ -169,7 +169,7 @@ const Footer = () => {
               </div>
 
               <div className="mt-11">
-                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
+                <h3 className="text-sm font-semibold text-subtle-foreground">
                   {formatMessage({ id: 'legal', defaultMessage: 'Legal' })}
                 </h3>
                 <ul className="mt-3 space-y-3">
@@ -177,7 +177,7 @@ const Footer = () => {
                     <li key={item.name} className="text-sm font-medium">
                       <Link
                         href={item.href}
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                        className="text-foreground hover:text-subtle-foreground"
                       >
                         {item.name}
                       </Link>
@@ -187,7 +187,7 @@ const Footer = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
+              <h3 className="text-sm font-semibold text-subtle-foreground">
                 Unchained
               </h3>
               <ul className="mt-3 space-y-3">
@@ -198,14 +198,14 @@ const Footer = () => {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                        className="text-foreground hover:text-subtle-foreground"
                       >
                         {item.name}
                       </a>
                     ) : (
                       <Link
                         href={item.href}
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                        className="text-foreground hover:text-subtle-foreground"
                       >
                         {item.name}
                       </Link>
@@ -219,7 +219,7 @@ const Footer = () => {
 
         <div className="mt-48 md:flex md:items-center md:justify-between">
           <div className="text-center md:text-left">
-            <p className="text-sm font-medium text-slate-400 dark:text-slate-200">
+            <p className="text-sm font-medium text-subtle-foreground">
               <span>&copy;</span>
               <span className="mx-2">{new Date().getFullYear()}</span>
               <span>
@@ -237,15 +237,15 @@ const Footer = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                  className="text-subtle-foreground hover:text-subtle-foreground"
                 >
                   {item.name}
                 </Link>
               ))}
             </div>
 
-            <div className="border-slate-200">
-              <div className="flex items-center text-base text-slate-400 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-200">
+            <div className="border-border">
+              <div className="flex items-center text-base text-subtle-foreground hover:text-subtle-foreground">
                 <LanguageSwitch />
               </div>
             </div>

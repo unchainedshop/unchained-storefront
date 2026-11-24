@@ -108,13 +108,13 @@ const Detail = () => {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h1
-                        className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white"
+                        className="text-2xl lg:text-3xl font-semibold text-foreground"
                         dangerouslySetInnerHTML={{
                           __html: product?.texts?.title,
                         }}
                       />
                       {isBundle && (
-                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-warning-soft text-warning border border-warning/40">
                           {intl.formatMessage({
                             id: 'bundle_badge',
                             defaultMessage: 'Bundle',
@@ -123,7 +123,7 @@ const Detail = () => {
                       )}
                     </div>
                     <h2
-                      className="text-lg text-slate-600 dark:text-slate-300 mb-4"
+                      className="text-lg text-muted-foreground mb-4"
                       dangerouslySetInnerHTML={{
                         __html: product?.texts?.subtitle || '',
                       }}
@@ -136,7 +136,7 @@ const Detail = () => {
                   />
                 </div>
 
-                <div className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-6">
+                <div className="text-2xl lg:text-3xl font-semibold text-foreground mb-6">
                   {isConfigurable && resolvedProducts.length > 0 ? (
                     resolvedProducts.length === 1 ? (
                       <ProductPrice product={resolvedProducts[0]} />
