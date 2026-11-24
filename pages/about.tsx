@@ -1,3 +1,5 @@
+import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
+import ContentPage from '../modules/common/components/ContentPage';
 import { useIntl } from 'react-intl';
 
 import MetaTags from '../modules/common/components/MetaTags';
@@ -11,12 +13,13 @@ const AboutPage = () => {
         title={intl.formatMessage({ id: 'about', defaultMessage: 'About us' })}
       />
 
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-semibold text-foreground mb-8">
-          About Us: The Story Nobody Asked For
-        </h1>
+      <ContentPage
+        eyebrow={intl.formatMessage({ id: 'content_eyebrow_company', defaultMessage: 'Company' })}
+        title="About Us: The Story Nobody Asked For"
+        icon={BuildingStorefrontIcon}
+      >
 
-        <div className="prose prose-slate dark:prose-invert max-w-none space-y-6">
+        <div className="prose dark:prose-invert max-w-none space-y-6">
           <p className="text-lg text-muted-foreground leading-relaxed">
             Welcome to our comprehensive exposition on the multifaceted nature
             of our organizational existence, wherein we endeavor to elucidate
@@ -121,7 +124,7 @@ const AboutPage = () => {
             communication is truly an art form.*
           </p>
         </div>
-      </div>
+      </ContentPage>
     </>
   );
 };

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import SearchField from '../../common/components/SearchField';
 import OrderListItem from './OrderListItem';
+import EmptyState from '../../common/components/EmptyState';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const OrderList = ({ orders, queryString, setQueryString }) => {
   const { formatMessage } = useIntl();
@@ -25,16 +27,19 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
         </div>
 
         {!orders?.length ? (
-          <div className="flex flex-col items-center rounded-xl border border-dashed border-input px-6 py-16 text-center">
-            <p className="font-semibold">
-              {queryString
+          <EmptyState
+            icon={ShoppingBagIcon}
+            title={
+              queryString
                 ? formatMessage({ id: 'no_orders_match', defaultMessage: 'No orders match your search.' })
-                : formatMessage({ id: 'no_orders_yet', defaultMessage: "You haven't placed any orders yet." })}
-            </p>
-            <Link href="/shop" className="btn btn-primary mt-6">
+                : formatMessage({ id: 'no_orders_yet', defaultMessage: "You haven't placed any orders yet." })
+            }
+            description={formatMessage({ id: 'orders_empty_text', defaultMessage: 'Your orders and their status will show up here.' })}
+          >
+            <Link href="/shop" className="btn btn-primary">
               {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
             </Link>
-          </div>
+          </EmptyState>
         ) : (
         <div className="card mt-4 p-5 sm:mt-0 sm:p-6">
           <h2 className="sr-only">

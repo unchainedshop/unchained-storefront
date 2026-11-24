@@ -1,3 +1,5 @@
+import EmptyState from '../../common/components/EmptyState';
+import { ArrowPathRoundedSquareIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
@@ -9,12 +11,11 @@ const EnrollmentList = ({ enrollments }) => {
 
   if (!enrollments?.length) {
     return (
-      <div className="text-center text-subtle-foreground mt-10">
-        {formatMessage({
-          id: 'enrollments.empty',
-          defaultMessage: 'No enrollments found.',
-        })}
-      </div>
+      <EmptyState icon={ArrowPathRoundedSquareIcon} title={formatMessage({ id: 'subscriptions_empty', defaultMessage: 'No subscriptions yet' })} description={formatMessage({ id: 'enrollments_empty_text', defaultMessage: 'Subscribe to a product and you can manage it here.' })}>
+        <Link href="/shop" className="btn btn-secondary">
+          {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
+        </Link>
+      </EmptyState>
     );
   }
   return (

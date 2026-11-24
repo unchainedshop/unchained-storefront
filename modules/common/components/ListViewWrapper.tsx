@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Squares2X2Icon, ListBulletIcon } from '@heroicons/react/24/outline';
 import { useIntl } from 'react-intl';
 import useLocalStorage from '../hooks/useLocalStorage';
+import PageHeader from './PageHeader';
 
 type ViewMode = 'grid' | 'list';
 
@@ -32,40 +33,40 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
         : 'text-subtle-foreground hover:text-foreground',
     );
 
+  const toggleGroup = (
+        <div
+      role="group"
+      aria-label={formatMessage({ id: 'view_mode', defaultMessage: 'View mode' })}
+      className="flex shrink-0 rounded-lg bg-muted p-1"
+    >
+      <button
+        type="button"
+        aria-pressed={viewMode === 'grid'}
+        aria-label={formatMessage({ id: 'grid_view', defaultMessage: 'Grid view' })}
+        onClick={() => setViewMode('grid')}
+        className={toggleClass('grid')}
+      >
+        <Squares2X2Icon className="size-4" />
+      </button>
+      <button
+        type="button"
+        aria-pressed={viewMode === 'list'}
+        aria-label={formatMessage({ id: 'list_view', defaultMessage: 'List view' })}
+        onClick={() => setViewMode('list')}
+        className={toggleClass('list')}
+      >
+        <ListBulletIcon className="size-4" />
+      </button>
+    </div>
+  );
+
   return (
     <div className={className}>
-      <div className="mb-6 flex items-end justify-between gap-4">
-        <div>
-          {title && (
-            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
-          )}
-          {subtitle && <p className="mt-1 text-muted-foreground">{subtitle}</p>}
-        </div>
-        <div
-          role="group"
-          aria-label={formatMessage({ id: 'view_mode', defaultMessage: 'View mode' })}
-          className="flex shrink-0 rounded-lg bg-muted p-1"
-        >
-          <button
-            type="button"
-            aria-pressed={viewMode === 'grid'}
-            aria-label={formatMessage({ id: 'grid_view', defaultMessage: 'Grid view' })}
-            onClick={() => setViewMode('grid')}
-            className={toggleClass('grid')}
-          >
-            <Squares2X2Icon className="size-4" />
-          </button>
-          <button
-            type="button"
-            aria-pressed={viewMode === 'list'}
-            aria-label={formatMessage({ id: 'list_view', defaultMessage: 'List view' })}
-            onClick={() => setViewMode('list')}
-            className={toggleClass('list')}
-          >
-            <ListBulletIcon className="size-4" />
-          </button>
-        </div>
-      </div>
+      {title ? (
+        <PageHeader title={title} description={subtitle} actions={toggleGroup} />
+      ) : (
+        <div className="mb-6 flex justify-end">{toggleGroup}</div>
+      )}
       {children(viewMode)}
     </div>
   );

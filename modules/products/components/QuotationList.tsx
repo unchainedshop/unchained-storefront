@@ -1,3 +1,5 @@
+import EmptyState from '../../common/components/EmptyState';
+import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
@@ -9,12 +11,11 @@ const QuotationList = ({ quotations }) => {
 
   if (!quotations?.length)
     return (
-      <div className="text-center text-subtle-foreground mt-10">
-        {formatMessage({
-          id: 'quotation_list_empty',
-          defaultMessage: 'No quotations found.',
-        })}
-      </div>
+      <EmptyState icon={DocumentTextIcon} title={formatMessage({ id: 'quotations_empty', defaultMessage: 'No quotation requests yet' })} description={formatMessage({ id: 'quotations_empty_text', defaultMessage: 'Request a quote on a product page and track it here.' })}>
+        <Link href="/shop" className="btn btn-secondary">
+          {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
+        </Link>
+      </EmptyState>
     );
 
   return (
@@ -41,7 +42,7 @@ const QuotationList = ({ quotations }) => {
             return (
               <div
                 key={q._id}
-                className="bg-surface shadow-md rounded-2xl p-5 border border-border hover:shadow-lg transition"
+                className="card p-5 hover:shadow-lg transition"
               >
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex flex-col">

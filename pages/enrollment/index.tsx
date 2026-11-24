@@ -92,7 +92,7 @@ const EnrollmentDetailPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-6 bg-surface shadow-md rounded-2xl p-6 border border-border">
+    <div className="max-w-3xl mx-auto mt-6 card p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold text-foreground">
           {formatMessage({

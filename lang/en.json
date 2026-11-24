@@ -26,6 +26,9 @@
   "account": {
     "defaultMessage": "Account"
   },
+  "account_greeting": {
+    "defaultMessage": "Hi, {name}"
+  },
   "actions": {
     "defaultMessage": "Actions"
   },
@@ -73,6 +76,21 @@
   },
   "apply_discount": {
     "defaultMessage": "Apply"
+  },
+  "auth_benefit_checkout": {
+    "defaultMessage": "Check out faster with saved addresses"
+  },
+  "auth_benefit_orders": {
+    "defaultMessage": "Track orders and download invoices"
+  },
+  "auth_benefit_wishlist": {
+    "defaultMessage": "Keep your wishlist on every device"
+  },
+  "auth_panel_secure": {
+    "defaultMessage": "Your data is transmitted securely."
+  },
+  "auth_panel_title": {
+    "defaultMessage": "Your favourite products, one account away."
   },
   "available": {
     "defaultMessage": "Available:"
@@ -184,6 +202,12 @@
   },
   "contact-info": {
     "defaultMessage": "Contact info"
+  },
+  "content_eyebrow_company": {
+    "defaultMessage": "Company"
+  },
+  "content_eyebrow_legal": {
+    "defaultMessage": "Legal"
   },
   "continue": {
     "defaultMessage": "Continue"
@@ -353,8 +377,8 @@
   "enrollment_user_info": {
     "defaultMessage": "User Information"
   },
-  "enrollments.empty": {
-    "defaultMessage": "No enrollments found."
+  "enrollments_empty_text": {
+    "defaultMessage": "Subscribe to a product and you can manage it here."
   },
   "enter_discount_code": {
     "defaultMessage": "Discount code"
@@ -572,6 +596,9 @@
   "no_categories": {
     "defaultMessage": "No categories yet."
   },
+  "no_categories_text": {
+    "defaultMessage": "Categories will appear here once the shop is set up."
+  },
   "no_data_message": {
     "defaultMessage": "<p>No <span> {message} available</span> </p>"
   },
@@ -587,14 +614,17 @@
   "no_products_found": {
     "defaultMessage": "No products match your filters."
   },
+  "no_products_found_text": {
+    "defaultMessage": "Try removing a filter or searching for something else."
+  },
+  "no_products_text": {
+    "defaultMessage": "New products are on their way. Check back soon."
+  },
   "no_results_found": {
     "defaultMessage": "No results found"
   },
   "no_search_results": {
     "defaultMessage": "No products found matching your search."
-  },
-  "no_user_tokens": {
-    "defaultMessage": "No tokens found."
   },
   "not_available": {
     "defaultMessage": "Not available"
@@ -668,6 +698,9 @@
   "orders": {
     "defaultMessage": "Orders"
   },
+  "orders_empty_text": {
+    "defaultMessage": "Your orders and their status will show up here."
+  },
   "paid": {
     "defaultMessage": "Paid"
   },
@@ -730,9 +763,6 @@
   },
   "payment_failed": {
     "defaultMessage": "Your payment was not successful, please try again."
-  },
-  "payment_fee": {
-    "defaultMessage": "Payment Fee"
   },
   "payment_fees": {
     "defaultMessage": "Payment fees"
@@ -863,9 +893,6 @@
   "quotation_expires": {
     "defaultMessage": "Expires:"
   },
-  "quotation_list_empty": {
-    "defaultMessage": "No quotations found."
-  },
   "quotation_list_title": {
     "defaultMessage": "Quotation Requests"
   },
@@ -877,6 +904,12 @@
   },
   "quotations": {
     "defaultMessage": "Quotations"
+  },
+  "quotations_empty": {
+    "defaultMessage": "No quotation requests yet"
+  },
+  "quotations_empty_text": {
+    "defaultMessage": "Request a quote on a product page and track it here."
   },
   "recent_orders": {
     "defaultMessage": "Recent orders"
@@ -952,6 +985,9 @@
   },
   "search": {
     "defaultMessage": "Search"
+  },
+  "search_browse_hint": {
+    "defaultMessage": "Or browse our categories to discover something new."
   },
   "search_hint": {
     "defaultMessage": "Try a different or more general term."
@@ -1142,6 +1178,9 @@
   "subscriptions": {
     "defaultMessage": "Subscriptions"
   },
+  "subscriptions_empty": {
+    "defaultMessage": "No subscriptions yet"
+  },
   "subtotal": {
     "defaultMessage": "Subtotal"
   },
@@ -1216,6 +1255,12 @@
   },
   "tokens": {
     "defaultMessage": "Tokens"
+  },
+  "tokens_empty": {
+    "defaultMessage": "No tokens yet"
+  },
+  "tokens_empty_text": {
+    "defaultMessage": "Tickets and digital items you buy will appear here."
   },
   "total": {
     "defaultMessage": "Total"
@@ -1294,6 +1339,9 @@
   },
   "view_product_detail": {
     "defaultMessage": "View Details"
+  },
+  "view_wishlist": {
+    "defaultMessage": "View wishlist"
   },
   "wallet_address": {
     "defaultMessage": "Wallet:"

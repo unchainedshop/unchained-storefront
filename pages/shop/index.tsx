@@ -3,6 +3,9 @@ import { useIntl } from 'react-intl';
 import CategoryListItem from '../../modules/assortment/components/CategoryListItem';
 import useAssortments from '../../modules/assortment/hooks/useAssortments';
 import MetaTags from '../../modules/common/components/MetaTags';
+import PageHeader from '../../modules/common/components/PageHeader';
+import EmptyState from '../../modules/common/components/EmptyState';
+import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 const Categories = () => {
   const { assortments, loading } = useAssortments();
@@ -13,17 +16,14 @@ const Categories = () => {
       <MetaTags
         title={formatMessage({ id: 'product_categories', defaultMessage: 'Product Categories' })}
       />
-      <div className="mb-8 max-w-2xl">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          {formatMessage({ id: 'shop_by_category', defaultMessage: 'Shop by Category' })}
-        </h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          {formatMessage({
-            id: 'categories_description',
-            defaultMessage: 'Discover our carefully curated collections designed to meet all your needs',
-          })}
-        </p>
-      </div>
+      <PageHeader
+        icon={Squares2X2Icon}
+        title={formatMessage({ id: 'shop_by_category', defaultMessage: 'Shop by Category' })}
+        description={formatMessage({
+          id: 'categories_description',
+          defaultMessage: 'Discover our carefully curated collections designed to meet all your needs',
+        })}
+      />
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         {loading
           ? Array.from({ length: 6 }).map((_, i) => (
@@ -34,9 +34,11 @@ const Categories = () => {
             ))}
       </div>
       {!loading && !assortments.length && (
-        <p className="rounded-xl border border-dashed border-input py-16 text-center text-muted-foreground">
-          {formatMessage({ id: 'no_categories', defaultMessage: 'No categories yet.' })}
-        </p>
+        <EmptyState
+          icon={Squares2X2Icon}
+          title={formatMessage({ id: 'no_categories', defaultMessage: 'No categories yet.' })}
+          description={formatMessage({ id: 'no_categories_text', defaultMessage: 'Categories will appear here once the shop is set up.' })}
+        />
       )}
     </>
   );

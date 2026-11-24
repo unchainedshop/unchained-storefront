@@ -7,6 +7,8 @@ import useUser from '../modules/auth/hooks/useUser';
 import CartItem from '../modules/cart/components/CartItem';
 import CartSummary from '../modules/cart/components/CartSummary';
 import AddDiscount from '../modules/orders/components/AddDiscount';
+import EmptyState from '../modules/common/components/EmptyState';
+import PageHeader from '../modules/common/components/PageHeader';
 
 const Cart = () => {
   const { formatMessage } = useIntl();
@@ -18,10 +20,21 @@ const Cart = () => {
   return (
     <>
       <MetaTags title={title} />
-      <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+      <PageHeader
+        icon={ShoppingBagIcon}
+        title={title}
+        description={
+          items.length
+            ? formatMessage(
+                { id: 'cart_item_count', defaultMessage: '{count, plural, one {# item} other {# items}}' },
+                { count: items.reduce((acc, item) => acc + item.quantity, 0) },
+              )
+            : null
+        }
+      />
 
       {loading ? (
-        <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_380px]">
+        <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
           <div className="space-y-4">
             {[0, 1, 2].map((i) => (
               <div key={i} className="skeleton h-24" />
@@ -30,25 +43,20 @@ const Cart = () => {
           <div className="skeleton h-64 rounded-xl" />
         </div>
       ) : !items.length ? (
-        <div className="mt-8 flex flex-col items-center rounded-xl border border-dashed border-input px-6 py-20 text-center">
-          <span className="flex size-16 items-center justify-center rounded-full bg-muted">
-            <ShoppingBagIcon className="size-7 text-subtle-foreground" />
-          </span>
-          <p className="mt-4 text-lg font-semibold">
-            {formatMessage({ id: 'cart_empty_title', defaultMessage: 'Your cart is empty' })}
-          </p>
-          <p className="mt-1 text-muted-foreground">
-            {formatMessage({
-              id: 'cart_empty_text',
-              defaultMessage: 'Find something you love and it will show up here.',
-            })}
-          </p>
-          <Link href="/shop" className="btn btn-primary mt-6">
+        <EmptyState
+          icon={ShoppingBagIcon}
+          title={formatMessage({ id: 'cart_empty_title', defaultMessage: 'Your cart is empty' })}
+          description={formatMessage({ id: 'cart_empty_text', defaultMessage: 'Find something you love and it will show up here.' })}
+        >
+          <Link href="/shop" className="btn btn-primary">
             {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
           </Link>
-        </div>
+          <Link href="/bookmarks" className="btn btn-secondary">
+            {formatMessage({ id: 'view_wishlist', defaultMessage: 'View wishlist' })}
+          </Link>
+        </EmptyState>
       ) : (
-        <div className="mt-8 grid items-start gap-10 lg:grid-cols-[1fr_380px]">
+        <div className="grid items-start gap-10 lg:grid-cols-[1fr_380px]">
           <ul className="divide-y divide-border border-y border-border">
             {items.map((item) => (
               <CartItem key={item._id} {...item} />

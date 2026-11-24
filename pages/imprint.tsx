@@ -1,3 +1,5 @@
+import { IdentificationIcon } from '@heroicons/react/24/outline';
+import ContentPage from '../modules/common/components/ContentPage';
 import { useIntl } from 'react-intl';
 
 import MetaTags from '../modules/common/components/MetaTags';
@@ -10,12 +12,13 @@ const Imprint = () => {
       <MetaTags
         title={intl.formatMessage({ id: 'imprint', defaultMessage: 'Imprint' })}
       />
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-semibold text-foreground mb-8">
-          Imprint: The Legal Formalities
-        </h1>
+      <ContentPage
+        eyebrow={intl.formatMessage({ id: 'content_eyebrow_legal', defaultMessage: 'Legal' })}
+        title="Imprint: The Legal Formalities"
+        icon={IdentificationIcon}
+      >
 
-        <div className="prose prose-slate dark:prose-invert max-w-none space-y-6">
+        <div className="prose dark:prose-invert max-w-none space-y-6">
           <p className="text-lg text-muted-foreground leading-relaxed">
             According to various international laws that we may or may not fully
             understand, we are required to provide you with some information
@@ -163,7 +166,7 @@ const Imprint = () => {
             risk and sense of humor.*
           </p>
         </div>
-      </div>
+      </ContentPage>
     </>
   );
 };

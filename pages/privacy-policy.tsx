@@ -1,3 +1,5 @@
+import { ShieldCheckIcon } from '@heroicons/react/24/outline';
+import ContentPage from '../modules/common/components/ContentPage';
 import { useIntl } from 'react-intl';
 
 import MetaTags from '../modules/common/components/MetaTags';
@@ -13,12 +15,13 @@ const Privacy = () => {
           defaultMessage: 'Privacy Policy',
         })}
       />
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-semibold text-foreground mb-8">
-          Privacy Policy: The Art of Knowing Nothing
-        </h1>
+      <ContentPage
+        eyebrow={intl.formatMessage({ id: 'content_eyebrow_legal', defaultMessage: 'Legal' })}
+        title="Privacy Policy: The Art of Knowing Nothing"
+        icon={ShieldCheckIcon}
+      >
 
-        <div className="prose prose-slate dark:prose-invert max-w-none space-y-6">
+        <div className="prose dark:prose-invert max-w-none space-y-6">
           <p className="text-lg text-muted-foreground leading-relaxed">
             This privacy policy explains how we collect, use, and protect your
             personal information, assuming we figure out how to do any of those
@@ -186,7 +189,7 @@ const Privacy = () => {
             anyway.
           </p>
         </div>
-      </div>
+      </ContentPage>
     </>
   );
 };

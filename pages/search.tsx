@@ -9,6 +9,9 @@ import { useRouter } from 'next/router';
 import useSearch from '../modules/products/hooks/useSearch';
 import useRouteFilterQuery from '../modules/filter/hooks/useRouteFilterQuery';
 import FilterLayout from '../modules/filter/components/FilterLayout';
+import EmptyState from '../modules/common/components/EmptyState';
+import Link from 'next/link';
+import PageHeader from '../modules/common/components/PageHeader';
 
 const Search = () => {
   const { formatMessage } = useIntl();
@@ -61,29 +64,30 @@ const Search = () => {
     <>
       <MetaTags title={formatMessage({ id: 'search', defaultMessage: 'Search' })} />
 
-      <form role="search" onSubmit={handleSearch} className="mx-auto mb-10 max-w-2xl">
-        <div className="relative">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-subtle-foreground" />
-          <input
-            type="search"
-            autoFocus={!urlQuery}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            aria-label={formatMessage({ id: 'search', defaultMessage: 'Search' })}
-            placeholder={formatMessage({ id: 'search_products_placeholder', defaultMessage: 'Search products…' })}
-            className="input rounded-full py-3.5 pl-12 text-base"
-          />
-        </div>
-      </form>
-
-      {debouncedQuery && (
-        <h1 className="mb-6 text-2xl font-bold tracking-tight">
-          {formatMessage(
-            { id: 'search_results_for', defaultMessage: "Results for '{query}'" },
-            { query: debouncedQuery },
-          )}
-        </h1>
-      )}
+      <PageHeader
+        centered
+        eyebrow={formatMessage({ id: 'search', defaultMessage: 'Search' })}
+        title={
+          debouncedQuery
+            ? formatMessage({ id: 'search_results_for', defaultMessage: "Results for '{query}'" }, { query: debouncedQuery })
+            : formatMessage({ id: 'search_products', defaultMessage: 'Search products' })
+        }
+      >
+        <form role="search" onSubmit={handleSearch} className="mx-auto w-full max-w-2xl">
+          <div className="relative">
+            <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-subtle-foreground" />
+            <input
+              type="search"
+              autoFocus={!urlQuery}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label={formatMessage({ id: 'search', defaultMessage: 'Search' })}
+              placeholder={formatMessage({ id: 'search_products_placeholder', defaultMessage: 'Search products…' })}
+              className="input rounded-full py-3.5 pl-12 text-base"
+            />
+          </div>
+        </form>
+      </PageHeader>
 
       <FilterLayout filters={filters} resultCount={debouncedQuery && !loading ? products.length : null}>
         {loading ? (
@@ -91,19 +95,23 @@ const Search = () => {
         ) : products.length > 0 ? (
           <ProductList products={products} totalProducts={products.length} onLoadMore={null} />
         ) : (
-          <div className="rounded-xl border border-dashed border-input py-16 text-center">
-            <MagnifyingGlassIcon className="mx-auto size-8 text-subtle-foreground" />
-            <p className="mt-3 font-medium">
-              {debouncedQuery
+          <EmptyState
+            icon={MagnifyingGlassIcon}
+            title={
+              debouncedQuery
                 ? formatMessage({ id: 'no_search_results', defaultMessage: 'No products found matching your search.' })
-                : formatMessage({ id: 'search_instruction', defaultMessage: 'Enter a search term to find products.' })}
-            </p>
-            {debouncedQuery && (
-              <p className="mt-1 text-sm text-muted-foreground">
-                {formatMessage({ id: 'search_hint', defaultMessage: 'Try a different or more general term.' })}
-              </p>
-            )}
-          </div>
+                : formatMessage({ id: 'search_instruction', defaultMessage: 'Enter a search term to find products.' })
+            }
+            description={
+              debouncedQuery
+                ? formatMessage({ id: 'search_hint', defaultMessage: 'Try a different or more general term.' })
+                : formatMessage({ id: 'search_browse_hint', defaultMessage: 'Or browse our categories to discover something new.' })
+            }
+          >
+            <Link href="/shop" className="btn btn-secondary">
+              {formatMessage({ id: 'browse_categories', defaultMessage: 'Shop by category' })}
+            </Link>
+          </EmptyState>
         )}
       </FilterLayout>
     </>

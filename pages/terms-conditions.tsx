@@ -1,3 +1,5 @@
+import { DocumentTextIcon } from '@heroicons/react/24/outline';
+import ContentPage from '../modules/common/components/ContentPage';
 import { useIntl } from 'react-intl';
 
 import MetaTags from '../modules/common/components/MetaTags';
@@ -13,12 +15,13 @@ const Conditions = () => {
           defaultMessage: 'Terms & Conditions',
         })}
       />
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-semibold text-foreground mb-8">
-          Terms & Conditions: The Legal Fiction
-        </h1>
+      <ContentPage
+        eyebrow={intl.formatMessage({ id: 'content_eyebrow_legal', defaultMessage: 'Legal' })}
+        title="Terms & Conditions: The Legal Fiction"
+        icon={DocumentTextIcon}
+      >
 
-        <div className="prose prose-slate dark:prose-invert max-w-none space-y-6">
+        <div className="prose dark:prose-invert max-w-none space-y-6">
           <p className="text-lg text-muted-foreground leading-relaxed">
             By reading this sentence, you have legally agreed to everything
             below, including things we haven&apos;t written yet and terms that
@@ -152,7 +155,7 @@ const Conditions = () => {
             not guaranteed.*
           </p>
         </div>
-      </div>
+      </ContentPage>
     </>
   );
 };

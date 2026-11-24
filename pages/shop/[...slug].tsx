@@ -11,6 +11,8 @@ import ProductGridSkeleton from '../../modules/products/components/ProductGridSk
 import ListViewWrapper from '../../modules/common/components/ListViewWrapper';
 import FilterLayout from '../../modules/filter/components/FilterLayout';
 import useRouteFilterQuery from '../../modules/filter/hooks/useRouteFilterQuery';
+import EmptyState from '../../modules/common/components/EmptyState';
+import { FunnelIcon } from '@heroicons/react/24/outline';
 
 const CategoryDetail = () => {
   const router = useRouter();
@@ -93,9 +95,11 @@ const CategoryDetail = () => {
                 viewMode={viewMode}
               />
             ) : (
-              <div className="rounded-xl border border-dashed border-input py-16 text-center text-muted-foreground">
-                {formatMessage({ id: 'no_products_found', defaultMessage: 'No products match your filters.' })}
-              </div>
+              <EmptyState
+                icon={FunnelIcon}
+                title={formatMessage({ id: 'no_products_found', defaultMessage: 'No products match your filters.' })}
+                description={formatMessage({ id: 'no_products_found_text', defaultMessage: 'Try removing a filter or searching for something else.' })}
+              />
             )}
           </FilterLayout>
         )}

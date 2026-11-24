@@ -12,11 +12,16 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import useRedirect from '../hooks/useRedirect';
+import useUser from '../hooks/useUser';
 
 const AccountLayout = ({ title, actions = null, children }) => {
   const { formatMessage } = useIntl();
   const { pathname } = useRouter();
   useRedirect({ to: '/login', matchAnonymous: true, matchGuests: true });
+  const { user } = useUser();
+  const email = user?.primaryEmail?.address;
+  const displayName = user?.profile?.address?.firstName || user?.username || email?.split('@')[0] || '';
+  const initials = displayName.slice(0, 2).toUpperCase();
 
   const links = [
     { href: '/account', icon: UserCircleIcon, label: formatMessage({ id: 'profile', defaultMessage: 'Profile' }) },
@@ -30,11 +35,25 @@ const AccountLayout = ({ title, actions = null, children }) => {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[220px_1fr] lg:gap-12">
+      <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+      {user && (
+        <div className="mb-4 flex items-center gap-3 rounded-xl border border-border bg-surface p-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-semibold text-primary-foreground">
+            {initials}
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-semibold">
+              {formatMessage({ id: 'account_greeting', defaultMessage: 'Hi, {name}' }, { name: displayName })}
+            </span>
+            {email && <span className="block truncate text-xs text-muted-foreground">{email}</span>}
+          </span>
+        </div>
+      )}
       <nav
         aria-label={formatMessage({ id: 'account', defaultMessage: 'Account' })}
         className="-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0"
       >
-        <ul className="flex gap-1 lg:sticky lg:top-24 lg:flex-col">
+        <ul className="flex gap-1 lg:flex-col">
           {links.map(({ href, icon: Icon, label }) => {
             const active = pathname === href;
             return (
@@ -57,9 +76,10 @@ const AccountLayout = ({ title, actions = null, children }) => {
           })}
         </ul>
       </nav>
+      </div>
 
       <div className="min-w-0">
-        <div className="mb-6 flex items-center justify-between gap-4">
+        <div className="mb-6 flex items-center justify-between gap-4 border-b border-border pb-5">
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
           {actions}
         </div>

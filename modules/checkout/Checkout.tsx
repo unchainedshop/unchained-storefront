@@ -16,6 +16,8 @@ import useUpdateCartDeliveryShipping from '../orders/hooks/useUpdateCartDelivery
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import CheckoutStep from './CheckoutStep';
+import EmptyState from '../common/components/EmptyState';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
@@ -42,20 +44,15 @@ const Checkout = () => {
 
   if (!cart.items?.length && !orderTransactionIdFromQuery)
     return (
-      <div className="flex flex-col items-center rounded-xl border border-dashed border-input px-6 py-20 text-center">
-        <p className="text-lg font-semibold">
-          {formatMessage({ id: 'cart_empty_title', defaultMessage: 'Your cart is empty' })}
-        </p>
-        <p className="mt-1 text-muted-foreground">
-          {formatMessage({
-            id: 'checkout_empty_text',
-            defaultMessage: 'Add a few products before checking out.',
-          })}
-        </p>
-        <Link href="/shop" className="btn btn-primary mt-6">
+      <EmptyState
+        icon={ShoppingBagIcon}
+        title={formatMessage({ id: 'cart_empty_title', defaultMessage: 'Your cart is empty' })}
+        description={formatMessage({ id: 'checkout_empty_text', defaultMessage: 'Add a few products before checking out.' })}
+      >
+        <Link href="/shop" className="btn btn-primary">
           {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
         </Link>
-      </div>
+      </EmptyState>
     );
 
   return (

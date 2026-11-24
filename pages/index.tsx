@@ -4,6 +4,7 @@ import {
   ArrowRightIcon,
   ArrowPathIcon,
   LockClosedIcon,
+  SparklesIcon,
   TruckIcon,
 } from '@heroicons/react/24/outline';
 
@@ -14,6 +15,7 @@ import ProductList from '../modules/products/components/ProductList';
 import ProductGridSkeleton from '../modules/products/components/ProductGridSkeleton';
 import CategoryListItem from '../modules/assortment/components/CategoryListItem';
 import ErrorMessage from '../modules/common/components/ErrorMessage';
+import EmptyState from '../modules/common/components/EmptyState';
 
 const SectionHeading = ({ title, href = null, linkLabel = null }) => (
   <div className="mb-6 flex items-end justify-between gap-4">
@@ -139,9 +141,11 @@ const Home = () => {
         ) : products.length > 0 ? (
           <ProductList products={products} totalProducts={products.length} onLoadMore={null} />
         ) : (
-          <div className="rounded-xl border border-dashed border-input py-16 text-center text-muted-foreground">
-            {formatMessage({ id: 'no_products', defaultMessage: 'No products available' })}
-          </div>
+          <EmptyState
+            icon={SparklesIcon}
+            title={formatMessage({ id: 'no_products', defaultMessage: 'No products available' })}
+            description={formatMessage({ id: 'no_products_text', defaultMessage: 'New products are on their way. Check back soon.' })}
+          />
         )}
       </section>
     </>

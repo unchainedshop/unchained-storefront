@@ -86,14 +86,14 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-surface shadow-md rounded-2xl p-8 border border-border space-y-8">
-      <h2 className="text-3xl font-semibold text-center">
+    <div className="card mx-auto max-w-2xl space-y-8 p-6 sm:p-10">
+      <h2 className="text-center text-3xl font-bold tracking-tight">
         Subscribe to {product?.name || 'Product'}
       </h2>
 
       {/* PLANS SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Select a Plan</h3>
+        <h3 className="mb-3 text-lg font-semibold">Select a Plan</h3>
         <div className="space-y-3">
           {(product?.plans || []).length > 0 ? (
             product.plans.map((plan: any) => (
@@ -125,129 +125,129 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
         </div>
 
         <div className="mt-3">
-          <label className="block text-sm font-medium mb-1">Quantity</label>
+          <label className="label">Quantity</label>
           <input
             type="number"
             min={1}
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-24 border border-input rounded-lg p-2 text-center"
+            className="input w-24 text-center"
           />
         </div>
       </section>
 
       {/* BILLING SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Billing Address</h3>
+        <h3 className="mb-3 text-lg font-semibold">Billing Address</h3>
         <div className="grid grid-cols-2 gap-3">
           <input
             name="firstName"
             placeholder="First Name"
             value={billing.firstName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="lastName"
             placeholder="Last Name"
             value={billing.lastName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="company"
             placeholder="Company (optional)"
             value={billing.company}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="addressLine"
             placeholder="Address Line"
             value={billing.addressLine}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="addressLine2"
             placeholder="Address Line 2"
             value={billing.addressLine2}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="city"
             placeholder="City"
             value={billing.city}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="regionCode"
             placeholder="Region/State"
             value={billing.regionCode}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="postalCode"
             placeholder="Postal Code"
             value={billing.postalCode}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="countryCode"
             placeholder="Country Code (e.g. US)"
             value={billing.countryCode}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
         </div>
       </section>
 
       {/* CONTACT SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Contact Information</h3>
+        <h3 className="mb-3 text-lg font-semibold">Contact Information</h3>
         <div className="grid grid-cols-2 gap-3">
           <input
             name="firstName"
             placeholder="First Name"
             value={contact.firstName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="lastName"
             placeholder="Last Name"
             value={contact.lastName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="email"
             placeholder="Email"
             value={contact.email}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="phone"
             placeholder="Phone"
             value={contact.phone}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
         </div>
       </section>
 
       {/* PAYMENT SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Payment Method</h3>
+        <h3 className="mb-3 text-lg font-semibold">Payment Method</h3>
         <select
           value={paymentProvider}
           onChange={(e) => setPaymentProvider(e.target.value)}
-          className="border rounded-lg p-2 w-full"
+          className="input"
         >
           <option value="card">Credit/Debit Card</option>
           <option value="paypal">PayPal</option>
@@ -257,11 +257,11 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
 
       {/* DELIVERY SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Delivery Method</h3>
+        <h3 className="mb-3 text-lg font-semibold">Delivery Method</h3>
         <select
           value={deliveryProvider}
           onChange={(e) => setDeliveryProvider(e.target.value)}
-          className="border rounded-lg p-2 w-full"
+          className="input"
         >
           <option value="digital">Digital Delivery</option>
           <option value="email">Email Delivery</option>
