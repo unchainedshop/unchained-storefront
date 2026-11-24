@@ -3,22 +3,25 @@ import { useIntl } from 'react-intl';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import MetaTags from '../modules/common/components/MetaTags';
-import ProductListItem from '../modules/products/components/ProductListItem';
-import Loading from '../modules/common/components/Loading';
+import ProductList from '../modules/products/components/ProductList';
+import ProductGridSkeleton from '../modules/products/components/ProductGridSkeleton';
 import { useRouter } from 'next/router';
 import useSearch from '../modules/products/hooks/useSearch';
 import useRouteFilterQuery from '../modules/filter/hooks/useRouteFilterQuery';
-import FilterSidebar from '../modules/filter/components/FilterSideBar';
+import FilterLayout from '../modules/filter/components/FilterLayout';
 
 const Search = () => {
   const { formatMessage } = useIntl();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
   const { filterQuery } = useRouteFilterQuery();
-  const searchParams = new URLSearchParams(router.asPath.split('?')[1]);
-  const initialQuery = searchParams.get('query') || '';
+  const urlQuery = (router.query.query as string) || '';
+  const [searchQuery, setSearchQuery] = useState(urlQuery);
+  const [debouncedQuery, setDebouncedQuery] = useState(urlQuery);
 
-  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
+  useEffect(() => {
+    setSearchQuery(urlQuery);
+    setDebouncedQuery(urlQuery);
+  }, [urlQuery]);
 
   const firstRender = useRef(true);
 
@@ -56,107 +59,53 @@ const Search = () => {
 
   return (
     <>
-      <MetaTags
-        title={formatMessage({ id: 'search', defaultMessage: 'Search' })}
-      />
-      <div className="min-h-screen bg-surface">
-        <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h1 className="mb-4 text-4xl font-semibold tracking-tight text-foreground">
-              {formatMessage({
-                id: 'search_products',
-                defaultMessage: 'Search Products',
-              })}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {formatMessage({
-                id: 'search_description',
-                defaultMessage: "Find exactly what you're looking for",
-              })}
-            </p>
-          </div>
+      <MetaTags title={formatMessage({ id: 'search', defaultMessage: 'Search' })} />
 
-          <form onSubmit={handleSearch} className="mb-12">
-            <div className="relative mx-auto max-w-2xl">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <MagnifyingGlassIcon className="h-5 w-5 text-subtle-foreground" />
-              </div>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={formatMessage({
-                  id: 'search_placeholder',
-                  defaultMessage: 'Search...',
-                })}
-                className="block w-full rounded-xl border border-input bg-surface py-4 pl-12 pr-4 text-foreground placeholder-subtle-foreground focus:border-input focus:outline-none focus:ring-1 focus:ring-ring dark:border-0"
-              />
-            </div>
-          </form>
-
-          {loading ? (
-            <div className="flex justify-center">
-              <Loading />
-            </div>
-          ) : (
-            <div className="flex gap-8">
-              {filters.length ? (
-                <div className="w-64 flex-shrink-0 space-y-4">
-                  <FilterSidebar filters={filters} />
-                </div>
-              ) : null}
-
-              <div className="flex-1">
-                {debouncedQuery && (
-                  <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-foreground">
-                      {formatMessage(
-                        {
-                          id: 'search_results_for',
-                          defaultMessage: "Results for '{query}'",
-                        },
-                        { query: debouncedQuery },
-                      )}
-                    </h2>
-                  </div>
-                )}
-
-                {products.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {products.map((product) => (
-                      <div
-                        key={product?._id}
-                        className="group transform transition-transform duration-300 hover:scale-105"
-                      >
-                        <ProductListItem product={product} />
-                      </div>
-                    ))}
-                  </div>
-                ) : debouncedQuery ? (
-                  <div className="text-center">
-                    <p className="text-muted-foreground">
-                      {formatMessage({
-                        id: 'no_search_results',
-                        defaultMessage:
-                          'No products found matching your search.',
-                      })}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <p className="text-muted-foreground">
-                      {formatMessage({
-                        id: 'search_instruction',
-                        defaultMessage: 'Enter a search term to find products.',
-                      })}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+      <form role="search" onSubmit={handleSearch} className="mx-auto mb-10 max-w-2xl">
+        <div className="relative">
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-subtle-foreground" />
+          <input
+            type="search"
+            autoFocus={!urlQuery}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label={formatMessage({ id: 'search', defaultMessage: 'Search' })}
+            placeholder={formatMessage({ id: 'search_products_placeholder', defaultMessage: 'Search products…' })}
+            className="input rounded-full py-3.5 pl-12 text-base"
+          />
         </div>
-      </div>
+      </form>
+
+      {debouncedQuery && (
+        <h1 className="mb-6 text-2xl font-bold tracking-tight">
+          {formatMessage(
+            { id: 'search_results_for', defaultMessage: "Results for '{query}'" },
+            { query: debouncedQuery },
+          )}
+        </h1>
+      )}
+
+      <FilterLayout filters={filters} resultCount={debouncedQuery && !loading ? products.length : null}>
+        {loading ? (
+          <ProductGridSkeleton />
+        ) : products.length > 0 ? (
+          <ProductList products={products} totalProducts={products.length} onLoadMore={null} />
+        ) : (
+          <div className="rounded-xl border border-dashed border-input py-16 text-center">
+            <MagnifyingGlassIcon className="mx-auto size-8 text-subtle-foreground" />
+            <p className="mt-3 font-medium">
+              {debouncedQuery
+                ? formatMessage({ id: 'no_search_results', defaultMessage: 'No products found matching your search.' })
+                : formatMessage({ id: 'search_instruction', defaultMessage: 'Enter a search term to find products.' })}
+            </p>
+            {debouncedQuery && (
+              <p className="mt-1 text-sm text-muted-foreground">
+                {formatMessage({ id: 'search_hint', defaultMessage: 'Try a different or more general term.' })}
+              </p>
+            )}
+          </div>
+        )}
+      </FilterLayout>
     </>
   );
 };

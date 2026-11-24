@@ -1,15 +1,14 @@
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
+
 const ErrorMessage = ({ message }) => {
   if (!message) return null;
   return (
     <aside
-      style={{
-        padding: '1.5em',
-        fontSize: '14px',
-        color: 'white',
-        backgroundColor: 'darkred',
-      }}
+      role="alert"
+      className="flex gap-2 rounded-lg border border-danger/30 bg-danger-soft p-4 text-sm text-danger"
     >
-      {message}
+      <ExclamationTriangleIcon className="mt-0.5 size-4 shrink-0" />
+      <span>{message}</span>
     </aside>
   );
 };

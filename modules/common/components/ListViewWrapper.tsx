@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Squares2X2Icon, ListBulletIcon } from '@heroicons/react/24/outline';
+import { useIntl } from 'react-intl';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 type ViewMode = 'grid' | 'list';
@@ -20,54 +21,52 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
   title,
   subtitle,
 }) => {
-  const [viewMode, setViewMode] = useLocalStorage(storageKey, 'list');
+  const { formatMessage } = useIntl();
+  const [viewMode, setViewMode] = useLocalStorage(storageKey, 'grid');
+
+  const toggleClass = (mode: ViewMode) =>
+    classNames(
+      'rounded-md p-1.5 transition-colors',
+      viewMode === mode
+        ? 'bg-surface text-foreground shadow-sm'
+        : 'text-subtle-foreground hover:text-foreground',
+    );
 
   return (
-    <div className={classNames('space-y-4', className)}>
-      <div className="container mx-auto py-8">
-        {(title || subtitle) && (
-          <div className="mb-8">
-            {title && (
-              <h1 className="text-3xl font-semibold tracking-tight text-foreground mb-2">
-                {title}
-              </h1>
-            )}
-            {subtitle && (
-              <p className="text-lg text-muted-foreground">
-                {subtitle}
-              </p>
-            )}
-          </div>
-        )}
-        <div className="flex justify-end mb-4">
-          <div className="flex bg-muted rounded-lg p-1">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={classNames(
-                'p-2 rounded-md transition-colors',
-                viewMode === 'grid'
-                  ? 'bg-surface text-foreground shadow-sm'
-                  : 'text-subtle-foreground hover:text-muted-foreground ',
-              )}
-            >
-              <Squares2X2Icon className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={classNames(
-                'p-2 rounded-md transition-colors',
-                viewMode === 'list'
-                  ? 'bg-surface text-foreground shadow-sm'
-                  : 'text-subtle-foreground hover:text-muted-foreground ',
-              )}
-            >
-              <ListBulletIcon className="w-4 h-4" />
-            </button>
-          </div>
+    <div className={className}>
+      <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+          {title && (
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
+          )}
+          {subtitle && <p className="mt-1 text-muted-foreground">{subtitle}</p>}
         </div>
-
-        {children(viewMode)}
+        <div
+          role="group"
+          aria-label={formatMessage({ id: 'view_mode', defaultMessage: 'View mode' })}
+          className="flex shrink-0 rounded-lg bg-muted p-1"
+        >
+          <button
+            type="button"
+            aria-pressed={viewMode === 'grid'}
+            aria-label={formatMessage({ id: 'grid_view', defaultMessage: 'Grid view' })}
+            onClick={() => setViewMode('grid')}
+            className={toggleClass('grid')}
+          >
+            <Squares2X2Icon className="size-4" />
+          </button>
+          <button
+            type="button"
+            aria-pressed={viewMode === 'list'}
+            aria-label={formatMessage({ id: 'list_view', defaultMessage: 'List view' })}
+            onClick={() => setViewMode('list')}
+            className={toggleClass('list')}
+          >
+            <ListBulletIcon className="size-4" />
+          </button>
+        </div>
       </div>
+      {children(viewMode)}
     </div>
   );
 };

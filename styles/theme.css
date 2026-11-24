@@ -14,6 +14,8 @@
   --accent: oklch(0.52 0.2 270);
   --accent-soft: oklch(0.95 0.03 270);
   --accent-foreground: oklch(0.38 0.16 270);
+  --hero: oklch(0.48 0.2 270);
+  --hero-foreground: oklch(0.99 0 0);
 
   /* Neutrals */
   --background: oklch(0.985 0.002 260);
@@ -55,6 +57,8 @@
   --accent: oklch(0.74 0.14 270);
   --accent-soft: oklch(0.3 0.07 270);
   --accent-foreground: oklch(0.88 0.06 270);
+  --hero: oklch(0.3 0.12 270);
+  --hero-foreground: oklch(0.97 0.01 270);
 
   --background: oklch(0.16 0.012 265);
   --surface: oklch(0.205 0.014 265);
@@ -84,6 +88,8 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-hero: var(--hero);
+  --color-hero-foreground: var(--hero-foreground);
   --color-accent-soft: var(--accent-soft);
   --color-accent-foreground: var(--accent-foreground);
   --color-background: var(--background);

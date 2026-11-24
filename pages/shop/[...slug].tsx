@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useIntl } from 'react-intl';
 
@@ -7,9 +7,9 @@ import useAssortmentProducts from '../../modules/assortment/hooks/useAssortmentP
 import ProductList from '../../modules/products/components/ProductList';
 import MetaTags from '../../modules/common/components/MetaTags';
 import getMediaUrl from '../../modules/common/utils/getMediaUrl';
-import Loading from '../../modules/common/components/Loading';
+import ProductGridSkeleton from '../../modules/products/components/ProductGridSkeleton';
 import ListViewWrapper from '../../modules/common/components/ListViewWrapper';
-import FilterSidebar from '../../modules/filter/components/FilterSideBar';
+import FilterLayout from '../../modules/filter/components/FilterLayout';
 import useRouteFilterQuery from '../../modules/filter/hooks/useRouteFilterQuery';
 
 const CategoryDetail = () => {
@@ -60,18 +60,6 @@ const CategoryDetail = () => {
     queryString: debouncedQuery,
   });
 
-  // --- Handle search form submission ---
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmedQuery = searchQuery.trim();
-    if (!trimmedQuery) return;
-
-    router.push({
-      pathname: '/search',
-      query: { ...router.query, query: trimmedQuery },
-    });
-  };
-
   return (
     <>
       <MetaTags
@@ -80,62 +68,37 @@ const CategoryDetail = () => {
         imageUrl={getMediaUrl({ media })}
       />
 
-      <div className="min-h-screen bg-surface">
-        <form onSubmit={handleSearch} className="mb-8">
-          <div className="relative mx-auto max-w-2xl">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-              <MagnifyingGlassIcon className="h-5 w-5 text-subtle-foreground" />
+      <ListViewWrapper title={texts?.title} subtitle={texts?.subtitle}>
+        {(viewMode) => (
+          <FilterLayout filters={filters} resultCount={filteredProducts ?? null}>
+            <div className="relative mb-6 max-w-sm">
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-subtle-foreground" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label={formatMessage({ id: 'search_in_category', defaultMessage: 'Search in this category' })}
+                placeholder={formatMessage({ id: 'search_in_category', defaultMessage: 'Search in this category' })}
+                className="input pl-10"
+              />
             </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={formatMessage({
-                id: 'search_placeholder',
-                defaultMessage: 'Search...',
-              })}
-              className="block w-full rounded-xl border border-input bg-surface py-4 pl-12 pr-4 text-foreground placeholder-subtle-foreground focus:border-input focus:outline-none focus:ring-1 focus:ring-ring dark:border-0"
-            />
-          </div>
-        </form>
-
-        <div className="mx-auto flex w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 gap-6">
-          {filters.length > 0 && (
-            <aside className="hidden lg:block w-64 flex-shrink-0">
-              <div className="sticky top-20 space-y-4">
-                <FilterSidebar filters={filters} />
+            {productsLoading && !products?.length ? (
+              <ProductGridSkeleton />
+            ) : products?.length ? (
+              <ProductList
+                onLoadMore={loadMore}
+                totalProducts={filteredProducts}
+                products={products}
+                viewMode={viewMode}
+              />
+            ) : (
+              <div className="rounded-xl border border-dashed border-input py-16 text-center text-muted-foreground">
+                {formatMessage({ id: 'no_products_found', defaultMessage: 'No products match your filters.' })}
               </div>
-            </aside>
-          )}
-
-          <main className="flex-1">
-            <ListViewWrapper title={texts?.title} subtitle={texts?.subtitle}>
-              {(viewMode) => (
-                <Fragment>
-                  <div className="mb-6 flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">
-                      {filteredProducts} products
-                    </div>
-                  </div>
-
-                  {productsLoading ? (
-                    <div className="py-10 flex justify-center">
-                      <Loading />
-                    </div>
-                  ) : (
-                    <ProductList
-                      onLoadMore={loadMore}
-                      totalProducts={filteredProducts}
-                      products={products}
-                      viewMode={viewMode}
-                    />
-                  )}
-                </Fragment>
-              )}
-            </ListViewWrapper>
-          </main>
-        </div>
-      </div>
+            )}
+          </FilterLayout>
+        )}
+      </ListViewWrapper>
     </>
   );
 };

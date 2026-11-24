@@ -2,7 +2,6 @@ import { useIntl } from 'react-intl';
 
 import CategoryListItem from '../../modules/assortment/components/CategoryListItem';
 import useAssortments from '../../modules/assortment/hooks/useAssortments';
-import Loading from '../../modules/common/components/Loading';
 import MetaTags from '../../modules/common/components/MetaTags';
 
 const Categories = () => {
@@ -12,55 +11,33 @@ const Categories = () => {
   return (
     <>
       <MetaTags
-        title={formatMessage({
-          id: 'product_categories',
-          defaultMessage: 'Product Categories',
-        })}
+        title={formatMessage({ id: 'product_categories', defaultMessage: 'Product Categories' })}
       />
-      <div className="min-h-screen w-screen ml-[calc(-50vw+50%)] bg-surface">
-        {loading ? (
-          <div className="flex min-h-screen items-center justify-center">
-            <Loading />
-          </div>
-        ) : (
-          <>
-            {/* Hero Section */}
-            <section className="w-full bg-gradient-to-br from-muted to-muted py-16">
-              <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
-                <h1 className="mb-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                  {formatMessage({
-                    id: 'shop_by_category',
-                    defaultMessage: 'Shop by Category',
-                  })}
-                </h1>
-                <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                  {formatMessage({
-                    id: 'categories_description',
-                    defaultMessage:
-                      'Discover our carefully curated collections designed to meet all your needs',
-                  })}
-                </p>
-              </div>
-            </section>
-
-            {/* Categories Grid */}
-            <section className="py-16">
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {assortments.map((category) => (
-                    <div
-                      key={category._id}
-                      className="group transition-all duration-300"
-                    >
-                      <CategoryListItem category={category} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          </>
-        )}
+      <div className="mb-8 max-w-2xl">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          {formatMessage({ id: 'shop_by_category', defaultMessage: 'Shop by Category' })}
+        </h1>
+        <p className="mt-2 text-lg text-muted-foreground">
+          {formatMessage({
+            id: 'categories_description',
+            defaultMessage: 'Discover our carefully curated collections designed to meet all your needs',
+          })}
+        </p>
       </div>
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        {loading
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="skeleton aspect-[4/3] rounded-xl" />
+            ))
+          : assortments.map((category) => (
+              <CategoryListItem key={category._id} category={category} />
+            ))}
+      </div>
+      {!loading && !assortments.length && (
+        <p className="rounded-xl border border-dashed border-input py-16 text-center text-muted-foreground">
+          {formatMessage({ id: 'no_categories', defaultMessage: 'No categories yet.' })}
+        </p>
+      )}
     </>
   );
 };

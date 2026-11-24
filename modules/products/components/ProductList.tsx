@@ -1,5 +1,4 @@
 import { useIntl } from 'react-intl';
-import { ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
 
 import ProductListItem from './ProductListItem';
 import Button from '../../common/components/Button';
@@ -21,11 +20,9 @@ const ProductList = ({
         </h2>
 
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4">
             {products.map((product) => (
-              <div key={`grid-${product?._id}`} className="group relative">
-                <ProductListItem product={product} />
-              </div>
+              <ProductListItem key={`grid-${product?._id}`} product={product} />
             ))}
           </div>
         ) : (
@@ -40,19 +37,23 @@ const ProductList = ({
         )}
 
         {totalProducts > products?.length && (
-          <div className="items-center py-8 text-center">
+          <div className="flex flex-col items-center gap-3 py-12">
+            <p className="text-sm text-muted-foreground">
+              {formatMessage(
+                { id: 'showing_x_of_y', defaultMessage: 'Showing {shown} of {total}' },
+                { shown: products.length, total: totalProducts },
+              )}
+            </p>
+            <div className="h-1 w-48 overflow-hidden rounded-full bg-muted-strong">
+              <div
+                className="h-full rounded-full bg-primary"
+                style={{ width: `${(products.length / totalProducts) * 100}%` }}
+              />
+            </div>
             <Button
-              icon={<ChevronDoubleDownIcon className="mr-2 h-6 w-6" />}
-              text={formatMessage({
-                id: 'load_more',
-                defaultMessage: 'Load More',
-              })}
-              aria-label={formatMessage({
-                id: 'load_more',
-                defaultMessage: 'Load More',
-              })}
-              type="button"
-              className=""
+              variant="secondary"
+              fullWidth={false}
+              text={formatMessage({ id: 'load_more', defaultMessage: 'Load More' })}
               onClick={onLoadMore}
             />
           </div>

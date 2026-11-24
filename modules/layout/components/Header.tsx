@@ -43,6 +43,7 @@ const SearchForm = ({ className = '', autoFocus = false, onDone = null }) => {
 
 const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
   const { formatMessage } = useIntl();
+  const showSearch = useRouter().pathname !== '/search';
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   return (
@@ -67,9 +68,14 @@ const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
           })}
         </Link>
 
-        <SearchForm className="mx-auto hidden w-full max-w-md md:block" />
+        {showSearch ? (
+          <SearchForm className="mx-auto hidden w-full max-w-md md:block" />
+        ) : (
+          <div className="mx-auto" />
+        )}
 
         <div className="ml-auto flex items-center md:ml-0">
+          {showSearch && (
           <button
             type="button"
             className="btn-icon md:hidden"
@@ -79,11 +85,12 @@ const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
           >
             <MagnifyingGlassIcon className="size-5" />
           </button>
+          )}
           <LoginCart />
         </div>
       </div>
 
-      {mobileSearchOpen && (
+      {showSearch && mobileSearchOpen && (
         <div className="container-page pb-3 md:hidden">
           <SearchForm autoFocus onDone={() => setMobileSearchOpen(false)} />
         </div>
