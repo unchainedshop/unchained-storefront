@@ -16,7 +16,7 @@ const useLogoutMutation = () => {
 
   const logout = async () => {
     const result = await logoutMutation();
-    client.resetStore();
+    await client.resetStore();
     return result;
   };
 

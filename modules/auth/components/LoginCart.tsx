@@ -6,9 +6,8 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
-import { useApolloClient } from '@apollo/client/react';
 import useUser from '../hooks/useUser';
-import logOut from '../hooks/logOut';
+import useLogout from '../hooks/useLogout';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 
 const LoginCart = () => {
@@ -16,11 +15,11 @@ const LoginCart = () => {
   const { formatMessage } = useIntl();
   const { isCartOpen, toggleCart } = useAppContext();
   const router = useRouter();
-  const apollo = useApolloClient();
+  const { logout } = useLogout();
 
   const onLogout = async () => {
     try {
-      await logOut(apollo);
+      await logout();
       router.push('/login');
     } catch (error) {
       console.error('Logout failed:', error);

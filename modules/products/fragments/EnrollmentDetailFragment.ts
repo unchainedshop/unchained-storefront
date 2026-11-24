@@ -79,11 +79,8 @@ const EnrollmentDetailFragment = gql`
     }
 
     isExpired
-    periods {
-      start
-      end
-      isTrial
-    }
+    minimumCommitmentEnd
+    cancellationReason
     plan {
       configuration {
         key

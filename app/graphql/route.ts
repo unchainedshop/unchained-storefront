@@ -2,66 +2,52 @@ import { parseSetCookie, stringifySetCookie } from 'cookie';
 
 export const dynamic = 'force-dynamic';
 
-function rewriteCookie(setCookieHeaders: string[]) {
+const HOP_BY_HOP_HEADERS = ['host', 'connection', 'content-length'];
+
+// Re-scope the backend's session cookie to this origin, keeping its expiry.
+function rewriteTokenCookie(setCookieHeaders: string[]) {
   const tokenHeader = setCookieHeaders.find((header) =>
     parseSetCookie(header).name?.includes('token'),
   );
   if (!tokenHeader) return null;
-  const { name, value } = parseSetCookie(tokenHeader);
+  const { name, value, expires, maxAge } = parseSetCookie(tokenHeader);
   return stringifySetCookie({
     name,
     value,
+    expires,
+    maxAge,
     path: '/',
     httpOnly: true,
-    secure: false,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
   });
 }
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
+async function proxy(request: Request) {
+  const { search } = new URL(request.url);
+  const headers = new Headers(request.headers);
+  HOP_BY_HOP_HEADERS.forEach((header) => headers.delete(header));
+  const hasBody = request.method !== 'GET' && request.method !== 'HEAD';
 
-  const res = await fetch(
-    `${process.env.UNCHAINED_ENDPOINT}${url.search || ''}`,
-    {
-      body: request.body,
-      method: 'GET',
-      // @ts-ignore-next-line
-      duplex: 'half',
-      headers: request.headers,
-    },
-  );
-  const buffer = await res.arrayBuffer();
-  return new Response(buffer, {
+  const res = await fetch(`${process.env.UNCHAINED_ENDPOINT}${search}`, {
+    method: request.method,
+    headers,
+    body: hasBody ? request.body : undefined,
+    // @ts-ignore duplex is required by undici for streamed request bodies
+    duplex: hasBody ? 'half' : undefined,
+  });
+
+  const responseHeaders = new Headers({
+    'content-type': 'application/json; charset=utf-8',
+  });
+  const cookie = rewriteTokenCookie(res.headers.getSetCookie());
+  if (cookie) responseHeaders.set('set-cookie', cookie);
+
+  return new Response(await res.arrayBuffer(), {
     status: res.status,
     statusText: res.statusText,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-    },
+    headers: responseHeaders,
   });
 }
 
-export async function POST(request: Request) {
-  const url = new URL(request.url);
-
-  const res = await fetch(
-    `${process.env.UNCHAINED_ENDPOINT}${url.search || ''}`,
-    {
-      body: request.body,
-      method: 'POST',
-      // @ts-ignore-next-line
-      duplex: 'half',
-      headers: request.headers,
-    },
-  );
-  const buffer = await res.arrayBuffer();
-  const rewrittenCookie = rewriteCookie(res.headers.getSetCookie());
-  return new Response(buffer, {
-    status: res.status,
-    statusText: res.statusText,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      'set-cookie': rewrittenCookie,
-    },
-  });
-}
+export { proxy as GET, proxy as POST };

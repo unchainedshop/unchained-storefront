@@ -33,7 +33,7 @@ const EnrollmentList = ({ enrollments }) => {
         })}
       </h3>
       {enrollments.map((enrollment) => {
-        const { _id, enrollmentNumber, status, periods, plan, user } =
+        const { _id, enrollmentNumber, status, periods, plan, user, expires } =
           enrollment;
         return (
           <div key={enrollment._id}>
@@ -68,6 +68,17 @@ const EnrollmentList = ({ enrollments }) => {
                 }`}
               >
                 {status}
+                {status !== 'TERMINATED' && expires && (
+                  <span className="ml-2">
+                    {formatMessage(
+                      {
+                        id: 'subscription_ends_on',
+                        defaultMessage: 'ends {date}',
+                      },
+                      { date: formatDateTime(expires) },
+                    )}
+                  </span>
+                )}
               </span>
             </div>
 

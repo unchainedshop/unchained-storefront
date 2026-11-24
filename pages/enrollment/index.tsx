@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import useEnrollment from '../../modules/products/hooks/useEnrollment';
 import Loading from '../../modules/common/components/Loading';
 import useFormatDateTime from '../../modules/common/utils/useFormatDateTime';
@@ -17,7 +17,10 @@ const EnrollmentDetailPage = () => {
     enrollmentId: router.query?._id as string,
   });
   const { activateEnrollment } = useActivateEnrollment();
-  const { terminateEnrollment } = useTerminateEnrollment();
+  const { terminateEnrollment, loading: terminating } =
+    useTerminateEnrollment();
+  const [confirmCancel, setConfirmCancel] = useState(false);
+  const [cancelComment, setCancelComment] = useState('');
 
   if (loading) return <Loading />;
 
@@ -44,7 +47,9 @@ const EnrollmentDetailPage = () => {
     isExpired,
     expires,
     periods,
+    minimumCommitmentEnd,
   } = enrollment;
+  const cancellationScheduled = status !== 'TERMINATED' && Boolean(expires);
 
   const createdAt = formatDateTime(created);
   const updatedAt = formatDateTime(updated);
@@ -52,7 +57,15 @@ const EnrollmentDetailPage = () => {
 
   const handleTerminate = async () => {
     try {
-      await terminateEnrollment({ enrollmentId: _id });
+      await terminateEnrollment({ enrollmentId: _id, comment: cancelComment });
+      setConfirmCancel(false);
+      setCancelComment('');
+      toast.success(
+        formatMessage({
+          id: 'subscription_cancel_success',
+          defaultMessage: 'Your subscription has been cancelled.',
+        }),
+      );
     } catch (err) {
       toast.error(
         formatMessage({
@@ -126,6 +139,18 @@ const EnrollmentDetailPage = () => {
             })}
           </p>
           <p>{expiryDate || '—'}</p>
+
+          {minimumCommitmentEnd && (
+            <>
+              <p className="font-medium text-gray-500">
+                {formatMessage({
+                  id: 'enrollment_minimum_commitment_end',
+                  defaultMessage: 'Minimum term until:',
+                })}
+              </p>
+              <p>{formatDateTime(minimumCommitmentEnd)}</p>
+            </>
+          )}
 
           <p className="font-medium text-gray-500">
             {formatMessage({
@@ -315,22 +340,91 @@ const EnrollmentDetailPage = () => {
                   <span
                     className={`px-2 py-1 text-xs font-semibold rounded-full ${badgeColor}`}
                   >
-                    {enrollment?.isExpired ? 'Expired' : periodLabel}
+                    {enrollment?.isExpired
+                      ? formatMessage({
+                          id: 'enrollment_period_expired',
+                          defaultMessage: 'Expired',
+                        })
+                      : periodLabel}
                   </span>
                 </div>
               );
             })}
-            {!periods ||
-              (periods.length === 0 && (
-                <p className="text-gray-400 italic">
-                  {formatMessage({
-                    id: 'enrollment_no_periods',
-                    defaultMessage: 'No enrollment periods available.',
-                  })}
-                </p>
-              ))}
+            {!periods?.length && (
+              <p className="text-gray-400 italic">
+                {formatMessage({
+                  id: 'enrollment_no_periods',
+                  defaultMessage: 'No enrollment periods available.',
+                })}
+              </p>
+            )}
           </div>
         </div>
+
+        {cancellationScheduled && (
+          <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
+            {formatMessage(
+              {
+                id: 'subscription_cancellation_scheduled',
+                defaultMessage:
+                  'Cancelled. Your subscription stays active until {date}.',
+              },
+              { date: expiryDate },
+            )}
+          </div>
+        )}
+
+        {confirmCancel && (
+          <div className="rounded-lg border border-red-200 bg-red-50 p-4 space-y-3">
+            <p className="font-medium text-red-800">
+              {formatMessage({
+                id: 'subscription_cancel_confirm',
+                defaultMessage:
+                  'Do you really want to cancel this subscription? It ends after the current period or the minimum term, whichever is later.',
+              })}
+            </p>
+            <label
+              htmlFor="cancel-comment"
+              className="block text-sm text-gray-700"
+            >
+              {formatMessage({
+                id: 'subscription_cancel_feedback',
+                defaultMessage: 'Why are you leaving? (optional)',
+              })}
+            </label>
+            <textarea
+              id="cancel-comment"
+              rows={3}
+              maxLength={1000}
+              value={cancelComment}
+              onChange={(e) => setCancelComment(e.target.value)}
+              className="block w-full rounded-md border border-gray-300 p-2 text-sm"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmCancel(false)}
+                className="px-4 py-2 rounded-lg font-medium bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+              >
+                {formatMessage({
+                  id: 'subscription_keep',
+                  defaultMessage: 'Keep subscription',
+                })}
+              </button>
+              <button
+                type="button"
+                disabled={terminating}
+                onClick={handleTerminate}
+                className="px-4 py-2 rounded-lg font-medium bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+              >
+                {formatMessage({
+                  id: 'subscription_cancel_confirm_button',
+                  defaultMessage: 'Yes, cancel',
+                })}
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="pt-6 flex justify-end gap-3">
           {status !== 'ACTIVE' && status !== 'TERMINATED' && (
@@ -345,14 +439,15 @@ const EnrollmentDetailPage = () => {
             </button>
           )}
 
-          {status !== 'TERMINATED' && (
+          {status !== 'TERMINATED' && !cancellationScheduled && !confirmCancel && (
             <button
-              onClick={handleTerminate}
+              type="button"
+              onClick={() => setConfirmCancel(true)}
               className="px-5 py-2 rounded-lg font-medium transition bg-red-100 text-red-700 hover:bg-red-200"
             >
               {formatMessage({
-                id: 'enrollment_terminate',
-                defaultMessage: 'Terminate Enrollment',
+                id: 'subscription_cancel',
+                defaultMessage: 'Cancel subscription',
               })}
             </button>
           )}

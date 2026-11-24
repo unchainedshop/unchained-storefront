@@ -406,6 +406,16 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Int",
+        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "Assortment",
         "description": "Assortment",
@@ -3930,6 +3940,22 @@
             "deprecationReason": null
           },
           {
+            "name": "loginCodeEnabled",
+            "description": "Whether the users option loginCode enables passwordless login with a code",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "productTags",
             "description": null,
             "args": [],
@@ -4369,6 +4395,12 @@
             "deprecationReason": null
           },
           {
+            "name": "viewUserContactInfos",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "viewUserEnrollments",
             "description": null,
             "isDeprecated": false,
@@ -4555,6 +4587,18 @@
             "deprecationReason": null
           },
           {
+            "name": "managePrivilegedUsers",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateUserMeta",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "enrollUser",
             "description": null,
             "isDeprecated": false,
@@ -4646,6 +4690,12 @@
           },
           {
             "name": "updateEnrollment",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "manageEnrollments",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -5006,6 +5056,18 @@
           },
           {
             "name": "resetPassword",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "requestLoginCode",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "loginWithLoginCode",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -7062,6 +7124,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "order",
+            "description": "The order the token was issued for, null when the viewer may not view that order",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Order",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11089,6 +11163,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "minimumCommitmentPeriods",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -11152,6 +11238,16 @@
           },
           {
             "name": "trialIntervalCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "minimumCommitmentPeriods",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -11776,20 +11872,16 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "UpdateProductTokenizationInput",
-        "description": null,
+        "description": "Replaces the tokenization of the product as a whole: send every field to keep",
         "fields": null,
         "inputFields": [
           {
             "name": "contractAddress",
-            "description": null,
+            "description": "Omit for off-chain tokens (e.g. tickets)",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -11809,15 +11901,11 @@
           },
           {
             "name": "tokenId",
-            "description": null,
+            "description": "Omit for off-chain tokens (e.g. tickets); required by on-chain ERC1155 minters",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -11883,13 +11971,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -14204,7 +14288,7 @@
           },
           {
             "name": "fee",
-            "description": null,
+            "description": "Gross amount the order charges for the delivery (fees, discounts and taxes), null while not priced",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -14553,7 +14637,7 @@
           },
           {
             "name": "fee",
-            "description": null,
+            "description": "Gross amount the order charges for the payment (fees, discounts and taxes), null while not priced",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -15264,8 +15348,20 @@
             "deprecationReason": null
           },
           {
+            "name": "quantity",
+            "description": "Quoted quantity: positions of the quotation take multiples of it, never less. Requested with the quotation, the proposal may change it",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
-            "description": "Proposed unit price (minor units of the quotation's currency), set when the quotation reaches PROPOSED",
+            "description": "Proposed unit price (minor units of the quotation's currency) and whether it is taxable and net, set when the quotation reaches PROPOSED",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -16084,6 +16180,12 @@
             "deprecationReason": null
           },
           {
+            "name": "LOGIN_CODE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "EXPORT_TOKEN",
             "description": null,
             "isDeprecated": false,
@@ -16600,8 +16702,55 @@
             "deprecationReason": null
           },
           {
+            "name": "SUSPENDED",
+            "description": "Manually suspended by admin",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "TERMINATED",
             "description": "Terminated / Ended enrollment",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "EnrollmentTerminationReason",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "USER_REQUESTED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PAYMENT_FAILED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "EXPIRED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ADMIN_ACTION",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OTHER",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -16899,11 +17048,71 @@
           },
           {
             "name": "expires",
+            "description": "When the enrollment ends (scheduled or past), null while it renews",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTimeISO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "resumeAt",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "DateTimeISO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "contractStartDate",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTimeISO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "minimumCommitmentEnd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTimeISO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cancellationReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "EnrollmentTerminationReason",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cancellationComment",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -17247,6 +17456,30 @@
             "deprecationReason": null
           },
           {
+            "name": "ENROLLMENT_SUSPEND",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ENROLLMENT_RESUME",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ENROLLMENT_PLAN_CHANGE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ENROLLMENT_TRIAL_ENDING",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "FILE_CREATE",
             "description": null,
             "isDeprecated": false,
@@ -17356,6 +17589,12 @@
           },
           {
             "name": "ORDER_UPDATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ORDER_ANONYMIZED",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -17722,6 +17961,12 @@
           },
           {
             "name": "WAREHOUSING_PROVIDER_REMOVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "TOKEN_CREATED",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -20179,7 +20424,7 @@
           },
           {
             "name": "users",
-            "description": "Get list of users, by default sorted by creation date (ascending) unless a queryString is set",
+            "description": "List users, sorted by creation date (ascending) by default. With queryString, sort by text relevance instead.",
             "args": [
               {
                 "name": "limit",
@@ -20398,7 +20643,7 @@
           },
           {
             "name": "productsCount",
-            "description": "Return total number of published products filtered either by tags or explicit slugs\nIf a slug is provided",
+            "description": "Count products matching tags, slugs, and queryString. Drafts are excluded unless includeDrafts is true.",
             "args": [
               {
                 "name": "tags",
@@ -20455,6 +20700,16 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "type",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "ProductType",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -20471,7 +20726,7 @@
           },
           {
             "name": "products",
-            "description": "Simple list of published products filtered either by tags or explicit slugs\nIf a slug is provided, limit and offset don't have any effect on the result\nBy default sorted by sequence (ascending) and published (ascending) unless a queryString is set",
+            "description": "List products matching tags, slugs, and queryString. Drafts are excluded unless includeDrafts is true.\nPagination also applies when slugs are provided.\nDefault sort is sequence (ascending), then published (descending), including text searches.",
             "args": [
               {
                 "name": "queryString",
@@ -20566,6 +20821,16 @@
                   }
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "type",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "ProductType",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -20623,7 +20888,7 @@
           },
           {
             "name": "productCatalogPrices",
-            "description": "List products specified prices",
+            "description": "List the product's configured catalog prices",
             "args": [
               {
                 "name": "productId",
@@ -20826,7 +21091,7 @@
           },
           {
             "name": "languages",
-            "description": "Get all languages, by default sorted by creation date (ascending)",
+            "description": "List languages, active only by default, sorted by creation date (ascending)",
             "args": [
               {
                 "name": "limit",
@@ -20932,7 +21197,7 @@
           },
           {
             "name": "countries",
-            "description": "Get all countries, by default sorted by creation date (ascending)",
+            "description": "List countries, active only by default, sorted by creation date (ascending)",
             "args": [
               {
                 "name": "limit",
@@ -21116,7 +21381,7 @@
           },
           {
             "name": "currencies",
-            "description": "Get all currencies, by default sorted by creation date (ascending)",
+            "description": "List currencies, active only by default, sorted by creation date (ascending)",
             "args": [
               {
                 "name": "limit",
@@ -21350,7 +21615,7 @@
           },
           {
             "name": "warehousingProvidersCount",
-            "description": "Returns total number of delivery providers, optionally filtered by type",
+            "description": "Returns total number of warehousing providers, optionally filtered by type",
             "args": [
               {
                 "name": "type",
@@ -21808,7 +22073,7 @@
           },
           {
             "name": "orders",
-            "description": "Get all orders, by default sorted by creation date (descending)",
+            "description": "List orders, excluding carts by default, sorted by creation date (descending). With queryString, sort by text relevance instead.",
             "args": [
               {
                 "name": "limit",
@@ -21998,7 +22263,7 @@
           },
           {
             "name": "assortments",
-            "description": "Get all root assortments, by default sorted by sequence (ascending)",
+            "description": "List assortments, active roots only by default, sorted by sequence (ascending)",
             "args": [
               {
                 "name": "queryString",
@@ -22127,7 +22392,7 @@
           },
           {
             "name": "assortmentsCount",
-            "description": "Returns total number of assortments that match a given criteria or all if no criteria is given",
+            "description": "Count assortments matching the filters; active roots only by default",
             "args": [
               {
                 "name": "tags",
@@ -22210,7 +22475,7 @@
           },
           {
             "name": "assortment",
-            "description": "Get a specific assortment by ID",
+            "description": "Get a specific assortment by ID or slug",
             "args": [
               {
                 "name": "assortmentId",
@@ -22407,7 +22672,7 @@
           },
           {
             "name": "filters",
-            "description": "Get all filters, by default sorted by creation date (ascending)",
+            "description": "List filters, active only by default, sorted by creation date (ascending)",
             "args": [
               {
                 "name": "limit",
@@ -22907,7 +23172,7 @@
           },
           {
             "name": "enrollment",
-            "description": "Get a specific quotation by ID",
+            "description": "Get a specific enrollment by ID",
             "args": [
               {
                 "name": "enrollmentId",
@@ -23330,7 +23595,7 @@
           },
           {
             "name": "workQueueCount",
-            "description": "Return total number of workers filtered the provided arguments",
+            "description": "Count work items matching the provided filters",
             "args": [
               {
                 "name": "status",
@@ -23430,7 +23695,7 @@
           },
           {
             "name": "activeWorkTypes",
-            "description": "Get List of currently registered worker plugins",
+            "description": "Get work types present in the queue that have an active worker plugin",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -23454,7 +23719,7 @@
           },
           {
             "name": "event",
-            "description": "Get a specific work unit by ID",
+            "description": "Get a specific event by ID",
             "args": [
               {
                 "name": "eventId",
@@ -23976,6 +24241,84 @@
               "kind": "OBJECT",
               "name": "LoginMethodResponse",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "requestLoginCode",
+            "description": "Mail a login link with a one-time code to the address if it belongs to a user (users module\noption loginCode, disabled by default). Always returns true.",
+            "args": [
+              {
+                "name": "email",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "loginWithLoginCode",
+            "description": "Log the user in with the token of the login link, or with the address and the code from the\nsame mail. Link and code work once.",
+            "args": [
+              {
+                "name": "email",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "code",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "token",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "LoginMethodResponse",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -24767,13 +25110,13 @@
               },
               {
                 "name": "quantity",
-                "description": null,
+                "description": "Defaults to the quoted quantity (1 for a quotation without one); a quotation with a quantity only takes multiples of it",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "1"
+                "defaultValue": null
               },
               {
                 "name": "configuration",
@@ -24808,7 +25151,7 @@
           },
           {
             "name": "updateCart",
-            "description": "Change billing address and order contact of an open order (cart). All of the parameters\nexcept order ID are optional and the update will ocure for parameters provided.\nIf the delivery provider or payment provider ID provided doesn’t already exist new order payment\nwill be created with the provided ID.",
+            "description": "Change billing address and order contact of an open order (cart). All of the parameters\nexcept order ID are optional and the update will ocure for parameters provided.\nDelivery and payment providers must exist and be supported by the cart.",
             "args": [
               {
                 "name": "orderId",
@@ -25157,7 +25500,7 @@
           },
           {
             "name": "updateEnrollment",
-            "description": "Update a enrollment",
+            "description": "Update a enrollment. Setting or clearing expires sets the end date as given, without the\ntermination policy of terminateEnrollment, and requires manageEnrollments",
             "args": [
               {
                 "name": "enrollmentId",
@@ -25228,6 +25571,16 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "expires",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateTimeISO",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -25274,8 +25627,8 @@
             "deprecationReason": null
           },
           {
-            "name": "terminateEnrollment",
-            "description": "Terminate an actively running enrollment by changing it's status to TERMINATED",
+            "name": "suspendEnrollment",
+            "description": "Suspend an actively running enrollment. Optionally schedule automatic resume.",
             "args": [
               {
                 "name": "enrollmentId",
@@ -25288,6 +25641,67 @@
                     "name": "ID",
                     "ofType": null
                   }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "resumeAt",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateTimeISO",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Enrollment",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "terminateEnrollment",
+            "description": "Terminate an enrollment. The enrollment adapter decides when the termination takes effect (e.g. after\na notice period), never before the minimum commitment ends; a later date is stored as expires and the\nenrollment runs until then. Optionally provide a cancellation reason and comment for churn analysis.",
+            "args": [
+              {
+                "name": "enrollmentId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "reason",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "EnrollmentTerminationReason",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "comment",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -29219,6 +29633,16 @@
                 "defaultValue": null
               },
               {
+                "name": "quantity",
+                "description": "Requested quantity: positions of the quotation take multiples of the quoted quantity, never less",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "configuration",
                 "description": null,
                 "type": {
@@ -30954,16 +31378,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Int",
-        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },

@@ -8,6 +8,9 @@ export const SHOP_INFO_QUERY = gql`
       _id
       vapidPublicKey
       version
+      adminUiConfig {
+        loginCodeEnabled
+      }
     }
   }
 `;
@@ -19,6 +22,7 @@ const useShopInfo = () => {
     loading,
     error,
     shopInfo: data?.shopInfo,
+    loginCodeEnabled: Boolean(data?.shopInfo?.adminUiConfig?.loginCodeEnabled),
   };
 };
 

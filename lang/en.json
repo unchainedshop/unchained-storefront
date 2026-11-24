@@ -269,6 +269,9 @@
   "email-addresses": {
     "defaultMessage": "Email Addresses"
   },
+  "email-me-login-code": {
+    "defaultMessage": "Email me a login code"
+  },
   "email-not-available": {
     "defaultMessage": "E-Mail address is not available, please"
   },
@@ -308,17 +311,20 @@
   "enrollment_expiry_date": {
     "defaultMessage": "Expiry Date:"
   },
+  "enrollment_minimum_commitment_end": {
+    "defaultMessage": "Minimum term until:"
+  },
   "enrollment_no_periods": {
     "defaultMessage": "No enrollment periods available."
   },
   "enrollment_not_found": {
     "defaultMessage": "Enrollment not found."
   },
+  "enrollment_period_expired": {
+    "defaultMessage": "Expired"
+  },
   "enrollment_periods": {
     "defaultMessage": "Enrollment Periods:"
-  },
-  "enrollment_terminate": {
-    "defaultMessage": "Terminate Enrollment"
   },
   "enrollment_trial": {
     "defaultMessage": "Trial"
@@ -460,6 +466,18 @@
   },
   "log_in": {
     "defaultMessage": "Log In"
+  },
+  "login-code": {
+    "defaultMessage": "Login code"
+  },
+  "login-code-sent": {
+    "defaultMessage": "If {email} belongs to an account, we sent it a login link and code. Click the link or enter the code here."
+  },
+  "login-link-invalid": {
+    "defaultMessage": "This login link is invalid or has expired"
+  },
+  "login-link-invalid-hint": {
+    "defaultMessage": "Login links can only be used once. Request a new one from the login page."
   },
   "logout": {
     "defaultMessage": "Logout"
@@ -722,6 +740,9 @@
   "print": {
     "defaultMessage": "Print Order"
   },
+  "print_tickets": {
+    "defaultMessage": "Print Tickets"
+  },
   "privacy": {
     "defaultMessage": "Privacy Policy"
   },
@@ -737,9 +758,6 @@
   "product_categories": {
     "defaultMessage": "Product Categories"
   },
-  "product_info": {
-    "defaultMessage": "Product Info"
-  },
   "product_standard": {
     "defaultMessage": "Standard:"
   },
@@ -751,6 +769,9 @@
   },
   "quantity": {
     "defaultMessage": "Quantity"
+  },
+  "quantity_short": {
+    "defaultMessage": "Qty: {quantity}"
   },
   "quotation-request-failed": {
     "defaultMessage": "quotation request failed with the {error}"
@@ -974,8 +995,32 @@
   "subscription_billing_interval": {
     "defaultMessage": "Billing interval"
   },
+  "subscription_cancel": {
+    "defaultMessage": "Cancel subscription"
+  },
+  "subscription_cancel_confirm": {
+    "defaultMessage": "Do you really want to cancel this subscription? It ends after the current period or the minimum term, whichever is later."
+  },
+  "subscription_cancel_confirm_button": {
+    "defaultMessage": "Yes, cancel"
+  },
+  "subscription_cancel_feedback": {
+    "defaultMessage": "Why are you leaving? (optional)"
+  },
+  "subscription_cancel_success": {
+    "defaultMessage": "Your subscription has been cancelled."
+  },
+  "subscription_cancellation_scheduled": {
+    "defaultMessage": "Cancelled. Your subscription stays active until {date}."
+  },
   "subscription_details_title": {
     "defaultMessage": "Subscription Details"
+  },
+  "subscription_ends_on": {
+    "defaultMessage": "ends {date}"
+  },
+  "subscription_keep": {
+    "defaultMessage": "Keep subscription"
   },
   "subscription_number": {
     "defaultMessage": "Subscription:"
@@ -1006,6 +1051,9 @@
   },
   "tax": {
     "defaultMessage": "Tax"
+  },
+  "tax_included": {
+    "defaultMessage": "incl. Tax"
   },
   "telNumber": {
     "defaultMessage": "Mobile Phone"
@@ -1054,9 +1102,6 @@
   },
   "token_id": {
     "defaultMessage": "Token:"
-  },
-  "token_info": {
-    "defaultMessage": "Token Info"
   },
   "token_quantity": {
     "defaultMessage": "Quantity:"

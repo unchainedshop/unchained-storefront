@@ -6,6 +6,10 @@ export const ADD_EMAIL_MUTATION = gql`
   mutation AddEmail($email: String!) {
     addEmail(email: $email) {
       _id
+      primaryEmail {
+        address
+        verified
+      }
       emails {
         address
         verified

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import ContactForm from './ContactForm';
 import ContactPanel from './ContactPanel';
-import useAddEmail from '../cart/hooks/useAddEmail';
+import useAddEmail from '../auth/hooks/useAddEmail';
 import useUpdateCartContact from '../cart/hooks/useUpdateCartContact';
 import Button from '../common/components/Button';
 
@@ -18,9 +18,7 @@ const CheckoutContact = ({ cart, isInitial }) => {
   const updateContact = async (contactInfo) => {
     try {
       if (contactInfo.emailAddress)
-        await addEmail({
-          email: contactInfo.emailAddress,
-        });
+        await addEmail(contactInfo.emailAddress);
 
       await updateCartContact({
         contact: contactInfo,

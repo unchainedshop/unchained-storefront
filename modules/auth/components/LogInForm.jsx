@@ -9,6 +9,9 @@ import { useAppContext } from "../../common/components/AppContextWrapper";
 import useGenerateLoginCredentials from "../hooks/useGenerateLoginCredentials";
 import useLoginWithPassword from "../hooks/useLoginWithPassword";
 import useLoginWithWebAuthn from "../hooks/useLoginWithWebAuthn";
+import useLoginWithLoginCode from "../hooks/useLoginWithLoginCode";
+import useShopInfo from "../../common/hooks/useShopInfo";
+import isEmail from "../../common/utils/isEmail";
 
 const GetCurrentStep = ({
   step,
@@ -90,6 +93,13 @@ const LogInForm = () => {
   const [error, setError] = useState(null);
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginCodeSent, setLoginCodeSent] = useState(false);
+  const [loginCode, setLoginCode] = useState("");
+  const { loginCodeEnabled } = useShopInfo();
+  const { requestLoginCode, loginWithLoginCode, requesting } =
+    useLoginWithLoginCode();
+  const canUseLoginCode =
+    loginCodeEnabled && !emailSupportDisabled && isEmail(usernameOrEmail);
   const step = parseInt(router.query.step, 10) || 1;
 
   const nextStep = () => {
@@ -115,7 +125,7 @@ const LogInForm = () => {
   const { generateLoginCredentials } = useGenerateLoginCredentials();
 
   const handleError = (formError) => {
-    const message = formError?.message?.toLowerCase();
+    const message = formError?.message?.toLowerCase() || "";
     if (
       message.includes("invalid credential") ||
       message.includes("incorrect credential")
@@ -170,12 +180,33 @@ const LogInForm = () => {
     return false;
   };
 
+  const onRequestLoginCode = async () => {
+    setError(null);
+    try {
+      await requestLoginCode(usernameOrEmail);
+      setLoginCodeSent(true);
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
+  const cancelLoginCode = () => {
+    setError(null);
+    setLoginCode("");
+    setLoginCodeSent(false);
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
 
     let data;
     try {
-      if (step === 1) {
+      if (loginCodeSent) {
+        data = await loginWithLoginCode({
+          email: usernameOrEmail,
+          code: loginCode,
+        });
+      } else if (step === 1) {
         const success = await logInWithWebAuth(usernameOrEmail);
         if (!success) {
           nextStep();
@@ -222,12 +253,12 @@ const LogInForm = () => {
             </p>
           ) : null}
         </div>
-        {step > 1 && (
+        {(step > 1 || loginCodeSent) && (
           <button
             type="button"
             id="previous-button"
             name="previous-button"
-            onClick={previousStep}
+            onClick={loginCodeSent ? cancelLoginCode : previousStep}
             className="text-red-600 text-sm mx-auto block mt-5"
           >
             {formatMessage({
@@ -243,16 +274,52 @@ const LogInForm = () => {
           >
             <div className="space-y-6 sm:rounded-lg">
               <form onSubmit={onSubmit}>
-                <GetCurrentStep
-                  step={step}
-                  {...{
-                    usernameOrEmail,
-                    setUsernameOrEmail,
-                    password,
-                    setPassword,
-                  }}
-                  acceptEmail={!emailSupportDisabled}
-                />
+                {loginCodeSent ? (
+                  <div>
+                    <p className="mb-3 text-sm text-slate-600 dark:text-slate-200">
+                      {formatMessage(
+                        {
+                          id: "login-code-sent",
+                          defaultMessage:
+                            "If {email} belongs to an account, we sent it a login link and code. Click the link or enter the code here.",
+                        },
+                        { email: usernameOrEmail },
+                      )}
+                    </p>
+                    <label
+                      htmlFor="login-code"
+                      className="block text-sm font-medium text-brown-600"
+                    >
+                      {formatMessage({
+                        id: "login-code",
+                        defaultMessage: "Login code",
+                      })}
+                    </label>
+                    <input
+                      id="login-code"
+                      name="loginCode"
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      autoFocus
+                      required
+                      value={loginCode}
+                      onChange={(e) => setLoginCode(e.target.value)}
+                      className="mt-1 bg-beige block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 tracking-widest shadow-xs focus:border-red-500 focus:outline-none focus:ring-red-800 sm:text-sm"
+                    />
+                  </div>
+                ) : (
+                  <GetCurrentStep
+                    step={step}
+                    {...{
+                      usernameOrEmail,
+                      setUsernameOrEmail,
+                      password,
+                      setPassword,
+                    }}
+                    acceptEmail={!emailSupportDisabled}
+                  />
+                )}
                 {error && <div className="mt-3 text-red-600">{error}</div>}
                 {showPasswordNav && (
                   <p className="text-center font-semibold text-red-700 cursor-pointer">
@@ -275,6 +342,19 @@ const LogInForm = () => {
                     })}
                     className="flex w-full justify-center rounded-md border border-transparent bg-slate-800 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
                   />
+                  {step === 1 && !loginCodeSent && canUseLoginCode && (
+                    <button
+                      type="button"
+                      disabled={requesting}
+                      onClick={onRequestLoginCode}
+                      className="mt-3 flex w-full justify-center rounded-md border border-slate-300 bg-white py-2 px-4 text-sm font-medium text-slate-800 shadow-xs hover:bg-slate-50 disabled:opacity-50"
+                    >
+                      {formatMessage({
+                        id: "email-me-login-code",
+                        defaultMessage: "Email me a login code",
+                      })}
+                    </button>
+                  )}
                 </div>
               </form>
               <div className="text-sm text-slate-800 dark:text-slate-200">
