@@ -1,192 +1,93 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
-import { useState, useEffect, useRef } from 'react';
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
-} from '@heroicons/react/20/solid';
+import { useState } from 'react';
+import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import LoginCart from '../../auth/components/LoginCart';
-import CurrencySelector from '../../common/components/CurrencySelector';
 
 interface HeaderProps {
   onSidebarToggle: () => void;
-  hasHeroSection?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  onSidebarToggle,
-  hasHeroSection = false,
-}) => {
+const SearchForm = ({ className = '', autoFocus = false, onDone = null }) => {
   const router = useRouter();
-  const isOnSearchPage = router.pathname.includes('search');
   const { formatMessage } = useIntl();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [value, setValue] = useState((router.query.query as string) || '');
 
-  const desktopSearchRef = useRef<HTMLInputElement>(null);
-  const mobileSearchRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!hasHeroSection) return;
-
-    const handleScroll = () => setIsScrolled(window.scrollY > 100);
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasHeroSection]);
-
-  const isHeroMode = hasHeroSection && !isScrolled;
-
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const input = e.currentTarget.querySelector('input') as HTMLInputElement;
-    const value = input?.value?.trim();
-    if (value) {
-      router.push(`/search?query=${encodeURIComponent(value)}`);
-      setSearchOpen(false);
-    }
+    const query = value.trim();
+    if (!query) return;
+    router.push(`/search?query=${encodeURIComponent(query)}`);
+    onDone?.();
   };
 
   return (
-    <header
-      className={`sticky top-0 z-[1020] transition-all duration-300 ease-in-out print:hidden ${
-        isHeroMode
-          ? 'bg-primary backdrop-blur-sm'
-          : 'border-b border-border bg-surface/95 backdrop-blur-sm '
-      }`}
-    >
-      <div className="relative container mx-auto">
-        <div className="grid h-16 grid-cols-3 items-center px-4">
-          <div className="flex justify-start items-center gap-2">
-            <button
-              type="button"
-              aria-label="menu"
-              className={`rounded-md p-2 transition-all duration-200 ${
-                isHeroMode
-                  ? 'text-white/80 hover:bg-surface/10 hover:text-white'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground '
-              }`}
-              onClick={onSidebarToggle}
-            >
-              <Bars3Icon className="h-6 w-6" />
-            </button>
-            {!isOnSearchPage ? (
-              <button
-                type="button"
-                aria-label="search"
-                className={`rounded-md p-2 transition-all duration-200 sm:hidden ${
-                  isHeroMode
-                    ? 'text-white/80 hover:bg-surface/10 hover:text-white'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground '
-                }`}
-                onClick={() => setSearchOpen((s) => !s)}
-              >
-                {searchOpen ? (
-                  <XMarkIcon className="h-6 w-6" />
-                ) : (
-                  <MagnifyingGlassIcon className="h-6 w-6" />
-                )}
-              </button>
-            ) : null}
-          </div>
+    <form role="search" onSubmit={onSubmit} className={`relative ${className}`}>
+      <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-subtle-foreground" />
+      <input
+        type="search"
+        value={value}
+        autoFocus={autoFocus}
+        onChange={(e) => setValue(e.target.value)}
+        aria-label={formatMessage({ id: 'search', defaultMessage: 'Search' })}
+        placeholder={formatMessage({
+          id: 'search_products_placeholder',
+          defaultMessage: 'Search products…',
+        })}
+        className="input rounded-full border-transparent bg-muted py-2 pl-10 shadow-none focus:bg-surface"
+      />
+    </form>
+  );
+};
 
-          <div className="flex justify-center uppercase">
-            <Link
-              href="/"
-              className={`text-md font-semibold tracking-tight transition-colors duration-200 ${
-                isHeroMode ? 'text-white' : 'text-foreground '
-              }`}
-            >
-              {formatMessage({
-                id: 'shop_title',
-                defaultMessage: 'Unchained Store',
-              })}
-            </Link>
-          </div>
+const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
+  const { formatMessage } = useIntl();
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
-          <div className="flex justify-end items-center gap-3">
-            {!isOnSearchPage ? (
-              <form
-                onSubmit={handleSearchSubmit}
-                className={`hidden sm:flex items-center rounded-full border px-3 py-1 text-sm focus-within:ring-2 focus-within:ring-ring transition-all duration-300 ease-in-out ${
-                  isHeroMode
-                    ? 'border-white/30 bg-surface/10 text-white placeholder-white/70'
-                    : 'border-input bg-surface text-foreground '
-                }`}
-              >
-                <MagnifyingGlassIcon className="h-4 w-4 mr-2 opacity-70 flex-shrink-0" />
-                <input
-                  ref={desktopSearchRef}
-                  type="text"
-                  defaultValue=""
-                  placeholder={formatMessage({
-                    id: 'search_placeholder',
-                    defaultMessage: 'Search...',
-                  })}
-                  className={`bg-transparent outline-none w-32 focus:w-64 transition-all duration-300 ease-in-out ${
-                    isHeroMode
-                      ? 'placeholder-white/60 text-white'
-                      : 'text-foreground '
-                  }`}
-                />
-              </form>
-            ) : null}
-            <div
-              className={
-                isHeroMode
-                  ? 'text-white [&_*]:text-white [&_button]:text-white/80 [&_button:hover]:text-white [&_a]:text-white/80 [&_a:hover]:text-white'
-                  : ''
-              }
-            >
-              <LoginCart />
-            </div>
-            <CurrencySelector />
-          </div>
+  return (
+    <header className="sticky top-0 z-1020 border-b border-border bg-background/80 backdrop-blur-xl print:hidden">
+      <div className="container-page flex h-16 items-center gap-3">
+        <button
+          type="button"
+          className="btn-icon -ml-2"
+          aria-label={formatMessage({ id: 'menu', defaultMessage: 'Menu' })}
+          onClick={onSidebarToggle}
+        >
+          <Bars3Icon className="size-6" />
+        </button>
+
+        <Link
+          href="/"
+          className="truncate whitespace-nowrap font-display text-lg font-bold tracking-tight text-foreground"
+        >
+          {formatMessage({
+            id: 'shop_title',
+            defaultMessage: 'Unchained Store',
+          })}
+        </Link>
+
+        <SearchForm className="mx-auto hidden w-full max-w-md md:block" />
+
+        <div className="ml-auto flex items-center md:ml-0">
+          <button
+            type="button"
+            className="btn-icon md:hidden"
+            aria-label={formatMessage({ id: 'search', defaultMessage: 'Search' })}
+            aria-expanded={mobileSearchOpen}
+            onClick={() => setMobileSearchOpen((open) => !open)}
+          >
+            <MagnifyingGlassIcon className="size-5" />
+          </button>
+          <LoginCart />
         </div>
       </div>
 
-      {!isOnSearchPage ? (
-        <div
-          className={`sm:hidden absolute top-full left-0 w-full px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden ${
-            searchOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
-          } ${
-            isHeroMode
-              ? 'bg-primary text-primary-foreground border-t border-white/20'
-              : 'bg-surface border-t border-border '
-          }`}
-        >
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex items-center gap-2"
-          >
-            <input
-              ref={mobileSearchRef}
-              type="text"
-              defaultValue=""
-              placeholder={formatMessage({
-                id: 'search_placeholder',
-                defaultMessage: 'Search...',
-              })}
-              className="flex-1 bg-transparent outline-none text-sm"
-              autoFocus
-            />
-            <button
-              type="submit"
-              aria-label="search"
-              className={`rounded-md p-2 transition-all duration-200 sm:hidden ${
-                isHeroMode
-                  ? 'text-white/80 hover:bg-surface/10 hover:text-white'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground '
-              }`}
-            >
-              <MagnifyingGlassIcon className="h-6 w-6" />
-            </button>
-          </form>
+      {mobileSearchOpen && (
+        <div className="container-page pb-3 md:hidden">
+          <SearchForm autoFocus onDone={() => setMobileSearchOpen(false)} />
         </div>
-      ) : null}
+      )}
     </header>
   );
 };

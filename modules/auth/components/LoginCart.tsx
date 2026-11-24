@@ -1,14 +1,19 @@
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
-import {
-  ArrowRightOnRectangleIcon,
-  ShoppingCartIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import {
+  ArrowRightStartOnRectangleIcon,
+  ShoppingBagIcon,
+  UserIcon,
+} from '@heroicons/react/24/outline';
 import useUser from '../hooks/useUser';
 import useLogout from '../hooks/useLogout';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import ThemeToggle from '../../common/components/ThemeToggle';
+
+const menuItemClass =
+  'flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground data-focus:bg-muted';
 
 const LoginCart = () => {
   const { user } = useUser();
@@ -16,63 +21,87 @@ const LoginCart = () => {
   const { isCartOpen, toggleCart } = useAppContext();
   const router = useRouter();
   const { logout } = useLogout();
+  const itemCount =
+    user?.cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+  const isRegistered = user && !user.isGuest;
 
   const onLogout = async () => {
-    try {
-      await logout();
-      router.push('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+    await logout();
+    router.push('/login');
   };
 
-  return user ? (
-    <div className="flex items-center gap-x-3">
-      {/* Account Link */}
-      {!user?.isGuest && (
+  const accountLinks = [
+    { href: '/account', label: formatMessage({ id: 'account', defaultMessage: 'Account' }) },
+    { href: '/orders', label: formatMessage({ id: 'orders', defaultMessage: 'Orders' }) },
+    { href: '/subscriptions', label: formatMessage({ id: 'subscriptions', defaultMessage: 'Subscriptions' }) },
+    { href: '/bookmarks', label: formatMessage({ id: 'bookmarks', defaultMessage: 'Wishlist' }) },
+  ];
+
+  return (
+    <div className="flex items-center gap-1">
+      <ThemeToggle />
+
+      {isRegistered ? (
+        <Menu as="div" className="relative">
+          <MenuButton
+            className="btn-icon"
+            aria-label={formatMessage({ id: 'account', defaultMessage: 'Account' })}
+          >
+            <UserIcon className="size-5" />
+          </MenuButton>
+          <MenuItems
+            anchor="bottom end"
+            transition
+            className="z-1030 mt-2 w-56 origin-top-right rounded-xl border border-border bg-surface p-1.5 shadow-pop transition duration-100 ease-out focus:outline-none data-closed:scale-95 data-closed:opacity-0"
+          >
+            <div className="truncate px-3 pb-2 pt-1.5 text-xs text-subtle-foreground">
+              {user.primaryEmail?.address || user.username || user.name}
+            </div>
+            {accountLinks.map(({ href, label }) => (
+              <MenuItem key={href}>
+                <Link href={href} className={menuItemClass}>
+                  {label}
+                </Link>
+              </MenuItem>
+            ))}
+            <div className="my-1 border-t border-border" />
+            <MenuItem>
+              <button
+                type="button"
+                onClick={onLogout}
+                className={`${menuItemClass} text-danger`}
+              >
+                <ArrowRightStartOnRectangleIcon className="size-4" />
+                {formatMessage({ id: 'logout', defaultMessage: 'Logout' })}
+              </button>
+            </MenuItem>
+          </MenuItems>
+        </Menu>
+      ) : (
         <Link
-          href="/account"
-          className="text-muted-foreground hover:text-foreground transition-colors p-2"
+          href="/login"
+          className="btn-icon"
+          aria-label={formatMessage({ id: 'log_in', defaultMessage: 'Log In' })}
         >
-          <UserCircleIcon className="h-6 w-6" />
+          <UserIcon className="size-5" />
         </Link>
       )}
 
-      {/* Cart Button */}
       <button
-        className="relative text-muted-foreground hover:text-foreground transition-colors p-2"
+        type="button"
+        className="btn-icon relative"
         onClick={() => toggleCart(!isCartOpen)}
+        aria-label={formatMessage(
+          { id: 'cart_with_count', defaultMessage: 'Cart, {count} items' },
+          { count: itemCount },
+        )}
       >
-        <ShoppingCartIcon className="h-6 w-6" />
-        {user?.cart?.items?.length ? (
-          <span className="absolute -top-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-            {user?.cart?.items.reduce((acc, item) => acc + item.quantity, 0)}
+        <ShoppingBagIcon className="size-5" />
+        {itemCount > 0 && (
+          <span className="absolute right-0.5 top-0.5 inline-flex min-w-[1.125rem] items-center justify-center rounded-full bg-primary px-1 text-[0.6875rem] font-semibold leading-[1.125rem] text-primary-foreground">
+            {itemCount}
           </span>
-        ) : null}
-      </button>
-
-      {/* Logout Button */}
-      <button
-        onClick={onLogout}
-        title={formatMessage({ id: 'logout', defaultMessage: 'Logout' })}
-        className="text-muted-foreground hover:text-danger transition-colors p-2"
-      >
-        <ArrowRightOnRectangleIcon className="h-6 w-6" />
-      </button>
-    </div>
-  ) : (
-    <div className="flex items-center gap-x-3">
-      <Link
-        href="/login"
-        className="text-muted-foreground hover:text-foreground transition-colors p-2"
-      >
-        <UserCircleIcon className="h-6 w-6" />
-      </Link>
-      <button
-        className="relative text-muted-foreground hover:text-foreground transition-colors p-2"
-        onClick={() => toggleCart(!isCartOpen)}
-      >
-        <ShoppingCartIcon className="h-6 w-6" />
+        )}
       </button>
     </div>
   );

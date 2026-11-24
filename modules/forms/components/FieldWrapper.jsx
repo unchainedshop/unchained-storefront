@@ -1,12 +1,12 @@
- 
 import classnames from "classnames";
 import { useIntl } from "react-intl";
+
+export const fieldErrorId = (name) => `${name}-error`;
 
 const FieldWrapper = ({
   children,
   className,
   error,
-  disabled,
   required,
   name,
   label,
@@ -14,47 +14,31 @@ const FieldWrapper = ({
   labelClassName,
 }) => {
   const { formatMessage } = useIntl();
-  const errorsMap = {
-    required: formatMessage(
-      {
-        id: "error_required",
-        defaultMessage: "{label} is a required field",
-      },
-      {
-        label: label || name,
-      },
-    ),
-  };
+  const message =
+    error?.type === "required"
+      ? formatMessage(
+          { id: "error_required", defaultMessage: "{label} is a required field" },
+          { label: label || name },
+        )
+      : error?.message?.replace(/{label}/gi, label);
+
   return (
-    <div
-      className={classnames(
-        "container",
-        {
-          "is-invalid": !!error,
-          disabled,
-          required,
-        },
-        className,
+    <div className={classnames("w-full", className)}>
+      {label && (
+        <label
+          htmlFor={name}
+          className={classnames("label", { "sr-only": hideLabel }, labelClassName)}
+        >
+          {label}
+          {required && <span className="ml-0.5 text-danger">*</span>}
+        </label>
       )}
-    >
-      <label
-        aria-label={label}
-        htmlFor={name}
-        className={classnames(
-          "mb-2 block text-left text-sm font-medium text-muted-foreground ",
-          {
-            "mt-1 mb-5 rounded border border-danger/40 dark:border-none bg-danger-soft p-2 pl-4 text-danger ":
-              !!error,
-            "sr-only": hideLabel,
-          },
-          labelClassName,
-        )}
-      >
-        {errorsMap[error?.type] ||
-          error?.message?.replace(/{label}/gi, label) ||
-          label}
-      </label>
       {children}
+      {error && (
+        <p id={fieldErrorId(name)} role="alert" className="mt-1.5 text-sm text-danger">
+          {message}
+        </p>
+      )}
     </div>
   );
 };

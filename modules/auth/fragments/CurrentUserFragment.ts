@@ -7,6 +7,9 @@ const CurrentUserFragment = gql`
   fragment CurrentUser on User {
     _id
     isGuest
+    primaryEmail {
+      address
+    }
     name
     username
     pushSubscriptions {

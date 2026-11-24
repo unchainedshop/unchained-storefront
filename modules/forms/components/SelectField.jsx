@@ -1,10 +1,10 @@
-import classNames from "classnames";
+import classnames from "classnames";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import useValidators from "../lib/useValidators";
 
-import FieldWrapper from "./FieldWrapper";
+import FieldWrapper, { fieldErrorId } from "./FieldWrapper";
 
 const SelectField = ({ ...props }) => {
   const { register, formState } = useFormContext();
@@ -16,15 +16,9 @@ const SelectField = ({ ...props }) => {
     <FieldWrapper {...props} error={error}>
       <div className="relative">
         <select
-          className={classNames(
-            "relative mt-1 block w-full dark:focus:autofill dark:hover:autofill dark:autofill appearance-none rounded-md border-2 dark:border-0 px-4 py-2.5 pr-10 text-sm text-foreground placeholder-subtle-foreground shadow-xs placeholder:text-subtle-foreground focus:border-input focus:outline-none focus:ring-1 focus:ring-ring",
-            props.className,
-            {
-              "border-2 border-color-danger-600 placeholder:text-danger":
-                !!props.error,
-              "border-border": !error,
-            },
-          )}
+          className={classnames("input appearance-none pr-10", props.className)}
+        aria-invalid={!!error || undefined}
+        aria-describedby={error ? fieldErrorId(props.name) : undefined}
           disabled={props.disabled}
           id={props.name}
           name={props.name}
@@ -40,7 +34,7 @@ const SelectField = ({ ...props }) => {
         >
           {props.children}
         </select>
-        <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-subtle-foreground pointer-events-none" />
+        <ChevronDownIcon className="pointer-events-none absolute right-3 top-1/2 size-5 -translate-y-1/2 text-subtle-foreground" />
       </div>
     </FieldWrapper>
   );

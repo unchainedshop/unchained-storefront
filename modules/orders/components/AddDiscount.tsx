@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import useAddCartDiscount from '../hooks/useAddCartDiscount';
 import Form from '../../forms/components/Form';
 import TextField from '../../forms/components/TextField';
-import SubmitButton from '../../common/components/Button';
+import Button from '../../common/components/Button';
 import FormErrors from '../../forms/components/FormErrors';
 
 const AddDiscount = ({ orderId }) => {
@@ -40,37 +40,27 @@ const AddDiscount = ({ orderId }) => {
       defaultValues={{ code: '' }}
       className="w-full"
     >
-      <div className="flex flex-col sm:flex-row items-stretch gap-3 bg-muted p-3 rounded-lg shadow-sm">
-        <div className="flex-1">
-          <TextField
-            type="text"
-            name="code"
-            id="code"
-            className="w-full"
-            label={formatMessage({
-              id: 'discount_code',
-              defaultMessage: 'Discount Code',
-            })}
-            placeholder={formatMessage({
-              id: 'enter_discount_code',
-              defaultMessage: 'Enter your code',
-            })}
-          />
-        </div>
-
-        <div className="flex items-end sm:items-center justify-end sm:justify-start sm:flex-none mt-6">
-          <SubmitButton
-            type="submit"
-            variant="primary"
-            className="px-5 py-2.5 text-sm font-medium rounded-md bg-primary hover:bg-primary-hover text-primary-foreground transition-all duration-200"
-            text={formatMessage({
-              id: 'apply_discount',
-              defaultMessage: 'Apply Discount',
-            })}
-          />
-        </div>
+      <div className="flex items-start gap-2">
+        <TextField
+          type="text"
+          name="code"
+          hideLabel
+          label={formatMessage({
+            id: 'discount_code',
+            defaultMessage: 'Discount Code',
+          })}
+          placeholder={formatMessage({
+            id: 'enter_discount_code',
+            defaultMessage: 'Discount code',
+          })}
+        />
+        <Button
+          type="submit"
+          variant="secondary"
+          fullWidth={false}
+          text={formatMessage({ id: 'apply_discount', defaultMessage: 'Apply' })}
+        />
       </div>
-
       <FormErrors />
     </Form>
   );

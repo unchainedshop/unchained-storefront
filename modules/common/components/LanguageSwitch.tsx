@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { useIntl } from 'react-intl';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import changeLanguage from '../utils/changeLanguage';
 
 const LanguageSwitch = () => {
   const intl = useIntl();
+  const id = useId();
   const currentLang = intl.locale.split('-')[0];
   const supportedLanguages = [
     {
@@ -20,18 +20,18 @@ const LanguageSwitch = () => {
     },
   ];
   return (
-    <div className="relative">
-      <label htmlFor="language-switcher" className="sr-only">
+    <div>
+      <label htmlFor={id} className="sr-only">
         {intl.formatMessage({
           id: 'choose_language',
           defaultMessage: 'Choose language',
         })}
       </label>
       <select
-        className="relative border-2 border-transparent block w-full dark:focus:autofill dark:hover:autofill dark:autofill appearance-none rounded-md px-4 py-2.5 pr-10 text-sm text-foreground focus:border-input focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
+        className="input w-auto py-1.5 pr-8 text-sm"
         value={currentLang}
         onChange={(e) => changeLanguage(e.target.value)}
-        id="language-switcher"
+        id={id}
       >
         {supportedLanguages.map((lang) => (
           <option key={lang.id} value={lang.id}>
@@ -39,7 +39,6 @@ const LanguageSwitch = () => {
           </option>
         ))}
       </select>
-      <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-subtle-foreground pointer-events-none" />
     </div>
   );
 };

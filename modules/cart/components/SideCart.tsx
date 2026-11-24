@@ -1,195 +1,101 @@
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-
 import { useIntl } from 'react-intl';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import useUser from '../../auth/hooks/useUser';
 import CartItem from './CartItem';
+import CartSummary from './CartSummary';
 import { useAppContext } from '../../common/components/AppContextWrapper';
-import FormattedPrice from '../../common/components/FormattedPrice';
 import AddDiscount from '../../orders/components/AddDiscount';
 
 const SideCart = ({ isOpen }) => {
   const { user } = useUser();
-  const intl = useIntl();
-  const { isCartOpen, toggleCart } = useAppContext();
-  const [shouldRender, setShouldRender] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      setShouldRender(true);
-      // Small delay to allow initial render before animating in
-      const timer = setTimeout(() => setIsAnimating(true), 10);
-      return () => clearTimeout(timer);
-    } else {
-      setIsAnimating(false);
-      // Delay hiding the component to allow exit animation
-      const timer = setTimeout(() => setShouldRender(false), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
-
-  if (!shouldRender) return null;
+  const { formatMessage } = useIntl();
+  const { toggleCart } = useAppContext();
+  const close = () => toggleCart(false);
+  const cart = user?.cart;
+  const items = cart?.items || [];
+  const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <>
-      {/* Backdrop with smooth fade */}
-      <div
-        className={`fixed inset-0 z-[1050] bg-overlay backdrop-blur-sm transition-all duration-300 ease-out ${
-          isAnimating ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => toggleCart(false)}
+    <Dialog open={isOpen} onClose={close} className="relative z-1050">
+      <DialogBackdrop
+        transition
+        className="fixed inset-0 bg-overlay backdrop-blur-sm transition-opacity duration-300 ease-out data-closed:opacity-0"
       />
-      {!user?.cart?.items.length ? (
-        <div
-          className={`px-4 fixed top-5 bottom-5 right-5 z-[1060] w-sm lg:w-md xl:w-lg transform rounded-lg bg-surface/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-            isAnimating
-              ? 'translate-x-0 opacity-100 scale-100'
-              : 'translate-x-16 opacity-0 scale-95 pointer-events-none'
-          } flex flex-col gap-4 items-center justify-center text-center`}
-        >
-          <ShoppingBagIcon
-            className={`h-8 w-8 text-subtle-foreground transition-all duration-500 ${isAnimating ? 'animate-pulse-subtle' : ''}`}
-          />
-          <p
-            className={`transition-all duration-500 delay-100 ${isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            {intl.formatMessage({
-              id: 'no_product_in_cart',
-              defaultMessage: 'There are no products in your Cart. Browse our',
-            })}{' '}
-            <Link
-              href="/shop"
-              onClick={() => toggleCart(false)}
-              className="cursor-pointer font-normal underline"
-            >
-              {intl.formatMessage({ id: 'shop', defaultMessage: 'Shop' })}
-            </Link>
-          </p>
-        </div>
-      ) : (
-        <div
-          className={`fixed top-5 bottom-5 right-5 z-[1060] w-sm lg:w-md xl:w-lg transform rounded-lg bg-surface/95 backdrop-blur-md shadow-xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-            isAnimating
-              ? 'translate-x-0 opacity-100 scale-100'
-              : 'translate-x-16 opacity-0 scale-95 pointer-events-none'
-          } flex flex-col overflow-hidden`}
-        >
-          {/* Header with staggered animation */}
-          <div
-            className={`flex items-center justify-between p-6 border-b border-border dark:border-0 transition-all duration-300 delay-100 ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
-          >
-            <h3 className="text-lg font-semibold text-foreground">
-              {intl.formatMessage({
-                id: 'in_cart',
-                defaultMessage: 'Cart',
-              })}
-            </h3>
-            <button
-              aria-label={intl.formatMessage({
-                id: 'close',
-                defaultMessage: 'Close',
-              })}
-              type="button"
-              className="rounded-lg p-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-muted hover:scale-110"
-              onClick={() => toggleCart(!isCartOpen)}
-            >
-              <XMarkIcon className="h-6 w-6" />
-            </button>
-          </div>
-          {/* Content area with staggered animation */}
-          <div
-            className={`flex-1 overflow-y-auto p-6 transition-all duration-300 delay-200 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            {user?.cart?.items.length === 0 ? (
-              <p className="text-center text-muted-foreground">
-                {intl.formatMessage({
-                  id: 'no_product_in_cart',
-                  defaultMessage:
-                    'There are no products in your Cart. Browse our',
-                })}{' '}
-                <Link
-                  href="/shop"
-                  onClick={() => toggleCart(false)}
-                  className="text-accent hover:text-accent underline transition-colors duration-200"
-                >
-                  {intl.formatMessage({
-                    id: 'shop',
-                    defaultMessage: 'Shop',
-                  })}
-                </Link>
-              </p>
-            ) : (
-              <div className="space-y-3">
-                {(user?.cart?.items || []).map((item, index) => (
-                  <div
-                    key={item._id}
-                    className={`transition-all duration-300 ease-out ${
-                      isOpen
-                        ? 'translate-x-0 opacity-100'
-                        : 'translate-x-4 opacity-0'
-                    }`}
-                    style={{
-                      transitionDelay: isOpen ? `${300 + index * 50}ms` : '0ms',
-                    }}
-                  >
-                    <CartItem {...item} />
-                  </div>
-                ))}
-                {user?.cart?.discounts?.length ? (
-                  <div className="text-right">
-                    <div className="border-top py-3 mt-0">
-                      <h1 className="text-center">Discounts</h1>
-                      {user?.cart?.discounts?.map((d) => {
-                        return (
-                          <div
-                            key={d._id}
-                            className="d-flex flex-wrap justify-content-between"
-                          >
-                            <div> {d.code} </div>
-                            <div>
-                              <FormattedPrice price={d?.total} />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ) : null}
-                <AddDiscount orderId={user?.cart?._id} />
-              </div>
-            )}
-          </div>
-          {/* Footer with checkout button */}
-          <div
-            className={`border-t border-border p-6 dark:border-0 transition-all duration-300 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-base font-medium text-foreground">
-                {intl.formatMessage({
-                  id: 'subtotal',
-                  defaultMessage: 'Subtotal',
-                })}
+      <DialogPanel
+        transition
+        className="fixed inset-y-0 right-0 flex w-full max-w-md flex-col bg-surface shadow-pop transition duration-300 ease-out data-closed:translate-x-full"
+      >
+        <div className="flex h-16 items-center justify-between border-b border-border px-5">
+          <DialogTitle className="text-base font-semibold">
+            {formatMessage({ id: 'in_cart', defaultMessage: 'Cart' })}
+            {itemCount > 0 && (
+              <span className="ml-2 text-sm font-normal text-subtle-foreground">
+                {formatMessage(
+                  { id: 'cart_item_count', defaultMessage: '{count, plural, one {# item} other {# items}}' },
+                  { count: itemCount },
+                )}
               </span>
-              <div className="font-semibold text-foreground">
-                <FormattedPrice price={user?.cart?.itemsTotal} />
+            )}
+          </DialogTitle>
+          <button
+            type="button"
+            onClick={close}
+            className="btn-icon -mr-2"
+            aria-label={formatMessage({ id: 'close', defaultMessage: 'Close' })}
+          >
+            <XMarkIcon className="size-5" />
+          </button>
+        </div>
+
+        {!items.length ? (
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
+            <span className="flex size-16 items-center justify-center rounded-full bg-muted">
+              <ShoppingBagIcon className="size-7 text-subtle-foreground" />
+            </span>
+            <div>
+              <p className="font-semibold">
+                {formatMessage({ id: 'cart_empty_title', defaultMessage: 'Your cart is empty' })}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {formatMessage({
+                  id: 'cart_empty_text',
+                  defaultMessage: 'Find something you love and it will show up here.',
+                })}
+              </p>
+            </div>
+            <Link href="/shop" onClick={close} className="btn btn-primary">
+              {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
+            </Link>
+          </div>
+        ) : (
+          <>
+            <div className="flex-1 overflow-y-auto px-5">
+              <ul className="divide-y divide-border">
+                {items.map((item) => (
+                  <CartItem key={item._id} {...item} />
+                ))}
+              </ul>
+              <div className="border-t border-border py-4">
+                <AddDiscount orderId={cart._id} />
               </div>
             </div>
-            <Link
-              href={{ pathname: '/checkout' }}
-              className="block w-full rounded-md bg-primary py-3 px-4 text-center text-base font-medium text-primary-foreground transition-all duration-200 hover:bg-primary-hover hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 active:scale-[0.98]"
-              onClick={() => toggleCart(false)}
-            >
-              {intl.formatMessage({
-                id: 'to_checkout',
-                defaultMessage: 'Checkout',
-              })}
-            </Link>
-          </div>
-        </div>
-      )}
-    </>
+            <div className="space-y-4 border-t border-border bg-background px-5 py-5">
+              <CartSummary cart={cart} />
+              <div className="grid gap-2">
+                <Link href="/checkout" onClick={close} className="btn btn-primary btn-lg w-full">
+                  {formatMessage({ id: 'to_checkout', defaultMessage: 'Checkout' })}
+                </Link>
+                <Link href="/cart" onClick={close} className="btn btn-ghost w-full">
+                  {formatMessage({ id: 'view_cart', defaultMessage: 'View cart' })}
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
+      </DialogPanel>
+    </Dialog>
   );
 };
 
