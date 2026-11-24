@@ -1,15 +1,15 @@
 {
   "404-not-found-header": {
-    "defaultMessage": "404: Requested {page} not found"
+    "defaultMessage": "Requested {page} not found"
   },
   "404_not-found-message": {
     "defaultMessage": "Sorry, the page you were looking for was not found!"
   },
   "500-error-description": {
-    "defaultMessage": "oops, Something went wrong when performing your request, please try again later!"
+    "defaultMessage": "We could not complete your request. Please try again in a moment."
   },
   "500-error-header": {
-    "defaultMessage": "500 - Server-side error occurred"
+    "defaultMessage": "Something went wrong"
   },
   "Delivery_status": {
     "defaultMessage": "Delivery status"
@@ -38,6 +38,9 @@
   "add_email": {
     "defaultMessage": "Add Email"
   },
+  "add_to_wishlist": {
+    "defaultMessage": "Add to wishlist"
+  },
   "added-to-cart": {
     "defaultMessage": "Added to cart"
   },
@@ -62,9 +65,6 @@
   "all_events": {
     "defaultMessage": "All events"
   },
-  "all_products": {
-    "defaultMessage": "All Products"
-  },
   "already_got_a_user": {
     "defaultMessage": "Already got a user?"
   },
@@ -72,7 +72,7 @@
     "defaultMessage": "Apply"
   },
   "apply_discount": {
-    "defaultMessage": "Apply Discount"
+    "defaultMessage": "Apply"
   },
   "available": {
     "defaultMessage": "Available:"
@@ -82,6 +82,9 @@
   },
   "back": {
     "defaultMessage": "← Back"
+  },
+  "back_to_shop": {
+    "defaultMessage": "Back to the shop"
   },
   "billing-address": {
     "defaultMessage": "Billing address"
@@ -99,13 +102,13 @@
     "defaultMessage": "Billing Summary"
   },
   "bookmarks": {
-    "defaultMessage": "Bookmarks"
+    "defaultMessage": "Wishlist"
   },
   "bookmarks_title": {
-    "defaultMessage": "Bookmarks"
+    "defaultMessage": "Wishlist"
   },
   "browse_categories": {
-    "defaultMessage": "Browse Categories"
+    "defaultMessage": "Shop by category"
   },
   "bundle_badge": {
     "defaultMessage": "Bundle"
@@ -116,11 +119,17 @@
   "cancel": {
     "defaultMessage": "Cancel"
   },
-  "cart": {
-    "defaultMessage": "Shopping Cart"
+  "cart_empty_text": {
+    "defaultMessage": "Find something you love and it will show up here."
   },
-  "cart_page_note": {
-    "defaultMessage": "Cart functionality is available in the side panel. Click the cart icon in the header to view your items."
+  "cart_empty_title": {
+    "defaultMessage": "Your cart is empty"
+  },
+  "cart_item_count": {
+    "defaultMessage": "{count, plural, one {# item} other {# items}}"
+  },
+  "cart_with_count": {
+    "defaultMessage": "Cart, {count} items"
   },
   "categories": {
     "defaultMessage": "Categories"
@@ -128,14 +137,14 @@
   "categories_description": {
     "defaultMessage": "Discover our carefully curated collections designed to meet all your needs"
   },
-  "categories_subtitle": {
-    "defaultMessage": "Explore our wide range of product categories"
-  },
   "change_password": {
     "defaultMessage": "Change Password"
   },
   "checkout": {
     "defaultMessage": "Checkout"
+  },
+  "checkout_empty_text": {
+    "defaultMessage": "Add a few products before checking out."
   },
   "checkout_payment": {
     "defaultMessage": "Checkout Payment"
@@ -197,14 +206,17 @@
   "country_code": {
     "defaultMessage": "Country code"
   },
-  "country_switzerland": {
-    "defaultMessage": "Switzerland"
+  "currency": {
+    "defaultMessage": "Currency"
   },
   "currency_label": {
     "defaultMessage": "Currency"
   },
   "current_password": {
     "defaultMessage": "Current password"
+  },
+  "decrease_quantity": {
+    "defaultMessage": "Decrease quantity"
   },
   "delivered": {
     "defaultMessage": "Delivered"
@@ -230,6 +242,9 @@
   "delivery_summary": {
     "defaultMessage": "Delivery Summary"
   },
+  "discount": {
+    "defaultMessage": "Discount"
+  },
   "discount_code": {
     "defaultMessage": "Discount Code"
   },
@@ -241,6 +256,9 @@
   },
   "document": {
     "defaultMessage": "Document"
+  },
+  "done": {
+    "defaultMessage": "Done"
   },
   "dont-have-account": {
     "defaultMessage": "Don't have an account?"
@@ -290,8 +308,8 @@
   "email_exists_error": {
     "defaultMessage": "Email already exists"
   },
-  "emails": {
-    "defaultMessage": "Emails"
+  "email_verified": {
+    "defaultMessage": "Email verified"
   },
   "enrollment_activate": {
     "defaultMessage": "Activate Enrollment"
@@ -339,7 +357,7 @@
     "defaultMessage": "No enrollments found."
   },
   "enter_discount_code": {
-    "defaultMessage": "Enter your code"
+    "defaultMessage": "Discount code"
   },
   "enter_email_address": {
     "defaultMessage": "Enter email address"
@@ -371,11 +389,17 @@
   "error_required": {
     "defaultMessage": "{label} is a required field"
   },
+  "filters": {
+    "defaultMessage": "Filters"
+  },
   "first_name": {
     "defaultMessage": "First name"
   },
   "footer": {
     "defaultMessage": "Footer"
+  },
+  "footer_tagline": {
+    "defaultMessage": "Thoughtfully selected products, delivered with care."
   },
   "forgot-password-description": {
     "defaultMessage": "Enter your email address below and we'll send you an email with a link to reset your password!"
@@ -392,9 +416,6 @@
   "full_name": {
     "defaultMessage": "Full name"
   },
-  "general": {
-    "defaultMessage": "General"
-  },
   "generic_error": {
     "defaultMessage": "Something went wrong. Please try again."
   },
@@ -404,14 +425,20 @@
   "go-home": {
     "defaultMessage": "Go to home"
   },
-  "hero": {
-    "defaultMessage": "Hero"
+  "grid_view": {
+    "defaultMessage": "Grid view"
   },
   "hero_subtitle": {
     "defaultMessage": "Powered by Unchained and Next.js"
   },
+  "hero_text": {
+    "defaultMessage": "Discover our latest products and find something you will love."
+  },
   "hero_title": {
     "defaultMessage": "Ecommerce Starter Template"
+  },
+  "hide_password": {
+    "defaultMessage": "Hide password"
   },
   "home": {
     "defaultMessage": "Home"
@@ -428,6 +455,9 @@
   "incorrect-captcha-answer": {
     "defaultMessage": "Incorrect CAPTCHA answer"
   },
+  "increase_quantity": {
+    "defaultMessage": "Increase quantity"
+  },
   "invalid-credential-error": {
     "defaultMessage": "Invalid credential, please try again"
   },
@@ -436,9 +466,6 @@
   },
   "join-now": {
     "defaultMessage": "Join now"
-  },
-  "language": {
-    "defaultMessage": "Language"
   },
   "language_de": {
     "defaultMessage": "Deutsch"
@@ -455,8 +482,8 @@
   "last_name": {
     "defaultMessage": "Last name"
   },
-  "legal": {
-    "defaultMessage": "Legal"
+  "list_view": {
+    "defaultMessage": "List view"
   },
   "load_more": {
     "defaultMessage": "Load More"
@@ -466,6 +493,9 @@
   },
   "log_in": {
     "defaultMessage": "Log In"
+  },
+  "log_in_subtitle": {
+    "defaultMessage": "Welcome back! Sign in to see your orders and wishlist."
   },
   "login-code": {
     "defaultMessage": "Login code"
@@ -485,6 +515,9 @@
   "manage_orders": {
     "defaultMessage": "Check the status of recent orders, manage returns, and download invoices."
   },
+  "menu": {
+    "defaultMessage": "Menu"
+  },
   "message": {
     "defaultMessage": "Message"
   },
@@ -501,19 +534,28 @@
     "defaultMessage": "Account"
   },
   "nav_bookmarks": {
-    "defaultMessage": "Bookmarks"
+    "defaultMessage": "Wishlist"
   },
   "nav_home": {
     "defaultMessage": "Home"
   },
+  "nav_shop_all": {
+    "defaultMessage": "All products"
+  },
   "nav_store": {
-    "defaultMessage": "Store"
+    "defaultMessage": "Shop"
   },
   "nav_styleguide": {
     "defaultMessage": "Styleguide"
   },
+  "nav_your_account": {
+    "defaultMessage": "Your account"
+  },
   "need-permission-to-set-password": {
     "defaultMessage": "You don't have the necessary permission to set password. Contact system admin"
+  },
+  "new_arrivals": {
+    "defaultMessage": "New arrivals"
   },
   "new_password": {
     "defaultMessage": "New password"
@@ -527,14 +569,23 @@
   "no-password-set-error": {
     "defaultMessage": "User password not set"
   },
+  "no_categories": {
+    "defaultMessage": "No categories yet."
+  },
   "no_data_message": {
     "defaultMessage": "<p>No <span> {message} available</span> </p>"
   },
-  "no_product_in_cart": {
-    "defaultMessage": "There are no products in your Cart. Browse our"
+  "no_orders_match": {
+    "defaultMessage": "No orders match your search."
+  },
+  "no_orders_yet": {
+    "defaultMessage": "You haven't placed any orders yet."
   },
   "no_products": {
     "defaultMessage": "No products available"
+  },
+  "no_products_found": {
+    "defaultMessage": "No products match your filters."
   },
   "no_results_found": {
     "defaultMessage": "No results found"
@@ -614,6 +665,9 @@
   "ordered": {
     "defaultMessage": "Ordered"
   },
+  "orders": {
+    "defaultMessage": "Orders"
+  },
   "paid": {
     "defaultMessage": "Paid"
   },
@@ -643,9 +697,6 @@
   },
   "password_changed_success": {
     "defaultMessage": "Password changed successfully."
-  },
-  "password_description": {
-    "defaultMessage": "Manage your account password and security settings."
   },
   "password_identical": {
     "defaultMessage": "Provided new password identical to previous password"
@@ -683,6 +734,9 @@
   "payment_fee": {
     "defaultMessage": "Payment Fee"
   },
+  "payment_fees": {
+    "defaultMessage": "Payment fees"
+  },
   "payment_init_error": {
     "defaultMessage": "Error initializing payment. Please try again."
   },
@@ -709,6 +763,24 @@
   },
   "pending": {
     "defaultMessage": "Pending"
+  },
+  "perk_returns": {
+    "defaultMessage": "Easy returns"
+  },
+  "perk_returns_text": {
+    "defaultMessage": "Changed your mind? No problem"
+  },
+  "perk_secure": {
+    "defaultMessage": "Secure checkout"
+  },
+  "perk_secure_text": {
+    "defaultMessage": "Card, invoice and more"
+  },
+  "perk_shipping": {
+    "defaultMessage": "Fast delivery"
+  },
+  "perk_shipping_text": {
+    "defaultMessage": "Shipped quickly to your door"
   },
   "phone": {
     "defaultMessage": "Phone"
@@ -764,8 +836,8 @@
   "products": {
     "defaultMessage": "Products"
   },
-  "products_subtitle": {
-    "defaultMessage": "Discover our complete collection"
+  "profile": {
+    "defaultMessage": "Profile"
   },
   "quantity": {
     "defaultMessage": "Quantity"
@@ -833,6 +905,9 @@
   "remove": {
     "defaultMessage": "Remove"
   },
+  "remove_from_wishlist": {
+    "defaultMessage": "Remove from wishlist"
+  },
   "request-quotation-offer": {
     "defaultMessage": "Request offer"
   },
@@ -854,14 +929,14 @@
   "reset_link_sent": {
     "defaultMessage": "Password reset link sent to {email}"
   },
-  "reset_password": {
-    "defaultMessage": "Reset password"
-  },
   "reset_token_expired": {
     "defaultMessage": "Token link invalid or has expired"
   },
   "rest_password": {
     "defaultMessage": "Reset password"
+  },
+  "result_count": {
+    "defaultMessage": "{count, plural, one {# product} other {# products}}"
   },
   "right": {
     "defaultMessage": "All Rights Reserved"
@@ -878,23 +953,29 @@
   "search": {
     "defaultMessage": "Search"
   },
-  "search_description": {
-    "defaultMessage": "Find exactly what you're looking for"
+  "search_hint": {
+    "defaultMessage": "Try a different or more general term."
+  },
+  "search_in_category": {
+    "defaultMessage": "Search in this category"
   },
   "search_instruction": {
     "defaultMessage": "Enter a search term to find products."
   },
-  "search_placeholder": {
-    "defaultMessage": "Search..."
-  },
   "search_products": {
-    "defaultMessage": "Search Products"
+    "defaultMessage": "Search products"
+  },
+  "search_products_placeholder": {
+    "defaultMessage": "Search products…"
   },
   "search_results_for": {
     "defaultMessage": "Results for '{query}'"
   },
   "selectAll": {
     "defaultMessage": "Select all"
+  },
+  "select_options_to_add": {
+    "defaultMessage": "Select your options to add this product to the cart."
   },
   "select_tab": {
     "defaultMessage": "Select a tab"
@@ -926,8 +1007,8 @@
   "shipping_address": {
     "defaultMessage": "Shipping Address"
   },
-  "shipping_to": {
-    "defaultMessage": "Shipping to"
+  "shipping_calculated_at_checkout": {
+    "defaultMessage": "Shipping and taxes are calculated at checkout."
   },
   "shop": {
     "defaultMessage": "Shop"
@@ -959,8 +1040,14 @@
   "shop.unchained.payment.stripe": {
     "defaultMessage": "Online Payment Gateway (Stripe)"
   },
+  "shop_all": {
+    "defaultMessage": "Shop all"
+  },
   "shop_by_category": {
     "defaultMessage": "Shop by Category"
+  },
+  "shop_now": {
+    "defaultMessage": "Shop now"
   },
   "shop_title": {
     "defaultMessage": "Unchained Store"
@@ -970,6 +1057,15 @@
   },
   "showMore": {
     "defaultMessage": "Show more"
+  },
+  "show_password": {
+    "defaultMessage": "Show password"
+  },
+  "show_results": {
+    "defaultMessage": "Show {count} results"
+  },
+  "showing_x_of_y": {
+    "defaultMessage": "Showing {shown} of {total}"
   },
   "sign-in": {
     "defaultMessage": "Sign in"
@@ -982,6 +1078,9 @@
   },
   "similar_products": {
     "defaultMessage": "Similar products"
+  },
+  "skip_to_content": {
+    "defaultMessage": "Skip to content"
   },
   "status": {
     "defaultMessage": "Status"
@@ -1097,6 +1196,9 @@
   "to_checkout": {
     "defaultMessage": "Checkout"
   },
+  "toggle_theme": {
+    "defaultMessage": "Toggle dark mode"
+  },
   "token_detail_title": {
     "defaultMessage": "Token Detail"
   },
@@ -1121,9 +1223,6 @@
   "total_amount": {
     "defaultMessage": "Total amount"
   },
-  "total_discounts": {
-    "defaultMessage": "Total discount"
-  },
   "total_supply": {
     "defaultMessage": "Supply:"
   },
@@ -1132,6 +1231,9 @@
   },
   "trial_subscription": {
     "defaultMessage": "Trial"
+  },
+  "try_again": {
+    "defaultMessage": "Try again"
   },
   "unexpected_error": {
     "defaultMessage": "An unexpected error occurred."
@@ -1181,6 +1283,12 @@
   "view_all": {
     "defaultMessage": "View All"
   },
+  "view_cart": {
+    "defaultMessage": "View cart"
+  },
+  "view_mode": {
+    "defaultMessage": "View mode"
+  },
   "view_on_github": {
     "defaultMessage": "View on GitHub"
   },
@@ -1190,10 +1298,13 @@
   "wallet_address": {
     "defaultMessage": "Wallet:"
   },
+  "wishlist_empty_text": {
+    "defaultMessage": "Tap the heart on any product to save it for later."
+  },
+  "wishlist_empty_title": {
+    "defaultMessage": "Your wishlist is empty"
+  },
   "yes": {
     "defaultMessage": "Yes"
-  },
-  "your_cart_is_empty": {
-    "defaultMessage": "Your cart is empty"
   }
 }
