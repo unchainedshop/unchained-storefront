@@ -14,9 +14,6 @@
   "Delivery_status": {
     "defaultMessage": "Delivery status"
   },
-  "Products purchased": {
-    "defaultMessage": "products_purchased"
-  },
   "about": {
     "defaultMessage": "About us"
   },
@@ -68,6 +65,9 @@
   "all_events": {
     "defaultMessage": "All events"
   },
+  "all_orders": {
+    "defaultMessage": "All orders"
+  },
   "already_got_a_user": {
     "defaultMessage": "Already got a user?"
   },
@@ -115,9 +115,6 @@
   },
   "billing_interval": {
     "defaultMessage": "Billing"
-  },
-  "billing_summary": {
-    "defaultMessage": "Billing Summary"
   },
   "bookmarks": {
     "defaultMessage": "Wishlist"
@@ -194,6 +191,9 @@
   "confirm_password": {
     "defaultMessage": "Confirm password"
   },
+  "confirmation_sent_to": {
+    "defaultMessage": "A confirmation is on its way to {email}."
+  },
   "confirmed": {
     "defaultMessage": "Confirmed"
   },
@@ -224,6 +224,9 @@
   "contract_standard": {
     "defaultMessage": "Standard:"
   },
+  "copy_order_number": {
+    "defaultMessage": "Copy order number"
+  },
   "country": {
     "defaultMessage": "Country"
   },
@@ -233,20 +236,17 @@
   "currency": {
     "defaultMessage": "Currency"
   },
-  "currency_label": {
-    "defaultMessage": "Currency"
-  },
   "current_password": {
     "defaultMessage": "Current password"
+  },
+  "customer": {
+    "defaultMessage": "Customer"
   },
   "decrease_quantity": {
     "defaultMessage": "Decrease quantity"
   },
-  "delivered": {
-    "defaultMessage": "Delivered"
-  },
-  "delivered_on": {
-    "defaultMessage": "Delivered on"
+  "delivered_on_date": {
+    "defaultMessage": "Delivered on {date}"
   },
   "delivery": {
     "defaultMessage": "Delivery"
@@ -254,17 +254,11 @@
   "delivery_address": {
     "defaultMessage": "Delivery address"
   },
-  "delivery_information": {
-    "defaultMessage": "Delivery Information"
-  },
   "delivery_method": {
     "defaultMessage": "Delivery Method"
   },
   "delivery_status": {
     "defaultMessage": "Delivery status"
-  },
-  "delivery_summary": {
-    "defaultMessage": "Delivery Summary"
   },
   "discount": {
     "defaultMessage": "Discount"
@@ -278,9 +272,6 @@
   "docs": {
     "defaultMessage": "Documentation"
   },
-  "document": {
-    "defaultMessage": "Document"
-  },
   "done": {
     "defaultMessage": "Done"
   },
@@ -289,9 +280,6 @@
   },
   "dont_have_account": {
     "defaultMessage": "Don't have an account yet?"
-  },
-  "download": {
-    "defaultMessage": "Download"
   },
   "download_csv": {
     "defaultMessage": "Download CSV"
@@ -325,9 +313,6 @@
   },
   "email_address_not_exist": {
     "defaultMessage": "Provided email does not exist"
-  },
-  "email_confirmation_shortly": {
-    "defaultMessage": "You'll receive an email confirmation shortly."
   },
   "email_exists_error": {
     "defaultMessage": "Email already exists"
@@ -488,6 +473,9 @@
   "invalid_discount_code": {
     "defaultMessage": "Invalid Code"
   },
+  "item_count": {
+    "defaultMessage": "{count, plural, one {# item} other {# items}}"
+  },
   "join-now": {
     "defaultMessage": "Join now"
   },
@@ -545,9 +533,6 @@
   "message": {
     "defaultMessage": "Message"
   },
-  "method": {
-    "defaultMessage": "Method"
-  },
   "my_orders": {
     "defaultMessage": "My orders"
   },
@@ -586,6 +571,30 @@
   },
   "newsletter-subscription-options": {
     "defaultMessage": "Newsletter Anmeldung gewünscht für:"
+  },
+  "next_step_pickup": {
+    "defaultMessage": "Ready for pickup"
+  },
+  "next_step_pickup_text": {
+    "defaultMessage": "We let you know when you can collect it."
+  },
+  "next_step_processing": {
+    "defaultMessage": "Being prepared"
+  },
+  "next_step_processing_text": {
+    "defaultMessage": "We pack your items with care."
+  },
+  "next_step_received": {
+    "defaultMessage": "Order received"
+  },
+  "next_step_received_text": {
+    "defaultMessage": "We have your order and payment details."
+  },
+  "next_step_shipped": {
+    "defaultMessage": "On its way"
+  },
+  "next_step_shipped_text": {
+    "defaultMessage": "You get tracking details as soon as it ships."
   },
   "no": {
     "defaultMessage": "No"
@@ -653,23 +662,20 @@
   "order_date": {
     "defaultMessage": "Order date"
   },
-  "order_date_label": {
-    "defaultMessage": "Order Date"
-  },
   "order_history": {
     "defaultMessage": "Order History"
   },
   "order_items": {
     "defaultMessage": "Order Items"
   },
-  "order_num": {
-    "defaultMessage": "Order #"
-  },
   "order_number": {
     "defaultMessage": "Order number"
   },
-  "order_number_label": {
-    "defaultMessage": "Order Number"
+  "order_number_heading": {
+    "defaultMessage": "Order #{number}"
+  },
+  "order_number_short": {
+    "defaultMessage": "Order"
   },
   "order_numbered": {
     "defaultMessage": "Order: {orderNumber}"
@@ -677,8 +683,8 @@
   "order_pickup": {
     "defaultMessage": "Order is pick up"
   },
-  "order_placed": {
-    "defaultMessage": "Order placed"
+  "order_placed_on": {
+    "defaultMessage": "Placed on {date}"
   },
   "order_received_processing": {
     "defaultMessage": "Your order has been received and is being processed."
@@ -701,11 +707,11 @@
   "orders_empty_text": {
     "defaultMessage": "Your orders and their status will show up here."
   },
-  "paid": {
-    "defaultMessage": "Paid"
-  },
   "paid_on": {
     "defaultMessage": "paid on"
+  },
+  "paid_on_date": {
+    "defaultMessage": "Paid on {date}"
   },
   "participant_list_description": {
     "defaultMessage": "List of all participants of the event"
@@ -812,9 +818,6 @@
   "perk_shipping_text": {
     "defaultMessage": "Shipped quickly to your door"
   },
-  "phone": {
-    "defaultMessage": "Phone"
-  },
   "phone-number": {
     "defaultMessage": "Telefonnummer"
   },
@@ -839,8 +842,8 @@
   "price_range_separator": {
     "defaultMessage": "–"
   },
-  "print": {
-    "defaultMessage": "Print Order"
+  "print_button": {
+    "defaultMessage": "Print"
   },
   "print_tickets": {
     "defaultMessage": "Print Tickets"
@@ -1121,6 +1124,36 @@
   "status": {
     "defaultMessage": "Status"
   },
+  "status_confirmed": {
+    "defaultMessage": "Confirmed"
+  },
+  "status_delivered": {
+    "defaultMessage": "Delivered"
+  },
+  "status_fulfilled": {
+    "defaultMessage": "Fulfilled"
+  },
+  "status_open": {
+    "defaultMessage": "Open"
+  },
+  "status_paid": {
+    "defaultMessage": "Paid"
+  },
+  "status_pending": {
+    "defaultMessage": "Pending"
+  },
+  "status_placed": {
+    "defaultMessage": "Placed"
+  },
+  "status_refunded": {
+    "defaultMessage": "Refunded"
+  },
+  "status_rejected": {
+    "defaultMessage": "Rejected"
+  },
+  "status_returned": {
+    "defaultMessage": "Returned"
+  },
   "street": {
     "defaultMessage": "Street"
   },
@@ -1206,13 +1239,16 @@
     "defaultMessage": "Thank you for verifying your email address"
   },
   "thank_you": {
-    "defaultMessage": "Thank you!"
+    "defaultMessage": "Thank you for your order!"
   },
   "thank_you_description": {
     "defaultMessage": "It has reached us and an email with the order placement confirmation is on its way. To avoid any potential miscommunication, please check your spam, perhaps the email landed there."
   },
   "thank_you_header": {
     "defaultMessage": "Thank You for Placing this Order with Us!"
+  },
+  "thank_you_name": {
+    "defaultMessage": "Thank you, {name}!"
   },
   "thank_you_order_date": {
     "defaultMessage": "<dl> <dt> The Date you placed the order is: </dt> <dd> {orderDate} </dd> </dl>"
@@ -1345,6 +1381,9 @@
   },
   "wallet_address": {
     "defaultMessage": "Wallet:"
+  },
+  "what_happens_next": {
+    "defaultMessage": "What happens next"
   },
   "wishlist_empty_text": {
     "defaultMessage": "Tap the heart on any product to save it for later."

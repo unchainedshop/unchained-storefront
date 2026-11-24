@@ -897,16 +897,6 @@ export type CartCheckoutQuery = { __typename: 'Query', me: { __typename: 'User',
               > | null }, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null }
        | null, itemsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discountsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, taxesTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, deliveryTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, paymentTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, grandTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discounts: Array<{ __typename: 'OrderDiscount', _id: string, code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null } | null } | null };
 
-export type DeliveryProvidersTypeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeliveryProvidersTypeQuery = { __typename: 'Query', deliveryProviderType: { __typename: '__Type', options: Array<{ __typename: '__EnumValue', value: string, label: string | null }> | null } | null };
-
-export type OrderDeliveryStatusQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OrderDeliveryStatusQuery = { __typename: 'Query', deliveryStatusType: { __typename: '__Type', options: Array<{ __typename: '__EnumValue', value: string, label: string | null }> | null } | null };
-
 export type OrderDetailQueryQueryVariables = Exact<{
   currency?: string | null | undefined;
   orderId: string | number;
@@ -948,21 +938,6 @@ export type OrderDetailQueryQuery = { __typename: 'Query', order: { __typename: 
         | { __typename: 'SimpleProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, brand: string | null, vendor: string | null, title: string | null, subtitle: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> }
         | { __typename: 'TokenizedProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, brand: string | null, vendor: string | null, title: string | null, subtitle: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> }
       , tokens: Array<{ __typename: 'Token', _id: string, status: TokenExportStatus, quantity: number, invalidatedDate: string | null, accessKey: string, isInvalidateable: boolean, ercMetadata: any, user: { __typename: 'User', _id: string } | null, product: { __typename: 'TokenizedProduct', _id: string, tags: Array<string> | null, simulatedPrice: { __typename: 'Price', amount: number, currencyCode: string } | null, simulatedStocks: Array<{ __typename: 'Stock', quantity: number | null }> | null, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, title: string | null, subtitle: string | null, labels: Array<string> | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> } }>, discounts: Array<{ __typename: 'OrderItemDiscount', orderDiscount: { __typename: 'OrderDiscount', code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null, unitPrice: { __typename: 'Price', amount: number, isTaxable: boolean, isNetPrice: boolean, currencyCode: string } | null, total: { __typename: 'Price', amount: number, isTaxable: boolean, isNetPrice: boolean, currencyCode: string } | null }> | null } | null };
-
-export type OrderStatusQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OrderStatusQuery = { __typename: 'Query', orderStatusType: { __typename: '__Type', options: Array<{ __typename: '__EnumValue', value: string, label: string | null }> | null } | null };
-
-export type PaymentProvidersTypeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PaymentProvidersTypeQuery = { __typename: 'Query', paymentProviderType: { __typename: '__Type', options: Array<{ __typename: '__EnumValue', value: string, label: string | null }> | null } | null };
-
-export type OrderPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OrderPaymentStatusQuery = { __typename: 'Query', paymentStatusTypes: { __typename: '__Type', options: Array<{ __typename: '__EnumValue', value: string, label: string | null }> | null } | null };
 
 export type UpdateCartBillingAddressMutationVariables = Exact<{
   billingAddress?: AddressInput | null | undefined;
