@@ -34,16 +34,16 @@ const CartSummary = ({ cart, detailed = false }) => {
           negative
         />
       ))}
-      {detailed && hasAmount(cart.delivery) && (
+      {detailed && hasAmount(cart.deliveryTotal) && (
         <Row
           label={formatMessage({ id: 'delivery', defaultMessage: 'Delivery' })}
-          price={cart.delivery}
+          price={cart.deliveryTotal}
         />
       )}
-      {detailed && hasAmount(cart.payment) && (
+      {detailed && hasAmount(cart.paymentTotal) && (
         <Row
           label={formatMessage({ id: 'payment_fees', defaultMessage: 'Payment fees' })}
-          price={cart.payment}
+          price={cart.paymentTotal}
         />
       )}
       {detailed ? (
@@ -51,14 +51,14 @@ const CartSummary = ({ cart, detailed = false }) => {
           <div className="border-t border-border pt-3">
             <Row
               label={formatMessage({ id: 'total', defaultMessage: 'Total' })}
-              price={cart.total}
+              price={cart.grandTotal}
               strong
             />
           </div>
-          {hasAmount(cart.taxes) && (
+          {hasAmount(cart.taxesTotal) && (
             <p className="text-right text-xs text-subtle-foreground">
               {formatMessage({ id: 'tax_included', defaultMessage: 'incl. Tax' })}{' '}
-              <FormattedPrice price={cart.taxes} />
+              <FormattedPrice price={cart.taxesTotal} />
             </p>
           )}
         </>

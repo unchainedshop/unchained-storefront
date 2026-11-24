@@ -7,6 +7,7 @@ import FormattedPrice from '../common/components/FormattedPrice';
 import { useIntl } from 'react-intl';
 import useCart from '../orders/hooks/useCart';
 import AddDiscount from '../orders/components/AddDiscount';
+import CartSummary from '../cart/components/CartSummary';
 import useUpdateCartDelivery from '../cart/hooks/useUpdateCartDelivery';
 import useUpdateCartDeliveryPickUp from '../orders/hooks/useUpdateCartDeliveryPickUp';
 import CheckoutDeliverySelector from './CheckoutDeliverySelector';
@@ -33,10 +34,6 @@ const Checkout = () => {
 
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
-  const itemsTotal = cart.itemsTotal;
-  const taxesTotal = cart.taxesTotal;
-  const deliveryTotal = cart.deliveryTotal;
-  const grandTotal = cart.grandTotal;
   const isDeliverySet =
     cart?.delivery?.activePickUpLocation || cart?.delivery?.address;
   const isAddressesMissing = !cart?.billingAddress?.firstName || !isDeliverySet;
@@ -58,18 +55,6 @@ const Checkout = () => {
         </Link>
       </div>
     );
-
-  const SummaryRow = ({ label, price, strong = false }) =>
-    price?.amount ? (
-      <div
-        className={`flex justify-between ${strong ? 'text-base font-semibold text-foreground' : 'text-sm text-muted-foreground'}`}
-      >
-        <dt>{label}</dt>
-        <dd className={strong ? '' : 'text-foreground'}>
-          <FormattedPrice price={price} />
-        </dd>
-      </div>
-    ) : null;
 
   return (
     <div className="grid items-start gap-8 lg:grid-cols-[1fr_400px]">
@@ -162,27 +147,9 @@ const Checkout = () => {
           <AddDiscount orderId={cart._id} />
         </div>
 
-        <dl className="mt-4 space-y-2 border-t border-border pt-4">
-          <SummaryRow label={formatMessage({ id: 'subtotal', defaultMessage: 'Subtotal' })} price={itemsTotal} />
-          {cart.discounts?.map((discount) => (
-            <SummaryRow
-              key={discount._id}
-              label={`${formatMessage({ id: 'discount', defaultMessage: 'Discount' })} · ${discount.code}`}
-              price={discount.total}
-            />
-          ))}
-          <SummaryRow label={formatMessage({ id: 'shipping', defaultMessage: 'Shipping' })} price={deliveryTotal} />
-          <SummaryRow label={formatMessage({ id: 'payment_fee', defaultMessage: 'Payment Fee' })} price={cart.payment?.fee} />
-          <div className="border-t border-border pt-3">
-            <SummaryRow strong label={formatMessage({ id: 'order_total', defaultMessage: 'Total' })} price={grandTotal} />
-          </div>
-          {taxesTotal?.amount ? (
-            <p className="text-right text-xs text-subtle-foreground">
-              {formatMessage({ id: 'tax_included', defaultMessage: 'incl. Tax' })}{' '}
-              <FormattedPrice price={taxesTotal} />
-            </p>
-          ) : null}
-        </dl>
+        <div className="mt-4 border-t border-border pt-4">
+          <CartSummary cart={cart} detailed />
+        </div>
       </aside>
     </div>
   );
