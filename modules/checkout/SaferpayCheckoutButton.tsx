@@ -101,7 +101,7 @@ const SaferpayCheckoutButton = ({ order }) => {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-4 bg-surface p-6 rounded-lg shadow-sm">
+    <div className="flex flex-col space-y-4">
       <h2 className="text-lg font-medium text-foreground">
         {formatMessage({
           id: 'checkout_payment',
@@ -127,7 +127,7 @@ const SaferpayCheckoutButton = ({ order }) => {
           <a
             href={locationUrl}
             rel="noopener noreferrer"
-            className="w-full text-center py-2 px-4 bg-primary text-primary-foreground rounded-md hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
+            className="btn btn-primary btn-lg w-full"
           >
             {formatMessage({
               id: 'continue_to_payment',
@@ -141,7 +141,7 @@ const SaferpayCheckoutButton = ({ order }) => {
         window.location.search.includes('transactionId') && (
           <button
             onClick={handleCompleteOrder}
-            className="w-full py-2 px-4 bg-success text-white rounded-md hover:bg-success/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success"
+            className="btn btn-primary btn-lg w-full"
           >
             {formatMessage({
               id: 'complete_order',

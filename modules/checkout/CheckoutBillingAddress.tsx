@@ -62,10 +62,10 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
     setBillingAddressEditMode(!billingAddressEditMode);
 
   return (
-    <div className="space-y-8">
-      <div className="bg-surface rounded-lg p-6 border border-border dark:border-0">
+    <div>
+      <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-medium text-foreground">
+          <h2 className="text-lg font-semibold">
             {formatMessage({
               id: 'billing-address',
               defaultMessage: 'Billing address',

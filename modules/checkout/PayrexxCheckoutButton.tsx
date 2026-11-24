@@ -68,7 +68,7 @@ const PayrexxCheckoutButton = ({ order }) => {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-4 bg-surface p-6 rounded-lg shadow-sm">
+    <div className="flex flex-col space-y-4">
       <h2 className="text-lg font-medium text-foreground">
         {formatMessage({
           id: 'checkout_payment',
@@ -91,7 +91,7 @@ const PayrexxCheckoutButton = ({ order }) => {
       {!loading && (
         <button
           onClick={handleCompleteOrder}
-          className="w-full py-2 px-4 bg-success text-white rounded-md hover:bg-success/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success"
+          className="btn btn-primary btn-lg w-full"
         >
           {formatMessage({
             id: 'complete_order',

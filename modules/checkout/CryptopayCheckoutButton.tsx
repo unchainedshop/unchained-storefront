@@ -130,7 +130,7 @@ const PayWithCryptoButton = ({ sign }) => (
   <button
     type="button"
     onClick={sign}
-    className="mt-6 w-full rounded-md border border-transparent bg-danger py-3 px-4 text-base font-medium text-white shadow-xs hover:bg-danger/90 focus:outline-none focus:ring-2 focus:ring-danger focus:ring-offset-2 focus:ring-offset-background"
+    className="btn btn-primary btn-lg mt-2 w-full"
   >
     Pay with Crypto
   </button>
@@ -213,7 +213,7 @@ const CryptopayCheckoutButton = ({ order }) => {
             role="dialog"
             aria-modal="true"
           >
-            <div className="fixed inset-0 bg-muted-foreground bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-overlay transition-opacity" />
             <div className="fixed inset-0 z-10 overflow-y-auto">
               <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div className="relative transform overflow-hidden rounded-lg bg-surface text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-fit">

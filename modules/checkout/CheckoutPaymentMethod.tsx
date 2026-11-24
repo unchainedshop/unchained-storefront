@@ -72,33 +72,31 @@ const PaymentOption = ({ provider, selected, onSelect }) => {
   };
 
   return (
-    <div
-      onClick={() => onSelect(provider._id)}
-      className={`flex justify-between items-center p-5 rounded-xl cursor-pointer transition-all border shadow-sm hover:shadow-md ${
+    <label
+      className={`flex cursor-pointer items-center justify-between gap-4 rounded-lg border px-4 py-3.5 transition-colors ${
         selected
-          ? 'border-accent bg-accent-soft shadow-md'
-          : 'border-border bg-surface '
+          ? 'border-primary bg-accent-soft ring-1 ring-primary'
+          : 'border-input bg-surface hover:border-subtle-foreground'
       }`}
     >
-      <div className="flex items-center space-x-4">
+      <span className="flex items-center gap-3">
         <input
           type="radio"
           name="paymentProviderId"
           checked={selected}
           onChange={() => onSelect(provider._id)}
-          className="h-5 w-5 text-accent focus:ring-ring"
-          aria-checked={selected}
+          className="size-4 accent-primary"
         />
-        <span className="font-medium text-foreground text-base">
+        <span className="text-sm font-medium">
           <FormattedMessage {...label} />
         </span>
-      </div>
+      </span>
       {selected && (
-        <span className="text-sm font-semibold text-accent">
+        <span className="text-xs font-semibold text-accent">
           {formatMessage({ id: 'selected', defaultMessage: 'Selected' })}
         </span>
       )}
-    </div>
+    </label>
   );
 };
 
@@ -125,15 +123,8 @@ const CheckoutPaymentMethod = ({
   const CheckoutButton = CheckoutButtons[interfaceId] ?? (() => null);
 
   return (
-    <div className="bg-surface rounded-2xl p-6 border border-border shadow-md">
-      <h2 className="text-2xl font-semibold text-foreground mb-6">
-        {formatMessage({
-          id: 'payment-method',
-          defaultMessage: 'Payment method',
-        })}
-      </h2>
-
-      <div className="space-y-4">
+    <div>
+      <div className="space-y-3">
         {!hideOptions &&
           cart.supportedPaymentProviders.map((provider) => (
             <PaymentOption

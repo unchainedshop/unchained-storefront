@@ -70,7 +70,7 @@ const PaypalCheckoutButton = ({ order }) => {
   if (!clientId) return null;
 
   return (
-    <div className="flex flex-col space-y-4 bg-surface p-6 rounded-lg shadow-sm">
+    <div className="flex flex-col space-y-4">
       {loading && (
         <div className="flex items-center justify-center space-x-2 py-4">
           <div className="spinner border-t-2 border-primary rounded-full w-5 h-5 animate-spin" />

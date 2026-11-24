@@ -100,7 +100,7 @@ export default function StripeCheckoutForm({ returnUrl }) {
     <form
       id="payment-form"
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 bg-surface p-6 rounded-lg shadow-sm"
+      className="flex flex-col space-y-4"
     >
       <h2 className="text-lg font-medium text-foreground">
         {formatMessage({
@@ -115,7 +115,7 @@ export default function StripeCheckoutForm({ returnUrl }) {
         type="submit"
         disabled={isLoading || !stripe || !elements}
         id="submit"
-        className="w-full py-2 px-4 bg-primary text-primary-foreground rounded-md hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring disabled:opacity-50"
+        className="btn btn-primary btn-lg w-full"
       >
         {isLoading ? (
           <span className="flex items-center justify-center space-x-2">

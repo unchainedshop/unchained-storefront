@@ -3,6 +3,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import FormattedPrice from '../common/components/FormattedPrice';
 import EditableAddressPanel from './EditableAddressPanel';
 import { useState } from 'react';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
 
 const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
   const { formatMessage } = useIntl();
@@ -16,7 +17,7 @@ const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
   };
 
   return (
-    <div className="mt-4 bg-surface rounded-lg p-4 border border-border dark:border-0 space-y-4">
+    <div className="mt-2 space-y-4 rounded-lg border border-border p-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium text-muted-foreground">
           {formatMessage({
@@ -72,7 +73,7 @@ const CheckoutDeliverySelector = ({
             defaultMessage: 'Delivery Method',
           })}
         </h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-3">
           {providers.map((provider) => {
             const isSelected = currentDelivery?.provider?._id === provider._id;
             const price = provider?.simulatedPrice || {
@@ -85,19 +86,23 @@ const CheckoutDeliverySelector = ({
                 key={provider._id}
                 type="button"
                 disabled={!provider.isActive}
+                aria-pressed={isSelected}
                 className={classNames(
-                  'px-4 py-2 rounded-md border text-sm transition-colors',
+                  'relative min-w-[9rem] flex-1 rounded-lg border px-4 py-3 text-left text-sm transition-colors',
                   {
-                    'bg-primary text-primary-foreground border-primary': isSelected,
-                    'bg-muted text-foreground ':
+                    'border-primary bg-accent-soft text-foreground ring-1 ring-primary': isSelected,
+                    'border-input bg-surface hover:border-subtle-foreground':
                       !isSelected && provider.isActive,
-                    'bg-muted-strong text-subtle-foreground cursor-not-allowed':
+                    'cursor-not-allowed border-border bg-muted text-subtle-foreground':
                       !provider.isActive,
                   },
                 )}
                 onClick={() => onSelectProvider(provider._id)}
               >
-                <div className="flex flex-col items-center">
+                {isSelected && (
+                  <CheckCircleIcon className="absolute right-3 top-3 size-5 text-primary" />
+                )}
+                <div className="flex flex-col">
                   <span className="font-medium">
                     {provider.type === 'SHIPPING' ? (
                       <FormattedMessage
@@ -128,7 +133,7 @@ const CheckoutDeliverySelector = ({
               defaultMessage: 'Pickup Location',
             })}
           </h3>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             {pickUpLocations.map((loc) => {
               const isSelected =
                 currentDelivery?.activePickUpLocation?._id === loc._id;
@@ -136,12 +141,12 @@ const CheckoutDeliverySelector = ({
                 <button
                   key={loc._id}
                   type="button"
+                  aria-pressed={isSelected}
                   className={classNames(
-                    'px-4 py-2 rounded-md border text-left text-sm transition-colors flex-1 min-w-[150px]',
+                    'min-w-[150px] flex-1 rounded-lg border px-4 py-3 text-left text-sm transition-colors',
                     {
-                      'bg-primary text-primary-foreground border-primary': isSelected,
-                      'bg-muted text-foreground ':
-                        !isSelected,
+                      'border-primary bg-accent-soft text-foreground ring-1 ring-primary': isSelected,
+                      'border-input bg-surface hover:border-subtle-foreground': !isSelected,
                     },
                   )}
                   onClick={() =>
