@@ -143,11 +143,6 @@ const Detail = () => {
 
                 <div className="mt-5 flex items-center gap-3 text-2xl font-semibold">
                   {price}
-                  {isBundle && (
-                    <span className="badge badge-warning">
-                      {intl.formatMessage({ id: 'bundle_badge', defaultMessage: 'Bundle' })}
-                    </span>
-                  )}
                 </div>
 
                 {isConfigurable && (

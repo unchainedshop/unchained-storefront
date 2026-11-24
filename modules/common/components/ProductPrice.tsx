@@ -1,6 +1,5 @@
 import FormattedPrice from './FormattedPrice';
 import FormattedPriceRange from './FormattedPriceRange';
-import calculateBundlePriceRange from '../../products/utils/calculateBundlePriceRange';
 import PriceTiers from '../../products/components/PriceTiers';
 
 const ProductPrice = ({ product, compact = false }) => {
@@ -14,12 +13,9 @@ const ProductPrice = ({ product, compact = false }) => {
         compact={compact}
       />
     );
-  if (product.__typename === 'BundleProduct') {
-    if (product.simulatedPrice)
-      return <FormattedPrice price={product.simulatedPrice} />;
-    const priceRange = calculateBundlePriceRange(product.bundleItems);
-    return <FormattedPriceRange priceRange={priceRange} />;
-  }
+  // The engine prices a bundle without its own price as the sum of its items.
+  if (product.__typename === 'BundleProduct')
+    return <FormattedPrice price={product.simulatedPrice || product.catalogPrice} />;
 
   if (product.simulatedPriceRange) {
     return <FormattedPriceRange priceRange={product.simulatedPriceRange} />;

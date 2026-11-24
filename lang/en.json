@@ -131,6 +131,9 @@
   "bundle_contains": {
     "defaultMessage": "Includes:"
   },
+  "bundle_includes": {
+    "defaultMessage": "This bundle includes"
+  },
   "cancel": {
     "defaultMessage": "Cancel"
   },
@@ -616,6 +619,9 @@
   },
   "no_orders_yet": {
     "defaultMessage": "You haven't placed any orders yet."
+  },
+  "no_product_images": {
+    "defaultMessage": "No images yet"
   },
   "no_products": {
     "defaultMessage": "No products available"

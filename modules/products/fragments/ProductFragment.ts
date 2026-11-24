@@ -63,6 +63,7 @@ const ProductDetailFragment = gql`
 
     ... on BundleProduct {
       bundleItems {
+        quantity
         product {
           _id
           media {

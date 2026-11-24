@@ -1,34 +1,50 @@
 import Link from 'next/link';
+import { useIntl } from 'react-intl';
+import { PhotoIcon } from '@heroicons/react/24/outline';
 import ProductPrice from '../../common/components/ProductPrice';
-import AddToCartButton from '../../cart/components/AddToCartButton';
 import getMediaUrl from '../../common/utils/getMediaUrl';
+import getProductHref from '../../common/utils/getProductHref';
 
 const ProductBundleItems = ({ product }) => {
-  if (product.__typename !== 'BundleProduct' || !product.bundleItems?.length)
-    return null;
+  const { formatMessage } = useIntl();
+  if (product.__typename !== 'BundleProduct' || !product.bundleItems?.length) return null;
 
   return (
-    <section className="mt-12">
-      <h2 className="text-xl font-semibold mb-6">This bundle includes:</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {product.bundleItems.map(({ product: item }) => (
-          <div
-            key={item._id}
-            className="rounded-xl border p-4 hover:shadow transition-all"
-          >
-            <Link href={`/product/${item.texts?.slug}`}>
-              <img
-                src={getMediaUrl(item)}
-                alt={item.texts?.title}
-                className="aspect-square w-full object-cover"
-              />
-            </Link>
-            <h3 className="mt-2 text-lg font-medium">{item.texts?.title}</h3>
-            <ProductPrice product={item} />
-            <AddToCartButton productId={item._id} {...item} />
-          </div>
-        ))}
-      </div>
+    <section>
+      <h2 className="mb-4 text-xl font-bold tracking-tight">
+        {formatMessage({ id: 'bundle_includes', defaultMessage: 'This bundle includes' })}
+      </h2>
+      <ul className="card divide-y divide-border">
+        {product.bundleItems.map(({ product: item, quantity }) => {
+          const imageUrl = getMediaUrl(item);
+          return (
+            <li key={item._id}>
+              <Link
+                href={getProductHref(item.texts?.slug)}
+                className="flex items-center gap-4 p-4 transition-colors hover:bg-muted"
+              >
+                <span className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted">
+                  {imageUrl ? (
+                    <img src={imageUrl} alt="" className="size-full object-cover" />
+                  ) : (
+                    <PhotoIcon className="size-7 text-subtle-foreground" />
+                  )}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-medium">{item.texts?.title}</span>
+                  {item.texts?.subtitle && (
+                    <span className="block truncate text-sm text-muted-foreground">{item.texts.subtitle}</span>
+                  )}
+                </span>
+                <span className="badge">× {quantity || 1}</span>
+                <span className="w-28 text-right text-sm font-semibold">
+                  <ProductPrice product={item} compact />
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 };
