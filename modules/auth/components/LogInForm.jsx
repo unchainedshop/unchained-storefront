@@ -1,5 +1,3 @@
-import classNames from "classnames";
-
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -10,6 +8,7 @@ import useGenerateLoginCredentials from "../hooks/useGenerateLoginCredentials";
 import useLoginWithPassword from "../hooks/useLoginWithPassword";
 import useLoginWithWebAuthn from "../hooks/useLoginWithWebAuthn";
 import useLoginWithLoginCode from "../hooks/useLoginWithLoginCode";
+import AuthLayout from "./AuthLayout";
 import useShopInfo from "../../common/hooks/useShopInfo";
 import isEmail from "../../common/utils/isEmail";
 
@@ -20,22 +19,20 @@ const GetCurrentStep = ({
   password,
   setPassword,
   acceptEmail,
+  forgotLink,
 }) => {
   const { formatMessage } = useIntl();
   switch (parseInt(step, 10)) {
     case 2:
       return (
-        <div className="bg-surface">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-muted-foreground"
-          >
-            {formatMessage({
-              id: "password",
-              defaultMessage: "Password",
-            })}
-          </label>
-          <div className="mt-1">
+        <div>
+          <div className="flex items-center justify-between">
+            <label htmlFor="password" className="label">
+              {formatMessage({ id: "password", defaultMessage: "Password" })}
+            </label>
+            {forgotLink}
+          </div>
+          <div>
             <input
               id="password"
               name="password"
@@ -44,7 +41,7 @@ const GetCurrentStep = ({
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-surface block w-full appearance-none rounded-md border border-input px-3 py-2 shadow-xs focus:border-danger focus:outline-none focus:ring-danger sm:text-sm"
+              className="input"
             />
           </div>
         </div>
@@ -52,10 +49,7 @@ const GetCurrentStep = ({
     default:
       return (
         <div>
-          <label
-            htmlFor="username-or-email"
-            className="block text-sm font-medium text-muted-foreground"
-          >
+          <label htmlFor="username-or-email" className="label">
             {!acceptEmail
               ? formatMessage({
                   id: "username",
@@ -66,11 +60,11 @@ const GetCurrentStep = ({
                   defaultMessage: "Username / Email",
                 })}
           </label>
-          <div className="mt-1">
+          <div>
             <input
               id="username-or-email"
               name="usernameOrEmail"
-              className="bg-surface block w-full appearance-none rounded-md border border-input px-3 py-2 shadow-xs focus:border-danger focus:outline-none focus:ring-danger sm:text-sm"
+              className="input"
               type="text"
               autoComplete="email username"
               required
@@ -232,151 +226,106 @@ const LogInForm = () => {
     return false;
   };
 
+  const forgotLink = !emailSupportDisabled ? (
+    <Link href="/forgot-password" className="link text-sm">
+      {formatMessage({ id: "forgot_password", defaultMessage: "Forgot your password?" })}
+    </Link>
+  ) : null;
+
   return (
-    <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight">
-            {formatMessage({ id: "log_in", defaultMessage: "Log In" })}
-          </h2>
-          {!emailSupportDisabled ? (
-            <p className="mt-2 text-center text-sm text-muted-foreground">
-              <Link
-                href="/forgot-password"
-                className="ml-1 font-medium text-muted-foreground hover:text-foreground"
-              >
-                {formatMessage({
-                  id: "forgot_password",
-                  defaultMessage: "Forgot your password?",
-                })}
-              </Link>
+    <AuthLayout
+      title={formatMessage({ id: "log_in", defaultMessage: "Log In" })}
+      subtitle={formatMessage({
+        id: "log_in_subtitle",
+        defaultMessage: "Welcome back! Sign in to see your orders and wishlist.",
+      })}
+      footer={
+        <>
+          {formatMessage({ id: "dont-have-account", defaultMessage: "Don't have an account?" })}
+          <Link href="/sign-up" className="link ml-1">
+            {formatMessage({ id: "join-now", defaultMessage: "Join now" })}
+          </Link>
+        </>
+      }
+    >
+      {(step > 1 || loginCodeSent) && (
+        <button
+          type="button"
+          onClick={loginCodeSent ? cancelLoginCode : previousStep}
+          className="mb-4 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
+        >
+          {formatMessage({ id: "back", defaultMessage: "← Back" })}
+        </button>
+      )}
+      {step > 1 && !loginCodeSent && (
+        <p className="mb-4 truncate rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
+          {usernameOrEmail}
+        </p>
+      )}
+      <form onSubmit={onSubmit} className="space-y-4">
+        {loginCodeSent ? (
+          <div>
+            <p className="mb-4 text-sm text-muted-foreground">
+              {formatMessage(
+                {
+                  id: "login-code-sent",
+                  defaultMessage:
+                    "If {email} belongs to an account, we sent it a login link and code. Click the link or enter the code here.",
+                },
+                { email: usernameOrEmail },
+              )}
             </p>
-          ) : null}
-        </div>
-        {(step > 1 || loginCodeSent) && (
-          <button
-            type="button"
-            id="previous-button"
-            name="previous-button"
-            onClick={loginCodeSent ? cancelLoginCode : previousStep}
-            className="text-danger text-sm mx-auto block mt-5"
-          >
+            <label htmlFor="login-code" className="label">
+              {formatMessage({ id: "login-code", defaultMessage: "Login code" })}
+            </label>
+            <input
+              id="login-code"
+              name="loginCode"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              autoFocus
+              required
+              value={loginCode}
+              onChange={(e) => setLoginCode(e.target.value)}
+              className="input tracking-widest"
+            />
+          </div>
+        ) : (
+          <GetCurrentStep
+            step={step}
+            {...{ usernameOrEmail, setUsernameOrEmail, password, setPassword, forgotLink }}
+            acceptEmail={!emailSupportDisabled}
+          />
+        )}
+        {error && (
+          <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
+            {error}
+          </p>
+        )}
+        {showPasswordNav && (
+          <button type="button" onClick={nextStep} className="link text-sm">
             {formatMessage({
-              id: "back",
-              defaultMessage: "← Back",
+              id: "use-password-to-authenticate",
+              defaultMessage: "Or Use password to authenticate",
             })}
           </button>
         )}
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md bg-surface">
-          <div
-            className={classNames("py-8 px-4 shadow sm:rounded-lg sm:px-10")}
+        <button type="submit" className="btn btn-primary w-full">
+          {formatMessage({ id: "continue", defaultMessage: "Continue" })}
+        </button>
+        {step === 1 && !loginCodeSent && canUseLoginCode && (
+          <button
+            type="button"
+            disabled={requesting}
+            onClick={onRequestLoginCode}
+            className="btn btn-secondary w-full"
           >
-            <div className="space-y-6 sm:rounded-lg">
-              <form onSubmit={onSubmit}>
-                {loginCodeSent ? (
-                  <div>
-                    <p className="mb-3 text-sm text-muted-foreground">
-                      {formatMessage(
-                        {
-                          id: "login-code-sent",
-                          defaultMessage:
-                            "If {email} belongs to an account, we sent it a login link and code. Click the link or enter the code here.",
-                        },
-                        { email: usernameOrEmail },
-                      )}
-                    </p>
-                    <label
-                      htmlFor="login-code"
-                      className="block text-sm font-medium text-muted-foreground"
-                    >
-                      {formatMessage({
-                        id: "login-code",
-                        defaultMessage: "Login code",
-                      })}
-                    </label>
-                    <input
-                      id="login-code"
-                      name="loginCode"
-                      type="text"
-                      inputMode="numeric"
-                      autoComplete="one-time-code"
-                      autoFocus
-                      required
-                      value={loginCode}
-                      onChange={(e) => setLoginCode(e.target.value)}
-                      className="mt-1 bg-surface block w-full appearance-none rounded-md border border-input px-3 py-2 tracking-widest shadow-xs focus:border-danger focus:outline-none focus:ring-danger sm:text-sm"
-                    />
-                  </div>
-                ) : (
-                  <GetCurrentStep
-                    step={step}
-                    {...{
-                      usernameOrEmail,
-                      setUsernameOrEmail,
-                      password,
-                      setPassword,
-                    }}
-                    acceptEmail={!emailSupportDisabled}
-                  />
-                )}
-                {error && <div className="mt-3 text-danger">{error}</div>}
-                {showPasswordNav && (
-                  <p className="text-center font-semibold text-danger cursor-pointer">
-                    <button type="button" onClick={nextStep}>
-                      {formatMessage({
-                        id: "use-password-to-authenticate",
-                        defaultMessage: "Or Use password to authenticate",
-                      })}
-                    </button>
-                  </p>
-                )}
-                <div className="mt-4">
-                  <input
-                    type="submit"
-                    id="submit"
-                    name="submit"
-                    value={formatMessage({
-                      id: "continue",
-                      defaultMessage: "Continue",
-                    })}
-                    className="flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  />
-                  {step === 1 && !loginCodeSent && canUseLoginCode && (
-                    <button
-                      type="button"
-                      disabled={requesting}
-                      onClick={onRequestLoginCode}
-                      className="mt-3 flex w-full justify-center rounded-md border border-input bg-surface py-2 px-4 text-sm font-medium text-foreground shadow-xs hover:bg-muted disabled:opacity-50"
-                    >
-                      {formatMessage({
-                        id: "email-me-login-code",
-                        defaultMessage: "Email me a login code",
-                      })}
-                    </button>
-                  )}
-                </div>
-              </form>
-              <div className="text-sm text-foreground">
-                {formatMessage({
-                  id: "dont-have-account",
-                  defaultMessage: `Don't have an account?`,
-                })}
-                <Link
-                  href="/sign-up"
-                  className="ml-1 font-medium text-muted-foreground hover:text-foreground"
-                >
-                  {formatMessage({
-                    id: "join-now",
-                    defaultMessage: "Join now",
-                  })}
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            {formatMessage({ id: "email-me-login-code", defaultMessage: "Email me a login code" })}
+          </button>
+        )}
+      </form>
+    </AuthLayout>
   );
 };
 

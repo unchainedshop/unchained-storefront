@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useIntl } from "react-intl";
 import ResetPasswordForm from "../modules/auth/components/ResetPasswordForm";
 import useResetPassword from "../modules/auth/hooks/useResetPassword";
+import AuthLayout from '../modules/auth/components/AuthLayout';
 
 const ResetPassword = () => {
   const { query, ...router } = useRouter();
@@ -24,32 +25,18 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-semibold tracking-tight">
-          {formatMessage({
-            id: "reset-password-header",
-            defaultMessage: "Reset password",
-          })}
-        </h2>
-        <p className="mt-2 text-center text-sm text-muted-foreground">
-          {formatMessage({
-            id: "reset-password-subtitle",
-            defaultMessage: "Set a password for your account",
-          })}
-        </p>
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <ResetPasswordForm
-            onSubmit={onSubmit}
-            token={token}
-            onSubmitSuccess={onPasswordChangedSuccessfully}
-          />
-        </div>
-      </div>
-    </div>
+    <AuthLayout
+      title={formatMessage({ id: "reset-password-header", defaultMessage: "Reset password" })}
+      subtitle={formatMessage({ id: "reset-password-subtitle", defaultMessage: "Set a password for your account" })}
+    >
+      <ResetPasswordForm
+        onSubmit={onSubmit}
+        token={token}
+        onSubmitSuccess={onPasswordChangedSuccessfully}
+      />
+    </AuthLayout>
   );
 };
 
 export default ResetPassword;
 
-ResetPassword.getLayout = (page) => page;

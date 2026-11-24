@@ -1,6 +1,7 @@
 import { useIntl } from "react-intl";
 import SetPasswordForm from "../modules/auth/components/SetPasswordForm";
 import useUser from "../modules/auth/hooks/useUser";
+import AuthLayout from '../modules/auth/components/AuthLayout';
 
 const SetPassword = () => {
   const { formatMessage } = useIntl();
@@ -8,30 +9,14 @@ const SetPassword = () => {
   const { user } = useUser();
 
   return (
-    <div className="flex min-h-screen justify-center bg-muted antialiased">
-      <div className="container my-auto mt-24 max-w-md border-2 border-border bg-surface shadow rounded dark:shadow-none p-3 sm:mt-40">
-        <div className="m-6 text-center">
-          <h1 className="text-3xl font-semibold text-muted-foreground">
-            {formatMessage({
-              id: "set-password-header",
-              defaultMessage: "Set password",
-            })}
-          </h1>
-          <p className="text-subtle-foreground">
-            {formatMessage({
-              id: "set-password-subtitle",
-              defaultMessage: "Set a password for your account",
-            })}
-          </p>
-        </div>
-        <div className="p-2">
-          <SetPasswordForm userId={user?._id} />
-        </div>
-      </div>
-    </div>
+    <AuthLayout
+      title={formatMessage({ id: "set-password-header", defaultMessage: "Set password" })}
+      subtitle={formatMessage({ id: "set-password-subtitle", defaultMessage: "Set a password for your account" })}
+    >
+      <SetPasswordForm userId={user?._id} />
+    </AuthLayout>
   );
 };
 
 export default SetPassword;
 
-SetPassword.getLayout = (page) => page;
