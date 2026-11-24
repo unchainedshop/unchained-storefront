@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const UPDATE_CART_ITEM_MUTATION = gql`
   mutation UpdateCartItem($itemId: ID!, $quantity: Int = 1) {
@@ -39,7 +40,7 @@ export const UPDATE_CART_ITEM_MUTATION = gql`
 `;
 
 const useUpdateCartItem = () => {
-  const [updateCartItemMutation] = useMutation<any>(UPDATE_CART_ITEM_MUTATION);
+  const [updateCartItemMutation] = useMutation<GQL.UpdateCartItemMutation, GQL.UpdateCartItemMutationVariables>(UPDATE_CART_ITEM_MUTATION);
 
   const updateCartItem = async ({ itemId, quantity = 1 }) => {
     await updateCartItemMutation({

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const SIGN_SAFERPAY_MUTATION = gql`
   mutation SignPaymentProviderForCheckout(
@@ -14,8 +15,7 @@ export const SIGN_SAFERPAY_MUTATION = gql`
 `;
 
 const useSignPaymentProviderForCheckout = () => {
-  const [signSaferpayMutation, { data, error, loading }] = useMutation<any>(
-    SIGN_SAFERPAY_MUTATION,
+  const [signSaferpayMutation, { data, error, loading }] = useMutation<GQL.SignPaymentProviderForCheckoutMutation, GQL.SignPaymentProviderForCheckoutMutationVariables>(SIGN_SAFERPAY_MUTATION,
   );
 
   const sign = async ({

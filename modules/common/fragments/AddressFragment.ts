@@ -6,6 +6,7 @@ const AddressFragment = gql`
     lastName
     company
     addressLine
+    addressLine2
     postalCode
     city
     countryCode

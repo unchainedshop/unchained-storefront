@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import isEmail from '../../common/utils/isEmail';
+import type * as GQL from '../../apollo/generated';
 
 const LOG_IN_WITH_PASSWORD_MUTATION = gql`
   mutation LoginWithPassword(
@@ -28,8 +29,7 @@ const LOG_IN_WITH_PASSWORD_MUTATION = gql`
 
 const useLoginWithPassword = () => {
   const { emailSupportDisabled } = useAppContext();
-  const [logInWithPasswordMutation, { client }] = useMutation<any>(
-    LOG_IN_WITH_PASSWORD_MUTATION,
+  const [logInWithPasswordMutation, { client }] = useMutation<GQL.LoginWithPasswordMutation, GQL.LoginWithPasswordMutationVariables>(LOG_IN_WITH_PASSWORD_MUTATION,
     {
       errorPolicy: 'all',
     },

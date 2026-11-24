@@ -235,14 +235,14 @@ const QuotationRequestForm = ({ product }) => {
       onSubmit={onSubmit}
       defaultValues={{
         quantity: 1,
-        firstName: user?.contactAddress?.firstName,
-        lastName: user?.contactAddress?.lastName,
-        company: user?.contactAddress?.company,
-        addressLine2: user?.contactAddress?.addressLine2,
-        addressLine: user?.contactAddress?.addressLine,
-        postalCode: user?.contactAddress?.postalCode,
-        city: user?.contactAddress?.city,
-        emailAddress: user?.contactAddress?.emailAddress,
+        firstName: user?.profile?.address?.firstName,
+        lastName: user?.profile?.address?.lastName,
+        company: user?.profile?.address?.company,
+        addressLine2: user?.profile?.address?.addressLine2,
+        addressLine: user?.profile?.address?.addressLine,
+        postalCode: user?.profile?.address?.postalCode,
+        city: user?.profile?.address?.city,
+        emailAddress: user?.primaryEmail?.address,
       }}
       onSubmitError={onSubmitError}
     >

@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import LoadedFilterFragment from '../fragments/LoadedFilterFragment';
+import type * as GQL from '../../apollo/generated';
 
 const SearchQuery = gql`
   query Search(
@@ -28,8 +29,7 @@ const SearchQuery = gql`
 
 const useSearch = ({ queryString, filterQuery = [] }) => {
   const { selectedCurrency } = useAppContext();
-  const { loading, error, data, networkStatus, previousData } = useQuery<any>(
-    SearchQuery,
+  const { loading, error, data, networkStatus, previousData } = useQuery<GQL.SearchQuery, GQL.SearchQueryVariables>(SearchQuery,
     {
       variables: {
         queryString,

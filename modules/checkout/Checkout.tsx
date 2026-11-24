@@ -34,8 +34,10 @@ const Checkout = () => {
 
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
+  const delivery = cart?.delivery;
   const isDeliverySet =
-    cart?.delivery?.activePickUpLocation || cart?.delivery?.address;
+    (delivery && 'activePickUpLocation' in delivery && delivery.activePickUpLocation) ||
+    (delivery && 'address' in delivery && delivery.address);
   const isAddressesMissing = !cart?.billingAddress?.firstName || !isDeliverySet;
 
   if (!cart.items?.length && !orderTransactionIdFromQuery)

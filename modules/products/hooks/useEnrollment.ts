@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client/react';
 
 import EnrollmentDetailFragment from '../fragments/EnrollmentDetailFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import type * as GQL from '../../apollo/generated';
 
 const EnrollmentQuery = gql`
   query Enrollment($enrollmentId: ID!, $currency: String) {
@@ -15,7 +16,7 @@ const EnrollmentQuery = gql`
 
 const useEnrollment = ({ enrollmentId = null }) => {
   const { selectedCurrency } = useAppContext();
-  const { data, loading, error } = useQuery<any>(EnrollmentQuery, {
+  const { data, loading, error } = useQuery<GQL.EnrollmentQuery, GQL.EnrollmentQueryVariables>(EnrollmentQuery, {
     variables: { enrollmentId, currency: selectedCurrency },
   });
   const enrollment = data?.enrollment;

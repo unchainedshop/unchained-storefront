@@ -47,7 +47,7 @@ const CategoryDetail = () => {
 
   // --- Fetch products ---
   const {
-    assortment: { texts, media } = {},
+    assortment,
     filters = [],
     products,
     loadMore,
@@ -55,10 +55,11 @@ const CategoryDetail = () => {
     loading: productsLoading,
   } = useAssortmentProducts({
     slugs: slug,
-    includeLeaves: true,
     filterQuery,
     queryString: debouncedQuery,
   });
+  const texts = assortment?.texts;
+  const media = assortment?.media;
 
   return (
     <>

@@ -46,6 +46,9 @@
   },
   "devDependencies": {
     "@formatjs/cli": "^6.23.0",
+    "@graphql-codegen/cli": "^8.0.0",
+    "@graphql-codegen/typescript": "^7.0.1",
+    "@graphql-codegen/typescript-operations": "^7.0.2",
     "@graphql-eslint/eslint-plugin": "^5.0.0",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.3.5",
@@ -72,8 +75,9 @@
     "dev": "next dev",
     "lint": "eslint --fix .",
     "start": "next start",
-    "update-schema": "npx --yes get-graphql-schema http://localhost:4010/graphql --json > schema.json && node possibleTypesGenerator.js",
+    "update-schema": "npx --yes get-graphql-schema http://localhost:4010/graphql --json > schema.json && node possibleTypesGenerator.js && npm run codegen",
     "extract-translation": "formatjs extract '(pages|modules)/**/*.{ts,tsx,jsx}' --out-file lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-    "compile-translation": "formatjs compile  ./lang/en.json  --out-file ./i18n/en.json && node extract-missing-translation-keys.js"
+    "compile-translation": "formatjs compile  ./lang/en.json  --out-file ./i18n/en.json && node extract-missing-translation-keys.js",
+    "codegen": "graphql-codegen --config codegen.ts"
   }
 }

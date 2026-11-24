@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
 import OrderFragment from '../fragments/OrderFragment';
+import type * as GQL from '../../apollo/generated';
 
 export const USER_ORDERS_QUERY = gql`
   query UserOrders($currency: String) {
@@ -17,7 +18,7 @@ export const USER_ORDERS_QUERY = gql`
 `;
 
 const useUserOrderList = () => {
-  const { data, loading, error } = useQuery<any>(USER_ORDERS_QUERY);
+  const { data, loading, error } = useQuery<GQL.UserOrdersQuery, GQL.UserOrdersQueryVariables>(USER_ORDERS_QUERY);
 
   return {
     orders: data?.me?.orders || [],

@@ -4,6 +4,7 @@ import OrderDeliveryPickUpFragment from '../fragments/OrderDeliveryPickUpFragmen
 import AddressFragment from '../../common/fragments/AddressFragment';
 import CartTotalsFragment from '../fragments/CartTotalsFragment';
 import OrderDeliveryShippingFragment from '../fragments/OrderDeliveryShippingFragment';
+import type * as GQL from '../../apollo/generated';
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -122,8 +123,7 @@ export const CART_CHECKOUT_QUERY = gql`
 `;
 
 const useCart = () => {
-  const { loading, error, data, previousData } = useQuery<any>(
-    CART_CHECKOUT_QUERY,
+  const { loading, error, data, previousData } = useQuery<GQL.CartCheckoutQuery, GQL.CartCheckoutQueryVariables>(CART_CHECKOUT_QUERY,
     {
       notifyOnNetworkStatusChange: true,
     },

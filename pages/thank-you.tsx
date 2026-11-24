@@ -30,6 +30,8 @@ const ThankYou = () => {
   const { order } = useOrderDetail({
     orderId: router.query?.orderId,
   });
+  const shippingAddress =
+    order?.delivery && 'address' in order.delivery ? order.delivery.address : null;
 
   if (!router.query.orderId) return '';
 
@@ -207,19 +209,19 @@ const ThankYou = () => {
                       {order?.delivery?.provider?.type === 'SHIPPING' ? (
                         <address className="mt-3 not-italic text-subtle-foreground">
                           <span className="block">
-                            {order?.delivery?.address?.firstName}&nbsp;
-                            {order?.delivery?.address?.lastName}
+                            {shippingAddress?.firstName}&nbsp;
+                            {shippingAddress?.lastName}
                           </span>
                           <span className="block">
-                            {order?.delivery?.address?.addressLine}
+                            {shippingAddress?.addressLine}
                           </span>
                           <span className="block">
-                            {order?.profile?.address?.city}&nbsp;&nbsp;
+                            {shippingAddress?.city}&nbsp;&nbsp;
                             {getFlagEmoji(
-                              order?.delivery?.address?.countryCode,
+                              shippingAddress?.countryCode,
                             )}
                             &nbsp;
-                            {order?.delivery?.address?.countryCode}
+                            {shippingAddress?.countryCode}
                           </span>
                         </address>
                       ) : (
@@ -280,7 +282,7 @@ const ThankYou = () => {
                                 })}
                               </span>
                               <time
-                                dateTime={order?.paid}
+                                dateTime={order?.payment?.paid}
                                 className="text-muted-foreground"
                               >
                                 {formatDateTime(order?.payment?.paid)}

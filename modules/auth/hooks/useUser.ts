@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import CurrentUserFragment from '../fragments/CurrentUserFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import type * as GQL from '../../apollo/generated';
 
 export const USER_QUERY = gql`
   query User($currency: String) {
@@ -30,7 +31,7 @@ export const USER_QUERY = gql`
 
 const useUser = () => {
   const { selectedCurrency } = useAppContext();
-  const { data, loading, error, refetch } = useQuery<any>(USER_QUERY, {
+  const { data, loading, error, refetch } = useQuery<GQL.UserQuery, GQL.UserQueryVariables>(USER_QUERY, {
     variables: {
       currency: selectedCurrency,
     },

@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client/react';
 import AssortmentFragment from '../fragments/assortment';
 import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 import childrenArrayToNavigationIdObject from '../utils/childrenArrayToNavigationIdObject';
+import type * as GQL from '../../apollo/generated';
 
 export const ASSORTMENT_TREE_QUERY = gql`
   query AssortmentTree($slugs: [String!], $includeLeaves: Boolean) {
@@ -38,7 +39,7 @@ const useCategoriesTree = ({
   includeLeaves?: boolean;
   root?: string;
 }) => {
-  const { loading, error, data } = useQuery<any>(ASSORTMENT_TREE_QUERY, {
+  const { loading, error, data } = useQuery<GQL.AssortmentTreeQuery, GQL.AssortmentTreeQueryVariables>(ASSORTMENT_TREE_QUERY, {
     variables: {
       includeLeaves,
       slugs,

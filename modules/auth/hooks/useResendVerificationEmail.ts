@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const RESEND_VERIFICATION_EMAIL_MUTATION = gql`
   mutation SendVerificationEmail($email: String!) {
@@ -11,8 +12,7 @@ export const RESEND_VERIFICATION_EMAIL_MUTATION = gql`
 `;
 
 const useResendVerificationEmail = () => {
-  const [resendVerificationEmailMutation, { error }] = useMutation<any>(
-    RESEND_VERIFICATION_EMAIL_MUTATION,
+  const [resendVerificationEmailMutation, { error }] = useMutation<GQL.SendVerificationEmailMutation, GQL.SendVerificationEmailMutationVariables>(RESEND_VERIFICATION_EMAIL_MUTATION,
   );
 
   const resendVerificationEmail = async (email) => {

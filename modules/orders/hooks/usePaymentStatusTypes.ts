@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { useQuery } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 const PaymentStatusTypesQuery = gql`
   query OrderPaymentStatus {
@@ -14,7 +15,7 @@ const PaymentStatusTypesQuery = gql`
 `;
 
 const usePaymentStatusTypes = () => {
-  const { data, loading, error } = useQuery<any>(PaymentStatusTypesQuery);
+  const { data, loading, error } = useQuery<GQL.OrderPaymentStatusQuery, GQL.OrderPaymentStatusQueryVariables>(PaymentStatusTypesQuery);
 
   const paymentStatusTypes = data?.paymentStatusTypes?.options || [];
 

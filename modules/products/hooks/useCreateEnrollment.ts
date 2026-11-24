@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const CREATE_ENROLLMENT_MUTATION = gql`
   mutation CreateEnrollment(
@@ -24,8 +25,7 @@ export const CREATE_ENROLLMENT_MUTATION = gql`
 `;
 
 export const useCreateEnrollment = () => {
-  const [createEnrollmentMutation, { data, loading, error }] = useMutation<any>(
-    CREATE_ENROLLMENT_MUTATION,
+  const [createEnrollmentMutation, { data, loading, error }] = useMutation<GQL.CreateEnrollmentMutation, GQL.CreateEnrollmentMutationVariables>(CREATE_ENROLLMENT_MUTATION,
   );
 
   const createEnrollment = async ({

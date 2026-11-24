@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import type * as GQL from '../../apollo/generated';
 
 export const EventsQuery = gql`
   query Events(
@@ -128,7 +129,7 @@ export const EventsQuery = gql`
 
 const useEvents = () => {
   const { selectedCurrency } = useAppContext();
-  const { loading, error, data } = useQuery(EventsQuery, {
+  const { loading, error, data } = useQuery<GQL.EventsQuery, GQL.EventsQueryVariables>(EventsQuery, {
     variables: {
       tags: ['event'],
       currency: selectedCurrency,

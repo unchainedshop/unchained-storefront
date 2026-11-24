@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import useUser from './useUser';
 import { useEffect } from 'react';
 
-const useRouteProtection = (type: String | null, target = '/') => {
+const useRouteProtection = (type: string | null, target = '/') => {
   const router = useRouter();
   const { user, loading } = useUser();
 

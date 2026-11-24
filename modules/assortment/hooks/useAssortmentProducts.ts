@@ -7,6 +7,7 @@ import AssortmentMediaFragment from '../fragments/AssortmentMedia';
 import AssortmentPathFragment from '../fragments/AssortmentPath';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import LoadedFilterFragment from '../../products/fragments/LoadedFilterFragment';
+import type * as GQL from '../../apollo/generated';
 
 export const ASSORTMENT_PRODUCTS_QUERY = gql`
   query AssortmentsProducts(
@@ -48,27 +49,22 @@ export const ASSORTMENT_PRODUCTS_QUERY = gql`
 
 const useAssortmentProducts = (
   {
-    includeLeaves,
     slugs,
     filterQuery,
     queryString,
   }: {
-    includeLeaves: boolean;
-    slugs: string[] | string;
+    slugs: string;
     filterQuery?: any[];
     queryString?: string;
   } = {
-    includeLeaves: true,
-    slugs: [],
+    slugs: "",
     filterQuery: null,
   },
 ) => {
   const { selectedCurrency } = useAppContext();
-  const { data, loading, error, fetchMore, previousData } = useQuery<any>(
-    ASSORTMENT_PRODUCTS_QUERY,
+  const { data, loading, error, fetchMore, previousData } = useQuery<GQL.AssortmentsProductsQuery, GQL.AssortmentsProductsQueryVariables>(ASSORTMENT_PRODUCTS_QUERY,
     {
       variables: {
-        includeLeaves,
         slugs,
         offset: 0,
         limit: 10,
@@ -88,7 +84,6 @@ const useAssortmentProducts = (
     fetchMore({
       variables: {
         offset: products.length,
-        includeLeaves,
         slugs,
         limit: 10,
       },
@@ -101,7 +96,7 @@ const useAssortmentProducts = (
     error,
     filteredProducts:
       normalizedData?.assortment?.searchProducts.filteredProductsCount,
-    assortment: normalizedData?.assortment || {},
+    assortment: normalizedData?.assortment,
     products,
     paths,
     filters,

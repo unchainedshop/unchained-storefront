@@ -14,6 +14,7 @@ const eslintConfig = [
       '**/*.tsbuildinfo',
       '**/*.d.ts',
       'out/',
+      'modules/apollo/generated.ts',
     ],
   },
   ...nextConfig,

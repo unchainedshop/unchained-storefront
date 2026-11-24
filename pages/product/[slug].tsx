@@ -56,15 +56,16 @@ const Detail = () => {
     : [];
 
   const resolvedProducts = resolvedAssignments.map((a) => a.product);
+  const catalogPriceOf = (p) => ('catalogPrice' in p ? p.catalogPrice : null);
 
   const minPrice =
     resolvedProducts.length > 0
-      ? Math.min(...resolvedProducts.map((p) => p.catalogPrice.amount))
-      : product?.catalogPrice?.amount;
+      ? Math.min(...resolvedProducts.map((p) => catalogPriceOf(p)?.amount))
+      : catalogPriceOf(product || {})?.amount;
   const maxPrice =
     resolvedProducts.length > 0
-      ? Math.max(...resolvedProducts.map((p) => p.catalogPrice.amount))
-      : product?.catalogPrice?.amount;
+      ? Math.max(...resolvedProducts.map((p) => catalogPriceOf(p)?.amount))
+      : catalogPriceOf(product || {})?.amount;
 
   const price =
     isConfigurable && resolvedProducts.length > 0 ? (
@@ -76,11 +77,11 @@ const Detail = () => {
             simulatedPriceRange: {
               minPrice: {
                 amount: minPrice,
-                currencyCode: resolvedProducts[0].catalogPrice.currencyCode,
+                currencyCode: catalogPriceOf(resolvedProducts[0])?.currencyCode,
               },
               maxPrice: {
                 amount: maxPrice,
-                currencyCode: resolvedProducts[0].catalogPrice.currencyCode,
+                currencyCode: catalogPriceOf(resolvedProducts[0])?.currencyCode,
               },
             },
           }}
@@ -196,9 +197,9 @@ const Detail = () => {
             </div>
           </div>
 
-          {product?.proxies?.map((proxy) => (
+          {product?.proxies?.map((proxy, i) => (
             <ProductVariants
-              key={proxy._id}
+              key={'_id' in proxy ? proxy._id : i}
               proxy={proxy}
               activeProductId={product._id}
             />

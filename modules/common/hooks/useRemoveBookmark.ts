@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import { USER_QUERY } from '../../auth/hooks/useUser';
+import type * as GQL from '../../apollo/generated';
 
 const RemoveBookmarkMutation = gql`
   mutation RemoveBookmark($bookmarkId: ID!) {
@@ -11,7 +12,7 @@ const RemoveBookmarkMutation = gql`
 `;
 
 const useRemoveBookmark = () => {
-  const [removeBookmarkMutation] = useMutation<any>(RemoveBookmarkMutation, {
+  const [removeBookmarkMutation] = useMutation<GQL.RemoveBookmarkMutation, GQL.RemoveBookmarkMutationVariables>(RemoveBookmarkMutation, {
     refetchQueries: [{ query: USER_QUERY }],
   });
 

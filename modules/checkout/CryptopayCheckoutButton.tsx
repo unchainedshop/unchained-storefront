@@ -7,6 +7,7 @@ import Portal from '../common/components/Portal';
 import formatPrice from '../common/utils/formatPrice';
 import Loading from '../common/components/Loading';
 import useSignPaymentProviderForCheckout from './hooks/useSignPaymentProviderForCheckout';
+import type * as GQL from '../apollo/generated';
 
 const QRCODE_SIZE = 256;
 const QRCODE_LEVEL = 'Q';
@@ -141,8 +142,7 @@ const CryptopayCheckoutButton = ({ order }) => {
   const [showPaymentInformation, setShowPaymentInformation] = useState(false);
   const { sign, data } = useSignPaymentProviderForCheckout();
 
-  const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery<any>(
-    CHECK_ORDER_STATUS_QUERY,
+  const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery<GQL.CheckOrderStatusQuery, GQL.CheckOrderStatusQueryVariables>(CHECK_ORDER_STATUS_QUERY,
     {
       pollInterval: 2000,
     },

@@ -137,6 +137,25 @@ const OrderDetailFragment = gql`
           version
         }
       }
+      ... on OrderDeliveryShipping {
+        address {
+          firstName
+          lastName
+          company
+          addressLine
+          addressLine2
+          postalCode
+          city
+          countryCode
+          regionCode
+        }
+      }
+      ... on OrderDeliveryPickUp {
+        activePickUpLocation {
+          _id
+          name
+        }
+      }
       status
       delivered
       fee {
