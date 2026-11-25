@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import {
   ArrowPathRoundedSquareIcon,
+  CreditCardIcon,
   DocumentTextIcon,
   HeartIcon,
   KeyIcon,
@@ -30,6 +31,7 @@ const AccountLayout = ({ title, actions = null, children }) => {
     { href: '/bookmarks', icon: HeartIcon, label: formatMessage({ id: 'bookmarks', defaultMessage: 'Wishlist' }) },
     { href: '/quotation', icon: DocumentTextIcon, label: formatMessage({ id: 'quotations', defaultMessage: 'Quotations' }) },
     { href: '/tokens', icon: TicketIcon, label: formatMessage({ id: 'tokens', defaultMessage: 'Tokens' }) },
+    { href: '/account/payment-methods', icon: CreditCardIcon, label: formatMessage({ id: 'payment_methods', defaultMessage: 'Payment methods' }) },
     { href: '/account/change-password', icon: KeyIcon, label: formatMessage({ id: 'password', defaultMessage: 'Password' }) },
   ];
 

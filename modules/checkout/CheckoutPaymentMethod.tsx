@@ -26,7 +26,7 @@ const CheckoutButtons = {
   'shop.unchained.payment.paypal': PaypalCheckoutButton,
 };
 
-const PaymentLabels = defineMessages({
+export const PaymentLabels = defineMessages({
   'shop.unchained.payment.cryptopay': {
     id: 'shop.unchained.payment.cryptopay',
     defaultMessage: 'Cryptocurrencies',

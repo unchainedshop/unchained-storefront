@@ -721,6 +721,43 @@ export type CheckOrderStatusQueryVariables = Exact<{
 
 export type CheckOrderStatusQuery = { __typename: 'Query', order: { __typename: 'Order', _id: string, status: OrderStatus | null } | null };
 
+export type PaymentCredentialsFragmentFragment = { __typename: 'PaymentCredentials', _id: string, isValid: boolean, isPreferred: boolean, paymentProvider: { __typename: 'PaymentProvider', _id: string, type: PaymentProviderType | null, interface: { __typename: 'PaymentInterface', _id: string, label: string | null } | null } };
+
+export type UserPaymentCredentialsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserPaymentCredentialsQuery = { __typename: 'Query', me: { __typename: 'User', _id: string, paymentCredentials: Array<{ __typename: 'PaymentCredentials', _id: string, isValid: boolean, isPreferred: boolean, paymentProvider: { __typename: 'PaymentProvider', _id: string, type: PaymentProviderType | null, interface: { __typename: 'PaymentInterface', _id: string, label: string | null } | null } }> } | null };
+
+export type MarkPaymentCredentialsPreferredMutationVariables = Exact<{
+  paymentCredentialsId: string | number;
+}>;
+
+
+export type MarkPaymentCredentialsPreferredMutation = { __typename: 'Mutation', markPaymentCredentialsPreferred: { __typename: 'PaymentCredentials', _id: string, isValid: boolean, isPreferred: boolean, paymentProvider: { __typename: 'PaymentProvider', _id: string, type: PaymentProviderType | null, interface: { __typename: 'PaymentInterface', _id: string, label: string | null } | null } } | null };
+
+export type RemovePaymentCredentialsMutationVariables = Exact<{
+  paymentCredentialsId: string | number;
+}>;
+
+
+export type RemovePaymentCredentialsMutation = { __typename: 'Mutation', removePaymentCredentials: { __typename: 'PaymentCredentials', _id: string } | null };
+
+export type SignPaymentProviderForCredentialRegistrationMutationVariables = Exact<{
+  paymentProviderId: string | number;
+  transactionContext?: any;
+}>;
+
+
+export type SignPaymentProviderForCredentialRegistrationMutation = { __typename: 'Mutation', signPaymentProviderForCredentialRegistration: string | null };
+
+export type RegisterPaymentCredentialsMutationVariables = Exact<{
+  paymentProviderId: string | number;
+  transactionContext: any;
+}>;
+
+
+export type RegisterPaymentCredentialsMutation = { __typename: 'Mutation', registerPaymentCredentials: { __typename: 'PaymentCredentials', _id: string, isValid: boolean, isPreferred: boolean, paymentProvider: { __typename: 'PaymentProvider', _id: string, type: PaymentProviderType | null, interface: { __typename: 'PaymentInterface', _id: string, label: string | null } | null } } | null };
+
 export type SignPaymentProviderForCheckoutMutationVariables = Exact<{
   orderPaymentId: string | number;
   transactionContext?: any;
