@@ -35,8 +35,17 @@
   "add-to-cart": {
     "defaultMessage": "Add to Cart"
   },
+  "add_all_to_cart": {
+    "defaultMessage": "Add all to cart"
+  },
   "add_email": {
     "defaultMessage": "Add Email"
+  },
+  "add_passkey": {
+    "defaultMessage": "Add passkey"
+  },
+  "add_payment_method": {
+    "defaultMessage": "Add"
   },
   "add_to_wishlist": {
     "defaultMessage": "Add to wishlist"
@@ -92,6 +101,18 @@
   "auth_panel_title": {
     "defaultMessage": "Your favourite products, one account away."
   },
+  "availability_delivery_by": {
+    "defaultMessage": "Arrives by {date}"
+  },
+  "availability_in_stock": {
+    "defaultMessage": "In stock"
+  },
+  "availability_low_stock": {
+    "defaultMessage": "Only {quantity} left"
+  },
+  "availability_out_of_stock": {
+    "defaultMessage": "Out of stock"
+  },
   "available": {
     "defaultMessage": "Available:"
   },
@@ -133,6 +154,9 @@
   },
   "bundle_includes": {
     "defaultMessage": "This bundle includes"
+  },
+  "buy_again": {
+    "defaultMessage": "Buy again"
   },
   "cancel": {
     "defaultMessage": "Cancel"
@@ -245,6 +269,9 @@
   "customer": {
     "defaultMessage": "Customer"
   },
+  "customer_reviews": {
+    "defaultMessage": "Customer reviews"
+  },
   "decrease_quantity": {
     "defaultMessage": "Decrease quantity"
   },
@@ -271,6 +298,9 @@
   },
   "discount_code_already_used": {
     "defaultMessage": "Code already used"
+  },
+  "discount_included_in_items": {
+    "defaultMessage": "Included in item prices"
   },
   "docs": {
     "defaultMessage": "Documentation"
@@ -524,11 +554,26 @@
   "login-link-invalid-hint": {
     "defaultMessage": "Login links can only be used once. Request a new one from the login page."
   },
+  "login_to_review": {
+    "defaultMessage": "Log in to write a review"
+  },
   "logout": {
     "defaultMessage": "Logout"
   },
+  "logout_all": {
+    "defaultMessage": "Log out on all devices"
+  },
+  "logout_all_confirm": {
+    "defaultMessage": "Log out on all devices, including this one?"
+  },
+  "make_preferred": {
+    "defaultMessage": "Make preferred"
+  },
   "manage_orders": {
     "defaultMessage": "Check the status of recent orders, manage returns, and download invoices."
+  },
+  "matching_categories": {
+    "defaultMessage": "Matching categories"
   },
   "menu": {
     "defaultMessage": "Menu"
@@ -638,6 +683,12 @@
   "no_results_found": {
     "defaultMessage": "No results found"
   },
+  "no_reviews_text": {
+    "defaultMessage": "Be the first to share what you think."
+  },
+  "no_reviews_yet": {
+    "defaultMessage": "No reviews yet"
+  },
   "no_search_results": {
     "defaultMessage": "No products found matching your search."
   },
@@ -725,6 +776,18 @@
   "participant_list_for": {
     "defaultMessage": "Participant list for"
   },
+  "passkey": {
+    "defaultMessage": "Passkey"
+  },
+  "passkey_added_on": {
+    "defaultMessage": "Added {date}"
+  },
+  "passkeys": {
+    "defaultMessage": "Passkeys"
+  },
+  "passkeys_description": {
+    "defaultMessage": "Log in with your fingerprint, face or device screen lock instead of a password."
+  },
   "password": {
     "defaultMessage": "Password"
   },
@@ -743,6 +806,9 @@
   "password_changed_success": {
     "defaultMessage": "Password changed successfully."
   },
+  "password_description": {
+    "defaultMessage": "Change the password you use to log in."
+  },
   "password_identical": {
     "defaultMessage": "Provided new password identical to previous password"
   },
@@ -754,6 +820,9 @@
   },
   "pay_now": {
     "defaultMessage": "Pay now"
+  },
+  "pay_with_saved_card": {
+    "defaultMessage": "Pay with saved card"
   },
   "payment": {
     "defaultMessage": "Payment"
@@ -784,6 +853,18 @@
   },
   "payment_init_failed": {
     "defaultMessage": "Payment initialization failed."
+  },
+  "payment_method_invalid": {
+    "defaultMessage": "Needs attention"
+  },
+  "payment_methods": {
+    "defaultMessage": "Payment methods"
+  },
+  "payment_methods_empty": {
+    "defaultMessage": "No saved payment methods"
+  },
+  "payment_methods_empty_text": {
+    "defaultMessage": "Save a payment method to check out faster next time."
   },
   "payment_preparing": {
     "defaultMessage": "Preparing payment..."
@@ -845,6 +926,9 @@
   "postal_code": {
     "defaultMessage": "Postal/ZIP code"
   },
+  "preferred": {
+    "defaultMessage": "Preferred"
+  },
   "price_range_separator": {
     "defaultMessage": "–"
   },
@@ -890,26 +974,35 @@
   "quotation-request-sent": {
     "defaultMessage": "Quotation request sent"
   },
+  "quotation_accept": {
+    "defaultMessage": "Accept and add to cart"
+  },
   "quotation_created": {
-    "defaultMessage": "Created:"
+    "defaultMessage": "Requested"
   },
-  "quotation_currency": {
-    "defaultMessage": "Currency:"
+  "quotation_decline": {
+    "defaultMessage": "Decline"
   },
-  "quotation_email": {
-    "defaultMessage": "Email:"
+  "quotation_decline_confirm": {
+    "defaultMessage": "Decline this offer?"
   },
   "quotation_expires": {
-    "defaultMessage": "Expires:"
+    "defaultMessage": "Valid until"
   },
   "quotation_list_title": {
     "defaultMessage": "Quotation Requests"
   },
-  "quotation_number": {
-    "defaultMessage": "Quotation ID:"
+  "quotation_number_heading": {
+    "defaultMessage": "Quote #{number}"
   },
-  "quotation_user": {
-    "defaultMessage": "Requested By:"
+  "quotation_offer": {
+    "defaultMessage": "Offer"
+  },
+  "quotation_offer_ready": {
+    "defaultMessage": "Your offer is ready."
+  },
+  "quotation_your_request": {
+    "defaultMessage": "Your request"
   },
   "quotations": {
     "defaultMessage": "Quotations"
@@ -919,6 +1012,12 @@
   },
   "quotations_empty_text": {
     "defaultMessage": "Request a quote on a product page and track it here."
+  },
+  "rating_out_of_five": {
+    "defaultMessage": "{rating} out of 5 stars"
+  },
+  "rating_stars": {
+    "defaultMessage": "{rating, plural, one {# star} other {# stars}}"
   },
   "recent_orders": {
     "defaultMessage": "Recent orders"
@@ -947,8 +1046,14 @@
   "remove": {
     "defaultMessage": "Remove"
   },
+  "remove_discount": {
+    "defaultMessage": "Remove discount code {code}"
+  },
   "remove_from_wishlist": {
     "defaultMessage": "Remove from wishlist"
+  },
+  "remove_payment_method_confirm": {
+    "defaultMessage": "Remove this payment method?"
   },
   "request-quotation-offer": {
     "defaultMessage": "Request offer"
@@ -980,6 +1085,30 @@
   "result_count": {
     "defaultMessage": "{count, plural, one {# product} other {# products}}"
   },
+  "review_author_fallback": {
+    "defaultMessage": "Customer"
+  },
+  "review_count": {
+    "defaultMessage": "{count, plural, one {# review} other {# reviews}}"
+  },
+  "review_helpful": {
+    "defaultMessage": "Helpful"
+  },
+  "review_rating_required": {
+    "defaultMessage": "Please choose a star rating."
+  },
+  "review_text": {
+    "defaultMessage": "Your review"
+  },
+  "review_text_placeholder": {
+    "defaultMessage": "What did you like or dislike?"
+  },
+  "review_title": {
+    "defaultMessage": "Title"
+  },
+  "review_title_placeholder": {
+    "defaultMessage": "Sum it up in a few words"
+  },
   "right": {
     "defaultMessage": "All Rights Reserved"
   },
@@ -991,6 +1120,9 @@
   },
   "save_contact": {
     "defaultMessage": "Save Contact Data"
+  },
+  "save_payment_method": {
+    "defaultMessage": "Save payment method"
   },
   "search": {
     "defaultMessage": "Search"
@@ -1016,6 +1148,9 @@
   "search_results_for": {
     "defaultMessage": "Results for '{query}'"
   },
+  "security": {
+    "defaultMessage": "Security"
+  },
   "selectAll": {
     "defaultMessage": "Select all"
   },
@@ -1036,6 +1171,12 @@
   },
   "send_verification_email": {
     "defaultMessage": "Send Verification Link"
+  },
+  "sessions": {
+    "defaultMessage": "Sessions"
+  },
+  "sessions_description": {
+    "defaultMessage": "Lost a device or logged in somewhere public? End every session at once."
   },
   "set-password": {
     "defaultMessage": "Set password"
@@ -1136,6 +1277,9 @@
   "status_delivered": {
     "defaultMessage": "Delivered"
   },
+  "status_expired": {
+    "defaultMessage": "Expired"
+  },
   "status_fulfilled": {
     "defaultMessage": "Fulfilled"
   },
@@ -1151,17 +1295,29 @@
   "status_placed": {
     "defaultMessage": "Placed"
   },
+  "status_processing": {
+    "defaultMessage": "In progress"
+  },
+  "status_proposed": {
+    "defaultMessage": "Offer ready"
+  },
   "status_refunded": {
     "defaultMessage": "Refunded"
   },
   "status_rejected": {
     "defaultMessage": "Rejected"
   },
+  "status_requested": {
+    "defaultMessage": "Requested"
+  },
   "status_returned": {
     "defaultMessage": "Returned"
   },
   "street": {
     "defaultMessage": "Street"
+  },
+  "submit_review": {
+    "defaultMessage": "Submit review"
   },
   "subscription_activate_error": {
     "defaultMessage": "Failed to activate subscription."
@@ -1340,6 +1496,9 @@
   "use_authenticator": {
     "defaultMessage": "Use authenticator"
   },
+  "use_different_card": {
+    "defaultMessage": "Use a different card"
+  },
   "user_email": {
     "defaultMessage": "Email:"
   },
@@ -1397,7 +1556,13 @@
   "wishlist_empty_title": {
     "defaultMessage": "Your wishlist is empty"
   },
+  "write_review": {
+    "defaultMessage": "Write a review"
+  },
   "yes": {
     "defaultMessage": "Yes"
+  },
+  "your_rating": {
+    "defaultMessage": "Your rating"
   }
 }

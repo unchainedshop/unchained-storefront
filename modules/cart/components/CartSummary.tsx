@@ -3,13 +3,16 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import FormattedPrice from '../../common/components/FormattedPrice';
 import useRemoveCartDiscount from '../../orders/hooks/useRemoveCartDiscount';
 
-const Row = ({ label, price, negative = false, strong = false }) => (
+const Row = ({ label, price, negative = false, strong = false, note = null }) => (
   <div
     className={`flex items-center justify-between ${
       strong ? 'text-base font-semibold text-foreground' : 'text-sm text-muted-foreground'
     }`}
   >
-    <dt>{label}</dt>
+    <dt>
+      {label}
+      {note && <span className="block text-xs text-subtle-foreground">{note}</span>}
+    </dt>
     <dd className={negative ? 'text-success' : strong ? '' : 'text-foreground'}>
       {negative && '−'}
       <FormattedPrice price={negative ? { ...price, amount: Math.abs(price.amount) } : price} />
@@ -22,6 +25,8 @@ const CartSummary = ({ cart, detailed = false }) => {
   const { removeCartDiscount } = useRemoveCartDiscount();
   if (!cart) return null;
   const hasAmount = (price) => Boolean(price?.amount);
+  // Item-level discounts are already in the item prices; the order then has no DISCOUNTS total.
+  const discountsIncludedInItems = Boolean(cart.discounts?.length) && !hasAmount(cart.discountsTotal);
 
   return (
     <dl className="space-y-2.5">
@@ -53,6 +58,11 @@ const CartSummary = ({ cart, detailed = false }) => {
           }
           price={discount.total}
           negative
+          note={
+            discountsIncludedInItems
+              ? formatMessage({ id: 'discount_included_in_items', defaultMessage: 'Included in item prices' })
+              : null
+          }
         />
       ))}
       {detailed && hasAmount(cart.deliveryTotal) && (
@@ -76,7 +86,7 @@ const CartSummary = ({ cart, detailed = false }) => {
               strong
             />
           </div>
-          {hasAmount(cart.taxesTotal) && (
+          {cart.taxesTotal?.amount > 0 && (
             <p className="text-right text-xs text-subtle-foreground">
               {formatMessage({ id: 'tax_included', defaultMessage: 'incl. Tax' })}{' '}
               <FormattedPrice price={cart.taxesTotal} />
