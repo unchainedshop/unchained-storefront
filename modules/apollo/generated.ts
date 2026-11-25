@@ -694,6 +694,35 @@ export type VerifyEmailMutationVariables = Exact<{
 
 export type VerifyEmailMutation = { __typename: 'Mutation', verifyEmail: { __typename: 'LoginMethodResponse', _id: string, tokenExpires: string, user: { __typename: 'User', _id: string, emails: Array<{ __typename: 'UserEmail', address: string, verified: boolean }> | null } | null } | null };
 
+export type Web3AddressFieldsFragment = { __typename: 'User', _id: string, web3Addresses: Array<{ __typename: 'Web3Address', address: string, nonce: string | null, verified: boolean }> };
+
+export type UserWeb3AddressesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserWeb3AddressesQuery = { __typename: 'Query', me: { __typename: 'User', _id: string, web3Addresses: Array<{ __typename: 'Web3Address', address: string, nonce: string | null, verified: boolean }> } | null };
+
+export type AddWeb3AddressMutationVariables = Exact<{
+  address: string;
+}>;
+
+
+export type AddWeb3AddressMutation = { __typename: 'Mutation', addWeb3Address: { __typename: 'User', _id: string, web3Addresses: Array<{ __typename: 'Web3Address', address: string, nonce: string | null, verified: boolean }> } };
+
+export type VerifyWeb3AddressMutationVariables = Exact<{
+  address: string;
+  hash: string;
+}>;
+
+
+export type VerifyWeb3AddressMutation = { __typename: 'Mutation', verifyWeb3Address: { __typename: 'User', _id: string, web3Addresses: Array<{ __typename: 'Web3Address', address: string, nonce: string | null, verified: boolean }> } };
+
+export type RemoveWeb3AddressMutationVariables = Exact<{
+  address: string;
+}>;
+
+
+export type RemoveWeb3AddressMutation = { __typename: 'Mutation', removeWeb3Address: { __typename: 'User', _id: string, web3Addresses: Array<{ __typename: 'Web3Address', address: string, nonce: string | null, verified: boolean }> } };
+
 export type AddCartProductMutationVariables = Exact<{
   orderId?: string | number | null | undefined;
   productId: string | number;

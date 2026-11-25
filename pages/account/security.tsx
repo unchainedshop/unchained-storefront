@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
-import { ArrowRightStartOnRectangleIcon, FingerPrintIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { ArrowRightStartOnRectangleIcon, FingerPrintIcon, KeyIcon, WalletIcon } from '@heroicons/react/24/outline';
+import useWeb3Addresses from '../../modules/auth/hooks/useWeb3Addresses';
 import AccountLayout from '../../modules/auth/components/AccountLayout';
 import useAccountSecurity from '../../modules/auth/hooks/useAccountSecurity';
 import useFormatDateTime from '../../modules/common/utils/useFormatDateTime';
@@ -32,12 +33,32 @@ const SecurityPage = () => {
   const { formatDateTime } = useFormatDateTime();
   const router = useRouter();
   const { passkeys, addPasskey, removePasskey, logoutAllSessions } = useAccountSecurity();
+  const {
+    addresses,
+    hasWallet,
+    add: addAddress,
+    verify: verifyAddress,
+    remove: removeAddress,
+    connectWallet,
+  } = useWeb3Addresses();
+  const [walletAvailable, setWalletAvailable] = useState(false);
+  const [web3Error, setWeb3Error] = useState<string | null>(null);
+
+  const run = async (action: () => Promise<unknown>) => {
+    setWeb3Error(null);
+    try {
+      await action();
+    } catch (e) {
+      setWeb3Error((e as Error).message);
+    }
+  };
   const [passkeysSupported, setPasskeysSupported] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setPasskeysSupported(typeof window !== 'undefined' && Boolean(window.PublicKeyCredential));
-  }, []);
+    setWalletAvailable(hasWallet);
+  }, [hasWallet]);
 
   const title = formatMessage({ id: 'security', defaultMessage: 'Security' });
 
@@ -118,6 +139,79 @@ const SecurityPage = () => {
                   </li>
                 ))}
               </ul>
+            )}
+          </Section>
+
+          <Section
+            icon={WalletIcon}
+            title={formatMessage({ id: 'web3_wallets', defaultMessage: 'Crypto wallets' })}
+            description={formatMessage({
+              id: 'web3_wallets_description',
+              defaultMessage: 'Link a wallet to receive digital items such as tickets or NFTs you buy.',
+            })}
+            action={
+              walletAvailable && (
+                <button type="button" onClick={() => run(connectWallet)} className="btn btn-secondary btn-sm">
+                  {formatMessage({ id: 'web3_connect', defaultMessage: 'Connect wallet' })}
+                </button>
+              )
+            }
+          >
+            {web3Error && (
+              <div className="mt-4">
+                <ErrorMessage message={web3Error} />
+              </div>
+            )}
+            {addresses.length > 0 && (
+              <ul className="mt-4 divide-y divide-border rounded-lg border border-border">
+                {addresses.map(({ address, verified }) => (
+                  <li key={address} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm">
+                    <span className="flex min-w-0 items-center gap-2">
+                      <span className="truncate font-mono">{address}</span>
+                      <span className={`badge ${verified ? 'badge-success' : 'badge-warning'}`}>
+                        {verified
+                          ? formatMessage({ id: 'web3_verified', defaultMessage: 'Verified' })
+                          : formatMessage({ id: 'web3_unverified', defaultMessage: 'Not verified' })}
+                      </span>
+                    </span>
+                    <span className="flex gap-2">
+                      {!verified && walletAvailable && (
+                        <button type="button" onClick={() => run(() => verifyAddress(address))} className="btn btn-secondary btn-sm">
+                          {formatMessage({ id: 'web3_verify', defaultMessage: 'Verify' })}
+                        </button>
+                      )}
+                      <button type="button" onClick={() => run(() => removeAddress(address))} className="btn btn-ghost btn-sm text-danger">
+                        {formatMessage({ id: 'remove', defaultMessage: 'Remove' })}
+                      </button>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {!walletAvailable && (
+              <form
+                className="mt-4 flex gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const input = e.currentTarget.elements.namedItem('address') as HTMLInputElement;
+                  run(async () => {
+                    await addAddress(input.value.trim());
+                    input.value = '';
+                  });
+                }}
+              >
+                <input
+                  name="address"
+                  required
+                  pattern="^0x[a-fA-F0-9]{40}$"
+                  placeholder="0x…"
+                  aria-label={formatMessage({ id: 'web3_address', defaultMessage: 'Wallet address' })}
+                  className="input font-mono"
+                />
+                <button type="submit" className="btn btn-secondary">
+                  {formatMessage({ id: 'web3_add', defaultMessage: 'Add' })}
+                </button>
+              </form>
             )}
           </Section>
 
