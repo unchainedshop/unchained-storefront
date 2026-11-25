@@ -3,15 +3,14 @@ import Button from "../../common/components/Button";
 
 const SubmitButton = ({ children, className = "" }) => {
   const {
-    formState: { errors, isValid, isSubmitting },
+    formState: { isSubmitting },
   } = useFormContext();
-  const hasErrors = !isValid && Object.keys(errors || {}).length > 0;
 
   return (
     <Button
       type="submit"
       variant="primary"
-      disabled={hasErrors || isSubmitting}
+      disabled={isSubmitting}
       aria-busy={isSubmitting}
       className={className}
     >

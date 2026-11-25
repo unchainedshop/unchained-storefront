@@ -60,7 +60,7 @@ const ChangePassword = () => {
   };
 
   const onSubmitError = async (error) => {
-    if (error?.message?.toLowerCase().includes("incorrect credential")) {
+    if (/(invalid|incorrect) credential/i.test(error?.message || "")) {
       return {
         oldPassword: {
           type: "manual",
