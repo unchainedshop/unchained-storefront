@@ -6,7 +6,7 @@ const ProductAddToCart = ({ isConfigurable, resolvedProducts, product }) => {
     if (resolvedProducts?.length === 1) {
       const resolved = resolvedProducts[0];
       return (
-        <AddToCartButton key={resolved._id} productId={resolved._id} />
+        <AddToCartButton key={resolved._id} productId={resolved._id} defaultQuantity={resolved.defaultOrderQuantity} />
       );
     }
     return null;
@@ -17,6 +17,7 @@ const ProductAddToCart = ({ isConfigurable, resolvedProducts, product }) => {
     <AddToCartButton
       key={product._id}
       productId={product._id}
+      defaultQuantity={product.defaultOrderQuantity}
       disabled={status === 'OUT_OF_STOCK'}
     />
   );

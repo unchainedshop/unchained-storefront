@@ -23,6 +23,7 @@ import ProductSiblings from '../../modules/products/components/ProductSiblings';
 import ProductAddToCart from '../../modules/products/components/ProductAddToCart';
 import ProductReviews from '../../modules/products/components/ProductReviews';
 import ProductAvailability from '../../modules/products/components/ProductAvailability';
+import ProductUnitInfo from '../../modules/products/components/ProductUnitInfo';
 import ProductRatingSummary from '../../modules/products/components/ProductRatingSummary';
 
 const Detail = () => {
@@ -47,6 +48,7 @@ const Detail = () => {
   const productPath = getAssortmentPath(paths);
   const isBundle = product?.__typename === 'BundleProduct';
   const isConfigurable = product?.__typename === 'ConfigurableProduct';
+  const sku = product && 'sku' in product ? product.sku : null;
 
   const resolvedAssignments = isConfigurable
     ? product.assignments.filter((assignment) =>
@@ -141,12 +143,18 @@ const Detail = () => {
                       </p>
                     )}
                     <ProductRatingSummary productId={product?._id} />
+                    {sku && (
+                      <p className="mt-1 text-xs text-subtle-foreground">
+                        {intl.formatMessage({ id: 'product_sku', defaultMessage: 'Item no. {sku}' }, { sku })}
+                      </p>
+                    )}
                   </div>
                   <BookmarkButton productId={product?._id} className="border border-border" />
                 </div>
 
-                <div className="mt-5 flex items-center gap-3 text-2xl font-semibold">
+                <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-2xl font-semibold">
                   {price}
+                  <ProductUnitInfo product={product} />
                 </div>
 
                 {isConfigurable && (

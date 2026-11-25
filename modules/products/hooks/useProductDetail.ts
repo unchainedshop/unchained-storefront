@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client/react';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
+import ProductUnitFragment from '../fragments/ProductUnitFragment';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import type * as GQL from '../../apollo/generated';
@@ -12,6 +13,7 @@ const PRODUCT_DETAIL_QUERY = gql`
     product(slug: $slug) {
       status
       tags
+      ...ProductUnitFragment
       ... on SimpleProduct {
         simulatedStocks {
           quantity
@@ -35,7 +37,6 @@ const PRODUCT_DETAIL_QUERY = gql`
           trialInterval
           trialIntervalCount
         }
-        salesUnit
       }
       ... on ConfigurableProduct {
         assignments {
@@ -48,6 +49,7 @@ const PRODUCT_DETAIL_QUERY = gql`
               slug
             }
             ...ProductPriceFragment
+            ...ProductUnitFragment
           }
           vectors {
             _id
@@ -110,6 +112,7 @@ const PRODUCT_DETAIL_QUERY = gql`
   ${ProductPriceFragment}
   ${ProductAssortmentPathFragment}
   ${ProductListItemFragment}
+  ${ProductUnitFragment}
 `;
 
 const useProductDetail = ({ slug }) => {

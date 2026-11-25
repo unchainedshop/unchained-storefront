@@ -7,6 +7,7 @@ import getProductHref from '../../common/utils/getProductHref';
 import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 import ProductPrice from '../../common/components/ProductPrice';
 import BookmarkButton from './BookmarkButton';
+import ProductUnitInfo from './ProductUnitInfo';
 
 const shortenAddress = (address) =>
   address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
@@ -141,6 +142,7 @@ const ProductRightActions = ({ product, formatMessage }) => (
   <div className="flex flex-col justify-between items-end p-4 min-w-[180px] border-t lg:border-t-0 lg:border-l border-border">
     <div className="text-lg font-semibold text-foreground">
       <ProductPrice product={product} compact />
+      <ProductUnitInfo product={product} className="block text-xs" />
     </div>
     <Link
       href={getProductHref(product?.texts?.slug)}

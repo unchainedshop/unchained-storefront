@@ -6,6 +6,7 @@ import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 import ProductPrice from '../../common/components/ProductPrice';
 import getProductHref from '../../common/utils/getProductHref';
 import BookmarkButton from './BookmarkButton';
+import ProductUnitInfo from './ProductUnitInfo';
 
 const shortenAddress = (address) =>
   address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
@@ -158,8 +159,9 @@ const ProductListItem = ({ product }) => {
           <TokenProductMetadata product={product} formatMessage={formatMessage} />
         )}
         {plan && <PlanProductMetadata plan={plan} formatMessage={formatMessage} />}
-        <div className="mt-auto pt-1 text-sm font-semibold text-foreground">
+        <div className="mt-auto flex flex-wrap items-baseline gap-x-2 pt-1 text-sm font-semibold text-foreground">
           <ProductPrice product={product} compact />
+          <ProductUnitInfo product={product} className="text-xs" />
         </div>
       </div>
     </article>

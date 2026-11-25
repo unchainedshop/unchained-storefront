@@ -4,7 +4,7 @@ import { useIntl } from "react-intl";
 import useUnchainedAddToCartButton from "../hooks/useUnchainedAddToCartButton";
 import { useAppContext } from "../../common/components/AppContextWrapper";
 
-const AddToCartButton = ({ productId, disabled = false }) => {
+const AddToCartButton = ({ productId, disabled = false, defaultQuantity = 1 }) => {
   const { formatMessage } = useIntl();
   const { toggleCart } = useAppContext();
   const {
@@ -16,7 +16,7 @@ const AddToCartButton = ({ productId, disabled = false }) => {
     isAddedToCart,
     maxQuantity,
     quantity,
-  } = useUnchainedAddToCartButton({ productId });
+  } = useUnchainedAddToCartButton({ productId, defaultQuantity });
 
   const onSubmit = async (e) => {
     e.preventDefault();

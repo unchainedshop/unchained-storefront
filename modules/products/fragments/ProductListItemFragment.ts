@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import ProductPriceFragment from './ProductPriceFragment';
+import ProductUnitFragment from './ProductUnitFragment';
 
 const ProductListItemFragment = gql`
   fragment ProductListItemFragment on Product {
@@ -23,6 +24,7 @@ const ProductListItemFragment = gql`
       brand
     }
     ...ProductPriceFragment
+    ...ProductUnitFragment
     ... on PlanProduct {
       texts {
         _id
@@ -97,6 +99,7 @@ const ProductListItemFragment = gql`
     }
   }
   ${ProductPriceFragment}
+  ${ProductUnitFragment}
 `;
 
 export default ProductListItemFragment;
