@@ -12,6 +12,7 @@ interface ListViewWrapperProps {
   className?: string;
   title?: string;
   subtitle?: string;
+  actions?: React.ReactNode;
   children: (viewMode: ViewMode) => React.ReactNode;
 }
 
@@ -21,6 +22,7 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
   children,
   title,
   subtitle,
+  actions,
 }) => {
   const { formatMessage } = useIntl();
   const [viewMode, setViewMode] = useLocalStorage(storageKey, 'grid');
@@ -63,7 +65,16 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
   return (
     <div className={className}>
       {title ? (
-        <PageHeader title={title} description={subtitle} actions={toggleGroup} />
+        <PageHeader
+          title={title}
+          description={subtitle}
+          actions={
+            <>
+              {actions}
+              {toggleGroup}
+            </>
+          }
+        />
       ) : (
         <div className="mb-6 flex justify-end">{toggleGroup}</div>
       )}

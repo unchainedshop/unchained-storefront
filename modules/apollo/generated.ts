@@ -95,6 +95,12 @@ export type OrderDiscountTrigger =
   /** User triggered */
   | 'USER';
 
+export type OrderItemInput = {
+  configuration?: Array<ProductConfigurationParameterInput> | null | undefined;
+  productId: string | number;
+  quantity?: number | null | undefined;
+};
+
 export type OrderPaymentStatus =
   /** Unpaid Order */
   | 'OPEN'
@@ -649,7 +655,15 @@ export type AddCartProductMutationVariables = Exact<{
 }>;
 
 
-export type AddCartProductMutation = { __typename: 'Mutation', addCartProduct: { __typename: 'OrderItem', _id: string, order: { __typename: 'Order', _id: string, items: Array<{ __typename: 'OrderItem', _id: string, quantity: number, total: { __typename: 'Price', amount: number, currencyCode: string } | null, unitPrice: { __typename: 'Price', amount: number, currencyCode: string } | null, discounts: Array<{ __typename: 'OrderItemDiscount', orderDiscount: { __typename: 'OrderDiscount', code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null }> | null, itemsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, taxes: { __typename: 'Price', amount: number, currencyCode: string } | null, delivery: { __typename: 'Price', amount: number, currencyCode: string } | null, payment: { __typename: 'Price', amount: number, currencyCode: string } | null, total: { __typename: 'Price', amount: number, currencyCode: string } | null, user: { __typename: 'User', _id: string, cart: { __typename: 'Order', _id: string } | null } | null } } };
+export type AddCartProductMutation = { __typename: 'Mutation', addCartProduct: { __typename: 'OrderItem', _id: string, order: { __typename: 'Order', _id: string, items: Array<{ __typename: 'OrderItem', _id: string, quantity: number, total: { __typename: 'Price', amount: number, currencyCode: string } | null, unitPrice: { __typename: 'Price', amount: number, currencyCode: string } | null, discounts: Array<{ __typename: 'OrderItemDiscount', orderDiscount: { __typename: 'OrderDiscount', code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null }> | null, user: { __typename: 'User', _id: string, cart: { __typename: 'Order', _id: string } | null } | null, itemsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discountsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, taxesTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, deliveryTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, paymentTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, grandTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discounts: Array<{ __typename: 'OrderDiscount', _id: string, code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null } } };
+
+export type AddMultipleCartProductsMutationVariables = Exact<{
+  orderId?: string | number | null | undefined;
+  items: Array<OrderItemInput> | OrderItemInput;
+}>;
+
+
+export type AddMultipleCartProductsMutation = { __typename: 'Mutation', addMultipleCartProducts: { __typename: 'Order', _id: string, items: Array<{ __typename: 'OrderItem', _id: string, quantity: number }> | null, itemsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discountsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, taxesTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, deliveryTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, paymentTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, grandTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discounts: Array<{ __typename: 'OrderDiscount', _id: string, code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null } };
 
 export type CheckoutCartMutationVariables = Exact<{
   deliveryContext?: any;

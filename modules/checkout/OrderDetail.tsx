@@ -2,6 +2,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import {
+  ArrowPathIcon,
   CheckIcon,
   CreditCardIcon,
   MapPinIcon,
@@ -11,6 +12,8 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import OrderDetailItem from './OrderDetailItem';
+import useAddMultipleCartProducts from '../cart/hooks/useAddMultipleCartProducts';
+import { useAppContext } from '../common/components/AppContextWrapper';
 import OrderDetailBilling from './OrderDetailBilling';
 import OrderStatusBadge from '../orders/components/OrderStatusBadge';
 import FormattedPrice from '../common/components/FormattedPrice';
@@ -53,7 +56,16 @@ const Address = ({ address, country = null }) =>
 const OrderDetail = ({ order }) => {
   const { formatMessage } = useIntl();
   const { formatDateTime } = useFormatDateTime();
+  const { addMultipleCartProducts, loading: adding } = useAddMultipleCartProducts();
+  const { toggleCart } = useAppContext();
   if (!order) return null;
+
+  const buyAgain = async () => {
+    await addMultipleCartProducts(
+      (order.items || []).map((item) => ({ productId: item.product?._id, quantity: item.quantity })),
+    );
+    toggleCart(true);
+  };
 
   const date = (value) => (value ? formatDateTime(value, { dateStyle: 'medium', timeStyle: 'short' }) : null);
   const rejected = order.status === 'REJECTED';
@@ -93,6 +105,10 @@ const OrderDetail = ({ order }) => {
             </p>
           </div>
           <div className="flex gap-2 print:hidden">
+            <button type="button" disabled={adding} onClick={buyAgain} className="btn btn-primary btn-sm">
+              <ArrowPathIcon className="size-4" />
+              {formatMessage({ id: 'buy_again', defaultMessage: 'Buy again' })}
+            </button>
             <button type="button" onClick={() => window.print()} className="btn btn-secondary btn-sm">
               <PrinterIcon className="size-4" />
               {formatMessage({ id: 'print_button', defaultMessage: 'Print' })}

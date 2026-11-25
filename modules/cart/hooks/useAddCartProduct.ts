@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
-import { LOGIN_AS_GUEST_MUTATION } from '../../auth/hooks/useLoginAsGuest';
-import useUser from '../../auth/hooks/useUser';
+import useEnsureUser from '../../auth/hooks/useEnsureUser';
+import CartTotalsFragment from '../../orders/fragments/CartTotalsFragment';
 import type * as GQL from '../../apollo/generated';
 
 export const ADD_CART_PRODUCT_MUTATION = gql`
@@ -45,26 +45,7 @@ export const ADD_CART_PRODUCT_MUTATION = gql`
             }
           }
         }
-        itemsTotal: total(category: ITEMS) {
-          amount
-          currencyCode
-        }
-        taxes: total(category: TAXES) {
-          amount
-          currencyCode
-        }
-        delivery: total(category: DELIVERY) {
-          amount
-          currencyCode
-        }
-        payment: total(category: PAYMENT) {
-          amount
-          currencyCode
-        }
-        total {
-          amount
-          currencyCode
-        }
+        ...CartTotalsFragment
         user {
           _id
           cart {
@@ -74,13 +55,13 @@ export const ADD_CART_PRODUCT_MUTATION = gql`
       }
     }
   }
+  ${CartTotalsFragment}
 `;
 
 const useAddCartProduct = () => {
   const [addCartProductMutation, { client, ...mutationResults }] =
     useMutation<GQL.AddCartProductMutation, GQL.AddCartProductMutationVariables>(ADD_CART_PRODUCT_MUTATION);
-  const { user } = useUser();
-  const [loginAsGuestMutation] = useMutation<GQL.LoginAsGuestMutation, GQL.LoginAsGuestMutationVariables>(LOGIN_AS_GUEST_MUTATION);
+  const { user, ensureUser, refetchQueries } = useEnsureUser();
 
   const addCartProduct = async (
     variables: {
@@ -91,19 +72,13 @@ const useAddCartProduct = () => {
     options,
   ) => {
     try {
-      if (!user) {
-        await loginAsGuestMutation();
-      }
+      await ensureUser();
       await addCartProductMutation({
         variables: {
           ...variables,
           orderId: user?.cart?._id,
         },
-        // A guest login only changes who `me` is, so refetch the User query
-        // once the product is in the cart. Resetting the whole store instead
-        // unmounts the product page, which aborts its refetches and made the
-        // first add-to-cart of a new visitor fail silently.
-        refetchQueries: user ? [] : ['User'],
+        refetchQueries,
         ...options,
       });
       return true;

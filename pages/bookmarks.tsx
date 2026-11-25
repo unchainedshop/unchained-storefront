@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
-import { HeartIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import useAddMultipleCartProducts from '../modules/cart/hooks/useAddMultipleCartProducts';
+import { useAppContext } from '../modules/common/components/AppContextWrapper';
 import useUser from '../modules/auth/hooks/useUser';
 import MetaTags from '../modules/common/components/MetaTags';
 import ProductList from '../modules/products/components/ProductList';
@@ -12,11 +14,28 @@ const Bookmarks = () => {
   const { formatMessage } = useIntl();
   const { user, loading } = useUser();
   const products = (user?.bookmarks || []).map((b) => b.product).filter(Boolean);
+  const { addMultipleCartProducts, loading: adding } = useAddMultipleCartProducts();
+  const { toggleCart } = useAppContext();
+
+  const addAllToCart = async () => {
+    await addMultipleCartProducts(products.map((product) => ({ productId: product._id })));
+    toggleCart(true);
+  };
 
   return (
     <>
       <MetaTags title={formatMessage({ id: 'bookmarks', defaultMessage: 'Wishlist' })} />
-      <ListViewWrapper title={formatMessage({ id: 'bookmarks_title', defaultMessage: 'Wishlist' })}>
+      <ListViewWrapper
+        title={formatMessage({ id: 'bookmarks_title', defaultMessage: 'Wishlist' })}
+        actions={
+          products.length > 1 && (
+            <button type="button" disabled={adding} onClick={addAllToCart} className="btn btn-primary btn-sm">
+              <ShoppingBagIcon className="size-4" />
+              {formatMessage({ id: 'add_all_to_cart', defaultMessage: 'Add all to cart' })}
+            </button>
+          )
+        }
+      >
         {(viewMode) =>
           loading ? (
             <ProductGridSkeleton count={4} />
