@@ -89,6 +89,10 @@ const OrderDetailFragment = gql`
     }
 
     orderNumber
+    enrollment {
+      _id
+      enrollmentNumber
+    }
     status
     created
     updated

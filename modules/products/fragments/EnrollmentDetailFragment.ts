@@ -80,7 +80,9 @@ const EnrollmentDetailFragment = gql`
 
     isExpired
     minimumCommitmentEnd
+    contractStartDate
     cancellationReason
+    cancellationComment
     plan {
       configuration {
         key

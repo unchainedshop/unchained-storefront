@@ -54,6 +54,8 @@ const EnrollmentDetailPage = () => {
     expires,
     periods,
     minimumCommitmentEnd,
+    contractStartDate,
+    cancellationComment,
   } = enrollment;
   const cancellationScheduled = status !== 'TERMINATED' && Boolean(expires);
   const editable = ['ACTIVE', 'PAUSED', 'INITIAL'].includes(status) && !cancellationScheduled && Boolean(plan?.product);
@@ -146,6 +148,15 @@ const EnrollmentDetailPage = () => {
             })}
           </p>
           <p>{expiryDate || '—'}</p>
+
+          {contractStartDate && (
+            <>
+              <p className="font-medium text-subtle-foreground">
+                {formatMessage({ id: 'enrollment_contract_start', defaultMessage: 'Contract start:' })}
+              </p>
+              <p>{formatDateTime(contractStartDate)}</p>
+            </>
+          )}
 
           {minimumCommitmentEnd && (
             <>
@@ -430,6 +441,14 @@ const EnrollmentDetailPage = () => {
               },
               { date: expiryDate },
             )}
+        {cancellationComment && (
+          <p className="rounded-lg border border-border bg-muted p-4 text-sm text-muted-foreground">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-subtle-foreground">
+              {formatMessage({ id: 'enrollment_your_feedback', defaultMessage: 'Your feedback' })}
+            </span>
+            {cancellationComment}
+          </p>
+        )}
           </div>
         )}
 

@@ -103,6 +103,14 @@ const OrderDetail = ({ order }) => {
                 { count: order.items?.reduce((acc, item) => acc + item.quantity, 0) || 0 },
               )}
             </p>
+            {order.enrollment && (
+              <Link href={`/enrollment?_id=${order.enrollment._id}`} className="link mt-1 inline-block text-sm">
+                {formatMessage(
+                  { id: 'order_part_of_subscription', defaultMessage: 'Part of subscription {number}' },
+                  { number: order.enrollment.enrollmentNumber || order.enrollment._id.slice(-6) },
+                )}
+              </Link>
+            )}
           </div>
           <div className="flex gap-2 print:hidden">
             <button type="button" disabled={adding} onClick={buyAgain} className="btn btn-primary btn-sm">
