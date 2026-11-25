@@ -8,6 +8,10 @@ import useActivateEnrollment from '../../modules/products/hooks/useActivateEnrol
 import { useIntl } from 'react-intl';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
+import useUpdateEnrollment from '../../modules/products/hooks/useUpdateEnrollment';
+import EditableAddressPanel from '../../modules/checkout/EditableAddressPanel';
+import AddressPanel from '../../modules/checkout/AddressPanel';
 
 const EnrollmentDetailPage = () => {
   const router = useRouter();
@@ -20,6 +24,8 @@ const EnrollmentDetailPage = () => {
   const { terminateEnrollment, loading: terminating } =
     useTerminateEnrollment();
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(false);
+  const { updateQuantity, updateBillingAddress, loading: updating } = useUpdateEnrollment();
   const [cancelComment, setCancelComment] = useState('');
 
   if (loading) return <Loading />;
@@ -50,6 +56,7 @@ const EnrollmentDetailPage = () => {
     minimumCommitmentEnd,
   } = enrollment;
   const cancellationScheduled = status !== 'TERMINATED' && Boolean(expires);
+  const editable = ['ACTIVE', 'PAUSED', 'INITIAL'].includes(status) && !cancellationScheduled && Boolean(plan?.product);
 
   const createdAt = formatDateTime(created);
   const updatedAt = formatDateTime(updated);
@@ -184,6 +191,34 @@ const EnrollmentDetailPage = () => {
         <hr className="my-4" />
 
         <div>
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <h3 className="text-lg font-semibold">
+              {formatMessage({ id: 'billing_address', defaultMessage: 'Billing address' })}
+            </h3>
+            {editable && !editingAddress && (
+              <button type="button" onClick={() => setEditingAddress(true)} className="link text-sm">
+                {formatMessage({ id: 'edit-address', defaultMessage: 'Edit Address' })}
+              </button>
+            )}
+          </div>
+          {editable ? (
+            <EditableAddressPanel
+              editing={editingAddress}
+              address={enrollment.billingAddress || {}}
+              onToggle={() => setEditingAddress(!editingAddress)}
+              onSubmit={async (address) => {
+                await updateBillingAddress(_id, address);
+                setEditingAddress(false);
+              }}
+            />
+          ) : (
+            <AddressPanel address={enrollment.billingAddress || {}} onEdit={null} />
+          )}
+        </div>
+
+        <hr className="my-4" />
+
+        <div>
           <h3 className="text-lg font-semibold text-foreground mb-2">
             {formatMessage({
               id: 'enrollment_user_info',
@@ -258,7 +293,31 @@ const EnrollmentDetailPage = () => {
                 defaultMessage: 'Quantity:',
               })}
             </p>
-            <p>{plan?.quantity}</p>
+            {editable ? (
+              <div className="inline-flex w-fit items-center rounded-full border border-input">
+                <button
+                  type="button"
+                  disabled={updating || plan.quantity <= 1}
+                  onClick={() => updateQuantity(enrollment, plan.quantity - 1)}
+                  aria-label={formatMessage({ id: 'decrease_quantity', defaultMessage: 'Decrease quantity' })}
+                  className="flex size-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground disabled:opacity-40"
+                >
+                  <MinusIcon className="size-4" />
+                </button>
+                <span className="w-8 text-center font-medium">{plan.quantity}</span>
+                <button
+                  type="button"
+                  disabled={updating}
+                  onClick={() => updateQuantity(enrollment, plan.quantity + 1)}
+                  aria-label={formatMessage({ id: 'increase_quantity', defaultMessage: 'Increase quantity' })}
+                  className="flex size-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground disabled:opacity-40"
+                >
+                  <PlusIcon className="size-4" />
+                </button>
+              </div>
+            ) : (
+              <p>{plan?.quantity}</p>
+            )}
           </div>
           {plan?.product?.plan && (
             <div className="mt-2 border-t border-border pt-2">
