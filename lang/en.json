@@ -230,6 +230,9 @@
   "contact-info": {
     "defaultMessage": "Contact info"
   },
+  "contact_details": {
+    "defaultMessage": "Your contact details"
+  },
   "content_eyebrow_company": {
     "defaultMessage": "Company"
   },
@@ -617,9 +620,6 @@
   "new_password": {
     "defaultMessage": "New password"
   },
-  "newsletter-subscription-options": {
-    "defaultMessage": "Newsletter Anmeldung gewünscht für:"
-  },
   "next_step_pickup": {
     "defaultMessage": "Ready for pickup"
   },
@@ -906,7 +906,7 @@
     "defaultMessage": "Shipped quickly to your door"
   },
   "phone-number": {
-    "defaultMessage": "Telefonnummer"
+    "defaultMessage": "Phone number"
   },
   "phone_number": {
     "defaultMessage": "Telefonnummer"
@@ -992,6 +992,9 @@
   "quotation_list_title": {
     "defaultMessage": "Quotation Requests"
   },
+  "quotation_message_placeholder": {
+    "defaultMessage": "Tell us about volumes, delivery dates or anything else that affects the offer."
+  },
   "quotation_number_heading": {
     "defaultMessage": "Quote #{number}"
   },
@@ -1000,6 +1003,9 @@
   },
   "quotation_offer_ready": {
     "defaultMessage": "Your offer is ready."
+  },
+  "quotation_request_intro": {
+    "defaultMessage": "Tell us what you need and we will send you a personal offer. You can accept it in your account."
   },
   "quotation_your_request": {
     "defaultMessage": "Your request"

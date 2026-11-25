@@ -571,5 +571,8 @@
   "use_different_card": "Andere Karte verwenden",
   "write_review": "Bewertung schreiben",
   "your_rating": "Ihre Bewertung",
-  "discount_included_in_items": "In den Artikelpreisen enthalten"
+  "discount_included_in_items": "In den Artikelpreisen enthalten",
+  "contact_details": "Ihre Kontaktangaben",
+  "quotation_message_placeholder": "Erzählen Sie uns von Mengen, Lieferterminen oder anderem, das das Angebot beeinflusst.",
+  "quotation_request_intro": "Sagen Sie uns, was Sie brauchen, und wir senden Ihnen ein persönliches Angebot. Sie können es in Ihrem Konto annehmen."
 }
