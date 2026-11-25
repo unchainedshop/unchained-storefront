@@ -664,6 +664,13 @@ export type UserTokensQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UserTokensQuery = { __typename: 'Query', me: { __typename: 'User', _id: string, tokens: Array<{ __typename: 'Token', _id: string, walletAddress: string | null, chainId: string | null, tokenSerialNumber: string | null, ercMetadata: any, status: TokenExportStatus, quantity: number, isInvalidateable: boolean, expiryDate: string | null, contractAddress: string | null, accessKey: string, product: { __typename: 'TokenizedProduct', _id: string } }> } | null };
 
+export type ValidateResetPasswordTokenQueryVariables = Exact<{
+  token: string;
+}>;
+
+
+export type ValidateResetPasswordTokenQuery = { __typename: 'Query', validateResetPasswordToken: boolean };
+
 export type VerifyEmailMutationVariables = Exact<{
   token: string;
 }>;

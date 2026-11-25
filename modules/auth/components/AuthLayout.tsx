@@ -10,7 +10,7 @@ const AuthLayout = ({ title, subtitle = null, footer = null, children }) => {
   ];
 
   return (
-    <div className="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border border-border bg-surface shadow-card lg:grid-cols-2">
+    <div className="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border border-border bg-surface shadow-card lg:min-h-[520px] lg:grid-cols-2">
       <aside className="relative isolate hidden flex-col justify-between overflow-hidden bg-hero p-10 text-hero-foreground lg:flex">
         <div
           aria-hidden

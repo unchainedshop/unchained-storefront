@@ -8,7 +8,7 @@ import Loading from '../modules/common/components/Loading';
 import useVerifyEmail from '../modules/auth/hooks/useVerifyEmail';
 
 const VerifyEmail = () => {
-  const { query } = useRouter();
+  const { query, isReady } = useRouter();
   const { verifyEmail } = useVerifyEmail();
   const { formatMessage } = useIntl();
   const [result, setResult] = useState({ success: null, message: null });
@@ -41,7 +41,12 @@ const VerifyEmail = () => {
       }
     };
     if (query.token) verify();
-  }, [query.token]);
+    else if (isReady)
+      setResult({
+        success: false,
+        message: formatMessage({ id: 'verification-failed', defaultMessage: 'Verification Failed' }),
+      });
+  }, [query.token, isReady]);
 
   if (result.success === null) return <Loading />;
   return (
