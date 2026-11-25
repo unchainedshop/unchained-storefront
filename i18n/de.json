@@ -275,7 +275,7 @@
   "search_instruction": "Geben Sie einen Suchbegriff ein, um Produkte zu finden.",
   "search_placeholder": "Suche...",
   "search_products": "Produkte suchen",
-  "search_results_for": "Ergebnisse für '{query}'",
+  "search_results_for": "Ergebnisse für „{query}“",
   "selectAll": "Alle auswählen",
   "select_tab": "Wählen Sie einen Tab",
   "send-order": "Bestellung senden",

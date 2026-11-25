@@ -69,7 +69,7 @@ const Search = () => {
         eyebrow={formatMessage({ id: 'search', defaultMessage: 'Search' })}
         title={
           debouncedQuery
-            ? formatMessage({ id: 'search_results_for', defaultMessage: "Results for '{query}'" }, { query: debouncedQuery })
+            ? formatMessage({ id: 'search_results_for', defaultMessage: 'Results for “{query}”' }, { query: debouncedQuery })
             : formatMessage({ id: 'search_products', defaultMessage: 'Search products' })
         }
       >

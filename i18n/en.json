@@ -383,7 +383,7 @@
   "search_instruction": "Enter a search term to find products.",
   "search_products": "Search products",
   "search_products_placeholder": "Search products…",
-  "search_results_for": "Results for '{query}'",
+  "search_results_for": "Results for “{query}”",
   "security": "Security",
   "selectAll": "Select all",
   "select_options_to_add": "Select your options to add this product to the cart.",

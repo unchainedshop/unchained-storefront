@@ -1152,7 +1152,7 @@
     "defaultMessage": "Search products…"
   },
   "search_results_for": {
-    "defaultMessage": "Results for '{query}'"
+    "defaultMessage": "Results for “{query}”"
   },
   "security": {
     "defaultMessage": "Security"
