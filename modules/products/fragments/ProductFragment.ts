@@ -23,16 +23,6 @@ const ProductDetailFragment = gql`
       vendor
       brand
     }
-    reviews {
-      _id
-      created
-      deleted
-      updated
-
-      rating
-      title
-      review
-    }
     ... on TokenizedProduct {
       contractConfiguration {
         tokenId

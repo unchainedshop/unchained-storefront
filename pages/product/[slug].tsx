@@ -21,6 +21,8 @@ import ProductVariationSelector from '../../modules/products/components/ProductV
 import BookmarkButton from '../../modules/products/components/BookmarkButton';
 import ProductSiblings from '../../modules/products/components/ProductSiblings';
 import ProductAddToCart from '../../modules/products/components/ProductAddToCart';
+import ProductReviews from '../../modules/products/components/ProductReviews';
+import ProductRatingSummary from '../../modules/products/components/ProductRatingSummary';
 
 const Detail = () => {
   const router = useRouter();
@@ -137,6 +139,7 @@ const Detail = () => {
                         {product.texts.subtitle}
                       </p>
                     )}
+                    <ProductRatingSummary productId={product?._id} />
                   </div>
                   <BookmarkButton productId={product?._id} className="border border-border" />
                 </div>
@@ -201,6 +204,7 @@ const Detail = () => {
           ))}
 
           <ProductBundleItems product={product} />
+          <ProductReviews productId={product?._id} />
           <ProductSiblings product={product} />
         </div>
       )}
