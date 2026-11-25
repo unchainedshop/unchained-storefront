@@ -22,13 +22,15 @@ const RemoveProductReviewVoteMutation = gql`
 `;
 
 const useProductReviewVote = () => {
+  // Refetch so the button resyncs even when the engine rejects a duplicate vote.
   const [addVote] = useMutation<GQL.AddProductReviewVoteMutation, GQL.AddProductReviewVoteMutationVariables>(
     AddProductReviewVoteMutation,
+    { refetchQueries: ['ProductReviews'], errorPolicy: 'all' },
   );
   const [removeVote] = useMutation<
     GQL.RemoveProductReviewVoteMutation,
     GQL.RemoveProductReviewVoteMutationVariables
-  >(RemoveProductReviewVoteMutation);
+  >(RemoveProductReviewVoteMutation, { refetchQueries: ['ProductReviews'], errorPolicy: 'all' });
 
   const toggleVote = async ({ productReviewId, type, active }) =>
     active

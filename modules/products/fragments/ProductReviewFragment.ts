@@ -12,8 +12,8 @@ const ProductReviewFragment = gql`
       name
     }
     upvotes: voteCount(type: UPVOTE)
+    # ProductReviewVote._id is declared non-null but the engine stores votes without one
     ownVotes {
-      _id
       type
     }
   }

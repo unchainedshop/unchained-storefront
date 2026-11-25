@@ -1149,7 +1149,7 @@ export type ProductPriceFragmentFragment =
   | ProductPriceFragment_TokenizedProduct_Fragment
 ;
 
-export type ProductReviewFragmentFragment = { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> };
+export type ProductReviewFragmentFragment = { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> };
 
 export type QuotationFragmentFragment = { __typename: 'Quotation', _id: string, status: QuotationStatus, quantity: number | null, created: string, expires: string | null, updated: string | null, isExpired: boolean | null, quotationNumber: string | null, fulfilled: string | null, rejected: string | null, user: { __typename: 'User', _id: string, username: string | null, name: string, avatar: { __typename: 'Media', _id: string, url: string | null } | null, primaryEmail: { __typename: 'UserEmail', verified: boolean, address: string } | null }, configuration: Array<{ __typename: 'ProductConfigurationParameter', key: string, value: string }> | null, product:
     | { __typename: 'BundleProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
@@ -1208,7 +1208,7 @@ export type CreateProductReviewMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductReviewMutation = { __typename: 'Mutation', createProductReview: { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> } };
+export type CreateProductReviewMutation = { __typename: 'Mutation', createProductReview: { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> } };
 
 export type EnrollmentQueryVariables = Exact<{
   enrollmentId: string | number;
@@ -1391,7 +1391,7 @@ export type AddProductReviewVoteMutationVariables = Exact<{
 }>;
 
 
-export type AddProductReviewVoteMutation = { __typename: 'Mutation', addProductReviewVote: { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> } };
+export type AddProductReviewVoteMutation = { __typename: 'Mutation', addProductReviewVote: { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> } };
 
 export type RemoveProductReviewVoteMutationVariables = Exact<{
   productReviewId: string | number;
@@ -1399,7 +1399,7 @@ export type RemoveProductReviewVoteMutationVariables = Exact<{
 }>;
 
 
-export type RemoveProductReviewVoteMutation = { __typename: 'Mutation', removeProductReviewVote: { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> } };
+export type RemoveProductReviewVoteMutation = { __typename: 'Mutation', removeProductReviewVote: { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> } };
 
 export type ProductReviewsQueryVariables = Exact<{
   productId: string | number;
@@ -1408,11 +1408,11 @@ export type ProductReviewsQueryVariables = Exact<{
 
 
 export type ProductReviewsQuery = { __typename: 'Query', product:
-    | { __typename: 'BundleProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> }> }
-    | { __typename: 'ConfigurableProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> }> }
-    | { __typename: 'PlanProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> }> }
-    | { __typename: 'SimpleProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> }> }
-    | { __typename: 'TokenizedProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> }> }
+    | { __typename: 'BundleProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> }> }
+    | { __typename: 'ConfigurableProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> }> }
+    | { __typename: 'PlanProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> }> }
+    | { __typename: 'SimpleProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> }> }
+    | { __typename: 'TokenizedProduct', _id: string, reviewsCount: number, reviews: Array<{ __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', type: ProductReviewVoteType }> }> }
    | null };
 
 export type ProductsQueryVariables = Exact<{
