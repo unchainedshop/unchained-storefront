@@ -41,7 +41,7 @@ const Search = () => {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const { products, filters, loading } = useSearch({
+  const { products, filters, categories, loading } = useSearch({
     queryString: debouncedQuery,
     filterQuery,
   });
@@ -88,6 +88,23 @@ const Search = () => {
           </div>
         </form>
       </PageHeader>
+
+      {debouncedQuery && categories.length > 0 && (
+        <nav aria-label={formatMessage({ id: 'matching_categories', defaultMessage: 'Matching categories' })} className="mb-6 flex flex-wrap items-center gap-2">
+          <span className="text-sm text-muted-foreground">
+            {formatMessage({ id: 'matching_categories', defaultMessage: 'Matching categories' })}:
+          </span>
+          {categories.map((category) => (
+            <Link
+              key={category._id}
+              href={`/shop/${category.texts?.slug}`}
+              className="badge badge-accent px-3 py-1 text-sm hover:opacity-80"
+            >
+              {category.texts?.title}
+            </Link>
+          ))}
+        </nav>
+      )}
 
       <FilterLayout filters={filters} resultCount={debouncedQuery && !loading ? products.length : null}>
         {loading ? (

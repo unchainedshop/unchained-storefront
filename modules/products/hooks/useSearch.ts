@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client/react';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
 import LoadedFilterFragment from '../fragments/LoadedFilterFragment';
+import AssortmentFragment from '../../assortment/fragments/assortment';
 import type * as GQL from '../../apollo/generated';
 
 const SearchQuery = gql`
@@ -22,8 +23,14 @@ const SearchQuery = gql`
         ...LoadedFilterFragment
       }
     }
+    searchAssortments(queryString: $queryString) {
+      assortments(limit: 6) {
+        ...AssortmentFragment
+      }
+    }
   }
   ${LoadedFilterFragment}
+  ${AssortmentFragment}
   ${ProductListItemFragment}
 `;
 
@@ -55,6 +62,7 @@ const useSearch = ({ queryString, filterQuery = [] }) => {
         ? []
         : products || previousProducts,
     filters: filters || previousFilters,
+    categories: (data || previousData)?.searchAssortments?.assortments || [],
     filteredProductsCount:
       filteredProductsCount || previousFilteredProductsCount || 0,
   };
