@@ -12,7 +12,7 @@ const AddCartDiscountMutation = gql`
 
 const useAddCartDiscount = () => {
   const [addCartDiscountMutation] = useMutation<GQL.AddCartDiscountMutation, GQL.AddCartDiscountMutationVariables>(AddCartDiscountMutation, {
-    refetchQueries: ['User'],
+    refetchQueries: ['User', 'CartCheckout'],
   });
 
   const addCartDiscount = async ({ orderId, code }) => {

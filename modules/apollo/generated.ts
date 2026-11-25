@@ -987,6 +987,13 @@ export type OrderDetailQueryQuery = { __typename: 'Query', order: { __typename: 
         | { __typename: 'TokenizedProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, brand: string | null, vendor: string | null, title: string | null, subtitle: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> }
       , tokens: Array<{ __typename: 'Token', _id: string, status: TokenExportStatus, quantity: number, invalidatedDate: string | null, accessKey: string, isInvalidateable: boolean, ercMetadata: any, user: { __typename: 'User', _id: string } | null, product: { __typename: 'TokenizedProduct', _id: string, tags: Array<string> | null, simulatedPrice: { __typename: 'Price', amount: number, currencyCode: string } | null, simulatedStocks: Array<{ __typename: 'Stock', quantity: number | null }> | null, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, title: string | null, subtitle: string | null, labels: Array<string> | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> } }>, discounts: Array<{ __typename: 'OrderItemDiscount', orderDiscount: { __typename: 'OrderDiscount', code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null, unitPrice: { __typename: 'Price', amount: number, isTaxable: boolean, isNetPrice: boolean, currencyCode: string } | null, total: { __typename: 'Price', amount: number, isTaxable: boolean, isNetPrice: boolean, currencyCode: string } | null }> | null } | null };
 
+export type RemoveCartDiscountMutationVariables = Exact<{
+  discountId: string | number;
+}>;
+
+
+export type RemoveCartDiscountMutation = { __typename: 'Mutation', removeCartDiscount: { __typename: 'OrderDiscount', _id: string } };
+
 export type UpdateCartBillingAddressMutationVariables = Exact<{
   billingAddress?: AddressInput | null | undefined;
 }>;

@@ -1,5 +1,7 @@
 import { useIntl } from 'react-intl';
+import { XMarkIcon } from '@heroicons/react/20/solid';
 import FormattedPrice from '../../common/components/FormattedPrice';
+import useRemoveCartDiscount from '../../orders/hooks/useRemoveCartDiscount';
 
 const Row = ({ label, price, negative = false, strong = false }) => (
   <div
@@ -17,6 +19,7 @@ const Row = ({ label, price, negative = false, strong = false }) => (
 
 const CartSummary = ({ cart, detailed = false }) => {
   const { formatMessage } = useIntl();
+  const { removeCartDiscount } = useRemoveCartDiscount();
   if (!cart) return null;
   const hasAmount = (price) => Boolean(price?.amount);
 
@@ -29,7 +32,25 @@ const CartSummary = ({ cart, detailed = false }) => {
       {cart.discounts?.map((discount) => (
         <Row
           key={discount._id}
-          label={`${formatMessage({ id: 'discount', defaultMessage: 'Discount' })} · ${discount.code}`}
+          label={
+            <span className="inline-flex items-center gap-1.5">
+              {formatMessage({ id: 'discount', defaultMessage: 'Discount' })}
+              <span className="badge gap-0.5 py-0 pr-1 font-mono">
+                {discount.code}
+                <button
+                  type="button"
+                  onClick={() => removeCartDiscount({ discountId: discount._id })}
+                  className="rounded-full p-0.5 hover:bg-muted-strong hover:text-danger"
+                  aria-label={formatMessage(
+                    { id: 'remove_discount', defaultMessage: 'Remove discount code {code}' },
+                    { code: discount.code },
+                  )}
+                >
+                  <XMarkIcon className="size-3" />
+                </button>
+              </span>
+            </span>
+          }
           price={discount.total}
           negative
         />
