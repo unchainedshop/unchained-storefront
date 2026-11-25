@@ -130,11 +130,7 @@ const OrderDetailFragment = gql`
       _id
       provider {
         _id
-        created
-        updated
-        deleted
         type
-        configuration
         interface {
           _id
           label
