@@ -1,3 +1,4 @@
+import TokenExportPanel from '../../modules/products/components/TokenExportPanel';
 import { useRouter } from 'next/router';
 import useToken from '../../modules/products/hooks/useToken';
 import Loading from '../../modules/common/components/Loading';
@@ -100,6 +101,18 @@ const TokenDetailPage = () => {
           </div>
         </Section>
         
+        <Section title={formatMessage({ id: 'token_export_title', defaultMessage: 'Your wallet' })}>
+          <TokenExportPanel token={token} />
+          {token.order && (
+            <Link href={`/order/${token.order._id}`} className="link inline-block text-sm">
+              {formatMessage(
+                { id: 'token_from_order', defaultMessage: 'Purchased with order #{number}' },
+                { number: token.order.orderNumber || token.order._id.slice(-6) },
+              )}
+            </Link>
+          )}
+        </Section>
+
         <Section title="🛍️ Product Info">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">            
             <div className="relative h-64 w-full overflow-hidden rounded-xl bg-muted">

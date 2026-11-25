@@ -20,6 +20,10 @@ export const TokenQuery = gql`
       }
       walletAddress
       chainId
+      order {
+        _id
+        orderNumber
+      }
       ercMetadata
       product {
         ... on TokenizedProduct {

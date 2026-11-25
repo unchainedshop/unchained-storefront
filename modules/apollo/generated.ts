@@ -1378,6 +1378,15 @@ export type EventsQuery = { __typename: 'Query', products: Array<
     | { __typename: 'TokenizedProduct', _id: string, contractConfiguration: { __typename: 'ContractConfiguration', ercMetadataProperties: any, supply: number } | null, simulatedPrice: { __typename: 'Price', amount: number, currencyCode: string } | null, simulatedStocks: Array<{ __typename: 'Stock', quantity: number | null }> | null, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, title: string | null, subtitle: string | null, labels: Array<string> | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> }
   > };
 
+export type ExportTokenMutationVariables = Exact<{
+  tokenId: string | number;
+  quantity: number;
+  recipientWalletAddress: string;
+}>;
+
+
+export type ExportTokenMutation = { __typename: 'Mutation', exportToken: { __typename: 'Token', _id: string, status: TokenExportStatus, walletAddress: string | null } };
+
 export type InvalidateTokenMutationVariables = Exact<{
   tokenId: string | number;
   currency?: string | null | undefined;
@@ -1608,7 +1617,7 @@ export type TokenScanInfoQueryVariables = Exact<{
 }>;
 
 
-export type TokenScanInfoQuery = { __typename: 'Query', token: { __typename: 'Token', _id: string, status: TokenExportStatus, quantity: number, walletAddress: string | null, chainId: string | null, ercMetadata: any, invalidatedDate: string | null, isInvalidateable: boolean, accessKey: string, tokenSerialNumber: string | null, expiryDate: string | null, contractAddress: string | null, user: { __typename: 'User', _id: string, name: string, lastContact: { __typename: 'Contact', emailAddress: string | null, telNumber: string | null } | null } | null, product: { __typename: 'TokenizedProduct', contractStandard: SmartContractStandard | null, contractAddress: string | null, _id: string, tags: Array<string> | null, contractConfiguration: { __typename: 'ContractConfiguration', tokenId: string | null, supply: number, ercMetadataProperties: any } | null, texts: { __typename: 'ProductTexts', _id: string, title: string | null, subtitle: string | null, description: string | null, slug: string | null, labels: Array<string> | null, vendor: string | null, brand: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, name: string, url: string | null } | null }> } } | null };
+export type TokenScanInfoQuery = { __typename: 'Query', token: { __typename: 'Token', _id: string, status: TokenExportStatus, quantity: number, walletAddress: string | null, chainId: string | null, ercMetadata: any, invalidatedDate: string | null, isInvalidateable: boolean, accessKey: string, tokenSerialNumber: string | null, expiryDate: string | null, contractAddress: string | null, user: { __typename: 'User', _id: string, name: string, lastContact: { __typename: 'Contact', emailAddress: string | null, telNumber: string | null } | null } | null, order: { __typename: 'Order', _id: string, orderNumber: string | null } | null, product: { __typename: 'TokenizedProduct', contractStandard: SmartContractStandard | null, contractAddress: string | null, _id: string, tags: Array<string> | null, contractConfiguration: { __typename: 'ContractConfiguration', tokenId: string | null, supply: number, ercMetadataProperties: any } | null, texts: { __typename: 'ProductTexts', _id: string, title: string | null, subtitle: string | null, description: string | null, slug: string | null, labels: Array<string> | null, vendor: string | null, brand: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, name: string, url: string | null } | null }> } } | null };
 
 export type UpdateEnrollmentMutationVariables = Exact<{
   enrollmentId: string | number;
