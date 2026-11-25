@@ -168,7 +168,7 @@ const ProductListItemCompact = ({ product }) => {
           formatMessage={formatMessage}
         />
 
-        <div className="flex-1 flex flex-col justify-between p-4">
+        <div className="min-w-0 flex-1 flex flex-col p-4">
           <div className="flex items-center justify-between">
             <div>
               <Link href={getProductHref(product?.texts?.slug)}>
@@ -183,14 +183,6 @@ const ProductListItemCompact = ({ product }) => {
               )}
             </div>
 
-            {isBundle && (
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full bg-warning-soft text-warning border border-warning/40">
-                {formatMessage({
-                  id: 'bundle_badge',
-                  defaultMessage: 'Bundle',
-                })}
-              </span>
-            )}
           </div>
 
           {product?.texts?.description && (
@@ -210,52 +202,57 @@ const ProductListItemCompact = ({ product }) => {
               <PlanProductMetadata plan={plan} formatMessage={formatMessage} />
             )}
           </div>
-        </div>
-        {isBundle && (
-          <div className="mt-4 border-t border-border pt-3">
-            <h4 className="text-sm font-medium text-foreground mb-2">
-              {formatMessage({
-                id: 'bundle_contains',
-                defaultMessage: 'Includes:',
-              })}
-            </h4>
-            <div className="flex items-center gap-3 overflow-x-auto pb-1">
-              {product.bundleItems?.slice(0, 3).map((item, index) => {
-                const bundleProduct = item.product;
-                return (
-                  <div
-                    key={bundleProduct._id || index}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div className="relative w-14 h-14 rounded-md overflow-hidden border border-border bg-muted">
-                      {bundleProduct?.media?.[0]?.file?.url ? (
-                        <Image
-                          src={bundleProduct.media[0].file.url}
-                          alt={bundleProduct.texts?.title}
-                          fill
-                          className="object-cover"
-                          loader={defaultNextImageLoader}
-                        />
-                      ) : (
-                        <PhotoIcon className="h-6 w-6 text-subtle-foreground absolute inset-0 m-auto" />
-                      )}
-                    </div>
-                    <p className="mt-1 text-xs text-muted-foreground truncate w-16">
-                      {bundleProduct.texts?.title}
-                    </p>
+          {isBundle && product.bundleItems?.length > 0 && (
+            <div className="mt-4 border-t border-border pt-3">
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-subtle-foreground">
+                {formatMessage({
+                  id: 'bundle_contains',
+                  defaultMessage: 'Includes:',
+                })}
+              </h4>
+              <div className="flex items-center gap-3 overflow-x-auto pb-1">
+                {product.bundleItems?.slice(0, 3).map((item, index) => {
+                  const bundleProduct = item.product;
+                  return (
+                    <Link
+                      key={bundleProduct._id || index}
+                      href={getProductHref(bundleProduct.texts?.slug)}
+                      className="relative z-10 flex flex-col items-center text-center hover:text-foreground"
+                    >
+                      <div className="relative w-14 h-14 rounded-md overflow-hidden border border-border bg-muted">
+                        {bundleProduct?.media?.[0]?.file?.url ? (
+                          <Image
+                            src={bundleProduct.media[0].file.url}
+                            alt={bundleProduct.texts?.title}
+                            fill
+                            className="object-cover"
+                            loader={defaultNextImageLoader}
+                          />
+                        ) : (
+                          <PhotoIcon className="h-6 w-6 text-subtle-foreground absolute inset-0 m-auto" />
+                        )}
+                      </div>
+                      <p className="mt-1 w-16 truncate text-xs text-muted-foreground">
+                        {item.quantity > 1 && `${item.quantity}× `}
+                        {bundleProduct.texts?.title}
+                      </p>
+                    </Link>
+                  );
+                })}
+
+                {product.bundleItems?.length > 3 && (
+                  <div className="text-xs text-subtle-foreground ml-2">
+                    {formatMessage(
+                      { id: 'bundle_more_items', defaultMessage: '+{count} more' },
+                      { count: product.bundleItems.length - 3 },
+                    )}
                   </div>
-                );
-              })}
-
-              {product.bundleItems?.length > 3 && (
-                <div className="text-xs text-subtle-foreground ml-2">
-                  +{product.bundleItems.length - 3} more
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
+        </div>
         <ProductRightActions product={product} formatMessage={formatMessage} />
       </div>
     </div>

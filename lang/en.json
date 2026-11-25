@@ -152,6 +152,9 @@
   "bundle_includes": {
     "defaultMessage": "This bundle includes"
   },
+  "bundle_more_items": {
+    "defaultMessage": "+{count} more"
+  },
   "buy_again": {
     "defaultMessage": "Buy again"
   },

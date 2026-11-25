@@ -50,6 +50,7 @@
   "bundle_badge": "Bundle",
   "bundle_contains": "Includes:",
   "bundle_includes": "This bundle includes",
+  "bundle_more_items": "+{count} more",
   "buy_again": "Buy again",
   "cancel": "Cancel",
   "cart_empty_text": "Find something you love and it will show up here.",
