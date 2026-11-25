@@ -858,6 +858,14 @@ export type DeliveryProvidersQueryQuery = { __typename: 'Query', deliveryProvide
     | { __typename: 'DeliveryProviderShipping', _id: string, isActive: boolean | null, created: string | null, updated: string | null, deleted: string | null, type: DeliveryProviderType | null, interface: { __typename: 'DeliveryInterface', _id: string, label: string | null, version: string | null } | null }
   > };
 
+export type PageViewMutationVariables = Exact<{
+  path: string;
+  referrer?: string | null | undefined;
+}>;
+
+
+export type PageViewMutation = { __typename: 'Mutation', pageView: string };
+
 export type RemoveBookmarkMutationVariables = Exact<{
   bookmarkId: string | number;
 }>;

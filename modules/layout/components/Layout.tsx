@@ -5,11 +5,13 @@ import Header from './Header';
 import SidebarNavigation from './SidebarNavigation';
 import SideCart from '../../cart/components/SideCart';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import usePageViewTracking from '../../common/hooks/usePageViewTracking';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const { isCartOpen } = useAppContext();
   const { formatMessage } = useIntl();
+  usePageViewTracking();
 
   return (
     <div className="flex min-h-screen flex-col">
