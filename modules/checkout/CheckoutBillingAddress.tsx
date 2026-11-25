@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 import Button from '../common/components/Button';
 import EditableAddressPanel from './EditableAddressPanel';
 import useUpdateCartBillingAddress from '../orders/hooks/useUpdateCartBillingAddress';
+import useUser from '../auth/hooks/useUser';
+import withoutTypename from '../common/utils/withoutTypename';
 
 const areAddressesEqual = (deliveryAddress = {}, billingAddress = {}) => {
   if (!deliveryAddress || !billingAddress) return false;
@@ -21,6 +23,7 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
   const [billingAddressEditMode, setBillingAddressEditMode] =
     useState(isInitial);
   const { updateCartBillingAddress } = useUpdateCartBillingAddress();
+  const { user } = useUser();
 
   const deliveryAddress = cart.delivery?.address
     ? { ...cart.delivery?.address }
@@ -108,7 +111,12 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
         ) : null}
         <EditableAddressPanel
           editing={billingAddressEditMode}
-          address={billingAddress}
+          // Returning customers start from the billing address of their last order.
+          address={
+            billingAddress?.firstName
+              ? billingAddress
+              : withoutTypename(user?.lastBillingAddress) || billingAddress
+          }
           onSubmit={updateBillingAddress}
           onToggle={toggleBillingAddressEditMode}
         />

@@ -11,6 +11,9 @@ const CurrentUserFragment = gql`
     primaryEmail {
       address
     }
+    lastBillingAddress {
+      ...AddressFragment
+    }
     name
     username
     pushSubscriptions {

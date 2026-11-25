@@ -16,6 +16,8 @@ import useUpdateCartDeliveryShipping from '../orders/hooks/useUpdateCartDelivery
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import CheckoutStep from './CheckoutStep';
+import useUser from '../auth/hooks/useUser';
+import withoutTypename from '../common/utils/withoutTypename';
 import EmptyState from '../common/components/EmptyState';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 
@@ -23,6 +25,7 @@ const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
   const { formatMessage } = useIntl();
   const { error, cart } = useCart();
+  const { user } = useUser();
   const { query } = useRouter();
   const orderTransactionIdFromQuery = query?.transactionId as
     | string
@@ -68,6 +71,7 @@ const Checkout = () => {
               providers={cart.supportedDeliveryProviders}
               currentDelivery={cart.delivery}
               currencyCode={cart.itemsTotal?.currencyCode}
+              defaultAddress={withoutTypename(user?.lastBillingAddress)}
               onSelectProvider={(providerId) =>
                 updateCartDelivery({ deliveryProviderId: providerId })
               }

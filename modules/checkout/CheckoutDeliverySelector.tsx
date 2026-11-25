@@ -5,7 +5,7 @@ import EditableAddressPanel from './EditableAddressPanel';
 import { useState } from 'react';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
 
-const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
+const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress, defaultAddress = null }) => {
   const { formatMessage } = useIntl();
   const [editMode, setEditMode] = useState(!currentDelivery.address);
 
@@ -41,7 +41,7 @@ const ShippingAddressSelector = ({ currentDelivery, onUpdateAddress }) => {
 
       <EditableAddressPanel
         editing={editMode}
-        address={currentDelivery.address || {}}
+        address={currentDelivery.address || defaultAddress || {}}
         onSubmit={handleSubmit}
         onToggle={toggleEditMode}
       />
@@ -56,6 +56,7 @@ const CheckoutDeliverySelector = ({
   onSelectProvider = null,
   onSelectLocation = null,
   onUpdateAddress = null,
+  defaultAddress = null,
 }) => {
   const { formatMessage } = useIntl();
   if (!providers.length) return null;
@@ -171,6 +172,7 @@ const CheckoutDeliverySelector = ({
           key={currentDelivery?.address}
           currentDelivery={currentDelivery}
           onUpdateAddress={onUpdateAddress}
+          defaultAddress={defaultAddress}
         />
       )}
     </div>
