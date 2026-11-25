@@ -4,7 +4,7 @@ import { useIntl } from "react-intl";
 import useUnchainedAddToCartButton from "../hooks/useUnchainedAddToCartButton";
 import { useAppContext } from "../../common/components/AppContextWrapper";
 
-const AddToCartButton = ({ productId }) => {
+const AddToCartButton = ({ productId, disabled = false }) => {
   const { formatMessage } = useIntl();
   const { toggleCart } = useAppContext();
   const {
@@ -25,7 +25,7 @@ const AddToCartButton = ({ productId }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <fieldset className="flex gap-3" disabled={isAddInProgress}>
+      <fieldset className="flex gap-3" disabled={isAddInProgress || disabled}>
         <div className="inline-flex items-center rounded-full border border-input bg-surface">
           <button
             type="button"

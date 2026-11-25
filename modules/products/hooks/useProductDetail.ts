@@ -12,6 +12,15 @@ const PRODUCT_DETAIL_QUERY = gql`
     product(slug: $slug) {
       status
       tags
+      ... on SimpleProduct {
+        simulatedStocks {
+          quantity
+        }
+        simulatedDispatches {
+          shipping
+          earliestDelivery
+        }
+      }
       assortmentPaths {
         ...ProductAssortmentPathFragment
       }

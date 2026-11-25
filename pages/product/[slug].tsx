@@ -22,6 +22,7 @@ import BookmarkButton from '../../modules/products/components/BookmarkButton';
 import ProductSiblings from '../../modules/products/components/ProductSiblings';
 import ProductAddToCart from '../../modules/products/components/ProductAddToCart';
 import ProductReviews from '../../modules/products/components/ProductReviews';
+import ProductAvailability from '../../modules/products/components/ProductAvailability';
 import ProductRatingSummary from '../../modules/products/components/ProductRatingSummary';
 
 const Detail = () => {
@@ -159,6 +160,7 @@ const Detail = () => {
                 )}
 
                 <div className="mt-8 space-y-3">
+                  <ProductAvailability product={product} />
                   <ProductAddToCart
                     product={product}
                     resolvedProducts={resolvedProducts}
