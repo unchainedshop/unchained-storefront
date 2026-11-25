@@ -116,6 +116,18 @@
   "available_tokens": {
     "defaultMessage": "Available:"
   },
+  "avatar_change": {
+    "defaultMessage": "Change profile photo"
+  },
+  "avatar_too_large": {
+    "defaultMessage": "Please choose an image under 5 MB."
+  },
+  "avatar_updated": {
+    "defaultMessage": "Profile photo updated"
+  },
+  "avatar_verify_email": {
+    "defaultMessage": "Verify your email address to add a photo"
+  },
   "back": {
     "defaultMessage": "← Back"
   },
@@ -193,6 +205,12 @@
   },
   "city": {
     "defaultMessage": "City"
+  },
+  "clear_cart": {
+    "defaultMessage": "Clear cart"
+  },
+  "clear_cart_confirm": {
+    "defaultMessage": "Remove all items from your cart?"
   },
   "close": {
     "defaultMessage": "Close"
@@ -356,6 +374,9 @@
   "enrollment_active_period": {
     "defaultMessage": "Active Period"
   },
+  "enrollment_contract_start": {
+    "defaultMessage": "Contract start:"
+  },
   "enrollment_created": {
     "defaultMessage": "Created:"
   },
@@ -391,6 +412,9 @@
   },
   "enrollment_user_info": {
     "defaultMessage": "User Information"
+  },
+  "enrollment_your_feedback": {
+    "defaultMessage": "Your feedback"
   },
   "enrollments_empty_text": {
     "defaultMessage": "Subscribe to a product and you can manage it here."
@@ -722,6 +746,9 @@
   "order_numbered": {
     "defaultMessage": "Order: {orderNumber}"
   },
+  "order_part_of_subscription": {
+    "defaultMessage": "Part of subscription {number}"
+  },
   "order_pickup": {
     "defaultMessage": "Order is pick up"
   },
@@ -866,6 +893,9 @@
   "payment_validation_error": {
     "defaultMessage": "Validation error occurred."
   },
+  "per_sales_unit": {
+    "defaultMessage": "per {unit}"
+  },
   "perk_returns": {
     "defaultMessage": "Easy returns"
   },
@@ -928,6 +958,9 @@
   },
   "product.variants.title": {
     "defaultMessage": "Variants"
+  },
+  "product_sku": {
+    "defaultMessage": "Item no. {sku}"
   },
   "product_standard": {
     "defaultMessage": "Standard:"
@@ -1037,6 +1070,9 @@
   "remove_payment_method_confirm": {
     "defaultMessage": "Remove this payment method?"
   },
+  "request-new-reset-link": {
+    "defaultMessage": "Request a new link"
+  },
   "request-quotation-offer": {
     "defaultMessage": "Request offer"
   },
@@ -1045,6 +1081,12 @@
   },
   "reset": {
     "defaultMessage": "Reset"
+  },
+  "reset-link-invalid": {
+    "defaultMessage": "This reset link is no longer valid"
+  },
+  "reset-link-invalid-hint": {
+    "defaultMessage": "Reset links expire after a while and can only be used once. Request a new one below."
   },
   "reset-password-header": {
     "defaultMessage": "Reset password"
@@ -1178,6 +1220,9 @@
   "shipping_calculated_at_checkout": {
     "defaultMessage": "Shipping and taxes are calculated at checkout."
   },
+  "shipping_country": {
+    "defaultMessage": "Shipping country"
+  },
   "shop": {
     "defaultMessage": "Shop"
   },
@@ -1297,6 +1342,9 @@
   },
   "street": {
     "defaultMessage": "Street"
+  },
+  "subcategories": {
+    "defaultMessage": "Categories"
   },
   "submit_review": {
     "defaultMessage": "Submit review"
@@ -1421,8 +1469,26 @@
   "token_detail_title": {
     "defaultMessage": "Token Detail"
   },
+  "token_export": {
+    "defaultMessage": "Export to wallet"
+  },
+  "token_export_hint": {
+    "defaultMessage": "Transfer this token from the shop to your own wallet. This cannot be undone."
+  },
+  "token_export_title": {
+    "defaultMessage": "Your wallet"
+  },
+  "token_exporting": {
+    "defaultMessage": "Export in progress. This can take a few minutes."
+  },
+  "token_from_order": {
+    "defaultMessage": "Purchased with order #{number}"
+  },
   "token_id": {
     "defaultMessage": "Token:"
+  },
+  "token_in_wallet": {
+    "defaultMessage": "This token is in wallet {address}."
   },
   "token_quantity": {
     "defaultMessage": "Quantity:"
@@ -1528,6 +1594,30 @@
   },
   "wallet_address": {
     "defaultMessage": "Wallet:"
+  },
+  "web3_add": {
+    "defaultMessage": "Add"
+  },
+  "web3_address": {
+    "defaultMessage": "Wallet address"
+  },
+  "web3_connect": {
+    "defaultMessage": "Connect wallet"
+  },
+  "web3_unverified": {
+    "defaultMessage": "Not verified"
+  },
+  "web3_verified": {
+    "defaultMessage": "Verified"
+  },
+  "web3_verify": {
+    "defaultMessage": "Verify"
+  },
+  "web3_wallets": {
+    "defaultMessage": "Crypto wallets"
+  },
+  "web3_wallets_description": {
+    "defaultMessage": "Link a wallet to receive digital items such as tickets or NFTs you buy."
   },
   "what_happens_next": {
     "defaultMessage": "What happens next"
