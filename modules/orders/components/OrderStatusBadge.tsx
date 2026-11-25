@@ -5,11 +5,15 @@ const tone = {
   FULFILLED: 'badge-success',
   DELIVERED: 'badge-success',
   CONFIRMED: 'badge-accent',
+  PROPOSED: 'badge-accent',
+  REQUESTED: 'badge-warning',
+  PROCESSING: 'badge-warning',
   PENDING: 'badge-warning',
   OPEN: 'badge-warning',
   REFUNDED: 'badge-warning',
   RETURNED: 'badge-warning',
   REJECTED: 'badge-danger',
+  EXPIRED: 'badge-danger',
 };
 
 const OrderStatusBadge = ({ status }: { status?: string | null }) => {
@@ -26,6 +30,10 @@ const OrderStatusBadge = ({ status }: { status?: string | null }) => {
     REFUNDED: formatMessage({ id: 'status_refunded', defaultMessage: 'Refunded' }),
     DELIVERED: formatMessage({ id: 'status_delivered', defaultMessage: 'Delivered' }),
     RETURNED: formatMessage({ id: 'status_returned', defaultMessage: 'Returned' }),
+    REQUESTED: formatMessage({ id: 'status_requested', defaultMessage: 'Requested' }),
+    PROCESSING: formatMessage({ id: 'status_processing', defaultMessage: 'In progress' }),
+    PROPOSED: formatMessage({ id: 'status_proposed', defaultMessage: 'Offer ready' }),
+    EXPIRED: formatMessage({ id: 'status_expired', defaultMessage: 'Expired' }),
   };
 
   return (

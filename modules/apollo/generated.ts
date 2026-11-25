@@ -611,13 +611,13 @@ export type UserQuery = { __typename: 'Query', me: { __typename: 'User', _id: st
 export type UserQuotationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserQuotationsQuery = { __typename: 'Query', me: { __typename: 'User', _id: string, quotations: Array<{ __typename: 'Quotation', _id: string, status: QuotationStatus, created: string, expires: string | null, updated: string | null, isExpired: boolean | null, quotationNumber: string | null, fulfilled: string | null, rejected: string | null, user: { __typename: 'User', _id: string, username: string | null, name: string, avatar: { __typename: 'Media', _id: string, url: string | null } | null, primaryEmail: { __typename: 'UserEmail', verified: boolean, address: string } | null }, configuration: Array<{ __typename: 'ProductConfigurationParameter', key: string, value: string }> | null, product:
+export type UserQuotationsQuery = { __typename: 'Query', me: { __typename: 'User', _id: string, quotations: Array<{ __typename: 'Quotation', _id: string, status: QuotationStatus, quantity: number | null, created: string, expires: string | null, updated: string | null, isExpired: boolean | null, quotationNumber: string | null, fulfilled: string | null, rejected: string | null, user: { __typename: 'User', _id: string, username: string | null, name: string, avatar: { __typename: 'Media', _id: string, url: string | null } | null, primaryEmail: { __typename: 'UserEmail', verified: boolean, address: string } | null }, configuration: Array<{ __typename: 'ProductConfigurationParameter', key: string, value: string }> | null, product:
         | { __typename: 'BundleProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
         | { __typename: 'ConfigurableProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
         | { __typename: 'PlanProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
         | { __typename: 'SimpleProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
         | { __typename: 'TokenizedProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
-      , currency: { __typename: 'Currency', _id: string, contractAddress: string | null, decimals: number | null, isoCode: string } | null }> } | null };
+      , currency: { __typename: 'Currency', _id: string, contractAddress: string | null, decimals: number | null, isoCode: string } | null, price: { __typename: 'Price', amount: number, currencyCode: string } | null }> } | null };
 
 export type UserSubscriptionsQueryVariables = Exact<{
   currency?: string | null | undefined;
@@ -1106,13 +1106,13 @@ export type ProductPriceFragmentFragment =
 
 export type ProductReviewFragmentFragment = { __typename: 'ProductReview', _id: string, created: string | null, rating: number | null, title: string | null, review: string | null, upvotes: number | null, author: { __typename: 'User', _id: string, name: string }, ownVotes: Array<{ __typename: 'ProductReviewVote', _id: string, type: ProductReviewVoteType }> };
 
-export type QuotationFragmentFragment = { __typename: 'Quotation', _id: string, status: QuotationStatus, created: string, expires: string | null, updated: string | null, isExpired: boolean | null, quotationNumber: string | null, fulfilled: string | null, rejected: string | null, user: { __typename: 'User', _id: string, username: string | null, name: string, avatar: { __typename: 'Media', _id: string, url: string | null } | null, primaryEmail: { __typename: 'UserEmail', verified: boolean, address: string } | null }, configuration: Array<{ __typename: 'ProductConfigurationParameter', key: string, value: string }> | null, product:
+export type QuotationFragmentFragment = { __typename: 'Quotation', _id: string, status: QuotationStatus, quantity: number | null, created: string, expires: string | null, updated: string | null, isExpired: boolean | null, quotationNumber: string | null, fulfilled: string | null, rejected: string | null, user: { __typename: 'User', _id: string, username: string | null, name: string, avatar: { __typename: 'Media', _id: string, url: string | null } | null, primaryEmail: { __typename: 'UserEmail', verified: boolean, address: string } | null }, configuration: Array<{ __typename: 'ProductConfigurationParameter', key: string, value: string }> | null, product:
     | { __typename: 'BundleProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
     | { __typename: 'ConfigurableProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
     | { __typename: 'PlanProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
     | { __typename: 'SimpleProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
     | { __typename: 'TokenizedProduct', _id: string, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, subtitle: string | null, title: string | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, type: string, url: string | null } | null }> }
-  , currency: { __typename: 'Currency', _id: string, contractAddress: string | null, decimals: number | null, isoCode: string } | null };
+  , currency: { __typename: 'Currency', _id: string, contractAddress: string | null, decimals: number | null, isoCode: string } | null, price: { __typename: 'Price', amount: number, currencyCode: string } | null };
 
 export type TokenFragmentFragment = { __typename: 'Token', _id: string, status: TokenExportStatus, quantity: number, invalidatedDate: string | null, accessKey: string, isInvalidateable: boolean, ercMetadata: any, user: { __typename: 'User', _id: string } | null, product: { __typename: 'TokenizedProduct', _id: string, tags: Array<string> | null, simulatedPrice: { __typename: 'Price', amount: number, currencyCode: string } | null, simulatedStocks: Array<{ __typename: 'Stock', quantity: number | null }> | null, texts: { __typename: 'ProductTexts', _id: string, slug: string | null, title: string | null, subtitle: string | null, labels: Array<string> | null, description: string | null } | null, media: Array<{ __typename: 'ProductMedia', _id: string, file: { __typename: 'Media', _id: string, url: string | null } | null }> } };
 
@@ -1122,6 +1122,20 @@ export type ActivateEnrollmentMutationVariables = Exact<{
 
 
 export type ActivateEnrollmentMutation = { __typename: 'Mutation', activateEnrollment: { __typename: 'Enrollment', _id: string } };
+
+export type AddCartQuotationMutationVariables = Exact<{
+  quotationId: string | number;
+}>;
+
+
+export type AddCartQuotationMutation = { __typename: 'Mutation', addCartQuotation: { __typename: 'OrderItem', _id: string } };
+
+export type RejectQuotationMutationVariables = Exact<{
+  quotationId: string | number;
+}>;
+
+
+export type RejectQuotationMutation = { __typename: 'Mutation', rejectQuotation: { __typename: 'Quotation', _id: string, status: QuotationStatus, rejected: string | null } };
 
 export type RequestQuotationMutationVariables = Exact<{
   productId: string | number;
