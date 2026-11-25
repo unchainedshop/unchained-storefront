@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 import useRedirect from '../hooks/useRedirect';
 import useUser from '../hooks/useUser';
+import UserAvatar from './UserAvatar';
 
 const AccountLayout = ({ title, actions = null, children }) => {
   const { formatMessage } = useIntl();
@@ -40,9 +41,7 @@ const AccountLayout = ({ title, actions = null, children }) => {
       <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
       {user && (
         <div className="mb-4 flex items-center gap-3 rounded-xl border border-border bg-surface p-3">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-semibold text-primary-foreground">
-            {initials}
-          </span>
+          <UserAvatar user={user} initials={initials} editable />
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold">
               {formatMessage({ id: 'account_greeting', defaultMessage: 'Hi, {name}' }, { name: displayName })}

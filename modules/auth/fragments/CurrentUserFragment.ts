@@ -10,6 +10,11 @@ const CurrentUserFragment = gql`
     isGuest
     primaryEmail {
       address
+      verified
+    }
+    avatar {
+      _id
+      url
     }
     lastBillingAddress {
       ...AddressFragment
