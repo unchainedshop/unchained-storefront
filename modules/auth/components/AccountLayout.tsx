@@ -7,7 +7,7 @@ import {
   CreditCardIcon,
   DocumentTextIcon,
   HeartIcon,
-  KeyIcon,
+  ShieldCheckIcon,
   ShoppingBagIcon,
   TicketIcon,
   UserCircleIcon,
@@ -32,7 +32,7 @@ const AccountLayout = ({ title, actions = null, children }) => {
     { href: '/quotation', icon: DocumentTextIcon, label: formatMessage({ id: 'quotations', defaultMessage: 'Quotations' }) },
     { href: '/tokens', icon: TicketIcon, label: formatMessage({ id: 'tokens', defaultMessage: 'Tokens' }) },
     { href: '/account/payment-methods', icon: CreditCardIcon, label: formatMessage({ id: 'payment_methods', defaultMessage: 'Payment methods' }) },
-    { href: '/account/change-password', icon: KeyIcon, label: formatMessage({ id: 'password', defaultMessage: 'Password' }) },
+    { href: '/account/security', icon: ShieldCheckIcon, label: formatMessage({ id: 'security', defaultMessage: 'Security' }) },
   ];
 
   return (

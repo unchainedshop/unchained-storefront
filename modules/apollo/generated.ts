@@ -432,6 +432,30 @@ export type CurrentUserFragment = { __typename: 'User', _id: string, isGuest: bo
       | { __typename: 'DeliveryProviderShipping', _id: string, type: DeliveryProviderType | null, interface: { __typename: 'DeliveryInterface', _id: string, label: string | null, version: string | null } | null, simulatedPrice: { __typename: 'Price', amount: number, currencyCode: string } | null }
     >, itemsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discountsTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, taxesTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, deliveryTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, paymentTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, grandTotal: { __typename: 'Price', amount: number, currencyCode: string } | null, discounts: Array<{ __typename: 'OrderDiscount', _id: string, code: string | null, total: { __typename: 'Price', amount: number, currencyCode: string } }> | null } | null };
 
+export type UserWebAuthnCredentialsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserWebAuthnCredentialsQuery = { __typename: 'Query', me: { __typename: 'User', _id: string, username: string | null, webAuthnCredentials: Array<{ __typename: 'WebAuthnCredentials', _id: string, created: string, mdsMetadata: { __typename: 'WebAuthnMDSv3Metadata', description: string | null } | null }> } | null };
+
+export type AddWebAuthnCredentialsMutationVariables = Exact<{
+  credentials: any;
+}>;
+
+
+export type AddWebAuthnCredentialsMutation = { __typename: 'Mutation', addWebAuthnCredentials: { __typename: 'User', _id: string } };
+
+export type RemoveWebAuthnCredentialsMutationVariables = Exact<{
+  credentialsId: string | number;
+}>;
+
+
+export type RemoveWebAuthnCredentialsMutation = { __typename: 'Mutation', removeWebAuthnCredentials: { __typename: 'User', _id: string } };
+
+export type LogoutAllSessionsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutAllSessionsMutation = { __typename: 'Mutation', logoutAllSessions: { __typename: 'SuccessResponse', success: boolean | null } | null };
+
 export type AddEmailMutationVariables = Exact<{
   email: string;
 }>;
