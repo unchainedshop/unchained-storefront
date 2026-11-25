@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
-import { LockClosedIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, ShoppingBagIcon, TrashIcon } from '@heroicons/react/24/outline';
+import useEmptyCart from '../modules/cart/hooks/useEmptyCart';
 
 import MetaTags from '../modules/common/components/MetaTags';
 import useUser from '../modules/auth/hooks/useUser';
@@ -13,6 +14,7 @@ import PageHeader from '../modules/common/components/PageHeader';
 const Cart = () => {
   const { formatMessage } = useIntl();
   const { user, loading } = useUser();
+  const { emptyCart, loading: clearing } = useEmptyCart();
   const cart = user?.cart;
   const items = cart?.items || [];
   const title = formatMessage({ id: 'shopping_cart', defaultMessage: 'Shopping Cart' });
@@ -23,6 +25,22 @@ const Cart = () => {
       <PageHeader
         icon={ShoppingBagIcon}
         title={title}
+        actions={
+          items.length > 0 && (
+            <button
+              type="button"
+              disabled={clearing}
+              onClick={() =>
+                window.confirm(formatMessage({ id: 'clear_cart_confirm', defaultMessage: 'Remove all items from your cart?' })) &&
+                emptyCart(cart._id)
+              }
+              className="btn btn-ghost btn-sm text-danger"
+            >
+              <TrashIcon className="size-4" />
+              {formatMessage({ id: 'clear_cart', defaultMessage: 'Clear cart' })}
+            </button>
+          )
+        }
         description={
           items.length
             ? formatMessage(

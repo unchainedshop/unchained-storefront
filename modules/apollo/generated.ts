@@ -698,6 +698,13 @@ export type CheckoutCartMutationVariables = Exact<{
 
 export type CheckoutCartMutation = { __typename: 'Mutation', checkoutCart: { __typename: 'Order', _id: string, status: OrderStatus | null, user: { __typename: 'User', _id: string, tokens: Array<{ __typename: 'Token', _id: string }>, cart: { __typename: 'Order', _id: string, items: Array<{ __typename: 'OrderItem', _id: string }> | null } | null } | null } };
 
+export type EmptyCartMutationVariables = Exact<{
+  orderId?: string | number | null | undefined;
+}>;
+
+
+export type EmptyCartMutation = { __typename: 'Mutation', emptyCart: { __typename: 'Order', _id: string } | null };
+
 export type RemoveCartItemMutationVariables = Exact<{
   itemId: string | number;
 }>;
