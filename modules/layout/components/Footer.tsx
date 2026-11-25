@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 
 import LanguageSwitch from '../../common/components/LanguageSwitch';
 import CurrencySelector from '../../common/components/CurrencySelector';
+import CountrySelector from '../../common/components/CountrySelector';
 import useAssortments from '../../assortment/hooks/useAssortments';
 
 const getFooterNavigation = (formatMessage) => ({
@@ -157,7 +158,8 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-2">
             <LanguageSwitch />
-            <CurrencySelector />
+            <CountrySelector />
+          <CurrencySelector />
           </div>
         </div>
       </div>

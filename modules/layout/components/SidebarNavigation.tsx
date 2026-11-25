@@ -9,6 +9,7 @@ import useAssortments from '../../assortment/hooks/useAssortments';
 import useUser from '../../auth/hooks/useUser';
 import LanguageSwitch from '../../common/components/LanguageSwitch';
 import CurrencySelector from '../../common/components/CurrencySelector';
+import CountrySelector from '../../common/components/CountrySelector';
 
 interface SidebarNavigationProps {
   isOpen: boolean;
@@ -177,6 +178,7 @@ const SidebarNavigation = ({ isOpen, onClose }: SidebarNavigationProps) => {
 
         <div className="flex items-center gap-2 border-t border-border px-5 py-4">
           <LanguageSwitch />
+          <CountrySelector />
           <CurrencySelector />
         </div>
       </DialogPanel>

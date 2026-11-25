@@ -813,6 +813,11 @@ export type BookmarkMutationVariables = Exact<{
 
 export type BookmarkMutation = { __typename: 'Mutation', bookmark: { __typename: 'Bookmark', _id: string } };
 
+export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountriesQuery = { __typename: 'Query', countries: Array<{ __typename: 'Country', _id: string, isoCode: string | null, isBase: boolean | null, flagEmoji: string | null, name: string | null, defaultCurrency: { __typename: 'Currency', _id: string, isoCode: string } | null }> };
+
 export type DeliveryProvidersQueryQueryVariables = Exact<{
   type?: DeliveryProviderType | null | undefined;
 }>;
