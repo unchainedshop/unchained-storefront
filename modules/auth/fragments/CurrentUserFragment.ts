@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import AddressFragment from '../../common/fragments/AddressFragment';
+import CartTotalsFragment from '../../orders/fragments/CartTotalsFragment';
 import ProductDetailFragment from '../../products/fragments/ProductFragment';
 import ProductPriceFragment from '../../products/fragments/ProductPriceFragment';
 
@@ -7,6 +8,17 @@ const CurrentUserFragment = gql`
   fragment CurrentUser on User {
     _id
     isGuest
+    primaryEmail {
+      address
+      verified
+    }
+    avatar {
+      _id
+      url
+    }
+    lastBillingAddress {
+      ...AddressFragment
+    }
     name
     username
     pushSubscriptions {
@@ -46,31 +58,14 @@ const CurrentUserFragment = gql`
     }
     cart {
       _id
+      ...CartTotalsFragment
       billingAddress {
         ...AddressFragment
-      }
-      discounts {
-        _id
-        code
-        total {
-          amount
-          currencyCode
-        }
-        discounted {
-          total {
-            amount
-            currencyCode
-          }
-        }
       }
 
       contact {
         telNumber
         emailAddress
-      }
-      itemsTotal: total(category: ITEMS) {
-        amount
-        currencyCode
       }
       items {
         _id
@@ -104,22 +99,6 @@ const CurrentUserFragment = gql`
           _id
         }
       }
-      discountsTotal: total(category: DISCOUNTS) {
-        amount
-        currencyCode
-      }
-      taxes: total(category: TAXES) {
-        amount
-        currencyCode
-      }
-      delivery: total(category: DELIVERY) {
-        amount
-        currencyCode
-      }
-      payment: total(category: PAYMENT) {
-        amount
-        currencyCode
-      }
       deliveryInfo: delivery {
         _id
         provider {
@@ -130,10 +109,6 @@ const CurrentUserFragment = gql`
             ...AddressFragment
           }
         }
-      }
-      total {
-        amount
-        currencyCode
       }
       currency {
         _id
@@ -165,6 +140,7 @@ const CurrentUserFragment = gql`
   }
   ${ProductDetailFragment}
   ${AddressFragment}
+  ${CartTotalsFragment}
   ${ProductPriceFragment}
 `;
 

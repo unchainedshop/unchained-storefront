@@ -47,7 +47,7 @@ const MultipleChoiceFilterCard = ({
           {current.length !== options.length && (
             <button
               onClick={selectAll}
-              className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
+              className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent hover:bg-accent-soft focus:outline-none focus:ring-2 focus:ring-ring transition"
             >
               {formatMessage({ id: 'selectAll', defaultMessage: 'Select all' })}
             </button>
@@ -56,7 +56,7 @@ const MultipleChoiceFilterCard = ({
           {current.length > 0 && (
             <button
               onClick={reset}
-              className="rounded-full bg-red-50 px-3 py-1 text-xs font-medium text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300 transition"
+              className="rounded-full bg-danger-soft px-3 py-1 text-xs font-medium text-danger hover:bg-danger-soft focus:outline-none focus:ring-2 focus:ring-danger transition"
             >
               {formatMessage({ id: 'reset', defaultMessage: 'Reset' })}
             </button>
@@ -75,11 +75,11 @@ const MultipleChoiceFilterCard = ({
                 value={opt.value}
                 checked={current.includes(opt.value)}
                 onChange={(e) => onToggle(opt.value, e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                className="h-4 w-4 rounded border-input text-accent focus:ring-ring"
               />
               <label
                 htmlFor={id}
-                className="text-sm text-slate-700 dark:text-slate-300 cursor-pointer"
+                className="text-sm text-muted-foreground cursor-pointer"
               >
                 {opt.label}
               </label>
@@ -91,7 +91,7 @@ const MultipleChoiceFilterCard = ({
       {options.length > itemLimit && (
         <button
           onClick={() => setItemLimit(Infinity)}
-          className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700 focus:outline-none focus:underline"
+          className="mt-3 text-sm font-medium text-accent hover:text-accent focus:outline-none focus:underline"
         >
           {formatMessage({ id: 'showMore', defaultMessage: 'Show more' })}
         </button>

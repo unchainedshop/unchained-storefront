@@ -6,4 +6,3 @@ const SignUpPage = () => {
 
 export default SignUpPage;
 
-SignUpPage.getLayout = (page) => page;

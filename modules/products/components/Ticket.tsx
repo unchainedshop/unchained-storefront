@@ -18,14 +18,14 @@ const Ticket = ({ barcodeUrl, pkpassUrl, googlePassUrl }) => {
   return (
     <div
       hidden={!barcodeUrl}
-      className="mx-auto flex flex-col items-center rounded-2xl bg-white px-4 py-6 text-center shadow-sm"
+      className="mx-auto flex flex-col items-center rounded-2xl bg-surface px-4 py-6 text-center shadow-sm"
       style={{ maxWidth: '360px' }}
     >
-      <h1 className="text-lg font-semibold tracking-tight text-gray-900">
+      <h1 className="text-lg font-semibold tracking-tight text-foreground">
         Unchained Store
       </h1>
 
-      <p className="mt-1 text-sm text-gray-600">
+      <p className="mt-1 text-sm text-muted-foreground">
         QR Code
       </p>
 
@@ -33,7 +33,7 @@ const Ticket = ({ barcodeUrl, pkpassUrl, googlePassUrl }) => {
         <AddToWalletButton href={pkpassUrl} />
       </div>
 
-      <div className="my-6 w-56 h-56 rounded-xl border bg-white p-3">
+      <div className="my-6 w-56 h-56 rounded-xl border bg-surface p-3">
         <QRCode value={barcodeUrl} />
       </div>
 

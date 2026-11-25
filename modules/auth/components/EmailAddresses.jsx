@@ -39,15 +39,15 @@ const EmailAddresses = ({ emails }) => {
   return (
     <section
       id="email"
-      className="mt-10 space-y-6 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="mt-6 first:mt-0"
       aria-labelledby="email-addresses-heading"
     >
-      <div className="shadow sm:overflow-hidden sm:rounded-md">
-        <div className="bg-white py-6 px-4 dark:bg-slate-900 dark:text-slate-200 sm:p-6">
+      <div className="card overflow-hidden">
+        <div className="p-5 sm:p-6">
           <div>
             <h3
               id="email-addresses-heading"
-              className="text-lg font-medium leading-6 text-slate-900 dark:text-white"
+              className="text-lg font-medium leading-6 text-foreground"
             >
               {formatMessage({
                 id: "email-addresses",
@@ -60,10 +60,10 @@ const EmailAddresses = ({ emails }) => {
             {emails?.map((e) => (
               <div
                 key={e.address}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-muted rounded-lg border border-border"
               >
                 <div className="flex items-center space-x-3 mb-3 sm:mb-0">
-                  <span className="text-sm font-medium text-slate-900 dark:text-white">
+                  <span className="text-sm font-medium text-foreground">
                     {e.address}
                   </span>
                   <VerifiedStatus isActive={e.verified} />
@@ -89,14 +89,14 @@ const EmailAddresses = ({ emails }) => {
                         defaultMessage: "Remove",
                       })}
                       onClick={() => removeEmail(e.address)}
-                      className="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1"
+                      className="bg-danger hover:bg-danger/90 text-white text-xs px-2 py-1"
                     />
                   )}
                 </div>
               </div>
             ))}
 
-            <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+            <div className="mt-6 pt-6 border-t border-border">
               <Form onSubmit={onAddNewEmail} onSubmitError={onSubmitError}>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                   <div className="sm:col-span-2">

@@ -86,14 +86,14 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow-md rounded-2xl p-8 border border-gray-200 space-y-8">
-      <h2 className="text-3xl font-semibold text-center">
+    <div className="card mx-auto max-w-2xl space-y-8 p-6 sm:p-10">
+      <h2 className="text-center text-3xl font-bold tracking-tight">
         Subscribe to {product?.name || 'Product'}
       </h2>
 
       {/* PLANS SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Select a Plan</h3>
+        <h3 className="mb-3 text-lg font-semibold">Select a Plan</h3>
         <div className="space-y-3">
           {(product?.plans || []).length > 0 ? (
             product.plans.map((plan: any) => (
@@ -102,152 +102,152 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
                 onClick={() => setSelectedPlan(plan)}
                 className={`w-full text-left p-3 rounded-xl border transition ${
                   selectedPlan?._id === plan._id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:bg-gray-50'
+                    ? 'border-accent bg-accent-soft'
+                    : 'border-border hover:bg-muted'
                 }`}
               >
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{plan.name}</span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-subtle-foreground">
                     {plan.price?.amount
                       ? `$${plan.price.amount}/${plan.billingInterval ?? 'mo'}`
                       : 'Custom Price'}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-subtle-foreground">
                   {plan.description || 'Plan details not available.'}
                 </p>
               </button>
             ))
           ) : (
-            <p className="text-sm text-gray-500">No plans available.</p>
+            <p className="text-sm text-subtle-foreground">No plans available.</p>
           )}
         </div>
 
         <div className="mt-3">
-          <label className="block text-sm font-medium mb-1">Quantity</label>
+          <label className="label">Quantity</label>
           <input
             type="number"
             min={1}
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-24 border border-gray-300 rounded-lg p-2 text-center"
+            className="input w-24 text-center"
           />
         </div>
       </section>
 
       {/* BILLING SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Billing Address</h3>
+        <h3 className="mb-3 text-lg font-semibold">Billing Address</h3>
         <div className="grid grid-cols-2 gap-3">
           <input
             name="firstName"
             placeholder="First Name"
             value={billing.firstName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="lastName"
             placeholder="Last Name"
             value={billing.lastName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="company"
             placeholder="Company (optional)"
             value={billing.company}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="addressLine"
             placeholder="Address Line"
             value={billing.addressLine}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="addressLine2"
             placeholder="Address Line 2"
             value={billing.addressLine2}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="city"
             placeholder="City"
             value={billing.city}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="regionCode"
             placeholder="Region/State"
             value={billing.regionCode}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="postalCode"
             placeholder="Postal Code"
             value={billing.postalCode}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="countryCode"
             placeholder="Country Code (e.g. US)"
             value={billing.countryCode}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
         </div>
       </section>
 
       {/* CONTACT SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Contact Information</h3>
+        <h3 className="mb-3 text-lg font-semibold">Contact Information</h3>
         <div className="grid grid-cols-2 gap-3">
           <input
             name="firstName"
             placeholder="First Name"
             value={contact.firstName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="lastName"
             placeholder="Last Name"
             value={contact.lastName}
             onChange={handleChange}
-            className="border rounded-lg p-2"
+            className="input"
           />
           <input
             name="email"
             placeholder="Email"
             value={contact.email}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
           <input
             name="phone"
             placeholder="Phone"
             value={contact.phone}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg p-2"
+            className="input col-span-2"
           />
         </div>
       </section>
 
       {/* PAYMENT SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Payment Method</h3>
+        <h3 className="mb-3 text-lg font-semibold">Payment Method</h3>
         <select
           value={paymentProvider}
           onChange={(e) => setPaymentProvider(e.target.value)}
-          className="border rounded-lg p-2 w-full"
+          className="input"
         >
           <option value="card">Credit/Debit Card</option>
           <option value="paypal">PayPal</option>
@@ -257,11 +257,11 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
 
       {/* DELIVERY SECTION */}
       <section>
-        <h3 className="text-lg font-medium mb-3">Delivery Method</h3>
+        <h3 className="mb-3 text-lg font-semibold">Delivery Method</h3>
         <select
           value={deliveryProvider}
           onChange={(e) => setDeliveryProvider(e.target.value)}
-          className="border rounded-lg p-2 w-full"
+          className="input"
         >
           <option value="digital">Digital Delivery</option>
           <option value="email">Email Delivery</option>
@@ -272,13 +272,13 @@ const ProductSubscriptionForm = ({ product }: { product: any }) => {
       <button
         onClick={handleSubscribe}
         disabled={loadingState}
-        className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+        className="btn btn-primary btn-lg w-full"
       >
         {loadingState ? 'Processing...' : 'Subscribe Now'}
       </button>
 
       {message && (
-        <p className="mt-3 text-center text-sm font-medium text-gray-700">
+        <p className="mt-3 text-center text-sm font-medium text-muted-foreground">
           {message}
         </p>
       )}

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const UPDATE_CART_BILLING_ADDRESS_MUTATION = gql`
   mutation UpdateCartBillingAddress($billingAddress: AddressInput) {
@@ -20,8 +21,7 @@ export const UPDATE_CART_BILLING_ADDRESS_MUTATION = gql`
 `;
 
 const useUpdateCartBillingAddress = () => {
-  const [updateCartMutation] = useMutation<any>(
-    UPDATE_CART_BILLING_ADDRESS_MUTATION,
+  const [updateCartMutation] = useMutation<GQL.UpdateCartBillingAddressMutation, GQL.UpdateCartBillingAddressMutationVariables>(UPDATE_CART_BILLING_ADDRESS_MUTATION,
   );
 
   const updateCartBillingAddress = async ({ address }) => {

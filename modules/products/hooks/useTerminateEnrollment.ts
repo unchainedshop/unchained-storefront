@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 const TerminateEnrollmentMutation = gql`
   mutation TerminateEnrollment(
@@ -21,8 +22,7 @@ const TerminateEnrollmentMutation = gql`
 `;
 
 const useTerminateEnrollment = () => {
-  const [terminateEnrollmentMutation, { loading }] = useMutation(
-    TerminateEnrollmentMutation,
+  const [terminateEnrollmentMutation, { loading }] = useMutation<GQL.TerminateEnrollmentMutation, GQL.TerminateEnrollmentMutationVariables>(TerminateEnrollmentMutation,
   );
 
   const terminateEnrollment = async ({

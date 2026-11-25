@@ -16,7 +16,7 @@ const FilterSidebar = ({ filters = [] }) => {
       <div className="mb-4">
         <Button
           onClick={resetFilters}
-          className="w-full rounded-lg bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300 transition"
+          className="w-full rounded-lg bg-danger-soft px-4 py-2 text-sm font-semibold text-danger hover:bg-danger-soft focus:outline-none focus:ring-2 focus:ring-danger transition"
         >
           {formatMessage({
             id: 'reset_all_filters',

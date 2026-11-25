@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useIntl } from 'react-intl';
 
@@ -7,10 +7,13 @@ import useAssortmentProducts from '../../modules/assortment/hooks/useAssortmentP
 import ProductList from '../../modules/products/components/ProductList';
 import MetaTags from '../../modules/common/components/MetaTags';
 import getMediaUrl from '../../modules/common/utils/getMediaUrl';
-import Loading from '../../modules/common/components/Loading';
+import ProductGridSkeleton from '../../modules/products/components/ProductGridSkeleton';
 import ListViewWrapper from '../../modules/common/components/ListViewWrapper';
-import FilterSidebar from '../../modules/filter/components/FilterSideBar';
+import FilterLayout from '../../modules/filter/components/FilterLayout';
+import CategoryListItem from '../../modules/assortment/components/CategoryListItem';
 import useRouteFilterQuery from '../../modules/filter/hooks/useRouteFilterQuery';
+import EmptyState from '../../modules/common/components/EmptyState';
+import { FunnelIcon } from '@heroicons/react/24/outline';
 
 const CategoryDetail = () => {
   const router = useRouter();
@@ -47,7 +50,8 @@ const CategoryDetail = () => {
 
   // --- Fetch products ---
   const {
-    assortment: { texts, media } = {},
+    assortment,
+    subcategories,
     filters = [],
     products,
     loadMore,
@@ -55,22 +59,11 @@ const CategoryDetail = () => {
     loading: productsLoading,
   } = useAssortmentProducts({
     slugs: slug,
-    includeLeaves: true,
     filterQuery,
     queryString: debouncedQuery,
   });
-
-  // --- Handle search form submission ---
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmedQuery = searchQuery.trim();
-    if (!trimmedQuery) return;
-
-    router.push({
-      pathname: '/search',
-      query: { ...router.query, query: trimmedQuery },
-    });
-  };
+  const texts = assortment?.texts;
+  const media = assortment?.media;
 
   return (
     <>
@@ -80,62 +73,53 @@ const CategoryDetail = () => {
         imageUrl={getMediaUrl({ media })}
       />
 
-      <div className="min-h-screen bg-white dark:bg-slate-950">
-        <form onSubmit={handleSearch} className="mb-8">
-          <div className="relative mx-auto max-w-2xl">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-              <MagnifyingGlassIcon className="h-5 w-5 text-slate-400" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={formatMessage({
-                id: 'search_placeholder',
-                defaultMessage: 'Search...',
-              })}
-              className="block w-full rounded-xl border border-slate-300 bg-white py-4 pl-12 pr-4 text-slate-900 placeholder-slate-500 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-0 dark:bg-slate-900 dark:text-white dark:placeholder-slate-400"
-            />
-          </div>
-        </form>
-
-        <div className="mx-auto flex w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 gap-6">
-          {filters.length > 0 && (
-            <aside className="hidden lg:block w-64 flex-shrink-0">
-              <div className="sticky top-20 space-y-4">
-                <FilterSidebar filters={filters} />
+      <ListViewWrapper title={texts?.title} subtitle={texts?.subtitle}>
+        {(viewMode) => (
+          <>
+          {subcategories?.length > 0 && (
+            <section className="mb-8">
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-subtle-foreground">
+                {formatMessage({ id: 'subcategories', defaultMessage: 'Categories' })}
+              </h2>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                {subcategories.map((category) => (
+                  <CategoryListItem key={category._id} category={category} />
+                ))}
               </div>
-            </aside>
+            </section>
           )}
-
-          <main className="flex-1">
-            <ListViewWrapper title={texts?.title} subtitle={texts?.subtitle}>
-              {(viewMode) => (
-                <Fragment>
-                  <div className="mb-6 flex items-center justify-between">
-                    <div className="text-sm text-slate-600 dark:text-slate-300">
-                      {filteredProducts} products
-                    </div>
-                  </div>
-
-                  {productsLoading ? (
-                    <div className="py-10 flex justify-center">
-                      <Loading />
-                    </div>
-                  ) : (
-                    <ProductList
-                      onLoadMore={loadMore}
-                      totalProducts={filteredProducts}
-                      products={products}
-                      viewMode={viewMode}
-                    />
-                  )}
-                </Fragment>
-              )}
-            </ListViewWrapper>
-          </main>
-        </div>
-      </div>
+          <FilterLayout filters={filters} resultCount={filteredProducts ?? null}>
+            <div className="relative mb-6 max-w-sm">
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-subtle-foreground" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label={formatMessage({ id: 'search_in_category', defaultMessage: 'Search in this category' })}
+                placeholder={formatMessage({ id: 'search_in_category', defaultMessage: 'Search in this category' })}
+                className="input pl-10"
+              />
+            </div>
+            {productsLoading && !products?.length ? (
+              <ProductGridSkeleton />
+            ) : products?.length ? (
+              <ProductList
+                onLoadMore={loadMore}
+                totalProducts={filteredProducts}
+                products={products}
+                viewMode={viewMode}
+              />
+            ) : (
+              <EmptyState
+                icon={FunnelIcon}
+                title={formatMessage({ id: 'no_products_found', defaultMessage: 'No products match your filters.' })}
+                description={formatMessage({ id: 'no_products_found_text', defaultMessage: 'Try removing a filter or searching for something else.' })}
+              />
+            )}
+          </FilterLayout>
+          </>
+        )}
+      </ListViewWrapper>
     </>
   );
 };

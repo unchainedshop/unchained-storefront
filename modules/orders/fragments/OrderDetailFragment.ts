@@ -89,6 +89,10 @@ const OrderDetailFragment = gql`
     }
 
     orderNumber
+    enrollment {
+      _id
+      enrollmentNumber
+    }
     status
     created
     updated
@@ -126,15 +130,30 @@ const OrderDetailFragment = gql`
       _id
       provider {
         _id
-        created
-        updated
-        deleted
         type
-        configuration
         interface {
           _id
           label
           version
+        }
+      }
+      ... on OrderDeliveryShipping {
+        address {
+          firstName
+          lastName
+          company
+          addressLine
+          addressLine2
+          postalCode
+          city
+          countryCode
+          regionCode
+        }
+      }
+      ... on OrderDeliveryPickUp {
+        activePickUpLocation {
+          _id
+          name
         }
       }
       status

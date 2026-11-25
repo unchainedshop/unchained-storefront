@@ -6,12 +6,14 @@ import { useIntl } from 'react-intl';
 import getProductHref from '../../common/utils/getProductHref';
 import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 import ProductPrice from '../../common/components/ProductPrice';
+import BookmarkButton from './BookmarkButton';
+import ProductUnitInfo from './ProductUnitInfo';
 
 const shortenAddress = (address) =>
   address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
 
 const ProductImage = ({ product, isBundle, formatMessage }) => (
-  <div className="relative w-full h-48 lg:h-40 lg:w-44 flex-shrink-0 overflow-hidden bg-slate-50 dark:bg-slate-700">
+  <div className="relative w-full h-48 lg:h-40 lg:w-44 flex-shrink-0 overflow-hidden bg-muted">
     <Link href={getProductHref(product?.texts?.slug)}>
       {product?.media?.[0]?.file?.url ? (
         <Image
@@ -24,14 +26,15 @@ const ProductImage = ({ product, isBundle, formatMessage }) => (
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center">
-          <PhotoIcon className="h-8 w-8 text-slate-400 dark:text-slate-500" />
+          <PhotoIcon className="h-8 w-8 text-subtle-foreground" />
         </div>
       )}
     </Link>
 
+    <BookmarkButton productId={product?._id} className="absolute right-2 top-2 z-10 size-9" />
     {isBundle && (
       <div className="absolute top-2 left-2 z-10">
-        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-500 text-white shadow-sm">
+        <span className="badge badge-warning shadow-sm">
           {formatMessage({ id: 'bundle_badge', defaultMessage: 'Bundle' })}
         </span>
       </div>
@@ -72,7 +75,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
             {formatMessage({ id: 'total_supply', defaultMessage: 'Supply:' })}
           </span>
           {totalSupply}{' '}
-          <span className="text-slate-500 dark:text-slate-400">
+          <span className="text-subtle-foreground">
             (
             {formatMessage({
               id: 'available_tokens',
@@ -136,13 +139,14 @@ const PlanProductMetadata = ({ plan, formatMessage }) => (
 );
 
 const ProductRightActions = ({ product, formatMessage }) => (
-  <div className="flex flex-col justify-between items-end p-4 min-w-[180px] border-t lg:border-t-0 lg:border-l border-slate-100 dark:border-slate-800">
-    <div className="text-lg font-semibold text-slate-900 dark:text-white">
+  <div className="flex flex-col justify-between items-end p-4 min-w-[180px] border-t lg:border-t-0 lg:border-l border-border">
+    <div className="text-lg font-semibold text-foreground">
       <ProductPrice product={product} compact />
+      <ProductUnitInfo product={product} className="block text-xs" />
     </div>
     <Link
       href={getProductHref(product?.texts?.slug)}
-      className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 transition-colors duration-200 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
+      className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary-hover transition-colors duration-200"
     >
       {formatMessage({
         id: 'view_product_detail',
@@ -160,7 +164,7 @@ const ProductListItemCompact = ({ product }) => {
   const isBundle = product?.__typename === 'BundleProduct';
 
   return (
-    <div className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-900 dark:border-0">
+    <div className="group relative bg-surface border border-border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:border-0">
       <div className="flex flex-col lg:flex-row gap-5">
         <ProductImage
           product={product}
@@ -168,38 +172,30 @@ const ProductListItemCompact = ({ product }) => {
           formatMessage={formatMessage}
         />
 
-        <div className="flex-1 flex flex-col justify-between p-4">
+        <div className="min-w-0 flex-1 flex flex-col p-4">
           <div className="flex items-center justify-between">
             <div>
               <Link href={getProductHref(product?.texts?.slug)}>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1 transition-colors duration-200 hover:text-slate-700 dark:hover:text-slate-200">
+                <h3 className="text-lg font-semibold text-foreground mb-1 transition-colors duration-200 hover:text-muted-foreground">
                   {product?.texts?.title}
                 </h3>
               </Link>
               {product?.texts?.subtitle && (
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                <p className="text-sm text-muted-foreground mb-1">
                   {product?.texts?.subtitle}
                 </p>
               )}
             </div>
 
-            {isBundle && (
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
-                {formatMessage({
-                  id: 'bundle_badge',
-                  defaultMessage: 'Bundle',
-                })}
-              </span>
-            )}
           </div>
 
           {product?.texts?.description && (
-            <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
+            <p className="text-sm text-muted-foreground line-clamp-2">
               {product?.texts?.description}
             </p>
           )}
 
-          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-700 dark:text-slate-300">
+          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
             {isTokenProduct && (
               <TokenProductMetadata
                 product={product}
@@ -210,52 +206,57 @@ const ProductListItemCompact = ({ product }) => {
               <PlanProductMetadata plan={plan} formatMessage={formatMessage} />
             )}
           </div>
-        </div>
-        {isBundle && (
-          <div className="mt-4 border-t border-slate-100 dark:border-slate-800 pt-3">
-            <h4 className="text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
-              {formatMessage({
-                id: 'bundle_contains',
-                defaultMessage: 'Includes:',
-              })}
-            </h4>
-            <div className="flex items-center gap-3 overflow-x-auto pb-1">
-              {product.bundleItems?.slice(0, 3).map((item, index) => {
-                const bundleProduct = item.product;
-                return (
-                  <div
-                    key={bundleProduct._id || index}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div className="relative w-14 h-14 rounded-md overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      {bundleProduct?.media?.[0]?.file?.url ? (
-                        <Image
-                          src={bundleProduct.media[0].file.url}
-                          alt={bundleProduct.texts?.title}
-                          fill
-                          className="object-cover"
-                          loader={defaultNextImageLoader}
-                        />
-                      ) : (
-                        <PhotoIcon className="h-6 w-6 text-slate-400 absolute inset-0 m-auto" />
-                      )}
-                    </div>
-                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 truncate w-16">
-                      {bundleProduct.texts?.title}
-                    </p>
+          {isBundle && product.bundleItems?.length > 0 && (
+            <div className="mt-4 border-t border-border pt-3">
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-subtle-foreground">
+                {formatMessage({
+                  id: 'bundle_contains',
+                  defaultMessage: 'Includes:',
+                })}
+              </h4>
+              <div className="flex items-center gap-3 overflow-x-auto pb-1">
+                {product.bundleItems?.slice(0, 3).map((item, index) => {
+                  const bundleProduct = item.product;
+                  return (
+                    <Link
+                      key={bundleProduct._id || index}
+                      href={getProductHref(bundleProduct.texts?.slug)}
+                      className="relative z-10 flex flex-col items-center text-center hover:text-foreground"
+                    >
+                      <div className="relative w-14 h-14 rounded-md overflow-hidden border border-border bg-muted">
+                        {bundleProduct?.media?.[0]?.file?.url ? (
+                          <Image
+                            src={bundleProduct.media[0].file.url}
+                            alt={bundleProduct.texts?.title}
+                            fill
+                            className="object-cover"
+                            loader={defaultNextImageLoader}
+                          />
+                        ) : (
+                          <PhotoIcon className="h-6 w-6 text-subtle-foreground absolute inset-0 m-auto" />
+                        )}
+                      </div>
+                      <p className="mt-1 w-16 truncate text-xs text-muted-foreground">
+                        {item.quantity > 1 && `${item.quantity}× `}
+                        {bundleProduct.texts?.title}
+                      </p>
+                    </Link>
+                  );
+                })}
+
+                {product.bundleItems?.length > 3 && (
+                  <div className="text-xs text-subtle-foreground ml-2">
+                    {formatMessage(
+                      { id: 'bundle_more_items', defaultMessage: '+{count} more' },
+                      { count: product.bundleItems.length - 3 },
+                    )}
                   </div>
-                );
-              })}
-
-              {product.bundleItems?.length > 3 && (
-                <div className="text-xs text-slate-500 dark:text-slate-400 ml-2">
-                  +{product.bundleItems.length - 3} more
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
+        </div>
         <ProductRightActions product={product} formatMessage={formatMessage} />
       </div>
     </div>

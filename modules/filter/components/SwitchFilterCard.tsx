@@ -24,14 +24,14 @@ const SwitchFilterCard = ({ title, searchParamName }) => {
               setFilterValues(searchParamName, [isChecked ? 'false' : 'true'])
             }
           />
-          <span className="relative h-6 w-[46px] rounded-full bg-slate-300 transition-colors peer-checked:bg-blue-500 after:absolute after:top-[3px] after:left-[3px] after:h-[18px] after:w-[18px] after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:after:translate-x-[22px]" />
+          <span className="relative h-6 w-[46px] rounded-full bg-muted-strong transition-colors peer-checked:bg-accent after:absolute after:top-[3px] after:left-[3px] after:h-[18px] after:w-[18px] after:rounded-full after:bg-surface after:transition-transform after:content-[''] peer-checked:after:translate-x-[22px]" />
         </label>
 
         {selectedValue ? (
           <button
             type="button"
             onClick={() => setFilterValues(searchParamName, [])}
-            className="self-start rounded-md border border-slate-300 px-2.5 py-0.5 text-xs text-slate-500 transition-colors hover:bg-slate-100"
+            className="self-start rounded-md border border-input px-2.5 py-0.5 text-xs text-subtle-foreground transition-colors hover:bg-muted"
           >
             Reset
           </button>

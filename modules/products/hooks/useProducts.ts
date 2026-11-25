@@ -4,6 +4,7 @@ import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import type * as GQL from '../../apollo/generated';
 
 export const PRODUCTS_QUERY = gql`
   query Products(
@@ -28,7 +29,7 @@ export const PRODUCTS_QUERY = gql`
 
 const useProducts = ({ tags = [], limit = 50, queryString = null } = {}) => {
   const { selectedCurrency } = useAppContext();
-  const { data, loading, error } = useQuery<any>(PRODUCTS_QUERY, {
+  const { data, loading, error } = useQuery<GQL.ProductsQuery, GQL.ProductsQueryVariables>(PRODUCTS_QUERY, {
     variables: {
       tags: tags.length > 0 ? tags : undefined,
       limit,

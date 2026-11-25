@@ -1,4 +1,3 @@
-import { KeyIcon } from "@heroicons/react/20/solid";
 
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -12,6 +11,7 @@ import Form from "../../modules/forms/components/Form";
 import FormErrors from "../../modules/forms/components/FormErrors";
 import PasswordField from "../../modules/forms/components/PasswordField";
 import SubmitButton from "../../modules/forms/components/SubmitButton";
+import AccountLayout from "../../modules/auth/components/AccountLayout";
 
 const ChangePassword = () => {
   const { formatMessage } = useIntl();
@@ -60,7 +60,7 @@ const ChangePassword = () => {
   };
 
   const onSubmitError = async (error) => {
-    if (error?.message?.toLowerCase().includes("incorrect credential")) {
+    if (/(invalid|incorrect) credential/i.test(error?.message || "")) {
       return {
         oldPassword: {
           type: "manual",
@@ -108,22 +108,13 @@ const ChangePassword = () => {
           defaultMessage: "Update Password",
         })}
       />
-      <div className="bg-white dark:bg-slate-950">
-        <div className="mx-auto mt-5 w-full p-10 sm:max-w-md md:max-w-lg lg:max-w-xl">
-          <div className="rounded-lg p-4 shadow-xs dark:bg-slate-500">
-            <div>
-              <KeyIcon className="mx-auto mb-3 h-8 w-8 text-slate-900 dark:text-white" />
-            </div>
-            <h1 className="text-center text-3xl font-semibold text-slate-900 dark:text-slate-300">
-              {formatMessage({
-                id: "change_password",
-                defaultMessage: "Change Password",
-              })}
-            </h1>
-
+      <AccountLayout
+        title={formatMessage({ id: "change_password", defaultMessage: "Change Password" })}
+      >
+        <div className="card max-w-lg p-6">
             <Form
               onSubmit={onSubmit}
-              className="mt-10 space-y-4"
+              className="space-y-4"
               onSubmitError={onSubmitError}
               onBeforeSubmitValidator={onBeforeSubmitValidator}
             >
@@ -161,14 +152,13 @@ const ChangePassword = () => {
 
               <SubmitButton>
                 {formatMessage({
-                  id: "reset_password",
-                  defaultMessage: "Reset password",
+                  id: "update_password",
+                  defaultMessage: "Update Password",
                 })}
               </SubmitButton>
             </Form>
-          </div>
         </div>
-      </div>
+      </AccountLayout>
     </>
   );
 };

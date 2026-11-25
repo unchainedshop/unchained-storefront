@@ -67,50 +67,11 @@ import CategoryListItem from '../modules/assortment/components/CategoryListItem'
 import AssortmentBreadcrumbs from '../modules/assortment/components/AssortmentBreadcrumbs';
 
 // Color usage data from real codebase analysis
-const colorUsageData = {
-  tailwindClasses: {
-    'Background Colors': {
-      'bg-white': 47,
-      'bg-slate-900': 39,
-      'bg-slate-50': 32,
-      'bg-slate-950': 22,
-      'bg-green-500': 6,
-      'bg-red-500': 4,
-    },
-    'Text Colors': {
-      'text-white': 59,
-      'text-slate-600': 40,
-      'text-slate-900': 35,
-      'text-slate-300': 28,
-      'text-slate-400': 20,
-      'text-red-600': 8,
-      'text-green-600': 5,
-      'text-yellow-600': 3,
-    },
-    'Border Colors': {
-      'border-slate-200': 25,
-      'border-slate-700': 15,
-      'border-slate-300': 12,
-    },
-    'Dark Mode Backgrounds': {
-      'dark:bg-slate-950': 35,
-      'dark:bg-slate-900': 28,
-      'dark:bg-slate-800': 12,
-    },
-    'Dark Mode Text': {
-      'dark:text-white': 45,
-      'dark:text-slate-300': 25,
-      'dark:text-slate-400': 15,
-      'dark:hover:text-white': 10,
-    },
-    'Dark Mode Borders': {
-      'dark:border-slate-700': 18,
-      'dark:border-slate-800': 8,
-    },
-  },
-  customProperties: {
-    // Legacy custom properties (now removed)
-  },
+// Semantic color tokens defined in styles/theme.css
+const colorTokens = {
+  Brand: ['primary', 'primary-hover', 'primary-foreground', 'accent', 'accent-soft', 'accent-foreground'],
+  Neutrals: ['background', 'surface', 'muted', 'muted-strong', 'foreground', 'muted-foreground', 'subtle-foreground', 'border', 'input', 'ring'],
+  Status: ['success', 'success-soft', 'warning', 'warning-soft', 'danger', 'danger-soft'],
 };
 
 // Typography usage data - based on common Tailwind text classes
@@ -162,12 +123,12 @@ const typographyData = {
     },
     small: {
       count: 85,
-      classes: 'text-sm text-slate-600',
+      classes: 'text-sm text-muted-foreground',
       example: 'Small descriptive text',
     },
     caption: {
       count: 45,
-      classes: 'text-xs text-slate-500',
+      classes: 'text-xs text-subtle-foreground',
       example: 'Caption or metadata',
     },
   },
@@ -353,44 +314,44 @@ const interactiveStatesData = {
   buttons: [
     {
       state: 'default',
-      classes: 'bg-slate-900 text-white px-4 py-2 rounded-lg',
+      classes: 'bg-primary text-primary-foreground px-4 py-2 rounded-lg',
       description: 'Default state',
     },
     {
       state: 'hover',
       classes:
-        'bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors',
+        'bg-primary hover:bg-primary-hover text-primary-foreground px-4 py-2 rounded-lg transition-colors',
       description: 'Hover state',
     },
     {
       state: 'focus',
       classes:
-        'bg-slate-900 focus:bg-slate-800 focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 text-white px-4 py-2 rounded-lg transition-all',
+        'bg-primary focus:bg-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 text-primary-foreground px-4 py-2 rounded-lg transition-all',
       description: 'Focus state',
     },
     {
       state: 'active',
       classes:
-        'bg-slate-900 active:bg-slate-950 text-white px-4 py-2 rounded-lg transition-colors',
+        'bg-primary active:bg-primary-hover text-primary-foreground px-4 py-2 rounded-lg transition-colors',
       description: 'Active/pressed state',
     },
     {
       state: 'disabled',
       classes:
-        'bg-slate-300 text-slate-500 px-4 py-2 rounded-lg cursor-not-allowed',
+        'bg-muted-strong text-subtle-foreground px-4 py-2 rounded-lg cursor-not-allowed',
       description: 'Disabled state',
     },
   ],
   links: [
     {
       state: 'default',
-      classes: 'text-slate-900 underline',
+      classes: 'text-foreground underline',
       description: 'Default link',
     },
     {
       state: 'hover',
       classes:
-        'text-slate-900 hover:text-slate-700 underline transition-colors',
+        'text-foreground hover:text-muted-foreground underline transition-colors',
       description: 'Hover state',
     },
     {
@@ -401,7 +362,7 @@ const interactiveStatesData = {
     {
       state: 'focus',
       classes:
-        'text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 underline rounded transition-all',
+        'text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 underline rounded transition-all',
       description: 'Focus state',
     },
   ],
@@ -409,25 +370,25 @@ const interactiveStatesData = {
     {
       state: 'default',
       classes:
-        'border border-slate-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent',
+        'border border-input px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent',
       description: 'Default input',
     },
     {
       state: 'focus',
       classes:
-        'border border-slate-300 px-3 py-2 rounded-lg outline-none ring-2 ring-slate-900 border-transparent',
+        'border border-input px-3 py-2 rounded-lg outline-none ring-2 ring-ring border-transparent',
       description: 'Focus state',
     },
     {
       state: 'error',
       classes:
-        'border border-red-500 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent',
+        'border border-danger px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-danger focus:border-transparent',
       description: 'Error state',
     },
     {
       state: 'disabled',
       classes:
-        'border border-slate-200 bg-slate-50 text-slate-400 px-3 py-2 rounded-lg cursor-not-allowed',
+        'border border-border bg-muted text-subtle-foreground px-3 py-2 rounded-lg cursor-not-allowed',
       description: 'Disabled state',
     },
   ],
@@ -796,7 +757,7 @@ const StyleguidePage = () => {
           description: 'Intersection observer fade-in',
           examples: [
             <FadeInSection key="fade-1">
-              <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded">
+              <div className="p-4 bg-muted rounded">
                 This content fades in when scrolled into view
               </div>
             </FadeInSection>,
@@ -919,165 +880,54 @@ const StyleguidePage = () => {
   ];
 
   // Function to get actual color value for display
-  const getColorValue = (colorClass) => {
-    const colorMap = {
-      // Background colors
-      'bg-white': '#ffffff',
-      'bg-slate-50': '#f8fafc',
-      'bg-slate-900': '#0f172a',
-      'bg-slate-950': '#020617',
-      'bg-green-500': '#22c55e',
-      'bg-red-500': '#ef4444',
-
-      // Text colors (show as background for visibility)
-      'text-white': '#ffffff',
-      'text-slate-900': '#0f172a',
-      'text-slate-600': '#475569',
-      'text-slate-300': '#cbd5e1',
-      'text-slate-400': '#94a3b8',
-      'text-red-600': '#dc2626',
-      'text-green-600': '#16a34a',
-      'text-yellow-600': '#ca8a04',
-
-      // Border colors
-      'border-slate-200': '#e2e8f0',
-      'border-slate-700': '#334155',
-
-      // Dark mode colors
-      'dark:bg-slate-950': '#020617',
-      'dark:bg-slate-900': '#0f172a',
-      'dark:bg-slate-800': '#1e293b',
-      'dark:text-white': '#ffffff',
-      'dark:text-slate-300': '#cbd5e1',
-      'dark:text-slate-400': '#94a3b8',
-      'dark:border-slate-700': '#334155',
-      'dark:hover:text-white': '#ffffff',
-    };
-    return colorMap[colorClass] || '#e5e7eb'; // fallback gray
-  };
-
   const renderColorPalette = () => (
     <div className="space-y-8">
-      <div>
-        <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
-          Tailwind Color Classes
-        </h3>
-        {Object.entries(colorUsageData.tailwindClasses).map(
-          ([category, colors]) => (
-            <div key={category} className="mb-6">
-              <h4 className="text-lg font-medium mb-3 text-slate-900 dark:text-white">
-                {category}
-              </h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {Object.entries(colors).map(([colorClass, count]) => {
-                  const colorValue = getColorValue(colorClass);
-                  const isLight =
-                    colorValue === '#ffffff' ||
-                    colorValue.includes('f8fafc') ||
-                    colorValue.includes('e2e8f0');
-
-                  return (
-                    <div
-                      key={colorClass}
-                      className="flex items-center space-x-2"
-                    >
-                      <div
-                        className={`w-6 h-6 rounded border-2 ${isLight ? 'border-slate-300' : 'border-slate-200'}`}
-                        style={{ backgroundColor: colorValue }}
-                      ></div>
-                      <div className="flex-1">
-                        <div className="text-sm font-mono text-slate-900 dark:text-white">
-                          {colorClass}
-                        </div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400">
-                          {count} uses
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+      <p className="text-sm text-muted-foreground">
+        Edit <code className="font-mono">styles/theme.css</code> to change
+        these values for the whole storefront, in light and dark mode.
+      </p>
+      {Object.entries(colorTokens).map(([group, tokens]) => (
+        <div key={group}>
+          <h3 className="mb-4 text-lg font-semibold">{group}</h3>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+            {tokens.map((token) => (
+              <div key={token} className="card overflow-hidden">
+                <div
+                  className="h-14 border-b border-border"
+                  style={{ backgroundColor: `var(--${token})` }}
+                />
+                <div className="px-3 py-2 font-mono text-xs">{token}</div>
               </div>
-            </div>
-          ),
-        )}
-      </div>
-
-      {Object.keys(colorUsageData.customProperties).length > 0 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
-            Custom CSS Properties
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {Object.entries(colorUsageData.customProperties).map(
-              ([property, value]) => (
-                <div key={property} className="flex items-center space-x-2">
-                  <div
-                    className="w-8 h-8 rounded border border-slate-300 dark:border-slate-700"
-                    style={{ backgroundColor: value as string }}
-                  ></div>
-                  <div>
-                    <div className="text-sm font-mono text-slate-900 dark:text-white">
-                      {property}
-                    </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">
-                      {value as string}
-                    </div>
-                  </div>
-                </div>
-              ),
-            )}
+            ))}
           </div>
         </div>
-      )}
-
-      <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
-          Color Usage Summary
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <div className="font-medium text-slate-900 dark:text-white">
-              Tailwind Classes
-            </div>
-            <div className="text-slate-600 dark:text-slate-400">
-              520+ usages
-            </div>
-          </div>
-          <div>
-            <div className="font-medium text-slate-900 dark:text-white">
-              Total Components
-            </div>
-            <div className="text-slate-600 dark:text-slate-400">
-              70+ components
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
+
 
   const renderTypography = () => (
     <div className="space-y-12">
       {/* Text Sizes */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Text Sizes
         </h3>
         <div className="space-y-4">
           {Object.entries(typographyData.headings).map(([className, data]) => (
             <div
               key={className}
-              className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900"
+              className="flex items-center justify-between p-4 border border-border rounded-lg bg-surface "
             >
               <div className="flex-1">
-                <div className={`${className} text-slate-900 dark:text-white`}>
+                <div className={`${className} text-foreground `}>
                   {data.example}
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                <div className="text-xs text-subtle-foreground mt-1">
                   {className}
                 </div>
               </div>
-              <div className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded">
+              <div className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">
                 {data.count} uses
               </div>
             </div>
@@ -1087,25 +937,25 @@ const StyleguidePage = () => {
 
       {/* Font Weights */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Font Weights
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.entries(typographyData.weights).map(([className, data]) => (
             <div
               key={className}
-              className="p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900"
+              className="p-4 border border-border rounded-lg bg-surface "
             >
               <div
-                className={`text-lg ${className} text-slate-900 dark:text-white mb-2`}
+                className={`text-lg ${className} text-foreground mb-2`}
               >
                 {data.example}
               </div>
               <div className="flex justify-between items-center">
-                <div className="text-xs font-mono text-slate-600 dark:text-slate-400">
+                <div className="text-xs font-mono text-muted-foreground ">
                   {className}
                 </div>
-                <div className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded">
+                <div className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">
                   {data.count} uses
                 </div>
               </div>
@@ -1116,33 +966,33 @@ const StyleguidePage = () => {
 
       {/* HTML Elements */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           HTML Elements
         </h3>
         <div className="space-y-4">
           {Object.entries(typographyData.elements).map(([element, data]) => (
             <div
               key={element}
-              className="p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900"
+              className="p-4 border border-border rounded-lg bg-surface "
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
                   <div
-                    className={`${data.classes} text-slate-900 dark:text-white`}
+                    className={`${data.classes} text-foreground `}
                   >
                     {data.example}
                   </div>
                 </div>
-                <div className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded ml-4">
+                <div className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded ml-4">
                   {data.count} uses
                 </div>
               </div>
               <div className="flex justify-between items-center text-xs">
                 <div className="flex space-x-4">
-                  <span className="font-mono text-slate-600 dark:text-slate-400">
+                  <span className="font-mono text-muted-foreground ">
                     &lt;{element}&gt;
                   </span>
-                  <span className="font-mono text-slate-500 dark:text-slate-500">
+                  <span className="font-mono text-subtle-foreground ">
                     {data.classes}
                   </span>
                 </div>
@@ -1153,40 +1003,40 @@ const StyleguidePage = () => {
       </div>
 
       {/* Typography Usage Summary */}
-      <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
+      <div className="bg-muted border border-border p-6 rounded-lg">
+        <h3 className="text-lg font-semibold mb-2 text-foreground ">
           Typography Usage Summary
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">
+            <div className="font-medium text-foreground ">
               Text Sizes
             </div>
-            <div className="text-slate-600 dark:text-slate-400">
+            <div className="text-muted-foreground ">
               {Object.keys(typographyData.headings).length} variants
             </div>
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">
+            <div className="font-medium text-foreground ">
               Font Weights
             </div>
-            <div className="text-slate-600 dark:text-slate-400">
+            <div className="text-muted-foreground ">
               {Object.keys(typographyData.weights).length} weights
             </div>
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">
+            <div className="font-medium text-foreground ">
               HTML Elements
             </div>
-            <div className="text-slate-600 dark:text-slate-400">
+            <div className="text-muted-foreground ">
               {Object.keys(typographyData.elements).length} elements
             </div>
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">
+            <div className="font-medium text-foreground ">
               Total Usage
             </div>
-            <div className="text-slate-600 dark:text-slate-400">
+            <div className="text-muted-foreground ">
               {Object.values(typographyData.headings).reduce(
                 (sum, item) => sum + item.count,
                 0,
@@ -1211,45 +1061,45 @@ const StyleguidePage = () => {
     <div className="space-y-12">
       {/* Spacing Scale */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Spacing Scale
         </h3>
 
         {/* Padding */}
         <div className="mb-8">
-          <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
+          <h4 className="text-xl font-medium mb-4 text-foreground ">
             Padding Classes
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Object.entries(spacingData.padding).map(([className, data]) => (
               <div
                 key={className}
-                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 overflow-hidden"
+                className="border border-border rounded-lg bg-surface overflow-hidden"
               >
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-2">
-                    <code className="text-sm font-mono text-slate-900 dark:text-white">
+                    <code className="text-sm font-mono text-foreground ">
                       {className}
                     </code>
                     <div className="text-right">
-                      <span className="text-xs text-slate-500 dark:text-slate-400 block">
+                      <span className="text-xs text-subtle-foreground block">
                         {data.value}
                       </span>
                       {data.count && (
-                        <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded">
+                        <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">
                           {data.count} uses
                         </span>
                       )}
                     </div>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                  <p className="text-xs text-muted-foreground mb-3">
                     {data.description}
                   </p>
-                  <div className="bg-slate-100 dark:bg-slate-800 rounded">
+                  <div className="bg-muted rounded">
                     <div
-                      className={`bg-blue-200 dark:bg-blue-900 ${className}`}
+                      className={`bg-accent-soft ${className}`}
                     >
-                      <div className="bg-blue-500 dark:bg-blue-600 text-white text-xs text-center py-1">
+                      <div className="bg-accent text-white text-xs text-center py-1">
                         Content
                       </div>
                     </div>
@@ -1262,29 +1112,29 @@ const StyleguidePage = () => {
 
         {/* Margin */}
         <div className="mb-8">
-          <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
+          <h4 className="text-xl font-medium mb-4 text-foreground ">
             Margin Classes
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Object.entries(spacingData.margin).map(([className, data]) => (
               <div
                 key={className}
-                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+                className="border border-border rounded-lg bg-surface p-4"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                  <code className="text-sm font-mono text-foreground ">
                     {className}
                   </code>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-subtle-foreground ">
                     {data.value}
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                <p className="text-xs text-muted-foreground mb-3">
                   {data.description}
                 </p>
-                <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded">
+                <div className="bg-muted p-2 rounded">
                   <div
-                    className={`bg-green-500 dark:bg-green-600 text-white text-xs text-center py-1 ${className}`}
+                    className={`bg-success text-white text-xs text-center py-1 ${className}`}
                   >
                     Element
                   </div>
@@ -1296,34 +1146,34 @@ const StyleguidePage = () => {
 
         {/* Gap */}
         <div className="mb-8">
-          <h4 className="text-xl font-medium mb-4 text-slate-900 dark:text-white">
+          <h4 className="text-xl font-medium mb-4 text-foreground ">
             Gap Classes (Flexbox/Grid)
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(spacingData.gap).map(([className, data]) => (
               <div
                 key={className}
-                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+                className="border border-border rounded-lg bg-surface p-4"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                  <code className="text-sm font-mono text-foreground ">
                     {className}
                   </code>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-subtle-foreground ">
                     {data.value}
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                <p className="text-xs text-muted-foreground mb-3">
                   {data.description}
                 </p>
                 <div className={`flex ${className}`}>
-                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="bg-purple-500 text-white text-xs px-2 py-1 rounded">
                     1
                   </div>
-                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="bg-purple-500 text-white text-xs px-2 py-1 rounded">
                     2
                   </div>
-                  <div className="bg-purple-500 dark:bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="bg-purple-500 text-white text-xs px-2 py-1 rounded">
                     3
                   </div>
                 </div>
@@ -1335,7 +1185,7 @@ const StyleguidePage = () => {
 
       {/* Border Radius */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Border Radius
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1343,21 +1193,21 @@ const StyleguidePage = () => {
             ([className, data]) => (
               <div
                 key={className}
-                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+                className="border border-border rounded-lg bg-surface p-4"
               >
                 <div className="flex justify-between items-center mb-3">
-                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                  <code className="text-sm font-mono text-foreground ">
                     {className}
                   </code>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-subtle-foreground ">
                     {data.value}
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                <p className="text-xs text-muted-foreground mb-3">
                   {data.description}
                 </p>
                 <div
-                  className={`bg-indigo-500 dark:bg-indigo-600 text-white text-center py-4 ${className}`}
+                  className={`bg-accent text-white text-center py-4 ${className}`}
                 >
                   Example
                 </div>
@@ -1369,7 +1219,7 @@ const StyleguidePage = () => {
 
       {/* Box Shadow */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Box Shadows
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1377,22 +1227,22 @@ const StyleguidePage = () => {
             ([className, data]) => (
               <div
                 key={className}
-                className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+                className="border border-border rounded-lg bg-surface p-6"
               >
                 <div className="flex justify-between items-center mb-3">
-                  <code className="text-sm font-mono text-slate-900 dark:text-white">
+                  <code className="text-sm font-mono text-foreground ">
                     {className}
                   </code>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+                <p className="text-xs text-muted-foreground mb-4">
                   {data.description}
                 </p>
                 <div
-                  className={`bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-center py-6 rounded-lg ${className}`}
+                  className={`bg-surface text-foreground text-center py-6 rounded-lg ${className}`}
                 >
                   Shadow Example
                 </div>
-                <div className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 break-all">
+                <div className="mt-2 text-xs font-mono text-subtle-foreground break-all">
                   {data.value}
                 </div>
               </div>
@@ -1407,21 +1257,21 @@ const StyleguidePage = () => {
     <div className="space-y-12">
       {/* Button States */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Button States
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {interactiveStatesData.buttons.map((button, index) => (
             <div
               key={button.state}
-              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+              className="border border-border rounded-lg bg-surface p-6"
             >
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                <h4 className="text-sm font-semibold text-foreground mb-1">
                   {button.state.charAt(0).toUpperCase() + button.state.slice(1)}{' '}
                   State
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
+                <p className="text-xs text-muted-foreground ">
                   {button.description}
                 </p>
               </div>
@@ -1437,7 +1287,7 @@ const StyleguidePage = () => {
                 </button>
               </div>
 
-              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
+              <div className="text-xs font-mono text-subtle-foreground break-all bg-muted p-2 rounded">
                 {button.classes}
               </div>
             </div>
@@ -1447,21 +1297,21 @@ const StyleguidePage = () => {
 
       {/* Link States */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Link States
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {interactiveStatesData.links.map((link, index) => (
             <div
               key={link.state}
-              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+              className="border border-border rounded-lg bg-surface p-6"
             >
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                <h4 className="text-sm font-semibold text-foreground mb-1">
                   {link.state.charAt(0).toUpperCase() + link.state.slice(1)}{' '}
                   State
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
+                <p className="text-xs text-muted-foreground ">
                   {link.description}
                 </p>
               </div>
@@ -1476,7 +1326,7 @@ const StyleguidePage = () => {
                 </a>
               </div>
 
-              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
+              <div className="text-xs font-mono text-subtle-foreground break-all bg-muted p-2 rounded">
                 {link.classes}
               </div>
             </div>
@@ -1486,21 +1336,21 @@ const StyleguidePage = () => {
 
       {/* Input States */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Input States
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {interactiveStatesData.inputs.map((input, index) => (
             <div
               key={input.state}
-              className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6"
+              className="border border-border rounded-lg bg-surface p-6"
             >
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                <h4 className="text-sm font-semibold text-foreground mb-1">
                   {input.state.charAt(0).toUpperCase() + input.state.slice(1)}{' '}
                   State
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
+                <p className="text-xs text-muted-foreground ">
                   {input.description}
                 </p>
               </div>
@@ -1514,7 +1364,7 @@ const StyleguidePage = () => {
                 />
               </div>
 
-              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all bg-slate-50 dark:bg-slate-800 p-2 rounded">
+              <div className="text-xs font-mono text-subtle-foreground break-all bg-muted p-2 rounded">
                 {input.classes}
               </div>
             </div>
@@ -1524,28 +1374,28 @@ const StyleguidePage = () => {
 
       {/* Loading States */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-semibold mb-6 text-foreground ">
           Loading States
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
-            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
+          <div className="border border-border rounded-lg bg-surface p-6">
+            <h4 className="text-sm font-semibold text-foreground mb-3">
               Spinner Loading
             </h4>
             <div className="flex justify-center mb-4">
               <Loading />
             </div>
-            <div className="text-xs text-slate-600 dark:text-slate-400">
+            <div className="text-xs text-muted-foreground ">
               Standard loading component with spinner
             </div>
           </div>
 
-          <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
-            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
+          <div className="border border-border rounded-lg bg-surface p-6">
+            <h4 className="text-sm font-semibold text-foreground mb-3">
               Button Loading
             </h4>
             <div className="flex justify-center mb-4">
-              <button className="bg-slate-900 text-white px-4 py-2 rounded-lg flex items-center space-x-2 cursor-not-allowed">
+              <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg flex items-center space-x-2 cursor-not-allowed">
                 <svg
                   className="animate-spin h-4 w-4"
                   fill="none"
@@ -1568,21 +1418,21 @@ const StyleguidePage = () => {
                 <span>Loading...</span>
               </button>
             </div>
-            <div className="text-xs text-slate-600 dark:text-slate-400">
+            <div className="text-xs text-muted-foreground ">
               Button with inline loading spinner
             </div>
           </div>
 
-          <div className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-6">
-            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">
+          <div className="border border-border rounded-lg bg-surface p-6">
+            <h4 className="text-sm font-semibold text-foreground mb-3">
               Skeleton Loading
             </h4>
             <div className="space-y-3 mb-4">
-              <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 rounded"></div>
-              <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 rounded w-3/4"></div>
-              <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 rounded w-1/2"></div>
+              <div className="animate-pulse bg-muted-strong h-4 rounded"></div>
+              <div className="animate-pulse bg-muted-strong h-4 rounded w-3/4"></div>
+              <div className="animate-pulse bg-muted-strong h-4 rounded w-1/2"></div>
             </div>
-            <div className="text-xs text-slate-600 dark:text-slate-400">
+            <div className="text-xs text-muted-foreground ">
               Skeleton placeholder for content loading
             </div>
           </div>
@@ -1641,30 +1491,30 @@ const StyleguidePage = () => {
 
     return (
       <div className="space-y-12">
-        <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
+        <div className="bg-muted border border-border p-6 rounded-lg">
+          <h3 className="text-lg font-semibold mb-2 text-foreground ">
             Icons Library Overview
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div>
-              <div className="font-medium text-slate-900 dark:text-white">
+              <div className="font-medium text-foreground ">
                 Total Icons
               </div>
-              <div className="text-slate-600 dark:text-slate-400">
+              <div className="text-muted-foreground ">
                 29 unique heroicons
               </div>
             </div>
             <div>
-              <div className="font-medium text-slate-900 dark:text-white">
+              <div className="font-medium text-foreground ">
                 Files Using Icons
               </div>
-              <div className="text-slate-600 dark:text-slate-400">28 files</div>
+              <div className="text-muted-foreground ">28 files</div>
             </div>
             <div>
-              <div className="font-medium text-slate-900 dark:text-white">
+              <div className="font-medium text-foreground ">
                 Icon Packages
               </div>
-              <div className="text-slate-600 dark:text-slate-400">
+              <div className="text-muted-foreground ">
                 3 heroicons variants
               </div>
             </div>
@@ -1674,13 +1524,13 @@ const StyleguidePage = () => {
         {Object.entries(iconsData).map(([packageName, packageData]) => (
           <div key={packageName}>
             <div className="mb-6">
-              <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">
+              <h3 className="text-2xl font-semibold text-foreground mb-2">
                 {packageName}
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 mb-1">
+              <p className="text-muted-foreground mb-1">
                 {packageData.description}
               </p>
-              <p className="text-sm text-slate-500 dark:text-slate-500">
+              <p className="text-sm text-subtle-foreground ">
                 Used in {packageData.totalFiles} files
               </p>
             </div>
@@ -1692,29 +1542,29 @@ const StyleguidePage = () => {
                 return (
                   <div
                     key={iconName}
-                    className="border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 p-4"
+                    className="border border-border rounded-lg bg-surface p-4"
                   >
                     <div className="flex items-center mb-3">
-                      <div className="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg mr-3">
+                      <div className="w-10 h-10 flex items-center justify-center bg-muted rounded-lg mr-3">
                         {IconComponent && (
-                          <IconComponent className="w-6 h-6 text-slate-700 dark:text-slate-300" />
+                          <IconComponent className="w-6 h-6 text-muted-foreground " />
                         )}
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-slate-900 dark:text-white">
+                        <h4 className="text-sm font-semibold text-foreground ">
                           {iconName}
                         </h4>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                        <p className="text-xs text-subtle-foreground ">
                           {iconInfo.files} file{iconInfo.files > 1 ? 's' : ''}
                         </p>
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                    <p className="text-xs text-muted-foreground mb-3">
                       {iconInfo.usage}
                     </p>
 
-                    <div className="text-xs font-mono bg-slate-50 dark:bg-slate-800 p-2 rounded text-slate-700 dark:text-slate-300">
+                    <div className="text-xs font-mono bg-muted p-2 rounded text-muted-foreground ">
                       import {`{ ${iconName} }`} from &quot;{packageName}&quot;
                     </div>
                   </div>
@@ -1874,21 +1724,21 @@ const StyleguidePage = () => {
               className={gridClasses}
             >
               <div
-                className={`border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg ${isHero ? 'p-6' : 'p-4'} flex flex-col transition-all duration-200 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700 h-full`}
+                className={`border border-border bg-surface rounded-lg ${isHero ? 'p-6' : 'p-4'} flex flex-col transition-all duration-200 hover:shadow-lg hover:border-input h-full`}
               >
                 <div className="flex-shrink-0 mb-3">
                   <div className="flex items-center justify-between mb-2">
                     <h4
-                      className={`font-semibold text-slate-900 dark:text-white ${isHero ? 'text-base' : 'text-sm'}`}
+                      className={`font-semibold text-foreground ${isHero ? 'text-base' : 'text-sm'}`}
                     >
                       {component.name}
                     </h4>
-                    <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">
+                    <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded-full">
                       {component.category.split(' ')[0]}
                     </span>
                   </div>
                   <p
-                    className={`text-slate-500 dark:text-slate-400 line-clamp-2 ${isHero ? 'text-sm' : 'text-xs'}`}
+                    className={`text-subtle-foreground line-clamp-2 ${isHero ? 'text-sm' : 'text-xs'}`}
                   >
                     {component.description}
                   </p>
@@ -1919,7 +1769,7 @@ const StyleguidePage = () => {
                           : 1) &&
                     !isHero &&
                     !isLarge && (
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 text-center">
+                      <div className="text-xs text-subtle-foreground mb-3 text-center">
                         +
                         {component.examples.length -
                           (size === 'wide' || size === 'medium' ? 2 : 1)}{' '}
@@ -1930,12 +1780,12 @@ const StyleguidePage = () => {
                   {/* Code Examples - Only show for larger components */}
                   {(isHero || isLarge || size === 'wide') && (
                     <div className="mt-auto">
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">
+                      <div className="text-xs text-subtle-foreground mb-2 font-medium">
                         Usage Examples:
                       </div>
-                      <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-3 overflow-x-auto">
+                      <div className="bg-muted border border-border rounded-md p-3 overflow-x-auto">
                         <code
-                          className={`font-mono text-slate-700 dark:text-slate-300 whitespace-pre leading-relaxed ${isHero ? 'text-sm' : 'text-xs'}`}
+                          className={`font-mono text-muted-foreground whitespace-pre leading-relaxed ${isHero ? 'text-sm' : 'text-xs'}`}
                         >
                           {isHero || isLarge
                             ? codeExamples.slice(0, isHero ? 4 : 3).join('\n')
@@ -1954,33 +1804,33 @@ const StyleguidePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-surface ">
       <div className="container mx-auto py-8">
         <div className="mb-8">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-4xl font-semibold mb-2 text-slate-900 dark:text-white">
+              <h1 className="text-4xl font-semibold mb-2 text-foreground ">
                 Design System Styleguide
               </h1>
-              <p className="text-slate-600 dark:text-slate-400">
+              <p className="text-muted-foreground ">
                 Complete overview of components and colors used in the Unchained
                 Storefront
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-slate-600 dark:text-slate-400">
+              <span className="text-sm text-muted-foreground ">
                 Theme:
               </span>
               <button
                 type="button"
-                className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                className="p-2 rounded-lg border border-border bg-surface hover:bg-muted transition-colors"
                 onClick={handleThemeToggle}
                 title="Toggle theme"
               >
                 {isDark ? (
-                  <SunIcon className="h-5 w-5 text-yellow-400" />
+                  <SunIcon className="h-5 w-5 text-warning" />
                 ) : (
-                  <MoonIcon className="h-5 w-5 text-slate-700" />
+                  <MoonIcon className="h-5 w-5 text-muted-foreground" />
                 )}
               </button>
             </div>
@@ -1988,14 +1838,14 @@ const StyleguidePage = () => {
         </div>
 
         <div className="mb-8">
-          <div className="border-b border-slate-200 dark:border-slate-800">
+          <div className="border-b border-border ">
             <nav className="-mb-px flex space-x-8">
               <button
                 onClick={() => setSelectedTab('components')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === 'components'
-                    ? 'border-slate-500 dark:border-0 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'border-input dark:border-0 text-foreground '
+                    : 'border-transparent text-subtle-foreground hover:text-muted-foreground '
                 }`}
               >
                 Components
@@ -2004,8 +1854,8 @@ const StyleguidePage = () => {
                 onClick={() => setSelectedTab('typography')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === 'typography'
-                    ? 'border-slate-500 dark:border-0 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'border-input dark:border-0 text-foreground '
+                    : 'border-transparent text-subtle-foreground hover:text-muted-foreground '
                 }`}
               >
                 Typography
@@ -2014,8 +1864,8 @@ const StyleguidePage = () => {
                 onClick={() => setSelectedTab('colors')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === 'colors'
-                    ? 'border-slate-500 dark:border-0 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'border-input dark:border-0 text-foreground '
+                    : 'border-transparent text-subtle-foreground hover:text-muted-foreground '
                 }`}
               >
                 Colors & Usage
@@ -2024,8 +1874,8 @@ const StyleguidePage = () => {
                 onClick={() => setSelectedTab('spacing')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === 'spacing'
-                    ? 'border-slate-500 dark:border-0 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'border-input dark:border-0 text-foreground '
+                    : 'border-transparent text-subtle-foreground hover:text-muted-foreground '
                 }`}
               >
                 Spacing & Layout
@@ -2034,8 +1884,8 @@ const StyleguidePage = () => {
                 onClick={() => setSelectedTab('icons')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === 'icons'
-                    ? 'border-slate-500 dark:border-0 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'border-input dark:border-0 text-foreground '
+                    : 'border-transparent text-subtle-foreground hover:text-muted-foreground '
                 }`}
               >
                 Icons
@@ -2044,8 +1894,8 @@ const StyleguidePage = () => {
                 onClick={() => setSelectedTab('interactive')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   selectedTab === 'interactive'
-                    ? 'border-slate-500 dark:border-0 text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'border-input dark:border-0 text-foreground '
+                    : 'border-transparent text-subtle-foreground hover:text-muted-foreground '
                 }`}
               >
                 Interactive States

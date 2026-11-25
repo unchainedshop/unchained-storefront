@@ -29,6 +29,10 @@ const OrderItemFragment = gql`
       ...TokenFragment
     }
     quantity
+    dispatches {
+      shipping
+      earliestDelivery
+    }
     discounts {
       orderDiscount {
         total {

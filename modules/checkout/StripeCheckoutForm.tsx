@@ -100,9 +100,9 @@ export default function StripeCheckoutForm({ returnUrl }) {
     <form
       id="payment-form"
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-sm"
+      className="flex flex-col space-y-4"
     >
-      <h2 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+      <h2 className="text-lg font-medium text-foreground">
         {formatMessage({
           id: 'checkout_payment',
           defaultMessage: 'Checkout Payment',
@@ -115,11 +115,11 @@ export default function StripeCheckoutForm({ returnUrl }) {
         type="submit"
         disabled={isLoading || !stripe || !elements}
         id="submit"
-        className="w-full py-2 px-4 bg-slate-900 dark:bg-slate-700 text-white rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-600 disabled:opacity-50"
+        className="btn btn-primary btn-lg w-full"
       >
         {isLoading ? (
           <span className="flex items-center justify-center space-x-2">
-            <div className="spinner border-t-2 border-white rounded-full w-4 h-4 animate-spin" />
+            <div className="spinner border-t-2 border-surface rounded-full w-4 h-4 animate-spin" />
             <span>
               {formatMessage({
                 id: 'processing_payment',
@@ -135,7 +135,7 @@ export default function StripeCheckoutForm({ returnUrl }) {
       {message && (
         <div
           id="payment-message"
-          className="text-sm text-center text-slate-600 dark:text-slate-300 mt-2"
+          className="text-sm text-center text-muted-foreground mt-2"
         >
           {message}
         </div>

@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 import Button from '../common/components/Button';
 import EditableAddressPanel from './EditableAddressPanel';
 import useUpdateCartBillingAddress from '../orders/hooks/useUpdateCartBillingAddress';
+import useUser from '../auth/hooks/useUser';
+import withoutTypename from '../common/utils/withoutTypename';
 
 const areAddressesEqual = (deliveryAddress = {}, billingAddress = {}) => {
   if (!deliveryAddress || !billingAddress) return false;
@@ -21,6 +23,7 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
   const [billingAddressEditMode, setBillingAddressEditMode] =
     useState(isInitial);
   const { updateCartBillingAddress } = useUpdateCartBillingAddress();
+  const { user } = useUser();
 
   const deliveryAddress = cart.delivery?.address
     ? { ...cart.delivery?.address }
@@ -62,10 +65,10 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
     setBillingAddressEditMode(!billingAddressEditMode);
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
+    <div>
+      <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-medium text-slate-900 dark:text-white">
+          <h2 className="text-lg font-semibold">
             {formatMessage({
               id: 'billing-address',
               defaultMessage: 'Billing address',
@@ -80,7 +83,7 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
                 id: 'edit-address',
                 defaultMessage: 'Edit Address',
               })}
-              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              className="text-accent hover:text-accent"
               fullWidth={false}
             />
           )}
@@ -95,9 +98,9 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
                 type="checkbox"
                 defaultChecked={isBillingAddressSame}
                 onChange={toggleBillingAddress}
-                className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500 focus:ring-offset-0 dark:border-0 dark:bg-slate-700"
+                className="h-4 w-4 rounded border-input text-foreground focus:ring-ring focus:ring-offset-0 dark:border-0"
               />
-              <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="ml-3 text-sm font-medium text-muted-foreground">
                 {formatMessage({
                   id: 'billing-same-as-delivery',
                   defaultMessage: 'Billing Address Same as Delivery',
@@ -108,7 +111,12 @@ const CheckoutBillingAddress = ({ cart, isInitial }) => {
         ) : null}
         <EditableAddressPanel
           editing={billingAddressEditMode}
-          address={billingAddress}
+          // Returning customers start from the billing address of their last order.
+          address={
+            billingAddress?.firstName
+              ? billingAddress
+              : withoutTypename(user?.lastBillingAddress) || billingAddress
+          }
           onSubmit={updateBillingAddress}
           onToggle={toggleBillingAddressEditMode}
         />

@@ -59,7 +59,7 @@ const ForgotPasswordForm = () => {
       />
 
       <FormErrors />
-      <div className="mb-6 mt-6">
+      <div className="my-6">
         <SubmitButton>
           {formatMessage({
             id: "send_rest_link",
@@ -67,14 +67,14 @@ const ForgotPasswordForm = () => {
           })}
         </SubmitButton>
       </div>
-      <p className="text-center text-sm text-slate-400">
+      <p className="text-center text-sm text-muted-foreground">
         {formatMessage({
           id: "dont_have_account",
           defaultMessage: "Don't have an account yet?",
         })}
         <Link
           href="/sign-up"
-          className="ml-1 font-semibold text-slate-500 dark:text-slate-400 focus:text-slate-600 dark:hover:text-slate-300 focus:underline focus:outline-none"
+          className="link ml-1"
         >
           {formatMessage({ id: "sign_up", defaultMessage: "Sign up" })}
         </Link>

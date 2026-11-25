@@ -58,16 +58,16 @@ const Address = ({ user }) => {
     <section
       id="address"
       aria-labelledby="address"
-      className="mt-10 sm:px-6 lg:col-span-9 lg:col-start-4 lg:px-0"
+      className="mt-6 first:mt-0"
     >
-      <div className="space-y-6 ">
+      <div className="space-y-6">
         <Form onSubmit={onSubmit}>
-          <div className="shadow sm:overflow-hidden sm:rounded-md">
-            <div className="bg-white py-6 px-4 dark:bg-slate-500 dark:text-slate-200 sm:p-6">
+          <div className="card overflow-hidden">
+            <div className="p-5 sm:p-6">
               <div className="flex items-center justify-between">
                 <h1
                   id="address-heading"
-                  className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-100"
+                  className="text-lg font-medium leading-6 text-foreground"
                 >
                   {formatMessage({
                     id: "address",
@@ -119,7 +119,7 @@ const Address = ({ user }) => {
                       })}
                     </span>
                     {updateProfile && (
-                      <span className="text-sm text-slate-500">
+                      <span className="text-sm text-subtle-foreground">
                         {formatMessage({
                           id: "address2_optional",
                           defaultMessage: "Optional",
@@ -217,7 +217,7 @@ const Address = ({ user }) => {
                       })}
                     </span>
                     {updateProfile && (
-                      <span className="text-sm text-slate-500">
+                      <span className="text-sm text-subtle-foreground">
                         {formatMessage({
                           id: "region_optional",
                           defaultMessage: "Optional",
@@ -260,7 +260,7 @@ const Address = ({ user }) => {
               </div>
             </div>
             {updateProfile && (
-              <div className="bg-slate-50 px-4 py-3 text-right dark:bg-slate-800 sm:px-6">
+              <div className="bg-muted px-4 py-3 text-right sm:px-6">
                 <div className="flex justify-end space-x-3">
                   <Button
                     type="button"

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 const REQUEST_LOGIN_CODE_MUTATION = gql`
   mutation RequestLoginCode($email: String!) {
@@ -22,11 +23,10 @@ const LOGIN_WITH_LOGIN_CODE_MUTATION = gql`
 `;
 
 const useLoginWithLoginCode = () => {
-  const [requestLoginCodeMutation, { loading: requesting }] = useMutation(
-    REQUEST_LOGIN_CODE_MUTATION,
+  const [requestLoginCodeMutation, { loading: requesting }] = useMutation<GQL.RequestLoginCodeMutation, GQL.RequestLoginCodeMutationVariables>(REQUEST_LOGIN_CODE_MUTATION,
   );
   const [loginWithLoginCodeMutation, { client, loading: loggingIn }] =
-    useMutation(LOGIN_WITH_LOGIN_CODE_MUTATION);
+    useMutation<GQL.LoginWithLoginCodeMutation, GQL.LoginWithLoginCodeMutationVariables>(LOGIN_WITH_LOGIN_CODE_MUTATION);
 
   const requestLoginCode = async (email: string) =>
     requestLoginCodeMutation({ variables: { email: email.trim() } });

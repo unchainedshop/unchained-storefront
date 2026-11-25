@@ -45,6 +45,11 @@ const QuotationFragment = gql`
       isoCode
     }
     status
+    quantity
+    price {
+      amount
+      currencyCode
+    }
     created
     expires
     updated

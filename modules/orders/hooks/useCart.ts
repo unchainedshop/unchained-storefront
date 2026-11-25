@@ -2,7 +2,9 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import OrderDeliveryPickUpFragment from '../fragments/OrderDeliveryPickUpFragment';
 import AddressFragment from '../../common/fragments/AddressFragment';
+import CartTotalsFragment from '../fragments/CartTotalsFragment';
 import OrderDeliveryShippingFragment from '../fragments/OrderDeliveryShippingFragment';
+import type * as GQL from '../../apollo/generated';
 
 export const CART_CHECKOUT_QUERY = gql`
   query CartCheckout {
@@ -10,6 +12,7 @@ export const CART_CHECKOUT_QUERY = gql`
       _id
       cart {
         _id
+        ...CartTotalsFragment
         items {
           _id
           quantity
@@ -45,66 +48,8 @@ export const CART_CHECKOUT_QUERY = gql`
             }
           }
         }
-        totalDiscount: total(category: DISCOUNTS) {
-          amount
-          currencyCode
-        }
-        discounts {
-          _id
-          trigger
-          code
-          interface {
-            _id
-            label
-            version
-          }
-          total {
-            amount
-            currencyCode
-            isTaxable
-            isNetPrice
-          }
-          discounted {
-            _id
-            orderDiscount {
-              _id
-              total {
-                amount
-                currencyCode
-                isTaxable
-                isNetPrice
-              }
-            }
-            total {
-              amount
-              currencyCode
-              isTaxable
-              isNetPrice
-            }
-          }
-        }
-        itemsTotal: total(category: ITEMS) {
-          amount
-          currencyCode
-        }
-        taxesTotal: total(category: TAXES) {
-          amount
-          currencyCode
-        }
-        deliveryTotal: total(category: DELIVERY) {
-          amount
-          currencyCode
-        }
-        grandTotal: total {
-          amount
-          currencyCode
-        }
         payment {
           _id
-          fee {
-            amount
-            currencyCode
-          }
           provider {
             _id
             type
@@ -123,11 +68,6 @@ export const CART_CHECKOUT_QUERY = gql`
             label
             version
           }
-        }
-        delivery {
-          _id
-          ...OrderDeliveryPickUpFragment
-          ...OrderDeliveryShippingFragment
         }
         supportedDeliveryProviders {
           _id
@@ -156,6 +96,8 @@ export const CART_CHECKOUT_QUERY = gql`
         }
         delivery {
           _id
+          ...OrderDeliveryPickUpFragment
+          ...OrderDeliveryShippingFragment
           provider {
             _id
             type
@@ -175,13 +117,13 @@ export const CART_CHECKOUT_QUERY = gql`
     }
   }
   ${AddressFragment}
+  ${CartTotalsFragment}
   ${OrderDeliveryPickUpFragment}
   ${OrderDeliveryShippingFragment}
 `;
 
 const useCart = () => {
-  const { loading, error, data, previousData } = useQuery<any>(
-    CART_CHECKOUT_QUERY,
+  const { loading, error, data, previousData } = useQuery<GQL.CartCheckoutQuery, GQL.CartCheckoutQueryVariables>(CART_CHECKOUT_QUERY,
     {
       notifyOnNetworkStatusChange: true,
     },

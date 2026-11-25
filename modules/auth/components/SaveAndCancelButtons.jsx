@@ -32,7 +32,7 @@ const SaveAndCancelButtons = ({
             })
           }
           fullWidth={false}
-          className="focus:ring-indigo-400"
+          className="focus:ring-ring"
         />
       ) : null}
       {showSubmit ? (

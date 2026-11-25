@@ -8,6 +8,10 @@ import useActivateEnrollment from '../../modules/products/hooks/useActivateEnrol
 import { useIntl } from 'react-intl';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
+import useUpdateEnrollment from '../../modules/products/hooks/useUpdateEnrollment';
+import EditableAddressPanel from '../../modules/checkout/EditableAddressPanel';
+import AddressPanel from '../../modules/checkout/AddressPanel';
 
 const EnrollmentDetailPage = () => {
   const router = useRouter();
@@ -20,13 +24,15 @@ const EnrollmentDetailPage = () => {
   const { terminateEnrollment, loading: terminating } =
     useTerminateEnrollment();
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(false);
+  const { updateQuantity, updateBillingAddress, loading: updating } = useUpdateEnrollment();
   const [cancelComment, setCancelComment] = useState('');
 
   if (loading) return <Loading />;
 
   if (!enrollment && !loading)
     return (
-      <div className="max-w-2xl mx-auto mt-10 text-center text-gray-500">
+      <div className="max-w-2xl mx-auto mt-10 text-center text-subtle-foreground">
         {formatMessage({
           id: 'enrollment_not_found',
           defaultMessage: 'Enrollment not found.',
@@ -48,8 +54,11 @@ const EnrollmentDetailPage = () => {
     expires,
     periods,
     minimumCommitmentEnd,
+    contractStartDate,
+    cancellationComment,
   } = enrollment;
   const cancellationScheduled = status !== 'TERMINATED' && Boolean(expires);
+  const editable = ['ACTIVE', 'PAUSED', 'INITIAL'].includes(status) && !cancellationScheduled && Boolean(plan?.product);
 
   const createdAt = formatDateTime(created);
   const updatedAt = formatDateTime(updated);
@@ -92,9 +101,9 @@ const EnrollmentDetailPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-6 bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+    <div className="max-w-3xl mx-auto mt-6 card p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">
+        <h2 className="text-2xl font-semibold text-foreground">
           {formatMessage({
             id: 'subscription_details_title',
             defaultMessage: 'Subscription Details',
@@ -104,19 +113,19 @@ const EnrollmentDetailPage = () => {
         <span
           className={`px-3 py-1 text-sm rounded-full ${
             status === 'ACTIVE'
-              ? 'bg-green-100 text-green-700'
+              ? 'bg-success-soft text-success'
               : status === 'TERMINATED'
-                ? 'bg-red-100 text-red-700'
-                : 'bg-gray-100 text-gray-500'
+                ? 'bg-danger-soft text-danger'
+                : 'bg-muted text-subtle-foreground'
           }`}
         >
           {status}
         </span>
       </div>
 
-      <div className="space-y-4 text-sm text-gray-700">
+      <div className="space-y-4 text-sm text-muted-foreground">
         <div className="grid grid-cols-2 gap-2">
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-subtle-foreground">
             {formatMessage({
               id: 'subscription_number',
               defaultMessage: 'Subscription:',
@@ -124,7 +133,7 @@ const EnrollmentDetailPage = () => {
           </p>
           <p>{enrollmentNumber || '—'}</p>
 
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-subtle-foreground">
             {formatMessage({
               id: 'enrollment_created',
               defaultMessage: 'Created:',
@@ -132,7 +141,7 @@ const EnrollmentDetailPage = () => {
           </p>
           <p>{createdAt}</p>
 
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-subtle-foreground">
             {formatMessage({
               id: 'enrollment_expiry_date',
               defaultMessage: 'Expiry Date:',
@@ -140,9 +149,18 @@ const EnrollmentDetailPage = () => {
           </p>
           <p>{expiryDate || '—'}</p>
 
+          {contractStartDate && (
+            <>
+              <p className="font-medium text-subtle-foreground">
+                {formatMessage({ id: 'enrollment_contract_start', defaultMessage: 'Contract start:' })}
+              </p>
+              <p>{formatDateTime(contractStartDate)}</p>
+            </>
+          )}
+
           {minimumCommitmentEnd && (
             <>
-              <p className="font-medium text-gray-500">
+              <p className="font-medium text-subtle-foreground">
                 {formatMessage({
                   id: 'enrollment_minimum_commitment_end',
                   defaultMessage: 'Minimum term until:',
@@ -152,7 +170,7 @@ const EnrollmentDetailPage = () => {
             </>
           )}
 
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-subtle-foreground">
             {formatMessage({
               id: 'enrollment_updated',
               defaultMessage: 'Last Updated:',
@@ -160,7 +178,7 @@ const EnrollmentDetailPage = () => {
           </p>
           <p>{updatedAt}</p>
 
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-subtle-foreground">
             {formatMessage({
               id: 'enrollment_currency',
               defaultMessage: 'Currency:',
@@ -168,7 +186,7 @@ const EnrollmentDetailPage = () => {
           </p>
           <p>{currency?.isoCode}</p>
 
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-subtle-foreground">
             {formatMessage({
               id: 'enrollment_expired',
               defaultMessage: 'Expired:',
@@ -184,19 +202,47 @@ const EnrollmentDetailPage = () => {
         <hr className="my-4" />
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <h3 className="text-lg font-semibold">
+              {formatMessage({ id: 'billing_address', defaultMessage: 'Billing address' })}
+            </h3>
+            {editable && !editingAddress && (
+              <button type="button" onClick={() => setEditingAddress(true)} className="link text-sm">
+                {formatMessage({ id: 'edit-address', defaultMessage: 'Edit Address' })}
+              </button>
+            )}
+          </div>
+          {editable ? (
+            <EditableAddressPanel
+              editing={editingAddress}
+              address={enrollment.billingAddress || {}}
+              onToggle={() => setEditingAddress(!editingAddress)}
+              onSubmit={async (address) => {
+                await updateBillingAddress(_id, address);
+                setEditingAddress(false);
+              }}
+            />
+          ) : (
+            <AddressPanel address={enrollment.billingAddress || {}} onEdit={null} />
+          )}
+        </div>
+
+        <hr className="my-4" />
+
+        <div>
+          <h3 className="text-lg font-semibold text-foreground mb-2">
             {formatMessage({
               id: 'enrollment_user_info',
               defaultMessage: 'User Information',
             })}
           </h3>
           <div className="grid grid-cols-2 gap-2">
-            <p className="font-medium text-gray-500">
+            <p className="font-medium text-subtle-foreground">
               {formatMessage({ id: 'user_name', defaultMessage: 'Name:' })}
             </p>
             <p>{user?.name}</p>
 
-            <p className="font-medium text-gray-500">
+            <p className="font-medium text-subtle-foreground">
               {formatMessage({
                 id: 'user_username',
                 defaultMessage: 'Username:',
@@ -204,14 +250,14 @@ const EnrollmentDetailPage = () => {
             </p>
             <p>{user?.username || '—'}</p>
 
-            <p className="font-medium text-gray-500">
+            <p className="font-medium text-subtle-foreground">
               {formatMessage({ id: 'user_email', defaultMessage: 'Email:' })}
             </p>
             <p>{contact?.emailAddress}</p>
 
             {contact?.telNumber && (
               <>
-                <p className="font-medium text-gray-500">
+                <p className="font-medium text-subtle-foreground">
                   {formatMessage({
                     id: 'user_phone',
                     defaultMessage: 'Phone:',
@@ -226,7 +272,7 @@ const EnrollmentDetailPage = () => {
         <hr className="my-4" />
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="text-lg font-semibold text-foreground mb-2">
             {formatMessage({
               id: 'subscription_plan_info_header',
               defaultMessage: 'Subscription detail',
@@ -234,7 +280,7 @@ const EnrollmentDetailPage = () => {
           </h3>
 
           <div className="grid grid-cols-2 gap-2 mb-2">
-            <p className="font-medium text-gray-500">
+            <p className="font-medium text-subtle-foreground">
               {formatMessage({
                 id: 'product',
                 defaultMessage: 'Product',
@@ -244,26 +290,50 @@ const EnrollmentDetailPage = () => {
             {plan?.product ? (
               <Link
                 href={`/product/${plan.product.texts?.slug}`}
-                className="text-blue-600 hover:underline text-left cursor-pointer"
+                className="text-accent hover:underline text-left cursor-pointer"
               >
                 {plan.product.texts?.title}
               </Link>
             ) : (
-              <p className="text-gray-400">—</p>
+              <p className="text-subtle-foreground">—</p>
             )}
 
-            <p className="font-medium text-gray-500">
+            <p className="font-medium text-subtle-foreground">
               {formatMessage({
                 id: 'subscription_quantity',
                 defaultMessage: 'Quantity:',
               })}
             </p>
-            <p>{plan?.quantity}</p>
+            {editable ? (
+              <div className="inline-flex w-fit items-center rounded-full border border-input">
+                <button
+                  type="button"
+                  disabled={updating || plan.quantity <= 1}
+                  onClick={() => updateQuantity(enrollment, plan.quantity - 1)}
+                  aria-label={formatMessage({ id: 'decrease_quantity', defaultMessage: 'Decrease quantity' })}
+                  className="flex size-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground disabled:opacity-40"
+                >
+                  <MinusIcon className="size-4" />
+                </button>
+                <span className="w-8 text-center font-medium">{plan.quantity}</span>
+                <button
+                  type="button"
+                  disabled={updating}
+                  onClick={() => updateQuantity(enrollment, plan.quantity + 1)}
+                  aria-label={formatMessage({ id: 'increase_quantity', defaultMessage: 'Increase quantity' })}
+                  className="flex size-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground disabled:opacity-40"
+                >
+                  <PlusIcon className="size-4" />
+                </button>
+              </div>
+            ) : (
+              <p>{plan?.quantity}</p>
+            )}
           </div>
           {plan?.product?.plan && (
-            <div className="mt-2 border-t border-gray-100 pt-2">
-              <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
-                <p className="font-medium text-gray-500">
+            <div className="mt-2 border-t border-border pt-2">
+              <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+                <p className="font-medium text-subtle-foreground">
                   {formatMessage({
                     id: 'usage_type',
                     defaultMessage: 'Usage type',
@@ -272,7 +342,7 @@ const EnrollmentDetailPage = () => {
                 </p>
                 <p>{plan.product.plan.usageCalculationType}</p>
 
-                <p className="font-medium text-gray-500">
+                <p className="font-medium text-subtle-foreground">
                   {formatMessage({
                     id: 'subscription_billing_interval',
                     defaultMessage: 'Billing interval',
@@ -284,7 +354,7 @@ const EnrollmentDetailPage = () => {
                   {plan.product.plan.billingInterval.toLowerCase()}
                 </p>
 
-                <p className="font-medium text-gray-500">
+                <p className="font-medium text-subtle-foreground">
                   {formatMessage({
                     id: 'subscription_trial_interval',
                     defaultMessage: 'Trial interval',
@@ -301,7 +371,7 @@ const EnrollmentDetailPage = () => {
         </div>
 
         <div className="mt-4">
-          <h4 className="text-md font-semibold text-gray-800 mb-2">
+          <h4 className="text-md font-semibold text-foreground mb-2">
             {formatMessage({
               id: 'subscription_periods',
               defaultMessage: 'Subscription Periods',
@@ -320,19 +390,19 @@ const EnrollmentDetailPage = () => {
                   });
 
               let badgeColor;
-              if (enrollment.isExpired) badgeColor = 'bg-red-100 text-red-800';
+              if (enrollment.isExpired) badgeColor = 'bg-danger-soft text-danger';
               else {
                 badgeColor = period.isTrial
-                  ? 'bg-yellow-100 text-yellow-800'
-                  : 'bg-green-100 text-green-700';
+                  ? 'bg-warning-soft text-warning'
+                  : 'bg-success-soft text-success';
               }
               return (
                 <div
                   key={idx}
-                  className="flex justify-between items-center p-3 border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition"
+                  className="flex justify-between items-center p-3 border border-border rounded-lg shadow-sm hover:shadow-md transition"
                 >
                   <div>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-subtle-foreground">
                       {formatDateTime(period.start)} →{' '}
                       {formatDateTime(period.end)}
                     </p>
@@ -351,7 +421,7 @@ const EnrollmentDetailPage = () => {
               );
             })}
             {!periods?.length && (
-              <p className="text-gray-400 italic">
+              <p className="text-subtle-foreground italic">
                 {formatMessage({
                   id: 'enrollment_no_periods',
                   defaultMessage: 'No enrollment periods available.',
@@ -362,7 +432,7 @@ const EnrollmentDetailPage = () => {
         </div>
 
         {cancellationScheduled && (
-          <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
+          <div className="rounded-lg bg-warning-soft p-4 text-warning">
             {formatMessage(
               {
                 id: 'subscription_cancellation_scheduled',
@@ -371,12 +441,20 @@ const EnrollmentDetailPage = () => {
               },
               { date: expiryDate },
             )}
+        {cancellationComment && (
+          <p className="rounded-lg border border-border bg-muted p-4 text-sm text-muted-foreground">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-subtle-foreground">
+              {formatMessage({ id: 'enrollment_your_feedback', defaultMessage: 'Your feedback' })}
+            </span>
+            {cancellationComment}
+          </p>
+        )}
           </div>
         )}
 
         {confirmCancel && (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-4 space-y-3">
-            <p className="font-medium text-red-800">
+          <div className="rounded-lg border border-danger/40 bg-danger-soft p-4 space-y-3">
+            <p className="font-medium text-danger">
               {formatMessage({
                 id: 'subscription_cancel_confirm',
                 defaultMessage:
@@ -385,7 +463,7 @@ const EnrollmentDetailPage = () => {
             </p>
             <label
               htmlFor="cancel-comment"
-              className="block text-sm text-gray-700"
+              className="block text-sm text-muted-foreground"
             >
               {formatMessage({
                 id: 'subscription_cancel_feedback',
@@ -398,13 +476,13 @@ const EnrollmentDetailPage = () => {
               maxLength={1000}
               value={cancelComment}
               onChange={(e) => setCancelComment(e.target.value)}
-              className="block w-full rounded-md border border-gray-300 p-2 text-sm"
+              className="block w-full rounded-md border border-input p-2 text-sm"
             />
             <div className="flex justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setConfirmCancel(false)}
-                className="px-4 py-2 rounded-lg font-medium bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                className="px-4 py-2 rounded-lg font-medium bg-surface text-muted-foreground border border-input hover:bg-muted"
               >
                 {formatMessage({
                   id: 'subscription_keep',
@@ -415,7 +493,7 @@ const EnrollmentDetailPage = () => {
                 type="button"
                 disabled={terminating}
                 onClick={handleTerminate}
-                className="px-4 py-2 rounded-lg font-medium bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                className="px-4 py-2 rounded-lg font-medium bg-danger text-white hover:bg-danger/90 disabled:opacity-50"
               >
                 {formatMessage({
                   id: 'subscription_cancel_confirm_button',
@@ -430,7 +508,7 @@ const EnrollmentDetailPage = () => {
           {status !== 'ACTIVE' && status !== 'TERMINATED' && (
             <button
               onClick={handleActivateEnrollment}
-              className="px-5 py-2 rounded-lg font-medium transition bg-blue-100 text-blue-700 hover:bg-blue-200"
+              className="px-5 py-2 rounded-lg font-medium transition bg-accent-soft text-accent hover:bg-accent-soft"
             >
               {formatMessage({
                 id: 'enrollment_activate',
@@ -443,7 +521,7 @@ const EnrollmentDetailPage = () => {
             <button
               type="button"
               onClick={() => setConfirmCancel(true)}
-              className="px-5 py-2 rounded-lg font-medium transition bg-red-100 text-red-700 hover:bg-red-200"
+              className="px-5 py-2 rounded-lg font-medium transition bg-danger-soft text-danger hover:bg-danger-soft"
             >
               {formatMessage({
                 id: 'subscription_cancel',

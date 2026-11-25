@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const CHECKOUT_CART_MUTATION = gql`
   mutation CheckoutCart(
@@ -32,7 +33,7 @@ export const CHECKOUT_CART_MUTATION = gql`
 `;
 
 const useCheckoutCart = () => {
-  const [checkoutCartMutation] = useMutation<any>(CHECKOUT_CART_MUTATION);
+  const [checkoutCartMutation] = useMutation<GQL.CheckoutCartMutation, GQL.CheckoutCartMutationVariables>(CHECKOUT_CART_MUTATION);
 
   const checkoutCart = async ({
     orderId = null,

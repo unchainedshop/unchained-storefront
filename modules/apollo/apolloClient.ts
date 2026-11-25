@@ -6,6 +6,7 @@ import {
   ApolloLink,
 } from '@apollo/client';
 import typePolicies from './typepolicies';
+import { COUNTRY_KEY, readPreference } from '../common/utils/shopPreferences';
 import possibleTypes from '../../possibleTypes.json';
 
 const uri =
@@ -17,7 +18,13 @@ let apolloClient;
 
 function createApolloClient(locale) {
   const localeLink = new ApolloLink((operation, forward) => {
-    if (locale) operation.setContext({ headers: { 'accept-language': locale } });
+    const country = readPreference(COUNTRY_KEY);
+    operation.setContext({
+      headers: {
+        ...(locale ? { 'accept-language': locale } : {}),
+        ...(country ? { 'x-shop-country': country } : {}),
+      },
+    });
     return forward(operation);
   });
 

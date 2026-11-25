@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const USER_TOKENS_QUERY = gql`
   query UserTokens {
@@ -26,7 +27,7 @@ export const USER_TOKENS_QUERY = gql`
 `;
 
 const useUserTokens = () => {
-  const { data, loading, error } = useQuery<any>(USER_TOKENS_QUERY);
+  const { data, loading, error } = useQuery<GQL.UserTokensQuery, GQL.UserTokensQueryVariables>(USER_TOKENS_QUERY);
 
   return {
     loading,

@@ -1,14 +1,13 @@
-import {
-  ChatBubbleLeftIcon,
-  PhotoIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { ChatBubbleLeftIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import { useIntl } from 'react-intl';
+import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 import useUser from '../../auth/hooks/useUser';
 import EmailField from '../../forms/components/EmailField';
 import Form from '../../forms/components/Form';
+import FormErrors from '../../forms/components/FormErrors';
 import SubmitButton from '../../forms/components/SubmitButton';
 import TextField from '../../forms/components/TextField';
 import TextAreaField from '../../forms/components/TextAreaField';
@@ -16,167 +15,70 @@ import useConditionalRequestProductQuotation from '../hooks/useConditionalReques
 
 const GuestUserFields = () => {
   const { formatMessage } = useIntl();
+  const optional = formatMessage({ id: 'optional', defaultMessage: '(Optional)' });
   return (
-    <>
-      <div className="row">
-        <EmailField
-          id="emailAddress"
-          name="emailAddress"
-          className="col-md-6"
-          required
-          label={formatMessage({
-            id: 'email_address',
-            defaultMessage: 'E-Mail',
-          })}
-        />
-        <TextField
-          id="phoneNumber"
-          name="phoneNumber"
-          className="col-md-6"
-          required
-          type="text"
-          label={formatMessage({
-            id: 'phone-number',
-            defaultMessage: 'Telefonnummer',
-          })}
-        />
-        <TextField
-          id="firstName"
-          name="firstName"
-          required
-          className="col-md-6"
-          type="text"
-          label={formatMessage({
-            id: 'first_name',
-            defaultMessage: 'First name',
-          })}
-        />
-        <TextField
-          id="lastName"
-          name="lastName"
-          className="col-md-6"
-          required
-          type="text"
-          label={formatMessage({
-            id: 'last-name',
-            defaultMessage: 'Last name',
-          })}
-        />
-        <TextField
-          id="company"
-          name="company"
-          className="col-md-6"
-          required
-          type="text"
-          label={formatMessage({
-            id: 'company',
-            defaultMessage: 'Company',
-          })}
-        />
-        <TextField
-          id="addressLine2"
-          name="addressLine2"
-          className="col-md-6"
-          type="text"
-          label={`${formatMessage({
-            id: 'addressLine2',
-            defaultMessage: 'Addition/Department/Floor/Room',
-          })} ${formatMessage({
-            id: 'optional',
-            defaultMessage: '(Optional)',
-          })}`}
-        />
-        <TextField
-          id="street"
-          className="col-md-6"
-          name="addressLine"
-          required
-          type="text"
-          label={formatMessage({
-            id: 'street',
-            defaultMessage: 'Street',
-          })}
-        />
-        <TextField
-          id="postalCode"
-          name="postalCode"
-          className="col-md-6"
-          required
-          type="text"
-          label={formatMessage({
-            id: 'postal-code',
-            defaultMessage: 'Postal code',
-          })}
-        />
-        <TextField
-          id="city"
-          name="city"
-          className="col-md-6"
-          required
-          type="text"
-          label={formatMessage({
-            id: 'city',
-            defaultMessage: 'City',
-          })}
-        />
-        <TextAreaField
-          className="col-12"
-          name="message"
-          rows={5}
-          label={formatMessage({
-            id: 'message',
-            defaultMessage: 'Message',
-          })}
-        />
+    <fieldset className="grid gap-4 sm:grid-cols-2">
+      <legend className="mb-2 text-base font-semibold">
+        {formatMessage({ id: 'contact_details', defaultMessage: 'Your contact details' })}
+      </legend>
+      <EmailField
+        id="emailAddress"
+        name="emailAddress"
+        required
+        label={formatMessage({ id: 'email_address', defaultMessage: 'E-Mail' })}
+      />
+      <TextField
+        id="phoneNumber"
+        name="phoneNumber"
+        required
+        type="tel"
+        label={formatMessage({ id: 'phone-number', defaultMessage: 'Phone number' })}
+      />
+      <TextField id="firstName" name="firstName" required type="text" label={formatMessage({ id: 'first_name', defaultMessage: 'First name' })} />
+      <TextField id="lastName" name="lastName" required type="text" label={formatMessage({ id: 'last-name', defaultMessage: 'Last name' })} />
+      <TextField id="company" name="company" required type="text" label={formatMessage({ id: 'company', defaultMessage: 'Company' })} />
+      <TextField
+        id="addressLine2"
+        name="addressLine2"
+        type="text"
+        label={`${formatMessage({ id: 'addressLine2', defaultMessage: 'Addition/Department/Floor/Room' })} ${optional}`}
+      />
+      <TextField id="street" name="addressLine" required type="text" label={formatMessage({ id: 'street', defaultMessage: 'Street' })} />
+      <div className="grid grid-cols-[1fr_2fr] gap-4">
+        <TextField id="postalCode" name="postalCode" required type="text" label={formatMessage({ id: 'postal-code', defaultMessage: 'Postal code' })} />
+        <TextField id="city" name="city" required type="text" label={formatMessage({ id: 'city', defaultMessage: 'City' })} />
       </div>
-
-      <div className="my-4">
-        <h5 className="mb-0">
-          {formatMessage({
-            id: 'newsletter-subscription-options',
-            defaultMessage: 'Newsletter Anmeldung gewünscht für:',
-          })}
-        </h5>
-      </div>
-    </>
+    </fieldset>
   );
 };
 
 const QuotationRequestForm = ({ product }) => {
   const { requestQuotation } = useConditionalRequestProductQuotation();
   const { formatMessage } = useIntl();
+  const router = useRouter();
   const { user } = useUser();
-
   const isGuestUser = !user || user?.isGuest;
+  const firstMediaUrl = product?.media?.[0]?.file?.url;
 
   const onSubmitError = async (error) => {
     if (error?.code === 'InvalidCaptchaValue') {
       return {
         captcha: {
           type: 'manual',
-          message: formatMessage({
-            id: 'incorrect-captcha-answer',
-            defaultMessage: 'Incorrect CAPTCHA answer',
-          }),
+          message: formatMessage({ id: 'incorrect-captcha-answer', defaultMessage: 'Incorrect CAPTCHA answer' }),
         },
       };
     }
-
     return {
       submit: {
         type: 'manual',
         message: formatMessage(
-          {
-            id: 'quotation-request-failed',
-            defaultMessage: 'quotation request failed with the {error}',
-          },
+          { id: 'quotation-request-failed', defaultMessage: 'quotation request failed with the {error}' },
           { error: error.message },
         ),
       },
     };
   };
-
-  const firstMediaUrl = product?.media?.[0]?.file?.url;
 
   const onSubmit = async ({ quantity, ...contactInfo }) => {
     await requestQuotation({
@@ -184,50 +86,11 @@ const QuotationRequestForm = ({ product }) => {
       quantity: (quantity || 1)?.toString(),
       contactInfo,
     });
-
-    toast.custom((t) => (
-      <div
-        className={`color-bg-white p-3 box-shadow position-relative ${
-          t.visible ? 'animate-enter' : 'animate-leave'
-        } `}
-      >
-        <button
-          type="button"
-          aria-label="Close"
-          className="no-button position-absolute top-right"
-          onClick={() => {
-            toast.dismiss(t.id);
-            close();
-          }}
-        >
-          <XMarkIcon className="icon" />
-        </button>
-        <div className="mt-2">
-          <div className="d-flex align-items-center justify-content-between">
-            <div>
-              <img
-                className="h-max-44px"
-                src={firstMediaUrl}
-                alt={product?.texts?.title}
-              />
-            </div>
-            <div className="ml-3">
-              <div>
-                {product?.texts?.title}
-                <div className="mt-2 color-green">
-                  {quantity} x
-                  {formatMessage({
-                    id: 'quotation-request-sent',
-                    defaultMessage: 'Quotation request sent',
-                  })}
-                </div>
-              </div>
-              <div className="mt-1">{product?.texts?.subtitle}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ));
+    toast.success(
+      formatMessage({ id: 'quotation-request-sent', defaultMessage: 'Quotation request sent' }),
+    );
+    // Guests cannot open the account area, so only registered customers are sent there.
+    if (!isGuestUser) router.push('/quotation');
   };
 
   return (
@@ -235,81 +98,77 @@ const QuotationRequestForm = ({ product }) => {
       onSubmit={onSubmit}
       defaultValues={{
         quantity: 1,
-        firstName: user?.contactAddress?.firstName,
-        lastName: user?.contactAddress?.lastName,
-        company: user?.contactAddress?.company,
-        addressLine2: user?.contactAddress?.addressLine2,
-        addressLine: user?.contactAddress?.addressLine,
-        postalCode: user?.contactAddress?.postalCode,
-        city: user?.contactAddress?.city,
-        emailAddress: user?.contactAddress?.emailAddress,
+        firstName: user?.profile?.address?.firstName,
+        lastName: user?.profile?.address?.lastName,
+        company: user?.profile?.address?.company,
+        addressLine2: user?.profile?.address?.addressLine2,
+        addressLine: user?.profile?.address?.addressLine,
+        postalCode: user?.profile?.address?.postalCode,
+        city: user?.profile?.address?.city,
+        emailAddress: user?.primaryEmail?.address,
       }}
       onSubmitError={onSubmitError}
+      className="grid items-start gap-8 lg:grid-cols-[320px_1fr]"
     >
-      <div className="row">
-        <div className="col-md-6 position-relative grid-image-container">
+      <aside className="card overflow-hidden lg:sticky lg:top-24">
+        <div className="relative aspect-square bg-muted">
           {firstMediaUrl ? (
             <Image
               src={firstMediaUrl}
               alt={product?.texts?.title}
-              className="fit-contain"
+              className="object-contain"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              loader={defaultNextImageLoader}
+              sizes="(max-width: 1024px) 100vw, 320px"
             />
           ) : (
-            <PhotoIcon
-              className="h-100 w-100 p-5"
-              style={{ stroke: 'var(--color-lightgrey)' }}
-            />
+            <span className="flex size-full items-center justify-center">
+              <PhotoIcon className="size-16 text-subtle-foreground" />
+            </span>
           )}
         </div>
-        <div className="col-md-6">
-          <h4 className="position-relative mt-4 mb-0">
-            {product?.texts?.title}
-          </h4>
-          <div className="d-flex align-items-end pt-2">
+        <div className="p-5">
+          <p className="font-semibold">{product?.texts?.title}</p>
+          {product?.texts?.subtitle && <p className="mt-1 text-sm text-muted-foreground">{product.texts.subtitle}</p>}
+        </div>
+      </aside>
+
+      <div className="card space-y-6 p-5 sm:p-8">
+        <div className="flex items-end gap-3">
+          <div className="w-40">
             <TextField
               type="number"
-              className="flex-grow-1"
               name="quantity"
               min="1"
+              id="quantity"
               onInput={(e) => {
                 e.target.value = Math.abs(e.target.value);
               }}
-              id="quantity"
-              placeholder="Menge"
-              label="Menge"
+              label={formatMessage({ id: 'quantity', defaultMessage: 'Quantity' })}
             />
-            <div className="rounded color-bg-white p-3">
-              {product.salesUnit}
-            </div>
           </div>
+          {product?.salesUnit && <span className="pb-3 text-sm text-muted-foreground">{product.salesUnit}</span>}
         </div>
-      </div>
 
-      {isGuestUser ? (
-        <GuestUserFields />
-      ) : (
+        {isGuestUser && <GuestUserFields />}
+
         <TextAreaField
-          className="col-12"
           name="message"
           rows={5}
-          label={`${formatMessage({
-            id: 'message',
-            defaultMessage: 'Message',
-          })} ${formatMessage({
+          label={`${formatMessage({ id: 'message', defaultMessage: 'Message' })} ${formatMessage({
             id: 'optional',
             defaultMessage: '(Optional)',
           })}`}
-        />
-      )}
-      <div className="mt-4">
-        <SubmitButton>
-          <ChatBubbleLeftIcon className="icon mr-2 h-5 w-5" />
-          {formatMessage({
-            id: 'request-quotation-offer',
-            defaultMessage: 'Request offer',
+          placeholder={formatMessage({
+            id: 'quotation_message_placeholder',
+            defaultMessage: 'Tell us about volumes, delivery dates or anything else that affects the offer.',
           })}
+        />
+
+        <FormErrors />
+        <SubmitButton>
+          <ChatBubbleLeftIcon className="size-5" />
+          {formatMessage({ id: 'request-quotation-offer', defaultMessage: 'Request offer' })}
         </SubmitButton>
       </div>
     </Form>

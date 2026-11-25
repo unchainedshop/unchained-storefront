@@ -15,16 +15,13 @@ const UnchainedApp = ({ Component, pageProps, router }) => {
   const apollo = useApollo(router.locale);
   const messages = getMessages(router.locale);
 
-  // Check if the current page has hero section based on route
-  const hasHeroSection = router.pathname === '/';
-
   return (
     <IntlWrapper locale={router.locale} messages={messages} key="intl-provider">
       <AppContextWrapper>
         <ApolloProvider client={apollo}>
           <PushNotificationWrapper>
             <Toaster />
-            <Layout hasHeroSection={hasHeroSection}>
+            <Layout>
               <Component {...pageProps} />
             </Layout>
           </PushNotificationWrapper>

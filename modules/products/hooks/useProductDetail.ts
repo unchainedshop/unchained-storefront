@@ -3,14 +3,26 @@ import { useQuery } from '@apollo/client/react';
 import { ProductAssortmentPathFragment } from '../../assortment/fragments/AssortmentPath';
 import ProductDetailFragment from '../fragments/ProductFragment';
 import ProductPriceFragment from '../fragments/ProductPriceFragment';
+import ProductUnitFragment from '../fragments/ProductUnitFragment';
 import ProductListItemFragment from '../fragments/ProductListItemFragment';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import type * as GQL from '../../apollo/generated';
 
 const PRODUCT_DETAIL_QUERY = gql`
   query ProductDetails($slug: String, $currency: String) {
     product(slug: $slug) {
       status
       tags
+      ...ProductUnitFragment
+      ... on SimpleProduct {
+        simulatedStocks {
+          quantity
+        }
+        simulatedDispatches {
+          shipping
+          earliestDelivery
+        }
+      }
       assortmentPaths {
         ...ProductAssortmentPathFragment
       }
@@ -25,7 +37,6 @@ const PRODUCT_DETAIL_QUERY = gql`
           trialInterval
           trialIntervalCount
         }
-        salesUnit
       }
       ... on ConfigurableProduct {
         assignments {
@@ -38,6 +49,7 @@ const PRODUCT_DETAIL_QUERY = gql`
               slug
             }
             ...ProductPriceFragment
+            ...ProductUnitFragment
           }
           vectors {
             _id
@@ -100,11 +112,12 @@ const PRODUCT_DETAIL_QUERY = gql`
   ${ProductPriceFragment}
   ${ProductAssortmentPathFragment}
   ${ProductListItemFragment}
+  ${ProductUnitFragment}
 `;
 
 const useProductDetail = ({ slug }) => {
   const { selectedCurrency } = useAppContext();
-  const { data, loading, error } = useQuery<any>(PRODUCT_DETAIL_QUERY, {
+  const { data, loading, error } = useQuery<GQL.ProductDetailsQuery, GQL.ProductDetailsQueryVariables>(PRODUCT_DETAIL_QUERY, {
     variables: { slug, currency: selectedCurrency },
   });
 

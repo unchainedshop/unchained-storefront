@@ -1,21 +1,22 @@
 import { useFormContext } from "react-hook-form";
 import Button from "../../common/components/Button";
 
-const SubmitButton = ({ children }) => {
+const SubmitButton = ({ children, className = "" }) => {
   const {
-    formState: { errors, isValid },
+    formState: { isSubmitting },
   } = useFormContext();
-  const isDisabled = !isValid && Object.keys(errors || {}).length;
 
   return (
     <Button
       type="submit"
       variant="primary"
-      size="small"
-      disabled={isDisabled}
-      className="group relative"
-      fullWidth={true}
+      disabled={isSubmitting}
+      aria-busy={isSubmitting}
+      className={className}
     >
+      {isSubmitting && (
+        <span className="size-4 animate-spin rounded-full border-2 border-current border-r-transparent" />
+      )}
       {children}
     </Button>
   );

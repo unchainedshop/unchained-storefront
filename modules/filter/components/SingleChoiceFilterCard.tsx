@@ -35,11 +35,11 @@ const SingleChoiceFilterCard = ({
                 value={value}
                 checked={currentValue === value}
                 onChange={onChange}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300"
+                className="h-4 w-4 text-accent focus:ring-ring border-input"
               />
               <label
                 htmlFor={id}
-                className="text-sm text-slate-700 dark:text-slate-300 cursor-pointer"
+                className="text-sm text-muted-foreground cursor-pointer"
               >
                 {label}
               </label>

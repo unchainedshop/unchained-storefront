@@ -26,7 +26,7 @@ const CheckoutButtons = {
   'shop.unchained.payment.paypal': PaypalCheckoutButton,
 };
 
-const PaymentLabels = defineMessages({
+export const PaymentLabels = defineMessages({
   'shop.unchained.payment.cryptopay': {
     id: 'shop.unchained.payment.cryptopay',
     defaultMessage: 'Cryptocurrencies',
@@ -72,33 +72,31 @@ const PaymentOption = ({ provider, selected, onSelect }) => {
   };
 
   return (
-    <div
-      onClick={() => onSelect(provider._id)}
-      className={`flex justify-between items-center p-5 rounded-xl cursor-pointer transition-all border shadow-sm hover:shadow-md ${
+    <label
+      className={`flex cursor-pointer items-center justify-between gap-4 rounded-lg border px-4 py-3.5 transition-colors ${
         selected
-          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
-          : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900'
+          ? 'border-primary bg-accent-soft ring-1 ring-primary'
+          : 'border-input bg-surface hover:border-subtle-foreground'
       }`}
     >
-      <div className="flex items-center space-x-4">
+      <span className="flex items-center gap-3">
         <input
           type="radio"
           name="paymentProviderId"
           checked={selected}
           onChange={() => onSelect(provider._id)}
-          className="h-5 w-5 text-blue-600 focus:ring-blue-500"
-          aria-checked={selected}
+          className="size-4 accent-primary"
         />
-        <span className="font-medium text-slate-800 dark:text-slate-200 text-base">
+        <span className="text-sm font-medium">
           <FormattedMessage {...label} />
         </span>
-      </div>
+      </span>
       {selected && (
-        <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+        <span className="text-xs font-semibold text-accent">
           {formatMessage({ id: 'selected', defaultMessage: 'Selected' })}
         </span>
       )}
-    </div>
+    </label>
   );
 };
 
@@ -125,15 +123,8 @@ const CheckoutPaymentMethod = ({
   const CheckoutButton = CheckoutButtons[interfaceId] ?? (() => null);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
-      <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
-        {formatMessage({
-          id: 'payment-method',
-          defaultMessage: 'Payment method',
-        })}
-      </h2>
-
-      <div className="space-y-4">
+    <div>
+      <div className="space-y-3">
         {!hideOptions &&
           cart.supportedPaymentProviders.map((provider) => (
             <PaymentOption

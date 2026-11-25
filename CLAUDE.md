@@ -16,8 +16,11 @@ npm run dev
 # Start with local Unchained instance (port 4010)
 npm run dev:local
 
-# Update GraphQL schema from local Unchained instance
+# Update GraphQL schema from local Unchained instance (also regenerates types)
 npm run update-schema
+
+# Regenerate TypeScript types for all GraphQL operations
+npm run codegen
 ```
 
 ### Code Quality
@@ -89,9 +92,10 @@ Optional configuration:
 ## Common Development Tasks
 
 ### Adding a new GraphQL query/mutation
-1. Write the query in the component file
-2. Run `npm run update-schema` to update types
-3. Import and use the generated types
+1. Write a named query/mutation with `gql` next to the hook that uses it
+2. Run `npm run codegen` (or `npm run update-schema` to also refresh `schema.json` from a local engine)
+3. Type the hook with the generated types: `useQuery<GQL.NameQuery, GQL.NameQueryVariables>(...)`, importing `import type * as GQL from '<path>/apollo/generated'`
+4. Share selections through fragments (e.g. `CartTotalsFragment` for cart totals) instead of re-listing fields
 
 ### Creating a new module
 1. Create directory under `/modules/`

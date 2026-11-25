@@ -14,19 +14,10 @@ const CheckoutPage = () => {
           defaultMessage: 'Checkout',
         })}
       />
-      <div className="min-h-screen bg-white dark:bg-slate-950">
-        <div className="container mx-auto py-8">
-          <div className="mb-8">
-            <h1 className="text-3xl tracking-tight text-slate-900 dark:text-white">
-              {intl.formatMessage({
-                id: 'checkout',
-                defaultMessage: 'Checkout',
-              })}
-            </h1>
-          </div>
-          <Checkout />
-        </div>
-      </div>
+      <h1 className="mb-8 text-3xl font-bold tracking-tight">
+        {intl.formatMessage({ id: 'checkout', defaultMessage: 'Checkout' })}
+      </h1>
+      <Checkout />
     </>
   );
 };

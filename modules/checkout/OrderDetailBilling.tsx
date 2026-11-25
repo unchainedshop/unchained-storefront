@@ -34,110 +34,48 @@ const OrderDetailBilling = ({ order }) => {
       (order?.totalDiscount?.amount || 0) ===
       order.total.amount;
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">
-          {formatMessage({
-            id: 'billing_address',
-            defaultMessage: 'Billing address',
-          })}
-        </h4>
-        <div className="text-sm text-slate-900 dark:text-white space-y-1">
-          <div className="font-medium">
-            {order?.billingAddress?.firstName} {order?.billingAddress?.lastName}
-          </div>
-          <div>{order?.billingAddress?.addressLine}</div>
-          <div>
-            {order?.billingAddress?.postalCode} {order?.billingAddress?.city}
-          </div>
-          <div className="flex items-center gap-2">
-            <span>{order?.country?.flagEmoji}</span>
-            <span>{order?.country?.name}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-slate-200 dark:border-0 pt-6">
-        <div className="space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-slate-600 dark:text-slate-400">
-              {formatMessage({
-                id: 'subtotal',
-                defaultMessage: 'Subtotal',
-              })}
-            </span>
-            <span className="text-slate-900 dark:text-white font-medium">
-              <FormattedPrice price={order?.itemsTotal} />
-            </span>
-          </div>
-
-          {order?.totalDelivery && order?.totalDelivery?.amount > 0 && (
-            <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">
-                Shipping
-              </span>
-              <span className="text-slate-900 dark:text-white font-medium">
-                <FormattedPrice price={order?.totalDelivery} />
-              </span>
-            </div>
-          )}
-
-          {order?.totalTax && order?.totalTax?.amount > 0 && (
-            <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">
-                {taxIncluded
-                  ? formatMessage({
-                      id: 'tax_included',
-                      defaultMessage: 'incl. Tax',
-                    })
-                  : formatMessage({
-                      id: 'tax',
-                      defaultMessage: 'Tax',
-                    })}
-              </span>
-              <span className="text-slate-900 dark:text-white font-medium">
-                <FormattedPrice price={order?.totalTax} />
-              </span>
-            </div>
-          )}
-
-          {order?.totalPayment && order?.totalPayment?.amount > 0 && (
-            <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">Fees</span>
-              <span className="text-slate-900 dark:text-white font-medium">
-                <FormattedPrice price={order?.totalPayment} />
-              </span>
-            </div>
-          )}
-
-          {order?.totalDiscount && order?.totalDiscount?.amount > 0 && (
-            <div className="flex justify-between">
-              <span className="text-slate-600 dark:text-slate-400">
-                Discount
-              </span>
-              <span className="text-slate-900 dark:text-white font-medium">
-                -<FormattedPrice price={order?.totalDiscount} />
-              </span>
-            </div>
-          )}
-
-          <div className="border-t border-slate-200 dark:border-0 pt-3 mt-4">
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-slate-900 dark:text-white">
-                {formatMessage({
-                  id: 'total',
-                  defaultMessage: 'Total',
-                })}
-              </span>
-              <span className="font-semibold text-xl text-slate-900 dark:text-white">
-                <FormattedPrice price={calculatedTotal} />
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+  const Row = ({ label, price, negative = false }) => (
+    <div className="flex justify-between text-sm">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className={negative ? 'font-medium text-success' : 'font-medium'}>
+        {negative && '−'}
+        <FormattedPrice price={price} />
+      </dd>
     </div>
+  );
+
+  return (
+    <dl className="space-y-2.5">
+      <Row label={formatMessage({ id: 'subtotal', defaultMessage: 'Subtotal' })} price={order?.itemsTotal} />
+      {order?.totalDelivery?.amount > 0 && (
+        <Row label={formatMessage({ id: 'shipping', defaultMessage: 'Shipping' })} price={order.totalDelivery} />
+      )}
+      {order?.totalPayment?.amount > 0 && (
+        <Row label={formatMessage({ id: 'payment_fees', defaultMessage: 'Payment fees' })} price={order.totalPayment} />
+      )}
+      {order?.totalDiscount?.amount ? (
+        <Row
+          label={formatMessage({ id: 'discount', defaultMessage: 'Discount' })}
+          price={{ ...order.totalDiscount, amount: Math.abs(order.totalDiscount.amount) }}
+          negative
+        />
+      ) : null}
+      {order?.totalTax?.amount > 0 && !taxIncluded && (
+        <Row label={formatMessage({ id: 'tax', defaultMessage: 'Tax' })} price={order.totalTax} />
+      )}
+      <div className="flex items-baseline justify-between border-t border-border pt-3">
+        <dt className="font-semibold">{formatMessage({ id: 'total', defaultMessage: 'Total' })}</dt>
+        <dd className="text-xl font-bold">
+          <FormattedPrice price={calculatedTotal} />
+        </dd>
+      </div>
+      {order?.totalTax?.amount > 0 && taxIncluded && (
+        <p className="text-right text-xs text-subtle-foreground">
+          {formatMessage({ id: 'tax_included', defaultMessage: 'incl. Tax' })}{' '}
+          <FormattedPrice price={order.totalTax} />
+        </p>
+      )}
+    </dl>
   );
 };
 

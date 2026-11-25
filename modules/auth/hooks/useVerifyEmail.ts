@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 const VERIFY_EMAIL_MUTATION = gql`
   mutation VerifyEmail($token: String!) {
@@ -19,8 +20,7 @@ const VERIFY_EMAIL_MUTATION = gql`
 `;
 
 const useVerifyEmail = () => {
-  const [verifyEmailMutation, { client, ...props }] = useMutation<any>(
-    VERIFY_EMAIL_MUTATION,
+  const [verifyEmailMutation, { client, ...props }] = useMutation<GQL.VerifyEmailMutation, GQL.VerifyEmailMutationVariables>(VERIFY_EMAIL_MUTATION,
   );
   const verifyEmail = async ({ token }) => {
     const result = await verifyEmailMutation({

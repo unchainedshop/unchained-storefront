@@ -37,9 +37,9 @@ const CheckoutContact = ({ cart, isInitial }) => {
   const toggleEditMode = () => setEditMode(!editMode);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-0">
+    <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-medium text-slate-900 dark:text-white">
+        <h2 className="text-lg font-semibold">
           {formatMessage({
             id: 'contact-info',
             defaultMessage: 'Contact info',
@@ -54,22 +54,22 @@ const CheckoutContact = ({ cart, isInitial }) => {
               id: 'edit-contact-data',
               defaultMessage: 'Edit Contact Data',
             })}
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            className="text-accent hover:text-accent"
             fullWidth={false}
           />
         )}
       </div>
 
       {showLogin && editMode && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md dark:bg-red-900/20 dark:border-red-800">
-          <p className="text-red-600 dark:text-red-400 text-sm">
+        <div className="mb-4 p-4 bg-danger-soft border border-danger/40 rounded-md">
+          <p className="text-danger text-sm">
             {formatMessage({
               id: 'email-not-available',
               defaultMessage: 'E-Mail address is not available, please',
             })}{' '}
             <Link
               href="/login"
-              className="font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              className="font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-danger focus:ring-offset-2"
             >
               {formatMessage({
                 id: 'sign-in',

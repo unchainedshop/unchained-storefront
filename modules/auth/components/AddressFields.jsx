@@ -9,19 +9,19 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
     <dl className="space-y-4 -mb-6">
       <div>
         {!isEdit && (
-          <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+          <label className="text-sm font-medium text-subtle-foreground">
             {formatMessage({
               id: "full_name",
               defaultMessage: "Full name",
             })}
           </label>
         )}
-        <div className="flex text-sm text-slate-900 dark:text-slate-200 sm:col-span-2 sm:mt-0">
+        <div className="flex text-sm text-foreground sm:col-span-2 sm:mt-0">
           {isEdit ? (
             <div className="flex w-full gap-2">
               <TextField
                 className="w-full"
-                labelClassName="text-sm font-medium text-slate-500 dark:text-slate-200"
+                labelClassName="text-sm font-medium text-subtle-foreground "
                 name="firstName"
                 label={formatMessage({
                   id: "first_name",
@@ -34,7 +34,7 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
               />
               <TextField
                 className="w-full"
-                labelClassName="text-sm font-medium text-slate-500 dark:text-slate-200"
+                labelClassName="text-sm font-medium text-subtle-foreground "
                 name="lastName"
                 label={formatMessage({
                   id: "last_Name",
@@ -54,14 +54,14 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
       </div>
       <div>
-        <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+        <label className="text-sm font-medium text-subtle-foreground">
           {!isEdit &&
             formatMessage({
               id: "company",
               defaultMessage: "Company",
             })}
         </label>
-        <div className="mt-1 flex text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+        <div className="mt-1 flex text-sm text-foreground sm:mt-0">
           {isEdit ? (
             <TextField
               className="mt-0 w-full"
@@ -81,14 +81,14 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
       </div>
       <div>
-        <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+        <label className="text-sm font-medium text-subtle-foreground">
           {!isEdit &&
             formatMessage({
               id: "address_line_1",
               defaultMessage: "Address line 1 (Street, House no)",
             })}
         </label>
-        <div className="mt-1 flex text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+        <div className="mt-1 flex text-sm text-foreground sm:mt-0">
           {isEdit ? (
             <TextField
               className="mt-0 w-full"
@@ -108,14 +108,14 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
       </div>
       <div>
-        <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+        <label className="text-sm font-medium text-subtle-foreground">
           {!isEdit &&
             formatMessage({
               id: "address_line_2",
               defaultMessage: "Address line 2",
             })}
         </label>
-        <div className="mt-1 flex text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+        <div className="mt-1 flex text-sm text-foreground sm:mt-0">
           {isEdit ? (
             <TextField
               className="mt-0 w-full"
@@ -137,7 +137,7 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
 
       <div className="grid grid-cols-1 gap-x-2 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+          <label className="text-sm font-medium text-subtle-foreground">
             {!isEdit &&
               formatMessage({
                 id: "region",
@@ -145,7 +145,7 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
               })}
           </label>
 
-          <div className="mt-1 flex text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+          <div className="mt-1 flex text-sm text-foreground sm:mt-0">
             {isEdit ? (
               <TextField
                 className="mt-0 w-full"
@@ -166,14 +166,14 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
 
         <div>
-          <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+          <label className="text-sm font-medium text-subtle-foreground">
             {!isEdit &&
               formatMessage({
                 id: "postal_code",
                 defaultMessage: "Postal/ZIP code",
               })}
           </label>
-          <div className="mt-1 w-full text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+          <div className="mt-1 w-full text-sm text-foreground sm:mt-0">
             {isEdit ? (
               <TextField
                 className="mt-0 w-full"
@@ -194,14 +194,14 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
 
         <div className="mt-4">
-          <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+          <label className="text-sm font-medium text-subtle-foreground">
             {!isEdit &&
               formatMessage({
                 id: "city",
                 defaultMessage: "City",
               })}
           </label>
-          <div className="mt-1 text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+          <div className="mt-1 text-sm text-foreground sm:mt-0">
             {isEdit ? (
               <TextField
                 className="mt-0 w-full"
@@ -222,14 +222,14 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
 
         <div className="mt-4">
-          <label className="text-sm font-medium text-slate-500 dark:text-slate-200">
+          <label className="text-sm font-medium text-subtle-foreground">
             {!isEdit &&
               formatMessage({
                 id: "country_code",
                 defaultMessage: "Country code",
               })}
           </label>
-          <div className="mt-1 text-sm text-slate-900 dark:text-slate-200 sm:mt-0">
+          <div className="mt-1 text-sm text-foreground sm:mt-0">
             {isEdit ? (
               <TextField
                 className="mt-0 w-full"
@@ -250,7 +250,7 @@ const AddressFields = ({ isEdit, address, setIsEdit }) => {
         </div>
       </div>
 
-      <div className="border-t border-t-slate-50 dark:border-t-slate-700 mt-3 -mx-6 -mb-6 bg-slate-50 dark:bg-slate-900 flex flex-shrink-0 items-center justify-end space-x-4 pr-5">
+      <div className="border-t border-t-border mt-3 -mx-6 -mb-6 bg-muted flex flex-shrink-0 items-center justify-end space-x-4 pr-5">
         {isEdit ? (
           <SaveAndCancelButtons onCancel={() => setIsEdit(!isEdit)} />
         ) : null}

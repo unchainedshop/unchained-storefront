@@ -1,418 +1,188 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
-import {
-  XMarkIcon,
-  ChevronRightIcon,
-  ArrowLeftIcon,
-  GlobeAltIcon,
-} from '@heroicons/react/20/solid';
+import classNames from 'classnames';
+import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
+import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import useAssortments from '../../assortment/hooks/useAssortments';
+import useUser from '../../auth/hooks/useUser';
+import LanguageSwitch from '../../common/components/LanguageSwitch';
+import CurrencySelector from '../../common/components/CurrencySelector';
+import CountrySelector from '../../common/components/CountrySelector';
 
 interface SidebarNavigationProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
-  isOpen,
-  onClose,
-}) => {
-  const { formatMessage, locale } = useIntl();
+const SectionTitle = ({ children }) => (
+  <h3 className="px-3 pb-2 pt-6 text-xs font-semibold uppercase tracking-wider text-subtle-foreground first:pt-0">
+    {children}
+  </h3>
+);
+
+const SidebarNavigation = ({ isOpen, onClose }: SidebarNavigationProps) => {
+  const { formatMessage } = useIntl();
   const router = useRouter();
-  const [shouldRender, setShouldRender] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [currentView, setCurrentView] = useState<
-    'main' | 'categories' | 'category'
-  >('main');
-  const [selectedCategory, setSelectedCategory] = useState<any>(null);
-  const { assortments, loading: assortmentsLoading } = useAssortments({
-    includeLeaves: true,
-  });
+  const { user } = useUser();
+  const { assortments } = useAssortments({ includeLeaves: true });
+  const [expanded, setExpanded] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      setShouldRender(true);
-      // Small delay to allow initial render before animating in
-      const timer = setTimeout(() => setIsAnimating(true), 10);
-      return () => clearTimeout(timer);
-    } else {
-      setIsAnimating(false);
-      setCurrentView('main');
-      setSelectedCategory(null);
-      // Delay hiding the component to allow exit animation
-      const timer = setTimeout(() => setShouldRender(false), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
+  const isActive = (href: string) =>
+    href === '/' ? router.pathname === '/' : router.asPath.startsWith(href);
 
-  const navigationItems = [
-    {
-      id: 'home',
-      label: formatMessage({ id: 'nav_home', defaultMessage: 'Home' }),
-      href: '/',
-    },
-    {
-      id: 'store',
-      label: formatMessage({ id: 'nav_store', defaultMessage: 'Store' }),
-      href: '/shop',
-    },
-    {
-      id: 'categories',
-      label: formatMessage({ id: 'categories', defaultMessage: 'Categories' }),
-      href: '#',
-      isExpandable: true,
-      onClick: () => setCurrentView('categories'),
-    },
-    {
-      id: 'bookmarks',
-      label: formatMessage({
-        id: 'nav_bookmarks',
-        defaultMessage: 'Bookmarks',
-      }),
-      href: '/bookmarks',
-    },
-    {
-      id: 'orders',
-      label: formatMessage({ id: 'my_orders', defaultMessage: 'My orders' }),
-      href: '/orders',
-    },
-    {
-      id: 'quotations',
-      label: formatMessage({
-        id: 'quotations',
-        defaultMessage: 'Quotations',
-      }),
-      href: '/quotation',
-    },
-    {
-      id: 'subscriptions',
-      label: formatMessage({
-        id: 'subscriptions',
-        defaultMessage: 'Subscriptions',
-      }),
-      href: '/subscriptions',
-    },
-    {
-      id: 'tokens',
-      label: formatMessage({
-        id: 'tokens',
-        defaultMessage: 'Tokens',
-      }),
-      href: '/tokens',
-    },
-    {
-      id: 'account',
-      label: formatMessage({ id: 'nav_account', defaultMessage: 'Account' }),
-      href: '/account',
-    },
-    {
-      id: 'styleguide',
-      label: formatMessage({
-        id: 'nav_styleguide',
-        defaultMessage: 'Styleguide',
-      }),
-      href: '/styleguide',
-    },
-  ];
-
-  const rootCategories = assortments.filter((assortment) => assortment.isRoot);
-
-  const getChildCategories = (parentSlug: string) => {
-    return assortments.filter(
-      (child) => !child.isRoot && child.texts?.slug?.startsWith(parentSlug),
+  const itemClass = (href: string) =>
+    classNames(
+      'flex items-center rounded-lg px-3 py-2.5 text-[0.9375rem] font-medium transition-colors',
+      isActive(href)
+        ? 'bg-accent-soft text-accent-foreground'
+        : 'text-foreground hover:bg-muted',
     );
-  };
 
-  const handleCategoryClick = (category: any) => {
-    const childCategories = getChildCategories(category.texts?.slug);
-    if (childCategories.length > 0) {
-      setSelectedCategory(category);
-      setCurrentView('category');
-    } else {
-      // Navigate directly if no children
-      router.push(`/shop/${category.texts?.slug}`);
-      onClose();
-    }
-  };
+  const NavLink = ({ href, children }) => (
+    <li>
+      <Link href={href} onClick={onClose} className={itemClass(href)}>
+        {children}
+      </Link>
+    </li>
+  );
 
-  const handleBackClick = () => {
-    if (currentView === 'category') {
-      setCurrentView('categories');
-      setSelectedCategory(null);
-    } else if (currentView === 'categories') {
-      setCurrentView('main');
-    }
-  };
+  const rootCategories = (assortments || []).filter((a) => a.isRoot);
+  const childrenOf = (slug: string) =>
+    (assortments || []).filter(
+      (a) => !a.isRoot && a.texts?.slug?.startsWith(slug),
+    );
 
-  const isCurrentPage = (href: string) => {
-    if (href === '/') {
-      return router.pathname === '/';
-    }
-    return router.pathname.startsWith(href);
-  };
-
-  const handleLanguageChange = (newLocale: string) => {
-    const { pathname, query, asPath } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
-  };
-
-  const languages = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  const accountLinks = [
+    { href: '/account', label: formatMessage({ id: 'nav_account', defaultMessage: 'Account' }) },
+    { href: '/orders', label: formatMessage({ id: 'my_orders', defaultMessage: 'My orders' }) },
+    { href: '/subscriptions', label: formatMessage({ id: 'subscriptions', defaultMessage: 'Subscriptions' }) },
+    { href: '/quotation', label: formatMessage({ id: 'quotations', defaultMessage: 'Quotations' }) },
+    { href: '/tokens', label: formatMessage({ id: 'tokens', defaultMessage: 'Tokens' }) },
   ];
-
-  if (!shouldRender) return null;
 
   return (
-    <>
-      {/* Backdrop with smooth fade */}
-      <div
-        className={`fixed inset-0 z-[1030] bg-slate-950/50 backdrop-blur-sm transition-all duration-300 ease-out ${
-          isAnimating ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={onClose}
+    <Dialog open={isOpen} onClose={onClose} className="relative z-1030">
+      <DialogBackdrop
+        transition
+        className="fixed inset-0 bg-overlay backdrop-blur-sm transition-opacity duration-300 ease-out data-closed:opacity-0"
       />
-
-      {/* Drawer - Even higher z-index */}
-      <div
-        className={`fixed top-3 sm:top-5 bottom-3 sm:bottom-3 left-3 sm:left-5 z-[1040] w-xs sm:w-sm lg:w-md xl:w-lg transform rounded-lg bg-slate-50 backdrop-blur-md shadow-2xl transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] dark:bg-slate-900/80 ${
-          isAnimating
-            ? 'translate-x-0 opacity-100 scale-100'
-            : '-translate-x-16 opacity-0 scale-95 pointer-events-none'
-        }`}
+      <DialogPanel
+        transition
+        className="fixed inset-y-0 left-0 flex w-full max-w-sm flex-col bg-surface shadow-pop transition duration-300 ease-out data-closed:-translate-x-full"
       >
-        <div className="flex h-full flex-col p-3 sm:p-6">
-          {/* Header with staggered animation */}
-          <div
-            className={`flex justify-end mb-8 transition-all duration-300 delay-100 ${
-              isAnimating
-                ? 'translate-y-0 opacity-100'
-                : '-translate-y-4 opacity-0'
-            }`}
+        <div className="flex h-16 items-center justify-between border-b border-border px-5">
+          <span className="font-display text-lg font-bold tracking-tight">
+            {formatMessage({ id: 'shop_title', defaultMessage: 'Unchained Store' })}
+          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-icon -mr-2"
+            aria-label={formatMessage({ id: 'close', defaultMessage: 'Close' })}
           >
-            <button
-              onClick={onClose}
-              className="rounded-lg p-2 text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
-            >
-              <XMarkIcon className="h-6 w-6" />
-            </button>
-          </div>
-
-          {/* Navigation Items with staggered animation */}
-          <nav
-            className={`flex-1 overflow-y-auto overflow-x-hidden transition-all duration-300 delay-200 ${
-              isAnimating
-                ? 'translate-y-0 opacity-100'
-                : 'translate-y-4 opacity-0'
-            }`}
-          >
-            <div className="relative h-full">
-              {/* Main Navigation View */}
-              <div
-                className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-                  currentView === 'main'
-                    ? 'translate-x-0 opacity-100'
-                    : '-translate-x-full opacity-0 pointer-events-none'
-                }`}
-              >
-                <ul className="space-y-4">
-                  {navigationItems.map((item, index) => (
-                    <li key={item.id}>
-                      {item.isExpandable ? (
-                        <button
-                          onClick={item.onClick}
-                          className={`flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left ${'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
-                          style={{
-                            transitionDelay: isAnimating
-                              ? `${300 + index * 50}ms`
-                              : '0ms',
-                          }}
-                        >
-                          <span>{item.label}</span>
-                          <ChevronRightIcon className="h-6 w-6" />
-                        </button>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          onClick={onClose}
-                          className={`block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out ${
-                            isCurrentPage(item.href)
-                              ? 'text-slate-900 dark:text-white'
-                              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                          }`}
-                          style={{
-                            transitionDelay: isAnimating
-                              ? `${300 + index * 50}ms`
-                              : '0ms',
-                          }}
-                        >
-                          {item.label}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Categories View */}
-              <div
-                className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-                  currentView === 'categories'
-                    ? 'translate-x-0 opacity-100'
-                    : 'translate-x-full opacity-0 pointer-events-none'
-                }`}
-              >
-                <div className="flex items-center mb-6">
-                  <button
-                    onClick={handleBackClick}
-                    className="p-2 mr-3 rounded-lg text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
-                  >
-                    <ArrowLeftIcon className="h-6 w-6" />
-                  </button>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-                    {formatMessage({
-                      id: 'categories',
-                      defaultMessage: 'Categories',
-                    })}
-                  </h2>
-                </div>
-                {!assortmentsLoading && (
-                  <ul className="space-y-4">
-                    {rootCategories.map((category, index) => (
-                      <li key={category._id}>
-                        <button
-                          onClick={() => handleCategoryClick(category)}
-                          className="flex items-center justify-between w-full px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-left text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                        >
-                          <span>{category.texts?.title}</span>
-                          {getChildCategories(category.texts?.slug).length >
-                            0 && <ChevronRightIcon className="h-6 w-6" />}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {/* Child Categories View */}
-              <div
-                className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-                  currentView === 'category'
-                    ? 'translate-x-0 opacity-100'
-                    : 'translate-x-full opacity-0 pointer-events-none'
-                }`}
-              >
-                <div className="flex items-center mb-6">
-                  <button
-                    onClick={handleBackClick}
-                    className="p-2 mr-3 rounded-lg text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white"
-                  >
-                    <ArrowLeftIcon className="h-6 w-6" />
-                  </button>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-                    {selectedCategory?.texts?.title}
-                  </h2>
-                </div>
-                {selectedCategory && (
-                  <ul className="space-y-4">
-                    {/* Parent category link */}
-                    <li>
-                      <Link
-                        href={`/shop/${selectedCategory.texts?.slug}`}
-                        onClick={onClose}
-                        className="block px-4 py-4 text-2xl font-medium transition-all duration-300 ease-out text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700"
-                      >
-                        {formatMessage({
-                          id: 'view_all',
-                          defaultMessage: 'View All',
-                        })}{' '}
-                        {selectedCategory.texts?.title}
-                      </Link>
-                    </li>
-                    {/* Child categories */}
-                    {getChildCategories(selectedCategory.texts?.slug).map(
-                      (childCategory, index) => (
-                        <li key={childCategory._id}>
-                          <Link
-                            href={`/shop/${childCategory.texts?.slug}`}
-                            onClick={onClose}
-                            className="block px-4 py-4 text-xl font-medium transition-all duration-300 ease-out text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                          >
-                            {childCategory.texts?.title}
-                          </Link>
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </nav>
-
-          {/* Footer with staggered animation */}
-          <div
-            className={`px-4 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 transition-all duration-300 delay-300 ${
-              isAnimating
-                ? 'translate-y-0 opacity-100'
-                : 'translate-y-4 opacity-0'
-            }`}
-          >
-            {/* Language Selector */}
-            <div className="mb-4 flex flex-wrap justify-between items-center gap-3">
-              <div className="flex items-center gap-2">
-                <GlobeAltIcon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
-                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {formatMessage({
-                    id: 'language',
-                    defaultMessage: 'Language',
-                  })}
-                </span>
-              </div>
-              <div className="flex gap-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                      locale === lang.code
-                        ? 'bg-slate-200 text-slate-800 dark:bg-slate-100 dark:text-slate-900'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
-                    }`}
-                  >
-                    <span>{lang.flag}</span>
-                    <span>{lang.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Shipping Info */}
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-slate-600 dark:text-slate-400">
-                {formatMessage({
-                  id: 'shipping_to',
-                  defaultMessage: 'Shipping to',
-                })}
-              </span>
-              <span className="text-sm font-medium text-slate-900 dark:text-white flex items-center">
-                <span className="mr-2">🇨🇭</span>
-                {formatMessage({
-                  id: 'country_switzerland',
-                  defaultMessage: 'Switzerland',
-                })}
-              </span>
-            </div>
-
-            {/* Copyright */}
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              © {new Date().getFullYear()} Store. All rights reserved.
-            </p>
-          </div>
+            <XMarkIcon className="size-5" />
+          </button>
         </div>
-      </div>
-    </>
+
+        <nav className="flex-1 overflow-y-auto px-3 py-5">
+          <SectionTitle>
+            {formatMessage({ id: 'nav_store', defaultMessage: 'Shop' })}
+          </SectionTitle>
+          <ul className="space-y-0.5">
+            <NavLink href="/">
+              {formatMessage({ id: 'nav_home', defaultMessage: 'Home' })}
+            </NavLink>
+            <NavLink href="/shop">
+              {formatMessage({ id: 'nav_shop_all', defaultMessage: 'All products' })}
+            </NavLink>
+            {rootCategories.map((category) => {
+              const slug = category.texts?.slug;
+              const children = childrenOf(slug);
+              const open = expanded === category._id;
+              if (!children.length)
+                return (
+                  <NavLink key={category._id} href={`/shop/${slug}`}>
+                    {category.texts?.title}
+                  </NavLink>
+                );
+              return (
+                <li key={category._id}>
+                  <button
+                    type="button"
+                    aria-expanded={open}
+                    onClick={() => setExpanded(open ? null : category._id)}
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-[0.9375rem] font-medium text-foreground hover:bg-muted"
+                  >
+                    {category.texts?.title}
+                    <ChevronDownIcon
+                      className={classNames(
+                        'size-4 text-subtle-foreground transition-transform',
+                        { 'rotate-180': open },
+                      )}
+                    />
+                  </button>
+                  {open && (
+                    <ul className="mb-1 ml-3 space-y-0.5 border-l border-border pl-2">
+                      <NavLink href={`/shop/${slug}`}>
+                        {formatMessage({ id: 'view_all', defaultMessage: 'View All' })}
+                      </NavLink>
+                      {children.map((child) => (
+                        <NavLink key={child._id} href={`/shop/${child.texts?.slug}`}>
+                          {child.texts?.title}
+                        </NavLink>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+            <NavLink href="/bookmarks">
+              {formatMessage({ id: 'nav_bookmarks', defaultMessage: 'Wishlist' })}
+            </NavLink>
+          </ul>
+
+          {user && !user.isGuest ? (
+            <>
+              <SectionTitle>
+                {formatMessage({ id: 'nav_your_account', defaultMessage: 'Your account' })}
+              </SectionTitle>
+              <ul className="space-y-0.5">
+                {accountLinks.map(({ href, label }) => (
+                  <NavLink key={href} href={href}>
+                    {label}
+                  </NavLink>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <div className="mt-6 grid grid-cols-2 gap-2 px-3">
+              <Link href="/login" onClick={onClose} className="btn btn-primary">
+                {formatMessage({ id: 'log_in', defaultMessage: 'Log In' })}
+              </Link>
+              <Link href="/sign-up" onClick={onClose} className="btn btn-secondary">
+                {formatMessage({ id: 'sign_up', defaultMessage: 'Sign up' })}
+              </Link>
+            </div>
+          )}
+
+          {process.env.NODE_ENV !== 'production' && (
+            <ul className="mt-6 border-t border-border pt-4">
+              <NavLink href="/styleguide">
+                {formatMessage({ id: 'nav_styleguide', defaultMessage: 'Styleguide' })}
+              </NavLink>
+            </ul>
+          )}
+        </nav>
+
+        <div className="flex items-center gap-2 border-t border-border px-5 py-4">
+          <LanguageSwitch />
+          <CountrySelector />
+          <CurrencySelector />
+        </div>
+      </DialogPanel>
+    </Dialog>
   );
 };
 

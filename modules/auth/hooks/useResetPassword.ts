@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const RESET_PASSWORD_MUTATION = gql`
   mutation ResetPassword($newPassword: String!, $token: String!) {
@@ -11,8 +12,7 @@ export const RESET_PASSWORD_MUTATION = gql`
 `;
 
 const useResetPassword = () => {
-  const [resetPasswordMutation, { client }] = useMutation<any>(
-    RESET_PASSWORD_MUTATION,
+  const [resetPasswordMutation, { client }] = useMutation<GQL.ResetPasswordMutation, GQL.ResetPasswordMutationVariables>(RESET_PASSWORD_MUTATION,
   );
 
   const resetPassword = async (variables: {

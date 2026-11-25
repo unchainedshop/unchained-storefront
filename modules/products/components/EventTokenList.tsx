@@ -79,23 +79,23 @@ const EventTokenList = ({ product }) => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+      <h2 className="text-2xl font-semibold text-foreground mb-2">
         {formatMessage({
           id: 'participant_list_for',
           defaultMessage: 'Participant list for',
         })}{' '}
         {texts?.title || ''}
       </h2>
-      <p className="text-gray-500 mb-6">
+      <p className="text-subtle-foreground mb-6">
         {formatMessage({
           id: 'participant_list_description',
           defaultMessage: 'List of all participants of the event',
         })}
       </p>
 
-      <div className="overflow-x-auto border rounded-lg shadow-sm bg-white">
+      <div className="overflow-x-auto border rounded-lg shadow-sm bg-surface">
         <table className="table-auto w-full border-collapse text-sm">
-          <thead className="bg-gray-100 text-gray-700 uppercase text-xs font-semibold">
+          <thead className="bg-muted text-muted-foreground uppercase text-xs font-semibold">
             <tr>
               <th className="px-4 py-3 text-left">
                 {formatMessage({
@@ -143,9 +143,9 @@ const EventTokenList = ({ product }) => {
             {(tokens || []).map((token, idx) => (
               <tr
                 key={token._id}
-                className={`border-t ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-gray-100 transition-colors`}
+                className={`border-t ${idx % 2 === 0 ? 'bg-muted' : 'bg-surface'} hover:bg-muted transition-colors`}
               >
-                <td className="px-4 py-3 font-medium text-gray-700">
+                <td className="px-4 py-3 font-medium text-muted-foreground">
                   {token.chainTokenId}
                 </td>
                 <td className="px-4 py-3">
@@ -154,14 +154,14 @@ const EventTokenList = ({ product }) => {
                 <td className="px-4 py-3">
                   {token.ercMetadata?.firstName || ''}
                 </td>
-                <td className="px-4 py-3 text-gray-600">
+                <td className="px-4 py-3 text-muted-foreground">
                   {token.user?.lastContact?.emailAddress || ''}
                 </td>
-                <td className="px-4 py-3 text-gray-600">
+                <td className="px-4 py-3 text-muted-foreground">
                   {token.user?.lastContact?.telNumber || ''}
                 </td>
                 <td
-                  className={`px-4 py-3 font-semibold ${token.invalidatedDate ? 'text-green-600' : 'text-red-500'}`}
+                  className={`px-4 py-3 font-semibold ${token.invalidatedDate ? 'text-success' : 'text-danger'}`}
                 >
                   {token.invalidatedDate
                     ? formatMessage({ id: 'yes', defaultMessage: 'Yes' })
@@ -171,7 +171,7 @@ const EventTokenList = ({ product }) => {
                   {token.isInvalidateable && user?.roles?.includes('admin') && (
                     <button
                       type="button"
-                      className="px-3 py-1.5 text-sm font-medium rounded-md bg-primary text-white hover:bg-primary-dark transition-colors"
+                      className="btn btn-primary btn-sm"
                       onClick={onInvalidateTicket(token._id)}
                     >
                       {formatMessage({
@@ -195,7 +195,7 @@ const EventTokenList = ({ product }) => {
               href={csvLink}
               download="teilnehmerliste.csv"
               target="_blank"
-              className="inline-block px-4 py-2 rounded-md bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors"
+              className="btn btn-primary"
             >
               {formatMessage({
                 id: 'download_csv',

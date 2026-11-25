@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import TokenFragment from '../fragments/TokenFragment';
 import { useMutation } from '@apollo/client/react';
 import { useAppContext } from '../../common/components/AppContextWrapper';
+import type * as GQL from '../../apollo/generated';
 
 const InvalidateTokenMutation = gql`
   mutation InvalidateToken($tokenId: ID!, $currency: String) {
@@ -14,7 +15,7 @@ const InvalidateTokenMutation = gql`
 
 const useInvalidateTicket = () => {
   const { selectedCurrency } = useAppContext();
-  const [invalidateTokenMutation] = useMutation(InvalidateTokenMutation, {
+  const [invalidateTokenMutation] = useMutation<GQL.InvalidateTokenMutation, GQL.InvalidateTokenMutationVariables>(InvalidateTokenMutation, {
     variables: { currency: selectedCurrency },
   });
 

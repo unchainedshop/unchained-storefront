@@ -29,10 +29,10 @@ const Toggle = ({
         disabled={disabled}
         type="button"
         className={classNames(
-          " relative inline-flex h-4 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2",
+          " relative inline-flex h-4 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
           {
-            "bg-slate-200 dark:bg-slate-700": !toggleState,
-            "bg-blue-500": toggleState,
+            "bg-muted-strong ": !toggleState,
+            "bg-accent": toggleState,
           },
         )}
         role="switch"
@@ -44,7 +44,7 @@ const Toggle = ({
 
         <span
           className={classNames(
-            " pointer-events-none relative inline-block h-3 w-3 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+            " pointer-events-none relative inline-block h-3 w-3 transform rounded-full bg-surface shadow ring-0 transition duration-200 ease-in-out",
             {
               "translate-x-5": toggleState,
               "translate-x-0": !toggleState,
@@ -62,7 +62,7 @@ const Toggle = ({
             aria-hidden="true"
           >
             <svg
-              className="h-3 w-3 text-slate-400"
+              className="h-3 w-3 text-subtle-foreground"
               fill="none"
               viewBox="0 0 12 12"
             >
@@ -87,7 +87,7 @@ const Toggle = ({
             aria-hidden="true"
           >
             <svg
-              className="h-3 w-3 text-slate-600"
+              className="h-3 w-3 text-muted-foreground"
               fill="currentColor"
               viewBox="0 0 12 12"
             >
@@ -97,7 +97,7 @@ const Toggle = ({
         </span>
       </button>
       <span className="ml-3" id="annual-billing-label">
-        <span className="text-sm font-medium text-slate-900 dark:text-slate-200">
+        <span className="text-sm font-medium text-foreground">
           {toggleText}
         </span>
       </span>

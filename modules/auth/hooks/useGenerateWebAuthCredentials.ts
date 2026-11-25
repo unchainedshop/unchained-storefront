@@ -1,50 +1,26 @@
-import base64ToArrayBuffer from '../../common/utils/base64ToArrayBuffer';
 import useCreateWebAuthnCredentialCreationOptions from './useCreateWebAuthnCredentialCreationOptions';
+import { base64urlToBuffer, serializeRegistration } from '../utils/webauthn';
 
 const useGenerateWebAuthCredentials = () => {
-  const { createWebAuthnCredentialCreationOptions } =
-    useCreateWebAuthnCredentialCreationOptions();
+  const { createWebAuthnCredentialCreationOptions } = useCreateWebAuthnCredentialCreationOptions();
 
   const generateWebAuthCredentials = async ({ username }) => {
-    const { data } = await createWebAuthnCredentialCreationOptions({
-      username,
-    });
+    const { data } = await createWebAuthnCredentialCreationOptions({ username });
+    const options = data.createWebAuthnCredentialCreationOptions;
 
-    const { createWebAuthnCredentialCreationOptions: publicKey } = data;
-
-    const textEncoder = new TextEncoder();
-    publicKey.challenge = base64ToArrayBuffer(publicKey.challenge);
-    publicKey.user = {
-      id: textEncoder.encode(username),
-      name: username,
-      displayName: username,
-    };
-
-    const publicKeyCredentials: any = await navigator.credentials.create({
-      publicKey,
-    });
-
-    const attestationObject = window.btoa(
-      String.fromCharCode(
-        ...new Uint8Array(publicKeyCredentials.response.attestationObject),
-      ),
-    );
-    const clientDataJSON = window.btoa(
-      String.fromCharCode(
-        ...new Uint8Array(publicKeyCredentials.response.clientDataJSON),
-      ),
-    );
-    const rawId = window.btoa(
-      String.fromCharCode(...new Uint8Array(publicKeyCredentials.rawId)),
-    );
-
-    return {
-      id: rawId,
-      response: {
-        clientDataJSON,
-        attestationObject,
+    const credential = (await navigator.credentials.create({
+      publicKey: {
+        ...options,
+        challenge: base64urlToBuffer(options.challenge),
+        user: {
+          id: new TextEncoder().encode(username),
+          name: username,
+          displayName: username,
+        },
       },
-    };
+    })) as PublicKeyCredential;
+
+    return serializeRegistration(credential);
   };
 
   return { generateWebAuthCredentials };

@@ -7,17 +7,25 @@ import FormattedPrice from '../common/components/FormattedPrice';
 import { useIntl } from 'react-intl';
 import useCart from '../orders/hooks/useCart';
 import AddDiscount from '../orders/components/AddDiscount';
+import CartSummary from '../cart/components/CartSummary';
 import useUpdateCartDelivery from '../cart/hooks/useUpdateCartDelivery';
 import useUpdateCartDeliveryPickUp from '../orders/hooks/useUpdateCartDeliveryPickUp';
 import CheckoutDeliverySelector from './CheckoutDeliverySelector';
 import Loading from '../common/components/Loading';
 import useUpdateCartDeliveryShipping from '../orders/hooks/useUpdateCartDeliveryShipping';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import CheckoutStep from './CheckoutStep';
+import useUser from '../auth/hooks/useUser';
+import withoutTypename from '../common/utils/withoutTypename';
+import EmptyState from '../common/components/EmptyState';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const Checkout = () => {
   const { emailSupportDisabled } = useAppContext();
   const { formatMessage } = useIntl();
   const { error, cart } = useCart();
+  const { user } = useUser();
   const { query } = useRouter();
   const orderTransactionIdFromQuery = query?.transactionId as
     | string
@@ -31,24 +39,39 @@ const Checkout = () => {
 
   const isContactDataMissing =
     !cart.contact?.emailAddress && !emailSupportDisabled;
-  const itemsTotal = cart.itemsTotal;
-  const taxesTotal = cart.taxesTotal;
-  const discountTotal = cart?.totalDiscount;
-  const deliveryTotal = cart.deliveryTotal;
-  const grandTotal = cart.grandTotal;
+  const delivery = cart?.delivery;
   const isDeliverySet =
-    cart?.delivery?.activePickUpLocation || cart?.delivery?.address;
+    (delivery && 'activePickUpLocation' in delivery && delivery.activePickUpLocation) ||
+    (delivery && 'address' in delivery && delivery.address);
   const isAddressesMissing = !cart?.billingAddress?.firstName || !isDeliverySet;
 
+  if (!cart.items?.length && !orderTransactionIdFromQuery)
+    return (
+      <EmptyState
+        icon={ShoppingBagIcon}
+        title={formatMessage({ id: 'cart_empty_title', defaultMessage: 'Your cart is empty' })}
+        description={formatMessage({ id: 'checkout_empty_text', defaultMessage: 'Add a few products before checking out.' })}
+      >
+        <Link href="/shop" className="btn btn-primary">
+          {formatMessage({ id: 'continue_shopping', defaultMessage: 'Continue Shopping' })}
+        </Link>
+      </EmptyState>
+    );
+
   return (
-    <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          {!orderTransactionIdFromQuery && (
+    <div className="grid items-start gap-8 lg:grid-cols-[1fr_400px]">
+      <div className="space-y-4">
+        {!orderTransactionIdFromQuery && (
+          <CheckoutStep
+            number={1}
+            done={Boolean(isDeliverySet)}
+            title={formatMessage({ id: 'delivery', defaultMessage: 'Delivery' })}
+          >
             <CheckoutDeliverySelector
               providers={cart.supportedDeliveryProviders}
               currentDelivery={cart.delivery}
               currencyCode={cart.itemsTotal?.currencyCode}
+              defaultAddress={withoutTypename(user?.lastBillingAddress)}
               onSelectProvider={(providerId) =>
                 updateCartDelivery({ deliveryProviderId: providerId })
               }
@@ -65,204 +88,73 @@ const Checkout = () => {
                 });
               }}
             />
-          )}
-          {isDeliverySet && !orderTransactionIdFromQuery ? (
-            <CheckoutBillingAddress
-              cart={cart}
-              isInitial={isAddressesMissing}
-            />
-          ) : null}
-          {!isAddressesMissing && !orderTransactionIdFromQuery && (
+          </CheckoutStep>
+        )}
+        {isDeliverySet && !orderTransactionIdFromQuery && (
+          <CheckoutStep number={2} done={!isAddressesMissing}>
+            <CheckoutBillingAddress cart={cart} isInitial={isAddressesMissing} />
+          </CheckoutStep>
+        )}
+        {!isAddressesMissing && !orderTransactionIdFromQuery && (
+          <CheckoutStep number={3} done={!isContactDataMissing}>
             <CheckoutContact cart={cart} isInitial={isContactDataMissing} />
-          )}
-
-          {!isAddressesMissing && !isContactDataMissing && (
+          </CheckoutStep>
+        )}
+        {!isAddressesMissing && !isContactDataMissing && (
+          <CheckoutStep
+            number={orderTransactionIdFromQuery ? 1 : 4}
+            title={formatMessage({ id: 'payment-method', defaultMessage: 'Payment method' })}
+          >
             <CheckoutPaymentMethod
               cart={cart}
               disabled={isContactDataMissing}
               hideOptions={!!orderTransactionIdFromQuery}
             />
-          )}
-        </div>
+          </CheckoutStep>
+        )}
+      </div>
 
-        <div className="lg:col-span-1">
-          <div className="sticky top-16">
-            <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-6">
-              <h2 className="text-lg font-medium text-slate-900 dark:text-white mb-6">
-                {formatMessage({
-                  id: 'order_summary',
-                  defaultMessage: 'Order Summary',
-                })}
-              </h2>
-
-              <div className="space-y-4 mb-6">
-                {cart.items?.length > 0 ? (
-                  cart.items.map((item) => (
-                    <div key={item._id} className="flex gap-4">
-                      <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-md overflow-hidden flex-shrink-0">
-                        {item.product.media?.[0]?.file?.url ? (
-                          <img
-                            src={item.product.media[0].file.url}
-                            alt={item.product.texts?.title || ''}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-slate-400 text-xs">
-                              No image
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
-                          {item.product.texts?.title || 'Untitled Product'}
-                        </h3>
-                        {item.product.texts?.subtitle && (
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                            {item.product.texts.subtitle}
-                          </p>
-                        )}
-                        <div className="flex justify-between items-center mt-2">
-                          <span className="text-sm text-slate-600 dark:text-slate-300">
-                            Qty: {item.quantity}
-                          </span>
-                          <span className="text-sm font-medium text-slate-900 dark:text-white">
-                            <FormattedPrice price={item.total} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-slate-500 dark:text-slate-400">
-                      {formatMessage({
-                        id: 'your_cart_is_empty',
-                        defaultMessage: 'Your cart is empty',
-                      })}
-                    </p>
-                  </div>
+      <aside className="card p-6 lg:sticky lg:top-24">
+        <h2 className="text-lg font-semibold">
+          {formatMessage({ id: 'order_summary', defaultMessage: 'Order Summary' })}
+        </h2>
+        <ul className="mt-4 divide-y divide-border">
+          {cart.items.map((item) => (
+            <li key={item._id} className="flex gap-3 py-3">
+              <div className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-muted">
+                {item.product.media?.[0]?.file?.url && (
+                  <img
+                    src={item.product.media[0].file.url}
+                    alt=""
+                    className="size-full object-cover"
+                  />
+                )}
+                <span className="absolute -right-0 -top-0 flex size-5 items-center justify-center rounded-bl-lg bg-primary text-[0.6875rem] font-semibold text-primary-foreground">
+                  {item.quantity}
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">{item.product.texts?.title}</p>
+                {item.product.texts?.subtitle && (
+                  <p className="truncate text-xs text-subtle-foreground">{item.product.texts.subtitle}</p>
                 )}
               </div>
-              {cart.items?.length > 0 && (
-                <>
-                  <div className="border-t border-slate-200 dark:border-0 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>
-                        {formatMessage({
-                          id: 'subtotal',
-                          defaultMessage: 'Subtotal',
-                        })}
-                      </span>
-                      <span>
-                        <FormattedPrice price={itemsTotal} />
-                      </span>
-                    </div>
+              <p className="text-sm font-medium">
+                <FormattedPrice price={item.total} />
+              </p>
+            </li>
+          ))}
+        </ul>
 
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>
-                        {formatMessage({
-                          id: 'shipping',
-                          defaultMessage: 'Shipping',
-                        })}
-                      </span>
-                      <span>
-                        <FormattedPrice
-                          price={
-                            deliveryTotal || {
-                              amount: 0,
-                              currencyCode: itemsTotal?.currencyCode || 'CHF',
-                            }
-                          }
-                        />
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>
-                        {formatMessage({
-                          id: 'tax',
-                          defaultMessage: 'Tax',
-                        })}
-                      </span>
-                      <span>
-                        <FormattedPrice
-                          price={
-                            taxesTotal || {
-                              amount: 0,
-                              currencyCode: itemsTotal?.currencyCode || 'CHF',
-                            }
-                          }
-                        />
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <div className="border-top py-3 mt-0">
-                        <h1 className="text-center">Discounts</h1>
-                        {cart?.discounts?.map((discount) => {
-                          return (
-                            <div
-                              key={discount._id}
-                              className="d-flex flex-wrap justify-content-between"
-                            >
-                              <div> {discount.code} </div>
-                              <div>
-                                <FormattedPrice price={discount?.total} />
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                      <span>
-                        {formatMessage({
-                          id: 'total_discounts',
-                          defaultMessage: 'Total discount',
-                        })}
-                      </span>
-                      <span>
-                        <FormattedPrice price={discountTotal} />
-                      </span>
-                    </div>
-
-                    {cart.payment?.fee && (
-                      <div className="flex justify-between text-sm text-slate-600 dark:text-slate-300">
-                        <span>
-                          {formatMessage({
-                            id: 'payment_fee',
-                            defaultMessage: 'Payment Fee',
-                          })}
-                        </span>
-                        <span>
-                          <FormattedPrice price={cart.payment.fee} />
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <AddDiscount orderId={cart?._id} />
-                  <div className="border-t border-slate-200 dark:border-0 pt-4 mt-4">
-                    <div className="flex justify-between text-lg font-medium text-slate-900 dark:text-white">
-                      <span>
-                        {formatMessage({
-                          id: 'order_total',
-                          defaultMessage: 'Total',
-                        })}
-                      </span>
-                      <span>
-                        <FormattedPrice price={grandTotal} />
-                      </span>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+        <div className="mt-2 border-t border-border pt-4">
+          <AddDiscount orderId={cart._id} />
         </div>
-      </div>
-    </>
+
+        <div className="mt-4 border-t border-border pt-4">
+          <CartSummary cart={cart} detailed />
+        </div>
+      </aside>
+    </div>
   );
 };
 

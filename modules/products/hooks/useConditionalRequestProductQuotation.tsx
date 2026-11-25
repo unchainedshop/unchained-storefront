@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client/react';
 import useLoginAsGuest from '../../auth/hooks/useLoginAsGuest';
 import useUser from '../../auth/hooks/useUser';
 import { gql } from '@apollo/client';
+import type * as GQL from '../../apollo/generated';
 
 export const REQUEST_PRODUCT_QUOTATION_MUTATION = gql`
   mutation RequestQuotation(
@@ -16,8 +17,7 @@ export const REQUEST_PRODUCT_QUOTATION_MUTATION = gql`
 
 const useConditionalRequestProductQuotation = () => {
   const { user } = useUser();
-  const [requestProductQuotation] = useMutation(
-    REQUEST_PRODUCT_QUOTATION_MUTATION,
+  const [requestProductQuotation] = useMutation<GQL.RequestQuotationMutation, GQL.RequestQuotationMutationVariables>(REQUEST_PRODUCT_QUOTATION_MUTATION,
   );
   const { loginAsGuest } = useLoginAsGuest();
 
@@ -29,7 +29,7 @@ const useConditionalRequestProductQuotation = () => {
       variables: {
         productId,
         configuration: [
-          { key: 'quantity', value: quantity },
+          { key: 'quantity', value: String(quantity) },
           ...Object.entries(contactInfo || {})
             .map(([key, value]) => ({
               key,

@@ -1,3 +1,6 @@
+import { TruckIcon } from '@heroicons/react/24/outline';
+import useFormatDateTime from '../common/utils/useFormatDateTime';
+import getProductAvailability from '../products/utils/getProductAvailability';
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import FormattedPrice from '../common/components/FormattedPrice';
@@ -6,73 +9,70 @@ import getProductHref from '../common/utils/getProductHref';
 import { PhotoIcon } from '@heroicons/react/20/solid';
 import getEngineURL from '../common/utils/getEngineURL';
 
-const OrderDetailItem = ({ item }) => {
+const OrderDetailItem = ({ item, delivered = false }) => {
   const { formatMessage } = useIntl();
   const engineURL = getEngineURL();
   const printTicketUrl = item?.tokens?.length
     ? `${engineURL.origin}/rest/print_tickets/?orderId=${item?.order?._id}&otp=not-needed`
     : null;
+  const title = item?.product?.texts?.title || item?.product?.texts?.subtitle;
+  const { formatDateTime } = useFormatDateTime();
+  const { earliestDelivery } = getProductAvailability({ simulatedDispatches: item?.dispatches });
+  const expectedDelivery = !delivered && earliestDelivery;
   return (
-    <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-200">
-      {/* Product (image + details) — the only link, so no nested anchors */}
+    <li className="flex items-center gap-4 py-4">
       <Link
         href={getProductHref(item.product.texts.slug)}
-        className="flex flex-1 min-w-0 items-center gap-3 group"
+        className="flex min-w-0 flex-1 items-center gap-4"
       >
-        {/* Product Image */}
-        <div className="flex-shrink-0">
+        <span className="relative flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted">
           {item.product?.media?.length ? (
             <ImageWithFallback
               src={`${item.product?.media[0].file.url}`}
-              alt={
-                item?.product?.texts?.title || item?.product?.texts?.subtitle
-              }
-              className="object-cover object-center rounded"
-              width={48}
-              height={48}
+              alt={title}
+              className="size-full object-cover"
+              width={64}
+              height={64}
             />
           ) : (
-            <div className="w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded flex items-center justify-center">
-              <PhotoIcon className="h-12 w-12 text-slate-400 dark:text-slate-500" />
-            </div>
+            <PhotoIcon className="size-7 text-subtle-foreground" />
           )}
-        </div>
-
-        {/* Product Details */}
-        <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-medium text-slate-900 dark:text-white truncate">
-            {item?.product?.texts?.title || item?.product?.texts?.subtitle}
-          </h3>
-          <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-            {formatMessage(
-              { id: 'quantity_short', defaultMessage: 'Qty: {quantity}' },
-              { quantity: item?.quantity },
-            )}
-          </div>
-        </div>
+        </span>
+        <span className="min-w-0">
+          {item?.product?.texts?.brand && (
+            <span className="block text-xs uppercase tracking-wider text-subtle-foreground">
+              {item.product.texts.brand}
+            </span>
+          )}
+          <span className="block truncate text-sm font-medium text-foreground hover:text-accent">
+            {title}
+          </span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">
+            {item?.quantity} × <FormattedPrice price={item?.unitPrice} />
+          </span>
+          {expectedDelivery && (
+            <span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+              <TruckIcon className="size-3.5" />
+              {formatMessage(
+                { id: 'availability_delivery_by', defaultMessage: 'Arrives by {date}' },
+                { date: formatDateTime(expectedDelivery, { weekday: 'short', day: 'numeric', month: 'short' }) },
+              )}
+            </span>
+          )}
+        </span>
       </Link>
 
-      {/* Price */}
-      <div className="text-sm font-medium text-slate-900 dark:text-white">
-        <FormattedPrice price={item?.unitPrice} />
+      <div className="flex flex-col items-end gap-2">
+        <span className="text-sm font-semibold">
+          <FormattedPrice price={item?.total || item?.unitPrice} />
+        </span>
+        {printTicketUrl && (
+          <a href={printTicketUrl} target="_blank" rel="noreferrer" className="btn btn-secondary btn-sm print:hidden">
+            {formatMessage({ id: 'print_tickets', defaultMessage: 'Print Tickets' })}
+          </a>
+        )}
       </div>
-
-      {/* Ticket print (only for tokenized/ticket products) — sibling of the Link */}
-      {printTicketUrl && (
-        <a
-          href={printTicketUrl}
-          target="_blank"
-          type="button"
-          className="button button--secondary"
-          rel="noreferrer"
-        >
-          {formatMessage({
-            id: 'print_tickets',
-            defaultMessage: 'Print Tickets',
-          })}
-        </a>
-      )}
-    </div>
+    </li>
   );
 };
 

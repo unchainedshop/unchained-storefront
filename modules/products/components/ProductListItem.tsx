@@ -5,6 +5,8 @@ import { useIntl } from 'react-intl';
 import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 import ProductPrice from '../../common/components/ProductPrice';
 import getProductHref from '../../common/utils/getProductHref';
+import BookmarkButton from './BookmarkButton';
+import ProductUnitInfo from './ProductUnitInfo';
 
 const shortenAddress = (address) =>
   address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
@@ -16,7 +18,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
   const availableTokens = totalSupply - mintedTokens;
 
   return (
-    <div className="text-xs text-slate-700 dark:text-slate-300 space-y-0.5">
+    <div className="text-xs text-muted-foreground space-y-0.5">
       {product?.contractStandard && (
         <p>
           <span className="font-medium">
@@ -45,7 +47,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
             })}{' '}
           </span>
           {totalSupply}{' '}
-          <span className="text-slate-500 dark:text-slate-400">
+          <span className="text-subtle-foreground">
             ({formatMessage({ id: 'available', defaultMessage: 'Available:' })}{' '}
             {availableTokens})
           </span>
@@ -67,7 +69,7 @@ const TokenProductMetadata = ({ product, formatMessage }) => {
 };
 
 const PlanProductMetadata = ({ plan, formatMessage }) => (
-  <div className="text-xs text-slate-700 dark:text-slate-300 space-y-0.5">
+  <div className="text-xs text-muted-foreground space-y-0.5">
     {plan?.usageCalculationType && (
       <p>
         <span className="font-medium">
@@ -112,88 +114,57 @@ const ProductListItem = ({ product }) => {
   const isBundle = product?.__typename === 'BundleProduct';
   const isTokenProduct = !!product?.contractStandard;
   const plan = product?.plan;
-  const isPlanProduct = !!plan;
+  const href = getProductHref(product?.texts?.slug);
 
   return (
-    <div className="group relative bg-white border border-slate-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg dark:bg-slate-900 dark:border-0">
-      <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
-        <Link href={getProductHref(product?.texts?.slug)}>
-          {firstMediaUrl ? (
-            <Image
-              src={firstMediaUrl}
-              alt={product?.texts?.title}
-              layout="fill"
-              objectFit="cover"
-              className="transition-all duration-300 group-hover:scale-105"
-              loader={defaultNextImageLoader}
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center">
-              <PhotoIcon className="h-12 w-12 text-slate-400 dark:text-slate-500" />
-            </div>
-          )}
-        </Link>
-
-        {isBundle && (
-          <div className="absolute top-3 left-3 z-10">
-            <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-500 text-white shadow-sm">
-              {formatMessage({ id: 'bundle_badge', defaultMessage: 'Bundle' })}
-            </span>
+    <article className="group relative flex flex-col">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-muted">
+        {firstMediaUrl ? (
+          <Image
+            src={firstMediaUrl}
+            alt={product?.texts?.title}
+            layout="fill"
+            objectFit="cover"
+            className="transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            loader={defaultNextImageLoader}
+          />
+        ) : (
+          <div className="flex size-full items-center justify-center">
+            <PhotoIcon className="size-12 text-subtle-foreground" />
           </div>
         )}
+        {isBundle && (
+          <span className="badge badge-warning absolute left-3 top-3 shadow-sm">
+            {formatMessage({ id: 'bundle_badge', defaultMessage: 'Bundle' })}
+          </span>
+        )}
+        <BookmarkButton
+          productId={product?._id}
+          className="absolute right-3 top-3 z-10"
+        />
       </div>
 
-      <div className="p-4 space-y-2 flex flex-col justify-between">
-        <div>
-          <div className="flex items-center justify-between gap-2">
-            <Link href={getProductHref(product?.texts?.slug)}>
-              <h3 className="text-base font-semibold text-slate-900 dark:text-white transition-colors duration-200 hover:text-slate-700 dark:hover:text-slate-200">
-                {product?.texts?.title}
-              </h3>
-            </Link>
-
-            {isBundle && (
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
-                {formatMessage({
-                  id: 'bundle_badge',
-                  defaultMessage: 'Bundle',
-                })}
-              </span>
-            )}
-          </div>
-
-          {product?.texts?.subtitle && (
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              {product.texts.subtitle}
-            </p>
-          )}
-
-          {product?.texts?.description && (
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
-              {product.texts.description}
-            </p>
-          )}
-
-          <div className="mt-2">
-            {isTokenProduct && (
-              <TokenProductMetadata
-                product={product}
-                formatMessage={formatMessage}
-              />
-            )}
-            {isPlanProduct && (
-              <PlanProductMetadata plan={plan} formatMessage={formatMessage} />
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between mt-3">
-          <div className="text-sm font-semibold text-slate-900 dark:text-white">
-            <ProductPrice product={product} compact />
-          </div>
+      <div className="mt-3 flex flex-1 flex-col gap-1">
+        <h3 className="line-clamp-2 text-sm font-medium text-foreground">
+          <Link href={href} className="after:absolute after:inset-0">
+            {product?.texts?.title}
+          </Link>
+        </h3>
+        {product?.texts?.subtitle && (
+          <p className="line-clamp-1 text-sm text-muted-foreground">
+            {product.texts.subtitle}
+          </p>
+        )}
+        {isTokenProduct && (
+          <TokenProductMetadata product={product} formatMessage={formatMessage} />
+        )}
+        {plan && <PlanProductMetadata plan={plan} formatMessage={formatMessage} />}
+        <div className="mt-auto flex flex-wrap items-baseline gap-x-2 pt-1 text-sm font-semibold text-foreground">
+          <ProductPrice product={product} compact />
+          <ProductUnitInfo product={product} className="text-xs" />
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

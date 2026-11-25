@@ -39,7 +39,13 @@ const Form = ({
   return (
     <FormProvider {...context}>
       <form
-        onSubmit={context.handleSubmit(handler)}
+        onSubmit={(event) => {
+          // A server error from the last attempt is not a field error;
+          // react-hook-form only clears "root" itself and refuses to submit
+          // while any error is left, which locked the form after one failure.
+          context.clearErrors(["submit", "root"]);
+          return context.handleSubmit(handler)(event);
+        }}
         className={classNames("form", className)}
       >
         {children}

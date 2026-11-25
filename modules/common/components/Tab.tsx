@@ -34,14 +34,14 @@ const TabComponent = ({ children, tabItems, defaultTab }) => {
           onChange={(e) => onTabSelected(e.target.value)}
           id="selected-tab"
           name="selected-tab"
-          className="mt-1 block w-full rounded-md border-slate-300 py-2 pl-3 pr-10 text-base capitalize focus:border-slate-400 focus:outline-none focus:ring-slate-400 dark:bg-slate-950 dark:text-white sm:text-sm"
+          className="mt-1 block w-full rounded-md border-input py-2 pl-3 pr-10 text-base capitalize focus:border-input focus:outline-none focus:ring-ring sm:text-sm"
           value={tab}
         >
           {tabItems.map((value) => (
             <option
               key={value.id}
               value={value.id}
-              className="dark:bg-slate-500"
+              className=""
             >
               {value?.title || value?.id}
             </option>
@@ -49,7 +49,7 @@ const TabComponent = ({ children, tabItems, defaultTab }) => {
         </select>
       </div>
       <div className="mb-5 hidden lg:block">
-        <div className="al border-b border-slate-100">
+        <div className="al border-b border-border">
           <nav className="-mb-px flex flex-wrap gap-6">
             {tabItems.map((option) => (
               <a
@@ -57,10 +57,10 @@ const TabComponent = ({ children, tabItems, defaultTab }) => {
                 onClick={() => onTabSelected(option.id)}
                 className={classNames(
                   {
-                    'cursor-pointer rounded-t-lg border border-slate-200 border-b-slate-500 bg-slate-100 text-slate-800 dark:bg-slate-500':
+                    'cursor-pointer rounded-t-lg border border-border border-b-input bg-muted text-foreground ':
                       tab === option.id,
                   },
-                  'relative flex-auto cursor-pointer whitespace-nowrap border border-b-2 border-transparent py-4 px-1 pr-3 pl-2 text-sm font-medium hover:rounded-t-lg hover:border-b-slate-500 dark:text-white dark:hover:bg-slate-500',
+                  'relative flex-auto cursor-pointer whitespace-nowrap border border-b-2 border-transparent py-4 px-1 pr-3 pl-2 text-sm font-medium hover:rounded-t-lg hover:border-b-input ',
                 )}
               >
                 <div className="flex items-center justify-center space-x-1">
@@ -69,7 +69,7 @@ const TabComponent = ({ children, tabItems, defaultTab }) => {
                     {option?.title || option?.id}
                   </div>
                   {option?.length ? (
-                    <span className="absolute top-0 right-0 inline-flex translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full bg-slate-300 px-1 py-0.5 text-sm leading-none text-slate-900">
+                    <span className="absolute top-0 right-0 inline-flex translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full bg-muted-strong px-1 py-0.5 text-sm leading-none text-foreground">
                       {option?.length}
                     </span>
                   ) : null}

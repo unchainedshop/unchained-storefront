@@ -7,6 +7,7 @@ import Portal from '../common/components/Portal';
 import formatPrice from '../common/utils/formatPrice';
 import Loading from '../common/components/Loading';
 import useSignPaymentProviderForCheckout from './hooks/useSignPaymentProviderForCheckout';
+import type * as GQL from '../apollo/generated';
 
 const QRCODE_SIZE = 256;
 const QRCODE_LEVEL = 'Q';
@@ -42,7 +43,7 @@ const QRCodeButton = ({ address, value }) => {
   return (
     <div
       onClick={copyToClipboard}
-      className="mx-auto relative w-fit after:invisible after:absolute after:left-2 after:top-0 after:z-10 after:h-fit after:rounded after:bg-slate-900 after:px-2 after:py-1 after:text-white after:opacity-0 after:transition after:content-['Click_to_copy'] hover:cursor-pointer hover:after:visible hover:after:opacity-100"
+      className="mx-auto relative w-fit after:invisible after:absolute after:left-2 after:top-0 after:z-10 after:h-fit after:rounded after:bg-primary after:px-2 after:py-1 after:text-white after:opacity-0 after:transition after:content-['Click_to_copy'] hover:cursor-pointer hover:after:visible hover:after:opacity-100"
     >
       <div className="sm:flex sm:items-center sm:justify-center flex-col">
         <svg
@@ -64,9 +65,9 @@ const MetamaskButton = ({ onClick }) => (
     type="button"
     onClick={onClick}
     style={{ backgroundColor: '#f6851a' }}
-    className="inline-flex items-center rounded-md border border-transparent px-3 py-2 text-sm font-medium leading-4 text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+    className="inline-flex items-center rounded-md border border-transparent px-3 py-2 text-sm font-medium leading-4 text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-warning focus:ring-offset-2"
   >
-    <span className="mr-2 rounded-full p-1.5 bg-white d-flex items-center justify-center">
+    <span className="mr-2 rounded-full p-1.5 bg-surface d-flex items-center justify-center">
       <svg
         className="h-4 w-4"
         xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +131,7 @@ const PayWithCryptoButton = ({ sign }) => (
   <button
     type="button"
     onClick={sign}
-    className="mt-6 w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium text-white shadow-xs hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2 focus:ring-offset-slate-50"
+    className="btn btn-primary btn-lg mt-2 w-full"
   >
     Pay with Crypto
   </button>
@@ -141,8 +142,7 @@ const CryptopayCheckoutButton = ({ order }) => {
   const [showPaymentInformation, setShowPaymentInformation] = useState(false);
   const { sign, data } = useSignPaymentProviderForCheckout();
 
-  const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery<any>(
-    CHECK_ORDER_STATUS_QUERY,
+  const [pollOrder, { data: orderData, stopPolling }] = useLazyQuery<GQL.CheckOrderStatusQuery, GQL.CheckOrderStatusQueryVariables>(CHECK_ORDER_STATUS_QUERY,
     {
       pollInterval: 2000,
     },
@@ -213,11 +213,11 @@ const CryptopayCheckoutButton = ({ order }) => {
             role="dialog"
             aria-modal="true"
           >
-            <div className="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-overlay transition-opacity" />
             <div className="fixed inset-0 z-10 overflow-y-auto">
               <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-fit">
-                  <div className="bg-white px-4 pt-5 pb-4 sm:p-10 sm:pb-4">
+                <div className="relative transform overflow-hidden rounded-lg bg-surface text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-fit">
+                  <div className="bg-surface px-4 pt-5 pb-4 sm:p-10 sm:pb-4">
                     <div className="flex items-center justify-center flex-col">
                       {isMetamaskAvailable && (
                         <>
@@ -236,10 +236,10 @@ const CryptopayCheckoutButton = ({ order }) => {
                               className="absolute inset-0 flex items-center"
                               aria-hidden="true"
                             >
-                              <div className="w-full border-t border-slate-300" />
+                              <div className="w-full border-t border-input" />
                             </div>
                             <div className="relative flex justify-center">
-                              <span className="bg-white px-2 text-sm text-slate-500">
+                              <span className="bg-surface px-2 text-sm text-subtle-foreground">
                                 or
                               </span>
                             </div>
@@ -261,10 +261,10 @@ const CryptopayCheckoutButton = ({ order }) => {
                           className="absolute inset-0 flex items-center"
                           aria-hidden="true"
                         >
-                          <div className="w-full border-t border-slate-300" />
+                          <div className="w-full border-t border-input" />
                         </div>
                         <div className="relative flex justify-center">
-                          <span className="bg-white px-2 text-sm text-slate-500">
+                          <span className="bg-surface px-2 text-sm text-subtle-foreground">
                             or
                           </span>
                         </div>
@@ -295,7 +295,7 @@ const CryptopayCheckoutButton = ({ order }) => {
                       <button
                         onClick={cancel}
                         type="button"
-                        className="inline-flex items-center rounded border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-brown-600 shadow-xs hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
+                        className="inline-flex items-center rounded border border-input bg-surface px-2.5 py-1.5 text-xs font-medium text-muted-foreground shadow-xs hover:bg-muted focus:outline-none focus:ring-2 focus:ring-danger focus:ring-offset-2"
                       >
                         Cancel
                       </button>

@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 export const CREATE_USER_MUTATION = gql`
   mutation CreateUser(
@@ -25,7 +26,7 @@ export const CREATE_USER_MUTATION = gql`
 
 const useCreateUser = () => {
   const [createUserMutation, { data, error, loading }] =
-    useMutation<any>(CREATE_USER_MUTATION);
+    useMutation<GQL.CreateUserMutation, GQL.CreateUserMutationVariables>(CREATE_USER_MUTATION);
 
   const createUser = async ({
     username,

@@ -3,11 +3,11 @@ import { useIntl } from 'react-intl';
 const Loading = ({ children }: any) => {
   const { formatMessage } = useIntl();
   return (
-    <div className="my-5 flex h-full w-full items-center justify-center bg-white dark:bg-slate-950 py-5">
-      <div className="flex items-center justify-center space-x-1 text-sm text-brown-600 dark:text-slate-200">
+    <div role="status" className="flex w-full items-center justify-center py-16">
+      <div className="flex items-center justify-center space-x-1 text-sm text-muted-foreground">
         <svg
           fill="none"
-          className="h-6 w-6 animate-spin"
+          className="size-5 animate-spin"
           viewBox="0 0 32 32"
           xmlns="http://www.w3.org/2000/svg"
         >

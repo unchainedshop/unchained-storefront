@@ -10,12 +10,12 @@ const ProductQuotationButton = ({ product }) => {
   if (!isQuotable) return null;
 
   return (
-    <div className="pt-4">
+    <div>
       <Link
         href={`/quotation/request/${product?.texts?.slug}`}
-        className="inline-flex items-center justify-center rounded-md text-sm font-medium w-full px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white transition-all duration-300"
+        className="btn btn-secondary w-full rounded-full"
       >
-        <ChatBubbleLeftIcon className="h-5 w-5 mr-2" />
+        <ChatBubbleLeftIcon className="size-5" />
         {intl.formatMessage({
           id: 'request-quotation-offer',
           defaultMessage: 'Request offer',

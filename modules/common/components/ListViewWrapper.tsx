@@ -1,7 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Squares2X2Icon, ListBulletIcon } from '@heroicons/react/24/outline';
+import { useIntl } from 'react-intl';
 import useLocalStorage from '../hooks/useLocalStorage';
+import PageHeader from './PageHeader';
 
 type ViewMode = 'grid' | 'list';
 
@@ -9,7 +11,9 @@ interface ListViewWrapperProps {
   storageKey?: string;
   className?: string;
   title?: string;
+  heading?: React.ReactNode;
   subtitle?: string;
+  actions?: React.ReactNode;
   children: (viewMode: ViewMode) => React.ReactNode;
 }
 
@@ -18,56 +22,71 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
   className,
   children,
   title,
+  heading,
   subtitle,
+  actions,
 }) => {
-  const [viewMode, setViewMode] = useLocalStorage(storageKey, 'list');
+  const { formatMessage } = useIntl();
+  const [viewMode, setViewMode] = useLocalStorage(storageKey, 'grid');
+
+  const toggleClass = (mode: ViewMode) =>
+    classNames(
+      'rounded-md p-1.5 transition-colors',
+      viewMode === mode
+        ? 'bg-surface text-foreground shadow-sm'
+        : 'text-subtle-foreground hover:text-foreground',
+    );
+
+  const toggleGroup = (
+        <div
+      role="group"
+      aria-label={formatMessage({ id: 'view_mode', defaultMessage: 'View mode' })}
+      className="flex shrink-0 rounded-lg bg-muted p-1"
+    >
+      <button
+        type="button"
+        aria-pressed={viewMode === 'grid'}
+        aria-label={formatMessage({ id: 'grid_view', defaultMessage: 'Grid view' })}
+        onClick={() => setViewMode('grid')}
+        className={toggleClass('grid')}
+      >
+        <Squares2X2Icon className="size-4" />
+      </button>
+      <button
+        type="button"
+        aria-pressed={viewMode === 'list'}
+        aria-label={formatMessage({ id: 'list_view', defaultMessage: 'List view' })}
+        onClick={() => setViewMode('list')}
+        className={toggleClass('list')}
+      >
+        <ListBulletIcon className="size-4" />
+      </button>
+    </div>
+  );
 
   return (
-    <div className={classNames('space-y-4', className)}>
-      <div className="container mx-auto py-8">
-        {(title || subtitle) && (
-          <div className="mb-8">
-            {title && (
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">
-                {title}
-              </h1>
-            )}
-            {subtitle && (
-              <p className="text-lg text-slate-600 dark:text-slate-300">
-                {subtitle}
-              </p>
-            )}
-          </div>
-        )}
-        <div className="flex justify-end mb-4">
-          <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={classNames(
-                'p-2 rounded-md transition-colors',
-                viewMode === 'grid'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200',
-              )}
-            >
-              <Squares2X2Icon className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={classNames(
-                'p-2 rounded-md transition-colors',
-                viewMode === 'list'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200',
-              )}
-            >
-              <ListBulletIcon className="w-4 h-4" />
-            </button>
+    <div className={className}>
+      {title ? (
+        <PageHeader
+          title={title}
+          description={subtitle}
+          actions={
+            <>
+              {actions}
+              {toggleGroup}
+            </>
+          }
+        />
+      ) : (
+        <div className="mb-6 flex items-center justify-between gap-4">
+          {heading ? <h2 className="text-xl font-bold tracking-tight">{heading}</h2> : <span />}
+          <div className="flex items-center gap-2">
+            {actions}
+            {toggleGroup}
           </div>
         </div>
-
-        {children(viewMode)}
-      </div>
+      )}
+      {children(viewMode)}
     </div>
   );
 };

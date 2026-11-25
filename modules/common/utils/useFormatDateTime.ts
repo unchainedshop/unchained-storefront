@@ -1,17 +1,13 @@
+import { useIntl } from 'react-intl';
+
 const useFormatDateTime = () => {
+  const { locale } = useIntl();
+
   const formatDateTime = (date, options: Intl.DateTimeFormatOptions = {}) => {
     if (!date) return 'n/a';
-    try {
-      return Intl.DateTimeFormat(navigator.language || 'de-ch', options).format(
-        new Date(date).getTime(),
-      );
-    } catch {
-      return Intl.DateTimeFormat('default', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      }).format(new Date(date).getTime());
-    }
+    const time = new Date(date).getTime();
+    if (!Number.isFinite(time)) return 'n/a';
+    return new Intl.DateTimeFormat(locale, options).format(time);
   };
 
   return { formatDateTime };

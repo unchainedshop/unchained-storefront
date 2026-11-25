@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import type * as GQL from '../../apollo/generated';
 
 const UpdateCartDeliveryPickUpMutation = gql`
   mutation UpdateCartDeliveryPickUp(
@@ -20,8 +21,7 @@ const UpdateCartDeliveryPickUpMutation = gql`
 `;
 
 const useUpdateCartDeliveryPickUp = () => {
-  const [updateCartDeliveryPickUpMutation] = useMutation(
-    UpdateCartDeliveryPickUpMutation,
+  const [updateCartDeliveryPickUpMutation] = useMutation<GQL.UpdateCartDeliveryPickUpMutation, GQL.UpdateCartDeliveryPickUpMutationVariables>(UpdateCartDeliveryPickUpMutation,
     {
       refetchQueries: ['CartCheckout'],
     },

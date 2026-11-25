@@ -2,14 +2,11 @@ import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import Markdown from 'react-markdown';
 import { useState } from 'react';
+import { LockClosedIcon, TruckIcon } from '@heroicons/react/24/outline';
 
-import useUser from '../../modules/auth/hooks/useUser';
 import useProductDetail from '../../modules/products/hooks/useProductDetail';
-import useConditionalBookmarkProduct from '../../modules/cart/hooks/useConditionalBookmarkProduct';
-import useRemoveBookmark from '../../modules/common/hooks/useRemoveBookmark';
 
 import MetaTags from '../../modules/common/components/MetaTags';
-import Loading from '../../modules/common/components/Loading';
 import NotFound from '../404';
 import AssortmentBreadcrumbs from '../../modules/assortment/components/AssortmentBreadcrumbs';
 import ProductPrice from '../../modules/common/components/ProductPrice';
@@ -24,13 +21,14 @@ import ProductVariationSelector from '../../modules/products/components/ProductV
 import BookmarkButton from '../../modules/products/components/BookmarkButton';
 import ProductSiblings from '../../modules/products/components/ProductSiblings';
 import ProductAddToCart from '../../modules/products/components/ProductAddToCart';
+import ProductReviews from '../../modules/products/components/ProductReviews';
+import ProductAvailability from '../../modules/products/components/ProductAvailability';
+import ProductUnitInfo from '../../modules/products/components/ProductUnitInfo';
+import ProductRatingSummary from '../../modules/products/components/ProductRatingSummary';
 
 const Detail = () => {
   const router = useRouter();
   const intl = useIntl();
-  const { user } = useUser();
-  const { conditionalBookmarkProduct } = useConditionalBookmarkProduct();
-  const { removeBookmark } = useRemoveBookmark();
 
   const { product, paths, loading } = useProductDetail({
     slug: router.query.slug,
@@ -50,16 +48,7 @@ const Detail = () => {
   const productPath = getAssortmentPath(paths);
   const isBundle = product?.__typename === 'BundleProduct';
   const isConfigurable = product?.__typename === 'ConfigurableProduct';
-
-  const [filteredBookmark] =
-    user?.bookmarks?.filter(
-      (bookmark) => bookmark?.product?._id === product?._id,
-    ) || [];
-
-  const toggleBookmark = () =>
-    filteredBookmark
-      ? removeBookmark({ bookmarkId: filteredBookmark?._id })
-      : conditionalBookmarkProduct({ productId: product?._id });
+  const sku = product && 'sku' in product ? product.sku : null;
 
   const resolvedAssignments = isConfigurable
     ? product.assignments.filter((assignment) =>
@@ -72,15 +61,40 @@ const Detail = () => {
     : [];
 
   const resolvedProducts = resolvedAssignments.map((a) => a.product);
+  const catalogPriceOf = (p) => ('catalogPrice' in p ? p.catalogPrice : null);
 
   const minPrice =
     resolvedProducts.length > 0
-      ? Math.min(...resolvedProducts.map((p) => p.catalogPrice.amount))
-      : product?.catalogPrice?.amount;
+      ? Math.min(...resolvedProducts.map((p) => catalogPriceOf(p)?.amount))
+      : catalogPriceOf(product || {})?.amount;
   const maxPrice =
     resolvedProducts.length > 0
-      ? Math.max(...resolvedProducts.map((p) => p.catalogPrice.amount))
-      : product?.catalogPrice?.amount;
+      ? Math.max(...resolvedProducts.map((p) => catalogPriceOf(p)?.amount))
+      : catalogPriceOf(product || {})?.amount;
+
+  const price =
+    isConfigurable && resolvedProducts.length > 0 ? (
+      resolvedProducts.length === 1 ? (
+        <ProductPrice product={resolvedProducts[0]} />
+      ) : (
+        <ProductPrice
+          product={{
+            simulatedPriceRange: {
+              minPrice: {
+                amount: minPrice,
+                currencyCode: catalogPriceOf(resolvedProducts[0])?.currencyCode,
+              },
+              maxPrice: {
+                amount: maxPrice,
+                currencyCode: catalogPriceOf(resolvedProducts[0])?.currencyCode,
+              },
+            },
+          }}
+        />
+      )
+    ) : (
+      <ProductPrice product={product} />
+    );
 
   return (
     <>
@@ -91,114 +105,116 @@ const Detail = () => {
       />
 
       {loading ? (
-        <Loading />
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div className="skeleton aspect-square rounded-2xl" />
+          <div className="space-y-4">
+            <div className="skeleton h-8 w-2/3" />
+            <div className="skeleton h-6 w-1/4" />
+            <div className="skeleton h-24 w-full" />
+            <div className="skeleton h-12 w-full rounded-full" />
+          </div>
+        </div>
       ) : (
-        <div className="container mx-auto py-8 space-y-12">
-          <AssortmentBreadcrumbs
-            paths={productPath}
-            currentAssortment={product?.texts}
-          />
+        <div className="space-y-16">
+          <div>
+            <AssortmentBreadcrumbs
+              paths={productPath}
+              currentAssortment={product?.texts}
+            />
+            <div className="mt-4 grid gap-10 lg:grid-cols-2 lg:gap-16">
+              <div className="overflow-hidden rounded-2xl bg-muted">
+                <ProductImageGallery product={product} isBundle={isBundle} />
+              </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            <ProductImageGallery product={product} isBundle={isBundle} />
-
-            <div className="flex flex-col space-y-6">
-              <div>
+              <div className="lg:sticky lg:top-24 lg:self-start">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h1
-                        className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white"
-                        dangerouslySetInnerHTML={{
-                          __html: product?.texts?.title,
-                        }}
-                      />
-                      {isBundle && (
-                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
-                          {intl.formatMessage({
-                            id: 'bundle_badge',
-                            defaultMessage: 'Bundle',
-                          })}
-                        </span>
-                      )}
-                    </div>
-                    <h2
-                      className="text-lg text-slate-600 dark:text-slate-300 mb-4"
-                      dangerouslySetInnerHTML={{
-                        __html: product?.texts?.subtitle || '',
-                      }}
+                  <div>
+                    {product?.texts?.brand && (
+                      <p className="text-sm font-medium uppercase tracking-wider text-subtle-foreground">
+                        {product.texts.brand}
+                      </p>
+                    )}
+                    <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+                      {product?.texts?.title}
+                    </h1>
+                    {product?.texts?.subtitle && (
+                      <p className="mt-2 text-lg text-muted-foreground">
+                        {product.texts.subtitle}
+                      </p>
+                    )}
+                    <ProductRatingSummary productId={product?._id} />
+                    {sku && (
+                      <p className="mt-1 text-xs text-subtle-foreground">
+                        {intl.formatMessage({ id: 'product_sku', defaultMessage: 'Item no. {sku}' }, { sku })}
+                      </p>
+                    )}
+                  </div>
+                  <BookmarkButton productId={product?._id} className="border border-border" />
+                </div>
+
+                <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-2xl font-semibold">
+                  {price}
+                  <ProductUnitInfo product={product} />
+                </div>
+
+                {isConfigurable && (
+                  <div className="mt-8">
+                    <ProductVariationSelector
+                      product={product}
+                      selectedOptions={selectedOptions}
+                      setSelectedOptions={setSelectedOptions}
                     />
                   </div>
+                )}
 
-                  <BookmarkButton
-                    filteredBookmark={filteredBookmark}
-                    toggleBookmark={toggleBookmark}
+                <div className="mt-8 space-y-3">
+                  <ProductAvailability product={product} />
+                  <ProductAddToCart
+                    product={product}
+                    resolvedProducts={resolvedProducts}
+                    isConfigurable={isConfigurable}
                   />
-                </div>
-
-                <div className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white mb-6">
-                  {isConfigurable && resolvedProducts.length > 0 ? (
-                    resolvedProducts.length === 1 ? (
-                      <ProductPrice product={resolvedProducts[0]} />
-                    ) : (
-                      <ProductPrice
-                        product={{
-                          simulatedPriceRange: {
-                            minPrice: {
-                              amount: minPrice,
-                              currencyCode:
-                                resolvedProducts[0].catalogPrice.currencyCode,
-                            },
-                            maxPrice: {
-                              amount: maxPrice,
-                              currencyCode:
-                                resolvedProducts[0].catalogPrice.currencyCode,
-                            },
-                          },
-                        }}
-                      />
-                    )
-                  ) : (
-                    <ProductPrice product={product} />
+                  {isConfigurable && resolvedProducts.length !== 1 && (
+                    <p className="text-sm text-muted-foreground">
+                      {intl.formatMessage({
+                        id: 'select_options_to_add',
+                        defaultMessage: 'Select your options to add this product to the cart.',
+                      })}
+                    </p>
                   )}
+                  <ProductQuotationButton product={product} />
                 </div>
+
+                <ul className="mt-8 space-y-2 border-t border-border pt-6 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <TruckIcon className="size-5 text-subtle-foreground" />
+                    {intl.formatMessage({ id: 'perk_shipping_text', defaultMessage: 'Shipped quickly to your door' })}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <LockClosedIcon className="size-5 text-subtle-foreground" />
+                    {intl.formatMessage({ id: 'perk_secure_text', defaultMessage: 'Card, invoice and more' })}
+                  </li>
+                </ul>
+
+                {product?.texts?.description && (
+                  <div className="prose prose-sm mt-8 max-w-none border-t border-border pt-6 text-muted-foreground dark:prose-invert">
+                    <Markdown>{product.texts.description}</Markdown>
+                  </div>
+                )}
               </div>
-
-              {product?.texts?.description && (
-                <div className="prose prose-gray dark:prose-invert max-w-none">
-                  <Markdown>{product?.texts?.description}</Markdown>
-                </div>
-              )}
-
-              {isConfigurable && (
-                <ProductVariationSelector
-                  product={product}
-                  selectedOptions={selectedOptions}
-                  setSelectedOptions={setSelectedOptions}
-                />
-              )}
-
-              <div className="pt-4">
-                <ProductAddToCart
-                  product={product}
-                  resolvedProducts={resolvedProducts}
-                  isConfigurable={isConfigurable}
-                />
-              </div>
-
-              <ProductQuotationButton product={product} />
             </div>
           </div>
 
-          {product?.proxies?.map((proxy) => (
+          {product?.proxies?.map((proxy, i) => (
             <ProductVariants
-              key={proxy._id}
+              key={'_id' in proxy ? proxy._id : i}
               proxy={proxy}
               activeProductId={product._id}
             />
           ))}
 
           <ProductBundleItems product={product} />
+          <ProductReviews productId={product?._id} />
           <ProductSiblings product={product} />
         </div>
       )}

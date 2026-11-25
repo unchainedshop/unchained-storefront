@@ -3,7 +3,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import useValidators from "../lib/useValidators";
 
-import FieldWrapper from "./FieldWrapper";
+import FieldWrapper, { fieldErrorId } from "./FieldWrapper";
 
 const TextField = ({ ...props }) => {
   const { register, formState } = useFormContext();
@@ -13,16 +13,11 @@ const TextField = ({ ...props }) => {
 
   return (
     <FieldWrapper {...props} error={error}>
+      <div className="relative">
       <input
-        className={classnames(
-          "relative mt-1 block w-full dark:focus:autofill dark:hover:autofill dark:autofill dark:placeholder:text-white dark:bg-slate-900 dark:text-slate-200 appearance-none rounded-md border-2 border-slate-200 dark:border-0 px-4 py-2.5 text-sm text-slate-900 shadow-xs placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400",
-          props.className,
-          {
-            "border-2 border-color-danger-600 placeholder:text-red-300":
-              !!props.error,
-            "border-slate-200": ![error],
-          },
-        )}
+        className={classnames("input", { "pr-11": props.endAdornment }, props.className)}
+        aria-invalid={!!error || undefined}
+        aria-describedby={error ? fieldErrorId(props.name) : undefined}
         disabled={props.disabled}
         id={props.name}
         name={props.name}
@@ -40,6 +35,12 @@ const TextField = ({ ...props }) => {
           },
         })}
       />
+      {props.endAdornment && (
+        <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+          {props.endAdornment}
+        </div>
+      )}
+      </div>
     </FieldWrapper>
   );
 };

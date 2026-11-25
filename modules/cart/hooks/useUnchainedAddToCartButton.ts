@@ -7,18 +7,24 @@ const useUnchainedAddToCartButton = ({
   productId,
   configuration,
   maxQuantity = DEFAULT_MAX_QUANTITY,
+  defaultQuantity = 1,
+}: {
+  productId: string;
+  configuration?: any;
+  maxQuantity?: number;
+  defaultQuantity?: number;
 }) => {
   const [
     addCartProduct,
     { loading: isAddInProgress, called: isAddedToCart, reset },
   ] = useAddCartProduct() as any;
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(defaultQuantity || 1);
 
   useEffect(() => {
     let timeoutHandler;
     if (isAddedToCart) {
       timeoutHandler = setTimeout(() => {
-        setQuantity(1);
+        setQuantity(defaultQuantity || 1);
         reset();
       }, 5000);
     }

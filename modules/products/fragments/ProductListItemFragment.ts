@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import ProductPriceFragment from './ProductPriceFragment';
+import ProductUnitFragment from './ProductUnitFragment';
 
 const ProductListItemFragment = gql`
   fragment ProductListItemFragment on Product {
@@ -23,6 +24,7 @@ const ProductListItemFragment = gql`
       brand
     }
     ...ProductPriceFragment
+    ...ProductUnitFragment
     ... on PlanProduct {
       texts {
         _id
@@ -64,6 +66,23 @@ const ProductListItemFragment = gql`
         labels
         vendor
         brand
+      }      bundleItems {
+        quantity
+        product {
+          _id
+          texts {
+            _id
+            title
+            slug
+          }
+          media(limit: 1) {
+            _id
+            file {
+              _id
+              url
+            }
+          }
+        }
       }
     }
     ... on ConfigurableProduct {
@@ -80,6 +99,7 @@ const ProductListItemFragment = gql`
     }
   }
   ${ProductPriceFragment}
+  ${ProductUnitFragment}
 `;
 
 export default ProductListItemFragment;

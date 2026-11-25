@@ -32,9 +32,15 @@ class UnchainedDocument extends Document {
           rel="shortcut icon"
           href="https://unchained.shop/_next/static/media/logo.41b5589a.svg"
         />
-        <Head />
+        <Head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `try{var t=localStorage.theme;if(t==='"dark"'||t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
+            }}
+          />
+        </Head>
 
-        <body className="dark:bg-slate-950">
+        <body>
           <div id="app-portal" />
           <Main />
           <NextScript />

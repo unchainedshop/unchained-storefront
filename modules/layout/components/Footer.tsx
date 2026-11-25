@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { useIntl } from 'react-intl';
 
 import LanguageSwitch from '../../common/components/LanguageSwitch';
+import CurrencySelector from '../../common/components/CurrencySelector';
+import CountrySelector from '../../common/components/CountrySelector';
 import useAssortments from '../../assortment/hooks/useAssortments';
 
 const getFooterNavigation = (formatMessage) => ({
@@ -59,196 +61,105 @@ const getFooterNavigation = (formatMessage) => ({
   social: [],
 });
 
+const FooterColumn = ({ title, children }) => (
+  <div>
+    <h3 className="text-xs font-semibold uppercase tracking-wider text-subtle-foreground">
+      {title}
+    </h3>
+    <ul className="mt-4 space-y-2.5 text-sm">{children}</ul>
+  </div>
+);
+
+const FooterLink = ({ href, external = false, children }) => (
+  <li>
+    {external ? (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-muted-foreground transition-colors hover:text-foreground"
+      >
+        {children}
+      </a>
+    ) : (
+      <Link
+        href={href}
+        className="text-muted-foreground transition-colors hover:text-foreground"
+      >
+        {children}
+      </Link>
+    )}
+  </li>
+);
+
 const Footer = () => {
   const { formatMessage } = useIntl();
-  const { assortments, loading: assortmentsLoading } = useAssortments({
-    includeLeaves: true,
-  });
-  const footerNavigation = getFooterNavigation(formatMessage);
+  const { assortments } = useAssortments({ includeLeaves: true });
+  const nav = getFooterNavigation(formatMessage);
+  const rootCategories = (assortments || [])
+    .filter((assortment) => assortment.isRoot)
+    .slice(0, 6);
+
   return (
     <footer
       aria-labelledby="footer-heading"
-      className="my-32 container mx-auto bg-white dark:bg-slate-950 print:hidden"
+      className="mt-16 border-t border-border bg-surface print:hidden"
     >
       <h2 id="footer-heading" className="sr-only">
         {formatMessage({ id: 'footer', defaultMessage: 'Footer' })}
       </h2>
-
-      <div className="px-6 lg:px-8 mx-auto">
-        <div className="flex space-x-6">
-          {footerNavigation.social.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-slate-400 hover:text-slate-500"
-            >
-              <span className="sr-only">{item.name}</span>
-              <item.icon className="h-6 w-6" aria-hidden="true" />
-            </a>
-          ))}
-        </div>
-
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="uppercase text-lg font-semibold text-slate-900 dark:text-white mb-6">
+      <div className="container-page py-12">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
+          <div className="col-span-2">
+            <Link href="/" className="font-display text-lg font-bold tracking-tight">
+              {formatMessage({ id: 'shop_title', defaultMessage: 'Unchained Store' })}
+            </Link>
+            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
               {formatMessage({
-                id: 'shop_title',
-                defaultMessage: 'Unchained Store',
+                id: 'footer_tagline',
+                defaultMessage: 'Thoughtfully selected products, delivered with care.',
               })}
-            </div>
-
-            {/* Categories Section */}
-            <div>
-              <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
-                {formatMessage({
-                  id: 'categories',
-                  defaultMessage: 'Categories',
-                })}
-              </h3>
-              {!assortmentsLoading && assortments.length > 0 && (
-                <ul className="mt-3 space-y-3">
-                  {assortments
-                    .filter((assortment) => assortment.isRoot)
-                    .map((rootCategory) => (
-                      <li
-                        key={rootCategory._id}
-                        className="text-sm font-medium"
-                      >
-                        <Link
-                          href={`/shop/${rootCategory.texts?.slug}`}
-                          className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
-                        >
-                          {rootCategory.texts?.title}
-                        </Link>
-                        {/* Child categories with indentation */}
-                        {assortments
-                          .filter(
-                            (child) =>
-                              !child.isRoot &&
-                              child.texts?.slug?.startsWith(
-                                rootCategory.texts?.slug,
-                              ),
-                          )
-                          .slice(0, 3) // Limit to 3 child categories per parent
-                          .map((childCategory) => (
-                            <div key={childCategory._id} className="mt-2">
-                              <Link
-                                href={`/shop/${childCategory.texts?.slug}`}
-                                className="text-sm font-medium text-slate-600 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 ml-4 block"
-                              >
-                                {childCategory.texts?.title}
-                              </Link>
-                            </div>
-                          ))}
-                      </li>
-                    ))}
-                </ul>
-              )}
-            </div>
-
-            <div>
-              <div>
-                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
-                  {formatMessage({
-                    id: 'company',
-                    defaultMessage: 'Company',
-                  })}
-                </h3>
-                <ul className="mt-3 space-y-3">
-                  {footerNavigation.company.map((item) => (
-                    <li key={item.name} className="text-sm font-medium">
-                      <Link
-                        href={item.href}
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-11">
-                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
-                  {formatMessage({ id: 'legal', defaultMessage: 'Legal' })}
-                </h3>
-                <ul className="mt-3 space-y-3">
-                  {footerNavigation.legal.map((item) => (
-                    <li key={item.name} className="text-sm font-medium">
-                      <Link
-                        href={item.href}
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-50">
-                Unchained
-              </h3>
-              <ul className="mt-3 space-y-3">
-                {footerNavigation.unchained.map((item) => (
-                  <li key={item.name} className="text-sm font-medium">
-                    {item.external ? (
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="text-slate-900 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
-                      >
-                        {item.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-48 md:flex md:items-center md:justify-between">
-          <div className="text-center md:text-left">
-            <p className="text-sm font-medium text-slate-400 dark:text-slate-200">
-              <span>&copy;</span>
-              <span className="mx-2">{new Date().getFullYear()}</span>
-              <span>
-                {formatMessage({
-                  id: 'right',
-                  defaultMessage: 'All Rights Reserved',
-                })}
-              </span>
             </p>
           </div>
 
-          <div className="mt-4 flex items-center justify-center md:mt-0">
-            <div className="flex space-x-8">
-              {footerNavigation.bottomLinks.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
-                >
-                  {item.name}
-                </Link>
+          {rootCategories.length > 0 && (
+            <FooterColumn
+              title={formatMessage({ id: 'categories', defaultMessage: 'Categories' })}
+            >
+              {rootCategories.map((category) => (
+                <FooterLink key={category._id} href={`/shop/${category.texts?.slug}`}>
+                  {category.texts?.title}
+                </FooterLink>
               ))}
-            </div>
+            </FooterColumn>
+          )}
 
-            <div className="border-slate-200">
-              <div className="flex items-center text-base text-slate-400 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-200">
-                <LanguageSwitch />
-              </div>
-            </div>
+          <FooterColumn title={formatMessage({ id: 'company', defaultMessage: 'Company' })}>
+            {[...nav.company, ...nav.legal].map((item) => (
+              <FooterLink key={item.href} href={item.href}>
+                {item.name}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title="Unchained">
+            {nav.unchained.map((item) => (
+              <FooterLink key={item.href} href={item.href} external>
+                {item.name}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+        </div>
+
+        <div className="mt-12 flex flex-col-reverse items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+          <p className="text-sm text-subtle-foreground">
+            &copy; {new Date().getFullYear()}{' '}
+            {formatMessage({ id: 'right', defaultMessage: 'All Rights Reserved' })}
+          </p>
+          <div className="flex items-center gap-2">
+            <LanguageSwitch />
+            <CountrySelector />
+          <CurrencySelector />
           </div>
         </div>
       </div>
