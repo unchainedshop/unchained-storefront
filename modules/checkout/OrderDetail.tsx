@@ -158,7 +158,7 @@ const OrderDetail = ({ order }) => {
           >
             <ul className="-my-4 divide-y divide-border">
               {order.items?.map((item) => (
-                <OrderDetailItem key={item._id} item={item} />
+                <OrderDetailItem key={item._id} item={item} delivered={Boolean(delivery?.delivered) || order.status === 'FULFILLED' || rejected} />
               ))}
             </ul>
           </Panel>

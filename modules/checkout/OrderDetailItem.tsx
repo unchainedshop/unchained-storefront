@@ -1,3 +1,6 @@
+import { TruckIcon } from '@heroicons/react/24/outline';
+import useFormatDateTime from '../common/utils/useFormatDateTime';
+import getProductAvailability from '../products/utils/getProductAvailability';
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import FormattedPrice from '../common/components/FormattedPrice';
@@ -6,13 +9,16 @@ import getProductHref from '../common/utils/getProductHref';
 import { PhotoIcon } from '@heroicons/react/20/solid';
 import getEngineURL from '../common/utils/getEngineURL';
 
-const OrderDetailItem = ({ item }) => {
+const OrderDetailItem = ({ item, delivered = false }) => {
   const { formatMessage } = useIntl();
   const engineURL = getEngineURL();
   const printTicketUrl = item?.tokens?.length
     ? `${engineURL.origin}/rest/print_tickets/?orderId=${item?.order?._id}&otp=not-needed`
     : null;
   const title = item?.product?.texts?.title || item?.product?.texts?.subtitle;
+  const { formatDateTime } = useFormatDateTime();
+  const { earliestDelivery } = getProductAvailability({ simulatedDispatches: item?.dispatches });
+  const expectedDelivery = !delivered && earliestDelivery;
   return (
     <li className="flex items-center gap-4 py-4">
       <Link
@@ -44,6 +50,15 @@ const OrderDetailItem = ({ item }) => {
           <span className="mt-0.5 block text-xs text-muted-foreground">
             {item?.quantity} × <FormattedPrice price={item?.unitPrice} />
           </span>
+          {expectedDelivery && (
+            <span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+              <TruckIcon className="size-3.5" />
+              {formatMessage(
+                { id: 'availability_delivery_by', defaultMessage: 'Arrives by {date}' },
+                { date: formatDateTime(expectedDelivery, { weekday: 'short', day: 'numeric', month: 'short' }) },
+              )}
+            </span>
+          )}
         </span>
       </Link>
 
