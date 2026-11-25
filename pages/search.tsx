@@ -41,7 +41,7 @@ const Search = () => {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const { products, filters, categories, loading } = useSearch({
+  const { products, filters, categories, loading, loadMore, filteredProductsCount } = useSearch({
     queryString: debouncedQuery,
     filterQuery,
   });
@@ -106,11 +106,11 @@ const Search = () => {
         </nav>
       )}
 
-      <FilterLayout filters={filters} resultCount={debouncedQuery && !loading ? products.length : null}>
+      <FilterLayout filters={filters} resultCount={debouncedQuery && !loading ? filteredProductsCount : null}>
         {loading ? (
           <ProductGridSkeleton />
         ) : products.length > 0 ? (
-          <ProductList products={products} totalProducts={products.length} onLoadMore={null} />
+          <ProductList products={products} totalProducts={filteredProductsCount} onLoadMore={loadMore} />
         ) : (
           <EmptyState
             icon={MagnifyingGlassIcon}

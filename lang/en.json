@@ -11,9 +11,6 @@
   "500-error-header": {
     "defaultMessage": "Something went wrong"
   },
-  "Delivery_status": {
-    "defaultMessage": "Delivery status"
-  },
   "about": {
     "defaultMessage": "About us"
   },
@@ -176,9 +173,6 @@
   "categories": {
     "defaultMessage": "Categories"
   },
-  "categories_description": {
-    "defaultMessage": "Discover our carefully curated collections designed to meet all your needs"
-  },
   "change_password": {
     "defaultMessage": "Change Password"
   },
@@ -220,9 +214,6 @@
   },
   "confirmation_sent_to": {
     "defaultMessage": "A confirmation is on its way to {email}."
-  },
-  "confirmed": {
-    "defaultMessage": "Confirmed"
   },
   "contact": {
     "defaultMessage": "Contact"
@@ -455,9 +446,6 @@
   "free": {
     "defaultMessage": "Free"
   },
-  "fulfilled": {
-    "defaultMessage": "FulFilled"
-  },
   "full_name": {
     "defaultMessage": "Full name"
   },
@@ -650,12 +638,6 @@
   "no-password-set-error": {
     "defaultMessage": "User password not set"
   },
-  "no_categories": {
-    "defaultMessage": "No categories yet."
-  },
-  "no_categories_text": {
-    "defaultMessage": "Categories will appear here once the shop is set up."
-  },
   "no_data_message": {
     "defaultMessage": "<p>No <span> {message} available</span> </p>"
   },
@@ -697,9 +679,6 @@
   },
   "old_password_not_correct": {
     "defaultMessage": "Wrong password, please try again"
-  },
-  "on": {
-    "defaultMessage": "on"
   },
   "operation-timeout-error": {
     "defaultMessage": "Operation timed out, please try again."
@@ -754,9 +733,6 @@
   },
   "order_total": {
     "defaultMessage": "Total"
-  },
-  "ordered": {
-    "defaultMessage": "Ordered"
   },
   "orders": {
     "defaultMessage": "Orders"
@@ -884,9 +860,6 @@
   "payment_validation_error": {
     "defaultMessage": "Validation error occurred."
   },
-  "pending": {
-    "defaultMessage": "Pending"
-  },
   "perk_returns": {
     "defaultMessage": "Easy returns"
   },
@@ -949,9 +922,6 @@
   },
   "product.variants.title": {
     "defaultMessage": "Variants"
-  },
-  "product_categories": {
-    "defaultMessage": "Product Categories"
   },
   "product_standard": {
     "defaultMessage": "Standard:"
@@ -1238,6 +1208,9 @@
   "shop_by_category": {
     "defaultMessage": "Shop by Category"
   },
+  "shop_description": {
+    "defaultMessage": "Browse our categories or explore the full collection."
+  },
   "shop_now": {
     "defaultMessage": "Shop now"
   },
@@ -1273,9 +1246,6 @@
   },
   "skip_to_content": {
     "defaultMessage": "Skip to content"
-  },
-  "status": {
-    "defaultMessage": "Status"
   },
   "status_confirmed": {
     "defaultMessage": "Confirmed"

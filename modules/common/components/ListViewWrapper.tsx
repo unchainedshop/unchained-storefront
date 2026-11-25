@@ -11,6 +11,7 @@ interface ListViewWrapperProps {
   storageKey?: string;
   className?: string;
   title?: string;
+  heading?: React.ReactNode;
   subtitle?: string;
   actions?: React.ReactNode;
   children: (viewMode: ViewMode) => React.ReactNode;
@@ -21,6 +22,7 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
   className,
   children,
   title,
+  heading,
   subtitle,
   actions,
 }) => {
@@ -76,7 +78,13 @@ const ListViewWrapper: React.FC<ListViewWrapperProps> = ({
           }
         />
       ) : (
-        <div className="mb-6 flex justify-end">{toggleGroup}</div>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          {heading ? <h2 className="text-xl font-bold tracking-tight">{heading}</h2> : <span />}
+          <div className="flex items-center gap-2">
+            {actions}
+            {toggleGroup}
+          </div>
+        </div>
       )}
       {children(viewMode)}
     </div>
