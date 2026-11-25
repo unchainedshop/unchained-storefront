@@ -49,64 +49,22 @@ const OrderList = ({ orders, queryString, setQueryString }) => {
             })}
           </h2>
 
-          <dl className="divide-y divide-border text-base text-muted-foreground sm:grid sm:space-y-0 lg:flex-none">
-            <div className="hidden sm:block sm:pb-6">
-              <div className="flex-auto sm:grid sm:grid-cols-6 sm:gap-x-6 lg:gap-x-8">
-                <div className="flex justify-between sm:block">
-                  <dt className="font-medium text-foreground">
-                    {formatMessage({
-                      id: 'order_date',
-                      defaultMessage: 'Order date',
-                    })}
-                  </dt>
-                </div>
-                <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-foreground">
-                    {formatMessage({
-                      id: 'order_number',
-                      defaultMessage: 'Order number',
-                    })}
-                  </dt>
-                </div>
-                <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-foreground">
-                    {formatMessage({
-                      id: 'total_amount',
-                      defaultMessage: 'Total amount',
-                    })}
-                  </dt>
-                </div>
-                <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-foreground">
-                    {formatMessage({
-                      id: 'payment_status',
-                      defaultMessage: 'Payment status',
-                    })}
-                  </dt>
-                </div>
-                <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-foreground">
-                    {formatMessage({
-                      id: 'order_status',
-                      defaultMessage: 'Order status',
-                    })}
-                  </dt>
-                </div>
-                <div className="flex justify-between pt-6 sm:block sm:pt-0">
-                  <dt className="font-medium text-foreground">
-                    {formatMessage({
-                      id: 'Delivery_status',
-                      defaultMessage: 'Delivery status',
-                    })}
-                  </dt>
-                </div>
-              </div>
-              <div />
-            </div>
+          <div
+            aria-hidden
+            className="hidden border-b border-border pb-3 text-xs font-semibold uppercase tracking-wider text-subtle-foreground sm:grid sm:grid-cols-6 sm:gap-x-6 sm:pr-7 lg:gap-x-8"
+          >
+            <span>{formatMessage({ id: 'order_date', defaultMessage: 'Order date' })}</span>
+            <span>{formatMessage({ id: 'order_number', defaultMessage: 'Order number' })}</span>
+            <span>{formatMessage({ id: 'total_amount', defaultMessage: 'Total amount' })}</span>
+            <span>{formatMessage({ id: 'payment_status', defaultMessage: 'Payment status' })}</span>
+            <span>{formatMessage({ id: 'order_status', defaultMessage: 'Order status' })}</span>
+            <span>{formatMessage({ id: 'delivery_status', defaultMessage: 'Delivery status' })}</span>
+          </div>
+          <div className="mt-2 space-y-1">
             {orders.map((order) => (
               <OrderListItem order={order} key={order._id} />
             ))}
-          </dl>
+          </div>
         </div>
         )}
       </div>

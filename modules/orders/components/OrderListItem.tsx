@@ -1,118 +1,49 @@
-import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
+import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import useFormatDateTime from '../../common/utils/useFormatDateTime';
 import FormattedPrice from '../../common/components/FormattedPrice';
+import OrderStatusBadge from './OrderStatusBadge';
+
+const Cell = ({ label, children }) => (
+  <div className="flex items-center justify-between gap-3 sm:block">
+    <dt className="text-sm text-muted-foreground sm:sr-only">{label}</dt>
+    <dd className="text-sm">{children}</dd>
+  </div>
+);
 
 const OrderListItem = ({ order }) => {
   const { formatMessage } = useIntl();
   const { formatDateTime } = useFormatDateTime();
 
-  const orderStatus = {
-    OPEN: {
-      text: formatMessage({ id: 'ordered', defaultMessage: 'Ordered' }),
-      date: 'ordered',
-    },
-    PENDING: {
-      text: formatMessage({ id: 'pending', defaultMessage: 'Pending' }),
-    },
-    CONFIRMED: {
-      text: formatMessage({ id: 'confirmed', defaultMessage: 'Confirmed' }),
-      date: 'confirmed',
-    },
-    FULFILLED: {
-      text: formatMessage({ id: 'fulfilled', defaultMessage: 'FulFilled' }),
-      icon: (
-        <CheckCircleIcon
-          className="h-5 w-5 text-success"
-          aria-hidden="true"
-        />
-      ),
-      date: 'fulfilled',
-    },
-  };
-
   return (
-    <Link href={`/order/${order?._id}`} className="w-full">
-      <div className="w-full py-6 px-2 hover:bg-muted-strong hover:text-white sm:grid sm:grid-cols-6 sm:gap-x-6 lg:gap-x-8">
-        <div className="flex justify-between sm:block">
-          <dt className="font-medium text-foreground sm:hidden">
-            {formatMessage({
-              id: 'order_date',
-              defaultMessage: 'Order date',
-            })}
-          </dt>
-          <dd className="sm:mt-1">
-            <time dateTime={order.datetime}>
-              {formatDateTime(order?.ordered)}
-            </time>
-          </dd>
-        </div>
-        <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-foreground sm:hidden">
-            {formatMessage({
-              id: 'order_number',
-              defaultMessage: 'Order number',
-            })}
-          </dt>
-          <dd className="sm:mt-1">{order?.orderNumber}</dd>
-        </div>
-        <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-foreground sm:hidden">
-            {formatMessage({
-              id: 'total_amount',
-              defaultMessage: 'Total amount',
-            })}
-          </dt>
-          <dd className="sm:mt-1">
-            <FormattedPrice price={order.total} />
-          </dd>
-        </div>
-        <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-foreground sm:hidden">
-            {formatMessage({
-              id: 'payment_status',
-              defaultMessage: 'Payment status',
-            })}
-          </dt>
-          <dd className="sm:mt-1">{order?.payment?.status}</dd>
-        </div>
-        <div className="flex items-center justify-between pt-6 sm:pt-0">
-          <dt className="font-medium text-foreground sm:hidden">
-            {formatMessage({
-              id: 'status',
-              defaultMessage: 'Status',
-            })}
-          </dt>
-          <dd className="uppercase sm:mt-1">
-            <div className="flex items-center gap-x-2">
-              {orderStatus[order?.status]?.icon &&
-                orderStatus[order?.status].icon}
-              {orderStatus[order?.status]?.text}
-              {orderStatus[order?.status]?.date && (
-                <>
-                  {formatMessage({
-                    id: 'on',
-                    defaultMessage: ' on ',
-                  })}
-                  <time dateTime={order.datetime}>
-                    {formatDateTime(order[orderStatus[order?.status].date])}
-                  </time>
-                </>
-              )}
-            </div>
-          </dd>
-        </div>
-        <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-foreground sm:hidden">
-            {formatMessage({
-              id: 'delivery_status',
-              defaultMessage: 'Delivery status',
-            })}
-          </dt>
-          <dd className="sm:mt-1">{order?.delivery?.status}</dd>
-        </div>
-      </div>
+    <Link
+      href={`/order/${order?._id}`}
+      className="group relative -mx-3 block rounded-lg px-3 py-4 transition-colors hover:bg-accent-soft/60 focus-visible:bg-accent-soft/60 sm:pr-10"
+    >
+      <dl className="grid gap-2 sm:grid-cols-6 sm:items-center sm:gap-x-6 lg:gap-x-8">
+        <Cell label={formatMessage({ id: 'order_date', defaultMessage: 'Order date' })}>
+          <time dateTime={order?.ordered}>{formatDateTime(order?.ordered, { dateStyle: 'medium' })}</time>
+        </Cell>
+        <Cell label={formatMessage({ id: 'order_number', defaultMessage: 'Order number' })}>
+          <span className="font-medium text-foreground group-hover:text-accent">#{order?.orderNumber}</span>
+        </Cell>
+        <Cell label={formatMessage({ id: 'total_amount', defaultMessage: 'Total amount' })}>
+          <span className="font-semibold">
+            <FormattedPrice price={order?.total} />
+          </span>
+        </Cell>
+        <Cell label={formatMessage({ id: 'payment_status', defaultMessage: 'Payment status' })}>
+          <OrderStatusBadge status={order?.payment?.status} />
+        </Cell>
+        <Cell label={formatMessage({ id: 'order_status', defaultMessage: 'Order status' })}>
+          <OrderStatusBadge status={order?.status} />
+        </Cell>
+        <Cell label={formatMessage({ id: 'delivery_status', defaultMessage: 'Delivery status' })}>
+          <OrderStatusBadge status={order?.delivery?.status} />
+        </Cell>
+      </dl>
+      <ChevronRightIcon className="absolute right-3 top-1/2 hidden size-5 -translate-y-1/2 text-subtle-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground sm:block" />
     </Link>
   );
 };
