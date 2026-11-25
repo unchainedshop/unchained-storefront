@@ -26,6 +26,18 @@ export const ASSORTMENT_PRODUCTS_QUERY = gql`
       media {
         ...AssortmentMediaFragment
       }
+      linkedAssortments {
+        _id
+        parent {
+          _id
+        }
+        child {
+          ...AssortmentFragment
+          media {
+            ...AssortmentMediaFragment
+          }
+        }
+      }
       searchProducts(filterQuery: $filterQuery, queryString: $queryString) {
         filteredProductsCount
         productsCount
@@ -97,6 +109,10 @@ const useAssortmentProducts = (
     filteredProducts:
       normalizedData?.assortment?.searchProducts.filteredProductsCount,
     assortment: normalizedData?.assortment,
+    // Links point both ways; children are the ones this assortment is parent of.
+    subcategories: (normalizedData?.assortment?.linkedAssortments || [])
+      .filter((link) => link.parent?._id === normalizedData?.assortment?._id)
+      .map((link) => link.child),
     products,
     paths,
     filters,

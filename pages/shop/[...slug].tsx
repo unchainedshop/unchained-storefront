@@ -10,6 +10,7 @@ import getMediaUrl from '../../modules/common/utils/getMediaUrl';
 import ProductGridSkeleton from '../../modules/products/components/ProductGridSkeleton';
 import ListViewWrapper from '../../modules/common/components/ListViewWrapper';
 import FilterLayout from '../../modules/filter/components/FilterLayout';
+import CategoryListItem from '../../modules/assortment/components/CategoryListItem';
 import useRouteFilterQuery from '../../modules/filter/hooks/useRouteFilterQuery';
 import EmptyState from '../../modules/common/components/EmptyState';
 import { FunnelIcon } from '@heroicons/react/24/outline';
@@ -50,6 +51,7 @@ const CategoryDetail = () => {
   // --- Fetch products ---
   const {
     assortment,
+    subcategories,
     filters = [],
     products,
     loadMore,
@@ -73,6 +75,19 @@ const CategoryDetail = () => {
 
       <ListViewWrapper title={texts?.title} subtitle={texts?.subtitle}>
         {(viewMode) => (
+          <>
+          {subcategories?.length > 0 && (
+            <section className="mb-8">
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-subtle-foreground">
+                {formatMessage({ id: 'subcategories', defaultMessage: 'Categories' })}
+              </h2>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                {subcategories.map((category) => (
+                  <CategoryListItem key={category._id} category={category} />
+                ))}
+              </div>
+            </section>
+          )}
           <FilterLayout filters={filters} resultCount={filteredProducts ?? null}>
             <div className="relative mb-6 max-w-sm">
               <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-subtle-foreground" />
@@ -102,6 +117,7 @@ const CategoryDetail = () => {
               />
             )}
           </FilterLayout>
+          </>
         )}
       </ListViewWrapper>
     </>
