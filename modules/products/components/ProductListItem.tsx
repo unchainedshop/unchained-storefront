@@ -139,7 +139,7 @@ const ProductListItem = ({ product }) => {
         )}
         <BookmarkButton
           productId={product?._id}
-          className="absolute right-3 top-3 z-10 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100 aria-pressed:opacity-100"
+          className="absolute right-3 top-3 z-10"
         />
       </div>
 

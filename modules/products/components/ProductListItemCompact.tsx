@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import getProductHref from '../../common/utils/getProductHref';
 import defaultNextImageLoader from '../../common/utils/defaultNextImageLoader';
 import ProductPrice from '../../common/components/ProductPrice';
+import BookmarkButton from './BookmarkButton';
 
 const shortenAddress = (address) =>
   address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
@@ -29,6 +30,7 @@ const ProductImage = ({ product, isBundle, formatMessage }) => (
       )}
     </Link>
 
+    <BookmarkButton productId={product?._id} className="absolute right-2 top-2 z-10 size-9" />
     {isBundle && (
       <div className="absolute top-2 left-2 z-10">
         <span className="badge badge-warning shadow-sm">
