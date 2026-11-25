@@ -21,8 +21,8 @@ const Privacy = () => {
         icon={ShieldCheckIcon}
       >
 
-        <div className="prose dark:prose-invert max-w-none space-y-6">
-          <p className="text-lg text-muted-foreground leading-relaxed">
+        <div className="prose dark:prose-invert">
+          <p className="lead">
             This privacy policy explains how we collect, use, and protect your
             personal information, assuming we figure out how to do any of those
             things properly. We take your privacy seriously, which is why
@@ -30,10 +30,10 @@ const Privacy = () => {
             policies that we&apos;re still making up as we go along.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Information We Collect (Accidentally)
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             We collect various types of information about you, including but not
             limited to: your name, email address, shopping preferences, browsing
             habits, favorite color, childhood fears, and the name of your first
@@ -44,14 +44,14 @@ const Privacy = () => {
             probably surprises you.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             How We Use Your Information
           </h2>
-          <div className="bg-muted rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-3">
+          <div className="content-box">
+            <h3>
               We use your information to:
             </h3>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+            <ul>
               <li>Provide you with our services (when they work)</li>
               <li>
                 Send you marketing emails until you unsubscribe (and sometimes
@@ -75,10 +75,10 @@ const Privacy = () => {
             </ul>
           </div>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Data Sharing (The Awkward Part)
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             We promise not to sell your data to anyone unless they offer us a
             really good deal. We may share your information with third parties
             including our payment processors, shipping partners, the government
@@ -88,10 +88,10 @@ const Privacy = () => {
             declining attention spans of internet users.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Cookies and Tracking (The Digital Breadcrumbs)
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             Our website uses cookies, not the delicious kind but the digital
             ones that follow you around the internet. These cookies help us
             remember who you are, what you like, and where you&apos;ve been on
@@ -102,10 +102,10 @@ const Privacy = () => {
             like a stranger at a party.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Data Security (Our Noble Attempt)
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             We protect your data using industry-standard security measures,
             which is business speak for &quot;we installed some software and
             hope it works.&quot; Our security measures include encryption,
@@ -116,14 +116,14 @@ const Privacy = () => {
             goes wrong.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Your Rights (The Fine Print)
           </h2>
-          <div className="bg-muted rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-3">
+          <div className="content-box">
+            <h3>
               Under various privacy laws, you have the right to:
             </h3>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+            <ul>
               <li>Access your personal data (once we find it)</li>
               <li>
                 Correct inaccurate information (assuming we can figure out
@@ -142,10 +142,10 @@ const Privacy = () => {
             </ul>
           </div>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             International Data Transfers
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             Your data may be transferred to and processed in countries other
             than your own, including countries with different privacy laws or no
             privacy laws at all. We ensure these transfers comply with
@@ -154,10 +154,10 @@ const Privacy = () => {
             digital vacation.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Changes to This Policy
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             We may update this privacy policy from time to time, usually when
             someone points out something we forgot or when new laws require us
             to pretend we understand them. We&apos;ll notify you of significant
@@ -166,10 +166,10 @@ const Privacy = () => {
             means you accept the new policy, even if you didn&apos;t read it.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Contact Us (If You Dare)
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             If you have questions about this privacy policy, want to exercise
             your rights, or just want to chat about data protection over coffee,
             you can contact us at privacy@definitely-real-commerce.example. We
@@ -177,7 +177,7 @@ const Privacy = () => {
             &quot;eventually, maybe.&quot;
           </p>
 
-          <p className="text-sm text-subtle-foreground italic mt-8">
+          <p className="content-note">
             *This privacy policy was written by someone who clearly spent too
             much time thinking about data protection and not enough time
             thinking about readability. Your privacy matters to us, even if our

@@ -683,6 +683,9 @@
   "old_password_not_correct": {
     "defaultMessage": "Wrong password, please try again"
   },
+  "on_this_page": {
+    "defaultMessage": "On this page"
+  },
   "operation-timeout-error": {
     "defaultMessage": "Operation timed out, please try again."
   },

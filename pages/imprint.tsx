@@ -18,18 +18,18 @@ const Imprint = () => {
         icon={IdentificationIcon}
       >
 
-        <div className="prose dark:prose-invert max-w-none space-y-6">
-          <p className="text-lg text-muted-foreground leading-relaxed">
+        <div className="prose dark:prose-invert">
+          <p className="lead">
             According to various international laws that we may or may not fully
             understand, we are required to provide you with some information
             about who we are, where we are, and what we&apos;re supposedly
             doing. Consider this your official heads-up about our existence.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Company Information
           </h2>
-          <div className="bg-muted rounded-lg p-6">
+          <div className="content-box">
             <div className="space-y-3">
               <div>
                 <span className="font-medium text-foreground">
@@ -59,10 +59,10 @@ const Imprint = () => {
             </div>
           </div>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Management & Representation
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             This company is managed by a board of directors consisting entirely
             of people who are excellent at making decisions they don&apos;t
             understand about things they&apos;ve never seen. Our CEO is rumored
@@ -71,10 +71,10 @@ const Imprint = () => {
             from an unaccredited online university.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Contact Information
           </h2>
-          <div className="bg-muted rounded-lg p-6">
+          <div className="content-box">
             <div className="space-y-3">
               <div>
                 <span className="font-medium text-foreground">
@@ -105,20 +105,20 @@ const Imprint = () => {
             </div>
           </div>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             VAT Information
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             VAT-ID: CHE-123.456.789 MWST (this number may or may not correspond
             to anything real, but it looks official). We are registered for VAT
             purposes in Switzerland, assuming Switzerland knows we exist, which
             is questionable at best.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Professional Liability Insurance
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             We are insured by the &quot;Fictional Insurance Company for
             Imaginary Businesses,&quot; policy number 404-NOT-FOUND. Coverage
             includes protection against acts of digital vandalism, spontaneous
@@ -126,10 +126,10 @@ const Imprint = () => {
             might not actually exist.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Regulatory Information
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             This website is subject to Swiss law, international internet
             regulations, and the laws of physics (though we&apos;re working on
             exemptions for the latter). Any disputes arising from the use of
@@ -138,10 +138,10 @@ const Imprint = () => {
             time.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Editorial Responsibility
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             The content on this website is the responsibility of our editorial
             team, which consists of one overworked intern, a magic 8-ball, and
             occasionally input from the office cat. We strive for accuracy but
@@ -149,10 +149,10 @@ const Imprint = () => {
             know&mdash;we&apos;ll add them to our collection.
           </p>
 
-          <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">
+          <h2>
             Dispute Resolution
           </h2>
-          <p className="text-muted-foreground">
+          <p>
             In case of disputes, we prefer resolution through peaceful means
             such as rock-paper-scissors, thumb wrestling, or asking our office
             cat to choose between two options. If these methods fail, we
@@ -160,7 +160,7 @@ const Imprint = () => {
             we reserve the right to be confused by them.
           </p>
 
-          <p className="text-sm text-subtle-foreground italic mt-8">
+          <p className="content-note">
             *This imprint contains all the legal information required by law,
             plus several things that definitely aren&apos;t. Use at your own
             risk and sense of humor.*

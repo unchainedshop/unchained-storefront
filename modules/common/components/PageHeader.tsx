@@ -31,7 +31,7 @@ const PageHeader = ({ eyebrow, title, description, icon: Icon, actions, centered
     >
       <div className={classNames('flex gap-4', { 'flex-col items-center': centered })}>
         {Icon && (
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+          <span className="hidden size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm sm:flex">
             <Icon className="size-6" />
           </span>
         )}
